@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Generated\Signin\SigninRequestModel.ts">
+      <CustomToolNamespace>Signin\SigninRequestModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="Generated\Signin\SigninResultModel.ts">
+      <CustomToolNamespace>Signin\SigninResultModel.cs</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+</Project>

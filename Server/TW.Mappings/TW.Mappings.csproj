@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TW.Api.Models\TW.Api.Models.csproj" />
+    <ProjectReference Include="..\TW.Common\TW.Common.csproj" />
+    <ProjectReference Include="..\TW.DAL.Models\TW.DAL.Models.csproj" />
+  </ItemGroup>
+
+</Project>
