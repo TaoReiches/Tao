@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+package Game;
+
+message Player
+{
+    required int32 id = 1;
+    optional int32 hp = 2;
+    optional int32 maxhp = 3;
+}
