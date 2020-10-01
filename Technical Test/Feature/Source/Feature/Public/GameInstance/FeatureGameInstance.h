@@ -12,6 +12,10 @@
 UCLASS()
 class FEATURE_API UFeatureGameInstance : public UGameInstance
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
+    UFeatureGameInstance();
+
+    void Init() override;
+    void Shutdown() override;
 };
