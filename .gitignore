@@ -1,0 +1,9 @@
+Third Party/protobuf/builds/CMakeFiles/
+Third Party/protobuf/builds/cmake/
+Third Party/protobuf/builds/Debug/
+Third Party/protobuf/builds/libprotobuf.dir/
+*.obj
+Third Party/protobuf/builds/libprotoc.dir/
+Third Party/protobuf/builds/protoc.dir/
+Third Party/protobuf/builds/x64/
+Third Party/protobuf/builds/examples/
