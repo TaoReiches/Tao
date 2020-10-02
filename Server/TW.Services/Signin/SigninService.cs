@@ -13,6 +13,7 @@ using TW.Api.Models.Common;
 using TW.Api.Models.Signin;
 using TW.Configuration;
 using TW.DAL.Models.Tokens;
+using TW.DAL.Storage.Redis;
 using TW.DAL.Storage.Repositories;
 using TW.Services.Users;
 
@@ -24,21 +25,26 @@ namespace TW.Services.Signin
         private readonly IUserInfoRepository _userInfoRepository;
         private readonly IUserValidationService _userValidationService;
         private readonly TokensGeneratorConfiguration _configuration;
+        private readonly IRedisLuaTest _redisLuaTest;
 
         public SigninService(
             IConfiguration configuration,
             ITokenRepository tokenRepository,
             IUserInfoRepository userInfoRepository,
+            IRedisLuaTest redisLuaTest,
             IUserValidationService userValidationService)
         {
             _tokenRepository = tokenRepository;
             _userInfoRepository = userInfoRepository;
             _userValidationService = userValidationService;
             _configuration = configuration.GetSection("Jwt").Get<TokensGeneratorConfiguration>();
+            _redisLuaTest = redisLuaTest;
         }
 
         public async Task<IResponse> GetSigninTokenAsync(SigninRequestModel signinRequest)
         {
+            var result = await _redisLuaTest.OnUserSignin(signinRequest);
+
             var userInfo = await _userInfoRepository.GetUserInfoByIdentifierAsync(signinRequest.UserIdentifier);
             if(userInfo == null)
             {

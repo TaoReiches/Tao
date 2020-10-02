@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using TW.DAL.Storage.Redis;
 using TW.DAL.Storage.Repositories;
 using TW.Services.Signin;
 using TW.Services.Users;
@@ -26,8 +27,10 @@ namespace WebApplication.ConfigurationExtensions
 
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddSingleton<IRedisClient, RedisClient>();
             services.AddScoped<ITokenRepository, TokenRepository>();
             services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+            services.AddScoped<IRedisLuaTest, RedisLuaTest>();
         }
     }
 }
