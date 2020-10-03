@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 using TW.Api.Models.Signin;
 
@@ -31,6 +33,9 @@ namespace TW.DAL.Storage.Redis
             //    await Collection.HashSetAsync($"user:{i}", "state", rand.Next(0,100) > 50 ? 1 : 2);
             //}
 
+            var list = new List<long> { 888, 999, 666 };
+            var str = JsonConvert.SerializeObject(list);
+
             var script = @"
             local name = @name
             local password = @password
@@ -48,10 +53,20 @@ namespace TW.DAL.Storage.Redis
             return nil
             ";
 
+            //script = @"
+            //local previous = redis.call('HEXISTS', 'none', 'none');
+            //if previous == 0 then
+            //    return 6
+            //else
+            //    return 8
+            //end
+            //";
+
             var prepared = LuaScript.Prepare(script);
             var loaded = await prepared.LoadAsync(RedisServer);
 
-            var result = await loaded.EvaluateAsync(Collection, new { name = request.UserIdentifier, password = request.Password });
+            var result = await loaded.EvaluateAsync(Collection, new { name = request.UserIdentifier, password = str });
+            var dic = result.ToDictionary();
 
             return request;
         }
