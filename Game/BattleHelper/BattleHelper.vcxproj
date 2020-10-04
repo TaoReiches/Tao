@@ -138,6 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\TW_IPathFinder.h" />
+    <ClInclude Include="include\TW_MapDefine.h" />
+    <ClInclude Include="include\TW_Pos2.h" />
+    <ClInclude Include="source\TW_PathFinder.h" />
+    <ClInclude Include="source\TW_PathFinderFormular.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\TW_PathFinderFormular.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
