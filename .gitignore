@@ -19,3 +19,10 @@ Game/BattleServer/.vs/
 Game/BattleServer/x64/
 Game/x64/
 ThirdParty/spdlogBuild/CMakeFiles/
+ThirdParty/spdlogBuild/x64/
+ThirdParty/spdlogBuild/spdlog.dir/
+ThirdParty/spdlogBuild/example/example.dir/
+ThirdParty/spdlogBuild/.vs/
+ThirdParty/spdlogBuild/example/Debug/
+ThirdParty/spdlogBuild/example/logs/
+ThirdParty/spdlogBuild/Debug/
