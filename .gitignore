@@ -7,13 +7,13 @@ Third Party/protobuf/builds/libprotoc.dir/
 Third Party/protobuf/builds/protoc.dir/
 Third Party/protobuf/builds/x64/
 Third Party/protobuf/builds/examples/
-Technical Test/ProtoTest/.vs/
-Technical Test/ProtoTest/Debug/vc142.pdb
-Technical Test/ProtoTest/Debug/
-Technical Test/ProtoTest/x64/
+TechnicalTest/ProtoTest/.vs/
+TechnicalTest/ProtoTest/Debug/vc142.pdb
+TechnicalTest/ProtoTest/Debug/
+TechnicalTest/ProtoTest/x64/
 Third Party/protobuf/builds/libprotobuf-lite.dir/
 *.user
-Technical Test/Feature/Plugins/Protobuf/Source/ThirdParty/ProtobufLibrary/x64/
+TechnicalTest/Feature/Plugins/Protobuf/Source/ThirdParty/ProtobufLibrary/x64/
 Game/.vs/
 Game/BattleServer/.vs/
 Game/BattleServer/x64/
