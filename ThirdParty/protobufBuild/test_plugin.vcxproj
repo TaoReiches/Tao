@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D0BFFCBE-1805-39B6-B514-9C595EB1F3EE}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>test_plugin</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_plugin.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">test_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_plugin.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">test_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_plugin.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">test_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_plugin.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">test_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4018;4065;4146;4244;4251;4267;4305;4307;4309;4334;4355;4506;4800;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH="D:/TaoReiches/ThirdParty/protobufBuild/Debug/test_plugin.exe";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH=\"D:/TaoReiches/ThirdParty/protobufBuild/Debug/test_plugin.exe\";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Debug\libprotocd.lib;Debug\libprotobufd.lib;Debug\gmock.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/TaoReiches/ThirdParty/protobufBuild/Debug/test_plugin.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/TaoReiches/ThirdParty/protobufBuild/Debug/test_plugin.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4018;4065;4146;4244;4251;4267;4305;4307;4309;4334;4355;4506;4800;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH="D:/TaoReiches/ThirdParty/protobufBuild/Release/test_plugin.exe";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH=\"D:/TaoReiches/ThirdParty/protobufBuild/Release/test_plugin.exe\";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Release\libprotoc.lib;Release\libprotobuf.lib;Release\gmock.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/TaoReiches/ThirdParty/protobufBuild/Release/test_plugin.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/TaoReiches/ThirdParty/protobufBuild/Release/test_plugin.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4018;4065;4146;4244;4251;4267;4305;4307;4309;4334;4355;4506;4800;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH="D:/TaoReiches/ThirdParty/protobufBuild/MinSizeRel/test_plugin.exe";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH=\"D:/TaoReiches/ThirdParty/protobufBuild/MinSizeRel/test_plugin.exe\";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>MinSizeRel\libprotoc.lib;MinSizeRel\libprotobuf.lib;MinSizeRel\gmock.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/TaoReiches/ThirdParty/protobufBuild/MinSizeRel/test_plugin.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/TaoReiches/ThirdParty/protobufBuild/MinSizeRel/test_plugin.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4018;4065;4146;4244;4251;4267;4305;4307;4309;4334;4355;4506;4800;4996</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH="D:/TaoReiches/ThirdParty/protobufBuild/RelWithDebInfo/test_plugin.exe";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GOOGLE_PROTOBUF_TEST_PLUGIN_PATH=\"D:/TaoReiches/ThirdParty/protobufBuild/RelWithDebInfo/test_plugin.exe\";GOOGLE_PROTOBUF_CMAKE_BUILD;PROTOBUF_USE_DLLS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>RelWithDebInfo\libprotoc.lib;RelWithDebInfo\libprotobuf.lib;RelWithDebInfo\gmock.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/TaoReiches/ThirdParty/protobufBuild/RelWithDebInfo/test_plugin.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/TaoReiches/ThirdParty/protobufBuild/RelWithDebInfo/test_plugin.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\mock_code_generator.cc" />
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\testing\file.cc" />
+    <ClInclude Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\testing\file.h" />
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\test_plugin.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\ZERO_CHECK.vcxproj">
+      <Project>{84A0DAD9-A0F0-3744-9546-91F764A42ABF}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\gmock.vcxproj">
+      <Project>{5B7D13B6-900E-33A9-BC5F-1263ECBD4A1B}</Project>
+      <Name>gmock</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\libprotobuf.vcxproj">
+      <Project>{8E8F6B42-EF39-387B-9BAD-62F69BC9F2F4}</Project>
+      <Name>libprotobuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\libprotoc.vcxproj">
+      <Project>{D6E513A0-E10E-38E1-9D82-21B8C61228C3}</Project>
+      <Name>libprotoc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

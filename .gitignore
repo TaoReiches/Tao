@@ -26,3 +26,8 @@ ThirdParty/spdlogBuild/.vs/
 ThirdParty/spdlogBuild/example/Debug/
 ThirdParty/spdlogBuild/example/logs/
 ThirdParty/spdlogBuild/Debug/
+ThirdParty/protobufBuild/cmake/protobuf-module.cmake
+ThirdParty/protobufBuild/CMakeFiles/
+ThirdParty/protobufBuild/cmake/
+ThirdParty/protobufBuild/examples/logs/
+ThirdParty/protobufBuild/examples/tmp/

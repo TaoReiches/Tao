@@ -1,0 +1,854 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C53C5610-EBCB-3707-975F-B89F4227F2A6}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>examples</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\TaoReiches\ThirdParty\protobufBuild;D:\TaoReiches\ThirdParty\protobuf\src;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googletest\include;D:\TaoReiches\ThirdParty\protobuf\third_party\googletest\googlemock\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-mkdir.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobuf/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/tmp
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/src
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Creating directories for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobuf/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/tmp
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/src
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Creating directories for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobuf/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/tmp
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/src
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Creating directories for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobuf/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/tmp
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/src
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/examples/logs
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-mkdir
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No download step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">No download step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">No download step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">No download step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-download
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No update step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-update
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">No update step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-update
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">No update step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-update
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">No update step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-update
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">No patch step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">No patch step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">No patch step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-patch
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-configure.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing configure step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -Dconfig=$(Configuration) -P D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/examples-configure-Debug.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cache-Debug.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Performing configure step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -Dconfig=$(Configuration) -P D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/examples-configure-Release.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cache-Release.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Performing configure step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -Dconfig=$(Configuration) -P D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/examples-configure-MinSizeRel.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cache-MinSizeRel.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Performing configure step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -Dconfig=$(Configuration) -P D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/examples-configure-RelWithDebInfo.cmake
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-configure
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cache-RelWithDebInfo.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-build.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing build step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe --build . --config Debug
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Performing build step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe --build . --config Release
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Performing build step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe --build . --config MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Performing build step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe --build . --config RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-build
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\e866c6690be8c1d4f38dd909ad0c95e8\examples-install.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">No install step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">No install step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">No install step for 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd D:\TaoReiches\ThirdParty\protobufBuild\examples
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-install
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\483e51952790c38aeb0465a3b63370df\examples-complete.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)/examples-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Completed 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)/examples-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Completed 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)/examples-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Completed 'examples'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E make_directory D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/$(Configuration)/examples-complete
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -E touch D:/TaoReiches/ThirdParty/protobufBuild/examples/logs/$(Configuration)/examples-done
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-install;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-mkdir;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-download;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-update;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-patch;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-configure;D:\TaoReiches\ThirdParty\protobufBuild\examples\logs\$(Configuration)\examples-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\786ba29604d6030a7d5090e82bbb0906\examples.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\examples</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\examples</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\examples</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</VerifyInputsAndOutputsExist>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\$(Configuration)\examples-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\examples</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/TaoReiches/ThirdParty/protobuf/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\bin\cmake.exe -SD:/TaoReiches/ThirdParty/protobuf/cmake -BD:/TaoReiches/ThirdParty/protobufBuild --check-stamp-file D:/TaoReiches/ThirdParty/protobufBuild/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeDependentOption.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeRCInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckCSourceCompiles.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckIncludeFile.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\CheckLibraryExists.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\ExternalProject.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindPackageMessage.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindThreads.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\FindZLIB.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\GNUInstallDirs.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\Windows.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;C:\Users\WangTao\Desktop\cmake-3.18.2-win64-x64\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\examples.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\extract_includes.bat.in;D:\TaoReiches\ThirdParty\protobuf\cmake\install.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf-lite.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotobuf.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\libprotoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config-version.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-config.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-lite.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-module.cmake.in;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf-options.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protobuf.pc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\protoc.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\tests.cmake;D:\TaoReiches\ThirdParty\protobuf\cmake\version.rc.in;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeCXXCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeRCCompiler.cmake;D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\3.18.2\CMakeSystem.cmake;D:\TaoReiches\ThirdParty\protobufBuild\examples\tmp\examples-cfgcmd.txt.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\examples">
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\ZERO_CHECK.vcxproj">
+      <Project>{84A0DAD9-A0F0-3744-9546-91F764A42ABF}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\libprotobuf.vcxproj">
+      <Project>{8E8F6B42-EF39-387B-9BAD-62F69BC9F2F4}</Project>
+      <Name>libprotobuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\protoc.vcxproj">
+      <Project>{79B1B222-A6A2-384C-967D-538D9C415C42}</Project>
+      <Name>protoc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

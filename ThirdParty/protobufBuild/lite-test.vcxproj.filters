@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\lite_unittest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arena_test_util.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map_lite_test_util.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\test_util_lite.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map_lite_unittest.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_import_lite.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_import_public_lite.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\map_lite_unittest.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_import_lite.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_import_public_lite.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_lite.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E8AC19BC-A963-31E8-80F6-30F53085C35D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{B8149CF5-E9AD-3CBF-8E4F-2592023EBCEC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

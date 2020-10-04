@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\mock_code_generator.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\testing\file.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\test_plugin.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\testing\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{81330F29-378F-3DEB-90DA-B628D98EF90B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{B8149CF5-E9AD-3CBF-8E4F-2592023EBCEC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
