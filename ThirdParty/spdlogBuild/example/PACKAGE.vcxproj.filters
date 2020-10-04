@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\spdlogBuild\CMakeFiles\f040595e0fbed6bca5404b64bf73a2ec\PACKAGE_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{71E27ED8-5590-374C-989B-68195FABB567}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
