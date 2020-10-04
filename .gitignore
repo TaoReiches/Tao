@@ -14,3 +14,7 @@ Technical Test/ProtoTest/x64/
 Third Party/protobuf/builds/libprotobuf-lite.dir/
 *.user
 Technical Test/Feature/Plugins/Protobuf/Source/ThirdParty/ProtobufLibrary/x64/
+Game/.vs/
+Game/BattleServer/.vs/
+Game/BattleServer/x64/
+Game/x64/
