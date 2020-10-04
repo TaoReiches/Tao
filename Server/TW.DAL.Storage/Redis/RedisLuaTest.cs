@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -33,9 +34,6 @@ namespace TW.DAL.Storage.Redis
             //    await Collection.HashSetAsync($"user:{i}", "state", rand.Next(0,100) > 50 ? 1 : 2);
             //}
 
-            var list = new List<long> { 888, 999, 666 };
-            var str = JsonConvert.SerializeObject(list);
-
             var script = @"
             local name = @name
             local password = @password
@@ -62,13 +60,43 @@ namespace TW.DAL.Storage.Redis
             //end
             //";
 
+            //script = @"
+            //return redis.call('HGETALL', 'none');
+            //";
+
             var prepared = LuaScript.Prepare(script);
             var loaded = await prepared.LoadAsync(RedisServer);
 
-            var result = await loaded.EvaluateAsync(Collection, new { name = request.UserIdentifier, password = str });
-            var dic = result.ToDictionary();
+            var list = new List<long> { 888, 999, 666 };
+            var str = JsonConvert.SerializeObject(list);
+
+            long testlong = 9898988;
+            bool testbool = false;
+
+            var result = await loaded.EvaluateAsync(Collection, new { name = testEnum.test2.ToString(), password = DateTime.UtcNow.ToString() });
+            //var dic = result.ToDictionary();
+            //foreach(var res in dic)
+            //{
+            //    switch(res.Key)
+            //    {
+            //        case "username":
+            //            {
+            //                string a = res.Value.ToString();
+            //                break;
+            //            }
+            //        case "password":
+            //            long b = (long)res.Value;
+            //            break;
+            //    }
+            //}
 
             return request;
         }
+    }
+
+    enum testEnum
+    {
+        test1,
+        test2
     }
 }
