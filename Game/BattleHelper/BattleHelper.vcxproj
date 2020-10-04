@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -85,8 +85,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_VERSION_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,13 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\TW_Define.h" />
     <ClInclude Include="include\TW_IPathFinder.h" />
+    <ClInclude Include="include\TW_Lock.h" />
     <ClInclude Include="include\TW_MapDefine.h" />
+    <ClInclude Include="include\TW_MemoryPool.h" />
     <ClInclude Include="include\TW_Pos2.h" />
     <ClInclude Include="source\TW_PathFinder.h" />
     <ClInclude Include="source\TW_PathFinderFormular.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\TW_MemoryPool.cpp" />
+    <ClCompile Include="source\TW_PathFinder.cpp" />
     <ClCompile Include="source\TW_PathFinderFormular.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

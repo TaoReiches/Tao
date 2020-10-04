@@ -25,7 +25,7 @@ struct TePos2
 
 	TePos2 operator + (const TePos2& kPos) const
 	{
-		BePos2 kTemp = *this;
+		TePos2 kTemp = *this;
 		kTemp += kPos;
 		return kTemp;
 	}
@@ -39,7 +39,7 @@ struct TePos2
 
 	TePos2 operator - (const TePos2& kPos) const
 	{
-		BePos2 kTemp = *this;
+		TePos2 kTemp = *this;
 		kTemp -= kPos;
 		return kTemp;
 	}

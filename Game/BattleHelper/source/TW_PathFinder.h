@@ -5,7 +5,14 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum BePathFinderDef
+#include <list>
+#include "TW_Define.h"
+#include "TW_MapDefine.h"
+#include "TW_MemoryPool.h"
+#include "TW_Pos2.h"
+#include "TW_IPathFinder.h"
+
+enum TePathFinderDef
 {
 	GRID_COORD_SIZE = 32,
 	PATH_OPEN_LIST = 512 * 512,
@@ -15,7 +22,7 @@ enum BePathFinderDef
 	PATH_POOL_ELE_SIZE = PATH_CHANGE_LIST + PATH_OPEN_LIST + PATH_OPEN_LIST + 1024,
 };
 
-struct BeMapGrid
+struct TeMapGrid
 {
 	unsigned short	iObstacle : 8;
 	unsigned short	iState : 4;
@@ -25,12 +32,12 @@ struct BeMapGrid
 		iObs &= iObstacle;
 		if (!bHasVision)
 		{
-			iObs &= ~(BGF_UNIT | BGF_TEMP | BGF_SKILL);
+			iObs &= ~(TGF_UNIT | TGF_TEMP | TGF_SKILL);
 		}
 		return iObs;
 	}
 
-	BeMapGrid()
+	TeMapGrid()
 	{
 		iObstacle = 0;
 		iState = 0;
@@ -38,11 +45,11 @@ struct BeMapGrid
 	}
 };
 
-struct BeBMapGrid
+struct TeTMapGrid
 {
 	unsigned short	iObstacle : 8;
 	unsigned short	iState : 4;
-	unsigned short	iBranch : 4;
+	unsigned short	iTranch : 4;
 	unsigned short	iDir : 4;
 	unsigned short	iReel : 4;
 	int		iIndex;
@@ -51,23 +58,23 @@ struct BeBMapGrid
 	int		iStep;
 	int		iAngle;
 	bool	bChange;
-	BeBMapGrid* pkPreGrid;
+	TeTMapGrid* pkPreGrid;
 
 	inline bool IsObs(int iObs, bool bHasVision) const
 	{
 		iObs &= iObstacle;
 		if (!bHasVision)
 		{
-			iObs &= ~(BGF_UNIT | BGF_TEMP | BGF_SKILL);
+			iObs &= ~(TGF_UNIT | TGF_TEMP | TGF_SKILL);
 		}
 		return iObs;
 	}
 
-	BeBMapGrid()
+	TeTMapGrid()
 	{
 		iObstacle = 0;
 		iState = 0;
-		iBranch = 0;
+		iTranch = 0;
 		iDir = -1;
 		iReel = 0;
 		iIndex = 0;
@@ -76,41 +83,41 @@ struct BeBMapGrid
 		iStep = 0;
 		iAngle = 0;
 		bChange = false;
-		pkPreGrid = NULL;
+		pkPreGrid = nullptr;
 	}
 };
-typedef std::list<BeBMapGrid*> VecBMapGrid;
+typedef std::list<TeTMapGrid*> VecTMapGrid;
 
-enum BeGridState
+enum TeGridState
 {
-	BGS_NONE = 0,
-	BGS_OBS,
-	BGS_OPEN,
-	BGS_CLOSE,
-	BGS_ONLINE,
-	BGS_NOOBS,
+	TGS_NONE = 0,
+	TGS_OTS,
+	TGS_OPEN,
+	TGS_CLOSE,
+	TGS_ONLINE,
+	TGS_NOOTS,
 };
 
 #define MAX_MAP_DIRECTION		4
 
-enum BMapGridState
+enum TMapGridState
 {
-	BMPS_NONE = 0,
-	BMPS_BLOCK,
-	BMPS_ORIGIN,
-	BMPS_TARGET,
-	BMPS_CLOSE,
-	BMPS_OPEN,
-	BMPS_CHECK,
-	BMPS_MAX,
+	TMPS_NONE = 0,
+	TMPS_TLOCK,
+	TMPS_ORIGIN,
+	TMPS_TARGET,
+	TMPS_CLOSE,
+	TMPS_OPEN,
+	TMPS_CHECK,
+	TMPS_MAX,
 };
 
-enum BMapBranch
+enum TMapTranch
 {
-	BMB_NONE = 0,
-	BMB_LEFT,
-	BMB_RIGHT,
-	BMB_MAX,
+	TMT_NONE = 0,
+	TMT_LEFT,
+	TMT_RIGHT,
+	TMT_MAX,
 };
 
 struct TagAround
@@ -119,34 +126,33 @@ struct TagAround
 	int y;
 };
 
-struct BePathMem
+struct TePathMem
 {
-	DECLARE_POOL(BePathMem);
+	DECLARE_POOL(TePathMem);
 	int m_aiData[PATH_POOL_ELE_SIZE];
 };
 
-class BePathFinder : public IPathFinder
+class TePathFinder : public IPathFinder
 {
 	friend void InitServerPathGrids(int iW, int iH, unsigned short* akGrids);
 public:
-	BePathFinder();
-	virtual ~BePathFinder();
+	TePathFinder();
+	virtual ~TePathFinder();
 
-	virtual	const BePos2* GetPathPoint() const;
+	virtual	const TePos2* GetPathPoint() const;
 	virtual	int				GetPathPointNum() const;
 
-	virtual	void			InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseBStar = false, int iBStarObs = BGF_TERRAIN | BGF_DOODAD);
+	virtual	void			InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar = false, int iTStarObs = TGF_TERRAIN | TGF_DOODAD);
 
-	virtual	void			ClrObstacle(float fX, float fY, int iObstacle = BGF_UNIT, int iSize = 2);
-	virtual	void			SetObstacle(float fX, float fY, int iObstacle = BGF_UNIT, int iSize = 2);
+	virtual	void			ClrObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
+	virtual	void			SetObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
 
-	virtual	BeFindResult	FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SKILL);
-	virtual	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SKILL) const;
-	virtual bool			GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SKILL) const;
+	virtual	TeFindResult	FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL);
+	virtual	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL) const;
+	virtual bool			GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL) const;
 
-	virtual bool			ExecuteCommand(const char* strCmd);
-	virtual bool			IsObstacle(float fX, float fY, int iObstacle = BGF_UNIT, int iSize = 2);
-	virtual bool			UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SKILL);
+	virtual bool			IsObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
+	virtual bool			UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL);
 	virtual	void			InitVision(int iW, int iH, unsigned short* pVision);
 
 	virtual void			CopyGridsFromServerGrids();
@@ -158,15 +164,15 @@ public:
 
 	inline bool CheckInput(float& fSrcX, float& fSrcY, float& fDstX, float& fDstY) const;
 
-	BeFindResult	FindPathBStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY);
-	void			CreateBStarPath(BeBMapGrid* pkOriginPoint, BeBMapGrid* pkTargetPoint);
-	void			ResetBStarChangeList(void);
-	BeBMapGrid* CorrectOriginGrid(BeBMapGrid* pkOrigin);
-	void			FilterBStarDirectPoint(BeBMapGrid* pkStart, BeBMapGrid* pkEnd);
+	TeFindResult	FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY);
+	void			CreateTStarPath(TeTMapGrid* pkOriginPoint, TeTMapGrid* pkTargetPoint);
+	void			ResetTStarChangeList(void);
+	TeTMapGrid* CorrectOriginGrid(TeTMapGrid* pkOrigin);
+	void			FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd);
 
-	BeFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
+	TeFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
 
-	BeFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent = 0);
+	TeFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent = 0);
 
 	void			MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
 
@@ -174,7 +180,7 @@ public:
 
 	void CreatePath(int iNearestIndex, int iStart);
 
-	void SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, BeFindResult eRet);
+	void SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, TeFindResult eRet);
 	bool IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs);
 
 	inline int Map2Grid(int iMap) const
@@ -234,11 +240,11 @@ protected:
 	int			m_iWidth;
 	int			m_iHeight;
 	int			m_iMaxIdx;
-	BeMapGrid* m_akGrid;
-	BeBMapGrid* m_akBGrid;
+	TeMapGrid* m_akGrid;
+	TeTMapGrid* m_akTGrid;
 
 	int* m_piOpen;
-	int m_iB;
+	int m_iT;
 	int m_iE;
 
 	int* m_piChange;
@@ -248,23 +254,23 @@ protected:
 	int* m_piPath;
 	int m_iPathCount;
 
-	BePos2 m_piPathPoint[PATH_RESULT];
+	TePos2 m_piPathPoint[PATH_RESULT];
 	int m_iPathPointCount;
 
-	mutable BePos2 m_kSrcPos;
-	mutable BePos2 m_kDstPos;
-	mutable int	m_iBlockType;
-	mutable int m_iBlockX;
-	mutable int m_iBlockY;
+	mutable TePos2 m_kSrcPos;
+	mutable TePos2 m_kDstPos;
+	mutable int	m_iTlockType;
+	mutable int m_iTlockX;
+	mutable int m_iTlockY;
 
 	int			m_iVisionWidth;
 	int			m_iVisionHeight;
 	unsigned short* m_akVision;
 
-	bool		m_bUseBStar;
-	int			m_iBStarObs;
+	bool		m_bUseTStar;
+	int			m_iTStarObs;
 protected:
-	inline void OpenListPushBack(int iIndex);
+	inline void OpenListPushTack(int iIndex);
 	inline int OpenListPopHead(void);
 	inline int OpenListGetCount(void);
 	inline void OpenListClear(void);
