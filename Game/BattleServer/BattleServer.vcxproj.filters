@@ -3,4 +3,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Log">
+      <UniqueIdentifier>{4857ce8c-263d-49fc-bee8-9a89eb69e0ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TW_GameLog.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

@@ -1,16 +1,12 @@
+#pragma once
+
 /**********************************************
 * Author: Tao Wang  Copyright reserved
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_GameLog.h"
+#include "spdlog/spdlog.h"
 
-int main()
-{
-    TW_LOG("Battle server start!");
-    TW_WARN("Test warning message.");
-    TW_ERROR("Test error message.");
-
-
-    getchar();
-}
+#define TW_LOG(msg) spdlog::info(msg)
+#define TW_WARN(msg) spdlog::warn(msg)
+#define TW_ERROR(msg) spdlog::critical(msg)
