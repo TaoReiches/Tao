@@ -145,16 +145,24 @@
     <ClInclude Include="include\TW_Lock.h" />
     <ClInclude Include="include\TW_MapDefine.h" />
     <ClInclude Include="include\TW_MemoryPool.h" />
+    <ClInclude Include="include\TW_PointerType.h" />
     <ClInclude Include="include\TW_Pos2.h" />
+    <ClInclude Include="include\TW_TriggerMgr.h" />
     <ClInclude Include="source\TW_PathFinder.h" />
     <ClInclude Include="source\TW_PathFinderFormular.h" />
     <ClInclude Include="source\TW_Random.h" />
+    <ClInclude Include="source\TW_Switch.h" />
+    <ClInclude Include="source\TW_Trigger.h" />
+    <ClInclude Include="source\TW_TriggerMgrDef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\TW_MemoryPool.cpp" />
     <ClCompile Include="source\TW_PathFinder.cpp" />
     <ClCompile Include="source\TW_PathFinderFormular.cpp" />
     <ClCompile Include="source\TW_Random.cpp" />
+    <ClCompile Include="source\TW_Trigger.cpp" />
+    <ClCompile Include="source\TW_TriggerMgr.cpp" />
+    <ClCompile Include="source\TW_TriggerParam.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

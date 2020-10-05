@@ -16,6 +16,12 @@
     <Filter Include="Random">
       <UniqueIdentifier>{0ca82ee3-8b94-4c57-adb0-27ea6672527e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Trigger">
+      <UniqueIdentifier>{91795e35-56eb-4f00-b742-eba0b5088df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{a65892fb-ebc8-4460-b419-d04c6d41af13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\TW_Pos2.h">
@@ -48,6 +54,21 @@
     <ClInclude Include="source\TW_Random.h">
       <Filter>Random</Filter>
     </ClInclude>
+    <ClInclude Include="include\TW_TriggerMgr.h">
+      <Filter>Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TW_Switch.h">
+      <Filter>Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TW_TriggerMgrDef.h">
+      <Filter>Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TW_Trigger.h">
+      <Filter>Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TW_PointerType.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\TW_PathFinderFormular.cpp">
@@ -61,6 +82,15 @@
     </ClCompile>
     <ClCompile Include="source\TW_Random.cpp">
       <Filter>Random</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TW_TriggerParam.cpp">
+      <Filter>Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TW_Trigger.cpp">
+      <Filter>Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TW_TriggerMgr.cpp">
+      <Filter>Trigger</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
