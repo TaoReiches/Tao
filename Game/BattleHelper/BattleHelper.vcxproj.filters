@@ -13,6 +13,9 @@
     <Filter Include="Define">
       <UniqueIdentifier>{033ccec3-e253-4244-bd96-b6cb51c26adf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Random">
+      <UniqueIdentifier>{0ca82ee3-8b94-4c57-adb0-27ea6672527e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\TW_Pos2.h">
@@ -39,6 +42,12 @@
     <ClInclude Include="include\TW_Define.h">
       <Filter>Define</Filter>
     </ClInclude>
+    <ClInclude Include="include\TW_IRandom.h">
+      <Filter>Random</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TW_Random.h">
+      <Filter>Random</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\TW_PathFinderFormular.cpp">
@@ -49,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="source\TW_MemoryPool.cpp">
       <Filter>MemoryPool</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TW_Random.cpp">
+      <Filter>Random</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
