@@ -15,7 +15,7 @@ public:
 	IPathFinder();
 	virtual ~IPathFinder();
 
-	virtual	const TePos2* GetPathPoint() const = 0;
+	virtual	const TePos2*	GetPathPoint() const = 0;
 	virtual	int				GetPathPointNum() const = 0;
 
 	virtual	void			InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar = false, int iTStarObs = TGF_TERRAIN | TGF_DOODAD) = 0;
@@ -33,9 +33,9 @@ public:
 	virtual bool			UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL) = 0;
 
 	virtual void			CopyGridsFromServerGrids() = 0;
-
-	static void InitServerPathGrids(int iW, int iH, unsigned short* akGrids);
-	static void ReleaseServerPathGrids();
-	static IPathFinder* CreatePathFinder();
-	static void ReleasePathFinder(IPathFinder* pkPathFinder);
 };
+
+void InitServerPathGrids(int iW, int iH, unsigned short* akGrids);
+void ReleaseServerPathGrids();
+IPathFinder* CreatePathFinder();
+void ReleasePathFinder(IPathFinder* pkPathFinder);
