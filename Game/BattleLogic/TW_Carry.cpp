@@ -542,54 +542,54 @@ void BeCarry::InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int 
 		return;
 	}
 	iSkillLevel -= 1;
-	for (int j = 0; j < MAX_CONTENT_DATA; j++)
-	{
-		int eType = 0;
-		float fValue = 0.0f;
-		switch (j)
-		{
-		case 0:
-			eType = pkSkillRes->uiDataContentA;
-			fValue = pkSkillRes->fValueA[iSkillLevel];
-			break;
-		case 1:
-			eType = pkSkillRes->uiDataContentB;
-			fValue = pkSkillRes->fValueB[iSkillLevel];
-			break;
-		case 2:
-			eType = pkSkillRes->uiDataContentC;
-			fValue = pkSkillRes->fValueC[iSkillLevel];
-			break;
-		case 3:
-			eType = pkSkillRes->uiDataContentD;
-			fValue = pkSkillRes->fValueD[iSkillLevel];
-			break;
-		case 4:
-			eType = pkSkillRes->uiDataContentE;
-			fValue = pkSkillRes->fValueE[iSkillLevel];
-			break;
-		case 5:
-			eType = pkSkillRes->uiDataContentF;
-			fValue = pkSkillRes->fValueF[iSkillLevel];
-			break;
-		case 6:
-			eType = pkSkillRes->uiDataContentG;
-			fValue = pkSkillRes->fValueG[iSkillLevel];
-			break;
-		default:
-			break;
-		}
+	//for (int j = 0; j < MAX_CONTENT_DATA; j++)
+	//{
+	//	int eType = 0;
+	//	float fValue = 0.0f;
+	//	switch (j)
+	//	{
+	//	case 0:
+	//		eType = pkSkillRes->uiDataContentA;
+	//		fValue = pkSkillRes->fValueA[iSkillLevel];
+	//		break;
+	//	case 1:
+	//		eType = pkSkillRes->uiDataContentB;
+	//		fValue = pkSkillRes->fValueB[iSkillLevel];
+	//		break;
+	//	case 2:
+	//		eType = pkSkillRes->uiDataContentC;
+	//		fValue = pkSkillRes->fValueC[iSkillLevel];
+	//		break;
+	//	case 3:
+	//		eType = pkSkillRes->uiDataContentD;
+	//		fValue = pkSkillRes->fValueD[iSkillLevel];
+	//		break;
+	//	case 4:
+	//		eType = pkSkillRes->uiDataContentE;
+	//		fValue = pkSkillRes->fValueE[iSkillLevel];
+	//		break;
+	//	case 5:
+	//		eType = pkSkillRes->uiDataContentF;
+	//		fValue = pkSkillRes->fValueF[iSkillLevel];
+	//		break;
+	//	case 6:
+	//		eType = pkSkillRes->uiDataContentG;
+	//		fValue = pkSkillRes->fValueG[iSkillLevel];
+	//		break;
+	//	default:
+	//		break;
+	//	}
 
-		if (eType == 0)
-		{
-			continue;
-		}
+	//	if (eType == 0)
+	//	{
+	//		continue;
+	//	}
 
-		if (eType >= NAT_ABS_ALL && eType < NAT_MAX_NUM)
-		{
-			SetNormalAttrByData(eType, fValue, true);
-		}
-	}
+	//	if (eType >= NAT_ABS_ALL && eType < NAT_MAX_NUM)
+	//	{
+	//		SetNormalAttrByData(eType, fValue, true);
+	//	}
+	//}
 }
 
 void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
@@ -599,15 +599,15 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 	{
 		return;
 	}
-	if (iSkillLevel <= 0 || iSkillLevel > pkSkillRes->iSkillMaxLevel)
-	{
-		iSkillLevel = 1;
-	}
+	//if (iSkillLevel <= 0 || iSkillLevel > pkSkillRes->iSkillMaxLevel)
+	//{
+	//	iSkillLevel = 1;
+	//}
 
-	if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
-	{
-		return;
-	}
+	//if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
+	//{
+	//	return;
+	//}
 
 	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
