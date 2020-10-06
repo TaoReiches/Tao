@@ -1,2 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="LogicCarry">
+      <UniqueIdentifier>{4da57a9d-e78f-4e9a-bfd6-8b2940b3cea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicCarry\Base">
+      <UniqueIdentifier>{a618f57d-3469-49e5-a610-b78a3dcf4447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{89d3f393-0d3e-442f-ba63-1a28d062c8c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicMain">
+      <UniqueIdentifier>{c994b787-2c99-4efe-b552-64b04a42b258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicCarry\Buff">
+      <UniqueIdentifier>{01807057-ca9a-41ba-b31c-590146a09d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicCarry\Item">
+      <UniqueIdentifier>{f8d26ac2-60cd-497c-992f-921d02cf014b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicCarry\Skill">
+      <UniqueIdentifier>{23b58abe-ffd2-4e42-9c4f-43628689285b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicEntity">
+      <UniqueIdentifier>{d24391a1-f106-4043-81e2-0e3a44f6802a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicEntity\Base">
+      <UniqueIdentifier>{78e29875-2ada-40fa-bb5f-1cf03b038769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicEntity\Effect">
+      <UniqueIdentifier>{d6cee5aa-d47c-4ca5-b1fa-91b8c5e3a48d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicEntity\MapItem">
+      <UniqueIdentifier>{54e9e634-a2b2-4797-85ed-ee8059054d9d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TW_AttackAttr.h">
+      <Filter>LogicCarry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_FlagObject.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_AttackedAttr.h">
+      <Filter>LogicCarry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Carry.h">
+      <Filter>LogicCarry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CarryDefine.h">
+      <Filter>LogicCarry\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_ChangeFlagObject.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_LogicBase.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Main.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_BuffDefine.h">
+      <Filter>LogicCarry\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Buff.h">
+      <Filter>LogicCarry\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_ItemDefine.h">
+      <Filter>LogicCarry\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Item.h">
+      <Filter>LogicCarry\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_SkillDefine.h">
+      <Filter>LogicCarry\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Skill.h">
+      <Filter>LogicCarry\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Entity.h">
+      <Filter>LogicEntity\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_EntityMgr.h">
+      <Filter>LogicEntity\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Functions.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_EffectDefine.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Effect.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_EffectMgr.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TW_Carry.cpp">
+      <Filter>LogicCarry\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Buff.cpp">
+      <Filter>LogicCarry\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Item.cpp">
+      <Filter>LogicCarry\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Skill.cpp">
+      <Filter>LogicCarry\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_PoolImplementation.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Entity.cpp">
+      <Filter>LogicEntity\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_EntityMgr.cpp">
+      <Filter>LogicEntity\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Functions.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Effect.cpp">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_EffectMgr.cpp">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

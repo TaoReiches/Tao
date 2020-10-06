@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -71,6 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../BattleHelper/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -138,6 +139,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="TW_AttackAttr.h" />
+    <ClInclude Include="TW_AttackedAttr.h" />
+    <ClInclude Include="TW_Buff.h" />
+    <ClInclude Include="TW_BuffDefine.h" />
+    <ClInclude Include="TW_Carry.h" />
+    <ClInclude Include="TW_CarryDefine.h" />
+    <ClInclude Include="TW_ChangeFlagObject.h" />
+    <ClInclude Include="TW_Effect.h" />
+    <ClInclude Include="TW_EffectDefine.h" />
+    <ClInclude Include="TW_EffectMgr.h" />
+    <ClInclude Include="TW_Entity.h" />
+    <ClInclude Include="TW_EntityMgr.h" />
+    <ClInclude Include="TW_FlagObject.h" />
+    <ClInclude Include="TW_Functions.h" />
+    <ClInclude Include="TW_Item.h" />
+    <ClInclude Include="TW_ItemDefine.h" />
+    <ClInclude Include="TW_LogicBase.h" />
+    <ClInclude Include="TW_Main.h" />
+    <ClInclude Include="TW_Skill.h" />
+    <ClInclude Include="TW_SkillDefine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TW_Buff.cpp" />
+    <ClCompile Include="TW_Carry.cpp" />
+    <ClCompile Include="TW_Effect.cpp" />
+    <ClCompile Include="TW_EffectMgr.cpp" />
+    <ClCompile Include="TW_Entity.cpp" />
+    <ClCompile Include="TW_EntityMgr.cpp" />
+    <ClCompile Include="TW_Functions.cpp" />
+    <ClCompile Include="TW_Item.cpp" />
+    <ClCompile Include="TW_PoolImplementation.cpp" />
+    <ClCompile Include="TW_Skill.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
