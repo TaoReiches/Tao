@@ -17,8 +17,8 @@ public:
 
 	float	GetAttackArmorScale(int eAttack, int eArmor);
 
-	int		GetHeroDeadPersistTime(int iHeroLevel);		
-	int		GetReliveHeroMoney(BeUnit* pkUnitRelive);	
+	int		GetHeroDeadPersistTime(int iHeroLevel);
+	int		GetReliveHeroMoney(BeUnit* pkUnitRelive);
 
 	int GetAssistMoney(int iHeroLevel, int iAssistNum);
 	int GetAssistExp(int iHeroLevel, int iAssistNum);
@@ -27,15 +27,10 @@ public:
 	int GetComboKillAwardMoney(int iKills);
 	int GetComboKillDecMoney(int iKills);
 	int GetRevengeMoney(int iKillNum);
-	int GetKillBossAward(void);
-	int GetKillYanMoAward(void);
 
 	int GetBuyItemPrice(int iIndex);
 
 	float GetAttackSpeedFromAGI(float fAGI);
-
-	float GetRenJiFightPower(BeUnit* pkUnit);
-	float GetRenJiFightPowerMax(BeUnit* pkUnit);
 
 protected:
 	void	InitAttackArmorScale(void);

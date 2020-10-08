@@ -34,6 +34,18 @@
     <Filter Include="LogicEntity\MapItem">
       <UniqueIdentifier>{54e9e634-a2b2-4797-85ed-ee8059054d9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LogicEntity\Unit">
+      <UniqueIdentifier>{9ad355dd-eb96-472e-a8f2-327f19966fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Formula">
+      <UniqueIdentifier>{359116bf-5e6d-4ecc-90a0-9b37f2f0ab30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicMap">
+      <UniqueIdentifier>{62a7cec1-ba5d-4a4a-b30d-8876bf592686}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicTask">
+      <UniqueIdentifier>{e9a00168-e858-4195-910e-ab7b377ffcc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_AttackAttr.h">
@@ -96,6 +108,60 @@
     <ClInclude Include="TW_EffectMgr.h">
       <Filter>LogicEntity\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="TW_MapItemDefine.h">
+      <Filter>LogicEntity\MapItem</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_MapItem.h">
+      <Filter>LogicEntity\MapItem</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_MapItemMgr.h">
+      <Filter>LogicEntity\MapItem</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitDefine.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Unit.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitMgr.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UserDataDefine.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TriggerEvent.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Formula.h">
+      <Filter>Formula</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_FormulaInfo.h">
+      <Filter>Formula</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_SortStruct.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_MainDefine.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Map.h">
+      <Filter>LogicMap</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Command.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskDefine.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Commander.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskAction.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskComplex.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -127,6 +193,69 @@
     </ClCompile>
     <ClCompile Include="TW_EffectMgr.cpp">
       <Filter>LogicEntity\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MapItem.cpp">
+      <Filter>LogicEntity\MapItem</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MapItemMgr.cpp">
+      <Filter>LogicEntity\MapItem</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Unit.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitData.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitCarry.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitMgr.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitMgrDefine.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TriggerFunc.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Formula.cpp">
+      <Filter>Formula</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_FormulaInfo.cpp">
+      <Filter>Formula</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Main.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainCommand.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainData.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainFrameProc.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainOut.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainRace.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Map.cpp">
+      <Filter>LogicMap</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Command.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Commander.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskAction.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskComplex.cpp">
+      <Filter>LogicTask</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
