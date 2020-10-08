@@ -5,24 +5,6 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_Lock.h"
-
-#ifdef _VISION_IOS
-#if defined(__LP64__)
-typedef unsigned long SIZE_T;
-#else
-typedef unsigned int SIZE_T;
-#endif
-#endif
-
-#ifdef _VISION_ANDROID
-#if defined(__LP64__)
-typedef unsigned long SIZE_T;
-#else
-typedef unsigned int SIZE_T;
-#endif
-#endif
-
 typedef void(*NotifyMempoolAlloc)(const char*, unsigned int);
 
 class TeMemoryPool
@@ -67,10 +49,8 @@ private:
 
 	SeHeadList	m_kHeadList;
 
-	SIZE_T		m_stMagicBegin;
-	SIZE_T		m_stMagicEnd;
-
-	NormalLock		m_kLock;
+	unsigned int		m_stMagicBegin;
+	unsigned int		m_stMagicEnd;
 
 	static NotifyMempoolAlloc	m_fAllocCallBack;
 };

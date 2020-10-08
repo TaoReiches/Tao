@@ -598,11 +598,11 @@ void BeCarry::InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int 
 
 void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 {
-	const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillTypeID);
-	if (!pkSkillRes)
-	{
-		return;
-	}
+	//const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillTypeID);
+	//if (!pkSkillRes)
+	//{
+	//	return;
+	//}
 	//if (iSkillLevel <= 0 || iSkillLevel > pkSkillRes->iSkillMaxLevel)
 	//{
 	//	iSkillLevel = 1;
@@ -613,7 +613,7 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 	//	return;
 	//}
 
-	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
+	//InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
 	TePtParam kParam;
 	kParam.SetParam(BTP_pkCarray, this);

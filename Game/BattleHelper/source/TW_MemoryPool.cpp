@@ -4,51 +4,40 @@
 **********************************************/
 
 #include <stdio.h>
+#include <cstring>
 #include "TW_MemoryPool.h"
 
 NotifyMempoolAlloc	TeMemoryPool::m_fAllocCallBack = NULL;
 
 TeMemoryPool::TeMemoryPool(int iEleSize, int iBaseEles, int iAddEles)
 {
-	AutoLock kLock(&m_kLock);
 	m_iEleSize = iEleSize < sizeof(void*) ? sizeof(void*) : iEleSize;
-	m_iEleSize += sizeof(SIZE_T) * 2;
+	m_iEleSize += sizeof(unsigned int) * 2;
 
 	static int s_iIdx = 0;
 	s_iIdx++;
 	s_iIdx %= 1000;
 	char acMagic[16] = { 0 };
 	sprintf_s(acMagic, "B%03dB%03d", s_iIdx, s_iIdx);
-	memcpy_s(&m_stMagicBegin, sizeof(SIZE_T), acMagic, sizeof(SIZE_T));
+	std::memcpy(&m_stMagicBegin, acMagic, sizeof(unsigned int));
 	sprintf_s(acMagic, "E%03dE%03d", s_iIdx, s_iIdx);
-	memcpy_s(&m_stMagicEnd, sizeof(SIZE_T), acMagic, sizeof(SIZE_T));
+	std::memcpy(&m_stMagicEnd, acMagic, sizeof(unsigned int));
 
 	m_iBaseEles = iBaseEles;
 	m_iTotalSize = 0;
 	m_iAddEles = iAddEles;
 
-	//if (acName && strlen(acName) > 0)
-	//{
-	//	strcpy_s(m_acName, sizeof(m_acName), acName);
-	//}
-	//else
-	//{
-	//	memset(m_acName, 0, sizeof(m_acName));
-	//}
 	Reset();
 	ExtendPool();
 }
 
 TeMemoryPool::~TeMemoryPool(void)
 {
-	AutoLock kLock(&m_kLock);
 	Clear();
 }
 
 void TeMemoryPool::Reset(void)
 {
-	AutoLock kLock(&m_kLock);
-
 	m_iAllocEles = 0;
 	m_iAllocMaxEles = 0;
 	m_pkFreeFirst = NULL;
@@ -58,8 +47,6 @@ void TeMemoryPool::Reset(void)
 
 void* TeMemoryPool::NewEle(void)
 {
-	AutoLock kLock(&m_kLock);
-
 	if (m_pkFreeFirst == NULL && !ExtendPool())
 	{
 		return NULL;
@@ -74,22 +61,20 @@ void* TeMemoryPool::NewEle(void)
 	char* pbyMem = (char*)m_pkFreeFirst;
 	m_pkFreeFirst = *((void**)m_pkFreeFirst);
 
-	*((SIZE_T*)pbyMem) = m_stMagicBegin;
-	*((SIZE_T*)(pbyMem + m_iEleSize - sizeof(SIZE_T))) = m_stMagicEnd;
+	*((unsigned int*)pbyMem) = m_stMagicBegin;
+	*((unsigned int*)(pbyMem + m_iEleSize - sizeof(unsigned int))) = m_stMagicEnd;
 
-	return (pbyMem + sizeof(SIZE_T));
+	return (pbyMem + sizeof(unsigned int));
 }
 
 void TeMemoryPool::DelEle(void* pkEle)
 {
-	AutoLock kLock(&m_kLock);
-
 	if (!pkEle || m_iAllocEles <= 0)
 	{
 		return;
 	}
 
-	pkEle = ((char*)pkEle) - sizeof(SIZE_T);
+	pkEle = ((char*)pkEle) - sizeof(unsigned int);
 
 	--m_iAllocEles;
 
@@ -99,23 +84,21 @@ void TeMemoryPool::DelEle(void* pkEle)
 
 bool TeMemoryPool::IsValid(void* pkEle)
 {
-	AutoLock kLock(&m_kLock);
-
 	if (!pkEle)
 	{
 		return false;
 	}
 
 	char* pbyMem = (char*)pkEle;
-	pbyMem -= sizeof(SIZE_T);
+	pbyMem -= sizeof(unsigned int);
 
-	SIZE_T stMagic = *((SIZE_T*)pbyMem);
+	unsigned int stMagic = *((unsigned int*)pbyMem);
 	if (stMagic != m_stMagicBegin)
 	{
 		return false;
 	}
 
-	stMagic = *((SIZE_T*)(pbyMem + m_iEleSize - sizeof(SIZE_T)));
+	stMagic = *((unsigned int*)(pbyMem + m_iEleSize - sizeof(unsigned int)));
 	if (stMagic != m_stMagicEnd)
 	{
 		return false;
@@ -126,8 +109,6 @@ bool TeMemoryPool::IsValid(void* pkEle)
 
 bool TeMemoryPool::ExtendPool(void)
 {
-	AutoLock kLock(&m_kLock);
-
 	m_iAddEles = m_iBaseEles > 64 ? m_iBaseEles / 4 : m_iAddEles;
 	int iEles = (m_kHeadList.pkNext == &m_kHeadList) ? m_iBaseEles : m_iAddEles;
 	int iSize = iEles * m_iEleSize + sizeof(SeHeadList) - 8;
@@ -178,8 +159,6 @@ int	TeMemoryPool::GetAllocMaxEles(void)
 
 void TeMemoryPool::Clear(void)
 {
-	AutoLock kLock(&m_kLock);
-
 	SeHeadList* pkNext = NULL;
 	for (SeHeadList* pkCur = m_kHeadList.pkNext; pkCur != &m_kHeadList; pkCur = pkNext)
 	{

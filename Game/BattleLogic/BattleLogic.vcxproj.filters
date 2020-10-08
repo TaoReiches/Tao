@@ -162,6 +162,15 @@
     <ClInclude Include="TW_TaskComplex.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
+    <ClInclude Include="TW_PlayerInfo.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitData.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitSkill.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">

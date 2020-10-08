@@ -23,6 +23,7 @@ class BeDataMgr;
 class BeUnitMgr;
 class BeEffectMgr;
 class ITeRandom;
+class BeSkill;
 
 class   BeMain
 {

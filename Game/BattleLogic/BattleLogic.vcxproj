@@ -166,6 +166,7 @@
     <ClInclude Include="TW_MapItem.h" />
     <ClInclude Include="TW_MapItemDefine.h" />
     <ClInclude Include="TW_MapItemMgr.h" />
+    <ClInclude Include="TW_PlayerInfo.h" />
     <ClInclude Include="TW_Skill.h" />
     <ClInclude Include="TW_SkillDefine.h" />
     <ClInclude Include="TW_SortStruct.h" />
@@ -174,8 +175,10 @@
     <ClInclude Include="TW_TaskDefine.h" />
     <ClInclude Include="TW_TriggerEvent.h" />
     <ClInclude Include="TW_Unit.h" />
+    <ClInclude Include="TW_UnitData.h" />
     <ClInclude Include="TW_UnitDefine.h" />
     <ClInclude Include="TW_UnitMgr.h" />
+    <ClInclude Include="TW_UnitSkill.h" />
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
