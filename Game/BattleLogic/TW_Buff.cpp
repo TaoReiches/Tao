@@ -4,6 +4,10 @@
 **********************************************/
 
 #include "TW_Buff.h"
+#include "TW_Main.h"
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
+#include "TW_ShareUnitData.h"
 
 BeBuffer::BeBuffer(int iID) : BeCarry(iID)
 {
@@ -27,7 +31,7 @@ bool BeBuffer::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
 
-	m_pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
+	//m_pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
 
 	return true;
 }
@@ -37,7 +41,7 @@ BeBuffer::~BeBuffer(void)
 
 }
 
-void BeBuffer::SetRemoveTime(UInt uiTime, bool bForceChange, bool bNeedRecordChange)
+void BeBuffer::SetRemoveTime(unsigned int uiTime, bool bForceChange, bool bNeedRecordChange)
 {
 	bool	bCalToughness = false;
 	if (HasCarryFlag(BUCF_CANNOTATTACK) || HasCarryFlag(BUCF_DIZZY) || HasCarryFlag(BUCF_ISFORBIDSKILL))
@@ -123,9 +127,8 @@ void BeBuffer::SetUnitID(int iUnitID)
 	}
 	else if (!m_kData.kUnit.IsNull())
 	{
-		m_kData.kUnit = SeSharedPtr<BeUnit>();
+		m_kData.kUnit = std::make_shared<BeUnit>();
 	}
-	//m_kData.iUnitID = iUnitID;
 }
 
 int BeBuffer::GetBufferUnitID() const

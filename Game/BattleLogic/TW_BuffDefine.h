@@ -47,7 +47,7 @@ struct BeBufferData
 	{
 		iLevel = 1;
 		iNotInivsCampFlag = 0;
-
+		iUnitID = 0;
 		iStartTime = 0;
 		uiRemoveTime = -1;
 		iSkillTypeID = 0;
