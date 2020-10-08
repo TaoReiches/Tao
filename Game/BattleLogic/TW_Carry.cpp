@@ -4,6 +4,10 @@
 **********************************************/
 
 #include "TW_Carry.h"
+#include "TW_UnitDefine.h"
+#include "TW_TriggerMgr.h"
+#include "TW_TriggerEvent.h"
+#include "TW_Main.h"
 
 BeCarry::BeCarry(int iID) :m_iID(iID)
 {

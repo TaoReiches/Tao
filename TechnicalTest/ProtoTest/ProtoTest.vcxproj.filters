@@ -8,6 +8,9 @@
     <Filter Include="Proto">
       <UniqueIdentifier>{cd594bc1-350b-4ac3-bdfd-b308bff1985c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ClassTest">
+      <UniqueIdentifier>{3043a2d5-a15f-446e-884a-087e9d24452a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -16,5 +19,22 @@
     <ClCompile Include="..\..\Proto\build\c++\game.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
+    <ClCompile Include="classMain.cpp">
+      <Filter>ClassTest</Filter>
+    </ClCompile>
+    <ClCompile Include="classUnit.cpp">
+      <Filter>ClassTest</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classMain.h">
+      <Filter>ClassTest</Filter>
+    </ClInclude>
+    <ClInclude Include="classMainBase.h">
+      <Filter>ClassTest</Filter>
+    </ClInclude>
+    <ClInclude Include="classUnit.h">
+      <Filter>ClassTest</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

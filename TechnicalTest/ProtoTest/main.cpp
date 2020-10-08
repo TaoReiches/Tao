@@ -2,8 +2,14 @@
 
 #include "game.pb.h"
 
+#include "classMain.h"
+#include "classUnit.h"
+
 int main()
 {
+    auto a = new BeMain();
+    a->test();
+
     std::cout << "Hello world, I am protobuf testing" << std::endl;
 
     std::string output;
