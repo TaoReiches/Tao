@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <content  BufferTypeID="1111568433" Name="眩晕" Property="14" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568434" Name="定身" Property="6" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568435" Name="碎甲" Property="6" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568436" Name="击飞" Property="131072" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568437" Name="禁咒" Property="2" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568438" Name="恐惧" Property="2050" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568439" Name="加速" Property="0" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568440" Name="减速" Property="2" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568441" Name="霜冻" Property="2" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568688" Name="中毒" Property="2" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568689" Name="灼烧" Property="2" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568690" Name="回复生命" Property="0" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568691" Name="回复法力" Property="0" SingleSpliceNum="1" MultiSpliceNum="1" />
+    <content  BufferTypeID="1111568692" Name="回复生命+法力" Property="0" SingleSpliceNum="1" MultiSpliceNum="1" />
+</root>

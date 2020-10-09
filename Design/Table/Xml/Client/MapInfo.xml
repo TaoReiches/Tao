@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <content  MapTypeID="1295003697" Name="永生谷" Desc="永生谷（5V5对战测试）" resId="small_land" Type="1" Property="2" Path="Data/Scence/JingJi_5v5/5v5DiXing" />
+    <content  MapTypeID="1295003698" Name="王涛测试用的地图" Desc="王涛测试用的地图" resId="small_land" Type="1" Property="2" Path="Data/Scence/JingJi_5v5/5v5DiXing" />
+    <content  MapTypeID="1295003699" Name="标准地图" Desc="标准地图" resId="standard_land" Type="1" Property="2" Path="Data/Scence/JingJi_5v5/5v5DiXing" />
+</root>

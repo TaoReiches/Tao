@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <content  BufferTypeID="1111568433" Name="眩晕" Desc="被击晕，无法移动、攻击和使用技能" Buffordebuff="1" BuffCdtype="1" Property="14" EffectID="424" buffcolour="0" bufficon="img_junei_xuanyun.png" />
+    <content  BufferTypeID="1111568434" Name="定身" Desc="被束缚无法移动" Buffordebuff="1" BuffCdtype="1" Property="6" buffcolour="0" />
+    <content  BufferTypeID="1111568435" Name="碎甲" Desc="护甲值降低了，受到物理攻击时会受到额外伤害" Buffordebuff="1" BuffCdtype="1" Property="6" buffcolour="0" />
+    <content  BufferTypeID="1111568436" Name="击飞" Desc="被击飞啦" Buffordebuff="1" BuffCdtype="1" Property="131072" buffcolour="0" />
+    <content  BufferTypeID="1111568437" Name="禁咒" Desc="无法施法" Buffordebuff="1" BuffCdtype="1" Property="2" EffectID="81" buffcolour="0" bufficon="img_junei_dingshen.png" />
+    <content  BufferTypeID="1111568438" Name="恐惧" Desc="无法控制，到处乱跑" Buffordebuff="1" BuffCdtype="1" Property="2050" EffectID="344" Icon="1111568438" buffcolour="0" bufficon="img_junei_hunluan.png" />
+    <content  BufferTypeID="1111568439" Name="加速" Desc="加速效果：移动速度加快" Buffordebuff="0" BuffCdtype="1" Icon="1111568439" buffcolour="0" />
+    <content  BufferTypeID="1111568440" Name="减速" Desc="减速效果：移动速度降低" Buffordebuff="1" BuffCdtype="0" Property="2" EffectID="80" Icon="1111568440" buffcolour="0" bufficon="img_junei_jiansu.png" />
+    <content  BufferTypeID="1111568441" Name="霜冻" Desc="冰霜效果：移动速度降低" Buffordebuff="1" BuffCdtype="0" Property="2" Icon="1111568441" buffcolour="0" />
+    <content  BufferTypeID="1111568688" Name="中毒" Desc="中毒了，所以扣血" Buffordebuff="1" BuffCdtype="0" Property="2" buffcolour="0" />
+    <content  BufferTypeID="1111568689" Name="灼烧" Desc="灼烧，血量持续减少" Buffordebuff="1" BuffCdtype="0" Property="2" buffcolour="0" />
+    <content  BufferTypeID="1111568690" Name="回复生命" Desc="持续回复生命值" Buffordebuff="0" BuffCdtype="1" EffectID="46" buffcolour="0" />
+    <content  BufferTypeID="1111568691" Name="回复法力" Desc="持续回复法力值" Buffordebuff="0" BuffCdtype="1" EffectID="47" buffcolour="0" />
+    <content  BufferTypeID="1111568692" Name="回复生命+法力" Desc="持续回复生命值和法力值" Buffordebuff="0" BuffCdtype="1" buffcolour="0" />
+</root>

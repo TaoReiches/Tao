@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+      <content 地图ID="M001" 地图名称="永生谷" 备注="永生谷（5V5对战测试）" 资源ID="small_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
+      <content 地图ID="M002" 地图名称="王涛测试用的地图" 备注="王涛测试用的地图" 资源ID="small_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
+      <content 地图ID="M003" 地图名称="标准地图" 备注="标准地图" 资源ID="standard_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
+</root>
