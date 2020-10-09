@@ -8,6 +8,8 @@
 #include "TW_Unit.h"
 #include "TW_UnitMgr.h"
 #include "TW_ShareUnitData.h"
+#include <TW_TriggerMgr.h>
+#include "TW_TriggerEvent.h"
 
 BeBuffer::BeBuffer(int iID) : BeCarry(iID)
 {
@@ -114,7 +116,7 @@ void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
 
 SeCalSkillLvlData* BeBuffer::GetSkillLvlData(void)
 {
-	return &m_kData.kSkillLvlData;
+	return m_kData.kSkillLvlData;
 }
 
 void BeBuffer::SetUnitID(int iUnitID)
@@ -125,7 +127,7 @@ void BeBuffer::SetUnitID(int iUnitID)
 	{
 		m_kData.kUnit = pkUnit->GetSharePtr();
 	}
-	else if (!m_kData.kUnit.IsNull())
+	else if (!m_kData.kUnit)
 	{
 		m_kData.kUnit = std::make_shared<BeUnit>();
 	}
