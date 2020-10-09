@@ -18,7 +18,7 @@ TeRandNum::~TeRandNum(void)
 {
 }
 
-ITeRandom* TeRandNum::NewRandom()
+ITeRandom* NewRandom()
 {
 	return new TeRandNum;
 }

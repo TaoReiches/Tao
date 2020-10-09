@@ -7,7 +7,7 @@
 
 class ITeRandom
 {
-	virtual		ITeRandom*	NewRandom() = 0;
+public:
 	virtual		void		Initialize(int iSeed = 0) = 0;
 	virtual		int			GetSeed(void) = 0;
 	virtual		int			GetCount(void) = 0;
@@ -16,3 +16,5 @@ class ITeRandom
 	virtual		int			RandInt(int iMin, int iMax) = 0;
 	virtual		float		RandFloat(float fMin, float fMax) = 0;
 };
+
+ITeRandom* NewRandom();

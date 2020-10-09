@@ -7,13 +7,12 @@
 
 #include "TW_IRandom.h"
 
-class TeRandNum : ITeRandom
+class TeRandNum : public ITeRandom
 {
 public:
 	TeRandNum(void);
 	~TeRandNum(void);
 
-	ITeRandom* NewRandom() override;
 	void Initialize(int iSeed = 0) override;
 
 	int GetSeed(void) override;

@@ -18,8 +18,7 @@ class BeMapItem;
 class BeAttackingAttr;
 class SeRaceCmd;
 class BeMapItemMgr;
-class BeMap;
-class BeDataMgr;
+class TeMap;
 class BeUnitMgr;
 class BeEffectMgr;
 class ITeRandom;
@@ -37,7 +36,6 @@ public:
 	void SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName);
 
 	bool LoadRes(int iSeed);
-	BeUnit* GetUnitControlBySeat(unsigned short bySeat, int iUnitID);
 
 	inline unsigned int GetFrameCount(void)
 	{
@@ -297,7 +295,6 @@ public:
 
 	bool Initialize(void);
 	void Finialize(void);
-	void OnRaceOver(int iWinnerGroup, int iLastAttackPlayer);
 	bool UpdateFrame(unsigned int dwFrame);
 
 	bool	InitializeGame(void);
@@ -325,13 +322,11 @@ protected:
 	void			LoadLevelMainMapFile(void);
 
 	void			UpdatePlayerLeave();
-	void			UpdateSurrender();
 
 public:
 	unsigned int			m_uiGameTime;
 	ITeRandom* m_pkRandNum;
-	BeMap* m_pkMap;
-	BeDataMgr* m_pkDataMgr;
+	TeMap* m_pkMap;
 	BeUnitMgr* m_pkUnitMgr;
 	BeEffectMgr* m_pkEffectMgr;
 	BeMapItemMgr* m_pkMapItemMgr;
@@ -366,7 +361,6 @@ public:
 	void	AddEntityPointer(BeGenIDType eType, int iID, void* pkVoid);
 	void	DelEntityPointer(BeGenIDType eType, int iID);
 	void* GetEntityPointer(BeGenIDType eType, int iID);
-	bool	IsPlayerCharacterMeet(int iIdx, int iCharacter);
 
 	bool	IsShowAllDamage()
 	{
