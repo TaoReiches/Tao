@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="TW_AttackAttr.h" />
     <ClInclude Include="TW_AttackedAttr.h" />
+    <ClInclude Include="TW_BattleCmd.h" />
     <ClInclude Include="TW_Buff.h" />
     <ClInclude Include="TW_BuffDefine.h" />
     <ClInclude Include="TW_Carry.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="TW_MapItemDefine.h" />
     <ClInclude Include="TW_MapItemMgr.h" />
     <ClInclude Include="TW_PlayerInfo.h" />
+    <ClInclude Include="TW_ShareUnitData.h" />
     <ClInclude Include="TW_Skill.h" />
     <ClInclude Include="TW_SkillDefine.h" />
     <ClInclude Include="TW_SortStruct.h" />

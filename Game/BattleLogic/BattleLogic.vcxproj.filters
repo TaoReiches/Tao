@@ -46,6 +46,9 @@
     <Filter Include="LogicTask">
       <UniqueIdentifier>{e9a00168-e858-4195-910e-ab7b377ffcc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{157c0b05-4375-4ca3-a53b-f71f61e9959e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_AttackAttr.h">
@@ -170,6 +173,12 @@
     </ClInclude>
     <ClInclude Include="TW_UnitSkill.h">
       <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_BattleCmd.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_ShareUnitData.h">
+      <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

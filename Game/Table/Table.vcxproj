@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -87,6 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./tinyxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer_table.cpp" />
+    <ClCompile Include="Item_table.cpp" />
+    <ClCompile Include="MapInfo_table.cpp" />
+    <ClCompile Include="SeTableResBase.cpp" />
+    <ClCompile Include="Skill_table.cpp" />
+    <ClCompile Include="TableMgr.cpp" />
+    <ClCompile Include="Unit_table.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Buffer_table.hpp" />
+    <ClInclude Include="Item_table.hpp" />
+    <ClInclude Include="MapInfo_table.hpp" />
+    <ClInclude Include="SeTableResBase.h" />
+    <ClInclude Include="Skill_table.hpp" />
+    <ClInclude Include="TableMgr.h" />
+    <ClInclude Include="Unit_table.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
