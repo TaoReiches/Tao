@@ -6,6 +6,8 @@
 #include "TW_Entity.h"
 #include "TW_EntityMgr.h"
 #include "TW_Define.h"
+#include "TW_Main.h"
+#include "TW_Map.h"
 
 BeEntityMgr::BeEntityMgr(void)
 {

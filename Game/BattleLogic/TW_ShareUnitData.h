@@ -12,7 +12,7 @@ enum MoMapID
 	MAP_WANGTAO_TEST = 1295003698,
 };
 
-static	const	int		iMaxHeroSkillNum = 10;				
+static	const	int		iMaxHeroSkillNum = 10;
 static	const	int		iMaxHeroItem = 6;					
 static	const	int		iMaxSkillLevel = 5;					
 static	const	int		iLogicFrameTime = 40;				

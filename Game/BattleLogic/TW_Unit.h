@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <unordered_map>
 #include "TW_Entity.h"
 #include "TW_MemoryPool.h"
 #include <Unit_table.hpp>
@@ -15,6 +16,9 @@
 #include "TW_UnitDefine.h"
 #include "TW_Commander.h"
 #include "TW_CarryDefine.h"
+#include "TW_ShareUnitData.h"
+#include "TW_Functions.h"
+#include "TW_UserDataDefine.h"
 
 class BeItem;
 class BeCarry;
@@ -1115,18 +1119,18 @@ public:
 		GiveCommand(pkUnit->GetUnitCurCommand());
 	}
 
-	inline void SetConnectUnit(BeUnit* pkUnit)
-	{
-		if (pkUnit)
-		{
-			m_akConnectUnits.push_back(pkUnit->GetSharePtr());
-		}
-	}
+	//inline void SetConnectUnit(BeUnit* pkUnit)
+	//{
+	//	if (pkUnit)
+	//	{
+	//		m_akConnectUnits.push_back(pkUnit->GetSharePtr());
+	//	}
+	//}
 
-	inline std::vector<std::auto_ptr<BeUnit>>& GetConnectUnits(void)
-	{
-		return m_akConnectUnits;
-	}
+	//inline std::vector<std::auto_ptr<BeUnit>>& GetConnectUnits(void)
+	//{
+	//	return m_akConnectUnits;
+	//}
 
 	inline void SetShareHPUnitID(int iUnitID)
 	{
@@ -1516,7 +1520,7 @@ public:
 
 	void			UpdateAttribute(bool bUpdateNormal = true);
 
-	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::auto_ptr<BeUnit>& kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
+	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<BeUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
 	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, BeUnit* pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
 	void			OperateUnitRemove();
 	float			GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
@@ -1828,7 +1832,7 @@ protected:
 	int							m_iMoveAllTime;
 	float						m_fMinMoveDistance;
 
-	std::vector<std::auto_ptr<BeUnit>>			m_akConnectUnits;
+	//std::vector<std::auto_ptr<BeUnit>>			m_akConnectUnits;
 	std::vector<int>			m_VecShareHPIDs;
 
 	int							m_iOrgSkillLevel;
@@ -1925,13 +1929,12 @@ private:
 	int						m_iActionStayTime;
 	int						m_iGrassIndex;
 	int						m_iGiveAttackCmdTime;
-	void* m_pkVisionData;
 	std::unordered_map<int, TePointerType>		m_akUserData;
 	BeFlagObj				m_kAutoSpellFlag;
 	int						m_iDeadCount;
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;
-	std::auto_ptr<BeUnit>		m_spSharePtr;
+	std::shared_ptr<BeUnit>		m_spSharePtr;
 	bool					m_abInPlayerVision[20];
 	bool					m_abEverInPlayerVision[20];
 	int						m_eCamp;
@@ -1976,7 +1979,7 @@ public:
 	inline		void					SetHaveSetObstacle(bool bSet);
 	inline		bool					GetHaveSetObstacle() const;
 	inline		bool					GetNeedUpdateObstacle() const;
-	inline		const std::auto_ptr<BeUnit>& GetSharePtr() const;
+	inline		const std::shared_ptr<BeUnit> GetSharePtr() const;
 	inline		int						GetDamageNum();
 	inline	const	bool				GetUnitVisionForCamp(int iDstCamp)	const;
 	inline		void					SetTabInfoFlag(int iFlag);
@@ -2047,14 +2050,7 @@ inline	const		bool	BeUnit::GetUnitVisionForCamp(int iDstCamp)	const
 	}
 	return false;
 }
-inline		void	BeUnit::SetUnitVision(void* pkData)
-{
-	m_pkVisionData = pkData;
-}
-inline		void* BeUnit::GetUnitVision()	const
-{
-	return m_pkVisionData;
-}
+
 inline unsigned int BeUnit::GetClass(void) const
 {
 	if (!m_pkBackData || !m_pkBackData->pkRes)
@@ -2171,7 +2167,7 @@ inline bool			BeUnit::GetNeedUpdateObstacle() const
 {
 	return m_bNeedUpdateObstacle;
 }
-inline const std::auto_ptr<BeUnit>& BeUnit::GetSharePtr() const
+inline const std::shared_ptr<BeUnit> BeUnit::GetSharePtr() const
 {
 	return m_spSharePtr;
 }

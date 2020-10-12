@@ -10,6 +10,7 @@
 #include "TW_ShareUnitData.h"
 #include <TW_TriggerMgr.h>
 #include "TW_TriggerEvent.h"
+#include <Buffer_table.hpp>
 
 BeBuffer::BeBuffer(int iID) : BeCarry(iID)
 {
@@ -114,23 +115,25 @@ void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
 	}
 }
 
+bool BeBuffer::HasProperty(int iProperty) const
+{
+	return ((m_pkRes->uiProperty & iProperty) == iProperty) ? true : false;
+}
+
 SeCalSkillLvlData* BeBuffer::GetSkillLvlData(void)
 {
-	return m_kData.kSkillLvlData;
+	//return m_kData.kSkillLvlData;
+	return nullptr;
 }
 
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
-	BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID, true);
-	if (pkUnit)
-	{
-		m_kData.kUnit = pkUnit->GetSharePtr();
-	}
-	else if (!m_kData.kUnit)
-	{
-		m_kData.kUnit = std::make_shared<BeUnit>();
-	}
+	//BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID, true);
+	//if (pkUnit)
+	//{
+	//	m_kData.kUnit.reset(pkUnit);// = std::make_shared<BeUnit>(pkUnit);
+	//}
 }
 
 int BeBuffer::GetBufferUnitID() const

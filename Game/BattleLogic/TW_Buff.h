@@ -76,10 +76,7 @@ public:
         m_kData.iUpdateTime = iUpdateTime;
     }
 
-    //inline bool HasProperty(int iProperty) const
-    //{
-    //    return ((m_pkRes->uiProperty & iProperty) == iProperty) ? true : false;
-    //}
+    bool HasProperty(int iProperty) const;
 
     //inline int GetSingleSpliceNum(void) const
     //{

@@ -8,8 +8,6 @@
 #include "TW_MemoryPool.h"
 #include "TW_AttackAttr.h"
 
-#define iMaxHeroSkillNum	6;
-
 enum BeUnitAction
 {
 	BUA_STAND = 0,

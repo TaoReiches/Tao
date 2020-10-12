@@ -82,11 +82,11 @@ private:
 
 inline	int TeMap::GetWidth() const
 {
-	return  m_pkMapInfo->iWidth;
+	return  100000;
 }
 inline	int TeMap::GetHeight() const
 {
-	return m_pkMapInfo->iHeight;
+	return 100000;
 }
 inline	const TeMapInfo* TeMap::GetMapInfo(void) const
 {
