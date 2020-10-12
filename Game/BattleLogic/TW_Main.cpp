@@ -10,6 +10,12 @@
 #include "TW_EffectMgr.h"
 #include "TW_MapItemMgr.h"
 #include "TW_Map.h"
+#include "TW_ShareUnitData.h"
+#include "TW_TriggerEvent.h"
+#include "TW_FormulaInfo.h"
+#include "Skill_table.hpp"
+
+#define GAME_FRAME_TIME	20
 
 BeMain::BeMain(void)
 {
@@ -193,14 +199,6 @@ bool BeMain::LoadRes(int iSeed)
 	m_pkRandNum = NewRandom();
 	m_pkRandNum->Initialize(iSeed);
 
-	const MapInfoTable* pkMapRes = gMain.GetResMapInfo(1);
-	if (!pkMapRes)
-	{
-		return false;
-	}
-	std::string kMapConfig = pkMapRes->kMapInfoPath;
-	gMapInfo.PreloadMap(kMapConfig.c_str());
-
 	m_pkTriggerMgr = new TePtTriggerMgr(this);
 	m_pkEffectMgr = new BeEffectMgr;
 	m_pkEffectMgr->AttachMain(this);
@@ -216,7 +214,7 @@ bool BeMain::LoadRes(int iSeed)
 
 	m_pkMap = new TeMap;
 	m_pkMap->AttachMain(this);
-	if (!m_pkMap->Initialize(kMapConfig))
+	if (!m_pkMap->Initialize())
 	{
 		return false;
 	}
@@ -242,21 +240,10 @@ void BeMain::SetGameFrame(unsigned int dwFrame)
 	m_uiGameTime = GAME_FRAME_TIME * m_uiFrameCount;
 }
 
-const MapInfoTable* BeMain::GetMapInfoRes(unsigned int iMapID)
-{
-	if (iMapID != m_iCurMapID)
-	{
-		m_iCurMapID = iMapID;
-		m_pkCurMapInfo = MapInfoTableMgr::Get()->GetMapInfoTable(iMapID);
-	}
-
-	return m_pkCurMapInfo;
-}
-
 int BeMain::GetSkillOrgTypeID(int iSkillTypeID)
 {
-	const SkillTable* pkSkillRes = GetResSkill(iSkillTypeID);
-	if (pkSkillRes && pkSkillRes->uiOriginTypeID == (UInt)-1)
+	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	if (pkSkillRes && pkSkillRes->uiOriginTypeID == (unsigned int)-1)
 	{
 		return iSkillTypeID;
 	}
@@ -301,7 +288,7 @@ void	BeMain::AddSmallMapMessage(float fX, float fY, bool bAttack, int iResID, in
 	kData.iRemoveTime = iTime;
 	kData.iResID = iResID;
 
-	AddWindowData(kData);
+	// AddWindowData(kData);
 }
 
 void	BeMain::AddUIMessage(int iUnitID, int iType, int iStrIndex, int iTime)
@@ -314,7 +301,7 @@ void	BeMain::AddUIMessage(int iUnitID, int iType, int iStrIndex, int iTime)
 	kData.fValue1 = iTime;
 	kData.fValue4 = 502;
 
-	AddWindowData(kData);
+	// AddWindowData(kData);
 }
 
 void	BeMain::AddFontEffect(int iUnitID, int iType, int iStrIndex, int iTime, int iColor, int iLable, int iFontSize)
@@ -329,120 +316,110 @@ void	BeMain::AddFontEffect(int iUnitID, int iType, int iStrIndex, int iTime, int
 	kData.fValue3 = iFontSize;
 	kData.fValue4 = iLable;
 
-	AddWindowData(kData);
+	// AddWindowData(kData);
 }
 
 void BeMain::SetHeroDataChangeFlag(int iSeat, int iFlag)
 {
-	if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
-	{
-		return;
-	}
-	m_aiHeroDataChangeFlag[iSeat] |= iFlag;
+	//if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
+	//{
+	//	return;
+	//}
+	//m_aiHeroDataChangeFlag[iSeat] |= iFlag;
 }
 
 int BeMain::GetHeroDataChangeFlag(int iSeat)
 {
-	if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
-	{
-		return 0;
-	}
-	return m_aiHeroDataChangeFlag[iSeat];
+	//if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
+	//{
+	//	return 0;
+	//}
+	//return m_aiHeroDataChangeFlag[iSeat];
 }
 
 void BeMain::ClrHeroDataChangeFlag(int iSeat, int iFlag)
 {
-	if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
-	{
-		return;
-	}
-	m_aiHeroDataChangeFlag[iSeat] &= ~iFlag;
+	//if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
+	//{
+	//	return;
+	//}
+	//m_aiHeroDataChangeFlag[iSeat] &= ~iFlag;
 }
 
 bool BeMain::HasHeroDataChangeFlag(int iSeat, int iFlag)
 {
-	if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
-	{
-		return false;
-	}
+	//if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
+	//{
+	//	return false;
+	//}
 
-	int iHeroDataChangeFlag = m_aiHeroDataChangeFlag[iSeat];
-	return ((iHeroDataChangeFlag & iFlag) == iFlag ? true : false);
-}
-
-void BeMain::AddPlayerDeathData(int iSeat, int iBeginTime, int iReliveTime)
-{
-	if (iSeat < 0 || iSeat >= MAX_ACTIVEPLAYERS)
-	{
-		return;
-	}
-	m_akPlayer[iSeat].iDeathBeginTime = iBeginTime;
-	m_akPlayer[iSeat].iReLiveTime = iReliveTime;
+	//int iHeroDataChangeFlag = m_aiHeroDataChangeFlag[iSeat];
+	//return ((iHeroDataChangeFlag & iFlag) == iFlag ? true : false);
 }
 
 bool	BeMain::HasGrassVisionForCamp(int iGrassIndex, int iSrcCamp, int iDstCamp)
 {
-	auto	Iter = m_kGrassUnit.begin();
-	while (Iter != m_kGrassUnit.end())
-	{
-		if (Iter->second == iGrassIndex)
-		{
-			BeUnit* pkUnit = gUnitMgr.GetUnitByID(Iter->first);
-			if (pkUnit)
-			{
-				if (pkUnit->GetCamp() == iDstCamp)
-				{
-					return true;
-				}
-			}
-		}
-		++Iter;
-	}
+	//auto	Iter = m_kGrassUnit.begin();
+	//while (Iter != m_kGrassUnit.end())
+	//{
+	//	if (Iter->second == iGrassIndex)
+	//	{
+	//		BeUnit* pkUnit = gUnitMgr.GetUnitByID(Iter->first);
+	//		if (pkUnit)
+	//		{
+	//			if (pkUnit->GetCamp() == iDstCamp)
+	//			{
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//	++Iter;
+	//}
 	return false;
 }
 
 bool	BeMain::HasGrassVision(int iSrcUnitID, int iTarUnitID)
 {
-	std::map<int, int>::iterator iter = m_kGrassUnit.find(iTarUnitID);
-	if (iter == m_kGrassUnit.end())
-	{
-		return true;
-	}
-	int iTarGrassIndex = iter->second;
-	std::map<int, int>::iterator iterSrc = m_kGrassUnit.begin();
+	//std::map<int, int>::iterator iter = m_kGrassUnit.find(iTarUnitID);
+	//if (iter == m_kGrassUnit.end())
+	//{
+	//	return true;
+	//}
+	//int iTarGrassIndex = iter->second;
+	//std::map<int, int>::iterator iterSrc = m_kGrassUnit.begin();
 
-	int		iSrcCamp = -1;
-	BeUnit* pkSrcUnit = gUnitMgr.GetUnitByID(iSrcUnitID);
-	if (pkSrcUnit)
-	{
-		iSrcCamp = pkSrcUnit->GetCamp();
-	}
-	int		iTarCamp = -1;
-	BeUnit* pkTarUnit = gUnitMgr.GetUnitByID(iTarUnitID);
-	if (pkTarUnit)
-	{
-		iTarCamp = pkTarUnit->GetCamp();
-	}
-	if (iTarCamp == iSrcCamp)
-	{
-		return true;
-	}
+	//int		iSrcCamp = -1;
+	//BeUnit* pkSrcUnit = gUnitMgr.GetUnitByID(iSrcUnitID);
+	//if (pkSrcUnit)
+	//{
+	//	iSrcCamp = pkSrcUnit->GetCamp();
+	//}
+	//int		iTarCamp = -1;
+	//BeUnit* pkTarUnit = gUnitMgr.GetUnitByID(iTarUnitID);
+	//if (pkTarUnit)
+	//{
+	//	iTarCamp = pkTarUnit->GetCamp();
+	//}
+	//if (iTarCamp == iSrcCamp)
+	//{
+	//	return true;
+	//}
 
-	for (; iterSrc != m_kGrassUnit.end(); iterSrc++)
-	{
-		int iGrassUnitID = iterSrc->first;
-		BeUnit* pkGrassUnit = gUnitMgr.GetUnitByID(iGrassUnitID);
-		if (pkGrassUnit)
-		{
-			if (pkGrassUnit->GetCamp() == iSrcCamp)
-			{
-				if (iterSrc->second == iTarGrassIndex)
-				{
-					return true;
-				}
-			}
-		}
-	}
+	//for (; iterSrc != m_kGrassUnit.end(); iterSrc++)
+	//{
+	//	int iGrassUnitID = iterSrc->first;
+	//	BeUnit* pkGrassUnit = gUnitMgr.GetUnitByID(iGrassUnitID);
+	//	if (pkGrassUnit)
+	//	{
+	//		if (pkGrassUnit->GetCamp() == iSrcCamp)
+	//		{
+	//			if (iterSrc->second == iTarGrassIndex)
+	//			{
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//}
 
 	return false;
 }

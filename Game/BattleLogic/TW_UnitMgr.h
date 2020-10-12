@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <memory>
 #include "TW_EntityMgr.h"
+#include "TW_Command.h"
+#include "TW_UnitMgrDefine.h"
 
 class BeUnit;
 
@@ -79,21 +81,7 @@ public:
 	bool		GetUnitByPlayer(UnitGroup& kGroup, const std::string& kPlayerName) const;
 	void		GetUnitByCommand(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const;
 public:
-	BeUnit* GetUnitByTypeID(int iTypeID)
-	{
-		for (std::unordered_map<int, BeUnit*>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
-		{
-			BeUnit* pkUnit = itr->second;
-			if (pkUnit && !pkUnit->IsDead())
-			{
-				if (iTypeID == pkUnit->GetTypeID())
-				{
-					return pkUnit;
-				}
-			}
-		}
-		return NULL;
-	}
+	BeUnit* GetUnitByTypeID(int iTypeID);
 
 protected:
 	virtual void	SafeDeleteUnit(BeUnit*& pkUnit);

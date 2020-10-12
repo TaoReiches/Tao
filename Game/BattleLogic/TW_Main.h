@@ -7,6 +7,7 @@
 
 #include <map>
 #include "TW_MainDefine.h"
+#include "TW_TriggerMgr.h"
 
 class BeUnit;
 class BePlayerInfo;
@@ -23,6 +24,8 @@ class BeUnitMgr;
 class BeEffectMgr;
 class ITeRandom;
 class BeSkill;
+class BeCarry;
+class SkillTable;
 
 class   BeMain
 {
@@ -212,7 +215,7 @@ public:
 	int TrgGetTargetType(void);
 
 	TePtCondResult DefaultBuffer_Condition(int iOriginTypeID);
-	bool DefaultSkill_ActionParam(BeUnit*& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable*& pkSkillRes);
+	bool DefaultSkill_ActionParam(BeUnit*& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes);
 
 	void InitSkillEventTrigger(int iTypeID);
 	void InitSkillEventTrigger1(int iTypeID);

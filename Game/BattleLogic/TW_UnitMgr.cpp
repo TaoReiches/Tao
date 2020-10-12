@@ -4,6 +4,7 @@
 **********************************************/
 
 #include "TW_UnitMgr.h"
+#include "TW_Unit.h"
 
 BeUnitMgr::BeUnitMgr(void)
 {
@@ -19,6 +20,22 @@ bool BeUnitMgr::Initialize(void)
 	Clear();
 
 	return BeEntityMgr::Initialize();
+}
+
+BeUnit* BeUnitMgr::GetUnitByTypeID(int iTypeID)
+{
+	for (std::unordered_map<int, BeUnit*>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	{
+		BeUnit* pkUnit = itr->second;
+		if (pkUnit && !pkUnit->IsDead())
+		{
+			if (iTypeID == pkUnit->GetTypeID())
+			{
+				return pkUnit;
+			}
+		}
+	}
+	return NULL;
 }
 
 void BeUnitMgr::Update(int iDeltaTime)
