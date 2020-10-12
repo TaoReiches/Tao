@@ -4,6 +4,10 @@
 **********************************************/
 
 #include "TW_Unit.h"
+#include "TW_Main.h"
+#include "TW_Map.h"
+#include "TW_UnitMgr.h"
+#include "TW_UnitSkill.h"
 
 template<class T>
 void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
@@ -117,16 +121,13 @@ BeUnit::BeUnit(int iID) : BeSingleLinkEntity(iID)
 	m_iCarryFlag = 0;
 	m_iImmunityFlag = 0;
 	m_iNotInvisByGroup = 0;
-	m_iGuankaFlag = 0;
 
 	m_fPreMaxHP = 0.0f;
 	m_fPreMaxMP = 0.0f;
-	m_pkAI = NULL;
 
 	m_eActionName = BAN_stand;
 	m_iActionStartTime = 0;
 
-	m_eCamp = SRPC_INVALID;
 	m_bChangeSkill = false;
 	m_iMoveToUnitID = 0;
 	m_fMoveTarPosX = 0.0f;
@@ -208,8 +209,7 @@ BeUnit::BeUnit(int iID) : BeSingleLinkEntity(iID)
 
 	m_bNeedUpdateObstacle = true;
 	m_bSetObstacle = false;
-	m_spSharePtr.Bind(this);
-	m_spSharePtr.SetOutDestroy(true);
+	m_spSharePtr.reset(this);
 	m_iLastAttackTime = 0;
 	m_iLastAttackHeroTime = 0;
 
@@ -225,10 +225,8 @@ BeUnit::BeUnit(int iID) : BeSingleLinkEntity(iID)
 	m_usHunStoneTotalNum = 0;
 	memset(m_uiTurnTableAttrInfo, 0, sizeof(m_uiTurnTableAttrInfo));
 
-	m_e8v8PlayerState = BPS_8V8_NULL;
 	m_bNewUnit[0] = true;
 	m_bNewUnit[1] = true;
-	m_pkVisionData = nullptr;
 }
 
 void BeUnit::OnDelete(void)
@@ -247,24 +245,6 @@ void BeUnit::OnDelete(void)
 	BeUnitData::DEL(m_pkBackData);
 	m_pkBackData = NULL;
 	m_pkCurData = NULL;
-
-	for (int i = 0; i < (int)m_akConnectUnits.size(); i++)
-	{
-		if (m_akConnectUnits[i].IsNull())
-		{
-			continue;
-		}
-
-		BeUnit* pkUnit = m_akConnectUnits[i].GetPointer();//gUnitMgr.GetUnitByID(iConnectID,true);
-		if (pkUnit)
-		{
-			pkUnit->DelConnectUnit(this);
-			if (pkUnit->HasOtherFlag(BUOF_FELLOW))
-			{
-				gUnitMgr.DelUnit(pkUnit->GetID());
-			}
-		}
-	}
 }
 
 BeUnit::~BeUnit(void)
@@ -272,11 +252,8 @@ BeUnit::~BeUnit(void)
 	gTrgMgr.OnUnitDelete(this);
 
 	DelAllBufferFinal();
-	if (m_pkAI)
-	{
-		gAIMgr.SafeDelUnitAI(m_pkAI);
-	}
-	m_spSharePtr.SetNull();
+
+	m_spSharePtr.reset();
 	gMain.DelEntityPointer(GIT_ENTITY, m_iID);
 }
 

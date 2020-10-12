@@ -11,7 +11,7 @@
 #include "TW_Pos2.h"
 
 class IPathFinder;
-class TeUnit;
+class BeUnit;
 struct TeMapInfo;
 class TeDoodad;
 class TeEffect;
@@ -31,14 +31,14 @@ public:
 	void	Update(int iDeltaTime);
 	void	Finialize(void);
 
-	void			AddUnitObstacle(TeUnit* pkUnit, bool bAddFixed = true, bool bForce = true);
-	void			DelUnitObstacle(TeUnit* pkUnit, bool bDelFixed = true, bool bForce = true);
+	void			AddUnitObstacle(BeUnit* pkUnit, bool bAddFixed = true, bool bForce = true);
+	void			DelUnitObstacle(BeUnit* pkUnit, bool bDelFixed = true, bool bForce = true);
 
 	void			AddObstacle(float fX, float fY, int iObs, int iSize);
 	void			DelObstacle(float fX, float fY, int iObs, int iSize);
 
-	bool			IsInSight(const TeUnit* pkSrcUnit, const TeUnit* pkDstUnit);
-	bool			IsInSight(int iPlayGroup, const TeUnit* pkDstUnit);
+	bool			IsInSight(const BeUnit* pkSrcUnit, const BeUnit* pkDstUnit);
+	bool			IsInSight(int iPlayGroup, const BeUnit* pkDstUnit);
 	bool			IsInSight(int iPlayGroup, float fPosX, float fPosY);
 	void* GetGroupVision(int eGroup);
 	bool            IsInSight(int iPlayGroup, TeEffect* pkDstEffect);
@@ -47,18 +47,18 @@ public:
 	void			DelVisionOT(float fX, float fY);
 	void			ReleaseVision(void);
 
-	void			ReleaseUnitVision(TeUnit* pkUnit);
-	void			UpdateUnitVision(TeUnit* pkUnit);
+	void			ReleaseUnitVision(BeUnit* pkUnit);
+	void			UpdateUnitVision(BeUnit* pkUnit);
 
-	TeFindResult	FindPath(std::list<TePos2>& akPath, TeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
-	int				GetFirstCanStay(TeUnit* pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs);
+	TeFindResult	FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
+	int				GetFirstCanStay(BeUnit* pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs);
 	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs);
 
 	bool			GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const;
 
-	bool			GetUnitCanReach(TeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
+	bool			GetUnitCanReach(BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
 
-	bool			SetUnitPosition(TeUnit* pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, int iObs, int iReachableObs, bool bNeedRecordChange);
+	bool			SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, int iObs, int iReachableObs, bool bNeedRecordChange);
 	void			EnableAllMap(void);
 
 	bool			IsObstacle(float fX, float fY, int iObstacle, int iSize);

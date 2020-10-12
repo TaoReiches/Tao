@@ -19,12 +19,14 @@
 #include "TW_ShareUnitData.h"
 #include "TW_Functions.h"
 #include "TW_UserDataDefine.h"
+#include <TW_PointerType.h>
 
 class BeItem;
 class BeCarry;
 struct UnitTable;
 class BeBuffer;
 class BeSkill;
+class BeMapItem;
 
 class BeUnit : public BeSingleLinkEntity, public BeEntity
 {
