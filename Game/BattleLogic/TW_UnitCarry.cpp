@@ -4,30 +4,40 @@
 **********************************************/
 
 #include "TW_Unit.h"
+#include "Item_table.hpp"
+#include "Skill_table.hpp"
+#include "Buffer_table.hpp"
+#include <TW_TriggerMgr.h>
+#include "TW_TriggerEvent.h"
+#include "TW_Item.h"
+#include "TW_Main.h"
+#include "TW_Skill.h"
+#include "TW_Buff.h"
+#include "TW_Formula.h"
 
 BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
-	const ItemTable* pkRes = gMain.GetResItem(iTypeID);
+	const ItemTable* pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!pkRes)
 	{
 		return NULL;
 	}
 
 	int iItemPos = -1;
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM && !m_apkItem[iPos])
+	if (iPos >= 0 && !m_apkItem[iPos])
 	{
 		iItemPos = iPos;
 	}
 	else
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; i++)
-		{
-			if (!m_apkItem[i])
-			{
-				iItemPos = i;
-				break;
-			}
-		}
+		//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+		//{
+		//	if (!m_apkItem[i])
+		//	{
+		//		iItemPos = i;
+		//		break;
+		//	}
+		//}
 	}
 
 	if (iItemPos != -1)
@@ -51,18 +61,6 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		m_apkItem[iItemPos] = pkItem;
 		pkItem->SetPackagePos(iItemPos);
 
-		switch (iItemPos)
-		{
-		case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-		case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-		case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-		case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-		case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-		case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-		default:
-			break;
-		}
-
 		UpdateAttribute(true);
 
 		int		iLastRegSkill = 0;
@@ -79,7 +77,7 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 			}
 			iLastRegSkill = iSkillID;
 
-			const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillID);
+			const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillID);
 			if (!pkSkillRes)
 			{
 				break;
@@ -95,89 +93,8 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 				SetFlag(BUF_NEEDUPDATEITEMSKILL);
 			}
 
-			gMain.InitItemEventTriggerT(gMain.GetSkillOrgTypeID(iSkillID));
-			gMain.InitItemEventTriggerT(iSkillID);
-			gMain.InitItemEventTriggerZhanChang(gMain.GetSkillOrgTypeID(iSkillID));
-			gMain.InitItemEventTriggerZhanChang(iSkillID);
-		}
-
-		OnItemUpDate(pkItem->GetID());
-
-		return pkItem;
-	}
-
-	return NULL;
-}
-
-BeItem* BeUnit::AddZItem(int iTypeID, int iUniqueID, int iPos)
-{
-	const ZhanChangItemTable* pkZRes = gMain.GetResZhanChangItem(iTypeID);
-	if (!pkZRes)
-	{
-		return NULL;
-	}
-
-	if (iPos != -1)
-	{
-		int iID = gMain.GenerateID(GIT_CARRY);
-		BeItem* pkItem = new BeItem(iID);
-		pkItem->AttachMain(pkAttachMain);
-		pkItem->Initialize(iTypeID);
-		pkItem->SetPileCount(pkZRes->iOrgPileCount);
-		pkItem->SetUseCount(pkZRes->iOrgUseCount);
-		pkItem->SetUniqueID(iUniqueID);
-		pkItem->SetZhanChangResPtr(pkZRes);
-		m_apkItem[iPos] = pkItem;
-		pkItem->SetPackagePos(iPos);
-
-		switch (iPos)
-		{
-		case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-		case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-		case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-		case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-		case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-		case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-		default:
-			break;
-		}
-
-		UpdateAttribute(true);
-
-		int		iLastRegSkill = 0;
-		for (int i = 0; i < ITEM_MAX_SKILL; ++i)
-		{
-			int iSkillID = pkZRes->iItemSkill[i];
-			if (iSkillID == 0)
-			{
-				break;
-			}
-			if (iSkillID == iLastRegSkill)
-			{
-				break;
-			}
-			iLastRegSkill = iSkillID;
-
-			const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillID);
-			if (!pkSkillRes)
-			{
-				break;
-			}
-
-			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
-			{
-				SetFlag(BUF_HASHALOSKILL);
-			}
-
-			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_CDCHUFA)
-			{
-				SetFlag(BUF_NEEDUPDATEITEMSKILL);
-			}
-
-			gMain.InitItemEventTriggerT(gMain.GetSkillOrgTypeID(iSkillID));
-			gMain.InitItemEventTriggerT(iSkillID);
-			gMain.InitItemEventTriggerZhanChang(gMain.GetSkillOrgTypeID(iSkillID));
-			gMain.InitItemEventTriggerZhanChang(iSkillID);
+			//gMain.InitItemEventTriggerT(gMain.GetSkillOrgTypeID(iSkillID));
+			//gMain.InitItemEventTriggerT(iSkillID);
 		}
 
 		OnItemUpDate(pkItem->GetID());
@@ -215,271 +132,102 @@ void BeUnit::OnItemUpDate(int iID)
 	kParam.SetParam(BTP_iItemID, iID);
 
 	gTrgMgr.FireTrigger(BTE_UNIT_ADD_ITEM, kParam);
-
-	BeLevelMain* pkTriggerMain = (BeLevelMain*)gMain.GetTaskHandle();
-	EsAssert(pkTriggerMain);
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITADDITEM;
-	kArgs.kUnitAddItem.iUnitID = GetID();
-	kArgs.kUnitAddItem.iItemTypeID = iTypeID;
-	pkTriggerMain->GetEventMgr()->FireEvent(kArgs);
 }
 
 BeItem* BeUnit::GetItemByID(int iID) const
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetID() == iID)
-		{
-			return m_apkItem[i];
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetID() == iID)
+	//	{
+	//		return m_apkItem[i];
+	//	}
+	//}
 
-	return NULL;
-}
-
-BeItem* BeUnit::GetZItemByUniqueID(int iUniqueID) const
-{
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetUniqueID() == iUniqueID)
-		{
-			return m_apkItem[i];
-		}
-	}
-
-	return NULL;
-}
-
-int BeUnit::GetZItemPosByUniqueID(int iUniqueID)
-{
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetUniqueID() == iUniqueID)
-		{
-			return i;
-		}
-	}
-	return -1;
+	return nullptr;
 }
 
 BeItem* BeUnit::GetItemByPos(int iPos)
 {
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
-	{
-		if (m_apkItem[iPos])
-		{
-			return m_apkItem[iPos];
-		}
-	}
-	return NULL;
-}
-
-BeItem* BeUnit::GetZItemByPos(int iPos)
-{
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
-	{
-		if (m_apkItem[iPos])
-		{
-			return m_apkItem[iPos];
-		}
-	}
-	return NULL;
-}
-
-unsigned	int	BeUnit::GetItemTypeIDByPos(INT iPos)
-{
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
-	{
-		if (m_apkItem[iPos])
-		{
-			return m_apkItem[iPos]->GetTypeID();
-		}
-	}
-	return 0;
-}
-
-unsigned	int	BeUnit::GetZItemTypeIDByPos(INT iPos)
-{
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
-	{
-		if (m_apkItem[iPos])
-		{
-			return m_apkItem[iPos]->GetTypeID();
-		}
-	}
-	return 0;
-}
-
-unsigned	int	BeUnit::GetZItemUniqueIDByPos(INT iPos)
-{
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
-	{
-		if (m_apkItem[iPos])
-		{
-			return m_apkItem[iPos]->GetUniqueID();
-		}
-	}
-	return 0;
-}
-
-bool BeUnit::SwapZItemPos(Byte bySrcPos, Byte byTarPos)
-{
-	if (bySrcPos < 0 || bySrcPos >= UNIT_MAX_ITEM || byTarPos < 0 || byTarPos >= UNIT_MAX_ITEM || bySrcPos == byTarPos)
-	{
-		return false;
-	}
-
-	BeItem* pkTempItem = m_apkItem[bySrcPos];
-	m_apkItem[bySrcPos] = m_apkItem[byTarPos];
-	m_apkItem[byTarPos] = pkTempItem;
-	if (m_apkItem[bySrcPos])
-	{
-		m_apkItem[bySrcPos]->SetPackagePos(bySrcPos);
-	}
-	if (m_apkItem[byTarPos])
-	{
-		m_apkItem[byTarPos]->SetPackagePos(byTarPos);
-	}
-	switch (bySrcPos)
-	{
-	case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-	case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-	case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-	case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-	case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-	case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-	default:
-		break;
-	}
-	switch (byTarPos)
-	{
-	case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-	case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-	case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-	case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-	case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-	case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-	default:
-		break;
-	}
-
-	return true;
+	//if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
+	//{
+	//	if (m_apkItem[iPos])
+	//	{
+	//		return m_apkItem[iPos];
+	//	}
+	//}
+	return nullptr;
 }
 
 BeItem* BeUnit::GetItemByTypeID(int iTypeID, int iOwnPlayer)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
-		{
-			if (iOwnPlayer != -1)
-			{
-				if (m_apkItem[i]->GetOwnerPlay() == iOwnPlayer)
-				{
-					return m_apkItem[i];
-				}
-			}
-			else
-			{
-				return m_apkItem[i];
-			}
-		}
-	}
-	return NULL;
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
+	//	{
+	//		if (iOwnPlayer != -1)
+	//		{
+	//			if (m_apkItem[i]->GetOwnerPlay() == iOwnPlayer)
+	//			{
+	//				return m_apkItem[i];
+	//			}
+	//		}
+	//		else
+	//		{
+	//			return m_apkItem[i];
+	//		}
+	//	}
+	//}
+	return nullptr;
 }
 
 BeItem* BeUnit::GetComposeItemByTypeID(int iTypeID)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
-		{
-			if (!m_apkItem[i]->IsComposeUse())
-			{
-				return m_apkItem[i];
-			}
-		}
-	}
-	return NULL;
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
+	//	{
+	//		if (!m_apkItem[i]->IsComposeUse())
+	//		{
+	//			return m_apkItem[i];
+	//		}
+	//	}
+	//}
+	return nullptr;
 }
 
 void BeUnit::GetItemGroupByTypeID(std::vector<BeItem*>& rkItems, int iTypeID, int iOwnPlayer)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
-		{
-			if (iOwnPlayer != -1)
-			{
-				if (m_apkItem[i]->GetOwnerPlay() == iOwnPlayer)
-				{
-					rkItems.push_back(m_apkItem[i]);
-				}
-			}
-			else
-			{
-				rkItems.push_back(m_apkItem[i]);
-			}
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
+	//	{
+	//		if (iOwnPlayer != -1)
+	//		{
+	//			if (m_apkItem[i]->GetOwnerPlay() == iOwnPlayer)
+	//			{
+	//				rkItems.push_back(m_apkItem[i]);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			rkItems.push_back(m_apkItem[i]);
+	//		}
+	//	}
+	//}
 }
 
 int BeUnit::GetItemNumsByID(int iTypeID) const
 {
 	int iNums = 0;
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
-		{
-			iNums += m_apkItem[i]->GetPileCount();
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetTypeID() == iTypeID)
+	//	{
+	//		iNums += m_apkItem[i]->GetPileCount();
+	//	}
+	//}
 	return iNums;
-}
-
-bool BeUnit::SwapItemPos(Byte bySrcPos, Byte byTarPos)
-{
-	if (bySrcPos < 0 || bySrcPos >= UNIT_MAX_ITEM || byTarPos < 0 || byTarPos >= UNIT_MAX_ITEM || bySrcPos == byTarPos)
-	{
-		return false;
-	}
-
-	BeItem* pkTempItem = m_apkItem[bySrcPos];
-	m_apkItem[bySrcPos] = m_apkItem[byTarPos];
-	m_apkItem[byTarPos] = pkTempItem;
-	if (m_apkItem[bySrcPos])
-	{
-		m_apkItem[bySrcPos]->SetPackagePos(bySrcPos);
-	}
-	if (m_apkItem[byTarPos])
-	{
-		m_apkItem[byTarPos]->SetPackagePos(byTarPos);
-	}
-	switch (bySrcPos)
-	{
-	case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-	case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-	case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-	case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-	case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-	case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-	default:
-		break;
-	}
-	switch (byTarPos)
-	{
-	case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-	case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-	case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-	case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-	case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-	case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-	default:
-		break;
-	}
-
-	return false;
 }
 
 void BeUnit::DropItemByPos(int iPos, float iX, float iY, bool bForce)
@@ -492,237 +240,174 @@ void BeUnit::DropItemByPos(int iPos, float iX, float iY, bool bForce)
 
 void BeUnit::DelItemByPos(int iPos)
 {
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM && m_apkItem[iPos])
-	{
-		int iItemID = m_apkItem[iPos]->GetID();
-		int iTypeID = m_apkItem[iPos]->GetTypeID();
-		bool bValid = m_apkItem[iPos]->GetValid();
-		m_apkItem[iPos] = NULL;
+	//if (iPos >= 0 && iPos < UNIT_MAX_ITEM && m_apkItem[iPos])
+	//{
+	//	int iItemID = m_apkItem[iPos]->GetID();
+	//	int iTypeID = m_apkItem[iPos]->GetTypeID();
+	//	bool bValid = m_apkItem[iPos]->GetValid();
+	//	m_apkItem[iPos] = NULL;
 
-		TePtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, this);
-		kParam.SetParam(BTP_iItemID, iItemID);
-		kParam.SetParam(BTP_iItemTypeID, iTypeID);
-		gTrgMgr.FireTrigger(BTE_UNIT_DROP_ITEM, kParam);
+	//	TePtParam kParam;
+	//	kParam.SetParam(BTP_pkTrgUnit, this);
+	//	kParam.SetParam(BTP_iItemID, iItemID);
+	//	kParam.SetParam(BTP_iItemTypeID, iTypeID);
+	//	gTrgMgr.FireTrigger(BTE_UNIT_DROP_ITEM, kParam);
 
-		UpdateAttribute(true);
-
-		BeLevelMain* pkTriggerMain = (BeLevelMain*)gMain.GetTaskHandle();
-		EsAssert(pkTriggerMain);
-		BeTDEventArgs kArgs = BeTDEventArgs();
-		kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITDROPITEM;
-		kArgs.kUnitDropItem.iUnitID = GetID();
-		kArgs.kUnitDropItem.iItemTypeID = iTypeID;
-		pkTriggerMain->GetEventMgr()->FireEvent(kArgs);
-
-		switch (iPos)
-		{
-		case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-		case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-		case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-		case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-		case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-		case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-		default:
-			break;
-		}
-	}
-}
-
-void BeUnit::DelZItemByPos(int iPos)
-{
-	if (iPos >= 0 && iPos < UNIT_MAX_ITEM && m_apkItem[iPos])
-	{
-		int iItemID = m_apkItem[iPos]->GetID();
-		int iTypeID = m_apkItem[iPos]->GetTypeID();
-		m_apkItem[iPos] = NULL;
-
-		TePtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, this);
-		kParam.SetParam(BTP_iItemID, iItemID);
-		kParam.SetParam(BTP_iItemTypeID, iTypeID);
-		gTrgMgr.FireTrigger(BTE_UNIT_DROP_ITEM, kParam);
-		//////////////////////////////////////////////////////////////////////////
-		UpdateAttribute(true);
-
-		switch (iPos)
-		{
-		case 0:SetTabInfoFlag(BTCF_ITEM1); break;
-		case 1:SetTabInfoFlag(BTCF_ITEM2); break;
-		case 2:SetTabInfoFlag(BTCF_ITEM3); break;
-		case 3:SetTabInfoFlag(BTCF_ITEM4); break;
-		case 4:SetTabInfoFlag(BTCF_ITEM5); break;
-		case 5:SetTabInfoFlag(BTCF_ITEM6); break;
-		default:
-			break;
-		}
-	}
-}
-
-void BeUnit::DelZItemByUniqueID(int iUniqueID)
-{
-	int Pos = 0;
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i]->GetUniqueID() == iUniqueID)
-		{
-			DelZItemByPos(i);
-			return;
-		}
-	}
+	//	UpdateAttribute(true);
+	//}
 }
 
 void BeUnit::DelAllItem(void)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (pkItem)
-		{
-			DelItemByPos(pkItem->GetPackagePos());
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (pkItem)
+	//	{
+	//		DelItemByPos(pkItem->GetPackagePos());
+	//	}
+	//}
 }
 
 void BeUnit::DelItemByTypeID(int iTypeID, bool bFirstOnly)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (pkItem && pkItem->GetTypeID() == iTypeID)
-		{
-			DelItemByPos(pkItem->GetPackagePos());
-			if (bFirstOnly)
-			{
-				return;
-			}
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (pkItem && pkItem->GetTypeID() == iTypeID)
+	//	{
+	//		DelItemByPos(pkItem->GetPackagePos());
+	//		if (bFirstOnly)
+	//		{
+	//			return;
+	//		}
+	//	}
+	//}
 }
 
 bool BeUnit::HasItem(int iTypeID, bool bOwner)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (pkItem && pkItem->GetTypeID() == iTypeID)
-		{
-			if (bOwner)
-			{
-				if (pkItem->GetOwnerPlay() == GetPlayer())
-				{
-					return true;
-				}
-			}
-			else
-			{
-				return true;
-			}
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (pkItem && pkItem->GetTypeID() == iTypeID)
+	//	{
+	//		if (bOwner)
+	//		{
+	//			if (pkItem->GetOwnerPlay() == GetPlayer())
+	//			{
+	//				return true;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			return true;
+	//		}
+	//	}
+	//}
 	return false;
 }
 
 int BeUnit::HasItemNum(int iTypeID, bool bOwner)
 {
 	int iTotal = 0;
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (pkItem && pkItem->GetTypeID() == iTypeID)
-		{
-			int iOrgPileCount = pkItem->GetOrgPileCount();
-			if (bOwner)
-			{
-				if (pkItem->GetOwnerPlay() == GetPlayer())
-				{
-					if (iOrgPileCount >= 1)
-					{
-						iTotal += pkItem->GetPileCount() / iOrgPileCount;
-					}
-					else
-					{
-						iTotal += 1;
-					}
-				}
-			}
-			else
-			{
-				if (iOrgPileCount >= 1)
-				{
-					iTotal += pkItem->GetPileCount() / iOrgPileCount;
-				}
-				else
-				{
-					iTotal += 1;
-				}
-			}
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (pkItem && pkItem->GetTypeID() == iTypeID)
+	//	{
+	//		int iOrgPileCount = pkItem->GetOrgPileCount();
+	//		if (bOwner)
+	//		{
+	//			if (pkItem->GetOwnerPlay() == GetPlayer())
+	//			{
+	//				if (iOrgPileCount >= 1)
+	//				{
+	//					iTotal += pkItem->GetPileCount() / iOrgPileCount;
+	//				}
+	//				else
+	//				{
+	//					iTotal += 1;
+	//				}
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (iOrgPileCount >= 1)
+	//			{
+	//				iTotal += pkItem->GetPileCount() / iOrgPileCount;
+	//			}
+	//			else
+	//			{
+	//				iTotal += 1;
+	//			}
+	//		}
+	//	}
+	//}
 
 	return iTotal;
 }
 
 bool BeUnit::HasItemSkill(int iTypeID)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (pkItem /*&& pkItem->GetOwnerPlay() == GetPlayer()*/)
-		{
-			const ItemTable* pkItemRes = gMain.GetResItem(pkItem->GetTypeID());
-			if (!pkItemRes)
-			{
-				continue;
-			}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (pkItem /*&& pkItem->GetOwnerPlay() == GetPlayer()*/)
+	//	{
+	//		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
+	//		if (!pkItemRes)
+	//		{
+	//			continue;
+	//		}
 
-			for (int j = 0; j < 6; ++j)
-			{
-				int iSkill = pkItemRes->iItemSkill[j];
-				if (iSkill == iTypeID)
-				{
-					return true;
-				}
-			}
-		}
-	}
+	//		for (int j = 0; j < 6; ++j)
+	//		{
+	//			int iSkill = pkItemRes->iItemSkill[j];
+	//			if (iSkill == iTypeID)
+	//			{
+	//				return true;
+	//			}
+	//		}
+	//	}
+	//}
 	return false;
 }
 
 int BeUnit::GetFreeItemPos()
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (!m_apkItem[i])
-		{
-			return i;
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (!m_apkItem[i])
+	//	{
+	//		return i;
+	//	}
+	//}
 
 	return -1;
 }
 
 bool BeUnit::IsPackageFull(void) const
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (!m_apkItem[i])
-		{
-			return false;
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (!m_apkItem[i])
+	//	{
+	//		return false;
+	//	}
+	//}
 	return true;
 }
 
 bool BeUnit::IsPackageEmpty(void) const
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i])
-		{
-			return false;
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (m_apkItem[i])
+	//	{
+	//		return false;
+	//	}
+	//}
 
 	return true;
 }
@@ -738,19 +423,19 @@ bool BeUnit::PickAroundItem(void)
 		return false;
 	}
 
-	std::vector<BeMapItem*> kMapItemGroup;
-	gMapItemMgr.GetAreaGroup(kMapItemGroup, GetPosX(), GetPosY(), 350.0f, -1);
-	if (!kMapItemGroup.empty())
-	{
-		for (int i = 0; i < (int)kMapItemGroup.size(); ++i)
-		{
-			BeMapItem* pkMapItem = kMapItemGroup[i];
-			if (pkMapItem)
-			{
-				PickMapItem(pkMapItem);
-			}
-		}
-	}
+	//std::vector<BeMapItem*> kMapItemGroup;
+	//gMapItemMgr.GetAreaGroup(kMapItemGroup, GetPosX(), GetPosY(), 350.0f, -1);
+	//if (!kMapItemGroup.empty())
+	//{
+	//	for (int i = 0; i < (int)kMapItemGroup.size(); ++i)
+	//	{
+	//		BeMapItem* pkMapItem = kMapItemGroup[i];
+	//		if (pkMapItem)
+	//		{
+	//			PickMapItem(pkMapItem);
+	//		}
+	//	}
+	//}
 
 	return true;
 }
@@ -876,13 +561,6 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	{
 		SetFlag(BUF_NEEDUPDATESKILL);
 	}
-
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_SPELL_LEARN;
-	kArgs.kSpellLearn.iUnitID = GetID();
-	kArgs.kSpellLearn.iSkillTypeID = pkSkill->GetTypeID();
-	kArgs.kSpellLearn.iSkillLevel = pkSkill->GetLevel();
-	gLevelMain.GetEventMgr()->FireEvent(kArgs);
 
 	return pkSkill;
 }
@@ -1135,7 +813,7 @@ bool BeUnit::ActiveSkill(const BeActiveSkill& kCmd)
 
 int	BeUnit::GetItemUseSkill(int iItemTypeID)
 {
-	const ItemTable* pkItemRes = gMain.GetResItem(iItemTypeID);
+	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (!pkItemRes)
 	{
 		return 0;
@@ -1144,7 +822,7 @@ int	BeUnit::GetItemUseSkill(int iItemTypeID)
 	for (int i = 0; i < 6; i++)
 	{
 		int iItemSkillTypeID = pkItemRes->iItemSkill[i];
-		const SkillTable* pkSkillTable = gMain.GetResSkill(iItemSkillTypeID);
+		const SkillTable* pkSkillTable = SkillTableMgr::Get()->GetSkillTable(iItemSkillTypeID);
 		if (pkSkillTable)
 		{
 			if (pkSkillTable->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
@@ -1163,9 +841,8 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 	{
 		return 0;
 	}
-	const ItemTable* pkItemRes = gMain.GetResItem(pkItem->GetTypeID());
-	const ZhanChangItemTable* pkZItemRes = gMain.GetResZhanChangItem(pkItem->GetTypeID());
-	if (!pkItemRes && !pkZItemRes)
+	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
+	if (!pkItemRes)
 	{
 		return 0;
 	}
@@ -1177,10 +854,6 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 		if (pkItemRes)
 		{
 			iTypeID = pkItemRes->iItemSkill[i];
-		}
-		else
-		{
-			iTypeID = pkZItemRes->iItemSkill[i];
 		}
 		const SkillTable* pkRes = GetResSkill(iTypeID);
 		if (pkRes)
@@ -1217,10 +890,10 @@ void BeUnit::SetMP(float fMP, bool bChange/* = true*/)
 		m_pkCurData->fMP = fMP;
 	}
 
-	if (gData.IsWTF())
-	{
-		m_pkCurData->fMP = m_pkCurData->fMaxMP;
-	}
+	//if (gData.IsWTF())
+	//{
+	//	m_pkCurData->fMP = m_pkCurData->fMaxMP;
+	//}
 
 	if (fPreMP != m_pkCurData->fMP && bChange)
 	{
@@ -1272,7 +945,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	{
 		return NULL;
 	}
-	if (m_apkBuffer.Size() >= UNIT_MAX_BUFFER || HasUnitCarryFlag(BUCF_NO_BUFFER_EFFECT))
+	if (m_apkBuffer.size() >= UNIT_MAX_BUFFER || HasUnitCarryFlag(BUCF_NO_BUFFER_EFFECT))
 	{
 		return NULL;
 	}
@@ -1286,14 +959,14 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	}
 
 	BeBuffer* pkRet = 0;
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && !pkBuffer->GetHasDel())
 			{
-				if (pkBuffer->GetSingleSpliceNum() == 1 && pkBuffer->GetMultiSpliceNum() == 1)
+				//if (pkBuffer->GetSingleSpliceNum() == 1 && pkBuffer->GetMultiSpliceNum() == 1)
 				{
 					pkBuffer->SetHasDel(false);
 					pkRet = pkBuffer;
@@ -1301,20 +974,20 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 
 					break;
 				}
-				else
-				{
-					BeBuffer* pkNewBuffer = SuperposeBuffer(iTypeID, pkBuffer->GetSingleSpliceNum(), pkBuffer->GetMultiSpliceNum(), iLevel, iUnitID);
-					if (!pkNewBuffer)
-					{
-						return NULL;
-					}
-					pkRet = pkNewBuffer;
-					pkRet->SetLevel(iLevel);
+				//else
+				//{
+				//	BeBuffer* pkNewBuffer = SuperposeBuffer(iTypeID, pkBuffer->GetSingleSpliceNum(), pkBuffer->GetMultiSpliceNum(), iLevel, iUnitID);
+				//	if (!pkNewBuffer)
+				//	{
+				//		return NULL;
+				//	}
+				//	pkRet = pkNewBuffer;
+				//	pkRet->SetLevel(iLevel);
 
-					m_apkBuffer.PushBack(pkRet);
+				//	m_apkBuffer.push_back(pkRet);
 
-					break;
-				}
+				//	break;
+				//}
 			}
 		}
 	}
@@ -1345,7 +1018,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 		pkRet->SetLevel(iLevel);
 		pkRet->SetStartTime((int)gTime);
 
-		m_apkBuffer.PushBack(pkRet);
+		m_apkBuffer.push_back(pkRet);
 	}
 
 	pkRet->SetDecreased(false);
@@ -1386,14 +1059,14 @@ void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
 	kData.byNum = pkBuffer->GetLevel();
 	kData.iAttackUnitID = pkBuffer->GetOrgUnitID();
 
-	gMain.AddBufferShowData(kData);
+	//gMain.AddBufferShowData(kData);
 }
 
 BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
@@ -1408,9 +1081,9 @@ BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
 
 void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer)
@@ -1427,9 +1100,9 @@ void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
 
 const BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID) const
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1)) //
@@ -1444,9 +1117,9 @@ const BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID) const
 
 BeBuffer* BeUnit::GetLilithBuffer()
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer
@@ -1479,9 +1152,9 @@ void BeUnit::RemoveLilithBuffer(int iUnitID)
 const std::vector<BeBuffer*>& BeUnit::GetBufferByMulty(int iTypeID, int iUnitID)
 {
 	m_apkMultyBuffer.clear();
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
@@ -1497,9 +1170,9 @@ const std::vector<BeBuffer*>& BeUnit::GetBufferByMulty(int iTypeID, int iUnitID)
 const int BeUnit::GetMultyBufferSize(int iTypeID, int iUnitID) const
 {
 	int iCount = 0;
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
@@ -1515,9 +1188,9 @@ const int BeUnit::GetMultyBufferSize(int iTypeID, int iUnitID) const
 const std::vector<BeBuffer*>& BeUnit::GetBufferByNegative(void)
 {
 	m_apkMultyBuffer.clear();
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER))
@@ -1529,16 +1202,16 @@ const std::vector<BeBuffer*>& BeUnit::GetBufferByNegative(void)
 	return m_apkMultyBuffer;
 }
 
-Es::Array<BeBuffer*> BeUnit::GetAllBuffer(void) const
+std::vector<BeBuffer*> BeUnit::GetAllBuffer(void) const
 {
 	return m_apkBuffer;
 }
 
 bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && !pkBuffer->GetHasDel())
@@ -1556,12 +1229,12 @@ bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
 
 bool BeUnit::DelBufferByID(int iBufferID)
 {
-	if (m_apkBuffer.IsEmpty())
+	if (m_apkBuffer.empty())
 	{
 		return false;
 	}
 
-	for (int i = 0; i < (int)m_apkBuffer.Size(); i++)
+	for (int i = 0; i < (int)m_apkBuffer.size(); i++)
 	{
 		BeBuffer* pkBuffer = m_apkBuffer[i];
 		if (!pkBuffer)
@@ -1587,9 +1260,9 @@ bool BeUnit::DelBufferByID(int iBufferID)
 bool BeUnit::DelBufferByType(int iTypeID, int iUnitID)
 {
 	bool bFlag = false;
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID))
@@ -1606,9 +1279,9 @@ bool BeUnit::DelBufferByType(int iTypeID, int iUnitID)
 
 void BeUnit::DelAllBuffer(bool bRelive)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer || bRelive && pkBuffer->IsDeadNoRemove())
@@ -1625,22 +1298,22 @@ void BeUnit::DelAllBuffer(bool bRelive)
 
 void BeUnit::DelAllBufferFinal(void)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			SafeDelBuf(pkBuffer);
 		}
-		m_apkBuffer.Clear();
+		m_apkBuffer.clear();
 	}
 }
 
 void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && !pkBuffer->HasProperty(BUFFER_PROPERTY_NOJINGHUA))
@@ -1668,9 +1341,9 @@ void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 
 void BeUnit::DelBufferByAutoClean(void)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_AUTOREMOVE))
@@ -1684,10 +1357,10 @@ void BeUnit::DelBufferByAutoClean(void)
 
 bool BeUnit::DelNegativeBuffer(void)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
 		bool bHadDeld = false;
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->IsBadBuffer(GetCamp()))
@@ -1711,10 +1384,10 @@ bool BeUnit::DelNegativeBuffer(void)
 
 bool BeUnit::DelNegativeBufferExceptNoInvins(void)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
 		bool bHadDeld = false;
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER) && pkBuffer->GetTypeID() != 'BA30')
@@ -1757,26 +1430,6 @@ void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
 	{
 		gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLE_ENTER, kParam);
 	}
-
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITADDBUFFER;
-	kArgs.kUnitAddBuffer.iBufferTypeID = pkBuffer->GetTypeID();
-	kArgs.kUnitAddBuffer.iUnitID = GetID();
-	gLevelMain.GetEventMgr()->FireEvent(kArgs);
-
-	BeUnit* pkAttacker = gUnitMgr.GetUnitByID(pkBuffer->GetOrgUnitID());
-	if (IsHero() && pkAttacker && pkAttacker->IsHero())
-	{
-		if (pkAttacker->GetID() != GetID()) {
-
-			if (GetCamp() != pkAttacker->GetCamp()) {
-				gMain.SetPlayerAddBufferTime(GetPlayer(), pkAttacker->GetPlayer());
-			}
-			else {
-				gMain.SetPlayerHelpTime(GetPlayer(), pkAttacker->GetPlayer());
-			}
-		}
-	}
 }
 
 void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
@@ -1803,12 +1456,6 @@ void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
 
 	gTrgMgr.FireTrigger(BTE_UNIT_DELBUFFER_AFTER, kParam);
 
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITDELBUFFER;
-	kArgs.kUnitDelBuffer.iBufferTypeID = pkBuffer->GetTypeID();
-	kArgs.kUnitDelBuffer.iUnitID = GetID();
-	gLevelMain.GetEventMgr()->FireEvent(kArgs);
-
 	BeShareBufferData kData;
 	kData.bRemove = true;
 	kData.iBufferLogicID = pkBuffer->GetID();
@@ -1817,27 +1464,12 @@ void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
 	kData.iUnitID = GetID();
 	kData.iAttackUnitID = pkBuffer->GetOrgUnitID();
 
-	gMain.AddBufferShowData(kData);
-
-	BeUnit* pkAttacker = gUnitMgr.GetUnitByID(pkBuffer->GetOrgUnitID());
-
-	if (IsHero() && pkAttacker && pkAttacker->IsHero())
-	{
-		if (pkAttacker->GetID() != GetID()) {
-
-			if (GetCamp() != pkAttacker->GetCamp()) {
-				gMain.SetPlayerAddBufferTime(GetPlayer(), pkAttacker->GetPlayer());
-			}
-			else {
-				gMain.SetPlayerHelpTime(GetPlayer(), pkAttacker->GetPlayer());
-			}
-		}
-	}
+	//gMain.AddBufferShowData(kData);
 }
 
 BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount, int iLevel, int iUnitID)
 {
-	if (m_apkBuffer.Size() >= UNIT_MAX_BUFFER)
+	if (m_apkBuffer.size() >= UNIT_MAX_BUFFER)
 	{
 		return NULL;
 	}
@@ -1879,7 +1511,7 @@ BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount
 					}
 				}
 			}
-			for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
 				if (pkBuffer && pkOrgBuffer && pkOrgBuffer->GetID() == pkBuffer->GetID())
@@ -1908,9 +1540,9 @@ BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount
 
 	if (iMultiCount != 1)
 	{
-		if (!m_apkBuffer.IsEmpty())
+		if (!m_apkBuffer.empty())
 		{
-			for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
 				if (pkOrgBuffer && pkOrgBuffer->GetTypeID() == iTypeID && pkOrgBuffer->GetBufferUnitID() == iUnitID && iSingleCount == 1)
@@ -1951,7 +1583,7 @@ BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount
 				}
 			}
 
-			for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
 				if (pkOrgBuffer && pkBuffer && pkOrgBuffer->GetID() == pkBuffer->GetID())
@@ -1983,9 +1615,9 @@ BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount
 
 void BeUnit::GetSingleSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && !pkBuffer->GetHasDel())
@@ -1998,9 +1630,9 @@ void BeUnit::GetSingleSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBu
 
 void BeUnit::GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && pkBuffer->GetBufferUnitID() != iUnitID && !pkBuffer->GetHasDel())
@@ -2013,9 +1645,9 @@ void BeUnit::GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuf
 
 BeBuffer* BeUnit::GetBufferByInnerID(int iID)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetID() == iID)
@@ -2029,22 +1661,22 @@ BeBuffer* BeUnit::GetBufferByInnerID(int iID)
 
 void BeUnit::UpdateValidItem(void)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i] && m_apkItem[i]->GetOrgValid())
-		{
-			m_apkCarry.push_back(m_apkItem[i]);
-			SetUnitCarryFlag(m_apkItem[i]->GetCarryFlag());
-			SetUnitImmunityFlag(m_apkItem[i]->GetImmunityFlag());
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (m_apkItem[i] && m_apkItem[i]->GetOrgValid())
+	//	{
+	//		m_apkCarry.push_back(m_apkItem[i]);
+	//		SetUnitCarryFlag(m_apkItem[i]->GetCarryFlag());
+	//		SetUnitImmunityFlag(m_apkItem[i]->GetImmunityFlag());
+	//	}
+	//}
 }
 
 void BeUnit::UpdateValidBuffer(void)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (pkBuffer->GetHasDel())
@@ -2183,10 +1815,10 @@ bool BeUnit::GetAttackedAvoid(void) const
 			}
 		}
 
-		if (gMain.RandFloatInRate(fMaxAvoidRate, m_iID + (int)fMaxAvoidRate))
-		{
-			return true;
-		}
+		//if (gMain.RandFloatInRate(fMaxAvoidRate, m_iID + (int)fMaxAvoidRate))
+		//{
+		//	return true;
+		//}
 	}
 
 	return false;
@@ -2326,19 +1958,4 @@ float BeUnit::GetAttackedBaoJiAttr(void) const
 		}
 	}
 	return fTotalBaoji;
-}
-
-void BeUnit::SetSummonOption(BeUnitAIType eAiType, int iPlayer, int iControlPlayer, int iConnectUnitID, float fPosX, float fPosY, float fDistance, int iFlag, int iAllLiveTime, int iSkillOrItem)
-{
-	BeUnit* pkConnectUnit = gUnitMgr.GetUnitByID(iConnectUnitID, true);
-
-	AISetType(eAiType);
-	AISetControlType(BACT_PLAYER);
-	SetPlayer(iPlayer);
-	SetControl(iControlPlayer);
-	SetConnectUnit(pkConnectUnit);
-	gMap.SetUnitPosition(this, fPosX, fPosY, 0.0f, fDistance, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
-	SetHP(this->GetMaxHP());
-	SetFlag(iFlag);
-	SetAllLiveTime(iAllLiveTime);
 }

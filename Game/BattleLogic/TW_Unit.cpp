@@ -8,6 +8,15 @@
 #include "TW_Map.h"
 #include "TW_UnitMgr.h"
 #include "TW_UnitSkill.h"
+#include "Skill_table.hpp"
+#include "TW_Skill.h"
+#include "TW_TriggerEvent.h"
+#include "TW_Item.h"
+#include "TW_Buff.h"
+#include "Buffer_table.hpp"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
+#include "Item_table.hpp"
 
 template<class T>
 void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
@@ -277,39 +286,6 @@ bool BeUnit::Initialize(int iTypeID)
 
 	m_kCommander.AttachMain(pkAttachMain);
 
-	if (pkRes->uiClassType == UNIT_CLASSTYPE_HERO)
-	{
-		AISetType(BUAT_HERO, false);
-	}
-	else if (pkRes->uiSecClassType == UNIT_SECCLASSTYPE_GUARD)
-	{
-		AISetType(BUAT_GUARD, false);
-	}
-	else if (pkRes->uiClassType == UNIT_CLASSTYPE_BUILDING)
-	{
-		AISetType(BUAT_TOWER, false);
-	}
-	else if (pkRes->uiClassType == UNIT_CLASSTYPE_SMALLMONST || pkRes->uiClassType == UNIT_CLASSTYPE_BIGMONST)
-	{
-		AISetType(BUAT_MONSTER, false);
-	}
-	else if (pkRes->uiClassType == UNIT_CLASSTYPE_BOSS)
-	{
-		AISetType(BUAT_MONSTER, false);
-	}
-	else if (pkRes->uiClassType == UNIT_CLASSTYPE_PET)
-	{
-		AISetType(BUAT_SUMMON, false);
-	}
-	else if (pkRes->uiClassType == UNIT_CLASSTYPE_MIJINGMONSTER || pkRes->uiClassType == UNIT_CLASSTYPE_MIJINGBOSS)
-	{
-		AISetType(BUAT_MIJING, false);
-	}
-	else
-	{
-		AISetType(BUAT_SOLDIER, false);
-	}
-
 	DelAllBuffer();
 	ClearAllCommonCD();
 	DelAllSkill();
@@ -320,7 +296,7 @@ bool BeUnit::Initialize(int iTypeID)
 	m_kCommander.GiveCommand(kComm);
 	OnPlayerChanged();
 
-	SetTabInfoFlag(BTCF_UNITID);
+	//SetTabInfoFlag(BTCF_UNITID);
 	SetShareUnitChangeFlag(BSUDCF_NEW_UNIT);
 
 	if (pkRes->uiClassType == UNIT_CLASSTYPE_BOSS || pkRes->uiClassType == UNIT_CLASSTYPE_BIGMONST || pkRes->uiClassType == UNIT_CLASSTYPE_SMALLMONST) {
@@ -333,7 +309,7 @@ bool BeUnit::Initialize(int iTypeID)
 
 void BeUnit::AppyUnitSkill(void)
 {
-	if (GetClass() == UNIT_CLASSTYPE_HERO && GetPlayer() < MAX_ACTIVEPLAYERS)
+	if (GetClass() == UNIT_CLASSTYPE_HERO)
 	{
 		(m_pkBackData->akLearnSkill) = BeLearnSkillData::NEW();
 
@@ -397,7 +373,6 @@ void BeUnit::UpdateState(int iDeltaTime)
 
 	if (!IsDead())
 	{
-		AIOnUpdate(gTime);
 		UpdateHP(iDeltaTime);
 		UpdateMP(iDeltaTime);
 	}
@@ -430,7 +405,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		{
 			float fPosX = GetPosX() + fMMinDis * cosf(fMFace);
 			float fPosY = GetPosY() + fMMinDis * sinf(fMFace);
-			if (m_iMoveToUnitID == 0 && gMap.IsObstacle(fPosX, fPosY, BGF_GUTDOODAD, GetOBSize())) {
+			if (m_iMoveToUnitID == 0 && gMap.IsObstacle(fPosX, fPosY, TGF_GUTDOODAD, GetOBSize())) {
 
 				m_iMoveAllTime = 0;
 			}
@@ -440,7 +415,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		}
 		else
 		{
-			if (gMap.IsObstacle(GetPosX(), GetPosY(), BGF_GUTDOODAD, GetOBSize()) || gMap.IsObstacle(m_fMoveTarPosX, m_fMoveTarPosY, BGF_GUTDOODAD, GetOBSize())) {
+			if (gMap.IsObstacle(GetPosX(), GetPosY(), TGF_GUTDOODAD, GetOBSize()) || gMap.IsObstacle(m_fMoveTarPosX, m_fMoveTarPosY, TGF_GUTDOODAD, GetOBSize())) {
 
 			}
 			else {
@@ -458,7 +433,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 			ClrFlag(BUF_IGNOREUNITOBS);
 			ClrOtherFlag(BUOF_WEIYI);
 
-			gMap.SetUnitPosition(this, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
+			gMap.SetUnitPosition(this, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
 			SetShareUnitChangeFlag(BSUDCF_RESET_POX);
 		}
 	}
@@ -537,25 +512,25 @@ void BeUnit::Update(int iDeltaTime)
 
 	if (m_iGrassIndex > 0)
 	{
-		for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
-		{
-			int	iDstCamp = iIndex + SRPC_CAMPA;
-			if (iDstCamp == GetCamp())
-			{
-				m_bGrassVisionForCamp[iIndex] = true;
-			}
-			else
-			{
-				if (gMain.HasGrassVisionForCamp(m_iGrassIndex, GetCamp(), iDstCamp))
-				{
-					m_bGrassVisionForCamp[iIndex] = true;
-				}
-				else
-				{
-					m_bGrassVisionForCamp[iIndex] = false;
-				}
-			}
-		}
+		//for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
+		//{
+		//	int	iDstCamp = iIndex + SRPC_CAMPA;
+		//	if (iDstCamp == GetCamp())
+		//	{
+		//		m_bGrassVisionForCamp[iIndex] = true;
+		//	}
+		//	else
+		//	{
+		//		if (gMain.HasGrassVisionForCamp(m_iGrassIndex, GetCamp(), iDstCamp))
+		//		{
+		//			m_bGrassVisionForCamp[iIndex] = true;
+		//		}
+		//		else
+		//		{
+		//			m_bGrassVisionForCamp[iIndex] = false;
+		//		}
+		//	}
+		//}
 	}
 	else
 	{
@@ -565,91 +540,83 @@ void BeUnit::Update(int iDeltaTime)
 		}
 	}
 
-	for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
-	{
-		if (HasProperty(UNIT_PROPERTY_HIDEEVER))
-		{
-			m_bVisionForCamp[iIndex] = false;
-		}
-		else if (GetClass() == UNIT_CLASSTYPE_BUILDING)
-		{
-			m_bVisionForCamp[iIndex] = true;
-			if (!m_bVisionForCampLast[iIndex] && m_bVisionForCamp[iIndex])
-			{
-				m_bNewUnit[iIndex] = true;
-			}
-			m_bVisionForCampLast[iIndex] = m_bVisionForCamp[iIndex];
-		}
-		else
-		{
-			m_bVisionForCamp[iIndex] = gMap.IsInSight(SRPC_CAMPA + iIndex, this);
-			if (gTime < m_iCastVisionTime)
-			{
-				m_bVisionForCamp[iIndex] = true;
-				m_bGrassVisionForCamp[iIndex] = true;
-			}
-			if (!m_bVisionForCamp[iIndex])
-			{
-				if (!HasFlag(BUF_HASINVISIBLE))
-				{
-					if (gMain.HasGrassVisionForCamp(m_iGrassIndex, GetCamp(), SRPC_CAMPA + iIndex))
-					{
-						m_bVisionForCamp[iIndex] = true;
-						m_bGrassVisionForCamp[iIndex] = true;
-					}
-				}
-			}
+	//for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
+	//{
+	//	if (HasProperty(UNIT_PROPERTY_HIDEEVER))
+	//	{
+	//		m_bVisionForCamp[iIndex] = false;
+	//	}
+	//	else if (GetClass() == UNIT_CLASSTYPE_BUILDING)
+	//	{
+	//		m_bVisionForCamp[iIndex] = true;
+	//		if (!m_bVisionForCampLast[iIndex] && m_bVisionForCamp[iIndex])
+	//		{
+	//			m_bNewUnit[iIndex] = true;
+	//		}
+	//		m_bVisionForCampLast[iIndex] = m_bVisionForCamp[iIndex];
+	//	}
+	//	else
+	//	{
+	//		m_bVisionForCamp[iIndex] = gMap.IsInSight(SRPC_CAMPA + iIndex, this);
+	//		if (gTime < m_iCastVisionTime)
+	//		{
+	//			m_bVisionForCamp[iIndex] = true;
+	//			m_bGrassVisionForCamp[iIndex] = true;
+	//		}
+	//		if (!m_bVisionForCamp[iIndex])
+	//		{
+	//			if (!HasFlag(BUF_HASINVISIBLE))
+	//			{
+	//				if (gMain.HasGrassVisionForCamp(m_iGrassIndex, GetCamp(), SRPC_CAMPA + iIndex))
+	//				{
+	//					m_bVisionForCamp[iIndex] = true;
+	//					m_bGrassVisionForCamp[iIndex] = true;
+	//				}
+	//			}
+	//		}
 
-			if (GetClass() == UNIT_CLASSTYPE_SMALLMONST || GetClass() == UNIT_CLASSTYPE_BIGMONST)
-			{
-				m_bGrassVisionForCamp[iIndex] = true;
-			}
-			if (!m_bVisionForCampLast[iIndex] && m_bVisionForCamp[iIndex])
-			{
-				m_bNewUnit[iIndex] = true;
-			}
-			else if (m_bVisionForCampLast[iIndex] && !m_bVisionForCamp[iIndex])
-			{
-				gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
-			}
-			m_bVisionForCampLast[iIndex] = m_bVisionForCamp[iIndex];
+	//		if (GetClass() == UNIT_CLASSTYPE_SMALLMONST || GetClass() == UNIT_CLASSTYPE_BIGMONST)
+	//		{
+	//			m_bGrassVisionForCamp[iIndex] = true;
+	//		}
+	//		if (!m_bVisionForCampLast[iIndex] && m_bVisionForCamp[iIndex])
+	//		{
+	//			m_bNewUnit[iIndex] = true;
+	//		}
+	//		else if (m_bVisionForCampLast[iIndex] && !m_bVisionForCamp[iIndex])
+	//		{
+	//			gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
+	//		}
+	//		m_bVisionForCampLast[iIndex] = m_bVisionForCamp[iIndex];
 
-			if (m_bVisionForCamp[iIndex] && GetCamp() != iIndex + 1)
-			{
-				if (m_bGrassVisionForCampLast[iIndex] && !m_bGrassVisionForCamp[iIndex])
-				{
-					gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
-				}
+	//		if (m_bVisionForCamp[iIndex] && GetCamp() != iIndex + 1)
+	//		{
+	//			if (m_bGrassVisionForCampLast[iIndex] && !m_bGrassVisionForCamp[iIndex])
+	//			{
+	//				gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
+	//			}
 
-				if (!m_bGrassVisionForCampLast[iIndex] && m_bGrassVisionForCamp[iIndex])
-				{
-					m_bNewUnit[iIndex] = true;
-				}
-			}
+	//			if (!m_bGrassVisionForCampLast[iIndex] && m_bGrassVisionForCamp[iIndex])
+	//			{
+	//				m_bNewUnit[iIndex] = true;
+	//			}
+	//		}
 
-			m_bGrassVisionForCampLast[iIndex] = m_bGrassVisionForCamp[iIndex];
-		}
-	}
+	//		m_bGrassVisionForCampLast[iIndex] = m_bGrassVisionForCamp[iIndex];
+	//	}
+	//}
 }
 
 void BeUnit::SetPlayer(int iPlayerIdx)
 {
-	if (iPlayerIdx < 0 || iPlayerIdx >= MAX_PLAYERS)
+	if (iPlayerIdx < 0)
 	{
 		return;
 	}
 
-	if (iPlayerIdx < MAX_ACTIVEPLAYERS)
-	{
-		for (int i = 0; i < MAX_ACTIVEPLAYERS; i++)
-		{
-			m_abInPlayerVision[i] = true;
-		}
-	}
-
 	int iOldPlayer = GetPlayer();
-	SeRoomPlayerCamp eOldCamp = SeRoomPlayerCamp(m_eCamp);
-	gMap.ReleaseUnitVision(this);
+	//SeRoomPlayerCamp eOldCamp = SeRoomPlayerCamp(m_eCamp);
+	//gMap.ReleaseUnitVision(this);
 	if (m_pkBackData->iOrgPlayer == -1)
 	{
 		if (m_pkBackData->iPlayer == -1)
@@ -660,13 +627,8 @@ void BeUnit::SetPlayer(int iPlayerIdx)
 
 	m_pkBackData->iPlayer = iPlayerIdx;
 	SetShareUnitChangeFlag(BSUDCF_CAMP);
-	m_eCamp = gMain.GetPlayerCamp(iPlayerIdx);
+	//m_eCamp = gMain.GetPlayerCamp(iPlayerIdx);
 	SetControl(iPlayerIdx, true, false);
-
-	if (iPlayerIdx != iOldPlayer)
-	{
-		(gLevelMain.GetLabelMgr())->AutoLabelObj(this, eOldCamp);
-	}
 
 	OnPlayerChanged();
 }
@@ -697,7 +659,7 @@ void BeUnit::OnResume(void)
 	m_iMoveAllTime = 0;
 }
 
-void BeUnit::SetUnitReliveTime(UInt uiUnitReliveTime)
+void BeUnit::SetUnitReliveTime(unsigned int uiUnitReliveTime)
 {
 	if (m_pkBackData->uiUnitReliveTime < gTime)
 	{
@@ -897,70 +859,42 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 						gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
 						gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
 
-						if (IsHero() && pkSkill->GetTypeID() != 'SA06')
-						{
-							for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-							{
-								BeItem* pkItem = m_apkItem[i];
-								if (!pkItem || !pkItem->GetOrgValid())
-								{
-									continue;
-								}
-								for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-								{
-									BeSkill* pkItemSkill = pkItem->m_akSkill[iSkill];
-									if (pkItemSkill && pkItemSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
-									{
-										if ((IsDividMan() || IsGhost()))
-										{
-											continue;
-										}
+						//if (IsHero() && pkSkill->GetTypeID() != 'SA06')
+						//{
+						//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+						//	{
+						//		BeItem* pkItem = m_apkItem[i];
+						//		if (!pkItem || !pkItem->GetOrgValid())
+						//		{
+						//			continue;
+						//		}
+						//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
+						//		{
+						//			BeSkill* pkItemSkill = pkItem->m_akSkill[iSkill];
+						//			if (pkItemSkill && pkItemSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
+						//			{
+						//				if ((IsDividMan() || IsGhost()))
+						//				{
+						//					continue;
+						//				}
 
-										TePtParam kParam;
-										kParam.SetParam(BTP_pkTrgUnit, this);
-										kParam.SetParam(BTP_pkSkill, pkItemSkill);
-										kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-										kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-										kParam.SetParam(BTP_iItemID, pkItem->GetID());
-										kParam.SetParam(BTP_iItemPos, i + 1);
-										kParam.SetParam(BTP_iItemTypeID, pkItem->GetTypeID());
-										kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
+						//				TePtParam kParam;
+						//				kParam.SetParam(BTP_pkTrgUnit, this);
+						//				kParam.SetParam(BTP_pkSkill, pkItemSkill);
+						//				kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
+						//				kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
+						//				kParam.SetParam(BTP_iItemID, pkItem->GetID());
+						//				kParam.SetParam(BTP_iItemPos, i + 1);
+						//				kParam.SetParam(BTP_iItemTypeID, pkItem->GetTypeID());
+						//				kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
 
-										gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
-										break;
-									}
-								}
-							}
-						}
-
-						if (!GetBuffer('BA28')) {
-							return true;
-						}
+						//				gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
+						//				break;
+						//			}
+						//		}
+						//	}
+						//}
 					}
-				}
-
-				if (pkSkillRes->uiTypeID == 'SA03')
-				{
-					if (!pkSkill->CDComplete(this))
-					{
-						return false;
-					}
-
-					if (HasUnitCarryFlag(BUCF_DIZZY) || HasUnitCarryFlag(BUCF_ISFORBIDSKILL) || HasUnitCarryFlag(BUCF_CANNOTMOVE) || HasUnitCarryFlag(BUCF_ISMOVING))
-					{
-						return false;
-					}
-
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-					SetUD_Float(UDK_Flash_X, kCmd.kPos.fX);
-					SetUD_Float(UDK_Flash_Y, kCmd.kPos.fY);
-					gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
-
-					pkSkill->SetLastUseTime(this, gTime);
-					return true;
 				}
 			}
 		}
@@ -1065,13 +999,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 				pkItem->SetLastUseTime(gTime);
 				return true;
 			}
-			else {
 
-				if ((GetBuffer('B538') || GetBuffer('B611')) && bCheckChaoFeng) {
-
-					return false;
-				}
-			}
 			if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_TAKEDRUGS)
 			{
 				if (!pkSkill->CDComplete(this))
@@ -1099,13 +1027,6 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 	}
 	}
 
-	if (GetTypeID() == 'UT32' || GetTypeID() == 'UT29' || GetTypeID() == 'UT46')
-	{
-		if (kCmd.eCmdType != BCT_USE_ITEM)
-		{
-			SetUD_Int(UDK_BreakSkill, 200);
-		}
-	}
 	m_kCommander.GiveCommand(kCmd, eType, GetID(), bNeedHangCurrent);
 	m_kLastCommand = kCmd;
 
@@ -1248,24 +1169,10 @@ void BeUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, 
 	if (eActionName != BAN_Null)
 	{
 		SetActionName(eActionName, gTime);
-
-		if (IsHero() && (eAction == BUA_SPELL || eAction == BUA_ATTACK))
-		{
-			if (HasUnitCarryFlag(BUCF_ISINVISIBLE))
-			{
-				BeBuffer* pkYinShen = GetBuffer('BA15');
-				if (pkYinShen)
-				{
-					pkYinShen->ClrCarryFlag(BUCF_ISINVISIBLE);
-					ClrFlag(BUF_HIDE);
-					ClrUnitCarryFlag(BUCF_ISINVISIBLE);
-				}
-			}
-		}
 	}
 }
 
-void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const SeSharedPtr<BeUnit>& kAttacker, int iPlayer, int iFlag, bool bCanDead, bool bFirstAttack, int iSkillTypeID, int iSkillLevel, float fLeech, float fMultiDamage, int iBeDamagedEffect)
+void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<BeUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead, bool bFirstAttack, int iSkillTypeID, int iSkillLevel, float fLeech, float fMultiDamage, int iBeDamagedEffect)
 {
 	if (IsDead())
 	{
@@ -1274,16 +1181,11 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 	fDamage *= 1.0f - GetPerDamageReduce();
 
-	BeUnit* pkAttacker = kAttacker.Get();
+	BeUnit* pkAttacker = kAttacker.get();
 	int iAttacker = 0;
-	if (!kAttacker.IsNull())
+	if (!kAttacker)
 	{
-		iAttacker = kAttacker.GetPointer()->GetID();
-	}
-
-	if (IsHero())
-	{
-		pkAttacker->SetUD_Int(UDK_AttackHeroEpTime, gTime);
+		iAttacker = kAttacker->GetID();
 	}
 
 	if (fMultiDamage > 0.0f)
@@ -1291,7 +1193,6 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 		iFlag |= BAF_HAS_BAOJI;
 	}
 
-	AIOnBeDamaged(pkAttacker, gTime, iSkillTypeID);
 	TrgOnBeDamaged(eAttackType, fDamage, fRawDamage, pkAttacker, iPlayer, iFlag, bCanDead, iSkillTypeID);
 
 	if (bFirstAttack)
@@ -1334,18 +1235,6 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 		gTrgMgr.FireTrigger(BTE_UNIT_ATTACKED_NOTFIRST, kParamAttack);
 	}
-
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITONBEDAMAGED;
-	kArgs.kUnitOnBeDamaged.iAttackFlag = iFlag;
-	kArgs.kUnitOnBeDamaged.iSkillTypeID = iSkillTypeID;
-	kArgs.kUnitOnBeDamaged.fDamage = fDamage;
-	kArgs.kUnitOnBeDamaged.iTargetID = m_iID;
-	if (pkAttacker)
-	{
-		kArgs.kUnitOnBeDamaged.iAttackerID = pkAttacker->GetID();
-	}
-	gLevelMain.GetEventMgr()->FireEvent(kArgs);
 
 	if ((iFlag & BAF_NORMAL))
 	{
@@ -1432,7 +1321,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 		kData.eType = BSDT_CRITILE;
 	}
 
-	gMain.AddDamageData(kData);
+	//gMain.AddDamageData(kData);
 
 	int iPreHP = (int)ceil(m_pkCurData->fHP);
 
@@ -1451,11 +1340,6 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 		if (m_iHPLock > 0 && GetHP() < float(m_iHPLock))
 		{
 			SetHP(float(m_iHPLock));
-		}
-
-		if (IsHero() && pkAttacker->IsHero())
-		{
-			gMain.SetPlayerAttackTime(GetPlayer(), pkAttacker->GetPlayer());
 		}
 	}
 
@@ -1497,18 +1381,6 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 	{
 		OperateUnitDead(eAttackType, fDamage, pkAttacker, iPlayer, iFlag, false, iSkillTypeID);
 	}
-
-	if (pkAttacker && pkAttacker->IsHero() && IsHero()) 
-	{
-		BeSkill* pkSkill = pkAttacker->GetSkill(iSkillTypeID);
-
-		if (pkSkill) {
-
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DamagedVision)) {
-				pkAttacker->SetCastVisionTime(gTime + 4000);
-			}
-		}
-	}
 }
 
 void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, BeUnit* pkAttacker, int iPlayer, int iFlag, bool bIsTimeOver, int iSkillTypeID)
@@ -1527,46 +1399,46 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, BeUnit* pk
 
 	if (!bIsTimeOver && IsHero())
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = GetItemByPos(i);
-			if (!pkItem)
-			{
-				continue;
-			}
-			const std::vector<BeSkill*>& rkItemSkill = pkItem->GetAllSkill();
-			for (int iSkillIndex = 0; iSkillIndex < rkItemSkill.size(); iSkillIndex++)
-			{
-				BeSkill* pkSkill = rkItemSkill[iSkillIndex];
-				if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(this))
-				{
-					if ((IsDividMan() || IsGhost()))
-					{
-						continue;
-					}
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					if (pkAttacker)
-					{
-						kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					}
+		//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+		//{
+		//	BeItem* pkItem = GetItemByPos(i);
+		//	if (!pkItem)
+		//	{
+		//		continue;
+		//	}
+		//	const std::vector<BeSkill*>& rkItemSkill = pkItem->GetAllSkill();
+		//	for (int iSkillIndex = 0; iSkillIndex < rkItemSkill.size(); iSkillIndex++)
+		//	{
+		//		BeSkill* pkSkill = rkItemSkill[iSkillIndex];
+		//		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(this))
+		//		{
+		//			if ((IsDividMan() || IsGhost()))
+		//			{
+		//				continue;
+		//			}
+		//			TePtParam kParam;
+		//			kParam.SetParam(BTP_pkTrgUnit, this);
+		//			if (pkAttacker)
+		//			{
+		//				kParam.SetParam(BTP_pkAttacker, pkAttacker);
+		//			}
 
-					kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-					kParam.SetParam(BTP_pkTarget, this);
-					kParam.SetParam(BTP_pkSkill, pkSkill);
-					kParam.SetParam(BTP_pfDamage, &fDamage);
-					kParam.SetParam(BTP_iFlag, iFlag);
-					kParam.SetParam(BTP_iAttackType, eAttackType);
+		//			kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
+		//			kParam.SetParam(BTP_pkTarget, this);
+		//			kParam.SetParam(BTP_pkSkill, pkSkill);
+		//			kParam.SetParam(BTP_pfDamage, &fDamage);
+		//			kParam.SetParam(BTP_iFlag, iFlag);
+		//			kParam.SetParam(BTP_iAttackType, eAttackType);
 
-					gTrgMgr.FireTrigger(BTE_SKILL_SKIP_DEATH, kParam);
+		//			gTrgMgr.FireTrigger(BTE_SKILL_SKIP_DEATH, kParam);
 
-					pkSkill->SetLastUseTime(this, (int)gTime);
-					pkItem->SetLastUseTime(gTime);
-					pkItem->SetItemCDTime(pkSkill->GetCDTime(this));
-					return;
-				}
-			}
-		}
+		//			pkSkill->SetLastUseTime(this, (int)gTime);
+		//			pkItem->SetLastUseTime(gTime);
+		//			pkItem->SetItemCDTime(pkSkill->GetCDTime(this));
+		//			return;
+		//		}
+		//	}
+		//}
 
 		for (int i = 0; i < 4; ++i)
 		{
@@ -1668,26 +1540,6 @@ float BeUnit::GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAtt
 		{
 			fDamage *= 0.7f;
 		}
-		if (!IsHero() && GetSecClass() != UNIT_SECCLASSTYPE_GUARD)
-		{
-			if (GetTypeID() == 'HB01' || GetTypeID() == 'LB01')
-			{
-				fDamage = GetMaxHP() * 0.45f;
-			}
-			else if (GetTypeID() == 'HB02' || GetTypeID() == 'LB02')
-			{
-				fDamage = GetMaxHP() * 0.75f;
-			}
-			else if (GetTypeID() == 'HB03' || GetTypeID() == 'LB03')
-			{
-				fDamage = GetMaxHP() * 0.11f;
-			}
-			else if (GetTypeID() == 'HB04' || GetTypeID() == 'LB04')
-			{
-				fDamage = GetMaxHP() * 0.11f;
-			}
-			return fDamage;
-		}
 	}
 
 	if (rkAttackingAttr.eAttackType == SKILL_ATTACKTYPE_MAGIC)
@@ -1733,7 +1585,7 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 		return;
 	}
 
-	BeUnit* pkAttacker = rkAttackingAttr.kAttacker.Get();
+	BeUnit* pkAttacker = rkAttackingAttr.kAttacker.get();
 	if (!pkAttacker)
 	{
 		return;
@@ -1824,94 +1676,6 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 	DamagedByAbsNum(rkAttackingAttr.eAttackType, fDamage, 1, rkAttackingAttr.kAttacker, rkAttackingAttr.iPlayer, rkAttackingAttr.GetFlag(), bCanDead, rkAttackingAttr.bFirstAttack, rkAttackingAttr.iSkillTypeID, rkAttackingAttr.iSkillLevel, rkAttackingAttr.fLeech, fMultiDamage, rkAttackingAttr.iBeDamagedEffect);
 }
 
-BeUnit* BeUnit::CopyUnitToOther(BeUnitFlag eFlag, int iSkillID)
-{
-	if (eFlag != BUF_ISGHOST && eFlag != BUF_ISDIVIDMAN)
-	{
-		return NULL;
-	}
-
-	int iTypeID = GetCurrentTypeID();
-	bool bLiDian = false;
-	bool bHuanZhuang = false;
-	if (iTypeID == 'U671')
-	{
-		bLiDian = true;
-		iTypeID = GetBackTypeID();
-	}
-
-	int iSkinIdx = -1;
-	BeUnit* pkUnit = gUnitMgr.AddUnit(iTypeID, -1, GetPlayer(), -1, 0, iSkinIdx);
-	if (pkUnit)
-	{
-		pkUnit->SetOrgPlayer(GetOrgPlayer());
-		pkUnit->SetFlag(eFlag);
-		pkUnit->SetConnectUnit(this);
-		pkUnit->SetPlayer(GetPlayer());
-		SetConnectUnit(pkUnit);
-		pkUnit->SetScale(GetScale());
-		if (HasOtherFlag(BUOF_AREA))
-		{
-			pkUnit->SetOtherFlag(BUOF_AREA);
-		}
-		if (HasOtherFlag(BUOF_AREA_SELF))
-		{
-			pkUnit->SetOtherFlag(BUOF_AREA_SELF);
-		}
-
-		pkUnit->CopyAllItemAndSkill(this);
-
-		pkUnit->CopyAttribute(this);
-
-		return pkUnit;
-	}
-	return NULL;
-}
-
-void BeUnit::CopyAllItemAndSkill(BeUnit* pkUnit)
-{
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		BeItem* pkOrgItem = pkUnit->GetItemByPos(i);
-		if (pkOrgItem)
-		{
-			BeItem* pkItem = AddItem(pkOrgItem->GetTypeID(), pkOrgItem->GetPackagePos());
-			if (pkItem)
-			{
-				pkItem->SetItemData(pkOrgItem->GetItemData());
-			}
-		}
-	}
-
-	for (int i = 0; i < iMaxHeroSkillNum; ++i)
-	{
-		BeSkill* pkSkill = pkUnit->GetSkillByPos(i);
-		if (pkSkill)
-		{
-			BeSkill* pkNewSkill = AddSkill(pkSkill->GetTypeID(), pkSkill->GetLevel());
-			if (pkNewSkill)
-			{
-				pkNewSkill->CopySkillAttribute(pkSkill);
-			}
-		}
-	}
-
-	const std::vector<BeSkill*>& akNormal = pkUnit->GetNormalSkill();
-	for (std::vector<BeSkill*>::const_iterator itr = akNormal.begin(); itr != akNormal.end(); ++itr)
-	{
-		BeSkill* pkSkill = *itr;
-		if (pkSkill)
-		{
-			BeSkill* pkNewSkill = AddSkill(pkSkill->GetTypeID(), pkSkill->GetLevel());
-			if (pkNewSkill)
-			{
-				pkNewSkill->CopySkillAttribute(pkSkill);
-			}
-		}
-	}
-}
-
-
 bool BeUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel)
 {
 	BeUnit* pkAttacked = gUnitMgr.GetUnitByID(iAttackedID);
@@ -1930,11 +1694,7 @@ void BeUnit::AddLevel(int iAddLevel)
 		return;
 	}
 	int iPreLevel = m_pkBackData->iLevel;
-	int iMaxLevel = iMonsterMaxLevel;
-	if (AIGetType() == BUAT_HERO)
-	{
-		iMaxLevel = iHeroMaxLevel;
-	}
+	int iMaxLevel = 100;
 
 	if (iAddLevel + m_pkBackData->iLevel > iMaxLevel)
 	{
@@ -1948,18 +1708,13 @@ void BeUnit::AddLevel(int iAddLevel)
 
 	gTrgMgr.FireTrigger(BTE_UNIT_LEVELUP, kParam);
 
-	BeTDEventArgs kArgs = BeTDEventArgs();
-	kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNIT_LEVELUP;
-	kArgs.kUnitOnLevelUp.iUnitID = GetID();
-	gLevelMain.GetEventMgr()->FireEvent(kArgs);
-
 	OnPropertyUpdate(m_pkBackData->iLevel);
 
 	if (iPreLevel != m_pkBackData->iLevel)
 	{
 		SetShareUnitChangeFlag(BSUDCF_UNITLEVEL);
 
-		SetTabInfoFlag(BTCF_LEVEL);
+		//SetTabInfoFlag(BTCF_LEVEL);
 	}
 
 	if (IsHero())
@@ -1983,165 +1738,6 @@ void BeUnit::ResetSkill(void)
 	BeLearnSkillData::DEL(m_pkBackData->akLearnSkill);
 }
 
-void BeUnit::AISetType(BeUnitAIType eType, bool bNeedRecordChange)
-{
-	if (m_pkAI)
-	{
-		if (m_pkAI->GetAIType() == eType)
-		{
-			return;
-		}
-
-		gAIMgr.SafeDelUnitAI(m_pkAI);
-	}
-
-	m_pkAI = gAIMgr.CreateUnitAI(m_iID, eType);
-	if (m_pkAI)
-	{
-		m_pkAI->AttachUnit(this);
-		m_pkAI->AttachMain(pkAttachMain);
-	}
-}
-
-BeUnitAIType BeUnit::AIGetType() const
-{
-	if (!m_pkAI)
-	{
-		return BUAT_NOAI;
-	}
-	return m_pkAI->GetAIType();
-}
-
-void BeUnit::AISetControlType(BeAIControlType eType)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-
-	m_pkAI->SetAIControlType(eType);
-}
-
-BeAIControlType BeUnit::AIGetControlType() const
-{
-	if (!m_pkAI)
-	{
-		return BACT_BOT;
-	}
-
-	return m_pkAI->GetAIControlType();
-}
-
-void BeUnit::AIOnBeDamaged(BeUnit* pkAttacker, unsigned int dwTime, int iSkillTypeID)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->OnBeDamaged(pkAttacker, dwTime, iSkillTypeID);
-}
-void BeUnit::AIOnUpdate(unsigned int dwTime)
-{
-	if (IsDead())
-	{
-		return;
-	}
-	if (!m_pkAI)
-	{
-		return;
-	}
-	if (gTime % 200 != 0)
-	{
-		return;
-	}
-	m_pkAI->OnTimeUpdate(dwTime);
-}
-
-void BeUnit::AISetFirstChoiceTarge(int iTarget)
-{
-	if (m_pkAI)
-	{
-		m_pkAI->SetFirstChoiceTarget(iTarget);
-	}
-}
-
-void BeUnit::AIOnTargetChange(int iTargetID, bool bIsOrb, bool bAttackPos)
-{
-	int iID = GetAttackingUnitID();
-	BeUnit* pkTarget = gUnitMgr.GetUnitByID(iID);
-	if (pkTarget)
-	{
-		pkTarget->AIOnBeTargeted(this, gTime, bIsOrb, iTargetID, bAttackPos);
-
-		if (GetClass() == UNIT_CLASSTYPE_HERO)
-		{
-			const std::vector<SeSharedPtr<BeUnit>>& rkVConnectUnits = GetConnectUnits();
-			if (rkVConnectUnits.empty())
-			{
-				return;
-			}
-
-			for (int i = 0; i < (int)rkVConnectUnits.size(); ++i)
-			{
-				BeUnit* pkConnectUnit = rkVConnectUnits[i].GetPointer();
-				if (pkConnectUnit)
-				{
-					BeBuffer* pkPetBuffer = pkConnectUnit->GetBuffer('BG04');
-					if (pkPetBuffer)
-					{
-						BeCommand	kComm(BCT_ATTACK, pkTarget->GetID());
-						pkConnectUnit->GiveCommand(kComm, BCT_IMMEDIATE);
-					}
-
-					if (pkConnectUnit->HasOtherFlag(BUOF_SHOUWEI))
-					{
-						if (pkConnectUnit->UnitCanAttack(pkTarget, false, false))
-						{
-							BeCommand	kComm(BCT_ATTACK, pkTarget->GetID());
-							pkConnectUnit->GiveCommand(kComm, BCT_IMMEDIATE);
-						}
-					}
-				}
-			}
-		}
-	}
-}
-void  BeUnit::AIOnBeTargeted(BeUnit* pkAttacker, unsigned int dwCurrentTime, bool bIsOrb, int iTargetID, bool bAttackPos)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->OnBeTargeted(pkAttacker, dwCurrentTime, bIsOrb, iTargetID, bAttackPos);
-}
-
-void  BeUnit::AIOnBeSkillTargeted(BeUnit* pkAttacker, int iSkillID, unsigned int dwCurrentTime)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->OnBeSkillTargeted(pkAttacker, iSkillID, dwCurrentTime);
-}
-
-void BeUnit::AIOnHold(bool bConnect)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->OnHold(bConnect);
-}
-
-void BeUnit::AIOnStop(bool bConnect)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->OnStop(bConnect);
-}
-
 bool BeUnit::InBossArea(const BeUnit* pkBoss) const
 {
 	if (pkBoss && pkBoss->GetBackTypeID() == 'D017')
@@ -2150,59 +1746,6 @@ bool BeUnit::InBossArea(const BeUnit* pkBoss) const
 	}
 
 	return true;
-}
-const BeUnit* BeUnit::AIFindTarget(const BeUnit* pkCurrentTarget, bool bCanMove, bool bSkill)
-{
-	if (IsDead() || !m_pkAI || HasUnitCarryFlag(BUCF_NOTFINDTARGET))
-	{
-		return NULL;
-	}
-
-	float fRadius = GetAttackRange(this);
-	switch (AIGetType())
-	{
-	case BUAT_HERO:			fRadius = max(fRadius, 800.0f);		break;
-	case BUAT_MONSTER:		fRadius = 250.0f;					break;
-	case BUAT_GUARD:		fRadius = 800.0f;					break;
-	case BUAT_MIJING:		fRadius = 800.0f;					break;
-	default:				fRadius = max(fRadius, 500.0f);		break;
-	}
-
-	if (gMain.IsZhanChangMap())
-	{
-		BeUnit* pkTarget = m_pkAI->AttackFindTarget(fRadius);
-		if (pkTarget && this->GetSecClass() == UNIT_SECCLASSTYPE_GUARD)
-		{
-			if (pkTarget->GetSecClass() == UNIT_SECCLASSTYPE_POST)
-			{
-				pkTarget = NULL;
-			}
-		}
-		return pkTarget;
-	}
-	if (gMain.IsSecretArea())
-	{
-		return m_pkAI->MiJingAttackFindTarget(fRadius);
-	}
-	else
-	{
-		return m_pkAI->AttackFindTarget(fRadius);
-	}
-}
-
-bool BeUnit::AIGetNeedRefreshTarget()
-{
-	return m_pkAI->GetNeedUpdateTarget();
-}
-
-void BeUnit::AISetNeedRefreshTarget(bool bNeed)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-
-	m_pkAI->SetNeedUpdateTarget(bNeed);
 }
 
 bool BeUnit::UnitCanBeControl(int iPlayer) const
@@ -2213,19 +1756,17 @@ bool BeUnit::UnitCanBeControl(int iPlayer) const
 	}
 	return false;
 }
+
 bool BeUnit::UnitCanMove(bool bTemp) const
 {
 	if (bTemp && HasUnitCarryFlag(BUCF_CANNOTMOVE))
 	{
 		return false;
 	}
-	if (AIGetType() == BUAT_TOWER)
-	{
-		return false;
-	}
 
 	return true;
 }
+
 bool BeUnit::UnitCanAttack(const BeUnit* pkTarget, bool bTemp, bool bForceAttackSameGroup) const
 {
 	if (bTemp && HasUnitCarryFlag(BUCF_CANNOTATTACK))
@@ -2235,10 +1776,6 @@ bool BeUnit::UnitCanAttack(const BeUnit* pkTarget, bool bTemp, bool bForceAttack
 	else if (pkTarget)
 	{
 		if (GetID() == pkTarget->GetID())
-		{
-			return false;
-		}
-		if (!pkTarget->GetUnitVisionForCamp(GetCamp() - 1) && GetCamp() < SRPC_OTHER_SIDE)
 		{
 			return false;
 		}
@@ -2266,20 +1803,6 @@ bool BeUnit::UnitCanAttack(const BeUnit* pkTarget, bool bTemp, bool bForceAttack
 			{
 				return false;
 			}
-		}
-
-		if (GetCamp() == pkTarget->GetCamp())
-		{
-			if (bForceAttackSameGroup)
-			{
-				return true;
-			}
-
-			return false;
-		}
-		else if (pkTarget->GetCamp() == SRPC_NEUTRAL_ALLY)
-		{
-			return true;
 		}
 	}
 	return true;
@@ -2313,81 +1836,6 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const BeUnit* p
 		return UUSRT_EER_COMMON;
 	}
 
-	int iSkillOrgID = pkSkill->GetTypeID();
-	switch (iSkillOrgID)
-	{
-	case 'S004':
-	{
-		if (GetUD_Int(UDK_S003) == 200)
-		{
-			SetUD_Int(UDK_S003, 100);
-			DelBuffer('BA22');
-			ClearActionStayTime();
-		}
-		break;
-	}
-	case 'S001':
-	case 'S034':
-	case 'S078':
-	case 'S086':
-	case 'S119':
-	{
-		int		iBufferForbid = GetUD_Int(UDK_Buffer_Forbid);
-		if (iBufferForbid == 100)
-		{
-			return UUSRT_EER_ADDSKILL;
-		}
-		break;
-	}
-	case 'SA06':
-	{
-		if (pkSkill->GetUICounter() == 234)
-		{
-			return UUSRT_EER_ADDSKILL;
-		}
-		break;
-	}
-	case 'S107':
-	{
-		if (pkTarget)
-		{
-			if (pkTarget->GetBuffer('B375'))
-			{
-				return UUSRT_EER_ADDSKILL;
-			}
-		}
-		break;
-	}
-	case 'S108':
-	{
-		bool	bCanUse = false;
-		UnitGroup	kGroup;
-		gUnitMgr.GetAreaGroup(kGroup, GetPosX(), GetPosY(), kData.GetSpellDistance(), this, BCT_SPELL, iSkillTypeID);
-		if (!kGroup.IsEmpty())
-		{
-			for (int iIndex = 0; iIndex < kGroup.Size(); iIndex++)
-			{
-				BeUnit* pkFindUnit = kGroup[iIndex];
-				if (pkFindUnit)
-				{
-					if (pkFindUnit->GetBuffer('BA04'))
-					{
-						bCanUse = true;
-						break;
-					}
-				}
-			}
-		}
-		if (!bCanUse)
-		{
-			return UUSRT_EER_ADDSKILL;
-		}
-		break;
-	}
-	default:
-		break;
-	}
-
 	if (pkSkill->IsSwitch() && pkSkill->IsActive())
 	{
 		return UUSRT_OK;
@@ -2410,7 +1858,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const BeUnit* p
 		return UUSRT_EER_CD;
 	}
 
-	if (IsDead() && pkSkill->GetTypeID() != 'SN04')
+	if (IsDead())
 	{
 		return UUSRT_EER_COMMON;
 	}
@@ -2573,34 +2021,6 @@ bool BeUnit::IsTargetUnit(const BeUnit* pkUnit, int iStaticProcFlag, int iDynaPr
 		iDynaFlag |= BUDP_NOTSUMMON;
 	}
 
-	if (pkAttachMain)
-	{
-		int iPlayerGroup = gMain.GetPlayerCamp(GetPlayer());
-		if (iPlayerGroup != -1)
-		{
-			int iUnitGroup = gMain.GetPlayerCamp(pkUnit->GetPlayer());
-			if (GetPlayer() == pkUnit->GetPlayer() && pkUnit->IsHero())
-			{
-				iDynaFlag |= BUDP_CAMP_SELF;
-			}
-			else if (iUnitGroup == iPlayerGroup)
-			{
-				iDynaFlag |= BUDP_CAMP_ALLY;
-			}
-			else if (iUnitGroup == SRPC_NEUTRAL_PASSIVE)
-			{
-				iDynaFlag |= BUDP_CAMP_NATURE;
-			}
-			else
-			{
-				iDynaFlag |= BUDP_CAMP_ENEMY;
-			}
-		}
-		else
-		{
-		}
-	}
-
 	if (pkUnit->IsInvincible() || pkUnit->HasFlag(BUF_ISINVINCIBLE))
 	{
 		iDynaFlag |= BUDP_INVINCIBLE;
@@ -2640,20 +2060,19 @@ void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, i
 	TrgOnPreDamage_T(m_apkNormalSkill, (int)m_apkNormalSkill.size(), eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, kAttr);
 
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (pkItem && pkItem->GetOrgValid())
-			{
-				TrgOnPreDamage_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, kAttr, i);
-			}
-		}
+		//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+		//{
+		//	BeItem* pkItem = m_apkItem[i];
+		//	if (pkItem && pkItem->GetOrgValid())
+		//	{
+		//		TrgOnPreDamage_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, kAttr, i);
+		//	}
+		//}
 	}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHANGHAI))
@@ -2681,20 +2100,20 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, B
 	TrgOnBeDamaged_T(m_apkNormalSkill, (int)m_apkNormalSkill.size(), eAttackType, fDamage, fRawDamage, pkAttacker, iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
 
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (pkItem && pkItem->GetOrgValid())
-			{
-				TrgOnBeDamaged_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, fRawDamage, pkAttacker, iPlayer, iFlag, bCanDead, iAttackSkillTypeID, i);
-			}
-		}
+		//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+		//{
+		//	BeItem* pkItem = m_apkItem[i];
+		//	if (pkItem && pkItem->GetOrgValid())
+		//	{
+		//		TrgOnBeDamaged_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, fRawDamage, pkAttacker, iPlayer, iFlag, bCanDead, iAttackSkillTypeID, i);
+		//	}
+		//}
 	}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
 
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_BEIJI))
@@ -2713,23 +2132,6 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, B
 				kParam.SetParam(BTP_iSkillTypeID, iAttackSkillTypeID);
 
 				gTrgMgr.FireTrigger(BTE_BUFFER_ONBEDAMAGE, kParam);
-
-				if (gLevelMain.GetEventMgr()->CanFireEvent(BeTDEventArgs::BeTDEVENT_BUFFER_ONBEDAMAGE))
-				{
-					BeTDEventArgs kArgs = BeTDEventArgs();
-					kArgs.iEventType = BeTDEventArgs::BeTDEVENT_BUFFER_ONBEDAMAGE;
-					kArgs.kUnitPreDamagedByBuffer.iAttackFlag = iFlag;
-					kArgs.kUnitPreDamagedByBuffer.iBufferTypeID = pkBuffer->GetTypeID();
-					kArgs.kUnitPreDamagedByBuffer.iSkillTypeID = iAttackSkillTypeID;
-					kArgs.kUnitPreDamagedByBuffer.fDamage = fDamage;
-					kArgs.kUnitPreDamagedByBuffer.iTargetID = m_iID;
-					if (pkAttacker)
-					{
-						kArgs.kUnitPreDamagedByBuffer.iAttackerID = pkAttacker->GetID();
-					}
-
-					gLevelMain.GetEventMgr()->FireEvent(kArgs);
-				}
 			}
 		}
 	}
@@ -2749,19 +2151,19 @@ void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int 
 
 	if (IsHero())
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (pkItem)
-			{
-				TrgOnDamage_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, iAttackSkillTypeID, i, pkItem->GetID());
-			}
-		}
+		//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+		//{
+		//	BeItem* pkItem = m_apkItem[i];
+		//	if (pkItem)
+		//	{
+		//		TrgOnDamage_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, iAttackSkillTypeID, i, pkItem->GetID());
+		//	}
+		//}
 	}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHANGHAI))
@@ -2836,10 +2238,9 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 
 	if (!HasFlag(BUF_RELIVE))
 	{
-		if (!m_apkBuffer.IsEmpty())
+		if (!m_apkBuffer.empty())
 		{
-			/////////////////////////////////////////////////////////
-			for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				BeBuffer* pkBuffer = m_apkBuffer[i];
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SIWANG))
@@ -2878,26 +2279,14 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 		kParamDeath.SetParam(BTP_iFlag, iFlag);
 
 		gTrgMgr.FireTrigger(BTE_UNIT_DEATH, kParamDeath);
-		//////////////////////////////////////////////////////////////////////////
-		BeTDEventArgs kArgs = BeTDEventArgs();
-		kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITDEATH;
-		kArgs.kUnitDeath.iAttackFlag = iFlag;
-		kArgs.kUnitDeath.iSkillTypeID = iSkillTypeID;
-		kArgs.kUnitDeath.iUnitID = m_iID;
-		if (pkAttacker)
-		{
-			kArgs.kUnitDeath.iUnitKillerID = pkAttacker->GetID();
-		}
-		gLevelMain.GetEventMgr()->FireEvent(kArgs);
 
 		if (pkAttacker)
 		{
 			pkAttacker->TrgOnKill(eAttackType, fDamage, this, GetPlayer(), iFlag, iSkillTypeID);
 		}
-		if (!m_apkBuffer.IsEmpty())
+		if (!m_apkBuffer.empty())
 		{
-			/////////////////////////////////////////////////////////
-			for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				BeBuffer* pkBuffer = m_apkBuffer[i];
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SIWANG))
@@ -2916,50 +2305,49 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 					kParam.SetParam(BTP_iAttackType, eAttackType);
 
 					gTrgMgr.FireTrigger(BTE_BUFFER_ONDEAD, kParam);
-					///////////////////////////////////////////////////////////////////
 				}
 			}
 		}
 	}
 
-	if (IsHero())
-	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (!pkItem)
-			{
-				continue;
-			}
-			if (!pkItem->GetValid())
-			{
-				continue;
-			}
-			for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-			{
-				BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-				if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADCHUFA))
-				{
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					if (pkAttacker)
-					{
-						kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					}
-					kParam.SetParam(BTP_pkTarget, this);
-					kParam.SetParam(BTP_pkSkill, pkSkill);
-					kParam.SetParam(BTP_iItemPos, i + 1);
-					kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
-					kParam.SetParam(BTP_pfDamage, &fDamage);
-					kParam.SetParam(BTP_iFlag, iFlag);
-					kParam.SetParam(BTP_iAttackType, eAttackType);
+	//if (IsHero())
+	//{
+	//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//	{
+	//		BeItem* pkItem = m_apkItem[i];
+	//		if (!pkItem)
+	//		{
+	//			continue;
+	//		}
+	//		if (!pkItem->GetValid())
+	//		{
+	//			continue;
+	//		}
+	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
+	//		{
+	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADCHUFA))
+	//			{
+	//				TePtParam kParam;
+	//				kParam.SetParam(BTP_pkTrgUnit, this);
+	//				if (pkAttacker)
+	//				{
+	//					kParam.SetParam(BTP_pkAttacker, pkAttacker);
+	//				}
+	//				kParam.SetParam(BTP_pkTarget, this);
+	//				kParam.SetParam(BTP_pkSkill, pkSkill);
+	//				kParam.SetParam(BTP_iItemPos, i + 1);
+	//				kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
+	//				kParam.SetParam(BTP_pfDamage, &fDamage);
+	//				kParam.SetParam(BTP_iFlag, iFlag);
+	//				kParam.SetParam(BTP_iAttackType, eAttackType);
 
-					gTrgMgr.FireTrigger(BTE_SKILL_ONDEAD, kParam);
-					break;
-				}
-			}
-		}
-	}
+	//				gTrgMgr.FireTrigger(BTE_SKILL_ONDEAD, kParam);
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 
@@ -2989,10 +2377,9 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 		}
 	}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_GONGJI))
@@ -3004,7 +2391,6 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 				kParam.SetParam(BTP_pkBuffer, pkBuffer);
 
 				gTrgMgr.FireTrigger(BTE_BUFFER_ONPREATTACK, kParam);
-				///////////////////////////////////////////////////////////////////
 			}
 		}
 	}
@@ -3020,21 +2406,20 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 
 	TrgOnAttack_T(m_apkNormalSkill, (int)m_apkNormalSkill.size(), pkTarget, pkAttackAttr);
 
-	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (pkItem && pkItem->GetOrgValid())
-			{
-				TrgOnAttack_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), pkTarget, pkAttackAttr, i);
-			}
-		}
-	}
+	//{
+	//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//	{
+	//		BeItem* pkItem = m_apkItem[i];
+	//		if (pkItem && pkItem->GetOrgValid())
+	//		{
+	//			TrgOnAttack_T(pkItem->GetAllSkill(), (int)pkItem->GetAllSkill().size(), pkTarget, pkAttackAttr, i);
+	//		}
+	//	}
+	//}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_GONGJI))
@@ -3046,7 +2431,6 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 				kParam.SetParam(BTP_pkBuffer, pkBuffer);
 
 				gTrgMgr.FireTrigger(BTE_BUFFER_ONATTACK, kParam);
-				///////////////////////////////////////////////////////////////////
 			}
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
 			{
@@ -3142,48 +2526,47 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 		}
 	}
 
-	if (IsHero())
+	//if (IsHero())
+	//{
+	//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//	{
+	//		BeItem* pkItem = m_apkItem[i];
+	//		if (!pkItem || !pkItem->GetOrgValid())
+	//		{
+	//			continue;
+	//		}
+	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
+	//		{
+	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
+	//			{
+	//				if ((IsDividMan() || IsGhost()))
+	//				{
+	//					continue;
+	//				}
+
+	//				TePtParam kParam;
+	//				kParam.SetParam(BTP_pkTrgUnit, this);
+	//				kParam.SetParam(BTP_pkSkill, pkSkill);
+	//				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
+	//				kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
+	//				kParam.SetParam(BTP_iItemID, iItemID);
+	//				kParam.SetParam(BTP_iItemPos, i + 1);
+	//				kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
+	//				kParam.SetParam(BTP_iSpellTargetID, iTargetID);
+	//				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
+	//				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
+
+	//				gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
+
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (!pkItem || !pkItem->GetOrgValid())
-			{
-				continue;
-			}
-			for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-			{
-				BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-				if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
-				{
-					if ((IsDividMan() || IsGhost()))
-					{
-						continue;
-					}
-
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_pkSkill, pkSkill);
-					kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
-					kParam.SetParam(BTP_iItemID, iItemID);
-					kParam.SetParam(BTP_iItemPos, i + 1);
-					kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
-					kParam.SetParam(BTP_iSpellTargetID, iTargetID);
-					kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
-
-					gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
-					break;
-				}
-			}
-		}
-	}
-
-	if (!m_apkBuffer.IsEmpty())
-	{
-		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHIFA))
@@ -3202,7 +2585,6 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
 
 				gTrgMgr.FireTrigger(BTE_BUFFER_ONSPELL, kParam);
-				///////////////////////////////////////////////////////////////////
 			}
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
 			{
@@ -3255,28 +2637,28 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 		}
 	}
 
-	if (HasFlag(BUF_NEEDUPDATEITEMSKILL))
-	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (pkItem)
-			{
-				pkItem->Update(this, iDeltaTime);
-			}
-		}
-	}
+	//if (HasFlag(BUF_NEEDUPDATEITEMSKILL))
+	//{
+	//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//	{
+	//		BeItem* pkItem = m_apkItem[i];
+	//		if (pkItem)
+	//		{
+	//			pkItem->Update(this, iDeltaTime);
+	//		}
+	//	}
+	//}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
-			int iBufferCount = (int)m_apkBuffer.Size();
+			int iBufferCount = (int)m_apkBuffer.size();
 			if (pkBuffer)
 			{
 				pkBuffer->Update(this, iDeltaTime);
-				if (iBufferCount != m_apkBuffer.Size())
+				if (iBufferCount != m_apkBuffer.size())
 				{
 					break;
 				}
@@ -3340,46 +2722,46 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 		}
 	}
 
-	if (IsHero())
-	{
-		for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-		{
-			BeItem* pkItem = m_apkItem[i];
-			if (!pkItem || !pkItem->GetOrgValid())
-			{
-				continue;
-			}
-			for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-			{
-				BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-				if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLCHUFA))
-				{
-					if ((IsDividMan() || IsGhost()))
-					{
-						continue;
-					}
+	//if (IsHero())
+	//{
+	//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//	{
+	//		BeItem* pkItem = m_apkItem[i];
+	//		if (!pkItem || !pkItem->GetOrgValid())
+	//		{
+	//			continue;
+	//		}
+	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
+	//		{
+	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLCHUFA))
+	//			{
+	//				if ((IsDividMan() || IsGhost()))
+	//				{
+	//					continue;
+	//				}
 
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_pkAttacker, this);
-					kParam.SetParam(BTP_pkTarget, pkTarget);
-					kParam.SetParam(BTP_pkSkill, pkSkill);
-					kParam.SetParam(BTP_iItemPos, i + 1);
-					kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
-					kParam.SetParam(BTP_pfDamage, &fDamage);
-					kParam.SetParam(BTP_iFlag, iFlag);
-					kParam.SetParam(BTP_iAttackType, eAttackType);
+	//				TePtParam kParam;
+	//				kParam.SetParam(BTP_pkTrgUnit, this);
+	//				kParam.SetParam(BTP_pkAttacker, this);
+	//				kParam.SetParam(BTP_pkTarget, pkTarget);
+	//				kParam.SetParam(BTP_pkSkill, pkSkill);
+	//				kParam.SetParam(BTP_iItemPos, i + 1);
+	//				kParam.SetParam(BTP_iTriggerItemID, pkItem->GetID());
+	//				kParam.SetParam(BTP_pfDamage, &fDamage);
+	//				kParam.SetParam(BTP_iFlag, iFlag);
+	//				kParam.SetParam(BTP_iAttackType, eAttackType);
 
-					gTrgMgr.FireTrigger(BTE_SKILL_ONKILL, kParam);
-				}
-			}
-		}
-	}
+	//				gTrgMgr.FireTrigger(BTE_SKILL_ONKILL, kParam);
+	//			}
+	//		}
+	//	}
+	//}
 
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
 		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			BeBuffer* pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_JISHA))
@@ -3401,15 +2783,6 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 	}
 }
 
-int BeUnit::AIGetEP(const BeUnit* pkTarget) const
-{
-	if (!m_pkAI)
-	{
-		return 0;
-	}
-	return m_pkAI->CalculateEnmityPoint(pkTarget);
-}
-
 void BeUnit::SetCommonCDLastUseTime(int iTypeID, int iTime)
 {
 	m_akCommonCD[iTypeID] = iTime;
@@ -3417,10 +2790,10 @@ void BeUnit::SetCommonCDLastUseTime(int iTypeID, int iTime)
 
 int BeUnit::GetCommonCDLastUseTime(int iTypeID) const
 {
-	if (gData.IsWTF())
-	{
-		return 0;
-	}
+	//if (gData.IsWTF())
+	//{
+	//	return 0;
+	//}
 	std::map<int, int>::const_iterator it = m_akCommonCD.find(iTypeID);
 	if (it != m_akCommonCD.end())
 	{
@@ -3447,29 +2820,20 @@ bool BeUnit::CommonCDComplete(int iTypeID, int iCDTime) const
 
 void  BeUnit::ClearAllCommonCD(void)
 {
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		if (m_apkItem[i])
-		{
-			m_apkItem[i]->SetLastUseTime(0);
-			break;
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	if (m_apkItem[i])
+	//	{
+	//		m_apkItem[i]->SetLastUseTime(0);
+	//		break;
+	//	}
+	//}
 	m_akCommonCD.clear();
 }
 
 std::map<int, int>& BeUnit::GetAllCD(void)
 {
 	return m_akCommonCD;
-}
-
-void BeUnit::SetTowerLastHasUnitTime(int iTime)
-{
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->SetTowerTimeLastHasUnit(iTime);
 }
 
 bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
@@ -3486,13 +2850,13 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 
 	int iItemTypeID = pkMapItem->GetTypeID();
 	int iSkillTypeID = 0;
-	const ItemTable* pkItemRes = gMain.GetResItem(iItemTypeID);
+	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (pkItemRes)
 	{
 		for (int i = 0; i < ITEM_MAX_SKILL; ++i)
 		{
 			int iID = pkItemRes->iItemSkill[i];
-			const SkillTable* pkSkillRes = gMain.GetResSkill(iID);
+			const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iID);
 			if (pkSkillRes)
 			{
 				if (pkSkillRes->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
@@ -3504,8 +2868,6 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 		}
 	}
 
-	gMain.InitItemEventTriggerT(iItemTypeID);
-	gMain.InitItemEventTriggerZhanChang(iItemTypeID);
 	TePtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_iItemTypeID, iItemTypeID);
@@ -3522,8 +2884,6 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 			if (!pkSkill)
 			{
 				AddSkill(iSkillTypeID);
-				gMain.InitItemEventTriggerT(iSkillTypeID);
-				gMain.InitItemEventTriggerZhanChang(iItemTypeID);
 			}
 
 			BeCommand	kComm(BCT_SPELL, GetID(), 0.0f, 0.0f, iSkillTypeID);
@@ -3535,15 +2895,6 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 	if (pkItemRes && (pkItemRes->uiItemProperty & ITEM_ITEMPROPERTY_PICKUSE))
 	{
 		gMapItemMgr.DelMapItem(pkMapItem->GetID());
-
-		BeLevelMain* pkTriggerMain = (BeLevelMain*)gMain.GetTaskHandle();
-		EsAssert(pkTriggerMain);
-		BeTDEventArgs kArgs = BeTDEventArgs();
-		kArgs.iEventType = BeTDEventArgs::BeTDEVENT_UNITUSEITEM;
-		kArgs.kUnitUseItem.iPlayer = GetPlayer();
-		kArgs.kUnitUseItem.iItemTypeID = iItemTypeID;
-		kArgs.kUnitUseItem.iTrgSkillTypeID = iSkillTypeID;
-		pkTriggerMain->GetEventMgr()->FireEvent(kArgs);
 
 		return BER_EXE_END;
 	}
@@ -3562,20 +2913,12 @@ void BeUnit::GuanQiaAddExp(int iExp)
 
 void BeUnit::AddIgnoreUnit(int iUnitID, int iTime)
 {
-	if (!m_pkAI)
-	{
-		return;
-	}
-	m_pkAI->AddIgnoreUnit(iUnitID, iTime);
+
 }
 
 bool BeUnit::IsIgnoreUnit(int iUnitID) const
 {
-	if (!m_pkAI)
-	{
-		return false;
-	}
-	return m_pkAI->IsIgnoreUnit(iUnitID);
+	return false;
 }
 
 void BeUnit::SetCheatAttr(void)
@@ -3583,42 +2926,11 @@ void BeUnit::SetCheatAttr(void)
 	BeBuffer* pkBuffer = this->AddBufferBegin('BG02', -1);
 	if (pkBuffer)
 	{
-		pkBuffer->SetNormalAttr(NAT_ABS_MAX_HP, this->GetUD_Float(UDK_CHEAT_MAXHP), true);
-		pkBuffer->SetNormalAttr(NAT_ABS_DAMAGE, this->GetUD_Float(UDK_CHEAT_ATK), true);
-		pkBuffer->SetNormalAttr(NAT_ABS_MOVE_SPEED, this->GetUD_Float(UDK_CHEAT_MOVESPEED), true);
-		pkBuffer->SetNormalAttr(NAT_ABS_ARMOR, this->GetUD_Float(UDK_CHEAT_ARMOR), true);
-		pkBuffer->SetNormalAttr(NAT_ABS_MAGIC, this->GetUD_Float(UDK_CHEAT_MAGIC), true);
-
 		pkBuffer->SetRemoveTime(-1);
 		pkBuffer->SetNeedUpdate(true);
 	}
 
 	UpdateAttribute(true);
-}
-
-int	 BeUnit::AIUnitRandSpell(BeUnit* pkTarget)
-{
-	if (!pkTarget)
-	{
-		return 0;
-	}
-
-	if (HasFlag(BUF_ISPERSISTSKILL))
-	{
-		return 0;
-	}
-
-	std::vector<int> aiSkillPos;
-	for (int iPos = 0; iPos < MAX_ACTIVE_SKILLS; ++iPos)
-	{
-		aiSkillPos.push_back(iPos);
-	}
-	if (GetTypeID() == 'UT15')
-	{
-		aiSkillPos.push_back(4);
-	}
-
-	return 0;
 }
 
 void BeUnit::SetAllLiveTime(int iAllTime)
@@ -3691,139 +3003,6 @@ float BeUnit::GetShieldByBuffer(int iBuffer)
 	return 0.0f;
 }
 
-void		BeUnit::CheckDeathRecord(void)
-{
-	std::map<int, std::vector<BeDeathRecordData>>::iterator itr = m_akDeathRecord.begin();
-	while (itr != m_akDeathRecord.end())
-	{
-		std::vector<BeDeathRecordData>& rkVecData = itr->second;
-		std::vector<BeDeathRecordData>::iterator itrVec = rkVecData.begin();
-		while (itrVec != rkVecData.end())
-		{
-			BeDeathRecordData& rkData = *itrVec;
-			if (gTime - rkData.iHitTime > DEATH_RECORD_TIME)
-			{
-				itrVec = rkVecData.erase(itrVec);
-			}
-			else
-			{
-				itrVec++;
-			}
-		}
-
-		if (rkVecData.empty())
-		{
-			m_akDeathRecord.erase(itr++);
-		}
-		else
-		{
-			itr++;
-		}
-	}
-}
-
-void		BeUnit::CalFinalDeathRecord(int iKiller)
-{
-	std::map<int, float> akTempMap;
-
-	SetDeathRecordLastTime(gTime);
-	m_fDeathRecordTotalDamage = 0.0f;
-
-	std::map<int, std::vector<BeDeathRecordData>>::iterator itr = m_akDeathRecord.begin();
-	for (; itr != m_akDeathRecord.end(); itr++)
-	{
-		int iID = itr->first;
-		std::vector<BeDeathRecordData>& rkVec = itr->second;
-		for (int i = 0; i < (int)rkVec.size(); i++)
-		{
-			akTempMap[iID] += rkVec[i].fDamage;
-			m_fDeathRecordTotalDamage += rkVec[i].fDamage;
-			if (rkVec[i].iHitTime < m_iDeathRecordLastTime)
-			{
-				SetDeathRecordLastTime(rkVec[i].iHitTime);
-			}
-		}
-	}
-
-	SetDeathRecordLastTime(gTime - m_iDeathRecordLastTime);
-
-	float fMaxDamage[2] = { 0 };
-	int iMaxID[2] = { 0 };
-	for (int i = 0; i < 2; i++)
-	{
-		if (akTempMap.empty())
-		{
-			break;
-		}
-
-		std::map<int, float>::iterator itr = akTempMap.begin();
-		for (; itr != akTempMap.end(); itr++)
-		{
-			if (itr->first == iKiller)
-			{
-				continue;
-			}
-
-			if (itr->second > fMaxDamage[i])
-			{
-				fMaxDamage[i] = itr->second;
-				iMaxID[i] = itr->first;
-			}
-		}
-
-		itr = akTempMap.find(iMaxID[i]);
-		if (itr != akTempMap.end())
-		{
-			akTempMap.erase(itr);
-		}
-	}
-
-	for (int i = 0; i < 3; i++)
-	{
-		m_akFinalDeathRecord[i].iUnitID = 0;
-		m_akFinalDeathRecord[i].kMapDamage.clear();
-	}
-	itr = m_akDeathRecord.begin();
-	for (; itr != m_akDeathRecord.end(); itr++)
-	{
-		int iID = itr->first;
-
-		if (iID == iKiller)
-		{
-			m_akFinalDeathRecord[0].iUnitID = iID;
-			std::vector<BeDeathRecordData>& rkVec = itr->second;
-			for (int i = 0; i < (int)rkVec.size(); i++)
-			{
-				BeDeathRecordData& rkData = rkVec[i];
-				m_akFinalDeathRecord[0].kMapDamage[rkData.iSkillTypeID] += rkData.fDamage;
-				//m_akFinalDeathRecord[0].iUnitID = iUnitID;
-			}
-		}
-		else if (iID == iMaxID[0])
-		{
-			m_akFinalDeathRecord[1].iUnitID = iID;
-			std::vector<BeDeathRecordData>& rkVec = itr->second;
-			for (int i = 0; i < (int)rkVec.size(); i++)
-			{
-				BeDeathRecordData& rkData = rkVec[i];
-				m_akFinalDeathRecord[1].kMapDamage[rkData.iSkillTypeID] += rkData.fDamage;
-			}
-		}
-		else if (iID == iMaxID[1])
-		{
-			m_akFinalDeathRecord[2].iUnitID = iID;
-			std::vector<BeDeathRecordData>& rkVec = itr->second;
-			for (int i = 0; i < (int)rkVec.size(); i++)
-			{
-				BeDeathRecordData& rkData = rkVec[i];
-				m_akFinalDeathRecord[2].kMapDamage[rkData.iSkillTypeID] += rkData.fDamage;
-			}
-		}
-	}
-
-	m_akDeathRecord.clear();
-}
-
 float BeUnit::GetExtraBossDamageTotal(int iBossID)
 {
 	float fResult = 0.0f;
@@ -3841,10 +3020,10 @@ float BeUnit::GetExtraBossDamageTotal(int iBossID)
 
 void BeUnit::SetChangeScale(int iBufferID, float fChangeScale, int iChangeTime /*= 0*/)
 {
-	BufChangeScaleData kData;
-	kData.fScale = fChangeScale;
-	kData.iAllTime = iChangeTime;
-	kData.iCurTime = iChangeTime;
+	//BufChangeScaleData kData;
+	//kData.fScale = fChangeScale;
+	//kData.iAllTime = iChangeTime;
+	//kData.iCurTime = iChangeTime;
 
 	//	m_kMapChangeScale[iBufferID] = kData;
 }
@@ -3935,7 +3114,7 @@ void	BeUnit::AddAttach(int pcMdlFile, int iRemoveTime, int iAttackerID, bool bCh
 	kData.bChangeFace = bChangeFace;
 	kData.iAttackerID = iAttackerID;
 
-	gMain.AddAttachData(kData);
+	//gMain.AddAttachData(kData);
 }
 
 bool BeUnit::DelAttachByName(int iModelID)
@@ -3946,7 +3125,7 @@ bool BeUnit::DelAttachByName(int iModelID)
 	kData.iModleName = iModelID;
 	kData.bRemove = true;
 
-	gMain.AddAttachData(kData);
+	//gMain.AddAttachData(kData);
 
 	return true;
 }
@@ -3969,11 +3148,10 @@ void BeUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
 
 void BeUnit::ClrAllPureData()
 {
-	// 
-	for (int i = 0; i < MAX_ACTIVEPLAYERS; i++)
-	{
-		m_abEverInPlayerVision[i] = m_abInPlayerVision[i];
-	}
+	//for (int i = 0; i < MAX_ACTIVEPLAYERS; i++)
+	//{
+	//	m_abEverInPlayerVision[i] = m_abInPlayerVision[i];
+	//}
 
 	m_kShareSelfDataLast = m_kShareSelfDataCur;
 	m_bNewUnit[0] = false;
@@ -3982,7 +3160,7 @@ void BeUnit::ClrAllPureData()
 
 	m_iPathFindSucessTime = 0;
 
-	for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
+	for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 	{
 		BeBuffer* pkBuffer = m_apkBuffer[i];
 		if (!pkBuffer)
@@ -3991,14 +3169,14 @@ void BeUnit::ClrAllPureData()
 		}
 	}
 
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	{
-		BeItem* pkItem = m_apkItem[i];
-		if (!pkItem)
-		{
-			continue;
-		}
-	}
+	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	//{
+	//	BeItem* pkItem = m_apkItem[i];
+	//	if (!pkItem)
+	//	{
+	//		continue;
+	//	}
+	//}
 }
 
 #define CLIENTNONEEDFLAG (BUF_IGNOREDOODADOBS|BUF_NOOBSTACLE|BUF_IGNOREUNITOBS|BUF_IGNOREFIXEDOBS|BUF_HASHALOSKILL|BUF_OBSTACLESET|BUF_MOVING|BUF_ISBLOCKED |BUF_ISPERSISTSKILL)
@@ -4074,7 +3252,7 @@ void BeUnit::UpdateMP(int iDeltaTime)
 	{
 		return;
 	}
-	if (HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_BULLETBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
+	if (HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
 	{
 		return;
 	}
@@ -4093,7 +3271,7 @@ void BeUnit::UpdateMP(int iDeltaTime)
 
 void BeUnit::UpdateBuffer(int iDeltaTime)
 {
-	if (!m_apkBuffer.IsEmpty())
+	if (!m_apkBuffer.empty())
 	{
 		bool bNeedUpdate = false;
 		bool bUpdateNormal = false;
@@ -4104,53 +3282,53 @@ void BeUnit::UpdateBuffer(int iDeltaTime)
 
 		int iReserveNum = 0;
 
-		for (int i = 0; i < (int)m_apkBuffer.Size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer)
-			{
-				continue;
-			}
+		//for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
+		//{
+		//	BeBuffer* pkBuffer = m_apkBuffer[i];
+		//	if (!pkBuffer)
+		//	{
+		//		continue;
+		//	}
 
-			if (pkBuffer->GetHasDel())
-			{
-				bNeedUpdate = true;
-				if (pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR))
-				{
-					bUpdateNormal = true;
-				}
+		//	if (pkBuffer->GetHasDel())
+		//	{
+		//		bNeedUpdate = true;
+		//		if (pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR))
+		//		{
+		//			bUpdateNormal = true;
+		//		}
 
-				bool bNeedRecordChange = false;
-				{
-					bNeedRecordChange = true;
-				}
-				SafeDelBuf(pkBuffer, bNeedRecordChange);
+		//		bool bNeedRecordChange = false;
+		//		{
+		//			bNeedRecordChange = true;
+		//		}
+		//		SafeDelBuf(pkBuffer, bNeedRecordChange);
 
-				m_apkBuffer.EraseIndexSwap(i);
-				i--;
-			}
-			else if (pkBuffer->GetRemoveTime() != -1 && pkBuffer->GetRemoveTime() <= gTime)
-			{
-				bNeedUpdate = true;
-				if (pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR))
-				{
-					bUpdateNormal = true;
-				}
+		//		m_apkBuffer.erase(i);
+		//		i--;
+		//	}
+		//	else if (pkBuffer->GetRemoveTime() != -1 && pkBuffer->GetRemoveTime() <= gTime)
+		//	{
+		//		bNeedUpdate = true;
+		//		if (pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR))
+		//		{
+		//			bUpdateNormal = true;
+		//		}
 
-				bool bNeedRecordChange = false;
-				OnDelBuffer(pkBuffer);
-				SafeDelBuf(pkBuffer, bNeedRecordChange);
+		//		bool bNeedRecordChange = false;
+		//		OnDelBuffer(pkBuffer);
+		//		SafeDelBuf(pkBuffer, bNeedRecordChange);
 
-				m_apkBuffer.EraseIndexSwap(i);
-				i--;
-			}
-			else if (pkBuffer->GetNeedUpdate())
-			{
-				bNeedUpdate = true;
-				bUpdateNormal = true;
-				pkBuffer->SetNeedUpdate(false);
-			}
-		}
+		//		m_apkBuffer.EraseIndexSwap(i);
+		//		i--;
+		//	}
+		//	else if (pkBuffer->GetNeedUpdate())
+		//	{
+		//		bNeedUpdate = true;
+		//		bUpdateNormal = true;
+		//		pkBuffer->SetNeedUpdate(false);
+		//	}
+		//}
 
 		if (bNeedUpdate)
 		{
@@ -4162,7 +3340,7 @@ void BeUnit::UpdateBuffer(int iDeltaTime)
 
 const SkillTable* BeUnit::GetResSkill(int iTypeID) const
 {
-	const SkillTable* pkSkill = gMain.GetResSkill(iTypeID, this);
+	const SkillTable* pkSkill = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 
 	return pkSkill;
 }
@@ -4190,20 +3368,8 @@ void BeUnit::CopyAttribute(BeUnit* pkUnit)
 	SetMP(pkUnit->GetMP());
 	SetFace(pkUnit->GetFace());
 	SetTarFace(pkUnit->GetTarFace());
-	AISetType(pkUnit->AIGetType());
 	SetUsedSkillPoint(pkUnit->GetUsedSkillPoint());
-
-	const BeUnitMorphType& rkMType = pkUnit->GetMorphUnitType();
-	if (rkMType == BUMT_CHANGE_MODELSKILL)
-	{
-	}
-	if (rkMType == BUMT_CHANGE_MODELSKILL)
-	{
-		m_pkCurData->iUnitProperty = pkUnit->GetProperty();
-	}
 }
-
-
 
 void BeUnit::SetHP(float fHP, bool bChange)
 {
@@ -4277,27 +3443,27 @@ void BeUnit::UpdateHalloSkill(int iDeltaTime)
 				}
 			}
 
-			{
-				for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-				{
-					BeItem* pkItem = m_apkItem[i];
-					if (pkItem && pkItem->GetOrgValid())
-					{
-						if (pkItem->GetOrgValid())
-						{
-							for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-							{
-								BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-								if (pkSkill && pkSkill->IsHaloSkill())
-								{
-									ParseHaloSkill(pkSkill, pkItem->GetID());
-								}
-							}
-						}
+			//{
+			//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+			//	{
+			//		BeItem* pkItem = m_apkItem[i];
+			//		if (pkItem && pkItem->GetOrgValid())
+			//		{
+			//			if (pkItem->GetOrgValid())
+			//			{
+			//				for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
+			//				{
+			//					BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
+			//					if (pkSkill && pkSkill->IsHaloSkill())
+			//					{
+			//						ParseHaloSkill(pkSkill, pkItem->GetID());
+			//					}
+			//				}
+			//			}
 
-					}
-				}
-			}
+			//		}
+			//	}
+			//}
 		}
 	}
 }
@@ -4339,342 +3505,342 @@ void	BeUnit::SellItem(int iPos)
 	}
 
 	int iPlayer = GetPlayer();
-	gMain.AddPlayerGold(iPlayer, iPrice, false);
+	//gMain.AddPlayerGold(iPlayer, iPrice, false);
 
 	UpdateItemPassiveSkill();
 }
 
 void	BeUnit::BuyItem(int iItemTypeID)
 {
-	const ItemTable* pkItemRes = gMain.GetResItem(iItemTypeID);
-	if (!pkItemRes)
-	{
-		return;
-	}
-	int iPlayer = GetPlayer();
-	int iHasMoney = gMain.GetPlayerGold(iPlayer);
-	int iPrice = pkItemRes->iItemPrice;
-	int	iHasItemAllPrice = 0;
+	//const ItemTable* pkItemRes = gMain.GetResItem(iItemTypeID);
+	//if (!pkItemRes)
+	//{
+	//	return;
+	//}
+	//int iPlayer = GetPlayer();
+	//int iHasMoney = gMain.GetPlayerGold(iPlayer);
+	//int iPrice = pkItemRes->iItemPrice;
+	//int	iHasItemAllPrice = 0;
 
-	if (pkItemRes->iPileCount > 1)
-	{
-		BeItem* pkHasItem = GetItemByTypeID(iItemTypeID);
-		if (pkHasItem)
-		{
-			if (iHasMoney < iPrice)
-			{
-				return;
-			}
+	//if (pkItemRes->iPileCount > 1)
+	//{
+	//	BeItem* pkHasItem = GetItemByTypeID(iItemTypeID);
+	//	if (pkHasItem)
+	//	{
+	//		if (iHasMoney < iPrice)
+	//		{
+	//			return;
+	//		}
 
-			if (pkHasItem->GetPileCount() > pkItemRes->iPileCount)
-			{
-				return;
-			}
-			pkHasItem->SetPileCount(pkHasItem->GetPileCount() + 1);
+	//		if (pkHasItem->GetPileCount() > pkItemRes->iPileCount)
+	//		{
+	//			return;
+	//		}
+	//		pkHasItem->SetPileCount(pkHasItem->GetPileCount() + 1);
 
-			gMain.AddPlayerGold(iPlayer, -iPrice);
+	//		gMain.AddPlayerGold(iPlayer, -iPrice);
 
-			return;
-		}
-	}
+	//		return;
+	//	}
+	//}
 
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		if (m_apkItem[i])
-		{
-			m_apkItem[i]->SetComposeUse(false);
-		}
-	}
-	std::vector<int>	kHasItemVec;
-	const	ItemComposeTable* pkComposeRes = gMain.GetResItemCompose(iItemTypeID);
-	if (pkComposeRes)
-	{
-		int		iNeedItem1 = pkComposeRes->uiNeedItemTypeID1;
-		BeItem* pkFindItem = GetComposeItemByTypeID(iNeedItem1);
-		if (pkFindItem)
-		{
-			kHasItemVec.push_back(pkFindItem->GetPackagePos());
-			iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
-			pkFindItem->SetComposeUse(true);
-		}
-		else
-		{
-			const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem1);
-			if (pkSecondComposeRes)
-			{
-				int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
-				BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-			}
-		}
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	if (m_apkItem[i])
+	//	{
+	//		m_apkItem[i]->SetComposeUse(false);
+	//	}
+	//}
+	//std::vector<int>	kHasItemVec;
+	//const	ItemComposeTable* pkComposeRes = gMain.GetResItemCompose(iItemTypeID);
+	//if (pkComposeRes)
+	//{
+	//	int		iNeedItem1 = pkComposeRes->uiNeedItemTypeID1;
+	//	BeItem* pkFindItem = GetComposeItemByTypeID(iNeedItem1);
+	//	if (pkFindItem)
+	//	{
+	//		kHasItemVec.push_back(pkFindItem->GetPackagePos());
+	//		iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
+	//		pkFindItem->SetComposeUse(true);
+	//	}
+	//	else
+	//	{
+	//		const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem1);
+	//		if (pkSecondComposeRes)
+	//		{
+	//			int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
+	//			BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//		}
+	//	}
 
-		int		iNeedItem2 = pkComposeRes->uiNeedItemTypeID2;
-		pkFindItem = GetComposeItemByTypeID(iNeedItem2);
-		if (pkFindItem)
-		{
-			kHasItemVec.push_back(pkFindItem->GetPackagePos());
-			iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
-			pkFindItem->SetComposeUse(true);
-		}
-		else
-		{
-			const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem2);
-			if (pkSecondComposeRes)
-			{
-				int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
-				BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-			}
-		}
+	//	int		iNeedItem2 = pkComposeRes->uiNeedItemTypeID2;
+	//	pkFindItem = GetComposeItemByTypeID(iNeedItem2);
+	//	if (pkFindItem)
+	//	{
+	//		kHasItemVec.push_back(pkFindItem->GetPackagePos());
+	//		iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
+	//		pkFindItem->SetComposeUse(true);
+	//	}
+	//	else
+	//	{
+	//		const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem2);
+	//		if (pkSecondComposeRes)
+	//		{
+	//			int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
+	//			BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//		}
+	//	}
 
-		int		iNeedItem3 = pkComposeRes->uiNeedItemTypeID3;
-		pkFindItem = GetComposeItemByTypeID(iNeedItem3);
-		if (pkFindItem)
-		{
-			kHasItemVec.push_back(pkFindItem->GetPackagePos());
-			iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
-			pkFindItem->SetComposeUse(true);
-		}
-		else
-		{
-			const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem3);
-			if (pkSecondComposeRes)
-			{
-				int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
-				BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-				int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
-				pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
-				if (pkSecondFindItem)
-				{
-					kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
-					iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
-					pkSecondFindItem->SetComposeUse(true);
-				}
-			}
-		}
-	}
+	//	int		iNeedItem3 = pkComposeRes->uiNeedItemTypeID3;
+	//	pkFindItem = GetComposeItemByTypeID(iNeedItem3);
+	//	if (pkFindItem)
+	//	{
+	//		kHasItemVec.push_back(pkFindItem->GetPackagePos());
+	//		iHasItemAllPrice += pkFindItem->GetPriceOfBuy();
+	//		pkFindItem->SetComposeUse(true);
+	//	}
+	//	else
+	//	{
+	//		const	ItemComposeTable* pkSecondComposeRes = gMain.GetResItemCompose(iNeedItem3);
+	//		if (pkSecondComposeRes)
+	//		{
+	//			int		iSecondNeed1 = pkSecondComposeRes->uiNeedItemTypeID1;
+	//			BeItem* pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed1);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed2 = pkSecondComposeRes->uiNeedItemTypeID2;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed2);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//			int		iSecondNeed3 = pkSecondComposeRes->uiNeedItemTypeID3;
+	//			pkSecondFindItem = GetComposeItemByTypeID(iSecondNeed3);
+	//			if (pkSecondFindItem)
+	//			{
+	//				kHasItemVec.push_back(pkSecondFindItem->GetPackagePos());
+	//				iHasItemAllPrice += pkSecondFindItem->GetPriceOfBuy();
+	//				pkSecondFindItem->SetComposeUse(true);
+	//			}
+	//		}
+	//	}
+	//}
 
-	iPrice -= iHasItemAllPrice;
-	if (iHasMoney < iPrice)
-	{
-		return;
-	}
-	int iOrgItemData = 0;
-	for (int iDelItemIndex = 0; iDelItemIndex < kHasItemVec.size(); iDelItemIndex++)
-	{
-		if (GetItemByPos(kHasItemVec[iDelItemIndex])->GetTypeID() == 'IP06') {
-			iOrgItemData = GetItemByPos(kHasItemVec[iDelItemIndex])->GetData();
-		}
+	//iPrice -= iHasItemAllPrice;
+	//if (iHasMoney < iPrice)
+	//{
+	//	return;
+	//}
+	//int iOrgItemData = 0;
+	//for (int iDelItemIndex = 0; iDelItemIndex < kHasItemVec.size(); iDelItemIndex++)
+	//{
+	//	if (GetItemByPos(kHasItemVec[iDelItemIndex])->GetTypeID() == 'IP06') {
+	//		iOrgItemData = GetItemByPos(kHasItemVec[iDelItemIndex])->GetData();
+	//	}
 
-		DelItemByPos(kHasItemVec[iDelItemIndex]);
-	}
+	//	DelItemByPos(kHasItemVec[iDelItemIndex]);
+	//}
 
-	bool	bHasPos = false;
-	for (int iItemIndex = 0; iItemIndex < iMaxBuyItem; iItemIndex++)
-	{
-		if (!m_apkItem[iItemIndex])
-		{
-			bHasPos = true;
-			break;
-		}
-	}
-	if (!bHasPos)
-	{
-		return;
-	}
-	AddItem(iItemTypeID, -1, 0, iOrgItemData);
-	gMain.AddPlayerGold(iPlayer, -iPrice);
+	//bool	bHasPos = false;
+	//for (int iItemIndex = 0; iItemIndex < iMaxBuyItem; iItemIndex++)
+	//{
+	//	if (!m_apkItem[iItemIndex])
+	//	{
+	//		bHasPos = true;
+	//		break;
+	//	}
+	//}
+	//if (!bHasPos)
+	//{
+	//	return;
+	//}
+	//AddItem(iItemTypeID, -1, 0, iOrgItemData);
+	//gMain.AddPlayerGold(iPlayer, -iPrice);
 
-	UpdateItemPassiveSkill();
+	//UpdateItemPassiveSkill();
 
-	SetTabInfoFlag(BTCF_BIGSKILL);
+	//SetTabInfoFlag(BTCF_BIGSKILL);
 }
 
 void	BeUnit::UpdateItemPassiveSkill()
 {
-	ClearItemPassiveSkill();
+	//ClearItemPassiveSkill();
 
-	for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
-	{
-		BeItem* pkItem = m_apkItem[iIndex];
-		if (pkItem)
-		{
-			pkItem->ClearForbidSkill();
-		}
-	}
+	//for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
+	//{
+	//	BeItem* pkItem = m_apkItem[iIndex];
+	//	if (pkItem)
+	//	{
+	//		pkItem->ClearForbidSkill();
+	//	}
+	//}
 
-	for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
-	{
-		BeItem* pkItem = m_apkItem[iIndex];
-		if (pkItem)
-		{
-			if (gMain.IsPveMap())
-			{
-				const	ZhanChangItemTable* pkItemRes = pkItem->GetZhanChangResPtr();
-				if (pkItemRes)
-				{
-					for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
-					{
-						int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
-						const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
-						if (pkItemPassiveRes)
-						{
-							for (int iPassiveSkillIndex = 0; iPassiveSkillIndex < 10; ++iPassiveSkillIndex)
-							{
-								int		iPassiveSkillTypeID = pkItemPassiveRes->iKillSkill[iPassiveSkillIndex];
-								if (iPassiveSkillTypeID > 'S000')
-								{
-									AddItemPassiveSkill(iPassiveSkillTypeID);
-								}
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				const	ItemTable* pkItemRes = pkItem->GetResPtr();
-				if (pkItemRes)
-				{
-					for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
-					{
-						int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
-						const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
-						if (pkItemPassiveRes)
-						{
-							for (int iPassiveSkillIndex = 0; iPassiveSkillIndex < 10; ++iPassiveSkillIndex)
-							{
-								int		iPassiveSkillTypeID = pkItemPassiveRes->iKillSkill[iPassiveSkillIndex];
-								if (iPassiveSkillTypeID > 'S000')
-								{
-									AddItemPassiveSkill(iPassiveSkillTypeID);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	//for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
+	//{
+	//	BeItem* pkItem = m_apkItem[iIndex];
+	//	if (pkItem)
+	//	{
+	//		if (gMain.IsPveMap())
+	//		{
+	//			const	ZhanChangItemTable* pkItemRes = pkItem->GetZhanChangResPtr();
+	//			if (pkItemRes)
+	//			{
+	//				for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
+	//				{
+	//					int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
+	//					const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
+	//					if (pkItemPassiveRes)
+	//					{
+	//						for (int iPassiveSkillIndex = 0; iPassiveSkillIndex < 10; ++iPassiveSkillIndex)
+	//						{
+	//							int		iPassiveSkillTypeID = pkItemPassiveRes->iKillSkill[iPassiveSkillIndex];
+	//							if (iPassiveSkillTypeID > 'S000')
+	//							{
+	//								AddItemPassiveSkill(iPassiveSkillTypeID);
+	//							}
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//		else
+	//		{
+	//			const	ItemTable* pkItemRes = pkItem->GetResPtr();
+	//			if (pkItemRes)
+	//			{
+	//				for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
+	//				{
+	//					int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
+	//					const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
+	//					if (pkItemPassiveRes)
+	//					{
+	//						for (int iPassiveSkillIndex = 0; iPassiveSkillIndex < 10; ++iPassiveSkillIndex)
+	//						{
+	//							int		iPassiveSkillTypeID = pkItemPassiveRes->iKillSkill[iPassiveSkillIndex];
+	//							if (iPassiveSkillTypeID > 'S000')
+	//							{
+	//								AddItemPassiveSkill(iPassiveSkillTypeID);
+	//							}
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
-	for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
-	{
-		BeItem* pkItem = m_apkItem[iIndex];
-		if (pkItem)
-		{
-			if (gMain.IsPveMap())
-			{
-				const	ZhanChangItemTable* pkItemRes = pkItem->GetZhanChangResPtr();
-				if (pkItemRes)
-				{
-					for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
-					{
-						int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
-						if (!CanAddItemPassiveSkill(iSkillTypeID))
-						{
-							pkItem->AddForbidSkill(iSkillTypeID);
+	//for (int iIndex = 0; iIndex < iMaxBuyItem; ++iIndex)
+	//{
+	//	BeItem* pkItem = m_apkItem[iIndex];
+	//	if (pkItem)
+	//	{
+	//		if (gMain.IsPveMap())
+	//		{
+	//			const	ZhanChangItemTable* pkItemRes = pkItem->GetZhanChangResPtr();
+	//			if (pkItemRes)
+	//			{
+	//				for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
+	//				{
+	//					int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
+	//					if (!CanAddItemPassiveSkill(iSkillTypeID))
+	//					{
+	//						pkItem->AddForbidSkill(iSkillTypeID);
 
-							continue;
-						}
-						const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
-						if (pkItemPassiveRes)
-						{
-							AddItemPassiveSkill(iSkillTypeID);
-						}
-					}
-				}
-			}
-			else
-			{
-				const	ItemTable* pkItemRes = pkItem->GetResPtr();
-				if (pkItemRes)
-				{
-					for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
-					{
-						int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
-						if (!CanAddItemPassiveSkill(iSkillTypeID))
-						{
-							pkItem->AddForbidSkill(iSkillTypeID);
+	//						continue;
+	//					}
+	//					const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
+	//					if (pkItemPassiveRes)
+	//					{
+	//						AddItemPassiveSkill(iSkillTypeID);
+	//					}
+	//				}
+	//			}
+	//		}
+	//		else
+	//		{
+	//			const	ItemTable* pkItemRes = pkItem->GetResPtr();
+	//			if (pkItemRes)
+	//			{
+	//				for (int iItemSkillIndex = 0; iItemSkillIndex < 6; ++iItemSkillIndex)
+	//				{
+	//					int		iSkillTypeID = pkItemRes->iItemSkill[iItemSkillIndex];
+	//					if (!CanAddItemPassiveSkill(iSkillTypeID))
+	//					{
+	//						pkItem->AddForbidSkill(iSkillTypeID);
 
-							continue;
-						}
-						const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
-						if (pkItemPassiveRes)
-						{
-							AddItemPassiveSkill(iSkillTypeID);
-						}
-					}
-				}
-			}
+	//						continue;
+	//					}
+	//					const	ItemPassiveTable* pkItemPassiveRes = ItemPassiveTableMgr::Get()->GetItemPassiveTable(iSkillTypeID);
+	//					if (pkItemPassiveRes)
+	//					{
+	//						AddItemPassiveSkill(iSkillTypeID);
+	//					}
+	//				}
+	//			}
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
-	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-	{
-		BeItem* pkOrgItem = GetItemByPos(i);
-		if (pkOrgItem)
-		{
-			pkOrgItem->InitItemSkill();
-		}
-	}
-	UpdateAttribute(true);
+	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
+	//{
+	//	BeItem* pkOrgItem = GetItemByPos(i);
+	//	if (pkOrgItem)
+	//	{
+	//		pkOrgItem->InitItemSkill();
+	//	}
+	//}
+	//UpdateAttribute(true);
 }
 
 void BeUnit::SetCurrentTypeID(int iTypeID)
@@ -4757,22 +3923,22 @@ void BeUnit::UpdateBattleState(bool bBattle)
 
 void BeUnit::SetUD_Int(UserDataKey eKey, int i)
 {
-	m_akUserData[eKey] = BePointerType(i);
+	m_akUserData[eKey] = TePointerType(i);
 }
 
 void BeUnit::SetUD_Float(UserDataKey eKey, float f)
 {
-	m_akUserData[eKey] = BePointerType(f);
+	m_akUserData[eKey] = TePointerType(f);
 }
 
 int BeUnit::PopUD_Int(UserDataKey eKey)
 {
 	int iValue = 0;
-	auto itr = m_akUserData.Find(eKey);
-	if (itr != m_akUserData.End())
+	auto itr = m_akUserData.find(eKey);
+	if (itr != m_akUserData.end())
 	{
-		iValue = itr->Value().v.iValue;
-		m_akUserData.Erase(itr);
+		iValue = itr->second.v.iValue;
+		m_akUserData.erase(itr);
 	}
 
 	return iValue;
@@ -4781,11 +3947,11 @@ int BeUnit::PopUD_Int(UserDataKey eKey)
 float BeUnit::PopUD_Float(UserDataKey eKey)
 {
 	float fValue = 0.f;
-	auto itr = m_akUserData.Find(eKey);
-	if (itr != m_akUserData.End())
+	auto itr = m_akUserData.find(eKey);
+	if (itr != m_akUserData.end())
 	{
-		fValue = itr->Value().v.fValue;
-		m_akUserData.Erase(itr);
+		fValue = itr->second.v.fValue;
+		m_akUserData.erase(itr);
 	}
 
 	return fValue;
@@ -4793,10 +3959,10 @@ float BeUnit::PopUD_Float(UserDataKey eKey)
 
 int BeUnit::GetUD_Int(UserDataKey eKey, int i) const
 {
-	auto itr = m_akUserData.Find(eKey);
-	if (itr != m_akUserData.End())
+	auto itr = m_akUserData.find(eKey);
+	if (itr != m_akUserData.end())
 	{
-		i = itr->Value().v.iValue;
+		i = itr->second.v.iValue;
 	}
 
 	return i;
@@ -4804,10 +3970,10 @@ int BeUnit::GetUD_Int(UserDataKey eKey, int i) const
 
 float BeUnit::GetUD_Float(UserDataKey eKey, float f) const
 {
-	auto itr = m_akUserData.Find(eKey);
-	if (itr != m_akUserData.End())
+	auto itr = m_akUserData.find(eKey);
+	if (itr != m_akUserData.end())
 	{
-		f = itr->Value().v.fValue;
+		f = itr->second.v.fValue;
 	}
 
 	return f;
@@ -4815,8 +3981,8 @@ float BeUnit::GetUD_Float(UserDataKey eKey, float f) const
 
 bool BeUnit::HasUserData(UserDataKey eKey) const
 {
-	auto itr = m_akUserData.Find(eKey);
-	if (itr != m_akUserData.End())
+	auto itr = m_akUserData.find(eKey);
+	if (itr != m_akUserData.end())
 	{
 		return true;
 	}
@@ -4825,114 +3991,5 @@ bool BeUnit::HasUserData(UserDataKey eKey) const
 
 void BeUnit::ClearUserData(UserDataKey eKey)
 {
-	m_akUserData.Erase(eKey);
-}
-
-void BeUnit::ResetTurnTableInfo()
-{
-	unsigned int akBuffSkill[21] = {
-		'SZ11', 'SZ21', 'SZ31', 'SZ12', 'SZ22', 'SZ32', 'SZ13',
-		'SZ23', 'SZ33', 'SZ14', 'SZ24', 'SZ34', 'SZ15', 'SZ25',
-		'SZ35', 'SZ16', 'SZ26', 'SZ36', 'SZ17', 'SZ27', 'SZ37' };
-
-	for (int iIdx = 0; iIdx < 21; iIdx++)
-	{
-		int iRandIdx = gRandNum.RandInt(0, 21);
-		if (iIdx != iRandIdx)
-		{
-			unsigned int uiTemp = akBuffSkill[iIdx];
-			akBuffSkill[iIdx] = akBuffSkill[iRandIdx];
-			akBuffSkill[iRandIdx] = uiTemp;
-		}
-	}
-	for (int iIdx = 0; iIdx < 6; iIdx++)
-	{
-		SetTurnTableInfoByPos(iIdx, akBuffSkill[iIdx]);
-	}
-	m_uiReTurnNum = 0;
-	m_uiConfirmResult = 0;
-	memset(m_uiTurnResult, 0, sizeof(m_uiTurnResult));
-	SetTurnTableFlag(BZCTF_TABLE_INFO);
-}
-
-unsigned int BeUnit::RollTurnTableBuffer()
-{
-	int iRandNum = gRandNum.RandInt(0, 6);
-	unsigned int uiBufferSkillID = GetTurnTableInfoByPos(iRandNum);
-	this->m_uiNowTurnResult = uiBufferSkillID;
-	for (int i = 0; i < 6; i++)
-	{
-		if (m_uiTurnResult[i] == 0)
-		{
-			m_uiTurnResult[i] = uiBufferSkillID;
-			break;
-		}
-	}
-	if (uiBufferSkillID > 0) {
-		SetTurnTableFlag(BZCTF_TRUN_RESULT);
-	}
-	return uiBufferSkillID;
-}
-
-bool BeUnit::AddTurnTableBuffer()
-{
-	BeBuffer* pkBuffer = GetBuffer('B513');
-	if (pkBuffer)
-	{
-		pkBuffer->ClearAttr();
-		for (int i = 0; i < 6; i++)
-		{
-			unsigned int uiSkillID = m_uiTurnTableAttrInfo[i];
-			const SkillTable* pkSkillInfo = gMain.GetResSkill(uiSkillID);
-			if (pkSkillInfo)
-			{
-				BeNormalAttType iTypeA = (BeNormalAttType)pkSkillInfo->uiDataContentA;
-				float fValueA = pkSkillInfo->fValueA[0];
-				pkBuffer->SetNormalAttr(iTypeA, pkBuffer->GetNormalAttrValue(iTypeA) + fValueA);
-				UpdateAttribute(true);
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < 6; i++)
-		{
-			unsigned int uiSkillID = m_uiTurnTableAttrInfo[i];
-			const SkillTable* pkSkillInfo = gMain.GetResSkill(uiSkillID);
-			if (pkSkillInfo)
-			{
-				pkBuffer = AddBufferBegin('B513', -1);
-				if (pkBuffer)
-				{
-					BeNormalAttType iTypeA = (BeNormalAttType)pkSkillInfo->uiDataContentA;
-					float fValueA = pkSkillInfo->fValueA[0];
-					pkBuffer->SetNormalAttr(iTypeA, pkBuffer->GetNormalAttrValue(iTypeA) + fValueA);
-					pkBuffer->SetDeadNoRemove(true);
-					AddBufferEnd(pkBuffer);
-				}
-			}
-		}
-	}
-
-
-	m_uiConfirmResult = m_uiNowTurnResult;
-	m_uiReTurnNum = 0;
-	memset(m_uiTurnResult, 0, sizeof(m_uiTurnResult));
-	SetTurnTableFlag(BZCTF_TABLE_INFO);
-
-	return true;
-}
-
-void			BeUnit::PlayAction(int iEffectID, int iFffectTime)
-{
-	int		iLastUseTime = GetUD_Int(UDK_SHOW_ACTION_TIME);
-	int		iCDTime = 1000;
-	if (gTime - iLastUseTime < iCDTime)
-	{
-		return;
-	}
-	if (iEffectID) {
-		AddAttach(iEffectID, iFffectTime, GetID());
-		SetUD_Int(UDK_SHOW_ACTION_TIME, gTime);
-	}
+	m_akUserData.erase(eKey);
 }

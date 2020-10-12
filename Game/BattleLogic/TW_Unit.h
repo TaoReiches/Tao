@@ -1005,11 +1005,6 @@ public:
 	{
 		int iOldID = m_pkBackData->iAttackingUnitID;
 		m_pkBackData->iAttackingUnitID = iID;
-
-		if (iOldID != iID)
-		{
-			AIOnTargetChange(iID, bIsOrb, bAttackPos);
-		}
 	}
 
 	inline bool IsGhost(void) const
@@ -1642,9 +1637,6 @@ public:
 	float			GetAttackedBaoJiAttr(void) const;
 	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel = -1);
 
-	BeUnit* CopyUnitToOther(BeUnitFlag eFlag, int iSkillID = 0);
-	void			CopyAllItemAndSkill(BeUnit* pkUnit);
-
 	void			OnPropertyUpdate(int iLevel);
 	void            SetCurExp(int iCurExp);
 	void			SetLevel(int iLevel, bool bNeedRecordChange = true);
@@ -1671,19 +1663,8 @@ public:
 
 	bool PickMapItem(BeMapItem* pkMapItem);
 
-	void				AIOnBeDamaged(BeUnit* pkAttacker, unsigned int dwTime, int iSkillTypeID);
-	void				AIOnUpdate(unsigned int dwTime);
-	void				AIOnTargetChange(int iTargetID, bool bIsOrb = false, bool bAttackPos = false);
-	void				AIOnBeTargeted(BeUnit* pkAttacker, unsigned int dwCurrentTime, bool bIsOrb = false, int iTargetID = 0, bool bAttackPos = false);
-	void				AIOnBeSkillTargeted(BeUnit* pkAttacker, int iSkillID, unsigned int dwCurrentTime);
-	void				AIOnHold(bool bConnect);
-	void				AIOnStop(bool bConnect);
-	void				AISetFirstChoiceTarge(int iTarget);
-
 	bool				InBossArea(const BeUnit* pkBoss) const;
 
-	int				AIUnitRandSpell(BeUnit* pkTarget);
-	const BeUnit* AIFindTarget(const BeUnit* pkCurrentTarget = 0, bool bCanMove = true, bool bSkill = false);
 	void				AddIgnoreUnit(int iUnitID, int iTime = 5000);
 	bool				IsIgnoreUnit(int iUnitID) const;
 
@@ -1755,7 +1736,6 @@ public:
 	void ClearAllCommonCD(void);
 	std::map<int, int>& GetAllCD(void);
 
-	void SetTowerLastHasUnitTime(int iTime);
 	void			OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate = true, bool bDelEffect = true);
 	void SetCheatAttr(void);
 
@@ -1765,9 +1745,6 @@ public:
 	void AddNewShield(int iBufferID, float fShield);
 	float GetShieldByBuffer(int iBufferID);
 	inline	float	GetTotalShield(void);
-
-	void		CheckDeathRecord(void);
-	void		CalFinalDeathRecord(int iKiller);
 
 	float		GetExtraBossDamageTotal(int iBossID);
 
@@ -1790,7 +1767,6 @@ public:
 	void			GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID);
 
 	BeItem* AddItem(int iTypeID, int iPos = -1, int iForceID = 0, int iOrgData = 0);
-	BeItem* AddZItem(int iYype, int iUniqueID, int iPos = -1);
 public:
 	void        SetUD_Int(UserDataKey eKey, int i);
 	void        SetUD_Float(UserDataKey eKey, float f);
@@ -1887,9 +1863,6 @@ protected:
 	void	UpdateLiveTime(int iDeltaTime);
 	void	UpdateBuffer(int iDeltaTime);
 	void	UpdateHalloSkill(int iDeltaTime);
-
-public:
-	void			ParseHaloSkill(const BeSkill* pkSkill, int iItemID = 0);
 
 protected:
 	bool m_bIsUpdate;
@@ -2019,10 +1992,6 @@ public:
 	inline		void					AddBeDamageRecord(int iID, unsigned int uiDamage);
 	inline		unsigned int 			GetBeDamageRecord(int iID);
 
-	void							ResetTurnTableInfo();
-	unsigned	int					RollTurnTableBuffer();
-	bool							AddTurnTableBuffer();
-
 	inline void							SetHunQiSkillID(unsigned int uiSkillID);
 	inline unsigned int					GetHunQiSkillID();
 	inline void							AddHunStoneNum(unsigned short usCount);
@@ -2036,8 +2005,6 @@ public:
 	inline void							AddTurnTableAttrInfo(unsigned int uiSkillID);
 	inline	void						AddSkillUnit(int iUnitID);
 	inline	std::vector<int>& GetSkillUnit();
-
-	void							PlayAction(int iEffectID, int iFffectTime);
 };
 
 inline	const		bool	BeUnit::GetUnitVisionForCamp(int iDstCamp)	const

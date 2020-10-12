@@ -3,8 +3,17 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <algorithm>
 #include "TW_UnitDefine.h"
 #include "TW_Unit.h"
+#include "TW_Formula.h"
+#include "TW_Carry.h"
+#include "TW_Map.h"
+#include "TW_Main.h"
+#include "TW_Buff.h"
+#include "TW_UnitMgr.h"
+#include "Skill_table.hpp"
+#include "TW_Skill.h"
 
 BeUnitData::BeUnitData()
 {
@@ -76,11 +85,9 @@ BeUnitData::BeUnitData()
 	dwUnitCreateTime = 0;
 
 	pkRes = 0;
-	memset(apkUISkill, 0, sizeof(apkUISkill));
 	akLearnSkill = 0;
 	iSkillPointSum = 0;
 	iUsedSkillPoint = 0;
-	eMorphType = BUMT_CHANGE_UNIT;
 	iTypeID = 0;
 	iUnitProperty = 0;
 	iVisionRaius = 0;
@@ -117,101 +124,6 @@ BeUnitData::~BeUnitData()
 {
 }
 
-void BeUnitData::SaveData(BeUnitMorphType eType, BeUnitData& other) const
-{
-	switch (eType)
-	{
-	case BUMT_CHANGE_UNIT:
-	{
-		break;
-	}
-	case BUMT_SKILL_MORPH:
-	case BUMT_CHANGESKILL:
-	{
-		other.akLearnSkill = akLearnSkill;
-		break;
-	}
-	case BUMT_CHANGE_MODEL:
-	case BUMT_CHANGE_MODELSKILL:
-	case BUMT_SKILL_WOODOO:
-	case BUMT_SKILL_UNIT:
-	{
-		other.fMaxHP = fMaxHP;
-		other.fRegenHP = fRegenHP;
-		other.fMaxMP = fMaxMP;
-		other.fRegenMP = fRegenMP;
-		other.fDamage = fDamage;
-
-		other.fArmor = fArmor;
-
-		if (eType != BUMT_CHANGE_MODELSKILL)
-		{
-			other.eAttackType = eAttackType;
-			other.fAttackRange = fAttackRange;
-			other.eMoveType = eMoveType;
-		}
-
-		other.iAttackCD = iAttackCD;
-		other.iAttackDamagePt = iAttackDamagePt;
-		other.iAttackBackPt = iAttackBackPt;
-		other.iAttackSpeedAdd = iAttackSpeedAdd;
-
-		other.fOrgArmor = fOrgArmor;
-		other.fOrgMagicArmor = fOrgMagicArmor;
-		other.fOrgMaxHP = fOrgMaxHP;
-		other.fOrgRegenHP = fOrgRegenHP;
-		other.fOrgMaxMP = fOrgMaxMP;
-		other.fOrgRegenMP = fOrgRegenMP;
-		other.fOrgDamage = fOrgDamage;
-
-		other.iOrgAttackCD = iOrgAttackCD;
-
-		other.fBaseArmor = fBaseArmor;
-		other.fBaseMaxHP = fBaseMaxHP;
-		other.fBaseRegenHP = fBaseRegenHP;
-		other.fBaseMaxMP = fBaseMaxMP;
-		other.fBaseRegenMP = fBaseRegenMP;
-		other.fBaseDamage = fBaseDamage;
-
-		other.fAddDamage = fAddDamage;
-		other.fAddArmor = fAddArmor;
-		other.fAddArmorPer = fAddArmorPer;
-		other.fAddMagicArmor = fAddMagicArmor;
-		other.fAddMagicArmorPer = fAddMagicArmorPer;
-
-		other.fBeDamagePerOrg = fBeDamagePerOrg;
-		other.fDamagePerOrg = fDamagePerOrg;
-
-		other.fBeDamagePer = fBeDamagePer;
-		other.fDamagePer = fDamagePer;
-
-		break;
-	}
-	break;
-	default:break;
-	}
-
-	other.fHP = other.fMaxHP * fHP / fMaxHP;
-	other.fMP = (fMaxMP > 0.0f) ? other.fMaxMP * fMP / fMaxMP : 0.0f;
-
-	other.eActionType = eActionType;
-	other.iActionCurTime = iActionCurTime;
-	other.iAttackElapseTime = iAttackElapseTime;
-
-	other.fPosX = fPosX;
-	other.fPosY = fPosY;
-	other.fPosZ = fPosZ;
-	other.fFace = fFace;
-	other.fPitch = fPitch;
-
-	other.fOrgSkillDamagePer = fOrgSkillDamagePer;
-	other.fSkillDamagePer = fSkillDamagePer;
-	other.fSkillBlastPer = fSkillBlastPer;
-}
-void BeUnitData::LoadData(BeUnitMorphType eType, const BeUnitData& other)
-{
-	other.SaveData(eType, *this);
-}
 #define ORG_REGEN_HP (gMain.IsNight() ? (m_pkCurData->pkRes)->fOrgNightRegenHP : (m_pkCurData->pkRes)->fOrgDayRegenHP)
 
 void BeUnit::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
@@ -258,7 +170,6 @@ void BeUnit::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
 	pkData->fAttackRange = (pkData->pkRes)->fAttackRange;
 	pkData->fMoveSpeed = pkData->fBaseMoveSpeed;
 	pkData->iAttackCD = pkData->iOrgAttackCD;
-	pkData->iVisionRaius = pkData->pkRes->iFogRadius >> 7;
 	pkData->fHP = pkData->fMaxHP;
 	pkData->fMP = pkData->fMaxMP;
 	pkData->fScale = 1.0f;
@@ -301,34 +212,7 @@ void BeUnit::OnPropertyUpdate(int iLevel)
 	float	fAddRegenHp = (pkOrgData->pkRes)->fHpRegenAddUp * fCalLevel;
 	float	fAddRegenMp = (pkOrgData->pkRes)->fMpRegenAddUp * fCalLevel;
 
-	if (gMain.IsPveMap() && GetPlayer() >= 0 && GetPlayer() < MAX_PLAYERS)
-	{
-		int MoraleValue = gMain.GetPlayerMoraleValue(GetPlayer());
-
-		fAddMaxHp += (pkOrgData->pkRes)->fHpLevelAdd * (MoraleValue / 2);
-		fAddMaxMp += (pkOrgData->pkRes)->fMpLevelAdd * (MoraleValue / 2);
-		fAddDamage += (pkOrgData->pkRes)->fOrgAddUpDamage * (MoraleValue / 2);
-		if ((pkOrgData->pkRes)->fZMapMagicAddUp > 0)
-		{
-			fAddMagic += (pkOrgData->pkRes)->fZMapMagicAddUp * (MoraleValue / 2);
-		}
-		fAddAmor += (pkOrgData->pkRes)->fAmorAddUp * (MoraleValue / 2);
-		fAddMagicArmor += (pkOrgData->pkRes)->fMagicAmorAddUp * (MoraleValue / 2);
-		fAddRegenHp += (pkOrgData->pkRes)->fHpRegenAddUp * (MoraleValue / 2);
-		fAddRegenMp += (pkOrgData->pkRes)->fMpRegenAddUp * (MoraleValue / 2);
-	}
-
 	int		iPlayer = GetPlayer();
-	if (IsHero() && iPlayer >= 0 && iPlayer < MAX_ACTIVEPLAYERS)
-	{
-		float	fEquipAddArmor = gMain.GetEquipAddArmor(iPlayer) * fCalLevel;
-		float	fEquipMagicDamage = gMain.GetEquipAddMagicDamage(iPlayer) * fCalLevel;
-		float	fEquipMagicArmor = gMain.GetEquipAddMagicArmor(iPlayer) * fCalLevel;
-
-		fAddAmor += fEquipAddArmor;
-		fAddMagic += fEquipMagicDamage;
-		fAddMagicArmor += fEquipMagicArmor;
-	}
 
 	pkCurData->fBaseMaxHP = pkCurData->fOrgMaxHP + fAddMaxHp;
 	pkCurData->fBaseDamage = pkCurData->fOrgDamage + fAddDamage;
@@ -337,7 +221,7 @@ void BeUnit::OnPropertyUpdate(int iLevel)
 	pkCurData->fOrgMagicDamage = pkCurData->pkRes->fOrgMagic + fAddMagic;
 	pkCurData->fBaseRegenHP = (pkOrgData->pkRes)->fOrgDayRegenHP + fAddRegenHp;
 
-	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_BULLETBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
+	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
 	{
 	}
 	else
@@ -396,7 +280,7 @@ void BeUnit::SetLevel(int iLevel, bool bNeedRecordChange)
 	if (iPreLevel != m_pkCurData->iLevel)
 	{
 		SetShareUnitChangeFlag(BSUDCF_UNITLEVEL);
-		SetTabInfoFlag(BTCF_LEVEL);
+		//SetTabInfoFlag(BTCF_LEVEL);
 	}
 }
 
@@ -579,7 +463,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 
 	pkCurData->fDecDamage = afChange[NAT_ABS_DECDAMAGE];
 	pkCurData->fRegenHP = pkCurData->fBaseRegenHP + afChange[NAT_ABS_REGEN_HP] + pkCurData->fBaseRegenHP * afChange[NAT_PER_REGEN_HP];
-	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_BULLETBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
+	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
 	{
 		pkCurData->fRegenMP = 0.0f;
 	}
@@ -621,7 +505,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	pkCurData->fLeech = afChange[NAT_LEECH];
 	pkCurData->fMagicLeech = afChange[NAT_MAGIC_LEECH];
 	pkCurData->fDecArmor = afChange[NAT_DEC_ARMOR];
-	pkCurData->fPerDecArmor = min(afChange[NAT_PER_DEC_ARMOR], 1.0f);
+	pkCurData->fPerDecArmor = std::min(afChange[NAT_PER_DEC_ARMOR], 1.0f);
 	pkCurData->fPerDecMagicArmor = afChange[NAT_PER_FASHUCHUANTOU];
 	pkCurData->fToughness = afChange[NAT_TOUGHNESS];
 	pkCurData->fDecMPCost = afChange[NAT_DEC_MPCOST];
@@ -636,16 +520,11 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	pkCurData->fBaoJiDamagePer = afChange[NAT_PER_BAOJI];
 	pkCurData->fBaoJiDecDamage = afChange[NAT_PER_DEC_BAOJI];
 
-	if (gMain.IsZhanChangMap())
 	{
-		pkCurData->fDecCDTime = min(afChange[NAT_DEC_CDTIME], 0.6f + afChange[NAT_DEC_CDTIME_MAX]);
-	}
-	else
-	{
-		pkCurData->fDecCDTime = min(afChange[NAT_DEC_CDTIME], 0.4f + afChange[NAT_DEC_CDTIME_MAX]);
+		pkCurData->fDecCDTime = std::min(afChange[NAT_DEC_CDTIME], 0.4f + afChange[NAT_DEC_CDTIME_MAX]);
 	}
 
-	pkCurData->fPerCDTime = min(afChange[NAT_PER_CDTIME], 0.9f);
+	pkCurData->fPerCDTime = std::min(afChange[NAT_PER_CDTIME], 0.9f);
 	pkCurData->fEnmityPoint = afChange[NAT_ABS_ENMITY_POINT];
 	pkCurData->fPerDamageReduce = afChange[NAT_PER_DAMAGE_REDUCE];
 	pkCurData->fEvadeRate = afChange[NAT_PER_AVOIDPHYSIC];
@@ -753,17 +632,18 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 
 BeLearnSkillData* BeUnit::GetLearnSkillData(int iPos)
 {
-	if (!m_pkBackData || !m_pkBackData->akLearnSkill)
-	{
-		return NULL;
-	}
+	//if (!m_pkBackData || !m_pkBackData->akLearnSkill)
+	//{
+	//	return NULL;
+	//}
 
-	if (iPos < 0 || iPos >= MAX_LEARN_SKILLS)
-	{
-		return NULL;
-	}
+	//if (iPos < 0 || iPos >= MAX_LEARN_SKILLS)
+	//{
+	//	return NULL;
+	//}
 
-	return &(m_pkBackData->akLearnSkill)[iPos];
+	//return &(m_pkBackData->akLearnSkill)[iPos];
+	return nullptr;
 }
 
 BeLearnSkillData* BeUnit::GetAllLearnSkillData()
@@ -773,13 +653,14 @@ BeLearnSkillData* BeUnit::GetAllLearnSkillData()
 
 int	BeUnit::GetCanLearnLevel(int iTypeID, int iLevel)
 {
-	const	SkillTable* pkData = GetResSkill(iTypeID);
-	if (!pkData || iLevel > pkData->iSkillMaxLevel || iLevel > 5 || iLevel < 1)
-	{
-		return 0;
-	}
+	//const	SkillTable* pkData = GetResSkill(iTypeID);
+	//if (!pkData || iLevel > pkData->iSkillMaxLevel || iLevel > 5 || iLevel < 1)
+	//{
+	//	return 0;
+	//}
 
-	return pkData->iLearnLevel[iLevel - 1];
+	//return pkData->iLearnLevel[iLevel - 1];
+	return 1;
 }
 
 int	BeUnit::GetSkillPointSum(void)
@@ -794,171 +675,57 @@ void BeUnit::SetSkillPointSum(int iSkillPoint)
 
 bool BeUnit::LearnSkill(int iSkillPos)
 {
-	if (iSkillPos < 0 || iSkillPos >= MAX_LEARN_SKILLS || !m_pkCurData || !(m_pkCurData->akLearnSkill))
-	{
-		return false;
-	}
+	//if (iSkillPos < 0 || iSkillPos >= MAX_LEARN_SKILLS || !m_pkCurData || !(m_pkCurData->akLearnSkill))
+	//{
+	//	return false;
+	//}
 
-	BeLearnSkillData& rkLearnData = (m_pkCurData->akLearnSkill)[iSkillPos];
-	int		iSkillTypeID = rkLearnData.iTypeID;
-	BeSkill* pkHasLearnSkill = GetSkillByPos(iSkillPos);
-	if (pkHasLearnSkill)
-	{
-		iSkillTypeID = pkHasLearnSkill->GetTypeID();
-	}
-	const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	//BeLearnSkillData& rkLearnData = (m_pkCurData->akLearnSkill)[iSkillPos];
+	//int		iSkillTypeID = rkLearnData.iTypeID;
+	//BeSkill* pkHasLearnSkill = GetSkillByPos(iSkillPos);
+	//if (pkHasLearnSkill)
+	//{
+	//	iSkillTypeID = pkHasLearnSkill->GetTypeID();
+	//}
+	//const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 
-	if (!pkRes || !m_pkBackData || GetLevel() - (m_pkBackData->iUsedSkillPoint) <= 0)
-	{
-		return false;
-	}
+	//if (!pkRes || !m_pkBackData || GetLevel() - (m_pkBackData->iUsedSkillPoint) <= 0)
+	//{
+	//	return false;
+	//}
 
-	BeSkill* pkSkill = GetSkill(iSkillTypeID);
-	if (!pkSkill)
-	{
-		int iCanLevel = GetCanLearnLevel(iSkillTypeID, 1);
-		if (GetLevel() < iCanLevel || iCanLevel == 0)
-		{
-			return false;
-		}
-		BeSkill* pkNewSkill = AddSkill(iSkillTypeID, 1);
-		if (!pkNewSkill)
-		{
-			return false;
-		}
-		++rkLearnData.iLearnLevel;
-		SetUsedSkillPoint(m_pkBackData->iUsedSkillPoint + 1);
-	}
-	else
-	{
-		int iLevel = GetSkillLevel(iSkillTypeID);
-		int iCanLevel = GetCanLearnLevel(iSkillTypeID, GetSkillLevel(iSkillTypeID) + 1);
-		if (iCanLevel == 0 || GetLevel() < iCanLevel || rkLearnData.iLearnLevel > pkSkill->GetMaxLevel())
-		{
-			return false;
-		}
+	//BeSkill* pkSkill = GetSkill(iSkillTypeID);
+	//if (!pkSkill)
+	//{
+	//	int iCanLevel = GetCanLearnLevel(iSkillTypeID, 1);
+	//	if (GetLevel() < iCanLevel || iCanLevel == 0)
+	//	{
+	//		return false;
+	//	}
+	//	BeSkill* pkNewSkill = AddSkill(iSkillTypeID, 1);
+	//	if (!pkNewSkill)
+	//	{
+	//		return false;
+	//	}
+	//	++rkLearnData.iLearnLevel;
+	//	SetUsedSkillPoint(m_pkBackData->iUsedSkillPoint + 1);
+	//}
+	//else
+	//{
+	//	int iLevel = GetSkillLevel(iSkillTypeID);
+	//	int iCanLevel = GetCanLearnLevel(iSkillTypeID, GetSkillLevel(iSkillTypeID) + 1);
+	//	if (iCanLevel == 0 || GetLevel() < iCanLevel || rkLearnData.iLearnLevel > pkSkill->GetMaxLevel())
+	//	{
+	//		return false;
+	//	}
 
-		pkSkill->SetLevel(iLevel + 1);
-		UpdateAttribute(true);
-		++rkLearnData.iLearnLevel;
-		SetUsedSkillPoint(m_pkBackData->iUsedSkillPoint + 1);
-	}
+	//	pkSkill->SetLevel(iLevel + 1);
+	//	UpdateAttribute(true);
+	//	++rkLearnData.iLearnLevel;
+	//	SetUsedSkillPoint(m_pkBackData->iUsedSkillPoint + 1);
+	//}
 
 	return true;
-}
-
-void BeUnit::ParseHaloSkill(const BeSkill* pkSkill, int iItemID)
-{
-	if (!pkSkill)
-	{
-		return;
-	}
-
-	const SkillTable* pkSkillRes = pkSkill->GetResPtr();
-	SeCalSkillLvlData	rkData;
-	if (!GetSkillLvlData(rkData, pkSkill->GetTypeID()))
-	{
-		return;
-	}
-
-	UnitGroup kGroup;
-	float fRadius = (float)rkData.GetSpellScope();
-	if (fRadius < 99999.0f)
-	{
-		{
-			gUnitMgr.GetAreaGroup(kGroup, GetPosX(), GetPosY(), fRadius, this, BCT_SPELL, pkSkill->GetTypeID());
-		}
-	}
-	else
-	{
-		gUnitMgr.GetAllMapGroup(kGroup, this, BCT_SPELL, pkSkill->GetTypeID());
-	}
-
-	if (!kGroup.IsEmpty())
-	{
-		for (int i = 0; i < (int)kGroup.Size(); i++)
-		{
-			BeUnit* pkUnit = kGroup[i];
-			if (!pkUnit || pkUnit->HasFlag(BUF_HIDE) || pkUnit->HasUnitCarryFlag(BUCF_NO_HALO_EFFECT))
-			{
-				continue;
-			}
-
-			bool bForceUpdate = false;
-			BeBuffer* pkBuffer = pkUnit->GetBuffer(pkSkill->GetBufferID(), GetID());
-			if (!pkBuffer || !pkBuffer->HasProperty(BUFFER_PROPERTY_CDWANCHENG))
-			{
-				bForceUpdate = true;
-				pkBuffer = pkUnit->AddBufferBegin(pkSkill->GetBufferID(), pkSkill->GetLevel(), GetID());
-				if (!pkBuffer)
-				{
-					continue;
-				}
-
-				pkBuffer->SetSkillRes(pkSkillRes);
-				pkBuffer->SetSkillLvlData(&rkData);
-				pkBuffer->SetSkillTypeID(pkSkill->GetTypeID());
-				pkBuffer->SetUnitID(GetID());
-				pkBuffer->SetHaloBuffer(true);
-				pkBuffer->SetLevel(pkSkill->GetLevel());
-				pkBuffer->SetCDTime(1000, bForceUpdate, true);
-				pkBuffer->SetRemoveTime(gTime + 3000);
-
-				int iSkillLevel = pkSkill->GetLevel();
-				for (int j = 0; j < MAX_CONTENT_DATA; ++j)
-				{
-					for (int j = 0; j < MAX_CONTENT_DATA; j++)
-					{
-						int eType = 0;
-						float fValue = 0.0f;
-						switch (j)
-						{
-						case 0:
-							eType = pkSkillRes->uiDataContentA;
-							fValue = rkData.GetDataValue(VALUE_A);
-							break;
-						case 1:
-							eType = pkSkillRes->uiDataContentB;
-							fValue = rkData.GetDataValue(VALUE_B);
-							break;
-						case 2:
-							eType = pkSkillRes->uiDataContentC;
-							fValue = rkData.GetDataValue(VALUE_C);
-							break;
-						case 3:
-							eType = pkSkillRes->uiDataContentD;
-							fValue = rkData.GetDataValue(VALUE_D);
-							break;
-						case 4:
-							eType = pkSkillRes->uiDataContentE;
-							fValue = rkData.GetDataValue(VALUE_E);
-							break;
-						case 5:
-							eType = pkSkillRes->uiDataContentF;
-							fValue = rkData.GetDataValue(VALUE_F);
-							break;
-						case 6:
-							break;
-						default:
-							break;
-						}
-
-						if (eType == 0)
-						{
-							continue;
-						}
-
-						if (eType >= NAT_ABS_ALL && eType < NAT_MAX_NUM)
-						{
-							pkBuffer->SetNormalAttrByData(eType, fValue);
-						}
-					}
-				}
-
-				pkUnit->AddBufferEnd(pkBuffer);
-			}
-		}
-	}
 }
 
 void BeUnit::ClrCastMove(void)
@@ -971,7 +738,7 @@ void BeUnit::ClrCastMove(void)
 	SetShareUnitChangeFlag(BSUDCF_POSX);
 	SetOtherFlag(BUOF_Clr_WeiYi);
 
-	gMap.SetUnitPosition(this, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
+	gMap.SetUnitPosition(this, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
 }
 
 void BeUnit::SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPosY, int iSkillTypeID, BeUnitFlyType kType, int iAttackUnitID)
@@ -989,21 +756,11 @@ void BeUnit::SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPo
 		return;
 	}
 
-	if (gMain.IsZhanChangMap() && this->GetSecClass() == UNIT_SECCLASSTYPE_GUARD)
-	{
-		return;
-	}
-
 	BeUnit* pkAttacker = gUnitMgr.GetUnitByID(iAttackUnitID);
 
 	BeBuffer* pkLiLiSiBuffer = GetLilithBuffer();
 
 	if ((!pkAttacker || pkAttacker->GetCamp() != GetCamp())) {
-
-		if (pkLiLiSiBuffer) {
-			RemoveLilithBuffer(pkLiLiSiBuffer->GetID());
-			return;
-		}
 
 		if (HasUnitCarryFlag(BUCF_IMMUNITY_CONTROL)) {
 			return;
@@ -1013,7 +770,7 @@ void BeUnit::SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPo
 	m_iMoveToUnitID = iUnitID;
 	m_fMoveTarPosX = fTarPosX;
 	m_fMoveTarPosY = fTarPosY;
-	m_iMoveAllTime = max(iMaxTime, 2 * iLogicFrameTime);
+	m_iMoveAllTime = std::max(iMaxTime, 2 * iLogicFrameTime);
 
 	gMap.DelUnitObstacle(this);
 
@@ -1042,7 +799,7 @@ void BeUnit::SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPo
 	kData.iTargetID = iUnitID;
 	kData.iSkillTypeID = iSkillTypeID;
 
-	gMain.AddUnitFlyData(kData);
+	//gMain.AddUnitFlyData(kData);
 }
 
 float	BeUnit::GetSkillAddValue(int iEnum, float fValue)
@@ -1208,68 +965,11 @@ bool BeUnit::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iS
 		if ((pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_NOTDECCD) == 0)
 		{
 			int iNowCD = rkData.GetSkillCoolDown();
-			if (iSkillTypeID != 'S105' && iSkillTypeID != 'SN05' && iSkillTypeID != 'SN06' && iSkillTypeID != 'SN07' && iSkillTypeID != 'S107')
 			{
 				iNowCD = (int)(iNowCD * (1.0f - GetDecCDTime()));
 			}
 
-			if (iSkillTypeID == 'S105' || iSkillTypeID == 'SN05' || iSkillTypeID == 'SN06' || iSkillTypeID == 'SN07')
-			{
-				if (GetUD_Int(UDK_S105))
-				{
-					iNowCD = GetUD_Int(UDK_S105);
-				}
-			}
-			if (iSkillTypeID == 'SQ09')
-			{
-				if (GetBuffer('S600'))
-				{
-					iNowCD *= 0.5f;
-				}
-			}
-
-			if (pkSkillRes->iUIShowPos > 0 && pkSkillRes->iUIShowPos < 9)
-			{
-				float	fST15ForSkill = GetUD_Float(UDK_ST15_PlayerTime);
-				if (fST15ForSkill > 0)
-				{
-					iNowCD = iNowCD * (1.0f - fST15ForSkill);
-				}
-			}
-			else
-			{
-				float	fST15ForItem = GetUD_Float(UDK_ST15_ItemTime);
-				if (fST15ForItem > 0)
-				{
-					iNowCD = iNowCD * (1.0f - fST15ForItem);
-				}
-			}
-
 			rkData.SetCoolDown(iNowCD);
-		}
-
-		if (iSkillTypeID == 'SA03')
-		{
-			int iNowCD = rkData.GetSkillCoolDown();
-			int     iSJ83 = GetUD_Int(UDK_SJ83);
-			iNowCD -= iSJ83;
-			rkData.SetCoolDown(iNowCD);
-		}
-
-		if (iSkillTypeID == 'SA02')
-		{
-			if (GetBuffer('BF13'))
-			{
-				rkData.SetEffectTime(4000);
-			}
-		}
-
-		if (iSkillTypeID == 'SA06')
-		{
-			if (GetUD_Int(UDK_SA06_NoTime) == 888)
-			{
-				rkData.SetCoolDown(10 * 1000);
-			}
 		}
 
 		rkData.SetBlastData(GetSkillBlastPer(), GetSkillBlastDmgPer());
