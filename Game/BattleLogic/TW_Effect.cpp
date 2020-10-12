@@ -4,6 +4,15 @@
 **********************************************/
 
 #include "TW_Effect.h"
+#include "TW_Main.h"
+#include "TW_TriggerEvent.h"
+#include "TW_Functions.h"
+#include "TW_UnitMgr.h"
+#include "TW_Unit.h"
+#include "TW_IRandom.h"
+#include "TW_MapItemMgr.h"
+#include "TW_MapItem.h"
+#include "TW_EffectMgr.h"
 
 TePos2  GetPointOnBezier(TePos2* pkPos, float fValueT)
 {
@@ -77,7 +86,7 @@ BeEffect::BeEffect(int iID)
 
 BeEffect::~BeEffect(void)
 {
-	BeAttackingAttr::DEL(m_pkAttr);
+	//BeAttackingAttr::DEL(m_pkAttr);
 	m_pkAttr = NULL;
 
 	gMain.DelEntityPointer(GIT_EFFECT, m_iID);
@@ -184,7 +193,7 @@ void BeEffect::OnRemove(void)
 	{
 		if (m_kEffectData.iSkillTypeID)
 		{
-			gRandNum.RandInteger(RANDINFO);
+			gRandNum.RandInt();
 			TePtParam kParam;
 			kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 			kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
@@ -476,15 +485,6 @@ void* BeEffect::UpdateTargetPos(void)
 	return NULL;
 }
 
-BeAttackingAttr& BeEffect::GetAttackingAttr(void)
-{
-	if (!m_pkAttr)
-	{
-		m_pkAttr = BeAttackingAttr::NEW();
-	}
-	return *m_pkAttr;
-}
-
 void BeEffect::UpdateAttach(int iDeltaTime)
 {
 	UpdateTargetPos();
@@ -760,30 +760,11 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 		int iStaticProcFlag = 0;
 		int iDynaPropFlag = 0;
 		pkAttacker->TranslateSkillTargetType(iSkillTargetFlag, iStaticProcFlag, iDynaPropFlag);
-
-		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, iDynaPropFlag, iStaticProcFlag);
-		if (m_kEffectData.iSkillTypeID == 'S329')
-		{
-			int iIndexIgore = -1;
-			for (int i = 0; i < kGroup.Size(); i++)
-			{
-				BeUnit* pkTUnit = kGroup[i];
-				if (pkTUnit && pkTUnit->GetID() == m_kEffectData.iData)
-				{
-					iIndexIgore = i;
-				}
-			}
-
-			if (iIndexIgore != -1)
-			{
-				kGroup.Erase(iIndexIgore);
-			}
-		}
 	}
 
-	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.IsEmpty())
+	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
 	{
-		if (m_kEffectData.iSkillTypeID && !kGroup.IsEmpty())
+		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
 			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
@@ -813,7 +794,6 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -862,7 +842,6 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -911,9 +890,9 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, iDynaPropFlag, iStaticProcFlag);
 	}
 
-	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.IsEmpty())
+	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
 	{
-		if (m_kEffectData.iSkillTypeID && !kGroup.IsEmpty())
+		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
 			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
@@ -943,7 +922,6 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -1003,7 +981,6 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -1052,9 +1029,9 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, BCT_SPELL, m_kEffectData.iSkillTypeID);
 	}
 
-	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.IsEmpty())
+	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
 	{
-		if (m_kEffectData.iSkillTypeID && !kGroup.IsEmpty())
+		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
 			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
@@ -1161,7 +1138,7 @@ void BeEffect::ParseAttack(void)
 				{
 					UnitGroup kGroup;
 					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, BCT_ATTACK, 0);
-					if (kGroup.IsEmpty())
+					if (kGroup.empty())
 					{
 						bNeedRemove = true;
 					}
@@ -1171,7 +1148,7 @@ void BeEffect::ParseAttack(void)
 
 						std::vector<BeUnit*> akAttacked;
 						m_akBumpAttackedID.push_back(m_kEffectData.iTargetID);
-						for (int i = 0; i < (int)kGroup.Size(); ++i)
+						for (int i = 0; i < (int)kGroup.empty(); ++i)
 						{
 							BeUnit* pkAttacked = kGroup[i];
 							if (pkAttacked && !pkAttacked->IsDead() && !pkAttacked->HasUserData(UDK_NONE))
@@ -1194,12 +1171,12 @@ void BeEffect::ParseAttack(void)
 								}
 								if (!bHasAttacked)
 								{
-									akAttacked.PushBack(pkAttacked);
+									akAttacked.push_back(pkAttacked);
 								}
 							}
 						}
 
-						if (!akAttacked.IsEmpty())
+						if (!akAttacked.empty())
 						{
 							BeUnit* pkNewAttacked = gUnitMgr.GetGroupNearestUnit(akAttacked, m_kEffectData.fPosX, m_kEffectData.fPosY);
 

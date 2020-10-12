@@ -7,6 +7,8 @@
 
 #include "TW_Entity.h"
 #include "TW_ChangeFlagObject.h"
+#include "TW_ItemDefine.h"
+#include "Item_table.hpp"
 
 class BeMapItem : public BeSingleLinkEntity, public BeChangeFlagObj
 {

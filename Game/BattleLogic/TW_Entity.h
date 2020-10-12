@@ -26,7 +26,8 @@ class BeEntityMgr;
 class BeEntity : public BeFlagObj, public BeMainPtr
 {
 public:
-	BeEntity(int iID);
+	BeEntity();
+	BeEntity(int iID );
 	virtual ~BeEntity(void);
 
 	inline int GetID(void) const

@@ -14,6 +14,13 @@
 #include "TW_ChangeFlagObject.h"
 #include "TW_MemoryPool.h"
 #include "TW_Pos2.h"
+#include "TW_ShareUnitData.h"
+#include "TW_Functions.h"
+#include "TW_EffectDefine.h"
+#include "TW_FlagObject.h"
+#include "TW_UserDataDefine.h"
+#include "TW_Entity.h"
+#include <TW_PointerType.h>
 
 enum BeNewFontEffectType
 {
@@ -220,11 +227,15 @@ struct  BumpCount
     int iUnitID;
     int iBumpCount;
 };
+
 typedef std::vector<int> UnitGroupID;
 class BeMain;
+class BeUnit;
+class BeAttackingAttr;
+class BeEntityMgr;
 typedef BeUnit* (*SearchFunc)(UnitGroupID& kGroup, BeMain* pkAttachMain, int iMaxNum, std::string strFlag);
 
-class BeEffect : public BeChangeFlagObj
+class BeEffect : public BeChangeFlagObj, public BeEntity
 {
     DECLARE_POOL1(BeEffect);
 
@@ -558,13 +569,7 @@ public:
         {
             return 0;
         }
-        return m_pkAttr->iBumpCount;
-    }
-
-    inline void SetAttrBumpCount(int iBumpCount)
-    {
-        BeAttackingAttr& rkAttr = GetAttackingAttr();
-        rkAttr.iBumpCount = iBumpCount;
+        //return m_pkAttr->iBumpCount;
     }
 
     inline bool GetChangeScale(void)
@@ -771,15 +776,12 @@ public:
             int iTempFlag = iFlag;
             iTempFlag &= ClientEffectUsedFlag;
         }
-        m_iFlag |= iFlag;
     }
 
     inline void ClrFlag(int iFlag)
     {
         int iTempFlag = iFlag;
         iTempFlag &= ClientEffectUsedFlag;
-
-        m_iFlag &= ~iFlag;
     }
 
     inline void SetCreateTime(unsigned int dwTime)
@@ -808,22 +810,22 @@ public:
 
     inline void SetUD_Int(UserDataKey rkKey, int i)
     {
-        m_kUserData[rkKey] = BePointerType(i);
+        m_kUserData[rkKey] = TePointerType(i);
     }
 
     inline void SetUD_Float(UserDataKey rkKey, float f)
     {
-        m_kUserData[rkKey] = BePointerType(f);
+        m_kUserData[rkKey] = TePointerType(f);
     }
 
     inline void SetUD_Void(UserDataKey rkKey, void* pkVoid)
     {
-        m_kUserData[rkKey] = BePointerType(pkVoid);
+        m_kUserData[rkKey] = TePointerType(pkVoid);
     }
 
     inline int GetUD_Int(UserDataKey rkKey, int iDefault) const
     {
-        std::map<UserDataKey, BePointerType>::const_iterator itr = m_kUserData.find(rkKey);
+        std::map<UserDataKey, TePointerType>::const_iterator itr = m_kUserData.find(rkKey);
         if (itr != m_kUserData.end())
         {
             return itr->second.v.iValue;
@@ -833,7 +835,7 @@ public:
 
     inline float GetUD_Float(UserDataKey rkKey, float fDefault) const
     {
-        std::map<UserDataKey, BePointerType>::const_iterator itr = m_kUserData.find(rkKey);
+        std::map<UserDataKey, TePointerType>::const_iterator itr = m_kUserData.find(rkKey);
         if (itr != m_kUserData.end())
         {
             return itr->second.v.fValue;
@@ -843,7 +845,7 @@ public:
 
     inline void* GetUD_Void(UserDataKey rkKey) const
     {
-        std::map<UserDataKey, BePointerType>::const_iterator itr = m_kUserData.find(rkKey);
+        std::map<UserDataKey, TePointerType>::const_iterator itr = m_kUserData.find(rkKey);
         if (itr != m_kUserData.end())
         {
             return itr->second.v.pVoid;
@@ -879,7 +881,7 @@ public:
 
     void	SetOrgScale(float fOrgScale, bool bChangeScale = false);
 
-    BeAttackingAttr& GetAttackingAttr(void);
+    // BeAttackingAttr& GetAttackingAttr(void);
     //	int	GetGroup(void);
 
     void	SetHuanZhuangUnit(int iUnit);
@@ -955,7 +957,6 @@ public:
 protected:
     int						m_iModelID;
     BeAttachPos				m_eAttachNode;
-    std::shared_ptr<BeUnit>		m_kAttachHuanZhuangUnit;
     BeEffectCurveType   	m_eCurveType;
     float					m_fAllDistance;
     std::vector<TePos2> 	m_akCurvePosW;
@@ -980,7 +981,7 @@ protected:
     bool					m_bSearchTargetSelf;
     int						m_iMaxTargetNum;
     TePos2					m_posAttacker;
-    std::map<UserDataKey, BePointerType>	m_kUserData;
+    std::map<UserDataKey, TePointerType>	m_kUserData;
 
     bool					m_bNoDelayDelete;
 };

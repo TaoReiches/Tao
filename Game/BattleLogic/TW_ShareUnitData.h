@@ -823,6 +823,7 @@ struct BeShareGameNotice
 	char			byType;
 };
 
+class SkillTable;
 struct SeSkillLvlData
 {
 	SeSkillLvlData()
@@ -850,28 +851,28 @@ struct SeSkillLvlData
 		{
 			iLevel = 0;
 		}
-		iCastTime = pkRes->iCastTime[iLevel];
-		iShakesTime = pkRes->iShakesTime[iLevel];
-		iEffectTime = pkRes->iEffectTime[iLevel];
-		iCoolDown = pkRes->iCoolDown[iLevel];
-		iManaSpend = (int)pkRes->fManaSpend[iLevel];
-		iSpellScope = pkRes->iEffectScope[iLevel];
-		iSpellAngle = pkRes->iSkillAngle[iLevel];
-		iSpellDistance = pkRes->iSkillDistance[iLevel];
-		iPilePointNums = pkRes->iPilePointNums[iLevel];
-		afValue[0] = pkRes->fValueA[iLevel];
-		afValue[1] = pkRes->fValueB[iLevel];
-		afValue[2] = pkRes->fValueC[iLevel];
-		afValue[3] = pkRes->fValueD[iLevel];
-		afValue[4] = pkRes->fValueE[iLevel];
-		afValue[5] = pkRes->fValueF[iLevel];
-		afValue[6] = pkRes->fValueG[iLevel];
-		fMissileSpeed = pkRes->fMissileSpeed;
-		iMissileModle = pkRes->iMissileModel;
-		iSelfModle = pkRes->iSrcEffect;
-		iTargetModle = pkRes->iDstUnitEffect;
-		iDstPosModle = pkRes->iDstPosEffect;
-		iSkillEffectModle = pkRes->iSkillEffect;
+		//iCastTime = pkRes->iCastTime[iLevel];
+		//iShakesTime = pkRes->iShakesTime[iLevel];
+		//iEffectTime = pkRes->iEffectTime[iLevel];
+		//iCoolDown = pkRes->iCoolDown[iLevel];
+		//iManaSpend = (int)pkRes->fManaSpend[iLevel];
+		//iSpellScope = pkRes->iEffectScope[iLevel];
+		//iSpellAngle = pkRes->iSkillAngle[iLevel];
+		//iSpellDistance = pkRes->iSkillDistance[iLevel];
+		//iPilePointNums = pkRes->iPilePointNums[iLevel];
+		//afValue[0] = pkRes->fValueA[iLevel];
+		//afValue[1] = pkRes->fValueB[iLevel];
+		//afValue[2] = pkRes->fValueC[iLevel];
+		//afValue[3] = pkRes->fValueD[iLevel];
+		//afValue[4] = pkRes->fValueE[iLevel];
+		//afValue[5] = pkRes->fValueF[iLevel];
+		//afValue[6] = pkRes->fValueG[iLevel];
+		//fMissileSpeed = pkRes->fMissileSpeed;
+		//iMissileModle = pkRes->iMissileModel;
+		//iSelfModle = pkRes->iSrcEffect;
+		//iTargetModle = pkRes->iDstUnitEffect;
+		//iDstPosModle = pkRes->iDstPosEffect;
+		//iSkillEffectModle = pkRes->iSkillEffect;
 	}
 
 	int		iNextLearnLevel;

@@ -10,14 +10,19 @@
 #include <map>
 #include "TW_Entity.h"
 #include "TW_MemoryPool.h"
+#include <Unit_table.hpp>
+#include "TW_UnitData.h"
+#include "TW_UnitDefine.h"
+#include "TW_Commander.h"
+#include "TW_CarryDefine.h"
 
 class BeItem;
 class BeCarry;
-class UnitTable;
+struct UnitTable;
 class BeBuffer;
 class BeSkill;
 
-class BeUnit : public BeSingleLinkEntity
+class BeUnit : public BeSingleLinkEntity, public BeEntity
 {
 	DECLARE_POOL1(BeUnit);
 
@@ -30,15 +35,15 @@ public:
 public:
 	inline bool IsHero(void) const
 	{
-		if (!m_pkBackData || !m_pkBackData->pkRes)
-		{
-			return false;
-		}
+		//if (!m_pkBackData || !m_pkBackData->pkRes)
+		//{
+		//	return false;
+		//}
 
-		if (m_pkBackData->pkRes->uiClassType == UNIT_CLASSTYPE_HERO)
-		{
-			return true;
-		}
+		//if (m_pkBackData->pkRes->uiClassType == UNIT_CLASSTYPE_HERO)
+		//{
+		//	return true;
+		//}
 		return false;
 	}
 
@@ -486,7 +491,7 @@ public:
 		return m_pkCurData->iUnitCurLiveTime;
 	}
 
-	inline UInt32 GetUnitReliveTime(void) const
+	inline unsigned int GetUnitReliveTime(void) const
 	{
 		return m_pkBackData->uiUnitReliveTime;
 	}
@@ -1046,7 +1051,7 @@ public:
 		return !(HasUnitCarryFlag(BUCF_CANNOTATTACK)
 			|| HasUnitCarryFlag(BUCF_ISJUMPING)
 			|| HasUnitCarryFlag(BUCF_ISMOVING)
-			)
+			);
 	}
 
 	inline bool IsInvincible(void) const
@@ -1110,24 +1115,6 @@ public:
 		GiveCommand(pkUnit->GetUnitCurCommand());
 	}
 
-	inline int GetLastBeDamagedTime(void)
-	{
-		if (!m_pkAI)
-		{
-			return 0;
-		}
-		return (int)m_pkAI->GetLastTimeBeDamaged();
-	}
-
-	inline int GetLastBeDamagedUnitID(void)
-	{
-		if (!m_pkAI)
-		{
-			return 0;
-		}
-		return (int)m_pkAI->GetLastBeDamagedUnitID();
-	}
-
 	inline void SetConnectUnit(BeUnit* pkUnit)
 	{
 		if (pkUnit)
@@ -1136,7 +1123,7 @@ public:
 		}
 	}
 
-	inline std::vector<SeSharedPtr<BeUnit>>& GetConnectUnits(void)
+	inline std::vector<std::auto_ptr<BeUnit>>& GetConnectUnits(void)
 	{
 		return m_akConnectUnits;
 	}
@@ -1153,47 +1140,20 @@ public:
 
 	inline void DelConnectUnit(BeUnit* pkUnit)
 	{
-		assert(pkUnit);
-		if (pkUnit)
-		{
-			int iID = pkUnit->GetID();
-			for (std::vector<SeSharedPtr<BeUnit>>::iterator itr = m_akConnectUnits.begin(); itr != m_akConnectUnits.end(); ++itr)
-			{
-				SeSharedPtr<BeUnit>& rkUnitPtr = (*itr);
-				if (!rkUnitPtr.IsNull() && (rkUnitPtr->GetID() == iID))
-				{
-					m_akConnectUnits.erase(itr);
-					break;
-				}
-			}
-		}
-	}
-
-	std::map<int, std::vector<BeDeathRecordData>>& GetDeathRecord()
-	{
-		return m_akDeathRecord;
-	}
-
-	inline bool HasUnitGuankaFlag(int iFlag) const
-	{
-		return (m_iGuankaFlag & iFlag) == iFlag;
-	}
-
-	inline void SetUnitGuankaFlag(int iFlag)
-	{
-		SetShareUnitChangeFlag(BSUDCF_GUANKAFLAG);
-		m_iGuankaFlag |= iFlag;
-	}
-
-	inline void ClrUnitGuankaFlag(int iFlag)
-	{
-		SetShareUnitChangeFlag(BSUDCF_GUANKAFLAG);
-		m_iGuankaFlag &= ~iFlag;
-	}
-
-	inline int GetUnitGuankaFlag()
-	{
-		return m_iGuankaFlag;
+		//assert(pkUnit);
+		//if (pkUnit)
+		//{
+		//	int iID = pkUnit->GetID();
+		//	for (std::vector<SeSharedPtr<BeUnit>>::iterator itr = m_akConnectUnits.begin(); itr != m_akConnectUnits.end(); ++itr)
+		//	{
+		//		SeSharedPtr<BeUnit>& rkUnitPtr = (*itr);
+		//		if (!rkUnitPtr.IsNull() && (rkUnitPtr->GetID() == iID))
+		//		{
+		//			m_akConnectUnits.erase(itr);
+		//			break;
+		//		}
+		//	}
+		//}
 	}
 
 	inline void SetOrgSkillLevel(int iSkillLevel)
@@ -1399,11 +1359,6 @@ public:
 		return m_fDeathRecordTotalDamage;
 	}
 
-	inline BeFinalDeathRecordData* GetFinalDeathRecordData(void) const
-	{
-		return (BeFinalDeathRecordData*)&m_akFinalDeathRecord;
-	}
-
 	inline void SetWalkLineIdx(int iIdx)
 	{
 		m_iWalkLineIdx = iIdx;
@@ -1470,16 +1425,6 @@ public:
 		return m_iWalkLineIdx;
 	}
 
-	BeUnitMorphType GetMorphUnitType(void)
-	{
-		return m_pkCurData->eMorphType;
-	}
-
-	void SetMorphUnitType(BeUnitMorphType eType)
-	{
-		m_pkCurData->eMorphType = eType;
-	}
-
 	void SetShareUnitChangeFlag(int iFlag)
 	{
 		m_iShareUnitDataChangeFlag |= iFlag;
@@ -1508,11 +1453,6 @@ public:
 	void SetCommonCD(std::map<int, int> kMap)
 	{
 		m_akCommonCD = kMap;
-	}
-
-	BeUnitAI* GetAI()
-	{
-		return m_pkAI;
 	}
 
 	std::map<int, float>& GetShield()
@@ -1561,7 +1501,7 @@ public:
 
 	void			OnDelete(void);
 
-	void			SetUnitReliveTime(UInt uiUnitReliveTime);
+	void			SetUnitReliveTime(unsigned int uiUnitReliveTime);
 	void			SetPlayer(int iPlayerIdx);
 	void			SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPosY, int iSkillTypeID, BeUnitFlyType kType = BUFT_MOVE, int iAttackUnitID = 0);
 	void			ClrCastMove(void);
@@ -1576,7 +1516,7 @@ public:
 
 	void			UpdateAttribute(bool bUpdateNormal = true);
 
-	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const SeSharedPtr<BeUnit>& kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
+	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::auto_ptr<BeUnit>& kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
 	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, BeUnit* pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
 	void			OperateUnitRemove();
 	float			GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
@@ -1592,18 +1532,11 @@ public:
 	BeItem* GetComposeItemByTypeID(int iTypeID);
 	void			GetItemGroupByTypeID(std::vector<BeItem*>& rkItems, int iTypeID, int iOwnerPlayer = -1);
 	int				GetItemNumsByID(int iTypeID) const;
-	bool			SwapItemPos(Byte bySrcPos, Byte byTarPos);
+	bool			SwapItemPos(char bySrcPos, char byTarPos);
 	void			DropItemByPos(int iPos, float fX, float fY, bool bForce = false);
 	void			DelItemByPos(int iPos);
 	void			DelAllItem(void);
 	void			DelItemByTypeID(int iTypeID, bool bFirstOnly = false);
-
-	BeItem* GetZItemByUniqueID(int iID) const;
-	BeItem* GetZItemByPos(int iPos);
-	int				GetZItemPosByUniqueID(int iID);
-	void			DelZItemByPos(int iPos);
-	void			DelZItemByUniqueID(int iUniqueID);
-	bool			SwapZItemPos(Byte bySrcPos, Byte byTarPos);
 
 	bool			HasItem(int iTypeID, bool bOwner = false);
 	int				HasItemNum(int iTypeID, bool bOwner = false);
@@ -1612,9 +1545,7 @@ public:
 	bool			IsPackageFull(void) const;
 	bool			IsPackageEmpty(void) const;
 	bool			PickAroundItem(void);
-	unsigned	int	GetItemTypeIDByPos(INT iPos);
-	unsigned	int	GetZItemTypeIDByPos(INT iPos);
-	unsigned	int	GetZItemUniqueIDByPos(INT iPos);
+	unsigned	int	GetItemTypeIDByPos(int iPos);
 
 	BeSkill* AddSkill(int iTypeID, int iLevel = 1, bool bCurrent = false, bool bGenus = false, bool bGenusSkill = false, int iForceID = 0);
 	BeSkill* GetSkill(int iTypeID, bool bCurrent = true) const;
@@ -1668,7 +1599,6 @@ public:
 
 	const SkillTable* GetResSkill(int iType) const;
 
-	void	SetSummonOption(BeUnitAIType eAiType, int iPlayer, int iControlPlayer, int iConnectUnitID, float fPosX, float fPosY, float fDistance, int iFlag, int iAllLiveTime, int iSkillOrItem = 0);
 
 	template<class T>
 	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
@@ -1751,14 +1681,6 @@ public:
 	void				AddIgnoreUnit(int iUnitID, int iTime = 5000);
 	bool				IsIgnoreUnit(int iUnitID) const;
 
-	void				AISetType(BeUnitAIType eType, bool bNeedRecordChange = true);
-	BeUnitAIType		AIGetType() const;
-	void				AISetControlType(BeAIControlType eType);
-	BeAIControlType		AIGetControlType() const;
-	bool				AIGetNeedRefreshTarget();
-	void				AISetNeedRefreshTarget(bool bNeed = true);
-	int					AIGetEP(const BeUnit* pkTarget) const;
-
 	void				CopyAttribute(BeUnit* pkUnit);
 
 	int					GetDeadCount()
@@ -1776,23 +1698,23 @@ public:
 
 	void				ChangeSkill(int iPos, int iSkillTypeID)
 	{
-		if (iPos >= 0 && iPos < iMaxHeroSkillNum)
-		{
-			int		iLastLevel = 0;
-			if (m_pkCurData->apkUISkill[iPos])
-			{
-				iLastLevel = m_pkCurData->apkUISkill[iPos]->GetLevel();
+		//if (iPos >= 0 && iPos < iMaxHeroSkillNum)
+		//{
+		//	int		iLastLevel = 0;
+		//	if (m_pkCurData->apkUISkill[iPos])
+		//	{
+		//		iLastLevel = m_pkCurData->apkUISkill[iPos]->GetLevel();
 
-				m_pkCurData->apkUISkill[iPos] = nullptr;
-				BeSkill* pkNewSkill = AddSkill(iSkillTypeID);
-				if (pkNewSkill)
-				{
-					pkNewSkill->SetLevel(iLastLevel);
-				}
+		//		m_pkCurData->apkUISkill[iPos] = nullptr;
+		//		BeSkill* pkNewSkill = AddSkill(iSkillTypeID);
+		//		if (pkNewSkill)
+		//		{
+		//			pkNewSkill->SetLevel(iLastLevel);
+		//		}
 
-				m_bChangeSkill = true;
-			}
-		}
+		//		m_bChangeSkill = true;
+		//	}
+		//}
 	}
 
 	bool			IsChangeSkill()
@@ -1887,7 +1809,7 @@ protected:
 	std::vector<BeSkill*>						m_apkNormalSkill;
 	int							m_iOtherFlag;
 	int							m_iCarryFlag;
-	int							m_iImmunityFlag
+	int							m_iImmunityFlag;
 	std::vector<BeCarry*>		m_apkCarry;
 	BeItem* m_apkItem[6];
 
@@ -1899,9 +1821,6 @@ protected:
 
 	float						m_fPreMaxHP;
 	float						m_fPreMaxMP;
-	BeUnitAI* m_pkAI;
-
-	int							m_iGuankaFlag;
 
 	int							m_iMoveToUnitID;
 	float                       m_fMoveTarPosX;
@@ -1909,7 +1828,7 @@ protected:
 	int							m_iMoveAllTime;
 	float						m_fMinMoveDistance;
 
-	std::vector<SeSharedPtr<BeUnit>>			m_akConnectUnits;
+	std::vector<std::auto_ptr<BeUnit>>			m_akConnectUnits;
 	std::vector<int>			m_VecShareHPIDs;
 
 	int							m_iOrgSkillLevel;
@@ -1936,8 +1855,6 @@ protected:
 	int					m_iOutBattleTime;
 	bool				m_bOutOfBattle;
 
-	std::map<int, std::vector<BeDeathRecordData>> m_akDeathRecord;
-	BeFinalDeathRecordData m_akFinalDeathRecord[3];
 	int			m_iDeathRecordLastTime;
 	float			m_fDeathRecordTotalDamage;
 	int			m_iWalkLineIdx;
@@ -1953,9 +1870,6 @@ protected:
 	unsigned short	m_usHunStoneNum;
 	unsigned short  m_usHunStoneTotalNum;
 	unsigned int	m_uiTurnTableAttrInfo[6];
-
-
-	Be8v8PlayerState m_e8v8PlayerState;
 	std::vector<BeUnitBeDamageRecord> m_apkBeDamageRecord;
 
 	BeCommand			m_kLastCommand;
@@ -2012,12 +1926,12 @@ private:
 	int						m_iGrassIndex;
 	int						m_iGiveAttackCmdTime;
 	void* m_pkVisionData;
-	Es::HashMap<int, BePointerType>		m_akUserData;
+	std::unordered_map<int, TePointerType>		m_akUserData;
 	BeFlagObj				m_kAutoSpellFlag;
 	int						m_iDeadCount;
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;
-	SeSharedPtr<BeUnit>		m_spSharePtr;
+	std::auto_ptr<BeUnit>		m_spSharePtr;
 	bool					m_abInPlayerVision[20];
 	bool					m_abEverInPlayerVision[20];
 	int						m_eCamp;
@@ -2062,7 +1976,7 @@ public:
 	inline		void					SetHaveSetObstacle(bool bSet);
 	inline		bool					GetHaveSetObstacle() const;
 	inline		bool					GetNeedUpdateObstacle() const;
-	inline		const SeSharedPtr<BeUnit>& GetSharePtr() const;
+	inline		const std::auto_ptr<BeUnit>& GetSharePtr() const;
 	inline		int						GetDamageNum();
 	inline	const	bool				GetUnitVisionForCamp(int iDstCamp)	const;
 	inline		void					SetTabInfoFlag(int iFlag);
@@ -2096,8 +2010,6 @@ public:
 	inline		unsigned int			GetTurnResultArrayByPos(int iIdx);
 	inline		void					AddOneFrameDamage(float fDamage);
 	inline		float					GetOneFrameDamage();
-	inline		Be8v8PlayerState		Get8v8PlayerState();
-	inline		void					Set8v8PlayerState(Be8v8PlayerState eState);
 
 	inline		void					AddBeDamageRecord(int iID, unsigned int uiDamage);
 	inline		unsigned int 			GetBeDamageRecord(int iID);
@@ -2159,7 +2071,7 @@ inline unsigned int BeUnit::GetSecClass(void) const
 		return 0;
 	}
 
-	return m_pkBackData->pkRes->uiSecClassType;
+	//return m_pkBackData->pkRes->uiSecClassType;
 }
 
 inline int			BeUnit::GetEffectID()
@@ -2259,7 +2171,7 @@ inline bool			BeUnit::GetNeedUpdateObstacle() const
 {
 	return m_bNeedUpdateObstacle;
 }
-inline const SeSharedPtr<BeUnit>& BeUnit::GetSharePtr() const
+inline const std::auto_ptr<BeUnit>& BeUnit::GetSharePtr() const
 {
 	return m_spSharePtr;
 }
@@ -2274,26 +2186,11 @@ inline		void					BeUnit::SetTabInfoFlag(int iFlag)
 }
 inline		unsigned	int			BeUnit::GetTabInfoFlag(int iCamp)	const
 {
-	if (iCamp == SRPC_CAMPA)
-	{
-		return m_iTabInfoFlagForCampA;
-	}
-	else if (iCamp == SRPC_CAMPB)
-	{
-		return m_iTabInfoFlagForCampB;
-	}
 	return 0;
 }
 inline		void					BeUnit::ClrTabInfoFlag(int iCamp)
 {
-	if (iCamp == SRPC_CAMPA)
-	{
-		m_iTabInfoFlagForCampA = 0;
-	}
-	else if (iCamp == SRPC_CAMPB)
-	{
-		m_iTabInfoFlagForCampB = 0;
-	}
+
 }
 inline		unsigned	int			BeUnit::GetZhuanShuSkillTypeID()
 {
@@ -2457,19 +2354,9 @@ inline		float					BeUnit::GetOneFrameDamage()
 	return m_iOneFrameDamage;
 }
 
-inline		Be8v8PlayerState		BeUnit::Get8v8PlayerState()
-{
-	return m_e8v8PlayerState;
-}
-
-inline		void					BeUnit::Set8v8PlayerState(Be8v8PlayerState eState)
-{
-	m_e8v8PlayerState = eState;
-}
-
 inline		void					BeUnit::AddBeDamageRecord(int iID, unsigned int uiDamage)
 {
-	for (int i = 0; i < m_apkBeDamageRecord.Size(); i++)
+	for (int i = 0; i < m_apkBeDamageRecord.size(); i++)
 	{
 		if (m_apkBeDamageRecord[i].iID == iID)
 		{
@@ -2477,12 +2364,12 @@ inline		void					BeUnit::AddBeDamageRecord(int iID, unsigned int uiDamage)
 			return;
 		}
 	}
-	m_apkBeDamageRecord.PushBack(BeUnitBeDamageRecord(iID, uiDamage));
+	m_apkBeDamageRecord.push_back(BeUnitBeDamageRecord(iID, uiDamage));
 }
 
 inline		unsigned int 			BeUnit::GetBeDamageRecord(int iID)
 {
-	for (int i = 0; i < m_apkBeDamageRecord.Size(); i++)
+	for (int i = 0; i < m_apkBeDamageRecord.size(); i++)
 	{
 		if (m_apkBeDamageRecord[i].iID == iID)
 		{
@@ -2505,66 +2392,6 @@ inline void					BeUnit::SetHunQiSkillID(unsigned int uiSkillID)
 inline unsigned int					BeUnit::GetTurnTableAttrInfoByPos(int iPos)
 {
 	return m_uiTurnTableAttrInfo[iPos];
-}
-
-inline void							BeUnit::SetTurnTableAttrInfoByPos(int iPos, unsigned int uiSkillID)
-{
-	m_uiTurnTableAttrInfo[iPos] = uiSkillID;
-	SetTurnTableFlag(BZCTF_ATTR_INFO);
-}
-
-inline void							BeUnit::AddTurnTableAttrInfo(unsigned int uiSkillID)
-{
-	for (int i = 0; i < 6; i++)
-	{
-		if (m_uiTurnTableAttrInfo[i] == 0)
-		{
-			m_uiTurnTableAttrInfo[i] = uiSkillID;
-			SetTurnTableFlag(BZCTF_ATTR_INFO);
-			return;
-		}
-	}
-
-}
-
-inline void							BeUnit::AddHunStoneNum(unsigned short usCount)
-{
-	m_usHunStoneNum += usCount;
-	SetTurnTableFlag(BZCTF_ITEM_COUNT);
-}
-
-inline void							BeUnit::ReduceHunStoneNum(unsigned short usCount)
-{
-	if (m_usHunStoneNum > usCount)
-	{
-		m_usHunStoneNum -= usCount;
-	}
-	else
-	{
-		m_usHunStoneNum = 0;
-	}
-	SetTurnTableFlag(BZCTF_ITEM_COUNT);
-}
-
-inline void							BeUnit::SetHunStoneNum(unsigned short usCount)
-{
-	m_usHunStoneNum = usCount;
-}
-
-inline unsigned short				BeUnit::GetHHunStoneNum()
-{
-	return m_usHunStoneNum;
-}
-
-inline void							BeUnit::AddHunStoneTotalNum(unsigned short usCount)
-{
-	m_usHunStoneTotalNum += usCount;
-
-}
-
-inline unsigned short				BeUnit::GetHunStoneTotalNum()
-{
-	return m_usHunStoneTotalNum;
 }
 
 inline	void						BeUnit::AddSkillUnit(int iUnitID)

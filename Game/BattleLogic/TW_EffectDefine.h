@@ -6,6 +6,7 @@
 **********************************************/
 
 #include "TW_MemoryPool.h"
+#include "TW_Command.h"
 
 #define NORMAL_RAD_SPEED	0.05714f
 #define SLOW_RAD_SPEED		0.02248f

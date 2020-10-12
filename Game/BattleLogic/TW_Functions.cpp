@@ -107,9 +107,6 @@ float AntiClockWiseDelta(float fRadian0, float fRadian1)
 	return fDeltaRadian;
 }
 
-#define D3DX_PI 3.1415926f
-#define	D3DX_2PI					(D3DX_PI * 2.0f)		// 2PI
-
 void AdjustRadian(float& fRadian)
 {
 	int iCount = 0;

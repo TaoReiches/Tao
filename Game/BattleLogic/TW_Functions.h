@@ -7,6 +7,9 @@
 
 #include <string>
 
+#define D3DX_PI 3.1415926f
+#define	D3DX_2PI					(D3DX_PI * 2.0f)		// 2PI
+
 void	WarnInfo(char* format, ...);
 
 float	GetBuyDistance(void);

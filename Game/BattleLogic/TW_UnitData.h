@@ -8,7 +8,7 @@
 #include "TW_MemoryPool.h"
 #include "TW_AttackAttr.h"
 
-static const int iMaxHeroSkillNum = 6;
+#define iMaxHeroSkillNum	6;
 
 enum BeUnitAction
 {
@@ -29,7 +29,7 @@ enum BeUnitAction
 };
 
 class BeSkill;
-class UnitTable;
+struct UnitTable;
 class BeLearnSkillData;
 
 class BeUnitData
@@ -112,7 +112,7 @@ public:
 	unsigned int				uiUnitReliveTime;
 
 	const UnitTable* pkRes;
-	BeSkill* apkUISkill[iMaxHeroSkillNum];
+	std::vector<BeSkill*> apkUISkill;
 
 	BeLearnSkillData* akLearnSkill;
 	int					iSkillPointSum;
