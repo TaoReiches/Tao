@@ -129,11 +129,11 @@ SeCalSkillLvlData* BeBuffer::GetSkillLvlData(void)
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
-	//BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID, true);
-	//if (pkUnit)
-	//{
-	//	m_kData.kUnit.reset(pkUnit);// = std::make_shared<BeUnit>(pkUnit);
-	//}
+	BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID, true);
+	if (pkUnit)
+	{
+		m_kData.kUnit.reset(pkUnit);
+	}
 }
 
 int BeBuffer::GetBufferUnitID() const

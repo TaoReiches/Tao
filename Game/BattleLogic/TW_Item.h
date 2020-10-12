@@ -11,7 +11,6 @@
 
 class BeSkill;
 class ItemTable;
-class ZhanChangItemTable;
 
 class BeCarrySkill : public BeCarry
 {
@@ -32,7 +31,6 @@ public:
     BeItem(int iID);
     ~BeItem(void);
 
-
     inline const ItemTable* GetResPtr(void) const
     {
         return m_pkRes;
@@ -41,15 +39,6 @@ public:
     inline void SetResPtr(const ItemTable* pkRes)
     {
         m_pkRes = pkRes;
-    }
-    inline const ZhanChangItemTable* GetZhanChangResPtr(void) const
-    {
-        return m_pkZRes;
-    }
-
-    inline void SetZhanChangResPtr(const ZhanChangItemTable* pkRes)
-    {
-        m_pkZRes = pkRes;
     }
 
     int GetCDSkillID()
@@ -81,15 +70,7 @@ public:
 
     inline bool IsCanSplice(void) const
     {
-        if (m_pkRes)
-        {
-            return m_pkRes->iPileCount > 1;
-        }
-        else if (m_pkZRes)
-        {
-            return m_pkZRes->iPileCount > 1;
-        }
-        return NULL;
+        return false;
     }
 
     inline int GetAttachSkillID(int iPos) const
@@ -99,64 +80,38 @@ public:
             return 0;
         }
 
-        return m_pkRes->iItemSkill[iPos];
+        //return m_pkRes->iItemSkill[iPos];
+        return 0;
     }
 
     inline int GetPriceOfBuy(void) const
     {
-        return m_pkRes->iItemPrice;
+        //return m_pkRes->iItemPrice;
+        return 0;
     }
     inline int GetOrgPileCount(void) const
     {
-        return m_pkRes->iOrgPileCount;
+        //return m_pkRes->iOrgPileCount;
+        return 0;
     }
 
     inline int GetOrgUseCount(void) const
     {
-        if (m_pkRes)
-        {
-            return m_pkRes->iOrgUseCount;
-        }
-        else if (m_pkZRes)
-        {
-            return m_pkZRes->iOrgUseCount;
-        }
+        //if (m_pkRes)
+        //{
+        //    return m_pkRes->iOrgUseCount;
+        //}
+        //else if (m_pkZRes)
+        //{
+        //    return m_pkZRes->iOrgUseCount;
+        //}
         return -1;
     }
 
     inline int GetMaxPileCount(void) const
     {
-        return m_pkRes->iPileCount;
-    }
-
-    inline int GetStockCD(void) const
-    {
-        return m_pkRes->iStockCD;
-    }
-
-    inline int GetZItemTypeA(void) const
-    {
-        return m_pkZRes->uiAttrTypeA;
-    }
-    inline int GetZItemTypeB(void) const
-    {
-        return m_pkZRes->uiAttrTypeB;
-    }
-    inline int GetZItemTypeC(void) const
-    {
-        return m_pkZRes->uiAttrTypeC;
-    }
-    inline float GetZItemValueA(int iStrengLv) const
-    {
-        return m_pkZRes->fAttrGrowValueA * iStrengLv;
-    }
-    inline float GetZItemValueB(int iStrengLv) const
-    {
-        return m_pkZRes->fAttrGrowValueB * iStrengLv;
-    }
-    inline float GetZItemValueC(int iStrengLv) const
-    {
-        return m_pkZRes->fAttrGrowValueC * iStrengLv;
+        //return m_pkRes->iPileCount;
+        return 0;
     }
 
     inline void SetPackagePos(int iPos)
@@ -451,7 +406,6 @@ public:
     inline	void			SetItemCDTime(int iTime);
 protected:
     const ItemTable* m_pkRes;
-    const ZhanChangItemTable* m_pkZRes;
     BeItemData				m_kData;
 
     int						m_iUniqueID;
@@ -508,7 +462,6 @@ class BeEquip : public BeCarrySkill
 {
     friend class BeUnit;
 public:
-    DECLARE_POOL1(BeEquip);
 
     BeEquip(int iID);
     ~BeEquip(void);

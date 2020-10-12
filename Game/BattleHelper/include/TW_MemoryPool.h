@@ -192,7 +192,7 @@ enum PoolState
 	}
 #else
 #define IMPLEMENT_POOL1(ClassName,BaseEles,AddEles)\
-    TeMemoryPool	ClassName::s_kMemPool(sizeof(ClassName),BaseEles,AddEles,#ClassName);\
+    TeMemoryPool	ClassName::s_kMemPool(sizeof(ClassName),BaseEles,AddEles,(#ClassName)[0]);\
     ClassName*	ClassName::NEW(unsigned int dwValue)\
     {\
         ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\

@@ -9,6 +9,8 @@
 #include "TW_Carry.h"
 #include "TW_MemoryPool.h"
 #include "TW_SkillDefine.h"
+#include "Skill_table.hpp"
+#include "TW_ShareUnitData.h"
 
 class BeUnit;
 class TePtParam;
@@ -39,9 +41,6 @@ enum BeSkillType
 #define BEDAMGED_SKILLCD	11
 
 #define IMBA_SKILL_MAJIATIME 3000
-
-typedef void (BeSkill::* HandleFunc)(int iEvent, TePtParam& kParam);
-typedef std::vector<std::pair<int, HandleFunc>> HandleVector;
 
 class BeSkill : public BeCarry
 {
@@ -74,11 +73,6 @@ public:
     inline bool IsSwitch(void) const
     {
         return (m_pkRes->uiOperateType == SKILL_OPERATETYPE_KAIGUAN);
-    }
-
-    inline int GetBufferID() const
-    {
-        return m_pkRes->uiBufferID;
     }
 
     int GetMaxLevel(void) const
@@ -262,7 +256,6 @@ public:
     }
 
 public:
-    virtual		void	RegisterHandle(int iEvent, HandleFunc fuc);
     virtual		void	HandleEvent(int iEvent, TePtParam& kParam);
     virtual		void	HandleDamageEvent(int iEvent, TePtParam& kParam);
     virtual		void	HandleDamageCDEvent(int iEvent, TePtParam& kParam);
@@ -282,7 +275,6 @@ protected:
     int					m_iParentSkill;
     BeSkillType			m_eSkillType;
     BeFlagObj			m_kAutoSpellFlag;
-    HandleVector		m_kHandles;
     int					m_iLastTrgTime;
     bool				m_bImbaAutoUse;
 

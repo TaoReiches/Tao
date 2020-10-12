@@ -4,6 +4,9 @@
 **********************************************/
 
 #include "TW_Item.h"
+#include "TW_Skill.h"
+#include "TW_Main.h"
+#include "Item_table.hpp"
 
 BeCarrySkill::BeCarrySkill(int iID) : BeCarry(iID)
 {
@@ -30,8 +33,7 @@ const std::vector<BeSkill*>& BeCarrySkill::GetAllSkill(void) const
 BeItem::BeItem(int iID) : BeCarrySkill(iID)
 {
 	m_eType = BCT_ITEM;
-	m_pkRes = NULL;
-	m_pkZRes = NULL;
+	m_pkRes = nullptr;
 	m_iSkillCDTime = 0;
 	m_iSkillTypeID = 0;
 	m_iUniqueID = 0;
@@ -45,31 +47,16 @@ BeItem::~BeItem(void)
 bool BeItem::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
-	m_pkRes = gMain.GetResItem(iTypeID);
-	m_pkZRes = gMain.GetResZhanChangItem(iTypeID);
+	m_pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 
 	return true;
 }
 
 void	BeItem::InitItemSkill(void)
 {
-	if (!m_pkZRes && gMain.IsPveMap())
-	{
-		return;
-	}
-	else if (!m_pkRes && !gMain.IsPveMap())
-	{
-		return;
-	}
-
 	ClearAttr();
 	if (!m_kData.iItemTypeID)
 	{
-		if (gMain.IsPveMap())
-		{
-			AddProperty(m_pkZRes->uiItemProperty);
-		}
-		else
 		{
 			AddProperty(m_pkRes->uiItemProperty);
 		}
@@ -89,11 +76,6 @@ void	BeItem::InitItemSkill(void)
 	for (int i = 0; i < 6; i++)
 	{
 		int iTypeID = 0;
-		if (gMain.IsPveMap())
-		{
-			iTypeID = m_pkZRes->iItemSkill[i];
-		}
-		else
 		{
 			iTypeID = m_pkRes->iItemSkill[i];
 		}
@@ -125,11 +107,6 @@ void	BeItem::InitItemSkill(void)
 
 			if (pkSkill->GetOperateType() != SKILL_OPERATETYPE_BEIDONG)
 			{
-				float	fST15ForItem = gUnit.GetUD_Float(UDK_ST15_ItemTime);
-				if (fST15ForItem > 0)
-				{
-					m_iSkillCDTime = m_iSkillCDTime * (1.0f - fST15ForItem);
-				}
 				m_iSkillTypeID = iTypeID;
 			}
 		}
@@ -179,30 +156,6 @@ void BeItem::Update(BeUnit* pkUnit, int iDeltaTime)
 	{
 		return;
 	}
-	if (gMain.IsPveMap())
-	{
-		const ZhanChangItemTable* pkItemRes = GetZhanChangResPtr();
-		if (!pkItemRes)
-		{
-			return;
-		}
-
-		for (int iSkill = 0; iSkill < (int)m_akSkill.size(); ++iSkill)
-		{
-			BeSkill* pkSkill = m_akSkill[iSkill];
-			if (!pkSkill)
-			{
-				continue;
-			}
-
-			if (IsForbidSkill(pkSkill->GetTypeID()))
-			{
-				continue;
-			}
-			pkSkill->Update(pkUnit, m_kData.iPackagePos);
-		}
-	}
-	else
 	{
 		const ItemTable* pkItemRes = GetResPtr();
 		if (!pkItemRes)
@@ -229,11 +182,7 @@ void BeItem::Update(BeUnit* pkUnit, int iDeltaTime)
 
 bool BeItem::CDComplete(int iCoolTime) const
 {
-	if (gData.IsWTF())
-	{
-		return true;
-	}
-	if (!m_kData.iLastUseTime || (UInt)(m_kData.iLastUseTime + iCoolTime) < gTime)
+	if (!m_kData.iLastUseTime || (unsigned int)(m_kData.iLastUseTime + iCoolTime) < gTime)
 	{
 		return true;
 	}
@@ -263,7 +212,6 @@ int BeItem::GetUseSkillTypeID(void) const
 	return iSkillTypeID;
 }
 
-IMPLEMENT_POOL1(BeEquip, 256, 64);
 BeEquip::BeEquip(int iID) : BeCarrySkill(iID)
 {
 	m_eType = BCT_EQUIP;

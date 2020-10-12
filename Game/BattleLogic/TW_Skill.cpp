@@ -4,6 +4,11 @@
 **********************************************/
 
 #include "TW_Skill.h"
+#include "TW_Main.h"
+#include "TW_Unit.h"
+#include "TW_TriggerEvent.h"
+#include "TW_UnitMgr.h"
+#include "TW_IRandom.h"
 
 #ifdef _WIN32
 enum UnitAutoSpellType;
@@ -35,8 +40,6 @@ BeSkill::~BeSkill()
 bool BeSkill::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
-	m_pkRes = gMain.GetResSkill(iTypeID);
-
 	m_pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 	if (!m_pkRes)
 	{
@@ -61,7 +64,7 @@ int	BeSkill::GetCDTime(BeUnit* pkUnit)
 		return 0;
 	}
 
-	return gData.GetCoolDown(kData);
+	return 10;
 }
 
 void BeSkill::SetLevel(int iLevel)
@@ -92,21 +95,6 @@ void BeSkill::SetLevel(int iLevel)
 	{
 		gTrgMgr.FireTrigger(BTE_SKILL_LEVEL_CHANGE, kParam);
 	}
-
-	if (iOldLevel > 0 && m_kData.iCurLevel != iOldLevel)
-	{
-		BeTDEventArgs kArgs = BeTDEventArgs();
-		kArgs.iEventType = BeTDEventArgs::BeTDEVENT_SPELL_LEVELCHANGE;
-		kArgs.kSpellLevelChange.iUnitID = gUnit.GetID();
-		kArgs.kSpellLevelChange.iSkillTypeID = GetTypeID();
-		kArgs.kSpellLevelChange.iSkillLevel = GetLevel();
-		gLevelMain.GetEventMgr()->FireEvent(kArgs);
-	}
-
-	if (GetUIShowPos() == 3)
-	{
-		gUnit.SetTabInfoFlag(BTCF_BIGSKILL);
-	}
 }
 
 void BeSkill::ReInitAttr(void)
@@ -119,7 +107,6 @@ void BeSkill::SetLastUseTime(BeUnit* pkUnit, int iTime, bool bLearnSkill)
 {
 	int iID = m_iTypeID;
 
-	if (!gData.IsWTF())
 	{
 		if (bLearnSkill)
 		{
@@ -170,8 +157,7 @@ bool BeSkill::CDComplete(BeUnit* pkUnit)
 		return true;
 	}
 
-	if (m_iCurPileNums > 0 || (m_iSkillUICounter > 0 && m_iSkillUICounter != 234
-		&& GetTypeID() != 'SM46'))
+	if (m_iCurPileNums > 0)
 	{
 		return true;
 	}
@@ -182,7 +168,7 @@ bool BeSkill::CDComplete(BeUnit* pkUnit)
 		return false;
 	}
 
-	return pkUnit->CommonCDComplete(m_iTypeID, gData.GetCoolDown(kData));
+	// return pkUnit->CommonCDComplete(m_iTypeID, gData.GetCoolDown(kData));
 }
 
 void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
@@ -196,7 +182,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 
 	if (rkData.GetPilePointNums() > 0)
 	{
-		if (m_iCurPileNums < rkData.GetPilePointNums() && pkUnit->CommonCDComplete(GetTypeID(), gData.GetCoolDown(rkData)))
+		//if (m_iCurPileNums < rkData.GetPilePointNums() && pkUnit->CommonCDComplete(GetTypeID(), gData.GetCoolDown(rkData)))
 		{
 			pkUnit->SetCommonCDLastUseTime(GetShareCDSkill(), (int)gTime);
 			SetCurPileNums(++m_iCurPileNums);
@@ -211,7 +197,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 
 	if (HasProperty(SKILL_SKILLPROPERTY_CDCHUFA))
 	{
-		if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
+		//if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
@@ -275,23 +261,23 @@ void BeSkill::DefaultAutoUse(void)
 	{
 		fRate = 0.5f;
 	}
-	if (gRandNum.RandFloat(RANDINFO, 0.0f, 1.0f) > fRate)
+	if (gRandNum.RandFloat(0.0f, 1.0f) > fRate)
 	{
 		return;
 	}
 
 	UnitGroup kGroup;
 	gUnitMgr.GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_NORMAL);
-	if (kGroup.IsEmpty())
+	if (kGroup.empty())
 	{
 		return;
 	}
 
-	kGroup.Clear();
+	kGroup.clear();
 	gUnitMgr.GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_HERO);
-	if (kGroup.IsEmpty())
+	if (kGroup.empty())
 	{
-		if (gRandNum.RandFloat(RANDINFO, 0.0f, 1.0f) > 0.20f)
+		if (gRandNum.RandFloat(0.0f, 1.0f) > 0.20f)
 		{
 			return;
 		}
@@ -300,14 +286,14 @@ void BeSkill::DefaultAutoUse(void)
 
 void BeSkill::HandleEvent(int iEvent, TePtParam& kParam)
 {
-	HandleVector::iterator iter = m_kHandles.begin();
-	for (; iter != m_kHandles.end(); iter++)
-	{
-		if ((*iter).first == iEvent)
-		{
-			(this->*((*iter).second))(iEvent, kParam);
-		}
-	}
+	//HandleVector::iterator iter = m_kHandles.begin();
+	//for (; iter != m_kHandles.end(); iter++)
+	//{
+	//	if ((*iter).first == iEvent)
+	//	{
+	//		(this->*((*iter).second))(iEvent, kParam);
+	//	}
+	//}
 }
 
 void BeSkill::HandleDamageCDEvent(int iEvent, TePtParam& kParam)
@@ -328,9 +314,4 @@ extern BeUnit* CreateMajia(BeUnit* pkTrgUnit);
 void BeSkill::HandleDamageEvent(int iEvent, TePtParam& kParam)
 {
 	this->SetLastTrgTime(gTime);
-}
-
-void BeSkill::RegisterHandle(int iEvent, HandleFunc fuc)
-{
-	m_kHandles.push_back(std::make_pair(iEvent, fuc));
 }
