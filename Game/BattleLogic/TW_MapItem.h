@@ -9,12 +9,16 @@
 #include "TW_ChangeFlagObject.h"
 #include "TW_ItemDefine.h"
 #include "Item_table.hpp"
+#include "TW_Functions.h"
 
-class BeMapItem : public BeSingleLinkEntity, public BeChangeFlagObj
+class BeMapItem : public BeSingleLinkEntity, public BeChangeFlagObj, public BeEntity
 {
 public:
     BeMapItem(int iID);
     ~BeMapItem(void);
+
+    void Link(float fX, float fY, BeEntityMgr* pkMgr) override {};
+    void Unlink(void) override {};
 
     inline int GetOrgPileCount(void) const
     {

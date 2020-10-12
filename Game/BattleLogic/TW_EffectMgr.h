@@ -11,6 +11,7 @@
 #include <map>
 #include <unordered_map>
 #include "TW_EntityMgr.h"
+#include "TW_ShareUnitData.h"
 
 class BeEffect;
 
@@ -42,7 +43,6 @@ protected:
 protected:
 	std::unordered_map<int, BeEffect*>	m_kID2Effect;
 
-	// sm
 public:
 	int			GeneratePureID(void);
 	int			GenerateIncPureID(void);

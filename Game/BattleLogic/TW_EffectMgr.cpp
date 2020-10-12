@@ -5,6 +5,9 @@
 
 #include "TW_EffectMgr.h"
 #include "TW_Effect.h"
+#include <TW_TriggerMgr.h>
+#include "TW_TriggerEvent.h"
+#include "TW_Main.h"
 
 BeEffectMgr::BeEffectMgr(void)
 {

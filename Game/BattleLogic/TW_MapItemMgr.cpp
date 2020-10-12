@@ -5,6 +5,12 @@
 
 #include "TW_MapItemMgr.h"
 #include "TW_MapItem.h"
+#include "TW_MapItemDefine.h"
+#include "TW_Main.h"
+#include <TW_Define.h>
+#include "TW_ShareUnitData.h"
+#include "TW_SortStruct.h"
+#include <algorithm>
 
 BeMapItemMgr::BeMapItemMgr(void)
 {
@@ -84,9 +90,6 @@ BeMapItem* BeMapItemMgr::AddMapItem(int iTypeID, bool bDrop, int iGroup, int iPl
 	{
 		m_kID2MapItem[iID] = pkMapItem;
 
-		EsHandle kHandle((EsObjectType)5, pkMapItem->GetID(), 0);
-		pkMapItem->SetHandle(kHandle);
-
 		PushNewMapItem(iID);
 		return pkMapItem;
 	}
@@ -112,7 +115,7 @@ void BeMapItemMgr::DelMapItem(int iID)
 		BeShareMapItemData kData;
 		kData.bRemove = true;
 		kData.iLogicID = iID;
-		gMain.AddMapItemData(kData);
+		//gMain.AddMapItemData(kData);
 	}
 }
 
@@ -233,7 +236,7 @@ std::vector<int>& BeMapItemMgr::PureGetDelMapitemID()
 	return m_akPureDelMapitemID;
 }
 
-void BeMapItemMgr::GetAllShareMapItemData(std::vector<BeShareMapItemData>& rakAllMapItemData)
+void BeMapItemMgr::GetAllShareMapItemData(std::vector<BeShareMapItemData*>& rakAllMapItemData)
 {
 	rakAllMapItemData.clear();
 	BeShareMapItemData	kData;
@@ -250,7 +253,7 @@ void BeMapItemMgr::GetAllShareMapItemData(std::vector<BeShareMapItemData>& rakAl
 			kData.bRemove = false;
 			kData.iShowGroup = pkMapItem->GetShowGroup();
 			kData.iShowPlayer = pkMapItem->GetShowPlayer();
-			rakAllMapItemData.push_back(kData);
+			rakAllMapItemData.push_back(&kData);
 		}
 	}
 }

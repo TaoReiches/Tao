@@ -4,6 +4,10 @@
 **********************************************/
 
 #include "TW_MapItem.h"
+#include "TW_Main.h"
+#include "TW_Functions.h"
+#include "TW_ShareUnitData.h"
+#include "TW_MapItemDefine.h"
 
 BeMapItem::BeMapItem(int iID) : BeSingleLinkEntity(iID)
 {
@@ -20,7 +24,7 @@ BeMapItem::~BeMapItem(void)
 
 bool BeMapItem::Initialize(int iTypeID)
 {
-	m_pkRes = gMain.GetResItem(iTypeID);
+	m_pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!m_pkRes)
 	{
 		return false;
@@ -54,7 +58,7 @@ void BeMapItem::SetPosition(float fX, float fY, float fFace, float fZ)
 	kData.iShowGroup = GetShowGroup();
 	kData.iShowPlayer = GetShowPlayer();
 
-	gMain.AddMapItemData(kData);
+	// gMain.AddMapItemData(kData);
 }
 
 void BeMapItem::Update(int iDeltaTime)

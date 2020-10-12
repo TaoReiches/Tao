@@ -10,6 +10,7 @@
 #include "TW_EntityMgr.h"
 
 class BeMapItem;
+class BeShareMapItemData;
 
 class BeMapItemMgr : public BeEntityMgr
 {
@@ -46,7 +47,7 @@ public:
 
 	void	PushDelMapItem(int iID);
 	std::vector<int>& PureGetDelMapitemID();
-	void GetAllShareMapItemData(std::vector<BeShareMapItemData>& rakAllMapItemData);
+	void GetAllShareMapItemData(std::vector<BeShareMapItemData*>& rakAllMapItemData);
 
 private:
 	std::vector<int>	m_akPureNewMapitemID;

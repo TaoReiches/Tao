@@ -5,12 +5,16 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include "TW_Unit.h"
+#include "TW_Buff.h"
+#include "TW_UserDataDefine.h"
+
 struct UnitEnmityPoint_MoreThan
 {
 	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
 	{
-		int iLeft = pkLeft->GetUD_Int(UDK_UintTempEnmity);
-		int iRight = pkRight->GetUD_Int(UDK_UintTempEnmity);
+		int iLeft = pkLeft->GetUD_Int(UDK_MonsterAI);
+		int iRight = pkRight->GetUD_Int(UDK_MonsterAI);
 		return (iLeft > iRight);
 	}
 };
