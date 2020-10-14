@@ -70,8 +70,6 @@ public:
 
 	void		GetUnitGroupByID(UnitGroup& kGroup, int iID);
 
-	void		GetUnitGroupByControl(UnitGroup& kGroup, int iIdx, bool bSuspend = false, bool bOtherPlayer = true, bool bSpecial = false);
-
 	const std::unordered_map<int, BeUnit*>& GetID2Unit() const;
 
 	const std::unordered_map<int, BeUnit*>& GetID2SuspendUnit() const;
@@ -79,7 +77,6 @@ public:
 
 	bool		GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const;
 	bool		GetUnitByPlayer(UnitGroup& kGroup, const std::string& kPlayerName) const;
-	void		GetUnitByCommand(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const;
 public:
 	BeUnit* GetUnitByTypeID(int iTypeID);
 

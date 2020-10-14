@@ -8,6 +8,8 @@
 #include "TW_Unit.h"
 #include "TW_Main.h"
 #include "TW_TriggerEvent.h"
+#include "Skill_table.hpp"
+#include "Item_table.hpp"
 
 BeUnitMgr::BeUnitMgr(void)
 {
@@ -543,10 +545,6 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 	kGroup.clear();
 
 	int iPlayerGroup = -1;
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
 	for (; itr != m_kID2Unit.end(); ++itr)
@@ -571,15 +569,11 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCom
 
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	const SkillTable* pkRes = NULL;
 	if (eCommand == BCT_SPELL)
 	{
-		pkRes = gMain.GetResSkill(iData);
+		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
 	else if (eCommand == BCT_USE_ITEM)
 	{
@@ -656,81 +650,6 @@ void BeUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
 	}
 }
 
-void BeUnitMgr::GetUnitGroupByControl(UnitGroup& kGroup, int iIdx, bool bSuspend, bool bBPTPlayer, bool bSpecial)
-{
-	if (iIdx > MAX_ACTIVEPLAYERS || iIdx < 0)
-	{
-		return;
-	}
-
-	kGroup.clear();
-
-	BeUnit* pkUnit = NULL;
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
-	for (; itr != m_kID2Unit.end(); ++itr)
-	{
-		pkUnit = itr->second;
-		if (!pkUnit)
-		{
-			continue;
-		}
-		if (pkUnit->IsDead() && !bSuspend)
-		{
-			continue;
-		}
-
-		if (pkUnit->UnitCanBeControl(iIdx) && pkUnit->GetPlayer() != -1)
-		{
-			if (!bBPTPlayer && pkUnit->GetPlayer() != iIdx && pkUnit->GetPlayer() < MAX_ACTIVEPLAYERS)
-			{
-				continue;
-			}
-
-			kGroup.push_back(pkUnit);
-		}
-	}
-
-	if (bSuspend)
-	{
-		pkUnit = NULL;
-		std::unordered_map<int, BeUnit*>::iterator itr = m_kID2SuspendUnit.begin();
-		for (; itr != m_kID2SuspendUnit.end(); ++itr)
-		{
-			pkUnit = itr->second;
-			if (!pkUnit)
-			{
-				continue;
-			}
-
-			bool bHas = false;
-			for (int i = 0; i < (int)kGroup.size(); i++)
-			{
-				BeUnit* pkUnitInGroup = kGroup[i];
-				if (pkUnitInGroup && pkUnitInGroup->GetID() == pkUnit->GetID())
-				{
-					bHas = true;
-					break;
-				}
-			}
-
-			if (bHas)
-			{
-				continue;
-			}
-
-			if (pkUnit->UnitCanBeControl(iIdx) && pkUnit->GetPlayer() != -1)
-			{
-				if (!bBPTPlayer && pkUnit->GetPlayer() != iIdx && pkUnit->GetPlayer() < MAX_ACTIVEPLAYERS)
-				{
-					continue;
-				}
-
-				kGroup.push_back(pkUnit);
-			}
-		}
-	}
-}
-
 bool BeUnitMgr::IsPassUnit(BeUnit* pkUnit, int iPlayerGroup, int iFlag, bool bDead) const
 {
 	if (!pkUnit || (pkUnit->IsDead() && !bDead))
@@ -755,10 +674,6 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	kGroup.clear();
 
 	int iPlayerGroup = -1;
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
@@ -795,10 +710,6 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
@@ -848,10 +759,6 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
@@ -893,10 +800,6 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
@@ -904,11 +807,11 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 
 	if (eCommand == BCT_SPELL)
 	{
-		pkRes = gMain.GetResSkill(iData);
+		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
 	else if (eCommand == BCT_USE_ITEM)
 	{
-		const ItemTable* pkItemRes = gMain.GetResItem(iData);
+		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
 		{
 			return;
@@ -941,7 +844,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 						// case BCT_MOVE:
 					case BCT_PATROL:
 					case BCT_ATTACK:
-						if (pkSrcUnit->GetCamp() != pkUnit->GetCamp() && pkUnit->GetCamp() != SRPC_NEUTRAL_ALLY)
+						if (pkSrcUnit->GetCamp() != pkUnit->GetCamp())
 						{
 							bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
 						}
@@ -1007,10 +910,6 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
@@ -1019,11 +918,11 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 
 	if (eCommand == BCT_SPELL)
 	{
-		pkRes = gMain.GetResSkill(iData);
+		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
 	else if (eCommand == BCT_USE_ITEM)
 	{
-		const ItemTable* pkItemRes = gMain.GetResItem(iData);
+		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
 		{
 			return;
@@ -1055,7 +954,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 						// case BCT_MOVE:
 					case BCT_PATROL:
 					case BCT_ATTACK:
-						if (pkSrcUnit->GetCamp() != pkUnit->GetCamp() && pkUnit->GetCamp() != SRPC_NEUTRAL_ALLY)
+						if (pkSrcUnit->GetCamp() != pkUnit->GetCamp())
 						{
 							bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
 						}
@@ -1222,7 +1121,7 @@ const std::unordered_map<int, BeUnit*>& BeUnitMgr::GetID2SuspendUnit() const
 
 bool BeUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
 {
-	for (std::unordered_map<int, BeUnit*>::Constiterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	for (std::unordered_map<int, BeUnit*>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
 	{
 		BeUnit* pkUnit = itr->second;
 		if (pkUnit && !pkUnit->IsDead())
@@ -1238,26 +1137,6 @@ bool BeUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
 bool BeUnitMgr::GetUnitByPlayer(UnitGroup& kGroup, const std::string& kPlayerName) const
 {
 	return true;
-}
-
-void BeUnitMgr::GetUnitByCommand(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const
-{
-	kGroup.clear();
-	if (!pkSrcUnit)
-	{
-		return;
-	}
-
-	int iPlayerGroup = -1;
-	int iPlayerIdx = pkSrcUnit->GetPlayer();
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
-
-	if (eCommand == BCT_SPELL)
-	{
-	}
 }
 
 void BeUnitMgr::PushNeedUpdateUnitID(int iID)
