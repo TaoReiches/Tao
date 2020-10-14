@@ -3410,65 +3410,6 @@ void BeUnit::SetHP(float fHP, bool bChange)
 	}
 }
 
-void BeUnit::UpdateHalloSkill(int iDeltaTime)
-{
-	if (!IsDead())
-	{
-		if (HasFlag(BUF_HASHALOSKILL) && gTime % 1000 == 0)
-		{
-			for (int i = 0; i < iMaxHeroSkillNum; ++i)
-			{
-				BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
-				if (!pkSkill)
-				{
-					continue;
-				}
-
-				if (pkSkill->IsHaloSkill())
-				{
-					ParseHaloSkill(pkSkill);
-				}
-			}
-
-			for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
-			{
-				BeSkill* pkSkill = m_apkNormalSkill[i];
-				if (!pkSkill)
-				{
-					continue;
-				}
-				if (pkSkill->IsHaloSkill())
-				{
-					ParseHaloSkill(pkSkill);
-				}
-			}
-
-			//{
-			//	for (int i = 0; i < UNIT_MAX_ITEM; ++i)
-			//	{
-			//		BeItem* pkItem = m_apkItem[i];
-			//		if (pkItem && pkItem->GetOrgValid())
-			//		{
-			//			if (pkItem->GetOrgValid())
-			//			{
-			//				for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
-			//				{
-			//					BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-			//					if (pkSkill && pkSkill->IsHaloSkill())
-			//					{
-			//						ParseHaloSkill(pkSkill, pkItem->GetID());
-			//					}
-			//				}
-			//			}
-
-			//		}
-			//	}
-			//}
-		}
-	}
-}
-
-
 bool BeUnit::IsDamageTime(int iDeltaTime)
 {
 	int iRealTime = GetRealDamagePt();

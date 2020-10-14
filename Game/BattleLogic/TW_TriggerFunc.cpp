@@ -3,7 +3,13 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include "TW_Main.h"
 #include "TW_TriggerEvent.h"
+#include "TW_Carry.h"
+#include "TW_Skill.h"
+#include "TW_AttackAttr.h"
+#include "TW_Buff.h"
+#include "TW_Unit.h"
 
 BeCarry* BeMain::GetTrgCarry(void)
 {
@@ -191,7 +197,7 @@ BeUnit* BeMain::TrgGetPtr_Target(void)
 BeSkill* BeMain::TrgGetPtr_Skill(void)
 {
 	int iItemPos = m_pkTriggerMgr->GetParamInt(BTP_iItemPos) - 1;
-	if (iItemPos >= 0 && iItemPos < UNIT_MAX_ITEM)
+	if (iItemPos >= 0 && iItemPos < 6)
 	{
 		BeItem* pkItem = TrgGetPtr_Item();
 		if (!pkItem)

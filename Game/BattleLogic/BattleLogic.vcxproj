@@ -199,7 +199,6 @@
     <ClCompile Include="TW_Item.cpp" />
     <ClCompile Include="TW_Main.cpp" />
     <ClCompile Include="TW_MainCommand.cpp" />
-    <ClCompile Include="TW_MainData.cpp" />
     <ClCompile Include="TW_MainFrameProc.cpp" />
     <ClCompile Include="TW_MainOut.cpp" />
     <ClCompile Include="TW_MainRace.cpp" />

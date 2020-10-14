@@ -335,6 +335,7 @@ int BeMain::GetHeroDataChangeFlag(int iSeat)
 	//	return 0;
 	//}
 	//return m_aiHeroDataChangeFlag[iSeat];
+	return 0;
 }
 
 void BeMain::ClrHeroDataChangeFlag(int iSeat, int iFlag)
@@ -355,6 +356,7 @@ bool BeMain::HasHeroDataChangeFlag(int iSeat, int iFlag)
 
 	//int iHeroDataChangeFlag = m_aiHeroDataChangeFlag[iSeat];
 	//return ((iHeroDataChangeFlag & iFlag) == iFlag ? true : false);
+	return false;
 }
 
 bool	BeMain::HasGrassVisionForCamp(int iGrassIndex, int iSrcCamp, int iDstCamp)

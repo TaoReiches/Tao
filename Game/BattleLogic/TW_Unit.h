@@ -1859,10 +1859,8 @@ protected:
 protected:
 	void	UpdateMP(int iDeltaTime);
 	void	UpdateHP(int iDeltaTime);
-	//	void	UpdateShop(int iDeltaTime);
 	void	UpdateLiveTime(int iDeltaTime);
 	void	UpdateBuffer(int iDeltaTime);
-	void	UpdateHalloSkill(int iDeltaTime);
 
 protected:
 	bool m_bIsUpdate;

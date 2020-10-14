@@ -115,18 +115,9 @@ public:
 	bool CreateHero(int iPlayer = -1);
 
 public:
-	int		GetHeroTypeID(int iIdx);
-	const char* GetHeroName(int iIdx);
-	int		GetHeroLevel(int iIdx);
-
-	void SetMapID(int iMapID);
-
-public:
 	void	UpdateRaceOut();
 	int		GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize);
 	int		GetSvrModelRaceOut(int iOffset, char* pcData, int iSize);
-	void	ClearRaceRecord();
-	int		GetViewRaceOut(int iOffset, char* pcData, int iSize);
 
 	void	InitServerMode();
 	void	FinializeServerMode();
@@ -145,9 +136,6 @@ public:
 	void	ClrAllPureData();
 protected:
 	int								m_iChangeFlag;
-
-public:
-	void	OnPlayerRelink(int i);
 
 private:
 	int		m_iMaxPerLoadID;
@@ -231,70 +219,27 @@ public:
 
 	bool Proc_FRAME(const SeRaceCmd* pkRaceCmd);
 	bool Proc_PLAYER_INFO(const SeRaceCmd* pkRaceCmd);
-	bool Proc_LOAD(const SeRaceCmd* pkRaceCmd);
 	bool Proc_START(const SeRaceCmd* pkRaceCmd);
 	bool Proc_END(const SeRaceCmd* pkRaceCmd);
 	bool Proc_CHART_PLAYER(const SeRaceCmd* pkRaceCmd);
 	bool Proc_PLAYER_LEAVE(const SeRaceCmd* pkRaceCmd);
 	bool Proc_SYSTEM_CHEAT(const SeRaceCmd* pkRaceCmd);
-	bool Proc_SYSTEM_SURRENDER(const SeRaceCmd* pkRaceCmd);
 	bool Proc_HERO_MOVE(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_MOVE(const SeRaceCmd* pkRaceCmd);
 	bool Proc_HERO_STOP(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_STOP(const SeRaceCmd* pkRaceCmd);
-	bool Proc_HERO_HOLD(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_HOLD(const SeRaceCmd* pkRaceCmd);
 	bool Proc_HERO_ATTACK_POS(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_ATTACK_POS(const SeRaceCmd* pkRaceCmd);
 	bool Proc_HERO_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_ATTACK(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_PATROL(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_FOLLOW(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_SPELL(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_SPELLXuLi(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_USE_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_DROP_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_PICK_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_PICK_ITEM_AUTO(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_BUY_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_DIRECTBUY_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_DIRECTSELL_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_SWAP_ITEM(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_LEARN_SKILL(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_ACTIVE_SKILL(const SeRaceCmd* pkRaceCmd);
 	bool Proc_PLAYER_RELIVEHERO(const SeRaceCmd* pkRaceCmd);
 	bool Proc_PLAYER_MAP_MESSAGE(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PLAYER_GUANQIA_CMD(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PLAYER_TOWNITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PLAYER_RECON_BEGIN(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PLAYER_RECON_END(const SeRaceCmd* pkRaceCmd);
-	bool Proc_VIEW_SELHERO(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PAUSE_BEGIN(const SeRaceCmd* pkRaceCmd);
-	bool Proc_PAUSE_END(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_DISPLACE_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_UNIT_GU_DISPLACE_ITEM(const SeRaceCmd* pkRaceCmd);
 	bool Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd);
-	bool Proc_TURN_TABLE_INFO(const SeRaceCmd* pkRaceCmd);
-	bool Proc_COST_EXTERNAL_RESOURCE(const SeRaceCmd* pkRaceCmd);
 	bool Proc_Show_Action(const SeRaceCmd* pkRaceCmd);
-	bool Proc_8V8_DEL_PLAYER(const SeRaceCmd* pkRaceCmd);
-	bool Proc_8V8_ADD_PLAYER(const SeRaceCmd* pkRaceCmd);
-
-	bool Proc_Race_LockUnit(const SeRaceCmd* pkRaceCmd);
-	bool Proc_Race_AdjustFrame(const SeRaceCmd* pkRaceCmd);
-
-	bool Proc_Race_RelinkBegin(const SeRaceCmd* pkRaceCmd);
-	bool Proc_Race_RelinkEnd(const SeRaceCmd* pkRaceCmd);
-
-	bool IsRacePause();
 
 	bool	Proc_HERO_DIRECT_MOVE(const SeRaceCmd* pkRaceCmd);
 	bool	Proc_HERO_ATTACK_CANCEL(const SeRaceCmd* pkRaceCmd);
-	bool	Proc_HERO_SELECT(const SeRaceCmd* pkRaceCmd);
-	bool	Proc_SWITCH_HEROFOCUS(const SeRaceCmd* pkRaceCmd);
-	bool	Proc_Ping(const SeRaceCmd* pkRaceCmd);
-	bool	Proc_SmallMapMessage(const SeRaceCmd* pkRaceCmd);
 
 	bool Initialize(void);
 	void Finialize(void);
@@ -317,8 +262,6 @@ public:
 	{
 		return m_iGameBeginTime;
 	}
-
-	void DisplaceItemAdd(BeUnit* pkUnit, int iItemPrice);
 
 protected:
 	void			ReleaseModule(void);

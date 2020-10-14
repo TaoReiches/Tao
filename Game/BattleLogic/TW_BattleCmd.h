@@ -209,13 +209,6 @@ struct SeRaceCmd_HeroAttackCancel : public SeRaceCmd
 	}
 };
 
-struct SeRaceCmd_Ping : public SeRaceCmd
-{
-	SeRaceCmd_Ping() : SeRaceCmd(SRC_PING)
-	{
-	}
-};
-
 struct SeRaceCmd_UnitAttackPos : public SeRaceCmd
 {
 	SeRaceCmd_UnitAttackPos() : SeRaceCmd(SRC_UNIT_ATTACK_POS)
@@ -353,89 +346,6 @@ struct SeRaceCmd_UnitPickItem : public SeRaceCmd
 
 	int iUnitID;
 	unsigned int dwMapItemID;
-};
-
-struct SeRaceCmd_UnitBuyItem : public SeRaceCmd
-{
-	SeRaceCmd_UnitBuyItem() : SeRaceCmd(SRC_UNIT_BUY_ITEM)
-	{
-		uiItemTypeID = 0;
-	}
-
-	unsigned int uiItemTypeID;
-};
-
-struct SeRaceCmd_UnitSwapItem : public SeRaceCmd
-{
-	SeRaceCmd_UnitSwapItem() : SeRaceCmd(SRC_UNIT_SWAP_ITEM)
-	{
-		bySrcPos = 0;
-		byTarPos = 0;
-	}
-
-	char bySrcPos;
-	char byTarPos;
-};
-
-struct SeRaceCmd_UnitLearnSkill : public SeRaceCmd
-{
-	SeRaceCmd_UnitLearnSkill() : SeRaceCmd(SRC_UNIT_LEARN_SKILL)
-	{
-		byLearnPos = 0;
-	}
-	char byLearnPos;
-};
-
-struct SeRaceCmd_UnitActiveSkill : public SeRaceCmd
-{
-	SeRaceCmd_UnitActiveSkill() : SeRaceCmd(SRC_UNIT_ACTIVE_SKILL)
-	{
-		iUnitID = 0;
-		byActive = 0;
-		bySkillPos = 0;
-	}
-
-	int iUnitID;
-	char byActive : 1;
-	char bySkillPos : 7;
-};
-
-struct SeRaceCmd_ReliveHero : public SeRaceCmd
-{
-	SeRaceCmd_ReliveHero() : SeRaceCmd(SRC_PLAYER_RELIVEHERO)
-	{
-	}
-};
-
-struct SePalyerReconBegin : public SeRaceCmd
-{
-	SePalyerReconBegin() : SeRaceCmd(SRC_PLAYER_RECON_BEGIN)
-	{
-		dwPlayerID = 0;
-	}
-
-	unsigned int		dwPlayerID;
-};
-
-
-struct SeRaceCmd_LockUnit : public SeRaceCmd
-{
-	SeRaceCmd_LockUnit() : SeRaceCmd(SRC_LOCKUNIT)
-	{
-		iUnitID = 0;
-	}
-
-	int iUnitID;
-};
-
-struct SeRaceCmd_AdjustFrame : public SeRaceCmd
-{
-	SeRaceCmd_AdjustFrame() : SeRaceCmd(SRC_ADJUSTFRAME)
-	{
-		dwAdjustFrame = 0;
-	}
-
-	unsigned int dwAdjustFrame;
 };
 
 static	const	int		SSD_ENDSTR_LEN = 4;
