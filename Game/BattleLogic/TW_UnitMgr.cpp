@@ -3,6 +3,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <algorithm>
 #include "TW_UnitMgr.h"
 #include "TW_Unit.h"
 #include "TW_Main.h"
@@ -430,16 +431,12 @@ void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 	kGroup.clear();
 
 	int iPlayerGroup = -1;
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	float fX = (fX1 + fX2) / 2.0f;
 	float fY = (fY1 + fY2) / 2.0f;
 	float fDX = fabs(fX - fX1);
 	float fDY = fabs(fY - fY1);
-	float fRadius = max(fDX, fDY);
+	float fRadius = std::max(fDX, fDY);
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
@@ -487,10 +484,6 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 	}
 
 	int iPlayerGroup = -1;
-	if (iPlayerIdx != -1)
-	{
-		iPlayerGroup = gMain.GetPlayerCamp(iPlayerIdx);
-	}
 
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
@@ -542,7 +535,7 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 
 int	BeUnitMgr::GetUnitNums()
 {
-	return (int)m_kID2Unit.Size();
+	return (int)m_kID2Unit.size();
 }
 
 void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
@@ -710,7 +703,7 @@ void BeUnitMgr::GetUnitGroupByControl(UnitGroup& kGroup, int iIdx, bool bSuspend
 			}
 
 			bool bHas = false;
-			for (int i = 0; i < (int)kGroup.Size(); i++)
+			for (int i = 0; i < (int)kGroup.size(); i++)
 			{
 				BeUnit* pkUnitInGroup = kGroup[i];
 				if (pkUnitInGroup && pkUnitInGroup->GetID() == pkUnit->GetID())
@@ -991,7 +984,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 	float	fX2 = fX3 + fDis * cosf(fFace);
 	float	fY2 = fY3 + fDis * sinf(fFace);
 
-	for (int i = 0; i < kFirstGroup.Size(); i++)
+	for (int i = 0; i < kFirstGroup.size(); i++)
 	{
 		BeUnit* pkTarget = kFirstGroup[i];
 		if (pkTarget)
@@ -1093,7 +1086,7 @@ BeUnit* BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, floa
 	float fFarestDis = 0.0f;
 	if (!kGroup.empty())
 	{
-		for (int i = 0; i < (int)kGroup.Size(); ++i)
+		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
 			BeUnit* pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
@@ -1128,7 +1121,7 @@ BeUnit* BeUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, flo
 	float fNearestDis = 0.0f;
 	if (!kGroup.empty())
 	{
-		for (int i = 0; i < (int)kGroup.Size(); ++i)
+		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
 			BeUnit* pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
@@ -1168,7 +1161,7 @@ int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, flo
 	float fNearestDis = 0.0f;
 	if (!kGroupID.empty())
 	{
-		for (int i = 0; i < (int)kGroupID.Size(); ++i)
+		for (int i = 0; i < (int)kGroupID.size(); ++i)
 		{
 			BeUnit* pkNearUnit = gUnitMgr.GetUnitByID(kGroupID[i]);
 			if (pkNearUnit && !pkNearUnit->IsDead())
