@@ -4,6 +4,14 @@
 **********************************************/
 
 #include "TW_Command.h"
+#include "TW_TaskAction.h"
+#include "TW_TaskComplex.h"
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
+#include "TW_Main.h"
+#include "Skill_table.hpp"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
 
 BeCommand::BeCommand(BeCommandType cmd, int unit, float x, float y, int data, bool bShiftDelete, int data2, BeCommandTargetType eTType, bool bForceAttackOnceIn, float fDirX, float fDirY)
 {
@@ -60,7 +68,6 @@ void BeExeCommand::SafeDeleteTask(BeTask*& pkTask)
 		case STT_ATTACK_TO_POS:BeTaskAttackToPos::DEL((BeTaskAttackToPos*)pkTask); break;
 		case STT_FOLLOW_UNIT:BeTaskFollowUnit::DEL((BeTaskFollowUnit*)pkTask); break;
 		case STT_ATTACK_ITEM:BeTaskAttackItem::DEL((BeTaskAttackItem*)pkTask); break;
-		default:WarnInfo("BeExeCommand:Unknown task type: %d\n", pkTask->GetType()); break;
 		}
 		pkTask = 0;
 	}
@@ -104,27 +111,11 @@ BeExeResult BeStopCommand::Execute(int& iDeltaTime)
 	BeExeCommand::Execute(iDeltaTime);
 	gUnit.SetAttackingUnitID(0);
 
-	if (!gUnit.IsDead() && !gUnit.HasUnitCarryFlag(BUCF_DIZZY) && !gUnit.HasUnitCarryFlag(BUCF_ISALLFORBID) && !gUnit.HasFlag(BUF_ISPERSIST) && (m_iStopTime <= 0 && gUnit.AIGetNeedRefreshTarget()))
+	if (!gUnit.IsDead() && !gUnit.HasUnitCarryFlag(BUCF_DIZZY) && !gUnit.HasUnitCarryFlag(BUCF_ISALLFORBID) && !gUnit.HasFlag(BUF_ISPERSIST) && (m_iStopTime <= 0))
 	{
-		gUnit.AISetNeedRefreshTarget(false);
 		if (gUnit.GetCommandCount() > 0)
 		{
 			return BER_EXE_END;
-		}
-		else
-		{
-			if (gUnit.AIGetType() == BUAT_HERO)
-			{
-				return BER_EXE_END;
-			}
-
-			const BeUnit* pkHatestEnemy = gUnit.AIFindTarget();
-			if (pkHatestEnemy)
-			{
-				BeCommand beCommand(BCT_ATTACK, 0, gUnit.GetPosX(), gUnit.GetPosY());
-				gUnit.GiveCommand(beCommand, BCT_NEXT_EXE);
-				return BER_EXE_END;
-			}
 		}
 	}
 
@@ -150,9 +141,7 @@ bool BeStopCommand::CanInterrupt() const
 	}
 	return false;
 }
-////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////
 BeHoldCommand::BeHoldCommand()
 {
 	m_eCmdType = BCT_HOLD;
@@ -162,42 +151,12 @@ BeHoldCommand::BeHoldCommand()
 
 bool BeHoldCommand::FindAttack(void)
 {
-	if (gUnit.AIGetNeedRefreshTarget())
-	{
-		const BeUnit* pkHatestEnemy = gUnit.AIFindTarget(0, false);
-
-		gUnit.AISetNeedRefreshTarget(false);
-		if (pkHatestEnemy)
-		{
-			SafeDeleteTask(m_pkCurTask);
-
-			m_pkCurTask = BeTaskActionAttack::NEW();
-			m_pkCurTask->AttachMain(pkAttachMain);
-			m_pkCurTask->AttachUnit(pkAttachUnit);
-
-			int iSkillTypeID = 0;
-			int iSkillLevel = 0;
-
-			UnitUseSkillResultType eResult = gUnit.UnitCanUseSkill(iSkillTypeID, pkHatestEnemy, true);
-			if (eResult == UUSRT_OK)
-			{
-				((BeTaskActionAttack*)m_pkCurTask)->SetTargetID(pkHatestEnemy->GetID(), true, iSkillTypeID, iSkillLevel);
-			}
-			else
-			{
-				((BeTaskActionAttack*)m_pkCurTask)->SetTargetID(pkHatestEnemy->GetID());
-			}
-			return true;
-		}
-	}
-
 	return false;
 }
 
 BeExeResult BeHoldCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
-	gUnit.AISetFirstChoiceTarge(0);
 	int iLoopCount = 20;
 	while (iDeltaTime > 0)
 	{
@@ -222,7 +181,6 @@ BeExeResult BeHoldCommand::Execute(int& iDeltaTime)
 
 			if (iDeltaTime > 0)
 			{
-				gUnit.AISetNeedRefreshTarget(true);
 				SafeDeleteTask(m_pkCurTask);
 				m_pkCurTask = BeTaskActionStand::NEW();
 				m_pkCurTask->AttachMain(pkAttachMain);
@@ -252,7 +210,6 @@ BeExeResult BeHoldCommand::Execute(int& iDeltaTime)
 			float fMaxAttackRange = gUnit.GetAttackRange(pkTarget);
 			if (fTargetDistance2 > fMaxAttackRange * fMaxAttackRange)
 			{
-				gUnit.AISetNeedRefreshTarget(true);
 				SafeDeleteTask(m_pkCurTask);
 				m_pkCurTask = BeTaskActionStand::NEW();
 				m_pkCurTask->AttachMain(pkAttachMain);
@@ -260,7 +217,7 @@ BeExeResult BeHoldCommand::Execute(int& iDeltaTime)
 				continue;
 			}
 
-			if (pkTarget->IsDead() || !gUnit.UnitCanAttack(pkTarget, true, true) || gUnit.AIGetNeedRefreshTarget())
+			if (pkTarget->IsDead() || !gUnit.UnitCanAttack(pkTarget, true, true))
 			{
 				if (FindAttack())
 				{
@@ -395,7 +352,7 @@ BeExeResult BePatrolCommand::Execute(int& iDeltaTime)
 			if (m_pkCurTask->GetType() == STT_ATTACK_TO_POS)
 			{
 				BeTaskAttackToPos* pkA2P = dynamic_cast<BeTaskAttackToPos*> (m_pkCurTask);
-				if (pkA2P && pkA2P->GetMoveResult() == BFR_NONE)
+				if (pkA2P && pkA2P->GetMoveResult() == TFR_NONE)
 				{
 					iDeltaTime = 0;
 				}
@@ -538,7 +495,7 @@ BeSpellCommand::BeSpellCommand()
 
 void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TePos2& kPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer, int iTargetType)
 {
-	const SkillTable* pkResData = gMain.GetResSkill(iSkillTypeID);
+	const SkillTable* pkResData = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkResData)
 	{
 		return;
@@ -611,7 +568,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const 
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
 
-	const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillTypeID);
+	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkSkillRes)
 	{
 		return;
@@ -757,11 +714,6 @@ bool BeSpellCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) co
 	}
 	else if (((BeTaskActionSpell*)m_pkCurTask)->GetPhase() == BSP_CAST && (eCmdType != BCT_HUNG_CURRENT || bNeedHangCurrent))
 	{
-		if (gUnit.AIGetControlType() != BACT_PLAYER && !gUnit.HasProperty(1 << 15))
-		{
-			return false;
-		}
-		else
 		{
 			if (BCT_DIZZY_INTERRUPT == eCmdType)
 			{

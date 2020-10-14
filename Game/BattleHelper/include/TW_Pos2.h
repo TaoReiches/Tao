@@ -5,6 +5,8 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <math.h>
+
 struct TePos2
 {
 	TePos2(float x = 0.0f, float y = 0.0f) : fX(x), fY(y)

@@ -9,6 +9,8 @@
 #include "TW_MainDefine.h"
 #include "TW_TriggerMgr.h"
 
+#define GAME_FRAME_TIME	20
+
 class BeUnit;
 class BePlayerInfo;
 class BeFormulaInfo;

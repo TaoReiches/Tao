@@ -4,6 +4,16 @@
 **********************************************/
 
 #include "TW_Commander.h"
+#include "TW_Skill.h"
+#include "TW_Main.h"
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
+#include "TW_Item.h"
+#include "TW_TriggerEvent.h"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
+#include "Skill_table.hpp"
+#include "Item_table.hpp"
 
 BeCommander::BeCommander()
 {
@@ -443,7 +453,6 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 	case BCT_STOP:
 	{
 		gUnit.SetAttackingUnitID(0);
-		gUnit.AIOnStop(bConnect);
 		BeStopCommand* pkCmd = NULL;
 		if (m_pkCurCmd && m_pkCurCmd->GetType() == BCT_STOP)
 		{
@@ -489,9 +498,6 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		m_pkCurCmd = BeHoldCommand::NEW();
 		m_pkCurCmd->AttachMain(pkAttachMain);
 		m_pkCurCmd->AttachUnit(pkAttachUnit);
-
-		gUnit.AISetNeedRefreshTarget(true);
-		gUnit.AIOnHold(bConnect);
 		break;
 	}
 	case BCT_MOVE:
@@ -539,8 +545,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 			pkCmd->AttachUnit(pkAttachUnit);
 		}
 
-		gUnit.AISetNeedRefreshTarget(true);
-		pkCmd->SetPatrol(kCmd.kPos, BePos2(gUnit.GetPosX(), gUnit.GetPosY()));
+		pkCmd->SetPatrol(kCmd.kPos, TePos2(gUnit.GetPosX(), gUnit.GetPosY()));
 		m_pkCurCmd = pkCmd;
 		((BePatrolCommand*)m_pkCurCmd)->SetStopTime(kCmd.iData);
 		break;
@@ -571,8 +576,6 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		}
 		else
 		{
-			gUnit.AISetNeedRefreshTarget(true);
-			//gUnit.SetAttackingUnitID(0);
 			pkCmd->SetTargetPos(kCmd.kPos, (float)kCmd.iData);
 		}
 
@@ -672,16 +675,15 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		{
 			return false;
 		}
-		const ItemTable* pkItemRes = gMain.GetResItem(pkItem->GetTypeID());
-		const ZhanChangItemTable* pkZItemRes = gMain.GetResZhanChangItem(pkItem->GetTypeID());
-		if (!pkItemRes && !pkZItemRes)
+		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
+		if (!pkItemRes)
 		{
 			return false;
 		}
 
 		int iSkillTypeID = gUnit.GetItemSkillTypeID(kCmd.iData);
 
-		const SkillTable* pkRes = gMain.GetResSkill(iSkillTypeID);
+		const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 		if (!pkRes)
 		{
 			return false;

@@ -4,6 +4,21 @@
 **********************************************/
 
 #include "TW_TaskAction.h"
+#include "TW_ShareUnitData.h"
+#include "TW_Main.h"
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
+#include <TW_MapDefine.h>
+#include "TW_Map.h"
+#include "TW_Item.h"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
+#include "TW_Effect.h"
+#include "TW_EffectMgr.h"
+#include "TW_IRandom.h"
+#include "TW_TriggerEvent.h"
+#include "Skill_table.hpp"
+#include "TW_Skill.h"
 
 #define SKILL_BUFFER (400.0f)
 
@@ -146,14 +161,14 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	float fWalkX = 0.0f;
 	float fWalkY = 0.0f;
 
-	int		iObs = BGF_FIXED_OBS;
+	int		iObs = TGF_FIXED_OTS;
 	if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 	{
-		iObs = BGF_FIXED_OBS | BGF_SOLIDER;
+		iObs = TGF_FIXED_OTS | TGF_SOLIDER;
 	}
 	else
 	{
-		iObs = BGF_FIXED_OBS | BGF_UNIT;
+		iObs = TGF_FIXED_OTS | TGF_UNIT;
 	}
 
 	int bRet = gMap.GetFirstCanStay(&gUnit, m_kTargetPos.fX, m_kTargetPos.fY, fWalkX, fWalkY, fMaxMoveDistance, iObs);
@@ -571,7 +586,6 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 						pkEffect->SetModelFile(gUnit.GetMissleModel(), BAP_Weapon);
 					}
 
-					pkEffect->GetAttackingAttr() = m_kAttr;
 					pkEffect->SetFlag(BEF_IGNORE_MAGIC_IMMUNE);
 
 					gUnit.SetEffectID(pkEffect->GetID());
@@ -699,7 +713,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 			kWindowData.iRemoveTime = m_iEffectTime;
 			kWindowData.iUnitID = gUnit.GetID();
 			kWindowData.bRemove = true;
-			gMain.AddWindowData(kWindowData);
+			//gMain.AddWindowData(kWindowData);
 		}
 	}
 	else if (m_ePhase == BSP_CAST)
@@ -721,7 +735,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 		kWindowData.iRemoveTime = 0;
 		kWindowData.iUnitID = gUnit.GetID();
 		kWindowData.bRemove = true;
-		gMain.AddWindowData(kWindowData);
+		//gMain.AddWindowData(kWindowData);
 	}
 
 	gUnit.ClrFlag(BUF_ISPERSISTSKILL);
@@ -766,19 +780,12 @@ bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bE
 			BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 			if (pkTarget)
 			{
-				pkTarget->AIOnBeSkillTargeted(&gUnit, iSkillTypeID, gTime);
 				if (m_iTargetID != gUnit.GetID() && gUnit.GetClass() != UNIT_CLASSTYPE_BUILDING)
 				{
 					float fTarFace = atan2f(pkTarget->GetPosY() - gUnit.GetPosY(), pkTarget->GetPosX() - gUnit.GetPosX());
 					gUnit.SetTarFace(fTarFace);
 				}
-
-				gUnit.AISetFirstChoiceTarge(m_iTargetID);
 			}
-		}
-		else
-		{
-			gUnit.AISetFirstChoiceTarge(0);
 		}
 	}
 
@@ -832,7 +839,6 @@ bool BeTaskActionSpell::SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool 
 bool BeTaskActionSpell::SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, const TePos2& kDirPos, int iItemID, int iUsePlayer)
 {
 	gUnit.SetAttackingUnitID(0);
-	gUnit.AISetFirstChoiceTarge(0);
 	m_iSkillTypeID = iSkillTypeID;
 	m_iSkillLevel = iSkillLevel;
 	m_bExpendMP = bExpendMP;
@@ -860,14 +866,6 @@ bool BeTaskActionSpell::SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool b
 				float	fDis = rkData.GetSpellDistance();
 				if (GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), m_kTargetPos.fX, m_kTargetPos.fY) > fDis * fDis)
 				{
-					if (iSkillTypeID == 'SA03')
-					{
-						float	fAddDis = gUnit.GetUD_Float(UDK_ST05);
-						if (fAddDis > 0)
-						{
-							fDis += fAddDis;
-						}
-					}
 					float fTarFace = atan2f(kPos.fY - gUnit.GetPosY(), kPos.fX - gUnit.GetPosX());
 					m_kTargetPos.fX = gUnit.GetPosX() + fDis * cosf(fTarFace);
 					m_kTargetPos.fY = gUnit.GetPosY() + fDis * sinf(fTarFace);
@@ -1212,7 +1210,7 @@ void BeTaskActionSpell::OperateItem(BeItem* pkItem)
 	}
 
 	gUnit.SetCommonCDLastUseTime(pkItem->GetCDSkillID(), (int)gTime);
-	for (int i = 0; i < UNIT_MAX_ITEM; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		BeItem* pkOldItem = gUnit.GetItemByPos(i);
 		if (pkOldItem && pkOldItem->GetCDSkillID() == pkItem->GetCDSkillID())
@@ -1273,11 +1271,6 @@ bool BeTaskActionSpell::UseUpSkill()
 		int iManaSpend = rkData.GetSkillManaSpend();
 		m_iManaSpend = iManaSpend;
 		gUnit.SetMP(gUnit.GetMP() - iManaSpend);
-	}
-
-	if (pkSkill->GetUIShowPos() == 3)
-	{
-		gUnit.SetTabInfoFlag(BTCF_BIGSKILL);
 	}
 
 	return true;
@@ -1377,7 +1370,7 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 				kWindowData.iSkillID = m_iSkillTypeID;
 				kWindowData.iRemoveTime = m_iCastTime;
 				kWindowData.iUnitID = gUnit.GetID();
-				gMain.AddWindowData(kWindowData);
+				//gMain.AddWindowData(kWindowData);
 			}
 
 			break;
@@ -1425,7 +1418,7 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 						kWindowData.iSkillID = m_iSkillTypeID;
 						kWindowData.iRemoveTime = m_iEffectTime;
 						kWindowData.iUnitID = gUnit.GetID();
-						gMain.AddWindowData(kWindowData);
+						//gMain.AddWindowData(kWindowData);
 					}
 				} while (0);
 

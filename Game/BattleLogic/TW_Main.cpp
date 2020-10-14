@@ -15,8 +15,6 @@
 #include "TW_FormulaInfo.h"
 #include "Skill_table.hpp"
 
-#define GAME_FRAME_TIME	20
-
 BeMain::BeMain(void)
 {
 	pkAttachMain = this;

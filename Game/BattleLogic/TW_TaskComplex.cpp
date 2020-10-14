@@ -4,6 +4,14 @@
 **********************************************/
 
 #include "TW_TaskComplex.h"
+#include "TW_Main.h"
+#include "TW_Functions.h"
+#include <Unit_table.hpp>
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
+#include "TW_Map.h"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
 
 #define FOLLOW_DISTANCE		(256.0f)
 #define FOLLOW_GUARDRANGE	(600.0f)
@@ -67,7 +75,6 @@ void BeTaskMoveToPos::SetMoveResult(BeMoveResult eResult)
 BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
-	gUnit.AISetFirstChoiceTarge(0);
 
 	if (!pkAttachUnit)
 	{
@@ -109,11 +116,11 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		{
 			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_SOLIDER, 0, true);
+				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_SOLIDER, 0, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
+				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
 			}
 
 			gMap.DelUnitObstacle(&gUnit, false);
@@ -122,26 +129,26 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			std::list<TePos2> akPath;
 
 			{
-				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? BGF_FIXED_OBS | BGF_UNIT : BGF_FIXED_OBS;
+				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					iObs = BGF_FIXED_OBS | BGF_SOLIDER_COLLION;
+					iObs = TGF_FIXED_OTS | TGF_SOLIDER_COLLION;
 				}
 				else
 				{
-					iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SOLIDER;
+					iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SOLIDER;
 				}
 
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 			}
 
-			if (m_eFindPathRet == BFR_NONE || !gUnit.CanMove())
+			if (m_eFindPathRet == TFR_NONE || !gUnit.CanMove())
 			{
 				m_pkWalk->SetTargetPos(m_kTarPos, true);
 				m_eMoveState = BMS_WALK;
 				m_eRetryState = BMRS_DITECT;
 			}
-			else if (m_eFindPathRet == BFR_ARRIVED)
+			else if (m_eFindPathRet == TFR_ARRIVED)
 			{
 				m_eState = BMR_SUCCESS;
 				m_eMoveState = BMS_END;
@@ -181,11 +188,11 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			++m_iRetryTime;
 			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_SOLIDER, 0, true);
+				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_SOLIDER, 0, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
+				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
 			}
 
 			gMap.DelUnitObstacle(&gUnit, false);
@@ -225,11 +232,11 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				float fWalkY = 0.0f;
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, BGF_FIXED_OBS | BGF_SOLIDER_COLLION | BGF_TEMP);
+					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TGF_FIXED_OTS | TGF_SOLIDER_COLLION | TGF_TEMP);
 				}
 				else
 				{
-					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, BGF_FIXED_OBS | BGF_UNIT_OBS | BGF_SOLIDER);
+					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TGF_FIXED_OTS | TGF_UNIT_OTS | TGF_SOLIDER);
 				}
 
 				float fNeedMoveDistance = GetDistance(gUnit.GetPosX(), gUnit.GetPosY(), fWalkX, fWalkY);
@@ -250,25 +257,25 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			default:
 			{
 				std::list<TePos2> akPath;
-				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? BGF_FIXED_OBS | BGF_UNIT : BGF_FIXED_OBS;
+				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
 
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					iObs = BGF_FIXED_OBS | BGF_SOLIDER_COLLION;
+					iObs = TGF_FIXED_OTS | TGF_SOLIDER_COLLION;
 				}
 				else
 				{
-					iObs = BGF_FIXED_OBS | BGF_UNIT | BGF_SOLIDER;
+					iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SOLIDER;
 				}
 
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 
-				if (m_eFindPathRet == BFR_NONE)
+				if (m_eFindPathRet == TFR_NONE)
 				{
 					m_eRetryState = BMRS_FINNAL;
 					m_eMoveState = BMS_STAND;
 				}
-				else if (m_eFindPathRet == BFR_ARRIVED)
+				else if (m_eFindPathRet == TFR_ARRIVED)
 				{
 					m_iRetryTime = 0;
 					if (m_eRetryState == BMRS_FINNAL || m_kTarPos == m_kMiddlePos)
@@ -327,7 +334,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 					gUnit.SetFlag(BUF_ISBLOCKED);
 					m_eMoveState = BMS_STAND;
 					m_eRetryState = BMRS_DITECT;
-					if (m_iRetryTime == 0 && gUnit.GetPlayer() < MAX_ACTIVEPLAYERS)
+					if (m_iRetryTime == 0)
 					{
 						m_eRetryState = BMRS_FINNAL;
 						m_eMoveState = BMS_RETRY;
@@ -412,8 +419,6 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 
-	gUnit.AISetFirstChoiceTarge(0);
-
 	if (!gUnit.CanSpell())
 	{
 		return BER_EXE_END;
@@ -425,17 +430,6 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE)) || (pkTarget->GetCamp() == gUnit.GetCamp()))
 		)
 	{
-		if (gUnit.GetCamp() == SRPC_CAMPA || gUnit.GetCamp() == SRPC_CAMPB)
-		{
-			if (pkTarget->GetCamp() == SRPC_CAMPA || pkTarget->GetCamp() == SRPC_CAMPB)
-			{
-				if (!pkTarget->GetUnitVisionForCamp(gUnit.GetCamp() - 1))
-				{
-					return BER_EXE_END;
-				}
-			}
-		}
-
 		TePos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		float fDistance2 = GetDistance2(kTarPos.fX, kTarPos.fY, pkTarget->GetPosX(), pkTarget->GetPosY());
 		if (fDistance2 > 2000.0f * 2000.0f)
@@ -572,8 +566,6 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		return BER_EXE_END;
 	}
 
-	gUnit.AISetFirstChoiceTarge(0);
-
 	int iLoopCount = 10;
 	while (iDeltaTime > 0)
 	{
@@ -627,14 +619,6 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 			if (gUnit.HasUnitCarryFlag(BUCF_CANNOTATTACK))
 			{
 				return BER_TIME_OUT;
-			}
-
-			pkTarget = gUnit.AIFindTarget(pkTarget);
-			gUnit.AISetNeedRefreshTarget(false);
-			if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
-			{
-				m_eState = BAU_END;
-				break;
 			}
 
 			m_eState = BAU_TRACE;
@@ -772,11 +756,6 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BAP_MOVE:
 		{
 			m_iStartAttackTime = 0;
-			if (gUnit.AIGetNeedRefreshTarget())
-			{
-				m_eState = BAP_REFRESH;
-				break;
-			}
 			m_dwMoveTime += iDeltaTime;
 			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 
@@ -814,21 +793,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BAP_REFRESH:
 		{
 			m_dwMoveTime = 0;
-			gUnit.AISetNeedRefreshTarget(false);
-
-			const BeUnit* pkTarget = gUnit.AIFindTarget();
-
-			if (pkTarget)
-			{
-				TePos2 kPos;
-				kPos.fX = pkTarget->GetPosX();
-				kPos.fY = pkTarget->GetPosY();
-				float fDistance = gUnit.GetAttackRange(pkTarget);
-				m_pkMoveToPos->SetTargetPos(kPos, fDistance);
-				m_pkAttack->SetTargetID(pkTarget->GetID(), false, 0, 0, true);
-				m_eState = BAP_TRACE;
-			}
-			else if (gUnit.AIGetType() == BUAT_MONSTER && gUnit.GetAttackingUnitID())
+			if (gUnit.GetAttackingUnitID())
 			{
 				BeUnit* pkOrgTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
 				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE) || pkOrgTarget->IsUnitNotInvisToCamp(gUnit.GetCamp())))
@@ -857,17 +822,12 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		}
 		case BAP_TRACE:
 		{
-			if (gUnit.AIGetNeedRefreshTarget())
-			{
-				m_eState = BAP_REFRESH;
-			}
-			else
 			{
 				BeUnit* pkTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
 
 				if (pkTarget && !pkTarget->IsDead())
 				{
-					if (pkTarget->GetUnitVisionForCamp(gUnit.GetCamp() - 1) || gMain.IsSecretArea())
+					if (pkTarget->GetUnitVisionForCamp(gUnit.GetCamp() - 1))
 					{
 						m_dwOutSightTime = 0;
 						TePos2 kPos = m_pkMoveToPos->GetTargetPos();
@@ -932,12 +892,6 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 					m_eState = BAP_REFRESH;
 					break;
 				}
-
-				if (gUnit.AIGetNeedRefreshTarget())
-				{
-					m_eState = BAP_REFRESH;
-				}
-				else
 				{
 					if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
 					{
@@ -1052,15 +1006,6 @@ BeExeResult BeTaskFollowUnit::Execute(int& iDeltaTime)
 				int iStandTime = (WALK_BLOCK_TIME - m_iStandTime);
 				gUnit.IncActionCurTime(iStandTime);
 				iDeltaTime -= iStandTime;
-
-				const BeUnit* pkHatestEnemy = gUnit.AIFindTarget();
-
-				if (pkHatestEnemy)
-				{
-					m_pkAttackUnit->SetTargetID(pkHatestEnemy->GetID());
-					m_eState = BFS_ATTACK;
-				}
-				else
 				{
 					m_eState = BFS_MOVE;
 				}
