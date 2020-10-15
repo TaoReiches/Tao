@@ -16,6 +16,6 @@ BeMain::~BeMain()
 
 void BeMain::test()
 {
-    auto s = gUnit->get();
+    auto s = gUnit->getId();
     auto h = gTime;
 }

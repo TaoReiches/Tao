@@ -150,6 +150,7 @@
     <ClInclude Include="classMain.h" />
     <ClInclude Include="classMainBase.h" />
     <ClInclude Include="classUnit.h" />
+    <ClInclude Include="TW_MemoryPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

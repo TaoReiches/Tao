@@ -11,6 +11,9 @@
     <Filter Include="ClassTest">
       <UniqueIdentifier>{3043a2d5-a15f-446e-884a-087e9d24452a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MemoryPool">
+      <UniqueIdentifier>{af59eac2-b33d-46f8-872f-b1cfdc677cfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="classUnit.h">
       <Filter>ClassTest</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_MemoryPool.h">
+      <Filter>MemoryPool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

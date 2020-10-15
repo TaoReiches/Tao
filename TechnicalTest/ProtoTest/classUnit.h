@@ -5,8 +5,11 @@
 class Unit : public BeMainPtr
 {
 public:
-    Unit();
+    Unit() = default;
     ~Unit();
 
-    int get() { return 10; }
+    inline int getId() { return m_Id; }
+
+private:
+    int m_Id = 10;
 };

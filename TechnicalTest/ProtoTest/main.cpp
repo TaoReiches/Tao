@@ -1,12 +1,37 @@
 #include <iostream>
+#include <memory>
+#include <vector>
 
 #include "game.pb.h"
 
 #include "classMain.h"
 #include "classUnit.h"
 
+#include "TW_MemoryPool.h"
+
+
 int main()
 {
+    TeMemoryPool<Unit> mpUnit(10);
+
+    std::vector<std::unique_ptr<Unit>> testUnits;
+    testUnits.resize(50);
+
+    for (int i = 0; i < 20; ++i)
+    {
+        testUnits[i].reset(mpUnit.alloc());
+    }
+    for (int i = 0; i < 20; ++i)
+    {
+        mpUnit.free(testUnits[i].get());
+        testUnits[i].release();
+    }
+    for (int i = 0; i < 25; ++i)
+    {
+        testUnits[i].reset(mpUnit.alloc());
+    }
+
+
     auto a = new BeMain();
     a->test();
 
