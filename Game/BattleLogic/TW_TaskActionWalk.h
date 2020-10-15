@@ -27,7 +27,7 @@ enum class BeMoveState
 
 class BeTaskActionWalk : public BeTask
 {
-protected:
+public:
     BeTaskActionWalk();
     ~BeTaskActionWalk();
 

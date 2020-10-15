@@ -156,9 +156,6 @@
     <ClInclude Include="TW_Commander.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
-    <ClInclude Include="TW_TaskComplex.h">
-      <Filter>LogicTask</Filter>
-    </ClInclude>
     <ClInclude Include="TW_PlayerInfo.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
@@ -193,6 +190,21 @@
       <Filter>LogicTask</Filter>
     </ClInclude>
     <ClInclude Include="TW_TaskActionDeath.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskMoveToPos.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskAttackUnit.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskMoveToUnit.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskAttackToPos.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskAttackItem.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
   </ItemGroup>
@@ -300,6 +312,21 @@
       <Filter>LogicTask</Filter>
     </ClCompile>
     <ClCompile Include="TW_TaskActionDeath.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskMoveToPos.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskMoveToUnit.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskAttackUnit.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskAttackToPos.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskAttackItem.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
   </ItemGroup>

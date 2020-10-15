@@ -23,6 +23,16 @@ class BeTaskActionDeath;
 extern TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
 
 class BeTaskMoveToPos;
+extern TeMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos;
+
+class BeTaskMoveToUnit;
+extern TeMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit;
+
+class BeTaskAttackUnit;
+extern TeMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit;
+
+class BeTaskAttackItem;
+extern TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem;
 
 class BeAttackingAttr;
 extern TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;

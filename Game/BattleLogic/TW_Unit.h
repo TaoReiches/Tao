@@ -1559,7 +1559,6 @@ public:
 	void			SetSkillLevel(int iTypeID, int iLevel);
 	int				GetSkillLevel(int iTypeID);
 	const std::vector<BeSkill*>& GetNormalSkill(void);
-	bool			ActiveSkill(const BeActiveSkill& kCmd);
 	//	const SeSkillRes*	GetItemSkill(int iItemID) const;
 	int				GetItemSkillTypeID(int iItemID);
 	int				GetItemUseSkill(int iItemTypeID);

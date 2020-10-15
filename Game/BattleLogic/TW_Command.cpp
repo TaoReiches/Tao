@@ -4,7 +4,6 @@
 **********************************************/
 
 #include "TW_Command.h"
-#include "TW_TaskAction.h"
 #include "TW_TaskComplex.h"
 #include "TW_Unit.h"
 #include "TW_UnitMgr.h"
@@ -12,6 +11,8 @@
 #include "Skill_table.hpp"
 #include "TW_MapItem.h"
 #include "TW_MapItemMgr.h"
+#include "TW_Task.h"
+#include "TW_MemoryObject.h"
 
 BeCommand::BeCommand(BeCommandType cmd, int unit, float x, float y, int data, bool bShiftDelete, int data2, BeCommandTargetType eTType, bool bForceAttackOnceIn, float fDirX, float fDirY)
 {
@@ -47,7 +48,7 @@ BeCommandType BeExeCommand::GetType() const
 }
 BeTaskType BeExeCommand::GetTaskType() const
 {
-	return m_pkCurTask ? m_pkCurTask->GetType() : STT_NONE;
+	return m_pkCurTask ? m_pkCurTask->GetType() : BeTaskType::STT_NONE;
 }
 
 void BeExeCommand::SafeDeleteTask(BeTask*& pkTask)
@@ -56,18 +57,18 @@ void BeExeCommand::SafeDeleteTask(BeTask*& pkTask)
 	{
 		switch (pkTask->GetType())
 		{
-		case STT_ACTION_STAND:BeTaskActionStand::DEL((BeTaskActionStand*)pkTask); break;
-		case STT_ACTION_WALK:BeTaskActionWalk::DEL((BeTaskActionWalk*)pkTask); break;
-		case STT_ACTION_ATTACK:BeTaskActionAttack::DEL((BeTaskActionAttack*)pkTask); break;
-		case STT_ACTION_SPELL:BeTaskActionSpell::DEL((BeTaskActionSpell*)pkTask); break;
-		case STT_ACTION_DEATH:BeTaskActionDeath::DEL((BeTaskActionDeath*)pkTask); break;
+		case BeTaskType::STT_ACTION_STAND: mpTaskActionStand.free((BeTaskActionStand*)pkTask); break;
+		case BeTaskType::STT_ACTION_WALK:mpTaskActionWalk.free((BeTaskActionWalk*)pkTask); break;
+		case BeTaskType::STT_ACTION_ATTACK:mpTaskActionAttack.free((BeTaskActionAttack*)pkTask); break;
+		case BeTaskType::STT_ACTION_SPELL:mpTaskActionSpell.free((BeTaskActionSpell*)pkTask); break;
+		case BeTaskType::STT_ACTION_DEATH:mpTaskActionDeath.free((BeTaskActionDeath*)pkTask); break;
 
-		case STT_MOVE_TO_POS:BeTaskMoveToPos::DEL((BeTaskMoveToPos*)pkTask); break;
-		case STT_MOVE_TO_UNIT:BeTaskMoveToUnit::DEL((BeTaskMoveToUnit*)pkTask); break;
-		case STT_ATTACK_UNIT:BeTaskAttackUnit::DEL((BeTaskAttackUnit*)pkTask); break;
-		case STT_ATTACK_TO_POS:BeTaskAttackToPos::DEL((BeTaskAttackToPos*)pkTask); break;
-		case STT_FOLLOW_UNIT:BeTaskFollowUnit::DEL((BeTaskFollowUnit*)pkTask); break;
-		case STT_ATTACK_ITEM:BeTaskAttackItem::DEL((BeTaskAttackItem*)pkTask); break;
+		case BeTaskType::STT_MOVE_TO_POS:BeTaskMoveToPos::DEL((BeTaskMoveToPos*)pkTask); break;
+		case BeTaskType::STT_MOVE_TO_UNIT:BeTaskMoveToUnit::DEL((BeTaskMoveToUnit*)pkTask); break;
+		case BeTaskType::STT_ATTACK_UNIT:BeTaskAttackUnit::DEL((BeTaskAttackUnit*)pkTask); break;
+		case BeTaskType::STT_ATTACK_TO_POS:BeTaskAttackToPos::DEL((BeTaskAttackToPos*)pkTask); break;
+		case BeTaskType::STT_FOLLOW_UNIT:BeTaskFollowUnit::DEL((BeTaskFollowUnit*)pkTask); break;
+		case BeTaskType::STT_ATTACK_ITEM:BeTaskAttackItem::DEL((BeTaskAttackItem*)pkTask); break;
 		}
 		pkTask = 0;
 	}
@@ -75,7 +76,7 @@ void BeExeCommand::SafeDeleteTask(BeTask*& pkTask)
 
 BeExeResult BeExeCommand::Execute(int& iDeltaTime)
 {
-	return BER_EXE_END;
+	return BeExeResult::BER_EXE_END;
 }
 
 bool BeExeCommand::CanSkip(void) const

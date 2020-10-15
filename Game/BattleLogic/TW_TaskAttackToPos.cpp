@@ -1,0 +1,249 @@
+/**********************************************
+* Author: Tao Wang  Copyright reserved
+* Contact: tao.reiches@gmail.com
+**********************************************/
+
+#include "TW_TaskAttackToPos.h"
+
+BeTaskAttackToPos::BeTaskAttackToPos()
+{
+	m_eType = BeTaskType::STT_ATTACK_TO_POS;
+
+	m_fRange = 0.0f;
+	m_iRetryTime = 0;
+	m_pkAttack = BeTaskActionAttack::NEW();
+	m_pkMoveToPos = BeTaskMoveToPos::NEW();
+	m_eState = BAP_REFRESH;
+	m_dwMoveTime = 0;
+	m_dwOutSightTime = 0;
+	m_iStartTime = 0;
+	m_iStartAttackTime = 0;
+}
+
+BeTaskAttackToPos::~BeTaskAttackToPos()
+{
+	BeTaskActionAttack::DEL(m_pkAttack);
+	m_pkAttack = NULL;
+	BeTaskMoveToPos::DEL(m_pkMoveToPos);
+	m_pkMoveToPos = NULL;
+	m_dwOutSightTime = 0;
+}
+
+BeMoveResult BeTaskAttackToPos::GetMoveResult(void)
+{
+	return m_pkMoveToPos->GetMoveResult();
+}
+
+bool BeTaskAttackToPos::IsCanCancel() const
+{
+	return true;
+}
+void BeTaskAttackToPos::SetTargetPos(const TePos2& kPos, float fRange)
+{
+	if (!m_pkAttack || !m_pkMoveToPos)
+	{
+		return;
+	}
+	m_pkAttack->AttachMain(pkAttachMain);
+	m_pkAttack->AttachUnit(pkAttachUnit);
+
+	m_pkMoveToPos->AttachMain(pkAttachMain);
+	m_pkMoveToPos->AttachUnit(pkAttachUnit);
+
+	m_fRange = fRange;
+	m_iRetryTime = 0;
+	m_pkMoveToPos->SetTargetPos(kPos);
+	m_kTarPos = kPos;
+	m_dwOutSightTime = 0;
+}
+
+BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
+{
+	BeTask::Execute(iDeltaTime);
+
+	m_iStartTime += iDeltaTime;
+
+	if (!m_pkMoveToPos || !m_pkAttack)
+	{
+		return BER_EXE_END;
+	}
+
+	int iLoopCount = 20;
+	while (iDeltaTime > 0)
+	{
+		--iLoopCount;
+		if (iLoopCount <= 0)
+		{
+			iDeltaTime = 0;
+			break;
+		}
+		switch (m_eState)
+		{
+		case BAP_MOVE:
+		{
+			m_iStartAttackTime = 0;
+			m_dwMoveTime += iDeltaTime;
+			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+
+			if (gUnit.GetCommandCount() > 0)
+			{
+				float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), m_kTarPos.fX, m_kTarPos.fY);
+				if (fDistance2 < m_fRange * m_fRange)
+				{
+					m_dwMoveTime = 0;
+					m_iRetryTime = 0;
+					m_eState = BAP_END;
+				}
+			}
+
+			if (eRet == BER_TIME_OUT)
+			{
+				return BER_TIME_OUT;
+			}
+			else
+			{
+				m_dwMoveTime -= iDeltaTime;
+				if (m_pkMoveToPos->GetMoveResult() == BMR_SUCCESS)
+				{
+					m_dwMoveTime = 0;
+					m_iRetryTime = 0;
+				}
+				else
+				{
+					++m_iRetryTime;
+				}
+				m_eState = BAP_END;
+			}
+			break;
+		}
+		case BAP_REFRESH:
+		{
+			m_dwMoveTime = 0;
+			if (gUnit.GetAttackingUnitID())
+			{
+				BeUnit* pkOrgTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
+				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE) || pkOrgTarget->IsUnitNotInvisToCamp(gUnit.GetCamp())))
+				{
+					TePos2 kPos;
+					kPos.fX = pkOrgTarget->GetPosX();
+					kPos.fY = pkOrgTarget->GetPosY();
+					float fDistance = gUnit.GetAttackRange(pkOrgTarget);
+					m_pkMoveToPos->SetTargetPos(kPos, fDistance);
+					m_pkAttack->SetTargetID(gUnit.GetAttackingUnitID());
+					m_eState = BAP_TRACE;
+					break;
+				}
+			}
+			else
+			{
+				m_pkAttack->SetTargetID(0);
+				TePos2 kPos = m_pkMoveToPos->GetTargetPos();
+				if (m_kTarPos.fX != kPos.fX || m_kTarPos.fY != kPos.fY)
+				{
+					m_pkMoveToPos->SetTargetPos(m_kTarPos);
+				}
+				m_eState = BAP_MOVE;
+			}
+			break;
+		}
+		case BAP_TRACE:
+		{
+			{
+				BeUnit* pkTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
+
+				if (pkTarget && !pkTarget->IsDead())
+				{
+					if (pkTarget->GetUnitVisionForCamp(gUnit.GetCamp() - 1))
+					{
+						m_dwOutSightTime = 0;
+						TePos2 kPos = m_pkMoveToPos->GetTargetPos();
+						if (fabs(kPos.fX - pkTarget->GetPosX()) > 16.0f || fabs(kPos.fY - pkTarget->GetPosY()) > 16.0f)
+						{
+							kPos.fX = pkTarget->GetPosX();
+							kPos.fY = pkTarget->GetPosY();
+							float fDistance = gUnit.GetAttackRange(pkTarget);
+							m_pkMoveToPos->SetTargetPos(kPos, fDistance);
+						}
+					}
+					else
+					{
+						m_eState = BAP_REFRESH;
+						break;
+					}
+
+					m_dwOutSightTime += iDeltaTime;
+					m_dwMoveTime += iDeltaTime;
+					BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+
+					if (eRet == BER_TIME_OUT)
+					{
+					}
+					else
+					{
+						m_dwMoveTime -= iDeltaTime;
+						if (m_pkMoveToPos->GetMoveResult() == BMR_SUCCESS)
+						{
+							m_dwMoveTime = 0;
+							m_iRetryTime = 0;
+							m_eState = BAP_ATTACK;
+						}
+						else
+						{
+							++m_iRetryTime;
+							m_eState = BAP_REFRESH;
+						}
+					}
+				}
+				else
+				{
+					m_eState = BAP_REFRESH;
+				}
+			}
+			if (m_dwOutSightTime > 2000)
+			{
+				m_dwOutSightTime = 0;
+				m_eState = BAP_REFRESH;
+			}
+			break;
+		}
+		case BAP_ATTACK:
+		{
+			m_iStartAttackTime += iDeltaTime;
+			BeExeResult eRet = m_pkAttack->Execute(iDeltaTime);
+			if (eRet == BER_EXE_END)
+			{
+				BeUnit* pkTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
+				if (pkTarget && pkTarget->GetClass() == UNIT_CLASSTYPE_BUILDING)
+				{
+					m_eState = BAP_REFRESH;
+					break;
+				}
+				{
+					if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
+					{
+						m_eState = BAP_REFRESH;
+						break;
+					}
+
+					float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+					float fRange = gUnit.GetAttackRange(pkTarget);
+					if (fDistance2 > fRange * fRange)
+					{
+						TePos2 kPos(gUnit.GetPosX(), gUnit.GetPosY());
+						m_pkMoveToPos->SetTargetPos(kPos, fRange);
+						m_eState = BAP_TRACE;
+					}
+				}
+			}
+			break;
+		}
+		case BAP_END:
+		{
+			m_eState = BAP_REFRESH;
+			return BER_EXE_END;
+		}
+		default:break;
+		}
+	}
+	return BER_TIME_OUT;
+}

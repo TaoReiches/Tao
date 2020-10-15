@@ -180,7 +180,11 @@
     <ClInclude Include="TW_TaskActionSpell.h" />
     <ClInclude Include="TW_TaskActionStand.h" />
     <ClInclude Include="TW_TaskActionWalk.h" />
-    <ClInclude Include="TW_TaskComplex.h" />
+    <ClInclude Include="TW_TaskAttackItem.h" />
+    <ClInclude Include="TW_TaskAttackToPos.h" />
+    <ClInclude Include="TW_TaskAttackUnit.h" />
+    <ClInclude Include="TW_TaskMoveToPos.h" />
+    <ClInclude Include="TW_TaskMoveToUnit.h" />
     <ClInclude Include="TW_TriggerEvent.h" />
     <ClInclude Include="TW_Unit.h" />
     <ClInclude Include="TW_UnitData.h" />
@@ -218,7 +222,12 @@
     <ClCompile Include="TW_TaskActionSpell.cpp" />
     <ClCompile Include="TW_TaskActionStand.cpp" />
     <ClCompile Include="TW_TaskActionWalk.cpp" />
+    <ClCompile Include="TW_TaskAttackItem.cpp" />
+    <ClCompile Include="TW_TaskAttackToPos.cpp" />
+    <ClCompile Include="TW_TaskAttackUnit.cpp" />
     <ClCompile Include="TW_TaskComplex.cpp" />
+    <ClCompile Include="TW_TaskMoveToPos.cpp" />
+    <ClCompile Include="TW_TaskMoveToUnit.cpp" />
     <ClCompile Include="TW_TriggerFunc.cpp" />
     <ClCompile Include="TW_Unit.cpp" />
     <ClCompile Include="TW_UnitCarry.cpp" />
