@@ -180,6 +180,9 @@
     <ClInclude Include="TW_ShareUnitData.h">
       <Filter>Protocol</Filter>
     </ClInclude>
+    <ClInclude Include="TW_MemoryObject.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -193,9 +196,6 @@
     </ClCompile>
     <ClCompile Include="TW_Skill.cpp">
       <Filter>LogicCarry\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="TW_PoolImplementation.cpp">
-      <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="TW_Entity.cpp">
       <Filter>LogicEntity\Base</Filter>
@@ -271,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="TW_TaskComplex.cpp">
       <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MemoryObject.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

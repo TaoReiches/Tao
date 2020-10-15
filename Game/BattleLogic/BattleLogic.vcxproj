@@ -168,6 +168,7 @@
     <ClInclude Include="TW_MapItem.h" />
     <ClInclude Include="TW_MapItemDefine.h" />
     <ClInclude Include="TW_MapItemMgr.h" />
+    <ClInclude Include="TW_MemoryObject.h" />
     <ClInclude Include="TW_PlayerInfo.h" />
     <ClInclude Include="TW_ShareUnitData.h" />
     <ClInclude Include="TW_Skill.h" />
@@ -205,7 +206,7 @@
     <ClCompile Include="TW_Map.cpp" />
     <ClCompile Include="TW_MapItem.cpp" />
     <ClCompile Include="TW_MapItemMgr.cpp" />
-    <ClCompile Include="TW_PoolImplementation.cpp" />
+    <ClCompile Include="TW_MemoryObject.cpp" />
     <ClCompile Include="TW_Skill.cpp" />
     <ClCompile Include="TW_TaskAction.cpp" />
     <ClCompile Include="TW_TaskComplex.cpp" />

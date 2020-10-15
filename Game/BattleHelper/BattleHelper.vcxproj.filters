@@ -77,9 +77,6 @@
     <ClCompile Include="source\TW_PathFinder.cpp">
       <Filter>PathFinder</Filter>
     </ClCompile>
-    <ClCompile Include="source\TW_MemoryPool.cpp">
-      <Filter>MemoryPool</Filter>
-    </ClCompile>
     <ClCompile Include="source\TW_Random.cpp">
       <Filter>Random</Filter>
     </ClCompile>

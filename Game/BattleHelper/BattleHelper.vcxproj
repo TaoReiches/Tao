@@ -156,7 +156,6 @@
     <ClInclude Include="source\TW_TriggerMgrDef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\TW_MemoryPool.cpp" />
     <ClCompile Include="source\TW_PathFinder.cpp" />
     <ClCompile Include="source\TW_PathFinderFormular.cpp" />
     <ClCompile Include="source\TW_Random.cpp" />

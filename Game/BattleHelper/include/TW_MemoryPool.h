@@ -5,329 +5,101 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-typedef void(*NotifyMempoolAlloc)(const char*, unsigned int);
+#include <cassert>
+#include <cstddef>
+#include <memory>
+#include <new>
+#include <utility>
 
+template <typename T>
 class TeMemoryPool
 {
-public:
-	TeMemoryPool(int iEleSize, int iBaseEles, int iAddEles);
-	~TeMemoryPool(void);
-
-	void*	NewEle(void);
-	void	DelEle(void* pkEle);
-	bool	IsValid(void* pkEle);
-
-	int		GetAllocSize(void);
-	int		GetTotalSize(void);
-	int		GetAllocMaxEles(void);
-	void	Clear(void);
-
-	static void RegisterAllocCallBack(NotifyMempoolAlloc fCallBack);
 private:
-	bool	ExtendPool(void);
-	void	Reset(void);
-
-private:
-	struct SeHeadList
+	union MemoryPoolElement
 	{
-		SeHeadList* pkPrev;
-		SeHeadList* pkNext;
-		int			iSize;
-		char		acData[8];
+	private:
+		using StorageType = char[sizeof(T)];
+
+		MemoryPoolElement* next;
+		StorageType datum alignas(alignof(T));
+
+	public:
+		MemoryPoolElement* GetNextItem() const { return next; }
+		void SetNextItem(MemoryPoolElement* e) { next = e; }
+
+		T* GetStorage() { return reinterpret_cast<T*>(datum); }
+
+		static MemoryPoolElement* StorageToItem(T* t)
+		{
+			MemoryPoolElement* current = reinterpret_cast<MemoryPoolElement*>(t);
+			return current;
+		}
 	};
 
-	char		m_acName[64];
-	int			m_iEleSize;
-	int			m_iBaseEles;
-	int			m_iAddEles;
-	int			m_iTotalSize;
+	class MemoryPoolStore
+	{
+	private:
+		std::unique_ptr<MemoryPoolElement[]> storage;
+		std::unique_ptr<MemoryPoolStore> next;
 
-	int			m_iAllocEles;
-	int			m_iAllocMaxEles;
+	public:
+		MemoryPoolStore(size_t size) : storage(new MemoryPoolElement[size])
+		{
+			for (size_t i = 1; i < size; ++i)
+			{
+				storage[i - 1].SetNextItem(&storage[i]);
+			}
+			storage[size - 1].SetNextItem(nullptr);
+		}
 
-	void*		m_pkFreeFirst;
+		MemoryPoolElement* GetStorage() const { return storage.get(); }
 
-	SeHeadList	m_kHeadList;
+		void SetNextStore(std::unique_ptr<MemoryPoolStore>&& n)
+		{
+			assert(!next);
 
-	unsigned int		m_stMagicBegin;
-	unsigned int		m_stMagicEnd;
+			next.reset(n.release());
+		}
+	};
 
-	static NotifyMempoolAlloc	m_fAllocCallBack;
+	size_t storeSize;
+	std::unique_ptr<MemoryPoolStore> store;
+	MemoryPoolElement* freeList;
+
+public:
+	MemoryPool(size_t size) : storeSize(size), store(new MemoryPoolStore(size))
+	{
+		freeList = store->GetStorage();
+	}
+
+	template <typename... Args>
+	T* alloc(Args&&... args)
+	{
+		if (freeList == nullptr)
+		{
+			std::unique_ptr<MemoryPoolStore> newStore(new MemoryPoolStore(storeSize));
+
+			newStore->SetNextStore(std::move(store));
+			store.reset(newStore.release());
+			freeList = store->GetStorage();
+		}
+
+		MemoryPoolElement* current = freeList;
+		freeList = current->GetNextItem();
+
+		T* result = current->GetStorage();
+		new (result) T(std::forward<Args>(args)...);
+
+		return result;
+	}
+
+	void free(T* t)
+	{
+		t->T::~T();
+
+		MemoryPoolElement* current = MemoryPoolElement::StorageToItem(t);
+
+		current->SetNextItem(freeList);
+		freeList = current;
+	}
 };
-
-enum PoolState
-{
-	PS_INTILISED = 0,
-	PS_FINALISED,
-};
-
-#define DECLARE_POOL(ClassName)\
-	private:\
-		static TeMemoryPool s_kMemPool;\
-		PoolState		 m_ePoolState; \
-	public:\
-		static ClassName*	NEW(void);\
-		static void			DEL(ClassName *pkDel);\
-		static void			CLR();\
-		static int			GetAllocSize();\
-		static int			GetAllocMaxEles(); \
-
-
-#if defined(_VERSION_WINDOWS)
-#define IMPLEMENT_POOL(ClassName,BaseEles,AddEles)\
-	TeMemoryPool	ClassName::s_kMemPool(sizeof(##ClassName),BaseEles,AddEles);\
-	ClassName*	ClassName::NEW(void)\
-					{\
-		ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-		if(pkNew)\
-										{\
-			MNew(pkNew,ClassName);\
-			pkNew->m_ePoolState = PS_INTILISED; \
-				}\
-		return pkNew;\
-		}\
-	void ClassName::DEL(ClassName* pkDel)\
-		{\
-		if(s_kMemPool.IsValid(pkDel))\
-		{\
-			pkDel->~ClassName();\
-			pkDel->m_ePoolState = PS_FINALISED; \
-			s_kMemPool.DelEle(pkDel);\
-		}\
-	}\
-	void ClassName::CLR()\
-	{\
-		s_kMemPool.Clear();\
-	}\
-	int	ClassName::GetAllocSize()\
-	{\
-		return s_kMemPool.GetTotalSize();\
-	}\
-	int	ClassName::GetAllocMaxEles()\
-	{\
-		return s_kMemPool.GetAllocMaxEles();\
-	}
-#else
-#define IMPLEMENT_POOL(ClassName,BaseEles,AddEles)\
-    TeMemoryPool	ClassName::s_kMemPool(sizeof(ClassName),BaseEles,AddEles,(#ClassName)[0]);\
-    ClassName*	ClassName::NEW(void)\
-    {\
-        ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-        if(pkNew)\
-        {\
-            MNew(pkNew,ClassName);\
-            pkNew->m_ePoolState = PS_INTILISED; \
-        }\
-        return pkNew;\
-    }\
-    void ClassName::DEL(ClassName* pkDel)\
-    {\
-        if(s_kMemPool.IsValid(pkDel))\
-        {\
-			pkDel->~ClassName();\
-            pkDel->m_ePoolState = PS_FINALISED; \
-            s_kMemPool.DelEle(pkDel);\
-        }\
-    }\
-    void ClassName::CLR()\
-    {\
-        s_kMemPool.Clear();\
-    }\
-    int	ClassName::GetAllocSize()\
-    {\
-        return s_kMemPool.GetTotalSize();\
-    }\
-    int	ClassName::GetAllocMaxEles()\
-    {\
-        return s_kMemPool.GetAllocMaxEles();\
-    }
-#endif
-
-#define DECLARE_POOL1(ClassName)\
-	private:\
-		static TeMemoryPool s_kMemPool;\
-		PoolState		 m_ePoolState; \
-	public:\
-		static ClassName*	NEW(unsigned int dwValue);\
-		static void			DEL(ClassName *pkDel);\
-		static void			CLR();\
-		static int			GetAllocSize();\
-		static int			GetAllocMaxEles();\
-	public:\
-		void				MemPool_Release(void);
-
-#if defined(_VERSION_WINDOWS)
-#define IMPLEMENT_POOL1(ClassName,BaseEles,AddEles)\
-	TeMemoryPool	ClassName::s_kMemPool(sizeof(##ClassName),BaseEles,AddEles,#ClassName);\
-	ClassName*	ClassName::NEW(unsigned int dwValue)\
-	{\
-		ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-		if(pkNew)\
-		{\
-			MNew1(pkNew,ClassName,dwValue);\
-			pkNew->m_ePoolState = PS_INTILISED; \
-		}\
-		return pkNew;\
-	}\
-	void ClassName::DEL(ClassName* pkDel)\
-	{\
-		if(s_kMemPool.IsValid(pkDel))\
-		{\
-			pkDel->~ClassName();\
-			pkDel->m_ePoolState = PS_FINALISED; \
-			s_kMemPool.DelEle(pkDel);\
-		}\
-	}\
-	void ClassName::CLR()\
-	{\
-		s_kMemPool.Clear();\
-	}\
-	int	ClassName::GetAllocSize()\
-	{\
-		return s_kMemPool.GetTotalSize();\
-	}\
-	int	ClassName::GetAllocMaxEles()\
-	{\
-		return s_kMemPool.GetAllocMaxEles();\
-	}
-#else
-#define IMPLEMENT_POOL1(ClassName,BaseEles,AddEles)\
-    TeMemoryPool	ClassName::s_kMemPool(sizeof(ClassName),BaseEles,AddEles,(#ClassName)[0]);\
-    ClassName*	ClassName::NEW(unsigned int dwValue)\
-    {\
-        ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-        if(pkNew)\
-        {\
-            MNew1(pkNew,ClassName,dwValue);\
-            pkNew->m_ePoolState = PS_INTILISED; \
-        }\
-        return pkNew;\
-    }\
-    void ClassName::DEL(ClassName* pkDel)\
-    {\
-        if(s_kMemPool.IsValid(pkDel))\
-        {\
-			pkDel->~ClassName();\
-            pkDel->m_ePoolState = PS_FINALISED; \
-            s_kMemPool.DelEle(pkDel);\
-        }\
-    }\
-    void ClassName::CLR()\
-    {\
-        s_kMemPool.Clear();\
-    }\
-    int	ClassName::GetAllocSize()\
-    {\
-        return s_kMemPool.GetTotalSize();\
-    }\
-    int	ClassName::GetAllocMaxEles()\
-    {\
-        return s_kMemPool.GetAllocMaxEles();\
-    }
-#endif
-
-#define DECLARE_POOL_ARRAY(ClassName)\
-	private:\
-	static TeMemoryPool s_kMemPool;\
-	PoolState		 m_ePoolState; \
-	public:\
-	static ClassName*	NEW(void);\
-	static void			DEL(ClassName *pkDel);\
-	static void			CLR();\
-	static int			GetAllocSize();\
-	static int			GetAllocMaxEles();\
-	public:\
-	void				MemPool_Release(void);
-#if defined(_VERSION_WINDOWS)
-#define IMPLEMENT_POOL_ARRAY(ClassName,ArraySize, BaseEles,AddEles)\
-	TeMemoryPool	ClassName::s_kMemPool(sizeof(##ClassName) * ArraySize,BaseEles,AddEles,#ClassName);\
-	ClassName*	ClassName::NEW(void)\
-	{\
-		ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-		if(pkNew)\
-		{\
-			MNew(pkNew,ClassName);\
-			pkNew->m_ePoolState = PS_INTILISED; \
-		}\
-		return pkNew;\
-	}\
-	void ClassName::DEL(ClassName* pkDel)\
-	{\
-		if(s_kMemPool.IsValid(pkDel))\
-		{\
-			pkDel->~ClassName();\
-			pkDel->m_ePoolState = PS_FINALISED; \
-			s_kMemPool.DelEle(pkDel);\
-		}\
-	}\
-	void ClassName::CLR()\
-	{\
-		s_kMemPool.Clear();\
-	}\
-	int	ClassName::GetAllocSize()\
-	{\
-		return s_kMemPool.GetTotalSize();\
-	}\
-	int	ClassName::GetAllocMaxEles()\
-	{\
-		return s_kMemPool.GetAllocMaxEles();\
-	}
-#else
-#define IMPLEMENT_POOL_ARRAY(ClassName,ArraySize, BaseEles,AddEles)\
-    TeMemoryPool	ClassName::s_kMemPool(sizeof(ClassName) * ArraySize,BaseEles,AddEles,#ClassName);\
-    ClassName*	ClassName::NEW(void)\
-    {\
-        ClassName* pkNew = (ClassName *)(s_kMemPool.NewEle());\
-        if(pkNew)\
-        {\
-            MNew(pkNew,ClassName);\
-            pkNew->m_ePoolState = PS_INTILISED; \
-        }\
-        return pkNew;\
-    }\
-    void ClassName::DEL(ClassName* pkDel)\
-    {\
-        if(s_kMemPool.IsValid(pkDel))\
-        {\
-			pkDel->~ClassName();\
-            pkDel->m_ePoolState = PS_FINALISED; \
-            s_kMemPool.DelEle(pkDel);\
-        }\
-    }\
-    void ClassName::CLR()\
-    {\
-        s_kMemPool.Clear();\
-    }\
-    int	ClassName::GetAllocSize()\
-    {\
-        return s_kMemPool.GetTotalSize();\
-    }\
-    int	ClassName::GetAllocMaxEles()\
-    {\
-        return s_kMemPool.GetAllocMaxEles();\
-    }
-#endif
-
-#define CheckMemPool_Void()   \
-	if (m_ePoolState != PS_INTILISED)   \
-	{\
-	assert(false);\
-	return; }
-
-#define CheckMemPool_Bool()   \
-	if (m_ePoolState != PS_INTILISED)   \
-	{\
-	assert(false);\
-	return false;}
-
-#define CheckMemPool_Int()   \
-	if (m_ePoolState != PS_INTILISED)   \
-	{\
-	assert(false);\
-	return 0; }
-
-#define CheckMemPool_Ptr()   \
-	if (m_ePoolState != PS_INTILISED)   \
-	{\
-	assert(false);\
-	return NULL; }

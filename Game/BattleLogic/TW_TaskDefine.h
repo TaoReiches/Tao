@@ -5,8 +5,6 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_LogicBase.h"
-
 enum BeExeResult
 {
 	BER_TIME_OUT,
@@ -60,21 +58,4 @@ enum BeTaskType
 	STT_FOLLOW_UNIT,
 
 	STT_ATTACK_ITEM,
-};
-
-class BeUnit;
-
-class BeTask : public BeMainPtr, public BeUnitPtr
-{
-protected:
-	BeTask(void);
-	virtual ~BeTask(void);
-
-public:
-	BeTaskType GetType();
-	virtual BeExeResult Execute(int& iDeltaTime) = 0;
-
-protected:
-	BeTaskType	m_eType;
-	int m_iTaskTime;
 };
