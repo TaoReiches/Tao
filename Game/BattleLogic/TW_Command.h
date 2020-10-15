@@ -510,8 +510,6 @@ protected:
 
 class BeStopCommand : public BeExeCommand
 {
-	DECLARE_POOL(BeStopCommand);
-
 protected:
 	BeStopCommand();
 	~BeStopCommand() {};
@@ -536,8 +534,6 @@ protected:
 
 class BeHoldCommand : public BeExeCommand
 {
-	DECLARE_POOL(BeHoldCommand);
-
 protected:
 	BeHoldCommand();
 	~BeHoldCommand() {};
@@ -553,8 +549,6 @@ protected:
 
 class BeMoveCommand : public BeExeCommand
 {
-public:
-	DECLARE_POOL(BeMoveCommand);
 protected:
 	BeMoveCommand();
 	~BeMoveCommand() {};
@@ -571,8 +565,6 @@ public:
 
 class BePatrolCommand : public BeExeCommand
 {
-	DECLARE_POOL(BePatrolCommand);
-
 protected:
 	BePatrolCommand();
 	~BePatrolCommand() {};
@@ -598,8 +590,6 @@ protected:
 
 class BeAttackCommand : public BeExeCommand
 {
-	DECLARE_POOL(BeAttackCommand);
-
 protected:
 	BeAttackCommand();
 	~BeAttackCommand() {};
@@ -618,8 +608,6 @@ public:
 
 class BeSpellCommand : public BeExeCommand
 {
-	DECLARE_POOL(BeSpellCommand);
-
 protected:
 	BeSpellCommand();
 	~BeSpellCommand() {};
@@ -649,8 +637,6 @@ protected:
 
 class BeDropItemCommand : public BeExeCommand
 {
-	DECLARE_POOL(BeDropItemCommand);
-
 protected:
 	BeDropItemCommand();
 	~BeDropItemCommand() {};
@@ -672,8 +658,6 @@ protected:
 
 class BePickItemCommand : public BeExeCommand
 {
-	DECLARE_POOL(BePickItemCommand);
-
 protected:
 	BePickItemCommand();
 	~BePickItemCommand() {};

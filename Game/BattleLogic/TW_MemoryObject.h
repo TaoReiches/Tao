@@ -7,5 +7,23 @@
 
 #include "TW_MemoryPool.h"
 
+class BeTaskActionStand;
+extern TeMemoryPool<BeTaskActionStand>          mpTaskActionStand;
+
+class BeTaskActionWalk;
+extern TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
+
+class BeTaskActionAttack;
+extern TeMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;
+
+class BeTaskActionSpell;
+extern TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
+
+class BeTaskActionDeath;
+extern TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
+
+class BeAttackingAttr;
+extern TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
+
 class BeUnit;
-extern TeMemoryPool<BeUnit>         mpUnit;
+extern TeMemoryPool<BeUnit>                     mpUnit;

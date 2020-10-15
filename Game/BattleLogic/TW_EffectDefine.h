@@ -63,8 +63,6 @@ enum BeEffectColorType
 
 struct BeEffectData
 {
-	DECLARE_POOL(BeEffectData);
-
 	BeEffectData(void)
 	{
 		iProperty = 0;

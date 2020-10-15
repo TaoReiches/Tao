@@ -237,8 +237,6 @@ typedef BeUnit* (*SearchFunc)(UnitGroupID& kGroup, BeMain* pkAttachMain, int iMa
 
 class BeEffect : public BeChangeFlagObj, public BeEntity
 {
-    DECLARE_POOL1(BeEffect);
-
 protected:
     BeEffect(int iID);
 

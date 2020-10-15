@@ -7,29 +7,28 @@
 
 #include <memory>
 #include "TW_FlagObject.h"
-#include "TW_MemoryPool.h"
 #include "TW_Pos2.h"
 
 enum BeAttackingFlag
 {
-	BAF_AVOID = (1 << 0),
-	BAF_REBOUND = (1 << 1),
-	BAF_FIRST = (1 << 2),
-	BAF_SHARE = (1 << 3),
-	BAF_NORMAL = (1 << 4),
-	BAF_CANTAVOID = (1 << 5),
-	BAF_REATTACK = (1 << 6),
-	BAF_DIVE = (1 << 7),
-	BAF_MULTIPLE = (1 << 8),
-	BAF_MHBEIJI = (1 << 9),
-	BAF_NODAMAGE = (1 << 10),
-	BAF_LEECH = (1 << 11),
-	BAF_SKILLBREAK = (1 << 12),
-	BAF_SKILL = (1 << 13),
-	BAF_BAOJI = (1 << 14),
-	BAF_NOT_BAOJI = (1 << 15),
-	BAF_HAS_BAOJI = (1 << 16),
-	BAF_EFFECT = (1 << 17),
+	BAF_AVOID			=	(1 << 0),
+	BAF_REBOUND			=	(1 << 1),
+	BAF_FIRST			=	(1 << 2),
+	BAF_SHARE			=	(1 << 3),
+	BAF_NORMAL			=	(1 << 4),
+	BAF_CANTAVOID		=	(1 << 5),
+	BAF_REATTACK		=	(1 << 6),
+	BAF_DIVE			=	(1 << 7),
+	BAF_MULTIPLE		=	(1 << 8),
+	BAF_MHBEIJI			=	(1 << 9),
+	BAF_NODAMAGE		=	(1 << 10),
+	BAF_LEECH			=	(1 << 11),
+	BAF_SKILLBREAK		=	(1 << 12),
+	BAF_SKILL			=	(1 << 13),
+	BAF_BAOJI			=	(1 << 14),
+	BAF_NOT_BAOJI		=	(1 << 15),
+	BAF_HAS_BAOJI		=	(1 << 16),
+	BAF_EFFECT			=	(1 << 17),
 };
 
 enum BeAttackType
@@ -45,11 +44,9 @@ class BeUnit;
 class BeAttackingAttr : public BeFlagObj
 {
 public:
-	DECLARE_POOL(BeAttackingAttr);
-
 	BeAttackingAttr()
 	{
-		eAttackType = BAT_NONE;
+		eAttackType = BeAttackType::BAT_NONE;
 		fDamage = 0;
 		iPlayer = 0;
 		fDamageDecPer = 0.0f;
@@ -86,32 +83,30 @@ public:
 		iItemID = kAttr->iItemID;
 		iMissileModel = kAttr->iMissileModel;
 		iBeDamagedEffect = kAttr->iBeDamagedEffect;
-		this->m_iFlag = kAttr->m_iFlag;
+		m_iFlag = kAttr->m_iFlag;
 	}
 
-	void AddLeech(float fValue)
+	inline void AddLeech(float fValue)
 	{
 		fLeech += fValue;
 	}
 
-	BeAttackType		eAttackType;
-	float				fDamage;
-	std::shared_ptr<BeUnit>	kAttacker;
-	int					iPlayer;
-	int					iBumpCount;
-	float				fDamageDecPer;
-	float				fBumpRadius;
-	int					iSkillProperty;
-	bool				bNeedCulculateArmor;
-	bool				bFirstAttack;
-	int					iSkillTypeID;
-	int					iSkillLevel;
-	bool				bIgnorePhysicResist;
-	float				fLeech;
-	int					iItemID;
-
-	TePos2				attackPos;
-
-	int				iMissileModel;
-	int             iBeDamagedEffect;
+	BeAttackType				eAttackType;
+	float						fDamage;
+	std::shared_ptr<BeUnit>		kAttacker;
+	int							iPlayer;
+	int							iBumpCount;
+	float						fDamageDecPer;
+	float						fBumpRadius;
+	int							iSkillProperty;
+	bool						bNeedCulculateArmor;
+	bool						bFirstAttack;
+	int							iSkillTypeID;
+	int							iSkillLevel;
+	bool						bIgnorePhysicResist;
+	float						fLeech;
+	int							iItemID;
+	TePos2						attackPos;
+	int							iMissileModel;
+	int							iBeDamagedEffect;
 };

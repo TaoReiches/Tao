@@ -32,8 +32,6 @@ class BeLearnSkillData;
 
 class BeUnitData
 {
-	DECLARE_POOL(BeUnitData);
-
 public:
 	int					iPlayer;
 	int					iControl;

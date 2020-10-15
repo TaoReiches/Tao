@@ -4,6 +4,21 @@
 **********************************************/
 
 #include "TW_MemoryPool.h"
-#include "TW_Unit.h"
+#include "TW_TaskActionStand.h"
+#include "TW_TaskActionWalk.h"
+#include "TW_TaskActionAttack.h"
+#include "TW_TaskActionSpell.h"
+#include "TW_TaskActionDeath.h"
+#include "TW_AttackAttr.h"
 
-TeMemoryPool<BeUnit>         mpUnit;
+//#include "TW_Unit.h"
+
+TeMemoryPool<BeTaskActionStand>          mpTaskActionStand;
+TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
+TeMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;
+TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
+TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
+
+TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
+
+//TeMemoryPool<BeUnit>         mpUnit;

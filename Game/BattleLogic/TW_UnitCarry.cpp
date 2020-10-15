@@ -14,6 +14,7 @@
 #include "TW_Skill.h"
 #include "TW_Buff.h"
 #include "TW_Formula.h"
+#include "TW_AttackAttr.h"
 
 BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
@@ -1766,19 +1767,19 @@ void BeUnit::UpdateValidSkill(bool bReset)
 	}
 }
 
-void BeUnit::GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr& rkAttackingAttr)
+void BeUnit::GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr*& rkAttackingAttr)
 {
-	rkAttackingAttr.eAttackType = GetAttackType();
-	rkAttackingAttr.fDamage = GetDamageNum();
-	rkAttackingAttr.kAttacker = m_spSharePtr;
-	rkAttackingAttr.iPlayer = GetPlayer();
-	rkAttackingAttr.bNeedCulculateArmor = true;
-	rkAttackingAttr.fLeech = GetLeech();
-	rkAttackingAttr.SetFlag(BAF_REBOUND);
+	rkAttackingAttr->eAttackType = GetAttackType();
+	rkAttackingAttr->fDamage = GetDamageNum();
+	rkAttackingAttr->kAttacker = m_spSharePtr;
+	rkAttackingAttr->iPlayer = GetPlayer();
+	rkAttackingAttr->bNeedCulculateArmor = true;
+	rkAttackingAttr->fLeech = GetLeech();
+	rkAttackingAttr->SetFlag(static_cast<unsigned int>(BeAttackingFlag::BAF_REBOUND));
 
 	if (GetAttackingMiss())
 	{
-		rkAttackingAttr.SetFlag(BAF_AVOID);
+		rkAttackingAttr->SetFlag(static_cast<unsigned int>(BeAttackingFlag::BAF_AVOID));
 		return;
 	}
 }

@@ -183,6 +183,24 @@
     <ClInclude Include="TW_MemoryObject.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="TW_Task.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskActionStand.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskActionWalk.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskActionAttack.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskActionSpell.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_TaskActionDeath.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -274,6 +292,15 @@
     </ClCompile>
     <ClCompile Include="TW_MemoryObject.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Task.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskActionStand.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskActionAttack.cpp">
+      <Filter>LogicTask</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -30,8 +30,6 @@ class BeMapItem;
 
 class BeUnit : public BeSingleLinkEntity, public BeEntity
 {
-	DECLARE_POOL1(BeUnit);
-
 protected:
 	BeUnit(int iID);
 
@@ -1622,7 +1620,7 @@ public:
 	void			TrgOnUpdate(int iDeltaTime);
 	void			TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
 
-	void			GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr& rkAttackingAttr);
+	void			GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr*& rkAttackingAttr);
 	BeAttackingAttr& GetSelfAttackingAttr(void);
 	bool			GetAttackingMiss(void) const;
 	bool			GetAttackedAvoid(void) const;

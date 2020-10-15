@@ -15,35 +15,35 @@ template <typename T>
 class TeMemoryPool
 {
 private:
-	union MemoryPoolElement
+	union TeMemoryPoolElement
 	{
 	private:
 		using StorageType = char[sizeof(T)];
 
-		MemoryPoolElement* next;
+		TeMemoryPoolElement* next;
 		StorageType datum alignas(alignof(T));
 
 	public:
-		MemoryPoolElement* GetNextItem() const { return next; }
-		void SetNextItem(MemoryPoolElement* e) { next = e; }
+		TeMemoryPoolElement* GetNextItem() const { return next; }
+		void SetNextItem(TeMemoryPoolElement* e) { next = e; }
 
 		T* GetStorage() { return reinterpret_cast<T*>(datum); }
 
-		static MemoryPoolElement* StorageToItem(T* t)
+		static TeMemoryPoolElement* StorageToItem(T* t)
 		{
-			MemoryPoolElement* current = reinterpret_cast<MemoryPoolElement*>(t);
+			TeMemoryPoolElement* current = reinterpret_cast<TeMemoryPoolElement*>(t);
 			return current;
 		}
 	};
 
-	class MemoryPoolStore
+	class TeMemoryPoolStore
 	{
 	private:
-		std::unique_ptr<MemoryPoolElement[]> storage;
-		std::unique_ptr<MemoryPoolStore> next;
+		std::unique_ptr<TeMemoryPoolElement[]> storage;
+		std::unique_ptr<TeMemoryPoolStore> next;
 
 	public:
-		MemoryPoolStore(size_t size) : storage(new MemoryPoolElement[size])
+		TeMemoryPoolStore(size_t size) : storage(new TeMemoryPoolElement[size])
 		{
 			for (size_t i = 1; i < size; ++i)
 			{
@@ -52,9 +52,9 @@ private:
 			storage[size - 1].SetNextItem(nullptr);
 		}
 
-		MemoryPoolElement* GetStorage() const { return storage.get(); }
+		TeMemoryPoolElement* GetStorage() const { return storage.get(); }
 
-		void SetNextStore(std::unique_ptr<MemoryPoolStore>&& n)
+		void SetNextStore(std::unique_ptr<TeMemoryPoolStore>&& n)
 		{
 			assert(!next);
 
@@ -63,11 +63,11 @@ private:
 	};
 
 	size_t storeSize;
-	std::unique_ptr<MemoryPoolStore> store;
-	MemoryPoolElement* freeList;
+	std::unique_ptr<TeMemoryPoolStore> store;
+	TeMemoryPoolElement* freeList;
 
 public:
-	MemoryPool(size_t size) : storeSize(size), store(new MemoryPoolStore(size))
+	TeMemoryPool(size_t size) : storeSize(size), store(new TeMemoryPoolStore(size))
 	{
 		freeList = store->GetStorage();
 	}
@@ -77,14 +77,14 @@ public:
 	{
 		if (freeList == nullptr)
 		{
-			std::unique_ptr<MemoryPoolStore> newStore(new MemoryPoolStore(storeSize));
+			std::unique_ptr<TeMemoryPoolStore> newStore(new TeMemoryPoolStore(storeSize));
 
 			newStore->SetNextStore(std::move(store));
 			store.reset(newStore.release());
 			freeList = store->GetStorage();
 		}
 
-		MemoryPoolElement* current = freeList;
+		TeMemoryPoolElement* current = freeList;
 		freeList = current->GetNextItem();
 
 		T* result = current->GetStorage();
@@ -97,7 +97,7 @@ public:
 	{
 		t->T::~T();
 
-		MemoryPoolElement* current = MemoryPoolElement::StorageToItem(t);
+		TeMemoryPoolElement* current = TeMemoryPoolElement::StorageToItem(t);
 
 		current->SetNextItem(freeList);
 		freeList = current;
