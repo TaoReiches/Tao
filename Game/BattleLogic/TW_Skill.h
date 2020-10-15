@@ -48,8 +48,6 @@ protected:
     BeSkill(int iTypeID);
     ~BeSkill(void);
 public:
-    DECLARE_POOL1(BeSkill);
-
     inline const SkillTable* GetResPtr(void) const
     {
         return m_pkRes;

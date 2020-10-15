@@ -22,8 +22,13 @@ extern TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
 class BeTaskActionDeath;
 extern TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
 
+class BeTaskMoveToPos;
+
 class BeAttackingAttr;
 extern TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
 
 class BeUnit;
 extern TeMemoryPool<BeUnit>                     mpUnit;
+
+class BeSkill;
+extern TeMemoryPool<BeSkill>                    mpSkill;

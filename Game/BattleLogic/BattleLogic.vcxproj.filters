@@ -153,13 +153,7 @@
     <ClInclude Include="TW_Command.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
-    <ClInclude Include="TW_TaskDefine.h">
-      <Filter>LogicTask</Filter>
-    </ClInclude>
     <ClInclude Include="TW_Commander.h">
-      <Filter>LogicTask</Filter>
-    </ClInclude>
-    <ClInclude Include="TW_TaskAction.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
     <ClInclude Include="TW_TaskComplex.h">
@@ -284,9 +278,6 @@
     <ClCompile Include="TW_Commander.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
-    <ClCompile Include="TW_TaskAction.cpp">
-      <Filter>LogicTask</Filter>
-    </ClCompile>
     <ClCompile Include="TW_TaskComplex.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
@@ -300,6 +291,15 @@
       <Filter>LogicTask</Filter>
     </ClCompile>
     <ClCompile Include="TW_TaskActionAttack.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskActionWalk.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskActionSpell.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_TaskActionDeath.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
   </ItemGroup>

@@ -175,14 +175,12 @@
     <ClInclude Include="TW_SkillDefine.h" />
     <ClInclude Include="TW_SortStruct.h" />
     <ClInclude Include="TW_Task.h" />
-    <ClInclude Include="TW_TaskAction.h" />
     <ClInclude Include="TW_TaskActionAttack.h" />
     <ClInclude Include="TW_TaskActionDeath.h" />
     <ClInclude Include="TW_TaskActionSpell.h" />
     <ClInclude Include="TW_TaskActionStand.h" />
     <ClInclude Include="TW_TaskActionWalk.h" />
     <ClInclude Include="TW_TaskComplex.h" />
-    <ClInclude Include="TW_TaskDefine.h" />
     <ClInclude Include="TW_TriggerEvent.h" />
     <ClInclude Include="TW_Unit.h" />
     <ClInclude Include="TW_UnitData.h" />
@@ -215,9 +213,11 @@
     <ClCompile Include="TW_MemoryObject.cpp" />
     <ClCompile Include="TW_Skill.cpp" />
     <ClCompile Include="TW_Task.cpp" />
-    <ClCompile Include="TW_TaskAction.cpp" />
     <ClCompile Include="TW_TaskActionAttack.cpp" />
+    <ClCompile Include="TW_TaskActionDeath.cpp" />
+    <ClCompile Include="TW_TaskActionSpell.cpp" />
     <ClCompile Include="TW_TaskActionStand.cpp" />
+    <ClCompile Include="TW_TaskActionWalk.cpp" />
     <ClCompile Include="TW_TaskComplex.cpp" />
     <ClCompile Include="TW_TriggerFunc.cpp" />
     <ClCompile Include="TW_Unit.cpp" />

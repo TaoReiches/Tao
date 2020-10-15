@@ -8,6 +8,23 @@
 #include "TW_Task.h"
 #include "TW_Pos2.h"
 
+enum class BeMoveResult
+{
+    BMR_NONE = 0,
+    BMR_INITED,
+    BMR_BLOCK,
+    BMR_SUCCESS,
+};
+
+enum class BeMoveState
+{
+    BMS_INIT = 0,
+    BMS_RETRY,
+    BMS_STAND,
+    BMS_WALK,
+    BMS_END,
+};
+
 class BeTaskActionWalk : public BeTask
 {
 protected:

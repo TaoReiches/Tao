@@ -8,6 +8,17 @@
 #include "TW_Task.h"
 #include "TW_Pos2.h"
 
+enum class BeSpellPhase
+{
+	BSP_INIT = 0,
+	BSP_PREPARE,
+	BSP_CAST,
+	BSP_EFFECT,
+	BSP_SHAKES,
+	BSP_FINISH,
+	BSP_END,
+};
+
 class BeItem;
 class SkillTable;
 

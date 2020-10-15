@@ -5,6 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <vector>
 #include "TW_MemoryPool.h"
 #include "TW_AttackAttr.h"
 

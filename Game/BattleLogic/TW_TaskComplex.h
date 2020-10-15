@@ -18,8 +18,6 @@ enum BeMoveRetryState
 
 class BeTaskMoveToPos : public BeTask
 {
-	DECLARE_POOL(BeTaskMoveToPos);
-
 protected:
 	BeTaskMoveToPos();
 	~BeTaskMoveToPos();
