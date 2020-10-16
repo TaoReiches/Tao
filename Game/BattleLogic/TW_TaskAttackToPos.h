@@ -5,6 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include "TW_Task.h"
 #include "TW_Pos2.h"
 #include "TW_TaskActionWalk.h"
@@ -36,11 +37,11 @@ protected:
 	TePos2						m_kTarPos;
 	float						m_fRange;
 	int							m_iRetryTime;
-	BeTaskActionAttack* m_pkAttack;
-	BeTaskMoveToPos* m_pkMoveToPos;
 	BeAttackToPosState			m_eState;
 	unsigned int				m_dwMoveTime;
 	unsigned int				m_dwOutSightTime;
 	int							m_iStartTime;
 	int							m_iStartAttackTime;
+	std::unique_ptr<BeTaskActionAttack> m_pkAttack;
+	std::unique_ptr<BeTaskMoveToPos> m_pkMoveToPos;
 };

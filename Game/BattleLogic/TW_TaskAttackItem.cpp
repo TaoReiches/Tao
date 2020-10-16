@@ -4,22 +4,29 @@
 **********************************************/
 
 #include "TW_TaskAttackItem.h"
+#include "TW_TaskMoveToPos.h"
+#include "TW_TaskActionAttack.h"
+#include "TW_MemoryObject.h"
+#include "TW_Main.h"
+#include "TW_MapItem.h"
+#include "TW_MapItemMgr.h"
+#include "TW_Unit.h"
 
 BeTaskAttackItem::BeTaskAttackItem()
 {
-	m_eType = STT_ATTACK_ITEM;
-	m_eState = BAI_END;
-	m_pkMoveToPos = BeTaskMoveToPos::NEW();
-	m_pkActionAttack = BeTaskActionAttack::NEW();
+	m_eType = BeTaskType::STT_ATTACK_ITEM;
+	m_eState = BeAttackItemState::BAI_END;
+	m_pkMoveToPos.reset(mpTaskMoveToPos.alloc());
+	m_pkActionAttack.reset(mpTaskActionAttack.alloc());
 	m_iItemID = 0;
 }
 
 BeTaskAttackItem::~BeTaskAttackItem()
 {
-	BeTaskMoveToPos::DEL(m_pkMoveToPos);
-	m_pkMoveToPos = NULL;
-	BeTaskActionAttack::DEL(m_pkActionAttack);
-	m_pkActionAttack = NULL;
+	mpTaskMoveToPos.free(m_pkMoveToPos.get());
+	m_pkMoveToPos.release();
+	mpTaskActionAttack.free(m_pkActionAttack.get());
+	m_pkActionAttack.release();
 }
 
 void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
@@ -43,8 +50,8 @@ void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
 	}
 	gUnit.SetAttackingUnitID(0);
 
-	m_pkActionAttack->SetTargetItem(iID);
-	m_eState = BAI_TRACE;
+	// m_pkActionAttack->SetTargetItem(iID);
+	m_eState = BeAttackItemState::BAI_TRACE;
 }
 
 int BeTaskAttackItem::GetTargetID() const
@@ -54,7 +61,7 @@ int BeTaskAttackItem::GetTargetID() const
 
 bool BeTaskAttackItem::IsAttacking() const
 {
-	return (bool)(m_eState == BAI_ATTACK);
+	return (bool)(m_eState == BeAttackItemState::BAI_ATTACK);
 }
 
 BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
@@ -74,17 +81,17 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		}
 		switch (m_eState)
 		{
-		case BAI_ATTACK:
+		case BeAttackItemState::BAI_ATTACK:
 		{
 			BeExeResult eRet = m_pkActionAttack->Execute(iDeltaTime);
-			if (eRet == BER_TIME_OUT)
+			if (eRet == BeExeResult::BER_TIME_OUT)
 			{
-				return BER_TIME_OUT;
+				return BeExeResult::BER_TIME_OUT;
 			}
 
 			if (!pkTarget)
 			{
-				m_eState = BAI_END;
+				m_eState = BeAttackItemState::BAI_END;
 				break;
 			}
 
@@ -92,46 +99,46 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 			float fD = 200.0f;
 			if (fDistance2 > fD * fD)
 			{
-				m_eState = BAI_TRACE;
+				m_eState = BeAttackItemState::BAI_TRACE;
 			}
 			break;
 		}
-		case BAI_TRACE:
+		case BeAttackItemState::BAI_TRACE:
 		{
 			if (!pkTarget)
 			{
-				return BER_EXE_END;
+				return BeExeResult::BER_EXE_END;
 			}
 
 			float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
 			float fRange = 200.0f;
 			if (fDistance2 <= (fRange * fRange))
 			{
-				m_eState = BAI_ATTACK;
+				m_eState = BeAttackItemState::BAI_ATTACK;
 				break;
 			}
 
 			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
-			if (eRet == BER_TIME_OUT)
+			if (eRet == BeExeResult::BER_TIME_OUT)
 			{
-				return BER_TIME_OUT;
+				return BeExeResult::BER_TIME_OUT;
 			}
 			else
 			{
-				if (m_pkMoveToPos->GetMoveResult() == BMR_SUCCESS)
+				if (m_pkMoveToPos->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
 				{
-					m_eState = BAI_ATTACK;
+					m_eState = BeAttackItemState::BAI_ATTACK;
 					break;
 				}
-				m_eState = BAI_END;
+				m_eState = BeAttackItemState::BAI_END;
 			}
 		}
-		case BAI_END:
+		case BeAttackItemState::BAI_END:
 		{
-			return BER_EXE_END;
+			return BeExeResult::BER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return BER_TIME_OUT;
+	return BeExeResult::BER_TIME_OUT;
 }

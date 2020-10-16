@@ -5,6 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include "TW_Task.h"
 
 enum class BeAttackItemState
@@ -30,8 +31,8 @@ public:
 	virtual BeExeResult Execute(int& iDeltaTime);
 
 protected:
-	BeTaskMoveToPos* m_pkMoveToPos;
-	BeTaskActionAttack* m_pkActionAttack;
+	std::unique_ptr<BeTaskMoveToPos>		m_pkMoveToPos;
+	std::unique_ptr<BeTaskActionAttack>		m_pkActionAttack;
 
 	BeAttackItemState	m_eState;
 	int					m_iItemID;

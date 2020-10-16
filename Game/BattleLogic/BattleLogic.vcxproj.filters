@@ -290,9 +290,6 @@
     <ClCompile Include="TW_Commander.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
-    <ClCompile Include="TW_TaskComplex.cpp">
-      <Filter>LogicTask</Filter>
-    </ClCompile>
     <ClCompile Include="TW_MemoryObject.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>

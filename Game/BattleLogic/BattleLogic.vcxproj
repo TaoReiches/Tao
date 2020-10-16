@@ -225,7 +225,6 @@
     <ClCompile Include="TW_TaskAttackItem.cpp" />
     <ClCompile Include="TW_TaskAttackToPos.cpp" />
     <ClCompile Include="TW_TaskAttackUnit.cpp" />
-    <ClCompile Include="TW_TaskComplex.cpp" />
     <ClCompile Include="TW_TaskMoveToPos.cpp" />
     <ClCompile Include="TW_TaskMoveToUnit.cpp" />
     <ClCompile Include="TW_TriggerFunc.cpp" />
