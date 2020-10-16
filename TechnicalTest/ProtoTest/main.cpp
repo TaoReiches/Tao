@@ -19,16 +19,20 @@ int main()
 
     for (int i = 0; i < 20; ++i)
     {
-        testUnits[i].reset(mpUnit.alloc());
+        testUnits[i].reset(mpUnit.alloc(100 + i));
     }
     for (int i = 0; i < 20; ++i)
     {
-        mpUnit.free(testUnits[i].get());
-        testUnits[i].release();
+        //mpUnit.free(testUnits[i].get());
+        //testUnits[i].release();
+        auto ss = testUnits.begin();
+        mpUnit.free((*ss).get());
+        (*ss).release();
+        testUnits.erase(ss);
     }
     for (int i = 0; i < 25; ++i)
     {
-        testUnits[i].reset(mpUnit.alloc());
+        testUnits[i].reset(mpUnit.alloc(200 + i));
     }
 
 
