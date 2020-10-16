@@ -97,7 +97,6 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 				kTarPos = TePos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 				m_pkMoveToPos->SetTargetPos(kTarPos, m_fDistance);
 			}
-
 		}
 	}
 	else

@@ -17,7 +17,7 @@ public:
 	BeExeCommand* GetCurCmd(void);
 	bool	IsIdle(void) const;
 
-	void	GiveCommand(BeCommand kCmd, BeGiveCmdType eType = BCT_IMMEDIATE, int iUnitID = 0, bool bNeedHangCurrent = true);
+	void	GiveCommand(BeCommand kCmd, BeGiveCmdType eType = BeGiveCmdType::BCT_IMMEDIATE, int iUnitID = 0, bool bNeedHangCurrent = true);
 	void	ExecuteCmd(int iDeltaTime);
 	int		GetCommandCount() const;
 	BeCommand& GetCurCommand(void);

@@ -31,6 +31,9 @@ extern TeMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit;
 class BeTaskAttackUnit;
 extern TeMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit;
 
+class BeTaskAttackToPos;
+extern TeMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos;
+
 class BeTaskAttackItem;
 extern TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem;
 

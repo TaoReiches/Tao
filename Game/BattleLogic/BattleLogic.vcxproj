@@ -149,12 +149,19 @@
     <ClInclude Include="TW_CarryDefine.h" />
     <ClInclude Include="TW_ChangeFlagObject.h" />
     <ClInclude Include="TW_Command.h" />
+    <ClInclude Include="TW_CommandAttack.h" />
+    <ClInclude Include="TW_CommandDropItem.h" />
     <ClInclude Include="TW_Commander.h" />
+    <ClInclude Include="TW_CommandMove.h" />
+    <ClInclude Include="TW_CommandPickItem.h" />
+    <ClInclude Include="TW_CommandSpell.h" />
+    <ClInclude Include="TW_CommandStop.h" />
     <ClInclude Include="TW_Effect.h" />
     <ClInclude Include="TW_EffectDefine.h" />
     <ClInclude Include="TW_EffectMgr.h" />
     <ClInclude Include="TW_Entity.h" />
     <ClInclude Include="TW_EntityMgr.h" />
+    <ClInclude Include="TW_CommandExe.h" />
     <ClInclude Include="TW_FlagObject.h" />
     <ClInclude Include="TW_Formula.h" />
     <ClInclude Include="TW_FormulaInfo.h" />
@@ -196,8 +203,14 @@
   <ItemGroup>
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
-    <ClCompile Include="TW_Command.cpp" />
+    <ClCompile Include="TW_CommandAttack.cpp" />
+    <ClCompile Include="TW_CommandDropItem.cpp" />
     <ClCompile Include="TW_Commander.cpp" />
+    <ClCompile Include="TW_CommandExe.cpp" />
+    <ClCompile Include="TW_CommandMove.cpp" />
+    <ClCompile Include="TW_CommandPickItem.cpp" />
+    <ClCompile Include="TW_CommandSpell.cpp" />
+    <ClCompile Include="TW_CommandStop.cpp" />
     <ClCompile Include="TW_Effect.cpp" />
     <ClCompile Include="TW_EffectMgr.cpp" />
     <ClCompile Include="TW_Entity.cpp" />

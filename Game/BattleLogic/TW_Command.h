@@ -8,7 +8,7 @@
 #include <cstring>
 #include "TW_Pos2.h"
 
-enum BeGiveCmdType
+enum class BeGiveCmdType
 {
 	BCT_NONE = 0,
 
@@ -31,7 +31,7 @@ enum BeGiveCmdType
 	BCT_PUSH_BACK = BCT_PLAYER_SHIFT,
 };
 
-enum BeCommandType
+enum class BeCommandType
 {
 	BCT_STOP = 0,
 	BCT_HOLD,
@@ -48,7 +48,7 @@ enum BeCommandType
 	BCT_NUMS,
 };
 
-enum BeCommandTargetType
+enum class BeCommandTargetType
 {
 	BCTT_NONE = 0,
 	BCTT_MAP = 1,
@@ -62,12 +62,27 @@ enum BeCommandTargetType
 class BeCommand
 {
 public:
-	BeCommand(BeCommandType cmd = BCT_STOP, int unit = 0,
+	BeCommand(BeCommandType cmd = BeCommandType::BCT_STOP, int unit = 0,
 		float x = 0.0f, float y = 0.0f, int data = 0,
 		bool bShiftDelete = false, int data2 = 0,
-		BeCommandTargetType eTType = BCTT_UNIT,
-		bool bForceAttackSG = false,
-		float fDirX = 0.0f, float fDirY = 0.0f);
+		BeCommandTargetType eTType = BeCommandTargetType::BCTT_UNIT,
+		bool bForceAttackOnceIn = false,
+		float fDirX = 0.0f, float fDirY = 0.0f)
+	{
+		eCmdType = cmd;
+		iUnitID = unit;
+		kPos.fX = x;
+		kPos.fY = y;
+		iData = data;
+		iData2 = data2;
+		bForceAttackOnce = bForceAttackOnceIn;
+		bShiftCanDelete = bShiftDelete;
+		eTargetType = eTType;
+		eGiveType = BeGiveCmdType::BCT_NONE;
+		bForceExecute = false;
+		kDirPos.fX = fDirX;
+		kDirPos.fY = fDirY;
+	}
 
 	BeCommandType	eCmdType;
 	int				iUnitID;
@@ -80,185 +95,4 @@ public:
 	BeCommandTargetType		eTargetType;
 	BeGiveCmdType			eGiveType;
 	bool			bForceExecute;
-};
-
-class BeExeCommand : public BeMainPtr, public BeUnitPtr
-{
-public:
-	BeExeCommand();
-	virtual ~BeExeCommand();
-
-	BeCommandType GetType() const;
-	BeTaskType GetTaskType() const;
-
-	virtual BeExeResult Execute(int& iDeltaTime) = 0;
-	virtual bool CanInterrupt() const = 0;
-	virtual bool CanCancel() const = 0;
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const = 0;
-	virtual bool CanSkip(void) const;
-	void SafeDeleteTask(BeTask*& pkTask);
-
-	void AttachMain(void* pkMain)
-	{
-		pkAttachMain = pkMain;
-		if (m_pkCurTask)
-		{
-			m_pkCurTask->AttachMain(pkMain);
-		}
-	}
-
-	void AttachUnit(void* pkUnit)
-	{
-		pkAttachUnit = pkUnit;
-		if (m_pkCurTask)
-		{
-			m_pkCurTask->AttachUnit(pkUnit);
-		}
-	}
-
-protected:
-	BeCommandType	m_eCmdType;
-	BeTask* m_pkCurTask;
-};
-
-class BeStopCommand : public BeExeCommand
-{
-protected:
-	BeStopCommand();
-	~BeStopCommand() {};
-
-public:
-	bool IsDead();
-	void SetDead();
-	void SetStopTime(int iTime)
-	{
-		m_iStopTime = iTime;
-	}
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-
-protected:
-	bool	m_bDead;
-	int		m_iStopTime;
-};
-
-class BeHoldCommand : public BeExeCommand
-{
-protected:
-	BeHoldCommand();
-	~BeHoldCommand() {};
-
-public:
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-protected:
-	bool FindAttack(void);
-};
-
-class BeMoveCommand : public BeExeCommand
-{
-protected:
-	BeMoveCommand();
-	~BeMoveCommand() {};
-public:
-	void SetFollowID(int iID, float fDistance);
-	void SetTargetPos(const TePos2& kPos, float fDistance, bool bTurn);
-	TePos2 GetTargetPos() const;
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-};
-
-class BeAttackCommand : public BeExeCommand
-{
-protected:
-	BeAttackCommand();
-	~BeAttackCommand() {};
-
-public:
-	void SetTargetID(int iID, float fDistance, bool bIsOrb = false, int iSkillTypeID = 0, int iSkillLevel = 0, int iAttackCountLimit = -1);
-	void SetTargetPos(const TePos2& kPos, float fRange = 0.0f);
-	void SetTargetItem(int iItemID);
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-	virtual bool CanSkip(void) const;
-};
-
-class BeSpellCommand : public BeExeCommand
-{
-protected:
-	BeSpellCommand();
-	~BeSpellCommand() {};
-
-public:
-	void SpellTargetID(int iSkillTypeID, int iTargetID, const TePos2& kPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1, int iTargetType = 0);
-	void SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
-	void SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const TePos2& kDirPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-	virtual bool CanSkip(void) const;
-
-protected:
-	int 	m_iSkillTypeID;
-	int		m_iSkillLevel;
-	bool	m_bExpendMP;
-	int		m_iTargetID;
-	int		m_iTargetType;
-	int     m_iItemID;
-	int		m_iUsePlayer;
-	TePos2	m_kTargetPos;
-	TePos2	m_kDirectPos;
-};
-
-class BeDropItemCommand : public BeExeCommand
-{
-protected:
-	BeDropItemCommand();
-	~BeDropItemCommand() {};
-
-public:
-	void SetTargetIDDropItem(int iID, int iItemID);
-	void SetTargetPosDropItem(const TePos2& kPos, int iItemID);
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-
-protected:
-	int		m_iTargetID;
-	int     m_iItemID;
-	TePos2	m_kTargetPos;
-};
-
-class BePickItemCommand : public BeExeCommand
-{
-protected:
-	BePickItemCommand();
-	~BePickItemCommand() {};
-
-public:
-	bool SetItemID(int iItemID);
-
-	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
-	virtual bool CanCancel() const;
-	virtual bool CanInterrupt() const;
-
-protected:
-	int		m_iItemID;
-	TePos2	m_kTargetPos;
 };

@@ -20,6 +20,7 @@
 #include "TW_Functions.h"
 #include "TW_UserDataDefine.h"
 #include <TW_PointerType.h>
+#include "TW_Command.h"
 
 class BeItem;
 class BeCarry;
@@ -1106,7 +1107,7 @@ public:
 			return pkECmd->GetType();
 		}
 
-		return BCT_NUMS;
+		return BeCommandType::BCT_NUMS;
 	}
 
 	inline void CopyUnitCurCommand(BeUnit* pkUnit)
@@ -1506,7 +1507,7 @@ public:
 	void			ClrCastMove(void);
 
 	bool			IsIdle(void) const;
-	bool			GiveCommand(BeCommand& kCmd, BeGiveCmdType eType = BCT_IMMEDIATE, bool bPlayerControl = false, bool bNeedHangCurrent = true, bool bCheckChaoFeng = true);
+	bool			GiveCommand(BeCommand& kCmd, BeGiveCmdType eType = BeGiveCmdType::BCT_IMMEDIATE, bool bPlayerControl = false, bool bNeedHangCurrent = true, bool bCheckChaoFeng = true);
 	int				GetCommandCount() const;
 
 	void			SetPosition(float fX, float fY, float fZ = 0.0f, bool bNoRecordChange = false);

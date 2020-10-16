@@ -207,6 +207,27 @@
     <ClInclude Include="TW_TaskAttackItem.h">
       <Filter>LogicTask</Filter>
     </ClInclude>
+    <ClInclude Include="TW_CommandExe.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandStop.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandMove.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandAttack.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandSpell.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandDropItem.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_CommandPickItem.h">
+      <Filter>LogicTask</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -284,9 +305,6 @@
     <ClCompile Include="TW_Map.cpp">
       <Filter>LogicMap</Filter>
     </ClCompile>
-    <ClCompile Include="TW_Command.cpp">
-      <Filter>LogicTask</Filter>
-    </ClCompile>
     <ClCompile Include="TW_Commander.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
@@ -324,6 +342,27 @@
       <Filter>LogicTask</Filter>
     </ClCompile>
     <ClCompile Include="TW_TaskAttackItem.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandExe.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandStop.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandMove.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandAttack.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandSpell.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandDropItem.cpp">
+      <Filter>LogicTask</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_CommandPickItem.cpp">
       <Filter>LogicTask</Filter>
     </ClCompile>
   </ItemGroup>

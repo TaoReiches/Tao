@@ -13,6 +13,7 @@
 #include "TW_TaskMoveToPos.h"
 #include "TW_TaskMoveToUnit.h"
 #include "TW_TaskAttackUnit.h"
+#include "TW_TaskAttackToPos.h"
 #include "TW_TaskAttackItem.h"
 
 //#include "TW_Unit.h"
@@ -26,6 +27,7 @@ TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath(256);
 TeMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos(256);
 TeMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit(256);
 TeMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit(256);
+TeMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos(256);
 TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem(256);
 
 TeMemoryPool<BeAttackingAttr>            mpAttackingAttr(256);

@@ -38,11 +38,9 @@ class BeUnit;
 
 class BeTask : public BeMainPtr, public BeUnitPtr
 {
-protected:
+public:
 	BeTask(void);
 	virtual ~BeTask(void);
-
-public:
 	BeTaskType				GetType();
 	virtual BeExeResult		Execute(int& iDeltaTime) = 0;
 
