@@ -21,11 +21,10 @@ class BeTaskActionAttack;
 
 class BeTaskAttackUnit : public BeTask
 {
-protected:
+public:
 	BeTaskAttackUnit();
 	~BeTaskAttackUnit();
 
-public:
 	void SetTargetID(int iID, float fDistance = 0.0f, bool bIsOrb = false, int iSkillTypeID = 0, int iSkillLevel = 0, int iAttackCountLimit = -1);
 	int GetTargetID() const;
 	bool IsAttacking() const;

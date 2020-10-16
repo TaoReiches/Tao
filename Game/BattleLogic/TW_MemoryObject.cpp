@@ -10,15 +10,24 @@
 #include "TW_TaskActionSpell.h"
 #include "TW_TaskActionDeath.h"
 #include "TW_AttackAttr.h"
+#include "TW_TaskMoveToPos.h"
+#include "TW_TaskMoveToUnit.h"
+#include "TW_TaskAttackUnit.h"
+#include "TW_TaskAttackItem.h"
 
 //#include "TW_Unit.h"
 
-TeMemoryPool<BeTaskActionStand>          mpTaskActionStand;
-TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
-TeMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;
-TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
-TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
+TeMemoryPool<BeTaskActionStand>          mpTaskActionStand(256);
+TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk(256);
+TeMemoryPool<BeTaskActionAttack>         mpTaskActionAttack(256);
+TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell(256);
+TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath(256);
 
-TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
+TeMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos(256);
+TeMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit(256);
+TeMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit(256);
+TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem(256);
+
+TeMemoryPool<BeAttackingAttr>            mpAttackingAttr(256);
 
 //TeMemoryPool<BeUnit>         mpUnit;

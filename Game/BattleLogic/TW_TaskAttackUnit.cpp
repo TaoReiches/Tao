@@ -5,6 +5,11 @@
 
 #include "TW_TaskAttackUnit.h"
 #include "TW_MemoryObject.h"
+#include "TW_TaskMoveToUnit.h"
+#include "TW_TaskActionAttack.h"
+#include "TW_Main.h"
+#include "TW_Unit.h"
+#include "TW_UnitMgr.h"
 
 BeTaskAttackUnit::BeTaskAttackUnit()
 {
@@ -45,9 +50,9 @@ void BeTaskAttackUnit::SetTargetID(int iID, float fDistance, bool bIsOrb, int iS
 	m_pkMoveToUnit->SetTargetID(iID);
 	if (gUnit.GetAttackingUnitID() == iID)
 	{
-		if (m_eState == BAU_END)
+		if (m_eState == BeAttackUnitState::BAU_END)
 		{
-			m_eState = BAU_TRACE;
+			m_eState = BeAttackUnitState::BAU_TRACE;
 		}
 		return;
 	}
@@ -56,7 +61,7 @@ void BeTaskAttackUnit::SetTargetID(int iID, float fDistance, bool bIsOrb, int iS
 
 	m_pkActionAttack->SetTargetID(iID, bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 	m_bIsOrb = bIsOrb;
-	m_eState = BAU_TRACE;
+	m_eState = BeAttackUnitState::BAU_TRACE;
 }
 
 int BeTaskAttackUnit::GetTargetID() const
@@ -66,7 +71,7 @@ int BeTaskAttackUnit::GetTargetID() const
 
 bool BeTaskAttackUnit::IsAttacking() const
 {
-	return (bool)(m_eState == BAU_ATTACK);
+	return (bool)(m_eState == BeAttackUnitState::BAU_ATTACK);
 }
 
 bool BeTaskAttackUnit::IsDamaged() const
@@ -99,7 +104,7 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 
 	if (!m_pkActionAttack || !m_pkMoveToUnit)
 	{
-		return BER_EXE_END;
+		return BeExeResult::BER_EXE_END;
 	}
 
 	int iLoopCount = 10;
@@ -113,7 +118,7 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		}
 		switch (m_eState)
 		{
-		case BAU_ATTACK:
+		case BeAttackUnitState::BAU_ATTACK:
 		{
 			m_iMoveTime = 0;
 			BeExeResult eRet = m_pkActionAttack->Execute(iDeltaTime);
@@ -126,19 +131,19 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 					if (fDistance2 > fD * fD)
 					{
 						m_pkMoveToUnit->SetTargetID(pkTarget->GetID(), fD);
-						m_eState = BAU_TRACE;
+						m_eState = BeAttackUnitState::BAU_TRACE;
 						break;
 					}
 				}
 			}
-			if (eRet == BER_TIME_OUT)
+			if (eRet == BeExeResult::BER_TIME_OUT)
 			{
-				return BER_TIME_OUT;
+				return BeExeResult::BER_TIME_OUT;
 			}
 
 			if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
 			{
-				m_eState = BAU_REFRESH;
+				m_eState = BeAttackUnitState::BAU_REFRESH;
 				break;
 			}
 			float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -146,22 +151,22 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 			if (fDistance2 > fD * fD)
 			{
 				m_pkMoveToUnit->SetTargetID(pkTarget->GetID(), fD);
-				m_eState = BAU_TRACE;
+				m_eState = BeAttackUnitState::BAU_TRACE;
 			}
 			break;
 		}
-		case BAU_REFRESH:
+		case BeAttackUnitState::BAU_REFRESH:
 		{
 			if (gUnit.HasUnitCarryFlag(BUCF_CANNOTATTACK))
 			{
-				return BER_TIME_OUT;
+				return BeExeResult::BER_TIME_OUT;
 			}
 
-			m_eState = BAU_TRACE;
+			m_eState = BeAttackUnitState::BAU_TRACE;
 
 			SetTargetID(pkTarget->GetID(), 0.0f, m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 		}
-		case BAU_TRACE:
+		case BeAttackUnitState::BAU_TRACE:
 		{
 			m_iMoveTime += iDeltaTime;
 			if (pkTarget)
@@ -172,39 +177,39 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 				{
 					m_pkActionAttack->SetTargetID(0, m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 					m_pkActionAttack->SetTargetID(pkTarget->GetID(), m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
-					m_eState = BAU_ATTACK;
+					m_eState = BeAttackUnitState::BAU_ATTACK;
 
 					gUnit.SetActionState(0);
 					break;
 				}
 			}
 
-			BeExeResult eRet = BER_EXE_END;
+			BeExeResult eRet = BeExeResult::BER_EXE_END;
 			if (gUnit.CanMove()) {
 				eRet = m_pkMoveToUnit->Execute(iDeltaTime);
 			}
 
-			if (eRet == BER_TIME_OUT)
+			if (eRet == BeExeResult::BER_TIME_OUT)
 			{
-				return BER_TIME_OUT;
+				return BeExeResult::BER_TIME_OUT;
 			}
 			else
 			{
-				if (m_pkMoveToUnit->GetMoveResult() == BMR_SUCCESS && pkTarget)
+				if (m_pkMoveToUnit->GetMoveResult() == BeMoveResult::BMR_SUCCESS && pkTarget)
 				{
 					m_pkActionAttack->SetTargetID(0, m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 					m_pkActionAttack->SetTargetID(pkTarget->GetID(), m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
-					m_eState = BAU_ATTACK;
+					m_eState = BeAttackUnitState::BAU_ATTACK;
 					break;
 				}
-				m_eState = BAU_END;
+				m_eState = BeAttackUnitState::BAU_END;
 			}
 		}
-		case BAU_END:
+		case BeAttackUnitState::BAU_END:
 		{
 			m_iMoveTime = 0;
-			m_eState = BAU_TRACE;
-			return BER_EXE_END;
+			m_eState = BeAttackUnitState::BAU_TRACE;
+			return BeExeResult::BER_EXE_END;
 		}
 		default:
 		{
@@ -212,5 +217,5 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		}
 		}
 	}
-	return BER_TIME_OUT;
+	return BeExeResult::BER_TIME_OUT;
 }

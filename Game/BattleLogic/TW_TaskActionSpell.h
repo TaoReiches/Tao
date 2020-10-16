@@ -24,11 +24,10 @@ class SkillTable;
 
 class BeTaskActionSpell : public BeTask
 {
-protected:
+public:
 	BeTaskActionSpell();
 	~BeTaskActionSpell();
 
-public:
 	bool SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TePos2& kPos, int iItemID = 0, int iUsePlayer = -1, int iTargetType = 0);
 	bool SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, int iItemID = 0, int iOtherID = 0, int iUsePlayer = -1);
 	bool SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, const TePos2& kDirPos, int iItemID = 0, int iUsePlayer = -1);

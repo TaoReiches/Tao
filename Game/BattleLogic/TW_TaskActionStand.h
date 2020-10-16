@@ -9,10 +9,9 @@
 
 class BeTaskActionStand : public BeTask
 {
-protected:
+public:
 	BeTaskActionStand();
 	~BeTaskActionStand() {};
 
-public:
 	virtual BeExeResult Execute(int& iDeltaTime);
 };

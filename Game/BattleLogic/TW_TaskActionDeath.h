@@ -9,11 +9,10 @@
 
 class BeTaskActionDeath : public BeTask
 {
-protected:
+public:
 	BeTaskActionDeath();
 	~BeTaskActionDeath() {};
 
-public:
 	virtual BeExeResult Execute(int& iDeltaTime);
 
 protected:

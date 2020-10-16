@@ -11,11 +11,10 @@ class BeAttackingAttr;
 
 class BeTaskActionAttack : public BeTask
 {
-protected:
+public:
 	BeTaskActionAttack();
 	~BeTaskActionAttack() {};
 
-public:
 	void	SetTargetID(int iID, bool bIsOrb = false, int iSkillTypeID = 0, int iSkillLevel = 0, bool bAttackPos = false);
 	int		GetTargetID()			const;
 	bool	IsAttacking(void)		const;
