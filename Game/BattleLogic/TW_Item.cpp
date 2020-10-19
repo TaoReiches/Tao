@@ -8,27 +8,7 @@
 #include "TW_Main.h"
 #include "Item_table.hpp"
 
-BeCarrySkill::BeCarrySkill(int iID) : BeCarry(iID)
-{
-}
 
-BeCarrySkill::~BeCarrySkill()
-{
-	for (int i = 0; i < (int)m_akSkill.size(); ++i)
-	{
-		BeSkill* pkSkill = m_akSkill[i];
-		if (pkSkill)
-		{
-			BeSkill::DEL(pkSkill);
-		}
-	}
-	m_akSkill.clear();
-}
-
-const std::vector<BeSkill*>& BeCarrySkill::GetAllSkill(void) const
-{
-	return m_akSkill;
-}
 
 BeItem::BeItem(int iID) : BeCarrySkill(iID)
 {

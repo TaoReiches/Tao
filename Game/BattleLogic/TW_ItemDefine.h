@@ -7,42 +7,31 @@
 
 struct BeItemData
 {
-	int		iItemTypeID;
-	int		iItemProperty;
-	int		iOwnerPlay;
-	int		iBuyTime;
-	bool	bNeedRefreshBuyTime;
-	unsigned int	uiRecycleTime;
-	unsigned int   uiRefreshTime;
-	int		iPackagePos;
-	int		iPileCount;
-	int		iUseCount;
-	int		iSpecialNums;
-	int		iValidTime;
-	int		iLastValidTime;
-	bool    bValid;
-	bool    bCanSell;
-	bool	bCanShare;
-	int     iData;
-	int		iLastOwnerPlay;
-	int		iLastUseTime;
-	int     iFCampData;
-	unsigned int	uiAscriptionTime;
-
-	float	fPosX;
-	float	fPosY;
-	float	fPosZ;
-	float	fTarFace;
-	float	fFace;
-	bool	bLevelUp;
-	bool	bDeadBuyIn;
-
-	int		iDirectBuyOrgUnitID;
-	int		iRSGroupIndex;
-	int		iDropSkillTypeID;
-
-	int     iShowGroup;
-	int     iShowPlayer;
+	int					iItemTypeID;
+	int					iItemProperty;
+	int					iOwnerPlay;
+	unsigned int		iBuyTime;
+	bool				bNeedRefreshBuyTime;
+	unsigned int		uiRecycleTime;
+	unsigned int		uiRefreshTime;
+	int					iPackagePos;
+	int					iPileCount;
+	int					iUseCount;
+	int					iSpecialNums;
+	int					iValidTime;
+	int					iLastValidTime;
+	bool				bValid;
+	bool				bCanSell;
+	bool				bCanShare;
+	int					iData;
+	int					iLastOwnerPlay;
+	unsigned int		iLastUseTime;
+	float				fPosX;
+	float				fPosY;
+	float				fPosZ;
+	float				fTarFace;
+	float				fFace;
+	bool				bLevelUp;
 
 	BeItemData()
 	{
@@ -65,20 +54,11 @@ struct BeItemData
 		iData = 0;
 		iLastUseTime = 0;
 		iLastOwnerPlay = -1;
-		iFCampData = 0;
-		uiAscriptionTime = 0;
-
 		fPosX = 0.0f;
 		fPosY = 0.0f;
 		fPosZ = 0.0f;
 		fTarFace = 0.0f;
 		fFace = 0.0f;
 		bLevelUp = false;
-		bDeadBuyIn = false;
-		iDirectBuyOrgUnitID = 0;
-		iRSGroupIndex = 999;
-		iDropSkillTypeID = 0;
-		iShowGroup = 0;
-		iShowPlayer = 0;
 	}
 };

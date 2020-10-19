@@ -40,6 +40,9 @@ extern TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem;
 class BeAttackingAttr;
 extern TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
 
+class BeCarry;
+extern TeMemoryPool<BeCarry>                    mpCarry;
+
 class BeUnit;
 extern TeMemoryPool<BeUnit>                     mpUnit;
 

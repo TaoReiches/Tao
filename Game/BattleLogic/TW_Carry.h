@@ -22,71 +22,19 @@ public:
     BeCarry(int iID);
     virtual ~BeCarry(void);
 
-
-    inline BeCarryType GetType(void) const
-    {
-        return m_eType;
-    }
-
-    inline int GetID(void) const
-    {
-        return m_iID;
-    }
-
-    inline int GetTypeID(void) const
-    {
-        return m_iTypeID;
-    }
-
-    inline void SetTypeID(int iTypeID)
-    {
-        m_iTypeID = iTypeID;
-    }
-
-    inline int GetCarryFlag(void) const
-    {
-        return m_iCarryFlag;
-    }
-
-    inline int GetImmunityFlag(void) const
-    {
-        return m_iImmunityFlag;
-    }
-
-    inline bool HasCarryFlag(int iFlag) const
-    {
-        return ((m_iCarryFlag & iFlag) == iFlag);
-    }
-
-    inline bool HasImmunityFlag(int iFlag) const
-    {
-        return ((m_iImmunityFlag & iFlag) == iFlag);
-    }
-
-    inline void SetCarryFlag(int iFlag)
-    {
-        m_iCarryFlag |= iFlag;
-    }
-
-    inline void SetImmunityFlag(int iFlag)
-    {
-        m_iImmunityFlag |= iFlag;
-    }
-
-    inline void ClrCarryFlag(int iFlag)
-    {
-        m_iCarryFlag &= ~iFlag;
-    }
-
-    inline void ClrImmunityFlag(int iFlag)
-    {
-        m_iImmunityFlag &= ~iFlag;
-    }
-
-    inline void SetType(BeCarryType eType)
-    {
-        m_eType = eType;
-    }
+    BeCarryType GetType(void) const;
+    int GetID(void) const;
+    int GetTypeID(void) const;
+    void SetTypeID(int iTypeID);
+    int GetCarryFlag(void) const;
+    int GetImmunityFlag(void) const;
+    bool HasCarryFlag(int iFlag) const;
+    bool HasImmunityFlag(int iFlag) const;
+    void SetCarryFlag(int iFlag);
+    void SetImmunityFlag(int iFlag);
+    void ClrCarryFlag(int iFlag);
+    void ClrImmunityFlag(int iFlag);
+    void SetType(BeCarryType eType);
 
     void	SetNormalAttr(BeNormalAttType eType, float fValue, bool bForceChange = false, bool bAdd = false);
     std::vector<BeNormalAtt>& GetNormalAttr(void);
@@ -113,9 +61,7 @@ public:
     float	GetAttackedReboundSkillAll(void);
     float	GetAttackedReboundPhysicShortRange(void);
     void	GetAttackedReboundPhysicBoth(float& fShorRange, float& fEject);
-
     void	ClearAttr(void);
-
     void	SetNormalAttrByData(int eType, float fValue, bool bAdd = false);
     virtual bool Initialize(int iTypeID) = 0;
 
@@ -138,3 +84,55 @@ protected:
     std::vector<BeAttackedAttr>		m_akAttackedAttr;
 };
 
+inline BeCarryType BeCarry::GetType(void) const
+{
+    return m_eType;
+}
+inline int BeCarry::GetID(void) const
+{
+    return m_iID;
+}
+inline int BeCarry::GetTypeID(void) const
+{
+    return m_iTypeID;
+}
+inline void BeCarry::SetTypeID(int iTypeID)
+{
+    m_iTypeID = iTypeID;
+}
+inline int BeCarry::GetCarryFlag(void) const
+{
+    return m_iCarryFlag;
+}
+inline int BeCarry::GetImmunityFlag(void) const
+{
+    return m_iImmunityFlag;
+}
+inline bool BeCarry::HasCarryFlag(int iFlag) const
+{
+    return ((m_iCarryFlag & iFlag) == iFlag);
+}
+inline bool BeCarry::HasImmunityFlag(int iFlag) const
+{
+    return ((m_iImmunityFlag & iFlag) == iFlag);
+}
+inline void BeCarry::SetCarryFlag(int iFlag)
+{
+    m_iCarryFlag |= iFlag;
+}
+inline void BeCarry::SetImmunityFlag(int iFlag)
+{
+    m_iImmunityFlag |= iFlag;
+}
+inline void BeCarry::ClrCarryFlag(int iFlag)
+{
+    m_iCarryFlag &= ~iFlag;
+}
+inline void BeCarry::ClrImmunityFlag(int iFlag)
+{
+    m_iImmunityFlag &= ~iFlag;
+}
+inline void BeCarry::SetType(BeCarryType eType)
+{
+    m_eType = eType;
+}

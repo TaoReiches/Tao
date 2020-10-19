@@ -44,10 +44,10 @@ enum BeSkillType
 
 class BeSkill : public BeCarry
 {
-protected:
+public:
     BeSkill(int iTypeID);
     ~BeSkill(void);
-public:
+
     inline const SkillTable* GetResPtr(void) const
     {
         return m_pkRes;

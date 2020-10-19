@@ -5,24 +5,11 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_Carry.h"
+#include "TW_CarrySkill.h"
 #include "TW_ItemDefine.h"
-#include "TW_MemoryPool.h"
 
-class BeSkill;
 class ItemTable;
 
-class BeCarrySkill : public BeCarry
-{
-    friend class BeUnit;
-public:
-    BeCarrySkill(int iID);
-    ~BeCarrySkill();
-
-    const std::vector<BeSkill*>& GetAllSkill(void) const;
-protected:
-    std::vector<BeSkill*>	m_akSkill;
-};
 class BeItem : public BeCarrySkill
 {
     friend class BeUnit;
@@ -259,10 +246,6 @@ public:
     inline void SetBuyTime(int iTime)
     {
         m_kData.iBuyTime = iTime;
-        if (iTime == 1)
-        {
-            SetBuyInDead(false);
-        }
     }
 
     inline int GetBuyTime(void)
@@ -298,65 +281,6 @@ public:
     inline bool NeedRefreshBuyTime()
     {
         return m_kData.bNeedRefreshBuyTime;
-    }
-
-    inline void SetBuyInDead(bool bBuyInDead)
-    {
-        m_kData.bDeadBuyIn = bBuyInDead;
-    }
-
-    inline bool GetBuyInDead(void)
-    {
-        return m_kData.bDeadBuyIn;
-    }
-
-    inline void SetDirectBuyOrgUnitID(int iUnitID)
-    {
-        m_kData.iDirectBuyOrgUnitID = iUnitID;
-    }
-
-    inline int GetDirectBuyOrgUnitID(void)
-    {
-        return m_kData.iDirectBuyOrgUnitID;
-    }
-
-    inline void SetAscriptioneTime(unsigned int uiNowTime)
-    {
-        m_kData.uiAscriptionTime = uiNowTime;
-    }
-
-    inline bool GetAscriptioned(unsigned int uiNowTime)
-    {
-        if (m_kData.uiAscriptionTime == 0 || int(uiNowTime - m_kData.uiAscriptionTime) >= 30 * 1000)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    inline int GetRSGroupIndex()
-    {
-        return m_kData.iRSGroupIndex;
-    }
-
-    inline void SetDropSkillTypeID(int iTypeID)
-    {
-        m_kData.iDropSkillTypeID = iTypeID;
-    }
-
-    inline int GetDropSkillTypeID()
-    {
-        return m_kData.iDropSkillTypeID;
-    }
-
-    inline void SetFCampData(int iFCamp)
-    {
-        m_kData.iFCampData = iFCamp;
-    }
-
-    inline int GetFCampData(void)
-    {
-        return m_kData.iFCampData;
     }
 
     inline int GetUniqueID(void)

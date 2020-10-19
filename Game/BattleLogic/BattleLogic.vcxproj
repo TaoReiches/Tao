@@ -147,6 +147,7 @@
     <ClInclude Include="TW_BuffDefine.h" />
     <ClInclude Include="TW_Carry.h" />
     <ClInclude Include="TW_CarryDefine.h" />
+    <ClInclude Include="TW_CarrySkill.h" />
     <ClInclude Include="TW_ChangeFlagObject.h" />
     <ClInclude Include="TW_Command.h" />
     <ClInclude Include="TW_CommandAttack.h" />
@@ -203,6 +204,7 @@
   <ItemGroup>
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
+    <ClCompile Include="TW_CarrySkill.cpp" />
     <ClCompile Include="TW_CommandAttack.cpp" />
     <ClCompile Include="TW_CommandDropItem.cpp" />
     <ClCompile Include="TW_Commander.cpp" />
