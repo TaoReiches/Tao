@@ -6,6 +6,12 @@
 #include <math.h>
 #include "TW_Formula.h"
 
+const	float	BeFormula::fNormalCrit = 2.0f;
+const	float	BeFormula::fSkillCrit = 1.5f;
+const	int		BeFormula::iHeroMaxLevel = 18;
+const	int		BeFormula::iMonsterMaxLevel = 999;
+const	int		BeFormula::iMaxBuyItem = 6;
+
 void	BeFormula::CheckAttackSpeed(float& fValue)
 {
 	if (fValue > 2.5f)
@@ -67,7 +73,7 @@ float	BeFormula::GetAmorForDamage(float fAmor)
 	float	fTemp = 0.0f;
 	if (fAmor < 0.0f)
 	{
-		fTemp = 2.0 - (100.0f / (100.0f - fAmor));
+		fTemp = 2.0f - (100.0f / (100.0f - fAmor));
 	}
 	else
 	{

@@ -5,14 +5,15 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-static	const	float	fNormalCrit = 2.0f;
-static	const	float	fSkillCrit = 1.5f;
-static	const	int		iHeroMaxLevel = 18;
-static	const	int		iMonsterMaxLevel = 999;
-static	const	int		iMaxBuyItem = 6;
-
 class	BeFormula
 {
+public:
+	static	const	float	fNormalCrit;
+	static	const	float	fSkillCrit;
+	static	const	int		iHeroMaxLevel;
+	static	const	int		iMonsterMaxLevel;
+	static	const	int		iMaxBuyItem;
+
 public:
 	static	void			CheckAttackSpeed(float& fValue);
 

@@ -54,9 +54,7 @@ int BeFormulaInfo::GetBuyItemPrice(int iIndex)
 
 int BeFormulaInfo::GetAssistMoney(int iHeroLevel, int iAssistNum)
 {
-	{
-		return (3 * std::min(iAssistNum, 4) + 4) * (10 + iHeroLevel) / iAssistNum;
-	}
+	return (3 * std::min(iAssistNum, 4) + 4) * (10 + iHeroLevel) / iAssistNum;
 }
 
 int BeFormulaInfo::GetAssistExp(int iHeroLevel, int iAssistNum)
