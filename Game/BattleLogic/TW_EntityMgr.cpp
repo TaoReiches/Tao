@@ -13,28 +13,31 @@ BeEntityMgr::BeEntityMgr(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
-	m_akBlock = NULL;
 }
 
 BeEntityMgr::~BeEntityMgr(void)
 {
-	SAFE_ARRAY_DELETE(m_akBlock);
+	if (m_akBlock.get() != nullptr)
+	{
+		delete[] m_akBlock.get();
+	}
+	m_akBlock.release();
 }
 
 bool BeEntityMgr::Initialize(void)
 {
-	SAFE_ARRAY_DELETE(m_akBlock);
+	Finialize();
 
 	m_iBlocksW = (int)gMap.GetWidth() / BLOCK_ELE_SIZE;
 	m_iBlocksH = (int)gMap.GetHeight() / BLOCK_ELE_SIZE;
 
 	int iBlocks = m_iBlocksW * m_iBlocksH;
-	m_akBlock = new BeElement[iBlocks];
+	m_akBlock.reset(new BeElement[iBlocks]);
 
-	BeElement* pkEle = m_akBlock;
+	BeElement* pkEle = m_akBlock.get();
 	for (int i = 0; i < iBlocks; i++, pkEle++)
 	{
-		pkEle->pkBlock = NULL;
+		pkEle->pkBlock = nullptr;
 		pkEle->pkNext = pkEle;
 		pkEle->pkPrev = pkEle;
 	}
@@ -46,7 +49,11 @@ void BeEntityMgr::Finialize(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
-	SAFE_ARRAY_DELETE(m_akBlock);
+	if (m_akBlock.get() != nullptr)
+	{
+		delete[] m_akBlock.get();
+	}
+	m_akBlock.release();
 }
 
 void BeEntityMgr::Link(float fX, float fY, BeEntity* pkEnt)

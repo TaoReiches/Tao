@@ -5,12 +5,11 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include "TW_LogicBase.h"
 
-#define BLOCK_ELE_SIZE	512
-
 class BeEntity;
-struct BeElement;
+class BeElement;
 
 class BeEntityMgr : public BeMainPtr
 {
@@ -25,6 +24,7 @@ public:
 	void Link(float fX, float fY, BeEntity* pkEnt);
 	void Unlink(BeEntity* pkEnt);
 	void GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const;
+
 	int GetBlocksW(void) const
 	{
 		return m_iBlocksW;
@@ -33,12 +33,16 @@ public:
 	{
 		return m_iBlocksH;
 	}
-	BeElement* GetBlock(void) const
+	const std::unique_ptr<BeElement>& GetBlock(void) const
 	{
 		return m_akBlock;
 	}
+
+public:
+	static const int BLOCK_ELE_SIZE = 512;
+
 protected:
-	int			m_iBlocksW;
-	int			m_iBlocksH;
-	BeElement* m_akBlock;
+	int							m_iBlocksW;
+	int							m_iBlocksH;
+	std::unique_ptr<BeElement>	m_akBlock;
 };

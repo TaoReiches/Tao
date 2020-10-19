@@ -10,8 +10,9 @@
 #include "TW_LogicBase.h"
 #include "TW_Pos2.h"
 
-struct BeElement
+class BeElement
 {
+public:
 	BeElement()
 	{
 		pkPrev = nullptr;
@@ -22,11 +23,11 @@ struct BeElement
 	BeElement* pkNext;
 	BeElement* pkBlock;
 };
+
 class BeEntityMgr;
 class BeEntity : public BeFlagObj, public BeMainPtr
 {
 public:
-	BeEntity();
 	BeEntity(int iID );
 	virtual ~BeEntity(void);
 
@@ -62,27 +63,4 @@ public:
 	virtual ~BeSingleLinkEntity(void);
 	virtual void Link(float fX, float fY, BeEntityMgr* pkMgr);
 	virtual void Unlink(void);
-};
-
-class BeMultiElement : public BeElement
-{
-public:
-	BeMultiElement()
-	{
-		m_pkEntity = nullptr;
-	}
-	BeEntity* m_pkEntity;
-};
-class BeMultiLinkEntity : public BeEntity
-{
-public:
-	BeMultiLinkEntity(int iID);
-	virtual ~BeMultiLinkEntity(void);
-	virtual void Link(float fX, float fY, BeEntityMgr* pkMgr);
-	virtual void Unlink(void);
-
-	virtual const TePos2& GetBoundingTopLeft(void) const = 0;
-	virtual const TePos2& GetBoundingBottomRight(void) const = 0;
-protected:
-	std::vector<BeMultiElement> m_kElement;
 };
