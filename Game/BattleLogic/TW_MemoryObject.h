@@ -51,3 +51,9 @@ extern TeMemoryPool<BeSkill>                    mpSkill;
 
 class BeBuffer;
 extern TeMemoryPool<BeBuffer>                   mpBuffer;
+
+class BeItem;
+extern TeMemoryPool<BeItem>                     mpItem;
+
+class BeEquip;
+extern TeMemoryPool<BeEquip>                    mpEquip;

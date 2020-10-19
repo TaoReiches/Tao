@@ -163,6 +163,7 @@
     <ClInclude Include="TW_Entity.h" />
     <ClInclude Include="TW_EntityMgr.h" />
     <ClInclude Include="TW_CommandExe.h" />
+    <ClInclude Include="TW_Equip.h" />
     <ClInclude Include="TW_FlagObject.h" />
     <ClInclude Include="TW_Formula.h" />
     <ClInclude Include="TW_FormulaInfo.h" />
@@ -217,6 +218,7 @@
     <ClCompile Include="TW_EffectMgr.cpp" />
     <ClCompile Include="TW_Entity.cpp" />
     <ClCompile Include="TW_EntityMgr.cpp" />
+    <ClCompile Include="TW_Equip.cpp" />
     <ClCompile Include="TW_Formula.cpp" />
     <ClCompile Include="TW_FormulaInfo.cpp" />
     <ClCompile Include="TW_Functions.cpp" />

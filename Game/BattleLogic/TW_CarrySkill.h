@@ -12,7 +12,6 @@ class BeSkill;
 
 class BeCarrySkill : public BeCarry
 {
-    friend class BeUnit;
 public:
     BeCarrySkill(int iID);
     ~BeCarrySkill();

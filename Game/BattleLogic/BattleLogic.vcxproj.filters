@@ -231,6 +231,9 @@
     <ClInclude Include="TW_CarrySkill.h">
       <Filter>LogicCarry\Item</Filter>
     </ClInclude>
+    <ClInclude Include="TW_Equip.h">
+      <Filter>LogicCarry\Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -369,6 +372,9 @@
       <Filter>LogicTask</Filter>
     </ClCompile>
     <ClCompile Include="TW_CarrySkill.cpp">
+      <Filter>LogicCarry\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Equip.cpp">
       <Filter>LogicCarry\Item</Filter>
     </ClCompile>
   </ItemGroup>

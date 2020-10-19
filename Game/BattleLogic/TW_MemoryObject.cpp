@@ -17,6 +17,8 @@
 #include "TW_TaskAttackItem.h"
 #include "TW_Buff.h"
 #include "TW_Skill.h"
+#include "TW_Item.h"
+#include "TW_Equip.h"
 
 //#include "TW_Unit.h"
 
@@ -36,4 +38,6 @@ TeMemoryPool<BeAttackingAttr>            mpAttackingAttr(256);
 TeMemoryPool<BeCarry>                    mpCarry(256);
 TeMemoryPool<BeBuffer>                   mpBuffer(256);
 TeMemoryPool<BeSkill>                    mpSkill(256);
+TeMemoryPool<BeItem>                     mpItem(256);
+TeMemoryPool<BeEquip>                    mpEquip(256);
 //TeMemoryPool<BeUnit>         mpUnit;

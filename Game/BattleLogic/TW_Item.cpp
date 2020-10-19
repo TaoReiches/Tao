@@ -7,8 +7,7 @@
 #include "TW_Skill.h"
 #include "TW_Main.h"
 #include "Item_table.hpp"
-
-
+#include "TW_MemoryObject.h"
 
 BeItem::BeItem(int iID) : BeCarrySkill(iID)
 {
@@ -42,12 +41,13 @@ void	BeItem::InitItemSkill(void)
 		}
 		m_kData.iItemTypeID = m_iTypeID;
 	}
-	for (int i = 0; i < (int)m_akSkill.size(); ++i)
+	for (auto skillIter = m_akSkill.begin(); skillIter != m_akSkill.end(); ++skillIter)
 	{
-		BeSkill* pkSkill = m_akSkill[i];
-		if (pkSkill)
+		auto& pkSkill = *skillIter;
+		if (pkSkill.get())
 		{
-			BeSkill::DEL(pkSkill);
+			mpSkill.free(pkSkill.get());
+			pkSkill.release();
 		}
 	}
 	m_akSkill.clear();
@@ -75,16 +75,14 @@ void	BeItem::InitItemSkill(void)
 		}
 		iLastAddSkill = iTypeID;
 
-		BeSkill* pkSkill = BeSkill::NEW(gMain.GenerateID(GIT_CARRY));
+		auto pkSkill = std::unique_ptr<BeSkill>(mpSkill.alloc(gMain.GenerateID(GIT_CARRY)));
 		pkSkill->AttachMain(pkAttachMain);
 		pkSkill->AttachUnit(pkAttachUnit);
 		if (pkSkill->Initialize(iTypeID))
 		{
-			m_akSkill.push_back(pkSkill);
+			m_akSkill.push_back(std::move(pkSkill));
 			InitAttrFromSkill(iTypeID, pkSkill->GetLevel());
-
 			m_iSkillCDTime = pkSkill->GetResPtr()->iCoolDown[0];
-
 			if (pkSkill->GetOperateType() != SKILL_OPERATETYPE_BEIDONG)
 			{
 				m_iSkillTypeID = iTypeID;
@@ -92,7 +90,8 @@ void	BeItem::InitItemSkill(void)
 		}
 		else
 		{
-			BeSkill::DEL(pkSkill);
+			mpSkill.free(pkSkill.get());
+			pkSkill.release();
 		}
 	}
 }
@@ -116,18 +115,19 @@ bool BeItem::GetIsUsableJudge(void)
 	return true;
 }
 
-BeSkill* BeItem::GetSkillByTypeID(int iSkillTypeID)
+std::unique_ptr<BeSkill>& BeItem::GetSkillByTypeID(int iSkillTypeID)
 {
-	for (int i = 0; i < (int)m_akSkill.size(); ++i)
+	for (auto skillIter = m_akSkill.begin(); skillIter != m_akSkill.end(); ++skillIter)
 	{
-		BeSkill* pkSkill = m_akSkill[i];
-		if (pkSkill && pkSkill->GetTypeID() == iSkillTypeID)
+		auto& pkSkill = *skillIter;
+		if (pkSkill.get() && pkSkill->GetTypeID() == iSkillTypeID)
 		{
 			return pkSkill;
 		}
 	}
-
-	return NULL;
+	
+	static std::unique_ptr<BeSkill> errorSkill;
+	return errorSkill;
 }
 
 void BeItem::Update(BeUnit* pkUnit, int iDeltaTime)
@@ -143,10 +143,10 @@ void BeItem::Update(BeUnit* pkUnit, int iDeltaTime)
 			return;
 		}
 
-		for (int iSkill = 0; iSkill < (int)m_akSkill.size(); ++iSkill)
+		for (auto skillIter = m_akSkill.begin(); skillIter != m_akSkill.end(); ++skillIter)
 		{
-			BeSkill* pkSkill = m_akSkill[iSkill];
-			if (!pkSkill)
+			auto& pkSkill = *skillIter;
+			if (!pkSkill.get())
 			{
 				continue;
 			}
@@ -185,56 +185,6 @@ bool BeItem::GetCanSell(void) const
 	return true;
 }
 
-int BeItem::GetUseSkillTypeID(void) const
-{
-	int iSkillTypeID(0);
-
-	return iSkillTypeID;
-}
-
-BeEquip::BeEquip(int iID) : BeCarrySkill(iID)
-{
-	m_eType = BCT_EQUIP;
-	m_iSuitNumber = 0;
-	m_iRandomID = 0;
-}
-
-BeEquip::~BeEquip(void)
-{
-}
-
-void BeEquip::SetSuitNumber(int iNumber)
-{
-	m_iSuitNumber = iNumber;
-}
-
-void BeEquip::SetRandomID(int iID)
-{
-	m_iRandomID = iID;
-}
-
-bool BeEquip::Initialize(int iTypeID)
-{
-	m_iTypeID = iTypeID;
-
-	return false;
-}
-
-bool BeEquip::Strengthen(int iCardID, int iStrengthenID)
-{
-	return true;
-}
-
-bool BeItem::IsUnitZhuanShu(BeUnit* pkUnit)
-{
-	if (!pkUnit)
-	{
-		return false;
-	}
-
-	return false;
-}
-
 void BeItem::SetItemLeveUpState(bool bLevelUp)
 {
 	m_kData.bLevelUp = bLevelUp;
@@ -243,20 +193,4 @@ void BeItem::SetItemLeveUpState(bool bLevelUp)
 bool BeItem::IsItemLevelUp()
 {
 	return m_kData.bLevelUp;
-}
-
-void BeItem::CheckItemSkillCD(BeUnit* pkUnit)
-{
-	if (!pkUnit)
-	{
-		return;
-	}
-
-	for (int i = 0; i < (int)m_akSkill.size(); ++i)
-	{
-		BeSkill* pkSkill = m_akSkill[i];
-		if (pkSkill)
-		{
-		}
-	}
 }
