@@ -9,327 +9,66 @@
 #include "TW_AttackAttr.h"
 #include "TW_BuffDefine.h"
 
-class SeCalSkillLvlData;
 class BufferTable;
 
 class BeBuffer : public BeCarry
 {
-    DECLARE_POOL1(BeBuffer);
-
 public:
     BeBuffer(int iID);
     ~BeBuffer(void);
 
-public:
-
-    inline int GetLevel(void) const
-    {
-        return m_kData.iLevel;
-    }
-
-    inline void SetLevel(int iLevel)
-    {
-        m_kData.iLevel = iLevel;
-    }
-
-    inline unsigned int GetRemoveTime(void) const
-    {
-        return m_kData.uiRemoveTime;
-    }
-
-    inline int GetAllLiveTime(void) const
-    {
-        return m_kData.iAllLiveTime;
-    }
-
-    inline void SetAllLiveTime(unsigned int iAllTime)
-    {
-        m_kData.iAllLiveTime = iAllTime;
-    }
-
-    inline int GetCDTime(void) const
-    {
-        return m_kData.iCDTime;
-    }
-
-    inline void SetCDTime(int iCDTime, bool bForceUpdate = true, bool bLastTimeUpdate = false)
-    {
-        m_kData.iCDTime = iCDTime;
-        if (bForceUpdate)
-        {
-            m_kData.iUpdateTime = iCDTime;
-        }
-        else
-        {
-        }
-
-        m_kData.bLastTimeUpdate = bLastTimeUpdate;
-    }
-
-    inline int GetUpdateTime() const
-    {
-        return m_kData.iUpdateTime;
-    }
-
-    inline void SetUpdateTime(int iUpdateTime)
-    {
-        m_kData.iUpdateTime = iUpdateTime;
-    }
-
+    int GetLevel(void) const;
+    void SetLevel(int iLevel);
+    unsigned int GetRemoveTime(void) const;
+    int GetAllLiveTime(void) const;
+    void SetAllLiveTime(unsigned int iAllTime);
+    int GetCDTime(void) const;
+    void SetCDTime(int iCDTime, bool bForceUpdate = true, bool bLastTimeUpdate = false);
+    int GetUpdateTime() const;
+    void SetUpdateTime(int iUpdateTime);
     bool HasProperty(int iProperty) const;
-
-    //inline int GetSingleSpliceNum(void) const
-    //{
-    //    return m_pkRes->iSingleSpliceNum;
-    //}
-
-    //inline int GetMultiSpliceNum(void) const
-    //{
-    //    return m_pkRes->iMultiSpliceNum;
-    //}
-
-    //inline void SetSkillLvlData(SeCalSkillLvlData* pkData)
-    //{
-    //    m_kData.kSkillLvlData = *pkData;
-    //}
-
-    //inline const SeCalSkillLvlData* GetSkillLvlData(void) const
-    //{
-    //    return &(m_kData.kSkillLvlData);
-    //}
-
-    inline void SetSkillRes(const SkillTable* pkRes)
-    {
-        m_kData.pkSkillRes = pkRes;
-    }
-
-    inline const SkillTable* GetSkillRes(void) const
-    {
-        return m_kData.pkSkillRes;
-    }
-
-    inline BeUnit* GetUnit(void) const
-    {
-        return m_kData.kUnit.get();
-    }
-
-    inline void SetNeedUpdate(bool bNeedUpdate)
-    {
-        m_bNeedUpdate = bNeedUpdate;
-    }
-
-    inline bool GetNeedUpdate() const
-    {
-        return m_bNeedUpdate;
-    }
-
-    inline void SetSkillTypeID(int iTypeID)
-    {
-        m_kData.iSkillTypeID = iTypeID;
-    }
-
-    inline int GetSkillTypeID(void) const
-    {
-        return m_kData.iSkillTypeID;
-    }
-
-    inline void SetHaloBuffer(bool bHalo)
-    {
-        m_kData.bIsHaloBuffer = bHalo;
-    }
-
-    inline bool IsHaloBuffer(void)
-    {
-        return m_kData.bIsHaloBuffer;
-    }
-
-    inline void SetPersistBuffer(bool bPersist)
-    {
-        m_kData.bIsPersistBuffer = bPersist;
-    }
-
-    inline bool IsPersistBuffer(void)
-    {
-        return m_kData.bIsPersistBuffer;
-    }
-
-    inline void SetStartTime(int iTime)
-    {
-        m_kData.iStartTime = iTime;
-    }
-
-    inline int GetStartTime()
-    {
-        return m_kData.iStartTime;
-    }
-
-    inline void SetIntData(int iData)
-    {
-        m_kData.iData = iData;
-    }
-
-    inline int GetIntData(void)
-    {
-        return m_kData.iData;
-    }
-
-    inline void SetFloatData(float fData)
-    {
-        m_kData.fData = fData;
-    }
-
-    inline float GetFloatData(void)
-    {
-        return m_kData.fData;
-    }
-
-    inline void SetHasDel(bool bHasDel = true)
-    {
-        m_kData.bHasDel = bHasDel;
-    }
-
-    inline bool GetHasDel(void)
-    {
-        return m_kData.bHasDel;
-    }
-
-    inline int GetNotInvisCampFlag(void) const
-    {
-        return m_kData.iNotInivsCampFlag;
-    }
-
-    inline bool HasNotInvisCampFlag(int iFlag) const
-    {
-        return (m_kData.iNotInivsCampFlag & iFlag) == iFlag;
-    }
-
-    inline void SetNotInvisCampFlag(int iFlag)
-    {
-        m_kData.iNotInivsCampFlag |= iFlag;
-    }
-
-    inline void SetDeadNoRemove(bool bNoRemove)
-    {
-        m_bDeadNoRemove = bNoRemove;
-    }
-
-    inline bool IsDeadNoRemove()
-    {
-        return m_bDeadNoRemove;
-    }
-
-    inline bool IsCopyFromOthers(void)
-    {
-        return m_bCopyFromOhers;
-    }
-
-    inline void SetCopyFromOther(bool bCopy)
-    {
-        m_bCopyFromOhers = bCopy;
-    }
-
-    inline bool IsSkillRealize(void)
-    {
-        return m_bSkillRealize;
-    }
-
-    inline void SetSkillRealize(bool bReal)
-    {
-        m_bSkillRealize = bReal;
-    }
-
-    inline bool HasDecreased(void)
-    {
-        return m_bHasDecreased;
-    }
-
-    inline void SetDecreased(bool bDecre)
-    {
-        m_bHasDecreased = bDecre;
-    }
-
-    inline void SetaiData(const std::vector<int>& riData)
-    {
-        m_kData.aiData = riData;
-    }
-
-    std::vector<int>& GetaiData()
-    {
-        return m_kData.aiData;
-    }
-
-    inline void SetafData(const std::vector<float>& riData)
-    {
-        m_kData.afData = riData;
-    }
-
-    inline const std::vector<float>& GetafData()
-    {
-        return m_kData.afData;
-    }
-
-    inline void SetShieldDefendType(int DefendType)
-    {
-        m_kData.iShieldDefendType = DefendType;
-    }
-    inline bool HasShieldDefendType(int DefendType)
-    {
-        if (m_kData.iShieldDefendType == BAT_SKILL && DefendType != BAT_SKILL)
-        {
-            return false;
-        }
-        return true;
-    }
-
-    void SetOrgUnitID(int iUnitID);
-
-    int GetOrgUnitID() const
-    {
-        return m_kData.iOrgUnitID;
-    }
-
-    bool	IsBadBuffer(int iCamp)
-    {
-        if (m_iOrgCamp == -1)
-        {
-            return false;
-        }
-        if (iCamp == m_iOrgCamp)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    void	SetAttr(BeAttackingAttr& kValue)
-    {
-        m_kAttr = kValue;
-    }
-    BeAttackingAttr GetAttr()
-    {
-        return m_kAttr;
-    }
-
-    void	SetInterrupt(bool bFlag)
-    {
-        m_bIsInterrupt = bFlag;
-    }
-    bool	IsInterrupt()
-    {
-        return m_bIsInterrupt;
-    }
+    void SetSkillRes(const SkillTable* pkRes);
+    const SkillTable* GetSkillRes(void) const;
+    std::shared_ptr<BeUnit> GetUnit(void) const;
+    void SetNeedUpdate(bool bNeedUpdate);
+    bool GetNeedUpdate() const;
+    void SetSkillTypeID(int iTypeID);
+    int GetSkillTypeID(void) const;
+    void SetStartTime(int iTime);
+    int GetStartTime();
+    void SetIntData(int iData);
+    int GetIntData(void);
+    void SetFloatData(float fData);
+    float GetFloatData(void);
+    void SetHasDel(bool bHasDel = true);
+    bool GetHasDel(void);
+    void SetDeadNoRemove(bool bNoRemove);
+    bool IsDeadNoRemove();
+    bool IsCopyFromOthers(void);
+    void SetCopyFromOther(bool bCopy);
+    bool IsSkillRealize(void);
+    void SetSkillRealize(bool bReal);
+    bool HasDecreased(void);
+    void SetDecreased(bool bDecre);
+    void SetaiData(const std::vector<int>& riData);
+    std::vector<int>& GetaiData();
+    void    SetafData(const std::vector<float>& riData);
+    const   std::vector<float>& GetafData();
+    void    SetOrgUnitID(int iUnitID);
+    int     GetOrgUnitID() const;
+    void	SetInterrupt(bool bFlag);
+    bool	IsInterrupt();
 
     bool IsClientNeed() const;
     void SetRemoveTime(unsigned int uiTime, bool bForceChange = false, bool bNeedRecordChange = true);
     void Update(BeUnit* pkUnit, int iDeltaTime);
 
     bool Initialize(int iTypeID);
-    SeCalSkillLvlData* GetSkillLvlData(void);
     void	SetUnitID(int iUnitID);
     int		GetBufferUnitID() const;
-protected:
-    const BufferTable* m_pkRes;
+
+private:
+    std::shared_ptr<const BufferTable> m_pkRes;
     BeBufferData	m_kData;
     int				m_iRefreshTime;
     bool			m_bNeedUpdate;
@@ -342,7 +81,179 @@ protected:
     bool			m_bHasDecreased;
     bool			m_bHasBufVoice;
     bool			m_bIsInterrupt;
-
-    int				m_iOrgCamp;
     BeAttackingAttr	m_kAttr;
 };
+
+inline bool	BeBuffer::IsInterrupt()
+{
+    return m_bIsInterrupt;
+}
+inline void	BeBuffer::SetInterrupt(bool bFlag)
+{
+    m_bIsInterrupt = bFlag;
+}
+inline int BeBuffer::GetOrgUnitID() const
+{
+    return m_kData.iOrgUnitID;
+}
+inline void BeBuffer::SetafData(const std::vector<float>& riData)
+{
+    m_kData.afData = riData;
+}
+inline const std::vector<float>& BeBuffer::GetafData()
+{
+    return m_kData.afData;
+}
+inline bool BeBuffer::HasDecreased(void)
+{
+    return m_bHasDecreased;
+}
+inline void BeBuffer::SetDecreased(bool bDecre)
+{
+    m_bHasDecreased = bDecre;
+}
+inline void BeBuffer::SetaiData(const std::vector<int>& riData)
+{
+    m_kData.aiData = riData;
+}
+inline std::vector<int>& BeBuffer::GetaiData()
+{
+    return m_kData.aiData;
+}
+inline bool BeBuffer::GetHasDel(void)
+{
+    return m_kData.bHasDel;
+}
+inline void BeBuffer::SetDeadNoRemove(bool bNoRemove)
+{
+    m_bDeadNoRemove = bNoRemove;
+}
+inline bool BeBuffer::IsDeadNoRemove()
+{
+    return m_bDeadNoRemove;
+}
+inline bool BeBuffer::IsCopyFromOthers(void)
+{
+    return m_bCopyFromOhers;
+}
+inline void BeBuffer::SetCopyFromOther(bool bCopy)
+{
+    m_bCopyFromOhers = bCopy;
+}
+inline bool BeBuffer::IsSkillRealize(void)
+{
+    return m_bSkillRealize;
+}
+inline void BeBuffer::SetSkillRealize(bool bReal)
+{
+    m_bSkillRealize = bReal;
+}
+inline int BeBuffer::GetStartTime()
+{
+    return m_kData.iStartTime;
+}
+inline void BeBuffer::SetIntData(int iData)
+{
+    m_kData.iData = iData;
+}
+inline int BeBuffer::GetIntData(void)
+{
+    return m_kData.iData;
+}
+inline void BeBuffer::SetFloatData(float fData)
+{
+    m_kData.fData = fData;
+}
+inline float BeBuffer::GetFloatData(void)
+{
+    return m_kData.fData;
+}
+inline void BeBuffer::SetHasDel(bool bHasDel)
+{
+    m_kData.bHasDel = bHasDel;
+}
+inline void BeBuffer::SetSkillRes(const SkillTable* pkRes)
+{
+    m_kData.pkSkillRes = pkRes;
+}
+inline const SkillTable* BeBuffer::GetSkillRes() const
+{
+    return m_kData.pkSkillRes;
+}
+inline std::shared_ptr<BeUnit> BeBuffer::GetUnit() const
+{
+    return m_kData.kUnit;
+}
+inline void BeBuffer::SetNeedUpdate(bool bNeedUpdate)
+{
+    m_bNeedUpdate = bNeedUpdate;
+}
+inline bool BeBuffer::GetNeedUpdate() const
+{
+    return m_bNeedUpdate;
+}
+inline void BeBuffer::SetSkillTypeID(int iTypeID)
+{
+    m_kData.iSkillTypeID = iTypeID;
+}
+inline int BeBuffer::GetSkillTypeID() const
+{
+    return m_kData.iSkillTypeID;
+}
+inline void BeBuffer::SetStartTime(int iTime)
+{
+    m_kData.iStartTime = iTime;
+}
+inline int BeBuffer::GetAllLiveTime() const
+{
+    return m_kData.iAllLiveTime;
+}
+inline void BeBuffer::SetAllLiveTime(unsigned int iAllTime)
+{
+    m_kData.iAllLiveTime = iAllTime;
+}
+inline int BeBuffer::GetCDTime() const
+{
+    return m_kData.iCDTime;
+}
+inline void BeBuffer::SetCDTime(int iCDTime, bool bForceUpdate, bool bLastTimeUpdate)
+{
+    m_kData.iCDTime = iCDTime;
+    if (bForceUpdate)
+    {
+        m_kData.iUpdateTime = iCDTime;
+    }
+    m_kData.bLastTimeUpdate = bLastTimeUpdate;
+}
+inline int BeBuffer::GetUpdateTime() const
+{
+    return m_kData.iUpdateTime;
+}
+inline void BeBuffer::SetUpdateTime(int iUpdateTime)
+{
+    m_kData.iUpdateTime = iUpdateTime;
+}
+inline int BeBuffer::GetLevel() const
+{
+    return m_kData.iLevel;
+}
+inline void BeBuffer::SetLevel(int iLevel)
+{
+    m_kData.iLevel = iLevel;
+}
+inline unsigned int BeBuffer::GetRemoveTime() const
+{
+    return m_kData.uiRemoveTime;
+}
+inline int BeBuffer::GetBufferUnitID() const
+{
+    return m_kData.iUnitID;
+}
+inline void BeBuffer::SetOrgUnitID(int iUnitID)
+{
+    m_kData.iOrgUnitID = iUnitID;
+}
+inline bool BeBuffer::IsClientNeed() const
+{
+    return false;
+}

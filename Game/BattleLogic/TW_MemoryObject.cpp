@@ -15,6 +15,7 @@
 #include "TW_TaskAttackUnit.h"
 #include "TW_TaskAttackToPos.h"
 #include "TW_TaskAttackItem.h"
+#include "TW_Buff.h"
 
 //#include "TW_Unit.h"
 
@@ -31,5 +32,5 @@ TeMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos(256);
 TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem(256);
 
 TeMemoryPool<BeAttackingAttr>            mpAttackingAttr(256);
-
+TeMemoryPool<BeBuffer>                   mpBuffer;
 //TeMemoryPool<BeUnit>         mpUnit;

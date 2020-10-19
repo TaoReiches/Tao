@@ -110,8 +110,9 @@ enum BeNormalAttType
 	NAT_MAX_NUM,
 };
 
-struct BeNormalAtt
+class BeNormalAtt
 {
+public:
 	BeNormalAtt(BeNormalAttType type, float value)
 	{
 		eType = type;

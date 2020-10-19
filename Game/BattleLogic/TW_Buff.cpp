@@ -15,9 +15,9 @@
 BeBuffer::BeBuffer(int iID) : BeCarry(iID)
 {
 	m_bNeedUpdate = false;
-	m_eType = BCT_BUFFER;
+	m_eType = BeCarryType::BCT_BUFFER;
 	m_iRefreshTime = 0;
-	m_pkRes = NULL;
+	m_pkRes.reset();
 	m_iBufferEffectPlayer = -1;
 	m_iBUfferEffectGroup = -1;
 	m_fBufferEffectScale = 1.0f;
@@ -27,14 +27,13 @@ BeBuffer::BeBuffer(int iID) : BeCarry(iID)
 	m_bHasDecreased = false;
 	m_bHasBufVoice = false;
 	m_bIsInterrupt = false;
-	m_iOrgCamp = 0;
 }
 
 bool BeBuffer::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
 
-	//m_pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
+	m_pkRes.reset(BufferTableMgr::Get()->GetBufferTable(iTypeID));
 
 	return true;
 }
@@ -120,12 +119,6 @@ bool BeBuffer::HasProperty(int iProperty) const
 	return ((m_pkRes->uiProperty & iProperty) == iProperty) ? true : false;
 }
 
-SeCalSkillLvlData* BeBuffer::GetSkillLvlData(void)
-{
-	//return m_kData.kSkillLvlData;
-	return nullptr;
-}
-
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
@@ -134,25 +127,4 @@ void BeBuffer::SetUnitID(int iUnitID)
 	{
 		m_kData.kUnit.reset(pkUnit);
 	}
-}
-
-int BeBuffer::GetBufferUnitID() const
-{
-	return m_kData.iUnitID;
-}
-
-void BeBuffer::SetOrgUnitID(int iUnitID)
-{
-	m_kData.iOrgUnitID = iUnitID;
-
-	BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID);
-	if (pkUnit)
-	{
-		m_iOrgCamp = pkUnit->GetCamp();
-	}
-}
-
-bool BeBuffer::IsClientNeed() const
-{
-	return false;
 }

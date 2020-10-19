@@ -28,21 +28,6 @@ public:
         return m_eType;
     }
 
-    inline void SetBossExtraDamage(int iBoss, float fDamage)
-    {
-        m_akBossExtraDamage[iBoss] = fDamage;
-    }
-
-    inline float GetBossExtraDamage(int iBoss)
-    {
-        if (m_akBossExtraDamage.find(iBoss) == m_akBossExtraDamage.end())
-        {
-            return 0;
-        }
-
-        return m_akBossExtraDamage[iBoss];
-    }
-
     inline int GetID(void) const
     {
         return m_iID;
@@ -105,7 +90,7 @@ public:
 
     void	SetNormalAttr(BeNormalAttType eType, float fValue, bool bForceChange = false, bool bAdd = false);
     std::vector<BeNormalAtt>& GetNormalAttr(void);
-    void	ApplyNormalAttr(float afChange[BCT_NUM][NAT_MAX_NUM][2], bool bGhost = false, int iImmunityFlag = 0);
+    void	ApplyNormalAttr(float afChange[BeCarryType::BCT_NUM][BeNormalAttType::NAT_MAX_NUM][2], bool bGhost = false, int iImmunityFlag = 0);
     bool	IsImmunity(const BeNormalAtt& rkAttr, int iImmunityFlag);
     float	GetNormalAttrValue(BeNormalAttType eType);
 
@@ -136,7 +121,6 @@ public:
 
 protected:
     void	InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int iSkillTypeID = 0);
-    //void	InitMagicOrb(int iSkillTypeID,const SeSkillRes* pkSkillRes,int iSkillLevel);
     void	InitAttrFromSkill(int iSkillTypeID, int iSkillLevel = 1);
 
 protected:
@@ -147,13 +131,10 @@ protected:
     int				m_iImmunityFlag;
     int				m_iOrbSkill;
     int				m_iOrbLevel;
+    int				m_iMissileModel;
 
     std::vector<BeNormalAtt>		m_akNormalAttr;
     std::vector<BeNormalAtt>		m_akBackNormalAttr;
     std::vector<BeAttackedAttr>		m_akAttackedAttr;
-
-    std::map<int, float>				m_akBossExtraDamage;
-
-    int						m_iMissileModel;
 };
 

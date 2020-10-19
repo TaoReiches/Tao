@@ -45,3 +45,6 @@ extern TeMemoryPool<BeUnit>                     mpUnit;
 
 class BeSkill;
 extern TeMemoryPool<BeSkill>                    mpSkill;
+
+class BeBuffer;
+extern TeMemoryPool<BeBuffer>                   mpBuffer;

@@ -8,6 +8,7 @@
 #include "TW_TriggerMgr.h"
 #include "TW_TriggerEvent.h"
 #include "TW_Main.h"
+#include "Skill_table.hpp"
 
 BeCarry::BeCarry(int iID) :m_iID(iID)
 {
@@ -135,7 +136,7 @@ float	BeCarry::GetNormalAttrValue(BeNormalAttType eType)
 	return 0.0f;
 }
 
-void BeCarry::ApplyNormalAttr(float afChange[BCT_NUM][NAT_MAX_NUM][2], bool bGhost, int iImmunityFlag)
+void BeCarry::ApplyNormalAttr(float afChange[BeCarryType::BCT_NUM][BeNormalAttType::NAT_MAX_NUM][2], bool bGhost, int iImmunityFlag)
 {
 	float fMaxSpeed = 0.0f;
 	for (std::vector<BeNormalAtt>::iterator itr = m_akNormalAttr.begin(); itr != m_akNormalAttr.end(); ++itr)
@@ -546,74 +547,74 @@ void BeCarry::InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int 
 		return;
 	}
 	iSkillLevel -= 1;
-	//for (int j = 0; j < MAX_CONTENT_DATA; j++)
-	//{
-	//	int eType = 0;
-	//	float fValue = 0.0f;
-	//	switch (j)
-	//	{
-	//	case 0:
-	//		eType = pkSkillRes->uiDataContentA;
-	//		fValue = pkSkillRes->fValueA[iSkillLevel];
-	//		break;
-	//	case 1:
-	//		eType = pkSkillRes->uiDataContentB;
-	//		fValue = pkSkillRes->fValueB[iSkillLevel];
-	//		break;
-	//	case 2:
-	//		eType = pkSkillRes->uiDataContentC;
-	//		fValue = pkSkillRes->fValueC[iSkillLevel];
-	//		break;
-	//	case 3:
-	//		eType = pkSkillRes->uiDataContentD;
-	//		fValue = pkSkillRes->fValueD[iSkillLevel];
-	//		break;
-	//	case 4:
-	//		eType = pkSkillRes->uiDataContentE;
-	//		fValue = pkSkillRes->fValueE[iSkillLevel];
-	//		break;
-	//	case 5:
-	//		eType = pkSkillRes->uiDataContentF;
-	//		fValue = pkSkillRes->fValueF[iSkillLevel];
-	//		break;
-	//	case 6:
-	//		eType = pkSkillRes->uiDataContentG;
-	//		fValue = pkSkillRes->fValueG[iSkillLevel];
-	//		break;
-	//	default:
-	//		break;
-	//	}
+	for (int j = 0; j < MAX_CONTENT_DATA; j++)
+	{
+		int eType = 0;
+		float fValue = 0.0f;
+		switch (j)
+		{
+		case 0:
+			eType = pkSkillRes->uiDataContentA;
+			fValue = pkSkillRes->fValueA[iSkillLevel];
+			break;
+		case 1:
+			eType = pkSkillRes->uiDataContentB;
+			fValue = pkSkillRes->fValueB[iSkillLevel];
+			break;
+		case 2:
+			eType = pkSkillRes->uiDataContentC;
+			fValue = pkSkillRes->fValueC[iSkillLevel];
+			break;
+		case 3:
+			eType = pkSkillRes->uiDataContentD;
+			fValue = pkSkillRes->fValueD[iSkillLevel];
+			break;
+		case 4:
+			eType = pkSkillRes->uiDataContentE;
+			fValue = pkSkillRes->fValueE[iSkillLevel];
+			break;
+		case 5:
+			eType = pkSkillRes->uiDataContentF;
+			fValue = pkSkillRes->fValueF[iSkillLevel];
+			break;
+		case 6:
+			eType = pkSkillRes->uiDataContentG;
+			fValue = pkSkillRes->fValueG[iSkillLevel];
+			break;
+		default:
+			break;
+		}
 
-	//	if (eType == 0)
-	//	{
-	//		continue;
-	//	}
+		if (eType == 0)
+		{
+			continue;
+		}
 
-	//	if (eType >= NAT_ABS_ALL && eType < NAT_MAX_NUM)
-	//	{
-	//		SetNormalAttrByData(eType, fValue, true);
-	//	}
-	//}
+		if (eType >= NAT_ABS_ALL && eType < NAT_MAX_NUM)
+		{
+			SetNormalAttrByData(eType, fValue, true);
+		}
+	}
 }
 
 void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 {
-	//const SkillTable* pkSkillRes = gMain.GetResSkill(iSkillTypeID);
-	//if (!pkSkillRes)
-	//{
-	//	return;
-	//}
-	//if (iSkillLevel <= 0 || iSkillLevel > pkSkillRes->iSkillMaxLevel)
-	//{
-	//	iSkillLevel = 1;
-	//}
+	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	if (!pkSkillRes)
+	{
+		return;
+	}
+	if (iSkillLevel <= 0 || iSkillLevel > pkSkillRes->iSkillMaxLevel)
+	{
+		iSkillLevel = 1;
+	}
 
-	//if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
-	//{
-	//	return;
-	//}
+	if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
+	{
+		return;
+	}
 
-	//InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
+	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
 	TePtParam kParam;
 	kParam.SetParam(BTP_pkCarray, this);
