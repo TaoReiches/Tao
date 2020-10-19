@@ -8,6 +8,8 @@
 #include <list>
 #include "TW_Command.h"
 
+class BeExeCommand;
+
 class BeCommander : public BeMainPtr, public BeUnitPtr
 {
 public:

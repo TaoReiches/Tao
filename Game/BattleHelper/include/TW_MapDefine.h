@@ -21,7 +21,7 @@ enum TeGridFlag
 	TGF_UNIT_OTS = (TGF_UNIT | TGF_TEMP),
 };
 
-enum TeFindResult
+enum class TeFindResult
 {
 	TFR_NONE = 0,
 	TFR_NOT_ARRIVE,
@@ -29,4 +29,3 @@ enum TeFindResult
 	TFR_ARRIVE,
 	TFR_ARRIVED,
 };
-

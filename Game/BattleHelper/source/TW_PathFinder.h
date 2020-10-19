@@ -128,7 +128,6 @@ struct TagAround
 
 struct TePathMem
 {
-	DECLARE_POOL(TePathMem);
 	int m_aiData[PATH_POOL_ELE_SIZE];
 };
 

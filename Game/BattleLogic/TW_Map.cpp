@@ -11,8 +11,6 @@
 
 TeMap::TeMap(void)
 {
-	m_pkMapInfo = nullptr;
-	m_pkPathFinder = nullptr;
 }
 
 TeMap::~TeMap(void)
@@ -35,13 +33,19 @@ bool TeMap::Initialize()
 	//m_iGrassWidth = GetWidth() / m_pkMapInfo->iGrassSize + 1;
 	//m_iGrassHeight = GetHeight() / m_pkMapInfo->iGrassSize + 1;
 
-	m_pkPathFinder = CreatePathFinder();
+	m_pkPathFinder.reset(CreatePathFinder());
 	if (!m_pkPathFinder)
 	{
 		return false;
 	}
 
-	//m_pkPathFinder->InitGrids(iWidth, iHeight, m_pkMapInfo->abyGrid);
+	unsigned short iWidth = GetWidth() / GridSize;
+	unsigned short iHeight = GetHeight() / GridSize;
+	unsigned int total = iWidth * iHeight;
+	unsigned short* grids = new unsigned short[total];
+	std::memset(grids, 0, total);
+	m_pkPathFinder->InitGrids(iWidth, iHeight, grids);
+	delete[] grids;
 
 	return true;
 }
@@ -68,18 +72,10 @@ bool TeMap::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, f
 
 void TeMap::Finialize(void)
 {
-	m_pkAVision = nullptr;
-	m_pkTVision = nullptr;
-	m_pkCVision = nullptr;
-
-	m_iVisionWidth = 0;
-	m_iVisionHeight = 0;
-
-	ReleaseVision();
 	if (m_pkPathFinder)
 	{
-		ReleasePathFinder(m_pkPathFinder);
-		m_pkPathFinder = nullptr;
+		ReleasePathFinder(m_pkPathFinder.get());
+		m_pkPathFinder.release();
 	}
 }
 
@@ -230,20 +226,20 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 {
 	if (!m_pkPathFinder)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	akPath.clear();
 
 	if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 	{
-		iObs &= ~TGF_UNIT_OTS;
-		iObs &= ~TGF_SOLIDER;
+		iObs &= ~TeGridFlag::TGF_UNIT_OTS;
+		iObs &= ~TeGridFlag::TGF_SOLIDER;
 	}
 
 	if (pkUnit->HasFlag(BUF_IGNOREFIXEDOBS))
 	{
-		iObs &= ~TGF_FIXED_OTS;
+		iObs &= ~TeGridFlag::TGF_FIXED_OTS;
 	}
 
 	if (!iObs)
@@ -254,7 +250,7 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 		float fDistance2 = GetDistance2(fSrcX, fSrcY, fTargetX, fTargetY);
 		if (fDistance2 <= fDistance * fDistance)
 		{
-			return TFR_ARRIVED;
+			return TeFindResult::TFR_ARRIVED;
 		}
 		else
 		{
@@ -276,9 +272,9 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 				kPos.fY = fMY;
 				akPath.push_back(kPos);
 			}
-			return TFR_DIRECT;
+			return TeFindResult::TFR_DIRECT;
 		}
-		return TFR_DIRECT;
+		return TeFindResult::TFR_DIRECT;
 	}
 
 	float fSrcX = pkUnit->GetPosX();
@@ -432,7 +428,7 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 			{
 				std::list<TePos2> kPath;
 				TeFindResult eRet = FindPath(kPath, pkUnit, fX, fY, 0.0f, iReachableObs);
-				if (TFR_NONE == eRet || TFR_NOT_ARRIVE == eRet)
+				if (TeFindResult::TFR_NONE == eRet || TeFindResult::TFR_NOT_ARRIVE == eRet)
 				{
 					m_pkPathFinder->SetObstacle(fX, fY, iReachableObs, iSrcSize);
 					kPos.push_back(TePos2(fX, fY));
@@ -462,10 +458,6 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 	AddUnitObstacle(pkUnit);
 
 	return bRet;
-}
-
-void TeMap::EnableAllMap(void)
-{
 }
 
 bool TeMap::GetUnitCanReach(BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs)
@@ -536,18 +528,4 @@ bool TeMap::GetUnitCanReach(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 		AddUnitObstacle(pkUnit, false);
 	}
 	return bRet;
-}
-
-int		TeMap::GetGrassIndex(float fX, float fY)
-{
-	//int iW = fX / m_pkMapInfo->iGrassSize;
-	//int iH = fY / m_pkMapInfo->iGrassSize;
-	//int iIndex = iH * m_iGrassWidth + iW;
-	//if (iW > m_iGrassWidth || iH > m_iGrassHeight)
-	//{
-	//	return 0;
-	//}
-
-	//return m_pkMapInfo->abyGrass[iIndex];
-	return 0;
 }

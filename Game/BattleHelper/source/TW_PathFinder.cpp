@@ -6,13 +6,6 @@
 #include "TW_PathFinder.h"
 #include "TW_PathFinderFormular.h"
 
-#pragma push_macro("new")
-#undef new
-
-IMPLEMENT_POOL(TePathMem, 1, 1);
-
-#pragma pop_macro("new")
-
 static TePathFinder gPthFinder;
 IPathFinder* CreatePathFinder()
 {
@@ -111,18 +104,18 @@ TePathFinder::TePathFinder()
 	m_iWidth = 0;
 	m_iHeight = 0;
 	m_iMaxIdx = 0;
-	m_akGrid = NULL;
+	m_akGrid = nullptr;
 	m_iPathPointCount = 0;
-	m_akTGrid = NULL;
+	m_akTGrid = nullptr;
 
-	m_piOpen = NULL;
+	m_piOpen = nullptr;
 	m_iT = 0;
 	m_iE = 0;
 
-	m_piChange = NULL;
+	m_piChange = nullptr;
 	m_iChangeCount = 0;
 
-	m_piPath = NULL;
+	m_piPath = nullptr;
 	m_iPathCount = 0;
 
 	OpenListClear();
@@ -136,7 +129,7 @@ TePathFinder::TePathFinder()
 
 	m_iVisionWidth = 0;
 	m_iVisionHeight = 0;
-	m_akVision = NULL;
+	m_akVision = nullptr;
 
 	m_bUseTStar = false;
 	m_iTStarObs = TGF_TERRAIN | TGF_DOODAD;
@@ -195,7 +188,7 @@ inline bool TePathFinder::ChangeListFull(void)
 void TePathFinder::CreateList(void)
 {
 	ReleaseList();
-	m_piChange = (int*)TePathMem::NEW();
+	m_piChange = (int*)new TePathMem;
 	m_piOpen = m_piChange + PATH_CHANGE_LIST;
 	m_piPath = m_piOpen + PATH_OPEN_LIST;
 }
@@ -205,15 +198,15 @@ void TePathFinder::ReleaseList(void)
 	m_iChangeCount = 0;
 	if (m_piChange)
 	{
-		TePathMem::DEL((TePathMem*)m_piChange);
-		m_piChange = NULL;
+		delete m_piChange;
+		m_piChange = nullptr;
 	}
 
 	OpenListClear();
-	m_piOpen = NULL;
+	m_piOpen = nullptr;
 
 	m_iPathCount = 0;
-	m_piPath = NULL;
+	m_piPath = nullptr;
 }
 
 void TePathFinder::Release()
@@ -228,7 +221,7 @@ void TePathFinder::Release()
 
 	m_iVisionWidth = 0;
 	m_iVisionHeight = 0;
-	m_akVision = NULL;
+	m_akVision = nullptr;
 
 	for (int i = 0; i < 128; ++i)
 	{
@@ -1749,10 +1742,10 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 	akOpenList.push_back(pkOriginGrid);
 
 	VecTMapGrid::iterator itrGrid;
-	TeTMapGrid* pkCurGrid = NULL;
-	TeTMapGrid* pkNextGrid = NULL;
-	TeTMapGrid* pkLeftGrid = NULL;
-	TeTMapGrid* pkRightGrid = NULL;
+	TeTMapGrid* pkCurGrid = nullptr;
+	TeTMapGrid* pkNextGrid = nullptr;
+	TeTMapGrid* pkLeftGrid = nullptr;
+	TeTMapGrid* pkRightGrid = nullptr;
 	bool bCancelTranch = false;
 	int iDir = 0, iNextX = 0, iNextY = 0, iNextIndex = 0, iCount = 0;
 
@@ -1762,7 +1755,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 		for (itrGrid = akOpenList.begin(); itrGrid != akOpenList.end(); ++itrGrid)
 		{
-			pkNextGrid = NULL;
+			pkNextGrid = nullptr;
 			pkCurGrid = *itrGrid;
 			if (!pkCurGrid)
 			{
@@ -1846,8 +1839,8 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 				break;
 				case TMPS_TLOCK:
 				{
-					pkLeftGrid = NULL;
-					pkRightGrid = NULL;
+					pkLeftGrid = nullptr;
+					pkRightGrid = nullptr;
 
 					bCancelTranch = false;
 					int iTestDir = 0;
@@ -2468,7 +2461,7 @@ void TePathFinder::FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd
 
 	bool bDirect = false;
 	TeTMapGrid* pkLast = pkEnd;
-	TeTMapGrid* pkNextStart = NULL;
+	TeTMapGrid* pkNextStart = nullptr;
 	while (pkLast && pkLast != pkStart)
 	{
 		bDirect = IsPointDirect(Grid2Map(pkStart->x), Grid2Map(pkStart->y), 1, Grid2Map(pkLast->x), Grid2Map(pkLast->y), 0, 0, m_iTStarObs);
@@ -2502,7 +2495,7 @@ void TePathFinder::ResetTStarChangeList(void)
 		rkGrid.iStep = 0;
 		rkGrid.iAngle = 0;
 		rkGrid.bChange = false;
-		rkGrid.pkPreGrid = NULL;
+		rkGrid.pkPreGrid = nullptr;
 	}
 	m_iChangeCount = 0;
 }

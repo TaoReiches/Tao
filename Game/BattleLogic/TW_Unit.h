@@ -21,6 +21,7 @@
 #include "TW_UserDataDefine.h"
 #include <TW_PointerType.h>
 #include "TW_Command.h"
+#include "TW_CommandExe.h"
 
 class BeItem;
 class BeCarry;
