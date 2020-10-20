@@ -12,6 +12,12 @@ namespace TW.DAL.Storage.Redis
         Task<SigninRequestModel> OnUserSignin(SigninRequestModel request);
     }
 
+    class testRedisJson
+    {
+        public int test1;
+        public string test2;
+    }
+
     public class RedisLuaTest : IRedisLuaTest
     {
         protected IDatabase Collection { get; }
@@ -64,16 +70,42 @@ namespace TW.DAL.Storage.Redis
             //return redis.call('HGETALL', 'none');
             //";
 
+            // cjosn test
+            var testList = new List<testRedisJson>
+            {
+                new testRedisJson
+                {
+                    test1 = 10,
+                    test2 = "test-10"
+                },
+                new testRedisJson
+                {
+                    test1 = 20,
+                    test2 = "test-20"
+                }
+            };
+            script = @"
+            local name = @name
+            local password = @password
+            local hashname = 'user:'..name
+local passwordJson = cjson.decode(password)
+for k,v in pairs(passwordJson) do
+    return v['test1']
+end
+";
+
             var prepared = LuaScript.Prepare(script);
             var loaded = await prepared.LoadAsync(RedisServer);
 
-            var list = new List<long> { 888, 999, 666 };
-            var str = JsonConvert.SerializeObject(list);
+            //var list = new List<long> { 888, 999, 666 };
+            //var str = JsonConvert.SerializeObject(list);
 
-            long testlong = 9898988;
-            bool testbool = false;
+            //long testlong = 9898988;
+            //bool testbool = false;
 
-            var result = await loaded.EvaluateAsync(Collection, new { name = testEnum.test2.ToString(), password = DateTime.UtcNow.ToString() });
+            var st = JsonConvert.SerializeObject(testList);
+
+            var result = await loaded.EvaluateAsync(Collection, new { name = "testJson", password = JsonConvert.SerializeObject(testList) });
             //var dic = result.ToDictionary();
             //foreach(var res in dic)
             //{
