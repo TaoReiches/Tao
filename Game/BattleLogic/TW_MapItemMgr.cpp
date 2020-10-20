@@ -10,7 +10,7 @@
 #include <TW_Define.h>
 #include "TW_ShareUnitData.h"
 #include "TW_SortStruct.h"
-#include <algorithm>
+#include "TW_MemoryObject.h"
 
 BeMapItemMgr::BeMapItemMgr(void)
 {
@@ -32,12 +32,12 @@ void BeMapItemMgr::Update(int iDeltaTime)
 {
 	BeEntityMgr::Update(iDeltaTime);
 
-	for (std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end();)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end();)
 	{
-		BeMapItem* pkMapItem = itr->second;
+		auto pkMapItem = itr->second;
 		++itr;
 
-		const ItemTable* pkRes = pkMapItem->GetItemRes();
+		auto pkRes = pkMapItem->GetItemRes();
 		if (!pkRes)
 		{
 			continue;
@@ -63,28 +63,31 @@ void BeMapItemMgr::Finialize(void)
 
 void BeMapItemMgr::Clear()
 {
-	for (std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
 	{
-		delete itr->second;
+		auto pkMapItem = itr->second;
+		if (pkMapItem)
+		{
+			mpMapItem.free(pkMapItem.get());
+			pkMapItem.reset();
+		}
 	}
 	m_kID2MapItem.clear();
 }
 
-BeMapItem* BeMapItemMgr::NewMapItem(int iID)
+std::shared_ptr<BeMapItem> BeMapItemMgr::NewMapItem(int iID)
 {
-	BeMapItem* pkMapItem = new BeMapItem(iID);
+	auto pkMapItem = std::shared_ptr<BeMapItem>(mpMapItem.alloc(iID));
 	pkMapItem->AttachMain(pkAttachMain);
 	return pkMapItem;
 }
 
-BeMapItem* BeMapItemMgr::AddMapItem(int iTypeID, bool bDrop, int iGroup, int iPlayer)
+std::shared_ptr<BeMapItem> BeMapItemMgr::AddMapItem(int iTypeID, bool bDrop, int iGroup, int iPlayer)
 {
 	int iID = gMain.GenerateID(GIT_MAPITEM);
 
-	BeMapItem* pkMapItem = NewMapItem(iID);
+	auto pkMapItem = NewMapItem(iID);
 	pkMapItem->AttachMain(pkAttachMain);
-	pkMapItem->SetShowGroup(iGroup);
-	pkMapItem->SetShowPlayer(iPlayer);
 
 	if (pkMapItem->Initialize(iTypeID))
 	{
@@ -95,19 +98,21 @@ BeMapItem* BeMapItemMgr::AddMapItem(int iTypeID, bool bDrop, int iGroup, int iPl
 	}
 	else
 	{
-		SAFE_DELETE(pkMapItem);
-		return NULL;
+		mpMapItem.free(pkMapItem.get());
+		pkMapItem.reset();
+		return nullptr;
 	}
 }
 
 void BeMapItemMgr::DelMapItem(int iID)
 {
-	std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.find(iID);
+	auto itr = m_kID2MapItem.find(iID);
 	if (itr != m_kID2MapItem.end())
 	{
-		BeMapItem* pkMapItem = itr->second;
+		auto pkMapItem = itr->second;
 
-		SAFE_DELETE(pkMapItem);
+		mpMapItem.free(pkMapItem.get());
+		pkMapItem.reset();
 		m_kID2MapItem.erase(itr);
 
 		PushDelMapItem(iID);
@@ -119,37 +124,20 @@ void BeMapItemMgr::DelMapItem(int iID)
 	}
 }
 
-BeMapItem* BeMapItemMgr::GetMapItemByID(int iID)
+std::shared_ptr<BeMapItem> BeMapItemMgr::GetMapItemByID(int iID)
 {
 	if (m_kID2MapItem.find(iID) == m_kID2MapItem.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	return m_kID2MapItem[iID];
 }
 
-BeMapItem* BeMapItemMgr::GetMapItemByGuanQiaID(int iID)
-{
-	std::map<int, BeMapItem*>::iterator iter = m_kID2MapItem.begin();
-	for (; iter != m_kID2MapItem.end(); iter++)
-	{
-		BeMapItem* pkItem = iter->second;
-		if (pkItem)
-		{
-			if (pkItem->GetGuanQiaID() == iID)
-			{
-				return pkItem;
-			}
-		}
-	}
-	return NULL;
-}
-
 bool BeMapItemMgr::HasMapItem(int iTypeID)
 {
-	for (std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
 	{
-		BeMapItem* pkMapItem = itr->second;
+		auto pkMapItem = itr->second;
 		if (pkMapItem && pkMapItem->GetTypeID() == iTypeID)
 		{
 			return true;
@@ -159,18 +147,17 @@ bool BeMapItemMgr::HasMapItem(int iTypeID)
 	return false;
 }
 
-void BeMapItemMgr::GetAreaGroup(std::vector<BeMapItem*>& kGroup, float fX, float fY, float fRadius, int iPlayer) const
+void BeMapItemMgr::GetAreaGroup(std::vector<std::shared_ptr<BeMapItem>>& kGroup, float fX, float fY, float fRadius, int iPlayer) const
 {
 	kGroup.clear();
 	fRadius *= fRadius;
-	for (std::map<int, BeMapItem*>::const_iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
 	{
-		BeMapItem* pkItem = itr->second;
+		auto pkItem = itr->second;
 		if (pkItem)
 		{
 			int iTypeID = pkItem->GetTypeID();
-			if (pkItem->GetOwnerPlay() == iPlayer || iPlayer == -1 ||
-				iTypeID == 'I150' || iTypeID == 'I151' || iTypeID == 'I152' || iTypeID == 'I153')
+			if (pkItem->GetOwnerPlay() == iPlayer || iPlayer == -1)
 			{
 				float fDist2 = GetDistance2(fX, fY, pkItem->GetPosX(), pkItem->GetPosY());
 				if (fDist2 <= fRadius)
@@ -180,15 +167,14 @@ void BeMapItemMgr::GetAreaGroup(std::vector<BeMapItem*>& kGroup, float fX, float
 			}
 		}
 	}
-	std::sort(kGroup.begin(), kGroup.end(), MapItem2Pos_LessThan(fX, fY));
 }
 
-void BeMapItemMgr::GetGroupByType(std::vector<BeMapItem*>& kGroup, int iTypeID)
+void BeMapItemMgr::GetGroupByType(std::vector<std::shared_ptr<BeMapItem>>& kGroup, int iTypeID)
 {
 	kGroup.clear();
-	for (std::map<int, BeMapItem*>::const_iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); ++itr)
 	{
-		BeMapItem* pkItem = itr->second;
+		auto pkItem = itr->second;
 		if (pkItem && pkItem->GetTypeID() == iTypeID)
 		{
 			kGroup.push_back(pkItem);
@@ -196,16 +182,16 @@ void BeMapItemMgr::GetGroupByType(std::vector<BeMapItem*>& kGroup, int iTypeID)
 	}
 }
 
-std::map<int, BeMapItem*>& BeMapItemMgr::GetAllMapItem()
+std::unordered_map<int, std::shared_ptr<BeMapItem>>& BeMapItemMgr::GetAllMapItem()
 {
 	return m_kID2MapItem;
 }
 
 void BeMapItemMgr::ClrAllPureMapItem()
 {
-	for (std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); itr++)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); itr++)
 	{
-		BeMapItem* pkMapItem = itr->second;
+		auto pkMapItem = itr->second;
 		if (pkMapItem)
 		{
 			pkMapItem->ClrAllPureData();
@@ -241,9 +227,9 @@ void BeMapItemMgr::GetAllShareMapItemData(std::vector<BeShareMapItemData*>& rakA
 	rakAllMapItemData.clear();
 	BeShareMapItemData	kData;
 
-	for (std::map<int, BeMapItem*>::iterator itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); itr++)
+	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end(); itr++)
 	{
-		BeMapItem* pkMapItem = itr->second;
+		auto pkMapItem = itr->second;
 		if (pkMapItem)
 		{
 			kData.iLogicID = pkMapItem->GetID();
@@ -251,8 +237,6 @@ void BeMapItemMgr::GetAllShareMapItemData(std::vector<BeShareMapItemData*>& rakA
 			kData.fPosY = pkMapItem->GetPosY();
 			kData.iItemTypeID = pkMapItem->GetTypeID();
 			kData.bRemove = false;
-			kData.iShowGroup = pkMapItem->GetShowGroup();
-			kData.iShowPlayer = pkMapItem->GetShowPlayer();
 			rakAllMapItemData.push_back(&kData);
 		}
 	}

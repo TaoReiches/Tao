@@ -5,8 +5,9 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "TW_EntityMgr.h"
 
 class BeMapItem;
@@ -18,30 +19,22 @@ public:
 	BeMapItemMgr(void);
 	~BeMapItemMgr(void);
 
-	virtual bool Initialize(void);
-	virtual void Update(int iDeltaTime);
-	virtual void Finialize(void);
+	virtual bool Initialize(void) override;
+	virtual void Update(int iDeltaTime) override;
+	virtual void Finialize(void) override;
 
 	virtual void Clear();
 
-	BeMapItem* AddMapItem(int iTypeID, bool bDrop = false, int iGroup = -1, int iPlayer = -1);
+	std::shared_ptr<BeMapItem> AddMapItem(int iTypeID, bool bDrop = false, int iGroup = -1, int iPlayer = -1);
 	void		DelMapItem(int iID);
 
-	BeMapItem* GetMapItemByID(int iID);
-	BeMapItem* GetMapItemByGuanQiaID(int iID);
+	std::shared_ptr<BeMapItem> GetMapItemByID(int iID);
 	bool HasMapItem(int iTypeID);
-	void GetAreaGroup(std::vector<BeMapItem*>& kGroup, float fX, float fY, float fRadius, int iPlayer) const;
-	void GetGroupByType(std::vector<BeMapItem*>& kGroup, int iTypeID);
+	void GetAreaGroup(std::vector<std::shared_ptr<BeMapItem>>& kGroup, float fX, float fY, float fRadius, int iPlayer) const;
+	void GetGroupByType(std::vector<std::shared_ptr<BeMapItem>>& kGroup, int iTypeID);
 
-	std::map<int, BeMapItem*>& GetAllMapItem();
-
-protected:
-	virtual BeMapItem* NewMapItem(int iID);
-
-protected:
-	std::map<int, BeMapItem*>	m_kID2MapItem;
-
-public:
+	std::unordered_map<int, std::shared_ptr<BeMapItem>>& GetAllMapItem();
+	void	ClrAllPureMapItem();
 	void	PushNewMapItem(int iID);
 	std::vector<int>& PureGetNewMapitemID();
 
@@ -49,10 +42,13 @@ public:
 	std::vector<int>& PureGetDelMapitemID();
 	void GetAllShareMapItemData(std::vector<BeShareMapItemData*>& rakAllMapItemData);
 
+protected:
+	virtual std::shared_ptr<BeMapItem> NewMapItem(int iID);
+
+protected:
+	std::unordered_map<int, std::shared_ptr<BeMapItem>>	m_kID2MapItem;
+
 private:
 	std::vector<int>	m_akPureNewMapitemID;
 	std::vector<int>	m_akPureDelMapitemID;
-
-public:
-	void	ClrAllPureMapItem();
 };

@@ -406,16 +406,12 @@ struct BeShareMapItemData
 		fPosX = 0.0f;
 		fPosY = 0.0f;
 		bRemove = false;
-		iShowGroup = -1;
-		iShowPlayer = -1;
 	}
 	int		iLogicID;
 	int		iItemTypeID;
 	float	fPosX;
 	float	fPosY;
 	bool	bRemove;
-	int     iShowGroup;
-	int     iShowPlayer;
 };
 
 struct BeShareBufferData

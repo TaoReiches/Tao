@@ -11,11 +11,10 @@
 
 BeMapItem::BeMapItem(int iID) : BeSingleLinkEntity(iID)
 {
-	m_pkRes = NULL;
+	m_pkRes.reset();
 	m_iLife = 2;
 	m_iLiveTime = -1;
 	m_bCanPickUp = true;
-	m_iGuanQiaID = 0;
 }
 
 BeMapItem::~BeMapItem(void)
@@ -24,7 +23,7 @@ BeMapItem::~BeMapItem(void)
 
 bool BeMapItem::Initialize(int iTypeID)
 {
-	m_pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
+	m_pkRes.reset(ItemTableMgr::Get()->GetItemTable(iTypeID));
 	if (!m_pkRes)
 	{
 		return false;
@@ -55,8 +54,6 @@ void BeMapItem::SetPosition(float fX, float fY, float fFace, float fZ)
 	kData.fPosY = GetPosY();
 	kData.iItemTypeID = GetTypeID();
 	kData.bRemove = false;
-	kData.iShowGroup = GetShowGroup();
-	kData.iShowPlayer = GetShowPlayer();
 
 	// gMain.AddMapItemData(kData);
 }
