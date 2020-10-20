@@ -12,6 +12,10 @@
 
 int main()
 {
+    auto u = new Unit();
+    auto i = u->GetBaseId();
+
+
     TeMemoryPool<Unit> mpUnit(10);
 
     std::vector<std::unique_ptr<Unit>> testUnits;

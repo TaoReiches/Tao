@@ -159,12 +159,6 @@
     <ClInclude Include="TW_PlayerInfo.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
-    <ClInclude Include="TW_UnitData.h">
-      <Filter>LogicEntity\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="TW_UnitSkill.h">
-      <Filter>LogicEntity\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="TW_BattleCmd.h">
       <Filter>Protocol</Filter>
     </ClInclude>
@@ -248,6 +242,15 @@
     </ClInclude>
     <ClInclude Include="TW_EffectBumpCount.h">
       <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitDataDefine.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitData.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitLearnSkillData.h">
+      <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="TW_Equip.cpp">
       <Filter>LogicCarry\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitDataDefine.cpp">
+      <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

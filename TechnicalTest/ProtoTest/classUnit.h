@@ -2,7 +2,22 @@
 
 #include "classMainBase.h"
 
-class Unit : public BeMainPtr
+class UnitBase
+{
+public:
+    int GetBaseId()
+    {
+        return base_Id;
+    }
+
+protected:
+    UnitBase() {};
+
+private:
+    int base_Id = 99;
+};
+
+class Unit : public BeMainPtr, public UnitBase
 {
 public:
     Unit() = default;

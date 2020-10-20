@@ -22,6 +22,7 @@
 #include "TW_EffectData.h"
 #include "TW_Effect.h"
 #include "TW_MapItem.h"
+#include "TW_UnitLearnSkillData.h"
 
 //#include "TW_Unit.h"
 
@@ -46,4 +47,5 @@ TeMemoryPool<BeMapItem>                  mpMapItem(256);
 TeMemoryPool<BeEquip>                    mpEquip(256);
 TeMemoryPool<BeEffectData>               mpEffectData(256);
 TeMemoryPool<BeEffect>                   mpEffect(256);
+TeMemoryPool<BeLearnSkillData>           mpLearnSkillData(256);
 //TeMemoryPool<BeUnit>         mpUnit;

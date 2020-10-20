@@ -15,6 +15,7 @@
 #include "TW_Buff.h"
 #include "TW_Formula.h"
 #include "TW_AttackAttr.h"
+#include "TW_MemoryObject.h"
 
 BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
@@ -55,7 +56,6 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		BeItem* pkItem = new BeItem(iID);
 		pkItem->AttachMain(pkAttachMain);
 		pkItem->Initialize(iTypeID);
-		pkItem->CheckItemSkillCD(this);
 		pkItem->SetPileCount(pkRes->iOrgPileCount);
 		pkItem->SetUseCount(pkRes->iOrgUseCount);
 		pkItem->SetData(iOrgData);
@@ -458,8 +458,8 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	gMain.InitSkillEventTrigger(gMain.GetSkillOrgTypeID(iTypeID));
 	gMain.InitSkillEventTrigger(iTypeID);
 
-	BeSkill* pkSkill = NULL;
-	BeSkill* pkRet = NULL;
+	std::shared_ptr<BeSkill> pkSkill;
+	std::shared_ptr<BeSkill> pkRet;
 
 	int iID = iForceID;
 	if (iID == 0)
@@ -470,7 +470,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	{
 		gMain.SetGenerateID(GIT_CARRY, iID);
 	}
-	pkSkill = BeSkill::NEW(iID);
+	pkSkill.reset(mpSkill.alloc(iID));
 	pkSkill->AttachMain(pkAttachMain);
 	pkSkill->AttachUnit(this);
 	pkSkill->Initialize(iTypeID);
@@ -872,34 +872,6 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 		return 0;
 	}
 	return iSkillTypeID;
-}
-
-void BeUnit::SetMP(float fMP, bool bChange/* = true*/)
-{
-	float fPreMP = m_pkCurData->fMP;
-
-	if (fMP > m_pkCurData->fMaxMP)
-	{
-		m_pkCurData->fMP = m_pkCurData->fMaxMP;
-	}
-	else if (fMP <= 0.0f)
-	{
-		m_pkCurData->fMP = 0.0f;
-	}
-	else
-	{
-		m_pkCurData->fMP = fMP;
-	}
-
-	//if (gData.IsWTF())
-	//{
-	//	m_pkCurData->fMP = m_pkCurData->fMaxMP;
-	//}
-
-	if (fPreMP != m_pkCurData->fMP && bChange)
-	{
-		SetShareUnitChangeFlag(BSUDCF_CURMP);
-	}
 }
 
 void BeUnit::SetMaxMP(float fMaxMP)

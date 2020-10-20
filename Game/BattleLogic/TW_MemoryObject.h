@@ -66,3 +66,6 @@ extern TeMemoryPool<BeEffectData>               mpEffectData;
 
 class BeEffect;
 extern TeMemoryPool<BeEffect>                   mpEffect;
+
+class BeLearnSkillData;
+extern TeMemoryPool<BeLearnSkillData>           mpLearnSkillData;

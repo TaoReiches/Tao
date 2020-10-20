@@ -30,8 +30,10 @@ class BeBuffer;
 class BeSkill;
 class BeMapItem;
 
-class BeUnit : public BeSingleLinkEntity, public BeEntity
+class BeUnit : public BeSingleLinkEntity, public BeEntity, public TwUnitData
 {
+	friend TwUnitData;
+
 protected:
 	BeUnit(int iID);
 
@@ -39,229 +41,14 @@ public:
 	~BeUnit(void);
 
 public:
-	inline bool IsHero(void) const
-	{
-		//if (!m_pkBackData || !m_pkBackData->pkRes)
-		//{
-		//	return false;
-		//}
-
-		//if (m_pkBackData->pkRes->uiClassType == UNIT_CLASSTYPE_HERO)
-		//{
-		//	return true;
-		//}
-		return false;
-	}
-
-	inline int GetCurrentTypeID() const
-	{
-		return m_pkCurData->iTypeID;
-	}
-
-	void SetCurrentTypeID(int iTypeID);
-
-	inline void SetBackTypeID(int iTypeID)
-	{
-		m_pkBackData->iTypeID = iTypeID;
-	}
-
-	inline int GetBackTypeID() const
-	{
-		return m_pkBackData->iTypeID;
-	}
-
-	inline bool HasProperty(int iProperty) const
-	{
-		return ((m_pkBackData->iUnitProperty & iProperty) == iProperty) ? true : false;
-	}
-
-	bool	HasTableProperty(int iValue)
-	{
-		if (!m_pkBackData || !m_pkBackData->pkRes)
-		{
-			return false;
-		}
-
-		if ((m_pkBackData->pkRes->uiProperty & iValue) != 0)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	inline BeUnitData* GetCurData(void) const
-	{
-		return m_pkCurData;
-	}
-
-	inline void AddProperty(int iProperty)
-	{
-		m_pkBackData->iUnitProperty |= iProperty;
-	}
-
-	inline int GetProperty(void) const
-	{
-		return m_pkBackData->iUnitProperty;
-	}
-
-	inline void ClrProperty(int iFlag)
-	{
-		m_pkBackData->iUnitProperty &= ~iFlag;
-	}
-
-	inline float GetOrgAttackRange(void) const
-	{
-		return m_pkCurData->pkRes->fAttackRange;
-	}
-
-	inline float GetBackAttackRange(void) const
-	{
-		return m_pkBackData->pkRes->fAttackRange;
-	}
-
-	float GetMissileArc(void)
-	{
-		float fSrcArc = m_pkCurData->pkRes->fMissileArc;
-		float fValue = fSrcArc * 3.1415926f / 180.0f;
-		return fValue;
-	}
-
-	inline float GetCollision(void) const
-	{
-		return m_pkBackData->pkRes->fTouchRadius;
-	}
-
-	inline int GetOBSize(void) const
-	{
-		return m_pkBackData->pkRes->fCollision;
-	}
-
-	inline float GetTurnSpeed(void) const
-	{
-		return m_pkCurData->pkRes->fTurnSpeed;
-	}
-
-	inline	const	UnitTable* GetRes()
-	{
-		return m_pkCurData->pkRes;
-	}
-
-	inline int GetAbilIDCount(void) const
-	{
-		return 4;
-	}
-
-	inline int GetAbilSkillID(int iPos) const
-	{
-		if (iPos < 0 || iPos > 3)
-		{
-			return 0;
-		}
-
-		int iType = GetCurrentTypeID();
-
-		if (iType > 0) {
-
-			const	UnitTable* pkUnitRes = UnitTableMgr::Get()->GetUnitTable(iType);
-
-			if (pkUnitRes) {
-
-				return pkUnitRes->iSkillList[iPos];
-			}
-		}
-
-		return 0;
-
-	}
 
 	inline std::vector<BeSkill*>& GetNormalSkillVec()
 	{
 		return m_apkNormalSkill;
 	}
 
-	int GetDeathMoney(void) const
-	{
-		return m_pkBackData->pkRes->iDeathMoney;
-	}
 
-	int GetDeathExp(void) const
-	{
-		return m_pkBackData->pkRes->iDeathExp;
-	}
 
-	inline float GetModelScale(void) const
-	{
-		return m_pkCurData->pkRes->fModelScale;
-	}
-
-	int		GetDamageModle()
-	{
-		return m_pkCurData->pkRes->iTargetDamage;
-	}
-
-	inline int GetPlayer(void) const
-	{
-		return m_pkBackData->iPlayer;
-	}
-
-	inline int GetOrgPlayer(void) const
-	{
-		return m_pkBackData->iOrgPlayer == -1 ? GetPlayer() : m_pkBackData->iOrgPlayer;
-	}
-
-	inline void SetOrgPlayer(int iPlayerIdx)
-	{
-		m_pkBackData->iOrgPlayer = iPlayerIdx;
-	}
-
-	inline bool GetControl(int iPlayerIdx) const
-	{
-		if (m_pkBackData->iControl & (1 << iPlayerIdx))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	inline int GetControl()
-	{
-		return m_pkBackData->iControl;
-	}
-
-	void SetControlPure(int iControl)
-	{
-		m_pkBackData->iControl = iControl;
-	}
-
-	inline void SetControl(int iPlayerIdx, bool bAddPlayer = true, bool bNeedRecordChange = true)
-	{
-		if (bNeedRecordChange)
-		{
-		}
-		if (!bAddPlayer)
-		{
-			m_pkBackData->iControl = 0;
-		}
-		m_pkBackData->iControl |= (1 << iPlayerIdx);
-	}
-
-	inline void ClrControl(int iPlayerIdx, bool bNeedRecordChange = true)
-	{
-		if (bNeedRecordChange)
-		{
-		}
-		m_pkBackData->iControl &= ~(1 << iPlayerIdx);
-	}
-
-	inline int GetCurExp(void) const
-	{
-		return m_pkCurData->iCurExp;
-	}
-
-	inline int GetLevel(void) const
-	{
-		return m_pkBackData->iLevel;
-	}
 
 	inline const int GetHPLock(void) const
 	{
@@ -273,100 +60,11 @@ public:
 		m_iHPLock = iValue;
 	}
 
-	inline float GetHP(void) const
-	{
-		return m_pkCurData->fHP;
-	}
-
-	inline float GetMP(void) const
-	{
-		return m_pkCurData->fMP;
-	}
-
-	void SetMaxHP(float fMaxHP);
-
-	inline float GetMaxHP(void) const
-	{
-		if (0 == m_pkCurData->fMaxHP)
-		{
-			return 1.0f;
-		}
-
-		return m_pkCurData->fMaxHP;
-	}
-
-	inline float GetHPPercent(void)
-	{
-		if (m_pkCurData->fMaxHP <= 0.0f)
-		{
-			SetMaxHP(1.0f);
-		}
-		return m_pkCurData->fHP / m_pkCurData->fMaxHP;
-	}
-
-	inline void SetRegenHP(float fRegenHP)
-	{
-		if (m_pkCurData->fRegenHP != fRegenHP)
-		{
-			SetShareUnitChangeFlag(BSUDCF_REGENHP);
-		}
-		m_pkCurData->fRegenHP = fRegenHP;
-	}
-
-	inline float GetRegenHP(void) const
-	{
-		if (HasUnitCarryFlag(BUCF_NO_REVERTHPMP))
-		{
-			return 0.0f;
-		}
-		return m_pkCurData->fRegenHP;
-	}
-
-	inline float GetMaxMP(void) const
-	{
-		return m_pkCurData->fMaxMP;
-	}
-
-	void SetMaxMP(float fMaxMP);
-
-	inline void SetRegenMP(float fRegenMP)
-	{
-		if (m_pkCurData->fRegenMP != fRegenMP)
-		{
-			SetShareUnitChangeFlag(BSUDCF_REGENMP);
-		}
-		m_pkCurData->fRegenMP = fRegenMP;
-	}
-
-	inline float GetRegenMP(void) const
-	{
-		if (HasUnitCarryFlag(BUCF_NO_REVERTHPMP))
-		{
-			return 0.0f;
-		}
-		return m_pkCurData->fRegenMP;
-	}
-
-	inline float GetArmor(void) const
-	{
-		return m_pkCurData->fArmor;
-	}
-
-	inline float GetAddArmor(void) const
-	{
-		return m_pkCurData->fAddArmor;
-	}
 
 
-	inline float GetMoveSpeed(void) const
-	{
-		return m_pkCurData->fMoveSpeed;
-	}
 
-	inline float GetBaseMoveSpeed(void) const
-	{
-		return m_pkCurData->fBaseMoveSpeed;
-	}
+
+
 
 	inline bool GetSpeedLimit(void) const
 	{
@@ -379,49 +77,6 @@ public:
 	}
 
 	int GetAttackCD(void) const;
-
-	inline int GetAttackDamagePt(void) const
-	{
-		return m_pkCurData->iAttackDamagePt;
-	}
-
-	inline int GetAttackBackPt(void) const
-	{
-		return m_pkCurData->iAttackBackPt;
-	}
-
-	void SetAttackRange(float fRange)
-	{
-		if (fRange != m_pkCurData->fAttackRange)
-		{
-		}
-		m_pkCurData->fAttackRange = fRange;
-	}
-
-	float GetAttackRange(const BeUnit* pkTarget) const
-	{
-		return m_pkCurData->fAttackRange + pkTarget->GetCollision();
-	}
-
-	inline int GetUnitCarryFlag(void) const
-	{
-		return m_iCarryFlag;
-	}
-
-	inline void SetUnitCarryFlag(int iFlag)
-	{
-		m_iCarryFlag |= iFlag;
-	}
-
-	inline bool HasUnitCarryFlag(int iFlag) const
-	{
-		return (m_iCarryFlag & iFlag) != 0;
-	}
-
-	void ClrUnitCarryFlag(int iFlag)
-	{
-		m_iCarryFlag &= ~iFlag;
-	}
 
 	inline void SetUnitImmunityFlag(int iFlag)
 	{
@@ -976,11 +631,6 @@ public:
 		SetShareUnitChangeFlag(BSUDCF_SCALE);
 	}
 
-	bool HasSkill(void) const
-	{
-		return GetAbilIDCount() > 0 ? true : false;
-	}
-
 	bool HasSkill(int iID) const
 	{
 		return GetSkill(iID) == NULL ? false : true;
@@ -1025,39 +675,6 @@ public:
 	inline bool IsSummomPer(void) const
 	{
 		return HasFlag(BUF_ISSUMMONPER);
-	}
-
-	inline bool IsForbidItem(void) const
-	{
-		return HasUnitCarryFlag(BUCF_ISFORBIDITEM);
-	}
-
-	inline bool CanMove(void) const
-	{
-		return (!HasUnitCarryFlag(BUCF_CANNOTMOVE)
-			&& !HasUnitCarryFlag(BUCF_DIZZY)
-			&& !HasUnitCarryFlag(BUCF_ISJUMPING)
-			&& !HasUnitCarryFlag(BUCF_ISMOVING));
-	}
-
-	inline bool CanSpell(void) const
-	{
-		return (!HasUnitCarryFlag(BUCF_DIZZY)
-			&& !HasUnitCarryFlag(BUCF_ISJUMPING)
-			&& !HasUnitCarryFlag(BUCF_ISMOVING));
-	}
-
-	inline bool CanAttack(void) const
-	{
-		return !(HasUnitCarryFlag(BUCF_CANNOTATTACK)
-			|| HasUnitCarryFlag(BUCF_ISJUMPING)
-			|| HasUnitCarryFlag(BUCF_ISMOVING)
-			);
-	}
-
-	inline bool IsInvincible(void) const
-	{
-		return (HasUnitCarryFlag(BUCF_ISINVINCIBLE) || HasFlag(BUF_ISINVINCIBLE));
 	}
 
 	inline void SetUsedSkillPoint(int iUsedPoint)
@@ -1312,11 +929,6 @@ public:
 		return m_pkCurData->fEvadeRate;
 	}
 
-	const BeUnitData* GetBackData() const
-	{
-		return m_pkBackData;
-	}
-
 	void SetOtherFlag(int iFlag)
 	{
 		if (!HasOtherFlag(iFlag))
@@ -1426,26 +1038,6 @@ public:
 		return m_iWalkLineIdx;
 	}
 
-	void SetShareUnitChangeFlag(int iFlag)
-	{
-		m_iShareUnitDataChangeFlag |= iFlag;
-	}
-
-	bool HasShareUnitChangeFlag(int iFlag)
-	{
-		return (m_iShareUnitDataChangeFlag & iFlag) != 0;
-	}
-
-	void ClrShareUnitChangeFlag(int iFlag)
-	{
-		m_iShareUnitDataChangeFlag &= ~iFlag;
-	}
-
-	int GetShareUnitChangeFlag()
-	{
-		return m_iShareUnitDataChangeFlag;
-	}
-
 	std::map<int, int> GetCommonCD()
 	{
 		return m_akCommonCD;
@@ -1499,7 +1091,7 @@ public:
 	void    AddControlSummonUnitID(int iUnitID);
 
 	void			AppyUnitSkill(void);
-
+	bool IsInvincible(void) const;
 	void			OnDelete(void);
 
 	void			SetUnitReliveTime(unsigned int uiUnitReliveTime);
@@ -1565,7 +1157,7 @@ public:
 	int				GetItemSkillTypeID(int iItemID);
 	int				GetItemUseSkill(int iItemTypeID);
 
-	void			SetMP(float fMP, bool bChange = true);
+	
 	bool			IsForbidSkill(BeSkill* pkSkill) const;
 
 	BeLearnSkillData* GetLearnSkillData(int iPos);
@@ -1596,9 +1188,6 @@ public:
 	BeBuffer* GetBufferByInnerID(int iID);
 
 	void			RemoveBufferAttr(BeNormalAttType eType);
-
-	const SkillTable* GetResSkill(int iType) const;
-
 
 	template<class T>
 	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
@@ -1639,7 +1228,6 @@ public:
 	void			OnPropertyUpdate(int iLevel);
 	void            SetCurExp(int iCurExp);
 	void			SetLevel(int iLevel, bool bNeedRecordChange = true);
-	void			AddLevel(int iAddLevel);
 	void			ResetSkill(void);
 
 	//	void			PlayLevelupEffect();
@@ -1764,16 +1352,13 @@ protected:
 	int				ParseItemAndCompose(int& iI167UseCount, int& iSellProtectTime, int& iCanPos, std::vector<int>& akChildItemOrgUnitID, int iAcceptItemID = 0, int iAccetItemOwnPlayer = 0);
 
 protected:
-	BeUnitData* m_pkBackData;
-	BeUnitData* m_pkCurData;
-
 	BeCommander									m_kCommander;
-	std::vector<BeUnitData*>					m_akUnitData;
+
 	bool										m_bChangeSkill;
 
 	std::vector<BeSkill*>						m_apkNormalSkill;
 	int							m_iOtherFlag;
-	int							m_iCarryFlag;
+
 	int							m_iImmunityFlag;
 	std::vector<BeCarry*>		m_apkCarry;
 	BeItem* m_apkItem[6];
@@ -1893,7 +1478,7 @@ private:
 	bool					m_abInPlayerVision[20];
 	bool					m_abEverInPlayerVision[20];
 	int						m_eCamp;
-	int						m_iShareUnitDataChangeFlag;
+	
 	std::vector<BeBuffer*>	m_apkBuffer;
 	float					m_fTotalShield;
 	bool					m_bVisionForCamp[iPureCampNum];
@@ -2074,10 +1659,7 @@ inline int			BeUnit::GetOrgAttackCD()
 {
 	return m_pkCurData->iOrgAttackCD;
 }
-inline int			BeUnit::GetVisionRadius(void) const
-{
-	return m_pkCurData->iVisionRaius;
-}
+
 inline void			BeUnit::SetIsInPlayerVision(int iSeat)
 {
 	if (iSeat < 0 || iSeat >= 20)
@@ -2347,4 +1929,9 @@ inline	void						BeUnit::AddSkillUnit(int iUnitID)
 inline	std::vector<int>& BeUnit::GetSkillUnit()
 {
 	return	m_kVecSkillUnit;
+}
+
+inline bool BeUnit::IsInvincible(void) const
+{
+	return (HasUnitCarryFlag(BUCF_ISINVINCIBLE) || HasFlag(BUF_ISINVINCIBLE));
 }

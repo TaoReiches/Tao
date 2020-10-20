@@ -1687,42 +1687,6 @@ bool BeUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSki
 	return false;
 }
 
-void BeUnit::AddLevel(int iAddLevel)
-{
-	if (iAddLevel <= 0)
-	{
-		return;
-	}
-	int iPreLevel = m_pkBackData->iLevel;
-	int iMaxLevel = 100;
-
-	if (iAddLevel + m_pkBackData->iLevel > iMaxLevel)
-	{
-		iAddLevel = iMaxLevel - m_pkBackData->iLevel;
-	}
-	m_pkBackData->iLevel += iAddLevel;
-
-	TePtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_iIntData, m_pkBackData->iLevel);
-
-	gTrgMgr.FireTrigger(BTE_UNIT_LEVELUP, kParam);
-
-	OnPropertyUpdate(m_pkBackData->iLevel);
-
-	if (iPreLevel != m_pkBackData->iLevel)
-	{
-		SetShareUnitChangeFlag(BSUDCF_UNITLEVEL);
-
-		//SetTabInfoFlag(BTCF_LEVEL);
-	}
-
-	if (IsHero())
-	{
-		SetShareUnitChangeFlag(BSUDCF_HEROLVLUP);
-	}
-}
-
 void BeUnit::ResetSkill(void)
 {
 	for (int iPos = 0; iPos < iMaxHeroSkillNum; iPos++)
@@ -3371,44 +3335,7 @@ void BeUnit::CopyAttribute(BeUnit* pkUnit)
 	SetUsedSkillPoint(pkUnit->GetUsedSkillPoint());
 }
 
-void BeUnit::SetHP(float fHP, bool bChange)
-{
-	float fLastHP = m_pkCurData->fHP;
 
-	if (bChange)
-	{
-		float	fSkillAddHp = 0.0f;
-		float	fPerSkillAdd = m_pkCurData->fTreatment;
-		if (fHP > fLastHP && fPerSkillAdd != 0.0f)
-		{
-			float	fDeltaHp = fHP - fLastHP;
-			fSkillAddHp = fDeltaHp * fPerSkillAdd;
-
-			fHP += fSkillAddHp;
-		}
-	}
-	if (fHP > m_pkCurData->fMaxHP)
-	{
-		if (m_pkCurData->fMaxHP <= 0.0f)
-		{
-			SetMaxHP(fHP);
-		}
-		m_pkCurData->fHP = m_pkCurData->fMaxHP;
-	}
-	else if (fHP <= 0.0f)
-	{
-		m_pkCurData->fHP = 0.0f;
-	}
-	else
-	{
-		m_pkCurData->fHP = fHP;
-	}
-
-	if (bChange && fLastHP != m_pkCurData->fHP)
-	{
-		SetShareUnitChangeFlag(BSUDCF_CURHP);
-	}
-}
 
 bool BeUnit::IsDamageTime(int iDeltaTime)
 {
@@ -3784,15 +3711,6 @@ void	BeUnit::UpdateItemPassiveSkill()
 	//UpdateAttribute(true);
 }
 
-void BeUnit::SetCurrentTypeID(int iTypeID)
-{
-	if (m_pkCurData->iTypeID != iTypeID)
-	{
-		SetShareUnitChangeFlag(BSUDCF_TYPEID);
-	}
-	m_pkCurData->iTypeID = iTypeID;
-}
-
 void BeUnit::SetFace(float fFace, bool bChange/* = true*/)
 {
 	AdjustRadian(fFace);
@@ -3808,15 +3726,6 @@ void BeUnit::SetPreTurnFace(float fFace)
 {
 	AdjustRadian(fFace);
 	m_pkCurData->fFace = fFace;
-}
-
-void BeUnit::SetMaxHP(float fMaxHP)
-{
-	if (fMaxHP != m_pkCurData->fMaxHP)
-	{
-		SetShareUnitChangeFlag(BSUDCF_MAXHP);
-	}
-	m_pkCurData->fMaxHP = fMaxHP;
 }
 
 void BeUnit::SetCurAttackCD(int iCurAttackCD)
