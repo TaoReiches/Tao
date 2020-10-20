@@ -57,3 +57,9 @@ extern TeMemoryPool<BeItem>                     mpItem;
 
 class BeEquip;
 extern TeMemoryPool<BeEquip>                    mpEquip;
+
+class BeEffectData;
+extern TeMemoryPool<BeEffectData>               mpEffectData;
+
+class BeEffect;
+extern TeMemoryPool<BeEffect>                   mpEffect;

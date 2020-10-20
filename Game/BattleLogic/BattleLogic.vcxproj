@@ -148,6 +148,7 @@
     <ClInclude Include="TW_Carry.h" />
     <ClInclude Include="TW_CarryDefine.h" />
     <ClInclude Include="TW_CarrySkill.h" />
+    <ClInclude Include="TW_ChainEffectData.h" />
     <ClInclude Include="TW_ChangeFlagObject.h" />
     <ClInclude Include="TW_Command.h" />
     <ClInclude Include="TW_CommandAttack.h" />
@@ -158,6 +159,8 @@
     <ClInclude Include="TW_CommandSpell.h" />
     <ClInclude Include="TW_CommandStop.h" />
     <ClInclude Include="TW_Effect.h" />
+    <ClInclude Include="TW_EffectBumpCount.h" />
+    <ClInclude Include="TW_EffectData.h" />
     <ClInclude Include="TW_EffectDefine.h" />
     <ClInclude Include="TW_EffectMgr.h" />
     <ClInclude Include="TW_Entity.h" />
@@ -165,6 +168,7 @@
     <ClInclude Include="TW_CommandExe.h" />
     <ClInclude Include="TW_Equip.h" />
     <ClInclude Include="TW_FlagObject.h" />
+    <ClInclude Include="TW_FontEffectData.h" />
     <ClInclude Include="TW_Formula.h" />
     <ClInclude Include="TW_FormulaInfo.h" />
     <ClInclude Include="TW_Functions.h" />
@@ -183,6 +187,7 @@
     <ClInclude Include="TW_Skill.h" />
     <ClInclude Include="TW_SkillDefine.h" />
     <ClInclude Include="TW_SortStruct.h" />
+    <ClInclude Include="TW_StickEffectData.h" />
     <ClInclude Include="TW_Task.h" />
     <ClInclude Include="TW_TaskActionAttack.h" />
     <ClInclude Include="TW_TaskActionDeath.h" />

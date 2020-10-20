@@ -13,6 +13,7 @@
 #include "TW_MapItemMgr.h"
 #include "TW_MapItem.h"
 #include "TW_EffectMgr.h"
+#include "TW_MemoryObject.h"
 
 TePos2  GetPointOnBezier(TePos2* pkPos, float fValueT)
 {
@@ -40,10 +41,8 @@ TePos2  GetPointOnBezier(TePos2* pkPos, float fValueT)
 
 BeEffect::BeEffect(int iID)
 {
-	m_pkAttr = NULL;
-
+	m_pkAttr.reset(mpAttackingAttr.alloc());
 	m_iRace = 0;
-
 	m_kEffectData.uiRemoveTime = -1;
 	m_kEffectData.fMoveSpeed = 0.0f;
 	m_kEffectData.eTargetType = BET_POSITION;
@@ -53,41 +52,30 @@ BeEffect::BeEffect(int iID)
 	m_bPureShow = false;
 	m_fOrgScale = 1.0f;
 	m_bChangeScale = false;
-
-	m_fPreEarthHeight = 0.0f;
-	m_fAllEarthHeight = 0.0f;
 	m_eCurveType = BECT_CURVELEFT;
-
 	m_bHasCulCurve = false;
 	m_iCurveDividNum = 2;
-
 	m_fPrePosX = 0.0f;
 	m_fPrePosY = 0.0f;
 	m_fPrePosZ = 0.0f;
-
 	m_fCycleAngle = 0.0f;
 	m_bTurning = true;
 	m_bRotate = false;
-	m_bDeasil = false;
-	m_fRad = 0.0f;
 	m_fOwnerFace = 0.0f;
 	m_fAllDistance = 0.0f;
-
 	m_bNewEffect = true;
 	m_birthTime = 0;
 	m_bSearchTargetSelf = false;
 	m_iMaxTargetNum = 99;
 	m_bNoDelayDelete = false;
-
 	m_eAttachNode = BAP_ChestRef;
-
 	m_iModelID = 0;
 }
 
 BeEffect::~BeEffect(void)
 {
-	//BeAttackingAttr::DEL(m_pkAttr);
-	m_pkAttr = NULL;
+	mpAttackingAttr.free(m_pkAttr.get());
+	m_pkAttr.release();
 
 	gMain.DelEntityPointer(GIT_EFFECT, m_iID);
 }
@@ -166,7 +154,7 @@ void BeEffect::Update(int iDeltaTime)
 	}
 }
 
-void BeEffect::SetModelFile(int iModelID, BeAttachPos eAttachPos /*= BAP_ChestRef*/)
+void BeEffect::SetModelFile(int iModelID, BeAttachPos eAttachPos)
 {
 	m_eAttachNode = eAttachPos;
 	m_iModelID = iModelID;
@@ -212,7 +200,6 @@ void BeEffect::OnRemove(void)
 			kParam.SetParam(BTP_pkEffect, this);
 
 			gTrgMgr.FireTrigger(BTE_EFFECT_AFFECT, kParam);
-			/////////////////////////////////////////////////////////////////////
 		}
 	}
 	else
@@ -281,9 +268,6 @@ void BeEffect::SetOwnerID(int iOwnerID)
 {
 	SetChangeFlag(BECF_OWNERID);
 	m_kEffectData.iOwnerID = iOwnerID;
-
-	SetHuanZhuangUnit(iOwnerID);
-
 	if (!m_kEffectData.iSourceID)
 	{
 		m_kEffectData.iSourceID = iOwnerID;
@@ -311,13 +295,10 @@ void  BeEffect::SetEffectPosition(int iTargetID, float fOrgPosX, float fOrgPosY,
 	m_kEffectData.eTargetType = BET_UNIT;
 	m_kEffectData.fPosX = fOrgPosX;
 	m_kEffectData.fPosY = fOrgPosY;
-
 	m_kEffectData.fOrgPosX = fOrgPosX;
 	m_kEffectData.fOrgPosY = fOrgPosY;
-
 	m_kEffectData.fTarPosX = fTarPosX;
 	m_kEffectData.fTarPosY = fTarPosY;
-
 	m_kEffectData.iTargetID = iTargetID;
 	BeUnit* pkTarget = gUnitMgr.GetUnitByID(iTargetID, true);
 	if (pkTarget)
@@ -375,13 +356,13 @@ void* BeEffect::UpdateTargetPos(void)
 	{
 		if (GetTargetID() == 0)
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		BeUnit* pkTarget = gUnitMgr.GetUnitByID(GetTargetID());
 		if (!pkTarget)
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		if (HasFlag(BEF_REMOVE_WHENUNITDEAD) && pkTarget->IsDead())
@@ -423,13 +404,11 @@ void* BeEffect::UpdateTargetPos(void)
 		{
 			m_kEffectData.iSkillTypeID = 0;
 			m_kEffectData.iTargetID = 0;
-			pkTarget = NULL;
+			pkTarget = nullptr;
 
-			{
-				OnRemove();
-				SetFlag(BEF_REMOVE);
-				return pkTarget;
-			}
+			OnRemove();
+			SetFlag(BEF_REMOVE);
+			return pkTarget;
 		}
 		else if (pkTarget->HasUnitCarryFlag(BUCF_ISPHYSICIMMUNITY) && !HasFlag(BEF_IGNORE_PHYSIC_IMMUNE))
 		{
@@ -482,7 +461,7 @@ void* BeEffect::UpdateTargetPos(void)
 		break;
 	}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void BeEffect::UpdateAttach(int iDeltaTime)
@@ -586,27 +565,6 @@ void BeEffect::UpdateLineFollowEarth(int iDeltaTime)
 		m_kEffectData.fPosX = m_kEffectData.fTarPosX;
 		m_kEffectData.fPosY = m_kEffectData.fTarPosY;
 	}
-
-	if (m_fNeedMoveDistance > 16.0f)
-	{
-		float fEarthDec = 0.0f;
-		float fNowEarthHeight = 0.0f;
-		if (m_fPreEarthHeight == 0.0f)
-		{
-			m_fPreEarthHeight = fNowEarthHeight;
-		}
-		else if (m_fPreEarthHeight != fNowEarthHeight)
-		{
-			fEarthDec = fNowEarthHeight - m_fPreEarthHeight;
-			m_fPreEarthHeight = fNowEarthHeight;
-		}
-		else
-		{
-			fEarthDec = 0.0f;
-		}
-
-		m_fAllEarthHeight += fEarthDec;
-	}
 }
 
 void BeEffect::UpdateLineTrace(int iDeltaTime)
@@ -636,7 +594,6 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -664,8 +621,8 @@ void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
 	void* pkTarget = UpdateTargetPos();
 
 	int spendTime = gTime - m_kEffectData.dwCreateTime;
-	int needDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fTarPosX, m_kEffectData.fTarPosY);
-	int needTime = needDis * 1000.0f / GetMoveSpeed();
+	float needDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fTarPosX, m_kEffectData.fTarPosY);
+	float needTime = needDis * 1000.0f / GetMoveSpeed();
 	float fSpendTime = (float)spendTime / needTime;
 	float t = 1.0f;//std::min(1, fSpendTime);
 	if (t > fSpendTime)
@@ -673,8 +630,8 @@ void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
 		t = fSpendTime;
 	}
 
-	float sinH = sin(m_kEffectData.fFace - D3DX_PI * 0.5);
-	float cosH = cos(m_kEffectData.fFace - D3DX_PI * 0.5);
+	float sinH = sin(m_kEffectData.fFace - D3DX_PI * 0.5f);
+	float cosH = cos(m_kEffectData.fFace - D3DX_PI * 0.5f);
 	float fOrgPosX, fOrgPosY, fTarPosX, fTarPosY, fResDis, fCurDis, fParaPer = 0.0f;
 	fOrgPosX = m_kEffectData.fOrgPosX;
 	fOrgPosY = m_kEffectData.fOrgPosY;
@@ -699,10 +656,10 @@ void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
 	fCurDis = GetDistance(fOrgPosX, fOrgPosY, fTarPosX, fTarPosY);
 	fParaPer = float(fCurDis / fResDis);
 
-	int offset1X = rkData.GetDataValue(VALUE_D) * GetMissileArc() * fParaPer;
-	int	offset1Y = rkData.GetDataValue(VALUE_E);
-	int	offset2X = rkData.GetDataValue(VALUE_F) * GetMissileArc() * fParaPer;
-	int	offset2Y = rkData.GetDataValue(VALUE_G);
+	float offset1X = rkData.GetDataValue(VALUE_D) * GetMissileArc() * fParaPer;
+	float offset1Y = rkData.GetDataValue(VALUE_E);
+	float offset2X = rkData.GetDataValue(VALUE_F) * GetMissileArc() * fParaPer;
+	float offset2Y = rkData.GetDataValue(VALUE_G);
 
 	float p2x = fOrgPosX + cosH * offset1X;
 	float p2y = fOrgPosY + sinH * offset1X;
@@ -728,7 +685,6 @@ void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
 					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
 
 					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-					/////////////////////////////////////////////////////////////////////
 				}
 			}
 		}
@@ -748,7 +704,7 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = NULL;
+	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
@@ -874,7 +830,7 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = NULL;
+	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
@@ -1013,7 +969,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = NULL;
+	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
@@ -1026,7 +982,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 		int iDynaPropFlag = 0;
 		pkAttacker->TranslateSkillTargetType(iSkillTargetFlag, iStaticProcFlag, iDynaPropFlag);
 
-		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, BCT_SPELL, m_kEffectData.iSkillTypeID);
+		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, BeCommandType::BCT_SPELL, m_kEffectData.iSkillTypeID);
 	}
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
@@ -1137,7 +1093,7 @@ void BeEffect::ParseAttack(void)
 				if (pkAttacker && !pkAttacker->IsDead())
 				{
 					UnitGroup kGroup;
-					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, BCT_ATTACK, 0);
+					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, BeCommandType::BCT_ATTACK, 0);
 					if (kGroup.empty())
 					{
 						bNeedRemove = true;
@@ -1261,15 +1217,6 @@ void BeEffect::SetOrgScale(float fOrgScale, bool bChangeScale)
 {
 	m_fOrgScale = fOrgScale;
 	m_bChangeScale = bChangeScale;
-}
-
-void BeEffect::SetHuanZhuangUnit(int iUnit)
-{
-}
-
-int BeEffect::GetHuanZhuangUnit(void)
-{
-	return 0;
 }
 
 void BeEffect::GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TePos2>& akCurvePos, int iPointNum /*= 100*/, BeEffectCurveType eCurveType /*= BECT_CURVELEFT*/, BeEffectCurveStyle eCurveStyle /*= BECS_LEFTBIG*/)
@@ -1453,9 +1400,6 @@ void BeEffect::SetTurning(bool bTurn)
 void BeEffect::SetRotateOption(float fRad, bool bDeasil)
 {
 	m_bRotate = true;
-	m_bDeasil = bDeasil;
-
-	m_fRad = fRad;
 }
 
 void BeEffect::ParseCurveTrace(void)
@@ -1602,24 +1546,7 @@ void BeEffect::ParseCurveTrace(void)
 
 float BeEffect::GetEffecttrueFace(int iDY, int iDX, int iDeltaTime)
 {
-	float fFace = 0.0f;
-	if (m_bRotate)
-	{
-		if (m_bDeasil)
-		{
-			fFace = GetEffectFace() + m_fRad * iDeltaTime;
-		}
-		else
-		{
-			fFace = GetEffectFace() - m_fRad * iDeltaTime;
-		}
-	}
-	else
-	{
-		fFace = atan2f(iDY, iDX);
-	}
-
-	return fFace;
+	return atan2f(iDY, iDX);
 }
 
 void BeEffect::SetNewEffect(bool bNew)
@@ -1685,29 +1612,4 @@ bool BeEffect::bBumCountOk(int iUnitId, int iMaxCount)
 	}
 
 	return true;
-}
-
-void BeEffect::SetBirthTime(unsigned int iTime)
-{
-	m_birthTime = iTime;
-}
-
-unsigned int BeEffect::GetBirthTime()
-{
-	return m_birthTime;
-}
-
-void BeEffect::SetSearchTarget(bool bSearch)
-{
-	m_bSearchTargetSelf = bSearch;
-}
-
-void BeEffect::SetNoDelayDelete(bool bDelay)
-{
-	m_bNoDelayDelete = bDelay;
-}
-
-int BeEffect::GetModelFile()
-{
-	return m_iModelID;
 }

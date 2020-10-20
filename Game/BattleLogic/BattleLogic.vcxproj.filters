@@ -234,6 +234,21 @@
     <ClInclude Include="TW_Equip.h">
       <Filter>LogicCarry\Item</Filter>
     </ClInclude>
+    <ClInclude Include="TW_EffectData.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_ChainEffectData.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_StickEffectData.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_FontEffectData.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_EffectBumpCount.h">
+      <Filter>LogicEntity\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">

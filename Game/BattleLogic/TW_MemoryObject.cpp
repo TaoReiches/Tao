@@ -19,6 +19,8 @@
 #include "TW_Skill.h"
 #include "TW_Item.h"
 #include "TW_Equip.h"
+#include "TW_EffectData.h"
+#include "TW_Effect.h"
 
 //#include "TW_Unit.h"
 
@@ -40,4 +42,6 @@ TeMemoryPool<BeBuffer>                   mpBuffer(256);
 TeMemoryPool<BeSkill>                    mpSkill(256);
 TeMemoryPool<BeItem>                     mpItem(256);
 TeMemoryPool<BeEquip>                    mpEquip(256);
+TeMemoryPool<BeEffectData>               mpEffectData(256);
+TeMemoryPool<BeEffect>                   mpEffect(256);
 //TeMemoryPool<BeUnit>         mpUnit;

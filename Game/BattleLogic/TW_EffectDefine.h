@@ -5,12 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_MemoryPool.h"
 #include "TW_Command.h"
-
-#define NORMAL_RAD_SPEED	0.05714f
-#define SLOW_RAD_SPEED		0.02248f
-#define FAST_RAD_SPEED		0.10148f
 
 enum BeEffectFlag
 {
@@ -41,10 +36,10 @@ enum BeEffectFlag
 
 enum BeEffectTargetType
 {
-	BET_POSITION = BCTT_MAP,
-	BET_UNIT = BCTT_UNIT,
-	BET_ITEM = BCTT_MAPITEM,
-	BET_EFFECT = BCTT_EFFECT,
+	BET_POSITION = BeCommandTargetType::BCTT_MAP,
+	BET_UNIT = BeCommandTargetType::BCTT_UNIT,
+	BET_ITEM = BeCommandTargetType::BCTT_MAPITEM,
+	BET_EFFECT = BeCommandTargetType::BCTT_EFFECT,
 };
 
 enum BeEffectColorType
@@ -61,93 +56,28 @@ enum BeEffectColorType
 	FONT_COLOR_GRAY_HIGH = 0xFFC0C0C0,
 };
 
-struct BeEffectData
+enum BeEffectCurveStyle
 {
-	BeEffectData(void)
-	{
-		iProperty = 0;
-		iOwnerID = 0;
-		iPlayer = 0;
-		uiRemoveTime = -1;
-		eTargetType = BET_POSITION;
-		iSourceID = 0;
-		iTargetID = 0;
-		fOrgPosX = 0.0f;
-		fOrgPosY = 0.0f;
-		fOrgPosZ = 0.0f;
-		fTarPosX = 0.0f;
-		fTarPosY = 0.0f;
-		fTarPosZ = 0.0f;
+	BECS_LEFTBIG = 0,
+	BECS_RIGHTBIG,
+	BECS_MIDBIG,
+	BECS_WAVE,
+};
 
-		fPosX = 0.0f;
-		fPosY = 0.0f;
-		fPosZ = 0.0f;
+enum BeEffectCurveType
+{
+	BECT_CURVELEFT = 0,
+	BECT_CURVERIGHT,
+	BECT_CURVERMID,
+	BECT_CURVESLOWLEFT,
+	BECT_CURVESLOWRIGHT,
+};
 
-		fMoveSpeed = 0.0f;
-		fMissileArc = 0.0f;
-
-		fFace = 0.0f;
-
-		iSkillTypeID = 0;
-		iSkillLevel = 0;
-
-		fDamageScope = 0.0f;
-		fCollisionScope = 0.0f;
-		iTargetFlag = 0;
-
-		iBumpCount = 0;
-
-		iData = 0;
-		fData = 0.0f;
-
-		iShowPlayer = -1;
-		iShowGroup = -1;
-		bMustCreate = false;
-
-		dwCreateTime = 0;
-		fVisionRadius = 0.0f;
-	}
-
-	int			iOwnerID;
-	int			iPlayer;
-	int			iProperty;
-
-	unsigned int		uiRemoveTime;
-
-	BeEffectTargetType eTargetType;
-	int			iSourceID;
-	int			iTargetID;
-
-	float       fOrgPosX;
-	float       fOrgPosY;
-	float       fOrgPosZ;
-
-	float		fTarPosX;
-	float		fTarPosY;
-	float		fTarPosZ;
-
-	float		fPosX;
-	float		fPosY;
-	float		fPosZ;
-
-	float		fMoveSpeed;
-	int			iSkillTypeID;
-	int			iSkillLevel;
-
-	float		fDamageScope;
-	float       fCollisionScope;
-	int			iTargetFlag;
-
-	int			iBumpCount;
-
-	int			iData;
-	float		fData;
-	float       fMissileArc;
-	float		fFace;
-	float		fVisionRadius;
-
-	int			iShowPlayer;
-	int			iShowGroup;
-	bool		bMustCreate;
-	unsigned int		dwCreateTime;
+enum BeEffeAttachType
+{
+	BATTAT_NORMAL = 0,
+	BATTAT_WING,
+	BATTAT_L_WEAPON,
+	BATTAT_R_WEAPON,
+	BATTAT_RIDER,
 };

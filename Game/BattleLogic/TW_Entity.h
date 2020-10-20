@@ -28,20 +28,21 @@ class BeEntityMgr;
 class BeEntity : public BeFlagObj, public BeMainPtr
 {
 public:
+	BeEntity() {};
 	BeEntity(int iID );
 	virtual ~BeEntity(void);
 
-	inline int GetID(void) const
+	int GetID(void) const
 	{
 		return m_iID;
 	}
 
-	inline void SetTypeID(int iTypeID)
+	void SetTypeID(int iTypeID)
 	{
 		m_iTypeID = iTypeID;
 	}
 
-	inline int GetTypeID(void) const
+	int GetTypeID(void) const
 	{
 		return m_iTypeID;
 	}

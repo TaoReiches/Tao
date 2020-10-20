@@ -175,10 +175,6 @@ public:
     inline void SetBuyTime(int iTime)
     {
         m_kData.iBuyTime = iTime;
-        if (iTime == 1)
-        {
-            m_kData.bDeadBuyIn = false;
-        }
     }
 
     inline int GetBuyTime(void)
@@ -226,50 +222,6 @@ public:
         return m_pkRes;
     }
 
-    inline void SetFCampData(int iFCamp)
-    {
-        m_kData.iFCampData = iFCamp;
-    }
-
-    inline int GetFCampData(void)
-    {
-        return m_kData.iFCampData;
-    }
-
-    inline void SetAscriptioneTime(unsigned int uiNowTime)
-    {
-        m_kData.uiAscriptionTime = uiNowTime;
-    }
-
-    inline bool GetAscriptioned(unsigned int uiNowTime)
-    {
-        if (m_kData.uiAscriptionTime == 0 || int(uiNowTime - m_kData.uiAscriptionTime) >= 30 * 1000)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    inline void SetRSGroupIndex(int iIndex)
-    {
-        m_kData.iRSGroupIndex = iIndex;
-    }
-
-    inline int GetRSGroupIndex()
-    {
-        return m_kData.iRSGroupIndex;
-    }
-
-    inline void SetDropSkillTypeID(int iTypeID)
-    {
-        m_kData.iDropSkillTypeID = iTypeID;
-    }
-
-    inline int GetDropSkillTypeID()
-    {
-        return m_kData.iDropSkillTypeID;
-    }
-
     void	SetLiveTime(int iTime)
     {
         m_iLiveTime = iTime;
@@ -292,23 +244,6 @@ public:
     {
         return m_iGuanQiaID;
     }
-    void	SetShowGroup(int iGroup)
-    {
-        m_kData.iShowGroup = iGroup;
-    }
-    int	    GetShowGroup()
-    {
-        return m_kData.iShowGroup;
-    }
-    void	SetShowPlayer(int iPlayer)
-    {
-        m_kData.iShowPlayer = iPlayer;
-    }
-    int	    GetShowPlayer()
-    {
-        return m_kData.iShowPlayer;
-    }
-
     bool Initialize(int iTypeID);
     void Update(int iDeltaTime);
 
