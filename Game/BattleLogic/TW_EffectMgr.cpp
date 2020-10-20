@@ -8,6 +8,7 @@
 #include <TW_TriggerMgr.h>
 #include "TW_TriggerEvent.h"
 #include "TW_Main.h"
+#include "TW_MemoryObject.h"
 
 BeEffectMgr::BeEffectMgr(void)
 {
@@ -31,9 +32,9 @@ void BeEffectMgr::Update(int iDeltaTime)
 {
 	BeEntityMgr::Update(iDeltaTime);
 
-	for (std::unordered_map<int, BeEffect*>::iterator itr = m_kID2Effect.begin(); itr != m_kID2Effect.end();)
+	for (auto itr = m_kID2Effect.begin(); itr != m_kID2Effect.end();)
 	{
-		BeEffect* pEffect = itr->second;
+		std::shared_ptr<BeEffect>& pEffect = itr->second;
 		if (!pEffect)
 		{
 			++itr;
@@ -47,7 +48,7 @@ void BeEffectMgr::Update(int iDeltaTime)
 		if (pEffect->HasFlag(BEF_REMOVE) && !pEffect->IsNewEffect())
 		{
 			TePtParam kParam;
-			kParam.SetParam(BTP_pkEffect, pEffect);
+			kParam.SetParam(BTP_pkEffect, pEffect.get());
 
 			gTrgMgr.FireTrigger(BTE_EFFECT_DEL, kParam);
 
@@ -64,9 +65,9 @@ void BeEffectMgr::Update(int iDeltaTime)
 		}
 	}
 
-	for (std::map<int, BeEffect*>::iterator itr = m_kID2PureEffect.begin(); itr != m_kID2PureEffect.end();)
+	for (auto itr = m_kID2PureEffect.begin(); itr != m_kID2PureEffect.end();)
 	{
-		BeEffect* pEffect = itr->second;
+		std::shared_ptr<BeEffect>& pEffect = itr->second;
 		if (!pEffect)
 		{
 			++itr;
@@ -99,14 +100,14 @@ void BeEffectMgr::Finialize(void)
 
 void BeEffectMgr::Clear()
 {
-	for (std::unordered_map<int, BeEffect*>::iterator itr = m_kID2Effect.begin(); itr != m_kID2Effect.end(); ++itr)
+	for (auto itr = m_kID2Effect.begin(); itr != m_kID2Effect.end(); ++itr)
 	{
-		BeEffect* pkEffect = itr->second;
+		auto& pkEffect = itr->second;
 		SafeDeleteEffect(pkEffect);
 	}
-	for (std::map<int, BeEffect*>::iterator itr = m_kID2PureEffect.begin(); itr != m_kID2PureEffect.end(); ++itr)
+	for (auto itr = m_kID2PureEffect.begin(); itr != m_kID2PureEffect.end(); ++itr)
 	{
-		BeEffect* pkEffect = itr->second;
+		auto& pkEffect = itr->second;
 		SafeDeleteEffect(pkEffect);
 	}
 
@@ -118,33 +119,33 @@ void BeEffectMgr::Clear()
 	m_kID2PureEffect.clear();
 }
 
-BeEffect* BeEffectMgr::NewEffect(int iID)
+std::shared_ptr<BeEffect> BeEffectMgr::NewEffect(int iID)
 {
-	BeEffect* pkEffect = BeEffect::NEW(iID);
+	auto pkEffect = std::shared_ptr<BeEffect>(mpEffect.alloc(iID));
 	pkEffect->AttachMain(pkAttachMain);
 	pkEffect->SetCreateTime(gTime);
 	return pkEffect;
 }
 
-void BeEffectMgr::SafeDeleteEffect(BeEffect*& pkEffect)
+void BeEffectMgr::SafeDeleteEffect(std::shared_ptr<BeEffect>& pkEffect)
 {
-		if (pkEffect->GetModelFile() > 0)
-		{
-			m_aiPureDelEffect.push_back(pkEffect->GetID());
-		}
+	if (pkEffect->GetModelFile() > 0)
+	{
+		m_aiPureDelEffect.push_back(pkEffect->GetID());
+	}
 
-	BeEffect::DEL(pkEffect);
-	pkEffect = NULL;
+	mpEffect.free(pkEffect.get());
+	pkEffect.reset();
 }
-BeEffect* BeEffectMgr::AddEffect(BeEffectRace iTypeID)
+std::shared_ptr<BeEffect> BeEffectMgr::AddEffect(BeEffectRace iTypeID)
 {
 	int iID = gMain.GenerateID(GIT_EFFECT);
-	BeEffect* pkEffect = NewEffect(iID);
+	auto pkEffect = NewEffect(iID);
 	if (pkEffect->Initialize(iTypeID))
 	{
 		m_kID2Effect[iID] = pkEffect;
 
-		gMain.AddEntityPointer(GIT_EFFECT, iID, pkEffect);
+		gMain.AddEntityPointer(GIT_EFFECT, iID, pkEffect.get());
 
 		return pkEffect;
 	}
@@ -157,11 +158,11 @@ BeEffect* BeEffectMgr::AddEffect(BeEffectRace iTypeID)
 
 void BeEffectMgr::DelEffect(int iID)
 {
-	std::unordered_map<int, BeEffect*>::iterator itr = m_kID2Effect.find(iID);
+	auto itr = m_kID2Effect.find(iID);
 	if (itr != m_kID2Effect.end())
 	{
-		BeEffect* pkEffect = itr->second;
-		if (pkEffect)
+		auto pkEffect = itr->second;
+		if (pkEffect.get())
 		{
 			PushNeedRemoveEffect(iID);
 			pkEffect->OnRemove();
@@ -169,16 +170,14 @@ void BeEffectMgr::DelEffect(int iID)
 	}
 }
 
-BeEffect* BeEffectMgr::GetEffectByID(int iID)
+std::shared_ptr<BeEffect> BeEffectMgr::GetEffectByID(int iID)
 {
 	if (iID == 0)
 	{
 		return NULL;
 	}
 
-	return (BeEffect*)(gMain.GetEntityPointer(GIT_EFFECT, iID));
-
-	std::unordered_map<int, BeEffect*>::iterator itr = m_kID2Effect.find(iID);
+	auto itr = m_kID2Effect.find(iID);
 	if (itr != m_kID2Effect.end())
 	{
 		return itr->second;
@@ -186,14 +185,14 @@ BeEffect* BeEffectMgr::GetEffectByID(int iID)
 	return NULL;
 }
 
-std::unordered_map<int, BeEffect*>& BeEffectMgr::GetID2Effect()
+std::unordered_map<int, std::shared_ptr<BeEffect>>& BeEffectMgr::GetID2Effect()
 {
 	return m_kID2Effect;
 }
 
-BeEffect* BeEffectMgr::GetClientEffectByID(int iEffectID)
+std::shared_ptr<BeEffect> BeEffectMgr::GetClientEffectByID(int iEffectID)
 {
-	std::map<int, BeEffect*>::iterator itr = m_kID2PureEffect.find(iEffectID);
+	auto itr = m_kID2PureEffect.find(iEffectID);
 	if (itr != m_kID2PureEffect.end())
 	{
 		return itr->second;
@@ -203,11 +202,10 @@ BeEffect* BeEffectMgr::GetClientEffectByID(int iEffectID)
 
 void BeEffectMgr::DelClientEffect(int iEffectID)
 {
-	std::map<int, BeEffect*>::iterator itr = m_kID2PureEffect.find(iEffectID);
+	auto itr = m_kID2PureEffect.find(iEffectID);
 	if (itr != m_kID2PureEffect.end())
 	{
-
-		BeEffect* pkEffect = itr->second;
+		auto pkEffect = itr->second;
 		if (pkEffect)
 		{
 			PushNeedRemoveEffect(pkEffect->GetID());
@@ -217,11 +215,11 @@ void BeEffectMgr::DelClientEffect(int iEffectID)
 
 void BeEffectMgr::DelUnitClientEffects(int iUnitID)
 {
-	std::map<int, BeEffect*>::iterator iter = m_kID2PureEffect.begin();
+	auto iter = m_kID2PureEffect.begin();
 	while (iter != m_kID2PureEffect.end())
 	{
 		int iEffectID = iter->first;
-		BeEffect* pkEffect = iter->second;
+		auto pkEffect = iter->second;
 
 		if (pkEffect && pkEffect->GetTargetID() == iUnitID)
 		{
@@ -249,7 +247,7 @@ void BeEffectMgr::ClrAllPureEffectData()
 	m_aiPureDelEffect.clear();
 }
 
-std::map<int, BeEffect*>& BeEffectMgr::GetID2ClientEffect()
+std::unordered_map<int, std::shared_ptr<BeEffect>>& BeEffectMgr::GetID2ClientEffect()
 {
 	return m_kID2PureEffect;
 }
@@ -259,7 +257,7 @@ void BeEffectMgr::PushNeedRemoveEffect(int iEffectID)
 	bool bFind = false;
 	if (iEffectID > 0)
 	{
-		BeEffect* pkEffect = gEffectMgr.GetEffectByID(iEffectID);
+		auto pkEffect = gEffectMgr.GetEffectByID(iEffectID);
 		if (pkEffect)
 		{
 			pkEffect->SetFlag(BEF_REMOVE);
@@ -267,7 +265,7 @@ void BeEffectMgr::PushNeedRemoveEffect(int iEffectID)
 	}
 	else
 	{
-		BeEffect* pkClientEffect = gEffectMgr.GetClientEffectByID(iEffectID);
+		auto pkClientEffect = gEffectMgr.GetClientEffectByID(iEffectID);
 		if (pkClientEffect)
 		{
 			pkClientEffect->SetFlag(BEF_REMOVE);

@@ -172,6 +172,8 @@ public:
     void* GetUD_Void(UserDataKey rkKey) const;
     BeAttachPos	GetAttachNode();
     int GetProperty() const;
+    void    SetNewEffect(bool bNew);
+    bool    IsNewEffect();
 
 protected:
     void	UpdateAttach(int iDeltaTime);
@@ -185,8 +187,6 @@ protected:
     void	UpdateCurveTraceCollision(int iDeltaTime);
     void    ParseAttack(void);
     void*   UpdateTargetPos(void);
-    void    SetNewEffect(bool bNew);
-    bool    IsNewEffect();
     void    GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TePos2>& akCurvePos, int iPointNum = 100, BeEffectCurveType eCurveType = BECT_CURVELEFT, BeEffectCurveStyle eCurveStyle = BECS_LEFTBIG);
     void    ParseCurveTrace(void);
     float   GetEffecttrueFace(int iDY, int iDX, int iDeltaTime = 0);
