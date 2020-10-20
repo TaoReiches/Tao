@@ -16,12 +16,10 @@ public:
     BeItem(int iID);
     ~BeItem(void);
 
-    virtual bool Initialize(int iTypeID);
+    virtual bool Initialize(int iTypeID) override;
     bool	CDComplete(int iCoolTime)const;
-
     bool	GetCanSell(void) const;
     void	Update(BeUnit* pkUnit, int iDeltaTime);
-
     bool	GetValid(void);
     bool    GetIsUsableJudge(void);
 

@@ -845,7 +845,7 @@ struct SeSkillLvlData
 		iSkillEffectModle = 0;
 	}
 
-	SeSkillLvlData(const SkillTable* pkRes, int iLevel)
+	SeSkillLvlData(std::shared_ptr<const SkillTable> pkRes, int iLevel)
 	{
 		if (iLevel < 0 || iLevel >= iMaxSkillLevel)
 		{

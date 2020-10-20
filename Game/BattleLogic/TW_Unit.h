@@ -1713,22 +1713,6 @@ public:
 	}
 
 public:
-	void SetAutoSpellFlag(UnitAutoSpellType eType)
-	{
-		m_kAutoSpellFlag.SetFlag((int)eType);
-	}
-	void ClrAutoSpellFlag(UnitAutoSpellType eType)
-	{
-		m_kAutoSpellFlag.ClrFlag((int)eType);
-	}
-
-	bool HasAutoSpellFlag(UnitAutoSpellType eType)
-	{
-		return m_kAutoSpellFlag.HasFlag((int)eType);
-	}
-
-	void AutoSpell(UnitAutoSpellType eType, BeUnit* pkEnemy = NULL);
-
 	void SetCommonCDLastUseTime(int iTypeID, int iTime);
 	int GetCommonCDLastUseTime(int iTypeID) const;
 	bool CommonCDComplete(int iTypeID, int iCDTime) const;
@@ -1902,7 +1886,6 @@ private:
 	int						m_iGrassIndex;
 	int						m_iGiveAttackCmdTime;
 	std::unordered_map<int, TePointerType>		m_akUserData;
-	BeFlagObj				m_kAutoSpellFlag;
 	int						m_iDeadCount;
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;

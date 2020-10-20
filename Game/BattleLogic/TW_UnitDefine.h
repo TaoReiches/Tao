@@ -45,16 +45,6 @@ enum BeUnitActorFlag
 	BUAF_DEFAULT_ACTION_TIME = (1 << 5),
 };
 
-enum UnitAutoSpellType
-{
-	UAST_DEFAULT = (1 << 0),
-	UAST_ATTACKED = (1 << 1),
-	UAST_DAMAGED = (1 << 2),
-	UAST_BAONU = (1 << 3),
-
-	UAST_ALL = ~0,
-};
-
 #define DEATH_RECORD_TIME 10 * 1000
 #define LABEL_VEC_CAP 4
 

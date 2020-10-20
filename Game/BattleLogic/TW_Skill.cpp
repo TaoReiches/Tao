@@ -10,25 +10,16 @@
 #include "TW_UnitMgr.h"
 #include "TW_IRandom.h"
 
-#ifdef _WIN32
-enum UnitAutoSpellType;
-#else
-//int UnitAuotSpellType;
-#endif
-
-
 BeSkill::BeSkill(int iTypeID) : BeCarry(iTypeID)
 {
 	m_eType = BCT_SKILL;
-	memset(&m_kData, 0, sizeof(BeSkillData));
-	m_pkRes = NULL;
+	m_pkRes.reset();
 	m_bCanForbid = true;
 	m_bAddOnSkill = false;
 	m_iCurPileNums = 0;
 	m_iParentSkill = 0;
 	m_eSkillType = OtherSkill;
 	m_iLastTrgTime = 0;
-	m_bImbaAutoUse = false;
 	m_iSkillUICounter = 0;
 	m_iAddOnSkillStartTime = 0;
 }
@@ -40,7 +31,7 @@ BeSkill::~BeSkill()
 bool BeSkill::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
-	m_pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
+	m_pkRes.reset(SkillTableMgr::Get()->GetSkillTable(iTypeID));
 	if (!m_pkRes)
 	{
 		return false;
@@ -51,7 +42,7 @@ bool BeSkill::Initialize(int iTypeID)
 	m_bCanForbid = true;
 	m_bAddOnSkill = false;
 	m_iParentSkill = 0;
-	SetUIShowPos(m_pkRes->iUIShowPos - 1);
+	SetUIShowPos(m_pkRes->iUIShowPos);
 
 	return true;
 }
@@ -226,16 +217,6 @@ void BeSkill::SetCurPileNums(int iPileNums)
 	SetUICounter(iPileNums);
 }
 
-const std::string& BeSkill::GetSkillLvlTip(void)
-{
-	return m_kSkillLvlTipDec;
-}
-
-const std::string& BeSkill::GetSkillLvlLearnTip(void)
-{
-	return m_kSkillLvlLearnTipDec;
-}
-
 void BeSkill::SetActive(bool bActive)
 {
 	if ((m_pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_ZIDONGCHIXU) != 0)
@@ -282,36 +263,4 @@ void BeSkill::DefaultAutoUse(void)
 			return;
 		}
 	}
-}
-
-void BeSkill::HandleEvent(int iEvent, TePtParam& kParam)
-{
-	//HandleVector::iterator iter = m_kHandles.begin();
-	//for (; iter != m_kHandles.end(); iter++)
-	//{
-	//	if ((*iter).first == iEvent)
-	//	{
-	//		(this->*((*iter).second))(iEvent, kParam);
-	//	}
-	//}
-}
-
-void BeSkill::HandleDamageCDEvent(int iEvent, TePtParam& kParam)
-{
-}
-
-void BeSkill::HandleBeDamagedCDEvent(int iEvent, TePtParam& kParam)
-{
-	BeUnit* pkAttacker = (BeUnit*)kParam.GetParamVoid(BTP_pkAttacker);
-	if (!pkAttacker || !pkAttacker->IsHero())
-	{
-		return;
-	}
-}
-
-extern BeUnit* CreateMajia(BeUnit* pkTrgUnit);
-
-void BeSkill::HandleDamageEvent(int iEvent, TePtParam& kParam)
-{
-	this->SetLastTrgTime(gTime);
 }

@@ -447,7 +447,7 @@ void* BeEffect::UpdateTargetPos(void)
 	}
 	case BET_EFFECT:
 	{
-		BeEffect* pkEffect = gEffectMgr.GetEffectByID(m_kEffectData.iTargetID);
+		auto pkEffect = gEffectMgr.GetEffectByID(m_kEffectData.iTargetID);
 		if (pkEffect)
 		{
 			m_kEffectData.fTarPosX = pkEffect->GetPosX();
@@ -502,7 +502,7 @@ void BeEffect::UpdateAttach(int iDeltaTime)
 	}
 	case BET_EFFECT:
 	{
-		BeEffect* pkEffect = gEffectMgr.GetEffectByID(GetTargetID());
+		auto pkEffect = gEffectMgr.GetEffectByID(GetTargetID());
 		if (pkEffect)
 		{
 			m_kEffectData.fPosZ = pkEffect->GetPosZ();
