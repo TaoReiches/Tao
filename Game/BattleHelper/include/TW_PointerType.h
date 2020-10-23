@@ -37,15 +37,10 @@ struct TePointerType
 	}
 	union
 	{
-		void* pVoid;
-		int		iValue;
-		float	fValue;
-#ifdef _WIN32
-		signed __int64   i64init;
-#else
-		int64_t i64init;
-
-#endif
+		void*			pVoid;
+		int				iValue;
+		float			fValue;
+		std::int64_t	i64init;
 	} v;
 	TePointerValType eValType;
 };

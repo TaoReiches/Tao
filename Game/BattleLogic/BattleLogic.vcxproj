@@ -201,6 +201,8 @@
     <ClInclude Include="TW_TaskMoveToUnit.h" />
     <ClInclude Include="TW_TriggerEvent.h" />
     <ClInclude Include="TW_Unit.h" />
+    <ClInclude Include="TW_UnitBase.h" />
+    <ClInclude Include="TW_UnitCarry.h" />
     <ClInclude Include="TW_UnitData.h" />
     <ClInclude Include="TW_UnitDataDefine.h" />
     <ClInclude Include="TW_UnitDefine.h" />

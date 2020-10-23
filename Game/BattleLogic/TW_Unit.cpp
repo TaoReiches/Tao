@@ -3301,6 +3301,351 @@ void BeUnit::UpdateBuffer(int iDeltaTime)
 	}
 }
 
+void BeUnit::UpdateAttribute(bool bUpdateNormal)
+{
+	auto pkOrgData = m_pkBackData;
+	auto pkCurData = m_pkCurData;
+	float afChange[NAT_MAX_NUM];
+	float afChangeTemp[BCT_NUM][NAT_MAX_NUM][2];
+
+	const int iCommon1Size = 10;
+	float akCommonInfo[iCommon1Size] = { 0.f };
+	akCommonInfo[0] = pkCurData->fHP;
+	akCommonInfo[1] = pkCurData->fMP;
+	akCommonInfo[2] = pkCurData->fMaxHP;
+	akCommonInfo[3] = pkCurData->fMaxMP;
+	akCommonInfo[4] = pkCurData->fMoveSpeed;
+	akCommonInfo[5] = pkCurData->fRegenHP;
+	akCommonInfo[6] = pkCurData->fRegenMP;
+	akCommonInfo[7] = pkCurData->iAttackCD;
+
+	const int iSelfSize = 1;
+	float akSelfData[iSelfSize] = { 0.f };
+	akSelfData[0] = pkCurData->fDecCDTime;
+	float temp1, temp2 = 0.f;
+
+	int iOldCarryFlag = m_iCarryFlag;
+	int iOldImmunityFlag = BeUnit::m_iImmunityFlag;
+	int iOldInvisByGroup = BeUnit::m_iNotInvisByGroup;
+
+	m_apkCarry.clear();
+
+	iOldCarryFlag = m_iCarryFlag;
+	m_iCarryFlag = 0;
+	iOldImmunityFlag = BeUnit::m_iImmunityFlag;
+	m_iImmunityFlag = 0;
+	iOldInvisByGroup = m_iNotInvisByGroup;
+	m_iNotInvisByGroup = 0;
+
+	UpdateValidItem();
+	UpdateValidBuffer();
+	UpdateValidSkill();
+
+	int iMaskCarryFlag = m_iCarryFlag ^ iOldCarryFlag;
+
+	if (!bUpdateNormal)
+	{
+		if (m_iCarryFlag != iOldCarryFlag)
+		{
+			SetShareUnitChangeFlag(BSUDCF_CARRYFLAG);
+		}
+		return;
+	}
+
+	memset(afChange, 0, sizeof(afChange));
+	float afAntiMagic[BCT_NUM];
+	memset(afAntiMagic, 0, sizeof(afAntiMagic));
+
+	float afDecAntiMagic[BCT_NUM];
+	memset(afDecAntiMagic, 0, sizeof(afDecAntiMagic));
+
+	memset(afChangeTemp, 0, sizeof(afChangeTemp));
+	for (std::vector<BeCarry*>::iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+	{
+		BeCarry* pkCarry = *itr;
+		if (IsGhost() || IsDividMan())
+		{
+			pkCarry->ApplyNormalAttr(afChangeTemp, true, m_iImmunityFlag);
+		}
+		else
+		{
+			pkCarry->ApplyNormalAttr(afChangeTemp, false, m_iImmunityFlag);
+			float fAntiRate = pkCarry->GetAttackedAntiMagic();
+			if (fAntiRate > 0.0f && afAntiMagic[pkCarry->GetType()] <= fAntiRate)
+			{
+				afAntiMagic[pkCarry->GetType()] = fAntiRate;
+			}
+			else if (fAntiRate < 0.0f)
+			{
+				afDecAntiMagic[pkCarry->GetType()] += fAntiRate;
+			}
+		}
+	}
+	for (int i = 0; i < NAT_MAX_NUM; ++i)
+	{
+		switch (i)
+		{
+		case NAT_PER_SKILLBLAST:
+		{
+			for (int j = 0; j < BCT_NUM; ++j)
+			{
+				afChange[i] = 1.0f - (1.0f - afChange[i]) * (1.0f - (afChangeTemp[j][i][0] + afChangeTemp[j][i][1]));
+			}
+			break;
+		}
+		case NAT_PER_BAOJI:
+		{
+			afChange[i] = 1;
+
+			for (int j = 0; j < BCT_NUM; ++j)
+			{
+				if (afChangeTemp[j][i][0] > 0)
+				{
+					afChange[i] *= afChangeTemp[j][i][0];
+				}
+			}
+			break;
+		}
+		case NAT_PER_MOVE_SPEED:
+		{
+			afChange[i] = 1;
+			temp1 = 0;
+			temp2 = 1;
+
+			for (int j = 0; j < BCT_NUM; ++j)
+			{
+				if (afChangeTemp[j][i][0] > 0) {
+
+					temp1 += afChangeTemp[j][i][0];
+
+				}
+
+				if (afChangeTemp[j][i][1] > 0) {
+
+					temp2 *= afChangeTemp[j][i][1];
+				}
+			}
+
+			afChange[i] = temp1 - (1 - temp2);
+			break;
+		}
+		case NAT_TOUGHNESS:
+		{
+			afChange[i] = 1;
+
+			for (int j = 0; j < BCT_NUM; ++j)
+			{
+				if (afChangeTemp[j][i][0] > 0)
+				{
+					afChange[i] *= (1 - afChangeTemp[j][i][0]);
+				}
+			}
+
+			afChange[i] = 1 - afChange[i];
+			break;
+		}
+		case NAT_DEC_CDTIME:
+		case NAT_DEC_MPCOST:
+		case NAT_PER_CDTIME:
+		default:
+		{
+			for (int j = 0; j < BCT_NUM; ++j)
+			{
+				afChange[i] += afChangeTemp[j][i][0] + afChangeTemp[j][i][1];
+			}
+			break;
+		}
+		}
+	}
+	pkCurData->fMagicArmor = (pkCurData->fOrgMagicArmor + afChange[NAT_MAGIC_ARMOR]) * (1.0f + afChange[NAT_PER_MAGIC_ARMOR]);
+	pkCurData->fDecAntiMagic = afChange[NAT_DEC_MAGIC_RESISTANCE];
+
+	pkCurData->fAddArmorPer = afChange[NAT_PER_ARMOR];
+	pkCurData->fAddArmor = afChange[NAT_ABS_ARMOR];
+	pkCurData->fAddDamage = afChange[NAT_ABS_DAMAGE] + afChange[NAT_PER_DAMAGE_BASE] * (pkCurData->fBaseDamage);
+	if (pkCurData->fAddDamage < -pkCurData->fBaseDamage)
+	{
+		pkCurData->fAddDamage = -pkCurData->fBaseDamage;
+	}
+	pkCurData->fDamagePer = (1.0f + afChange[NAT_PER_DEMAGE]) * pkCurData->fDamagePerOrg;
+	pkCurData->fBeDamagePer = (1.0f + afChange[NAT_PER_BEDEMAGED]) * pkCurData->fBeDamagePerOrg;
+	pkCurData->fMagicDamage = (pkOrgData->fOrgMagicDamage + afChange[NAT_ABS_MAGIC]) * (1.0f + afChange[NAT_PER_MAGIC]);
+	pkCurData->fSkillBlastPer = (afChange[NAT_PER_SKILLBLAST]);
+	pkCurData->fSkillDamagePer = 1.0f + afChange[NAT_PER_DAMAGE_SKILL];
+
+	pkCurData->fArmor = (pkCurData->fBaseArmor + pkCurData->fAddArmor) * (1 + pkCurData->fAddArmorPer);
+
+	pkCurData->fAttackRange = m_pkBackData->pkRes->fAttackRange + afChange[NAT_ABS_ATTACKRANGE];
+	pkCurData->fMaxHP = (pkCurData->fBaseMaxHP * (1.0f + afChange[NAT_PER_BASE_MAXHP]) + afChange[NAT_ABS_MAX_HP]);
+
+	pkCurData->fDecDamage = afChange[NAT_ABS_DECDAMAGE];
+	pkCurData->fRegenHP = pkCurData->fBaseRegenHP + afChange[NAT_ABS_REGEN_HP] + pkCurData->fBaseRegenHP * afChange[NAT_PER_REGEN_HP];
+	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
+	{
+		pkCurData->fRegenMP = 0.0f;
+	}
+	else
+	{
+		pkCurData->fMaxMP = pkCurData->fBaseMaxMP + afChange[NAT_ABS_MAX_MP];
+		pkCurData->fRegenMP = pkCurData->fBaseRegenMP + afChange[NAT_ABS_REGEN_MP] + pkCurData->fBaseRegenMP * afChange[NAT_PER_REGEN_MP];
+	}
+
+	if (m_fSpeedFixup >= 0.0f)
+	{
+		pkCurData->fMoveSpeed = m_fSpeedFixup;
+	}
+	else
+	{
+		pkCurData->fMoveSpeed = (pkCurData->fBaseMoveSpeed + afChange[NAT_BASE_MOVE_SPEED]) * (1.0f + afChange[NAT_PER_MOVE_SPEED]) + afChange[NAT_ABS_MOVE_SPEED];
+	}
+	float	fTempMoveSpeed = pkCurData->fMoveSpeed;
+	if (fTempMoveSpeed > 490.0f)
+	{
+		pkCurData->fMoveSpeed = (fTempMoveSpeed * 0.5f) + 230.0f;
+	}
+	else if (fTempMoveSpeed > 415.0f && fTempMoveSpeed <= 490.0f)
+	{
+		pkCurData->fMoveSpeed = (fTempMoveSpeed * 0.8f) + 83;
+	}
+	else if (fTempMoveSpeed < 220.0f)
+	{
+		pkCurData->fMoveSpeed = (fTempMoveSpeed * 0.5f) + 110.0f;
+	}
+	if (pkCurData->fMoveSpeed > 900.0f)
+	{
+		pkCurData->fMoveSpeed = 900.0f;
+	}
+	if (pkCurData->fMoveSpeed < 140.0f)
+	{
+		pkCurData->fMoveSpeed = 140.0f;
+	}
+	pkCurData->fLeech = afChange[NAT_LEECH];
+	pkCurData->fMagicLeech = afChange[NAT_MAGIC_LEECH];
+	pkCurData->fDecArmor = afChange[NAT_DEC_ARMOR];
+	pkCurData->fPerDecArmor = std::min(afChange[NAT_PER_DEC_ARMOR], 1.0f);
+	pkCurData->fPerDecMagicArmor = afChange[NAT_PER_FASHUCHUANTOU];
+	pkCurData->fToughness = afChange[NAT_TOUGHNESS];
+	pkCurData->fDecMPCost = afChange[NAT_DEC_MPCOST];
+	pkCurData->fBaoJi = afChange[NAT_BAOJI];
+	if (HasProperty(UNIT_PROPERTY_NOTADDBAOJI)) {
+		pkCurData->fBaoJi = 0.0f;
+	}
+	if (pkCurData->fBaoJi > 1.0f)
+	{
+		pkCurData->fBaoJi = 1.0f;
+	}
+	pkCurData->fBaoJiDamagePer = afChange[NAT_PER_BAOJI];
+	pkCurData->fBaoJiDecDamage = afChange[NAT_PER_DEC_BAOJI];
+
+	{
+		pkCurData->fDecCDTime = std::min(afChange[NAT_DEC_CDTIME], 0.4f + afChange[NAT_DEC_CDTIME_MAX]);
+	}
+
+	pkCurData->fPerCDTime = std::min(afChange[NAT_PER_CDTIME], 0.9f);
+	pkCurData->fEnmityPoint = afChange[NAT_ABS_ENMITY_POINT];
+	pkCurData->fPerDamageReduce = afChange[NAT_PER_DAMAGE_REDUCE];
+	pkCurData->fEvadeRate = afChange[NAT_PER_AVOIDPHYSIC];
+	pkCurData->fTreatment = afChange[NAT_PER_ADDHP];
+
+	float fPrimaryAddDamage = 0.0f;
+	pkCurData->fRegenHP += (pkCurData->fMaxHP * afChange[NAT_PER_REGEN_MAXHP]);
+
+	pkCurData->fAddDamage += afChange[NAT_PER_DAMAGE_ADD] * (pkCurData->fAddDamage + pkCurData->fBaseDamage);
+	pkCurData->fDamage = pkCurData->fBaseDamage + pkCurData->fAddDamage;
+
+	if (m_fPreMaxHP > 0.0f && (pkCurData->fMaxHP != m_fPreMaxHP))
+	{
+		if (pkCurData->fMaxHP > m_fPreMaxHP) {
+
+			float fHPTemp = ((pkCurData->fMaxHP - m_fPreMaxHP) * (1.0f - (m_fPreMaxHP - pkCurData->fHP) / m_fPreMaxHP));
+			pkCurData->fHP += fHPTemp;
+		}
+		else {
+
+			if (pkCurData->fHP > pkCurData->fMaxHP) {
+				pkCurData->fHP = pkCurData->fMaxHP;
+			}
+		}
+
+		if (pkCurData->fHP <= 0.0f)
+		{
+			pkCurData->fHP = 1.0f;
+		}
+	}
+	m_fPreMaxHP = pkCurData->fMaxHP;
+
+	if (m_fPreMaxMP > 0.0f && (pkCurData->fMaxMP != m_fPreMaxMP))
+	{
+		float fMPTemp = ((pkCurData->fMaxMP - m_fPreMaxMP) * (1.0f - (m_fPreMaxMP - pkCurData->fMP) / m_fPreMaxMP));
+		pkCurData->fMP += fMPTemp;
+		if (pkCurData->fMP <= 0.0f)
+		{
+			pkCurData->fMP = 1.0f;
+		}
+	}
+	m_fPreMaxMP = pkCurData->fMaxMP;
+
+	float fDivAttackSpeed = afChange[NAT_PER_ATTACK_SPEED];
+	if (HasProperty(UNIT_PROPERTY_NOTADDATTACKCD)) {
+		fDivAttackSpeed = 0.0f;
+	}
+	pkCurData->iAttackCD = m_pkCurData->iOrgAttackCD;
+
+	float	fBaseNum = 1000.0f / m_pkCurData->iOrgAttackCD;
+	float	fAddNum = 1000.0f / pkCurData->pkRes->fAttackBackPt * fDivAttackSpeed;
+	float	fLevelNum = 1000.0f / pkCurData->pkRes->fAttackBackPt * 0.01f * pkCurData->pkRes->fAttackSpeedAddUp * (GetLevel() - 1);
+	pkCurData->iAttackCD = 1000.0f / (fBaseNum + fAddNum + fLevelNum);
+
+	if (pkCurData->iAttackCD < 400)
+	{
+		pkCurData->iAttackCD = 400;
+	}
+
+	pkCurData->iAttackDamagePt = (int)((float)(pkCurData->pkRes)->fAttackDamagePt * (pkCurData->iAttackCD / pkCurData->pkRes->fAttackBackPt));
+	if (pkCurData->iAttackDamagePt > pkCurData->iAttackCD)
+	{
+		pkCurData->iAttackDamagePt = pkCurData->iAttackCD;
+	}
+	pkCurData->iAttackBackPt = pkCurData->iAttackCD - pkCurData->iAttackDamagePt;
+
+	if (akCommonInfo[0] != pkCurData->fHP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_CURHP);
+	}
+	if (akCommonInfo[1] != pkCurData->fMP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_CURMP);
+	}
+	if (akCommonInfo[2] != pkCurData->fMaxHP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_MAXHP);
+	}
+	if (akCommonInfo[3] != pkCurData->fMaxMP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_MAXMP);
+	}
+	if (akCommonInfo[4] != pkCurData->fMoveSpeed)
+	{
+		SetShareUnitChangeFlag(BSUDCF_MOVESPEED);
+	}
+	if (akCommonInfo[5] != pkCurData->fRegenHP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_REGENHP);
+	}
+	if (akCommonInfo[6] != pkCurData->fRegenMP)
+	{
+		SetShareUnitChangeFlag(BSUDCF_REGENMP);
+	}
+	if ((int)akCommonInfo[7] != pkCurData->iAttackCD)
+	{
+		SetShareUnitChangeFlag(BSUDCF_ATTACKCD);
+	}
+
+	if (m_iCarryFlag != iOldCarryFlag)
+	{
+		SetShareUnitChangeFlag(BSUDCF_CARRYFLAG);
+	}
+}
 
 const SkillTable* BeUnit::GetResSkill(int iTypeID) const
 {
@@ -3769,77 +4114,4 @@ void BeUnit::UpdateBattleState(bool bBattle)
 			gTrgMgr.FireTrigger(BTE_CHANGE_BATTLE_STATE, kParam);
 		}
 	}
-}
-
-void BeUnit::SetUD_Int(UserDataKey eKey, int i)
-{
-	m_akUserData[eKey] = TePointerType(i);
-}
-
-void BeUnit::SetUD_Float(UserDataKey eKey, float f)
-{
-	m_akUserData[eKey] = TePointerType(f);
-}
-
-int BeUnit::PopUD_Int(UserDataKey eKey)
-{
-	int iValue = 0;
-	auto itr = m_akUserData.find(eKey);
-	if (itr != m_akUserData.end())
-	{
-		iValue = itr->second.v.iValue;
-		m_akUserData.erase(itr);
-	}
-
-	return iValue;
-}
-
-float BeUnit::PopUD_Float(UserDataKey eKey)
-{
-	float fValue = 0.f;
-	auto itr = m_akUserData.find(eKey);
-	if (itr != m_akUserData.end())
-	{
-		fValue = itr->second.v.fValue;
-		m_akUserData.erase(itr);
-	}
-
-	return fValue;
-}
-
-int BeUnit::GetUD_Int(UserDataKey eKey, int i) const
-{
-	auto itr = m_akUserData.find(eKey);
-	if (itr != m_akUserData.end())
-	{
-		i = itr->second.v.iValue;
-	}
-
-	return i;
-}
-
-float BeUnit::GetUD_Float(UserDataKey eKey, float f) const
-{
-	auto itr = m_akUserData.find(eKey);
-	if (itr != m_akUserData.end())
-	{
-		f = itr->second.v.fValue;
-	}
-
-	return f;
-}
-
-bool BeUnit::HasUserData(UserDataKey eKey) const
-{
-	auto itr = m_akUserData.find(eKey);
-	if (itr != m_akUserData.end())
-	{
-		return true;
-	}
-	return false;
-}
-
-void BeUnit::ClearUserData(UserDataKey eKey)
-{
-	m_akUserData.erase(eKey);
 }

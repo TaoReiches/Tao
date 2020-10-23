@@ -8,16 +8,23 @@
 #include <memory>
 
 #include "TW_UnitDataDefine.h"
+#include "TW_UnitBase.h"
 
-class TwUnitData : public BeMainPtr
+class TwUnitData : public TwUnitBase
 {
 public:
     void OnInitAttribute(bool bCurrent, bool bNeedRecordChange);
     void OnPropertyUpdate(int iLevel);
     void SetCurExp(int iCurExp);
     void SetLevel(int iLevel, bool bNeedRecordChange);
-    void UpdateAttribute(bool bUpdateNormal);
 
+	BeLearnSkillData* GetLearnSkillData(int iPos);
+	bool LearnSkill(int iSkillPos);
+	float	GetSkillAddValue(int iEnum, float fValue);
+	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel);
+
+	int	GetSkillPointSum(void);
+	void SetSkillPointSum(int iSkillPoint);
 	int GetCurrentTypeID() const;
 	void SetCurrentTypeID(int iTypeID);
 	void SetBackTypeID(int iTypeID);
@@ -25,7 +32,6 @@ public:
 	bool HasProperty(int iProperty) const;
 	bool HasTableProperty(int iValue);
 	float GetMissileArc(void);
-	float GetBackAttackRange(void) const;
 	float GetBackAttackRange(void) const;
 	float GetOrgAttackRange(void) const;
 	void ClrProperty(int iFlag);
@@ -68,30 +74,116 @@ public:
 	void SetAttackRange(float fRange);
 	int GetAttackBackPt(void) const;
 	int GetAttackDamagePt(void) const;
-	int GetUnitCarryFlag(void) const;
-	void SetUnitCarryFlag(int iFlag);
-	bool HasUnitCarryFlag(int iFlag) const;
-	void ClrUnitCarryFlag(int iFlag);
 	bool CanAttack(void) const;
 	bool CanSpell(void) const;
 	bool CanMove(void) const;
 	bool IsForbidItem(void) const;
 	const std::shared_ptr<BeUnitData> GetBackData() const;
 	void SetHP(float fHP, bool bChange = false);
-	void SetShareUnitChangeFlag(int iFlag);
-	bool HasShareUnitChangeFlag(int iFlag);
-	void ClrShareUnitChangeFlag(int iFlag);
-	int GetShareUnitChangeFlag() const;
 	void AddLevel(int iAddLevel);
 	void SetMP(float fMP, bool bChange = true);
+	void DecUnitCurTime(int iDecTime);
+	void SetUnitCurLiveTime(int iCurLiveTime);
+	int GetUnitCurLiveTime(void) const;
+	unsigned int GetUnitReliveTime(void) const;
+	int GetUnitAllLiveTime(void) const;
+	void SetUnitAllLiveTime(int iAllTime);
+	void SetUnitCreateTime(unsigned int dwCreateTime);
+	unsigned int GetUnitCreateTime() const;
+	float GetOrgMaxHP(void) const;
+	void SetOrgMaxHP(float fOrgMaxHP);
+	float GetOrgRegenHp(void) const;
+	void SetOrgRegenHP(float fOrgDayRegenHP);
+	float GetOrgMaxMP(void) const;
+	void SetOrgMaxMP(float fOrgMaxMP);
+	float GetOrgRegenMp(void) const;
+	void SetOrgRegenMP(float fOrgRegenMP);
+	float GetOrgMinDamage(void) const;
+	void SetOrgMinDamage(float fOrgDamage);
+	float GetOrgMaxDamage(void) const;
+	void SetOrgMaxDamage(float fOrgMaxDamage);
+	float GetOrgArmor(void) const;
+	void SetOrgArmor(float fOrgArmor);
+	float GetOrgAntiMagic(void) const;
+	void SetOrgAntiMagic(float fOrgAntiMagic);
+	float GetOrgMoveSpeed(void) const;
+	void SetOrgMoveSpeed(float fOrgMoveSpeed);
+	int GetOrgAttackCD(void) const;
+	void SetOrgAttackCD(int iOrgAttackCD);
+	void SetAttackType(BeAttackType eType);
+	BeAttackType GetAttackType(void) const;
+	int		GetResUnitAttackType();
+	int GetWeaponType(void) const;
+	void SetMissleModel(int iMissileModel);
+	int GetMissleModel(void) const;
+	int GetResMissleModel(void) const;
+	void SetMissileSpeed(float fSpeed);
+	float GetMissileSpeed(void) const;
+	float GetBaseDamage(void) const;
+	float GetAddDamage(void) const;
+	float GetBaseArmor(void) const;
+	float GetAddAromorPer(void) const;
+	int GetAddAntiMagic(void);
+	int GetAddAntiMagicPer(void);
+	float GetBaseMaxHP(void);
+	float GetBaseMaxMP(void);
+	float GetBaseRegenMP(void);
+	BeUnitAction GetActionType(void) const;
+	bool IsActionNow(BeUnitAction eAction) const;
+	bool IsActionCurTimeOut(int iDeltaTime) const;
+	int		GetRealDamagePt();
+	int GetActionCurTimeNeed(void) const;
+	void IncActionCurTime(int iDeltaTime);
+	int GetActionCurTime(void) const;
+	void SetActionCurTime(int iActionCurTime);
+	int GetActionAllTime(void) const;
+	void SetActionAllTime(int iTime);
+	int GetAttackElapseTime(void) const;
+	void ResetAttackElapseTime(void);
+	float GetPosX(void) const;
+	float GetPosY(void) const;
+	float GetPosZ(void) const;
+	float GetFace(void) const;
+	void SetPitch(float fPitch);
+	float GetPitch(void);
+	float GetTarFace(void) const;
+	float GetScale(void) const;
+	int GetAttackingUnitID(void) const;
+	void SetAttackingUnitID(int iID, bool bIsOrb = false, bool bAttackPos = false);
+	void SetUsedSkillPoint(int iUsedPoint);
+	int GetUsedSkillPoint(void) const;
+	int		GetSkillPoint();
+	const void SetSkillDamagePer(float fPer) const;
+	const float GetSkillDamagePer(void) const;
+	const float GetMagicDamage(void) const;
+	const	float	GetDamagePer()	const;
+	const	float	GetBeDamagePer()	const;
+	const float GetSkillBlastPer(void) const;
+	const float GetSkillBlastDmgPer(void) const;
+	void SetAntiMagic(float fAntiMagic);
+	const float GetMagicArmor(void) const;
+	const float GetAddMagicArmor(void) const;
+	const float GetDecMagicArmor(void) const;
+	const float GetLeech(void) const;
+	const float GetMagicLeech(void) const;
+	const float GetToughness(void) const;
+	const float GetDecArmor(void) const;
+	const float GetPerDecArmor(void) const;
+	const	float	GetPerDecMagicArmor()	const;
+	const float GetDecMPCost(void) const;
+	const float GetDecCDTime(void) const;
+	float	GetPerCDTime();
+	float	GetBaoJiRate()	const;
+	float	GetBaoJiDamagePer()	const;
+	const float GetAddEnmityPoint(void) const;
+	const float GetPerDamageReduce(void) const;
+	const float GetEvadeRate(void) const;
 
 protected:
     TwUnitData();
     ~TwUnitData();
 
 protected:
-	int							m_iCarryFlag;
-	int						m_iShareUnitDataChangeFlag;
     std::shared_ptr<BeUnitData> m_pkBackData;
 	std::shared_ptr<BeUnitData> m_pkCurData;
     std::vector<std::shared_ptr<BeUnitData>>					m_akUnitData;
@@ -138,26 +230,6 @@ inline void TwUnitData::SetCurrentTypeID(int iTypeID)
 	m_pkCurData->iTypeID = iTypeID;
 }
 
-inline void TwUnitData::SetShareUnitChangeFlag(int iFlag)
-{
-	m_iShareUnitDataChangeFlag |= iFlag;
-}
-
-inline bool TwUnitData::HasShareUnitChangeFlag(int iFlag)
-{
-	return (m_iShareUnitDataChangeFlag & iFlag) != 0;
-}
-
-inline void TwUnitData::ClrShareUnitChangeFlag(int iFlag)
-{
-	m_iShareUnitDataChangeFlag &= ~iFlag;
-}
-
-inline int TwUnitData::GetShareUnitChangeFlag() const
-{
-	return m_iShareUnitDataChangeFlag;
-}
-
 inline const std::shared_ptr<BeUnitData> TwUnitData::GetBackData() const
 {
 	return m_pkBackData;
@@ -189,26 +261,6 @@ inline bool TwUnitData::CanAttack(void) const
 		|| HasUnitCarryFlag(BUCF_ISJUMPING)
 		|| HasUnitCarryFlag(BUCF_ISMOVING)
 		);
-}
-
-inline int TwUnitData::GetUnitCarryFlag(void) const
-{
-	return m_iCarryFlag;
-}
-
-inline void TwUnitData::SetUnitCarryFlag(int iFlag)
-{
-	m_iCarryFlag |= iFlag;
-}
-
-inline bool TwUnitData::HasUnitCarryFlag(int iFlag) const
-{
-	return (m_iCarryFlag & iFlag) != 0;
-}
-
-inline void TwUnitData::ClrUnitCarryFlag(int iFlag)
-{
-	m_iCarryFlag &= ~iFlag;
 }
 
 inline int TwUnitData::GetAttackDamagePt(void) const
@@ -492,4 +544,487 @@ inline bool	TwUnitData::HasTableProperty(int iValue)
 		return true;
 	}
 	return false;
+}
+
+inline int	TwUnitData::GetSkillPointSum(void)
+{
+	return (m_pkBackData->iSkillPointSum);
+}
+
+inline void TwUnitData::SetSkillPointSum(int iSkillPoint)
+{
+	(m_pkBackData->iSkillPointSum) = iSkillPoint;
+}
+inline void TwUnitData::DecUnitCurTime(int iDecTime)
+{
+	m_pkCurData->iUnitCurLiveTime -= iDecTime;
+	if (m_pkCurData->iUnitCurLiveTime == 0)
+	{
+		m_pkCurData->iUnitCurLiveTime = -1;
+	}
+}
+
+inline void TwUnitData::SetUnitCurLiveTime(int iCurLiveTime)
+{
+	m_pkCurData->iUnitCurLiveTime = iCurLiveTime;
+}
+
+inline int TwUnitData::GetUnitCurLiveTime(void) const
+{
+	return m_pkCurData->iUnitCurLiveTime;
+}
+
+inline unsigned int TwUnitData::GetUnitReliveTime(void) const
+{
+	return m_pkBackData->uiUnitReliveTime;
+}
+
+inline int TwUnitData::GetUnitAllLiveTime(void) const
+{
+	return m_pkCurData->iUnitAllLiveTime;
+}
+
+inline void TwUnitData::SetUnitAllLiveTime(int iAllTime)
+{
+	m_pkCurData->iUnitAllLiveTime = iAllTime;
+}
+
+inline void TwUnitData::SetUnitCreateTime(unsigned int dwCreateTime)
+{
+	m_pkCurData->dwUnitCreateTime = dwCreateTime;
+}
+
+inline unsigned int TwUnitData::GetUnitCreateTime() const
+{
+	return m_pkCurData->dwUnitCreateTime;
+}
+
+inline float TwUnitData::GetOrgMaxHP(void) const
+{
+	return m_pkCurData->fOrgMaxHP;
+}
+
+inline void TwUnitData::SetOrgMaxHP(float fOrgMaxHP)
+{
+	m_pkCurData->fOrgMaxHP = fOrgMaxHP;
+}
+inline float TwUnitData::GetOrgRegenHp(void) const
+{
+	return m_pkCurData->fOrgRegenHP;
+}
+
+inline void TwUnitData::SetOrgRegenHP(float fOrgDayRegenHP)
+{
+	m_pkCurData->fOrgRegenHP = fOrgDayRegenHP;
+}
+
+inline float TwUnitData::GetOrgMaxMP(void) const
+{
+	return m_pkCurData->fOrgMaxMP;
+}
+
+inline void TwUnitData::SetOrgMaxMP(float fOrgMaxMP)
+{
+	m_pkCurData->fOrgMaxMP = fOrgMaxMP;
+}
+
+inline float TwUnitData::GetOrgRegenMp(void) const
+{
+	return m_pkCurData->fOrgRegenMP;
+}
+
+inline void TwUnitData::SetOrgRegenMP(float fOrgRegenMP)
+{
+	m_pkCurData->fOrgRegenMP = fOrgRegenMP;
+}
+
+inline float TwUnitData::GetOrgMinDamage(void) const
+{
+	return m_pkCurData->fOrgDamage;
+}
+
+inline void TwUnitData::SetOrgMinDamage(float fOrgDamage)
+{
+	m_pkCurData->fOrgDamage = fOrgDamage;
+}
+
+inline float TwUnitData::GetOrgMaxDamage(void) const
+{
+	return m_pkCurData->fOrgDamage;
+}
+
+inline void TwUnitData::SetOrgMaxDamage(float fOrgMaxDamage)
+{
+	m_pkCurData->fOrgDamage = fOrgMaxDamage;
+}
+
+inline float TwUnitData::GetOrgArmor(void) const
+{
+	return m_pkCurData->fOrgArmor;
+}
+
+inline void TwUnitData::SetOrgArmor(float fOrgArmor)
+{
+	m_pkCurData->fOrgArmor = fOrgArmor;
+}
+
+inline float TwUnitData::GetOrgAntiMagic(void) const
+{
+	return m_pkCurData->fOrgMagicArmor;
+}
+
+inline void TwUnitData::SetOrgAntiMagic(float fOrgAntiMagic)
+{
+	m_pkCurData->fOrgMagicArmor = fOrgAntiMagic;
+}
+
+inline float TwUnitData::GetOrgMoveSpeed(void) const
+{
+	return m_pkCurData->fOrgMoveSpeed;
+}
+
+inline void TwUnitData::SetOrgMoveSpeed(float fOrgMoveSpeed)
+{
+	m_pkCurData->fOrgMoveSpeed = fOrgMoveSpeed;
+}
+
+inline int TwUnitData::GetOrgAttackCD(void) const
+{
+	return m_pkCurData->iOrgAttackCD;
+}
+
+inline void TwUnitData::SetOrgAttackCD(int iOrgAttackCD)
+{
+	if (iOrgAttackCD != m_pkCurData->iOrgAttackCD)
+	{
+	}
+	m_pkCurData->iOrgAttackCD = iOrgAttackCD;
+}
+
+inline void TwUnitData::SetAttackType(BeAttackType eType)
+{
+	m_pkCurData->eAttackType = eType;
+}
+
+inline BeAttackType TwUnitData::GetAttackType(void) const
+{
+	return m_pkCurData->eAttackType;
+}
+
+inline int		TwUnitData::GetResUnitAttackType()
+{
+	return m_pkCurData->pkRes->uiAttackType;
+}
+
+inline int TwUnitData::GetWeaponType(void) const
+{
+	if (m_pkCurData->fAttackRange < 300.0f)
+	{
+		return 0;
+	}
+	return 1;
+}
+
+inline void TwUnitData::SetMissleModel(int iMissileModel)
+{
+	m_pkCurData->iMissileModel = iMissileModel;
+}
+
+inline int TwUnitData::GetMissleModel(void) const
+{
+	return m_pkCurData->iMissileModel;
+}
+
+inline int TwUnitData::GetResMissleModel(void) const
+{
+	return m_pkCurData->pkRes->iMissileModel;
+}
+
+inline void TwUnitData::SetMissileSpeed(float fSpeed)
+{
+	m_pkCurData->fMissileSpeed = fSpeed;
+}
+
+inline float TwUnitData::GetMissileSpeed(void) const
+{
+	return m_pkCurData->fMissileSpeed;
+}
+
+inline float TwUnitData::GetBaseDamage(void) const
+{
+	return m_pkCurData->fBaseDamage;
+}
+inline float TwUnitData::GetAddDamage(void) const
+{
+	return m_pkCurData->fAddDamage;
+}
+
+inline float TwUnitData::GetBaseArmor(void) const
+{
+	return m_pkCurData->fBaseArmor;
+}
+inline float TwUnitData::GetAddAromorPer(void) const
+{
+	return m_pkCurData->fAddArmorPer;
+}
+inline int TwUnitData::GetAddAntiMagic(void)
+{
+	return m_pkCurData->fAddMagicArmor;
+}
+inline int TwUnitData::GetAddAntiMagicPer(void)
+{
+	return m_pkCurData->fAddMagicArmorPer;
+}
+
+inline float TwUnitData::GetBaseMaxHP(void)
+{
+	return m_pkCurData->fBaseMaxHP;
+}
+inline float TwUnitData::GetBaseMaxMP(void)
+{
+	return m_pkCurData->fBaseMaxMP;
+}
+inline float TwUnitData::GetBaseRegenMP(void)
+{
+	return m_pkCurData->fBaseRegenMP;
+}
+inline BeUnitAction TwUnitData::GetActionType(void) const
+{
+	return m_pkCurData->eActionType;
+}
+
+inline bool TwUnitData::IsActionNow(BeUnitAction eAction) const
+{
+	return (m_pkCurData->eActionType == eAction);
+}
+
+inline bool TwUnitData::IsActionCurTimeOut(int iDeltaTime) const
+{
+	return ((m_pkCurData->iActionCurTime + iDeltaTime) >= m_pkCurData->iActionAllTime);
+}
+inline int		TwUnitData::GetRealDamagePt()
+{
+	float iRealPtTime = m_pkCurData->iAttackDamagePt;
+
+	return iRealPtTime;
+}
+inline int TwUnitData::GetActionCurTimeNeed(void) const
+{
+	return (m_pkCurData->iActionAllTime - m_pkCurData->iActionCurTime);
+}
+
+inline void TwUnitData::IncActionCurTime(int iDeltaTime)
+{
+	m_pkCurData->iActionCurTime += iDeltaTime;
+	m_pkCurData->iAttackElapseTime += iDeltaTime;
+}
+
+inline int TwUnitData::GetActionCurTime(void) const
+{
+	return m_pkCurData->iActionCurTime;
+}
+
+inline void TwUnitData::SetActionCurTime(int iActionCurTime)
+{
+	m_pkCurData->iActionCurTime = iActionCurTime;
+}
+
+inline int TwUnitData::GetActionAllTime(void) const
+{
+	return m_pkCurData->iActionAllTime;
+}
+
+inline void TwUnitData::SetActionAllTime(int iTime)
+{
+	if (m_pkCurData->iActionAllTime != iTime)
+	{
+	}
+	m_pkCurData->iActionAllTime = iTime;
+}
+
+inline int TwUnitData::GetAttackElapseTime(void) const
+{
+	return m_pkCurData->iAttackElapseTime;
+}
+
+inline void TwUnitData::ResetAttackElapseTime(void)
+{
+	m_pkCurData->iAttackElapseTime = 0;
+}
+
+inline float TwUnitData::GetPosX(void) const
+{
+	return m_pkCurData->fPosX;
+}
+
+inline float TwUnitData::GetPosY(void) const
+{
+	return m_pkCurData->fPosY;
+}
+
+inline float TwUnitData::GetPosZ(void) const
+{
+	return m_pkCurData->fPosZ;
+}
+
+inline float TwUnitData::GetFace(void) const
+{
+	return m_pkCurData->fFace;
+}
+
+inline void TwUnitData::SetPitch(float fPitch)
+{
+	m_pkCurData->fPitch = fPitch;
+}
+
+inline float TwUnitData::GetPitch(void)
+{
+	return m_pkCurData->fPitch;
+}
+inline float TwUnitData::GetTarFace(void) const
+{
+	return m_pkCurData->fFace;
+}
+inline float TwUnitData::GetScale(void) const
+{
+	return m_pkCurData->fScale;
+}
+inline int TwUnitData::GetAttackingUnitID(void) const
+{
+	return m_pkBackData->iAttackingUnitID;
+}
+
+inline void TwUnitData::SetAttackingUnitID(int iID, bool bIsOrb = false, bool bAttackPos = false)
+{
+	int iOldID = m_pkBackData->iAttackingUnitID;
+	m_pkBackData->iAttackingUnitID = iID;
+}
+
+inline void TwUnitData::SetUsedSkillPoint(int iUsedPoint)
+{
+	m_pkBackData->iUsedSkillPoint = iUsedPoint;
+}
+
+inline int TwUnitData::GetUsedSkillPoint(void) const
+{
+	return m_pkBackData->iUsedSkillPoint;
+}
+
+inline int		TwUnitData::GetSkillPoint()
+{
+	return m_pkBackData->iLevel - m_pkBackData->iUsedSkillPoint;
+}
+inline const void TwUnitData::SetSkillDamagePer(float fPer) const
+{
+	m_pkCurData->fSkillDamagePer = fPer;
+}
+
+inline const float TwUnitData::GetSkillDamagePer(void) const
+{
+	return m_pkCurData->fSkillDamagePer;
+}
+
+inline const float TwUnitData::GetMagicDamage(void) const
+{
+	return m_pkCurData->fMagicDamage;
+}
+
+inline	const	float	TwUnitData::GetDamagePer()	const
+{
+	return m_pkCurData->fDamagePer;
+}
+
+inline	const	float	TwUnitData::GetBeDamagePer()	const
+{
+	return m_pkCurData->fBeDamagePer;
+}
+
+inline const float TwUnitData::GetSkillBlastPer(void) const
+{
+	return m_pkCurData->fSkillBlastPer;
+}
+
+inline const float TwUnitData::GetSkillBlastDmgPer(void) const
+{
+	return 1.5f;
+}
+
+inline void TwUnitData::SetAntiMagic(float fAntiMagic)
+{
+	m_pkCurData->fMagicArmor = fAntiMagic;
+}
+
+inline const float TwUnitData::GetMagicArmor(void) const
+{
+	return m_pkCurData->fMagicArmor;
+}
+
+inline const float TwUnitData::GetAddMagicArmor(void) const
+{
+	return m_pkCurData->fAddMagicArmor;
+}
+
+inline const float TwUnitData::GetDecMagicArmor(void) const
+{
+	return m_pkCurData->fDecAntiMagic;
+}
+
+inline const float TwUnitData::GetLeech(void) const
+{
+	return m_pkCurData->fLeech;
+}
+
+inline const float TwUnitData::GetMagicLeech(void) const
+{
+	return m_pkCurData->fMagicLeech;
+}
+
+inline const float TwUnitData::GetToughness(void) const
+{
+	return m_pkCurData->fToughness;
+}
+inline const float TwUnitData::GetDecArmor(void) const
+{
+	return m_pkCurData->fDecArmor;
+}
+inline const float TwUnitData::GetPerDecArmor(void) const
+{
+	return m_pkCurData->fPerDecArmor;
+}
+inline const	float	TwUnitData::GetPerDecMagicArmor()	const
+{
+	return m_pkCurData->fPerDecMagicArmor;
+}
+inline const float TwUnitData::GetDecMPCost(void) const
+{
+	return m_pkCurData->fDecMPCost;
+}
+inline const float TwUnitData::GetDecCDTime(void) const
+{
+	return m_pkCurData->fDecCDTime;
+}
+inline float	TwUnitData::GetPerCDTime()
+{
+	return m_pkCurData->fPerCDTime;
+}
+inline float	TwUnitData::GetBaoJiRate()	const
+{
+	return m_pkCurData->fBaoJi;
+}
+inline float	TwUnitData::GetBaoJiDamagePer()	const
+{
+	return m_pkCurData->fBaoJiDamagePer;
+}
+inline const float TwUnitData::GetAddEnmityPoint(void) const
+{
+	return m_pkCurData->fEnmityPoint;
+}
+
+inline const float TwUnitData::GetPerDamageReduce(void) const
+{
+	return m_pkCurData->fPerDamageReduce;
+}
+inline const float TwUnitData::GetEvadeRate(void) const
+{
+	return m_pkCurData->fEvadeRate;
 }

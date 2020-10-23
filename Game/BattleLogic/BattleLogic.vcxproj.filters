@@ -252,6 +252,12 @@
     <ClInclude Include="TW_UnitLearnSkillData.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="TW_UnitBase.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitCarry.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">

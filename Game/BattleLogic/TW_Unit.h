@@ -23,6 +23,8 @@
 #include "TW_Command.h"
 #include "TW_CommandExe.h"
 
+#include "TW_UnitCarry.h"
+
 class BeItem;
 class BeCarry;
 struct UnitTable;
@@ -30,304 +32,16 @@ class BeBuffer;
 class BeSkill;
 class BeMapItem;
 
-class BeUnit : public BeSingleLinkEntity, public BeEntity, public TwUnitData
+class BeUnit : public TwUnitCarry
 {
-	friend TwUnitData;
-
-protected:
-	BeUnit(int iID);
-
 public:
+	BeUnit(int iID);
 	~BeUnit(void);
 
 public:
 
-	inline std::vector<BeSkill*>& GetNormalSkillVec()
-	{
-		return m_apkNormalSkill;
-	}
-
-
-
-
-	inline const int GetHPLock(void) const
-	{
-		return m_iHPLock;
-	}
-
-	inline void SetHPLock(int iValue)
-	{
-		m_iHPLock = iValue;
-	}
-
-
-
-
-
-
-
-	inline bool GetSpeedLimit(void) const
-	{
-		return m_bSpeedLimit;
-	}
-
-	inline	void SetSpeedLimit(bool bLimit)
-	{
-		m_bSpeedLimit = bLimit;
-	}
-
 	int GetAttackCD(void) const;
 
-	inline void SetUnitImmunityFlag(int iFlag)
-	{
-		m_iImmunityFlag |= iFlag;
-	}
-
-	inline bool HasUnitImmunityFlag(int iFlag) const
-	{
-		return (m_iImmunityFlag & iFlag) == iFlag;
-	}
-
-	inline int GetUnitImmunityFlag(void) const
-	{
-		return m_iImmunityFlag;
-	}
-
-	void ClrUnitImmunityFlag(int iFlag)
-	{
-		m_iImmunityFlag &= ~iFlag;
-	}
-
-	inline int GetUnitNotInvisFlag(void) const
-	{
-		return m_iNotInvisByGroup;
-	}
-
-	inline bool HasUnitNotInvisFlag(int iFlag) const
-	{
-		return (m_iNotInvisByGroup & iFlag) == iFlag;
-	}
-
-	void ClrUnitNotInvisFlag(int iFlag)
-	{
-		m_iNotInvisByGroup &= ~iFlag;
-	}
-
-	inline void SetUnitNotInvisFlag(int iFlag)
-	{
-		m_iNotInvisByGroup |= iFlag;
-	}
-
-	inline bool IsUnitNotInvisToCamp(int eCamp) const
-	{
-		if (eCamp == GetCamp())
-		{
-			return true;
-		}
-
-		return HasUnitNotInvisFlag(1 << (int)eCamp) || HasUnitNotInvisFlag(1 << 20);
-	}
-
-	inline bool IsUnitInvisToAny() const
-	{
-		return !m_iNotInvisByGroup;
-	}
-
-	inline void DecUnitCurTime(int iDecTime)
-	{
-		m_pkCurData->iUnitCurLiveTime -= iDecTime;
-		if (m_pkCurData->iUnitCurLiveTime == 0)
-		{
-			m_pkCurData->iUnitCurLiveTime = -1;
-		}
-	}
-
-	inline void SetUnitCurLiveTime(int iCurLiveTime)
-	{
-		m_pkCurData->iUnitCurLiveTime = iCurLiveTime;
-	}
-
-	inline int GetUnitCurLiveTime(void) const
-	{
-		return m_pkCurData->iUnitCurLiveTime;
-	}
-
-	inline unsigned int GetUnitReliveTime(void) const
-	{
-		return m_pkBackData->uiUnitReliveTime;
-	}
-
-	inline int GetUnitAllLiveTime(void) const
-	{
-		return m_pkCurData->iUnitAllLiveTime;
-	}
-
-	void SetUnitAllLiveTime(int iAllTime)
-	{
-		m_pkCurData->iUnitAllLiveTime = iAllTime;
-	}
-
-	inline void SetUnitCreateTime(unsigned int dwCreateTime)
-	{
-		m_pkCurData->dwUnitCreateTime = dwCreateTime;
-	}
-
-	inline unsigned int GetUnitCreateTime() const
-	{
-		return m_pkCurData->dwUnitCreateTime;
-	}
-
-	inline float GetOrgMaxHP(void) const
-	{
-		return m_pkCurData->fOrgMaxHP;
-	}
-
-	inline void SetOrgMaxHP(float fOrgMaxHP)
-	{
-		m_pkCurData->fOrgMaxHP = fOrgMaxHP;
-	}
-
-	inline float GetOrgRegenHp(void) const
-	{
-		return m_pkCurData->fOrgRegenHP;
-	}
-
-	inline void SetOrgRegenHP(float fOrgDayRegenHP)
-	{
-		m_pkCurData->fOrgRegenHP = fOrgDayRegenHP;
-	}
-
-	inline float GetOrgMaxMP(void) const
-	{
-		return m_pkCurData->fOrgMaxMP;
-	}
-
-	inline void SetOrgMaxMP(float fOrgMaxMP)
-	{
-		m_pkCurData->fOrgMaxMP = fOrgMaxMP;
-	}
-
-	inline float GetOrgRegenMp(void) const
-	{
-		return m_pkCurData->fOrgRegenMP;
-	}
-
-	inline void SetOrgRegenMP(float fOrgRegenMP)
-	{
-		m_pkCurData->fOrgRegenMP = fOrgRegenMP;
-	}
-
-	inline float GetOrgMinDamage(void) const
-	{
-		return m_pkCurData->fOrgDamage;
-	}
-
-	inline void SetOrgMinDamage(float fOrgDamage)
-	{
-		m_pkCurData->fOrgDamage = fOrgDamage;
-	}
-
-	inline float GetOrgMaxDamage(void) const
-	{
-		return m_pkCurData->fOrgDamage;
-	}
-
-	inline void SetOrgMaxDamage(float fOrgMaxDamage)
-	{
-		m_pkCurData->fOrgDamage = fOrgMaxDamage;
-	}
-
-	inline float GetOrgArmor(void) const
-	{
-		return m_pkCurData->fOrgArmor;
-	}
-
-	inline void SetOrgArmor(float fOrgArmor)
-	{
-		m_pkCurData->fOrgArmor = fOrgArmor;
-	}
-
-	inline float GetOrgAntiMagic(void) const
-	{
-		return m_pkCurData->fOrgMagicArmor;
-	}
-
-	inline void SetOrgAntiMagic(float fOrgAntiMagic)
-	{
-		m_pkCurData->fOrgMagicArmor = fOrgAntiMagic;
-	}
-
-	inline float GetOrgMoveSpeed(void) const
-	{
-		return m_pkCurData->fOrgMoveSpeed;
-	}
-
-	inline void SetOrgMoveSpeed(float fOrgMoveSpeed)
-	{
-		m_pkCurData->fOrgMoveSpeed = fOrgMoveSpeed;
-	}
-
-	inline int GetOrgAttackCD(void) const
-	{
-		return m_pkCurData->iOrgAttackCD;
-	}
-
-	inline void SetOrgAttackCD(int iOrgAttackCD)
-	{
-		if (iOrgAttackCD != m_pkCurData->iOrgAttackCD)
-		{
-		}
-		m_pkCurData->iOrgAttackCD = iOrgAttackCD;
-	}
-
-	inline void SetAttackType(BeAttackType eType)
-	{
-		m_pkCurData->eAttackType = eType;
-	}
-
-	inline BeAttackType GetAttackType(void) const
-	{
-		return m_pkCurData->eAttackType;
-	}
-
-	int		GetResUnitAttackType()
-	{
-		return m_pkCurData->pkRes->uiAttackType;
-	}
-
-	inline int GetWeaponType(void) const
-	{
-		if (m_pkCurData->fAttackRange < 300.0f)
-		{
-			return 0;
-		}
-		return 1;
-	}
-
-	inline void SetMissleModel(int iMissileModel)
-	{
-		m_pkCurData->iMissileModel = iMissileModel;
-	}
-
-	inline int GetMissleModel(void) const
-	{
-		return m_pkCurData->iMissileModel;
-	}
-
-	inline int GetResMissleModel(void) const
-	{
-		return m_pkCurData->pkRes->iMissileModel;
-	}
-
-	inline void SetMissileSpeed(float fSpeed)
-	{
-		m_pkCurData->fMissileSpeed = fSpeed;
-	}
-
-	inline float GetMissileSpeed(void) const
-	{
-		return m_pkCurData->fMissileSpeed;
-	}
 
 	void SetActionName(int iActionName, int iTime)
 	{
@@ -352,11 +66,6 @@ public:
 		return m_iActionStartTime;
 	}
 
-	inline float GetBaseDamage(void) const
-	{
-		return m_pkCurData->fBaseDamage;
-	}
-
 	inline void SetBaseDamage(float fMaxDamage, bool bUpdateAttribute = true)
 	{
 		if (fMaxDamage != m_pkCurData->fBaseDamage)
@@ -379,16 +88,6 @@ public:
 		{
 			UpdateAttribute(true);
 		}
-	}
-
-	inline float GetAddDamage(void) const
-	{
-		return m_pkCurData->fAddDamage;
-	}
-
-	inline float GetBaseArmor(void) const
-	{
-		return m_pkCurData->fBaseArmor;
 	}
 
 	inline void SetBaseArmor(float fBaseArmor, bool bUpdateAttribute = true)
@@ -426,11 +125,6 @@ public:
 		}
 	}
 
-	inline float GetAddAromorPer(void) const
-	{
-		return m_pkCurData->fAddArmorPer;
-	}
-
 	inline void SetAddAntiMagic(float fAddMagicArmor, bool bUpdateAttribute = true)
 	{
 		m_pkCurData->fAddMagicArmor = fAddMagicArmor;
@@ -438,11 +132,6 @@ public:
 		{
 			UpdateAttribute(true);
 		}
-	}
-
-	inline int GetAddAntiMagic(void)
-	{
-		return m_pkCurData->fAddMagicArmor;
 	}
 
 	inline void SetAddAntiMagicPer(float fAddMagicArmorPer, bool bUpdateAttribute = true)
@@ -454,25 +143,10 @@ public:
 		}
 	}
 
-	inline int GetAddAntiMagicPer(void)
-	{
-		return m_pkCurData->fAddMagicArmorPer;
-	}
-
-	inline float GetBaseMaxHP(void)
-	{
-		return m_pkCurData->fBaseMaxHP;
-	}
-
 	inline void SetBaseMaxHP(float fBaseMaxHP)
 	{
 		m_pkCurData->fBaseMaxHP = fBaseMaxHP;
 		UpdateAttribute(true);
-	}
-
-	inline float GetBaseMaxMP(void)
-	{
-		return m_pkCurData->fBaseMaxMP;
 	}
 
 	inline void SetBaseMaxMP(float fBaseMaxMP)
@@ -487,126 +161,21 @@ public:
 		UpdateAttribute(true);
 	}
 
-	inline float GetBaseRegenMP(void)
-	{
-		return m_pkCurData->fBaseRegenMP;
-	}
-
-
 	inline void SetBaseRegenMP(float fBaseRegenMP)
 	{
 		m_pkCurData->fBaseRegenMP = fBaseRegenMP;
 		UpdateAttribute(true);
 	}
 
-	inline BeUnitAction GetActionType(void) const
-	{
-		return m_pkCurData->eActionType;
-	}
 
-	inline bool IsActionNow(BeUnitAction eAction) const
-	{
-		return (m_pkCurData->eActionType == eAction);
-	}
-
-	inline bool IsActionCurTimeOut(int iDeltaTime) const
-	{
-		return ((m_pkCurData->iActionCurTime + iDeltaTime) >= m_pkCurData->iActionAllTime);
-	}
-
-	int		GetRealDamagePt()
-	{
-		float iRealPtTime = m_pkCurData->iAttackDamagePt;
-
-		return iRealPtTime;
-	}
 
 	bool IsDamageTime(int iDeltaTime);
-
-	inline int GetActionCurTimeNeed(void) const
-	{
-		return (m_pkCurData->iActionAllTime - m_pkCurData->iActionCurTime);
-	}
-
-	inline void IncActionCurTime(int iDeltaTime)
-	{
-		m_pkCurData->iActionCurTime += iDeltaTime;
-		m_pkCurData->iAttackElapseTime += iDeltaTime;
-	}
-
-	inline int GetActionCurTime(void) const
-	{
-		return m_pkCurData->iActionCurTime;
-	}
-
-	inline void SetActionCurTime(int iActionCurTime)
-	{
-		m_pkCurData->iActionCurTime = iActionCurTime;
-	}
-
-	inline int GetActionAllTime(void) const
-	{
-		return m_pkCurData->iActionAllTime;
-	}
-
-	inline void SetActionAllTime(int iTime)
-	{
-		if (m_pkCurData->iActionAllTime != iTime)
-		{
-		}
-		m_pkCurData->iActionAllTime = iTime;
-	}
-
-	inline int GetAttackElapseTime(void) const
-	{
-		return m_pkCurData->iAttackElapseTime;
-	}
-
-	inline void ResetAttackElapseTime(void)
-	{
-		m_pkCurData->iAttackElapseTime = 0;
-	}
-
-	inline float GetPosX(void) const
-	{
-		return m_pkCurData->fPosX;
-	}
-
-	inline float GetPosY(void) const
-	{
-		return m_pkCurData->fPosY;
-	}
-
-	inline float GetPosZ(void) const
-	{
-		return m_pkCurData->fPosZ;
-	}
-
-	inline float GetFace(void) const
-	{
-		return m_pkCurData->fFace;
-	}
-
-	inline void SetPitch(float fPitch)
-	{
-		m_pkCurData->fPitch = fPitch;
-	}
-
-	inline float GetPitch(void)
-	{
-		return m_pkCurData->fPitch;
-	}
 
 	inline void SetAbsFace(float fFace)
 	{
 		AdjustRadian(fFace);
 
 		m_pkCurData->fFace = fFace;
-	}
-
-	inline float GetTarFace(void) const
-	{
-		return m_pkCurData->fFace;
 	}
 
 	void SetTarFace(float fTarFace)
@@ -619,10 +188,7 @@ public:
 		m_pkCurData->fFace = fTarFace;
 	}
 
-	float GetScale(void) const
-	{
-		return m_pkCurData->fScale;
-	}
+
 
 	void SetScale(float fScale)
 	{
@@ -639,57 +205,6 @@ public:
 	inline bool IsDead(void) const
 	{
 		return HasFlag(BUF_DEAD);
-	}
-
-	inline bool	InDanTiao() const
-	{
-		return (GetBuffer('BD59') ? true : false);
-	}
-
-	inline int GetAttackingUnitID(void) const
-	{
-		return m_pkBackData->iAttackingUnitID;
-	}
-
-	inline void SetAttackingUnitID(int iID, bool bIsOrb = false, bool bAttackPos = false)
-	{
-		int iOldID = m_pkBackData->iAttackingUnitID;
-		m_pkBackData->iAttackingUnitID = iID;
-	}
-
-	inline bool IsGhost(void) const
-	{
-		return HasFlag(BUF_ISGHOST);
-	}
-
-	inline bool IsDividMan(void) const
-	{
-		return HasFlag(BUF_ISDIVIDMAN);
-	}
-
-	inline bool IsSummonTemp(void) const
-	{
-		return HasFlag(BUF_ISSUMMONTEMP);
-	}
-
-	inline bool IsSummomPer(void) const
-	{
-		return HasFlag(BUF_ISSUMMONPER);
-	}
-
-	inline void SetUsedSkillPoint(int iUsedPoint)
-	{
-		m_pkBackData->iUsedSkillPoint = iUsedPoint;
-	}
-
-	inline int GetUsedSkillPoint(void) const
-	{
-		return m_pkBackData->iUsedSkillPoint;
-	}
-
-	int		GetSkillPoint()
-	{
-		return m_pkBackData->iLevel - m_pkBackData->iUsedSkillPoint;
 	}
 
 	inline std::list<BeCommand>& GetUnitCommands(void)
@@ -733,52 +248,6 @@ public:
 		GiveCommand(pkUnit->GetUnitCurCommand());
 	}
 
-	//inline void SetConnectUnit(BeUnit* pkUnit)
-	//{
-	//	if (pkUnit)
-	//	{
-	//		m_akConnectUnits.push_back(pkUnit->GetSharePtr());
-	//	}
-	//}
-
-	//inline std::vector<std::auto_ptr<BeUnit>>& GetConnectUnits(void)
-	//{
-	//	return m_akConnectUnits;
-	//}
-
-	inline void SetShareHPUnitID(int iUnitID)
-	{
-		m_VecShareHPIDs.push_back(iUnitID);
-	}
-
-	inline const std::vector<int>& GetShareHPUnitID(void) const
-	{
-		return m_VecShareHPIDs;
-	}
-
-	inline void DelConnectUnit(BeUnit* pkUnit)
-	{
-		//assert(pkUnit);
-		//if (pkUnit)
-		//{
-		//	int iID = pkUnit->GetID();
-		//	for (std::vector<SeSharedPtr<BeUnit>>::iterator itr = m_akConnectUnits.begin(); itr != m_akConnectUnits.end(); ++itr)
-		//	{
-		//		SeSharedPtr<BeUnit>& rkUnitPtr = (*itr);
-		//		if (!rkUnitPtr.IsNull() && (rkUnitPtr->GetID() == iID))
-		//		{
-		//			m_akConnectUnits.erase(itr);
-		//			break;
-		//		}
-		//	}
-		//}
-	}
-
-	inline void SetOrgSkillLevel(int iSkillLevel)
-	{
-		m_iOrgSkillLevel = iSkillLevel;
-	}
-
 	inline void SetTransTime(int iTransTime, bool bForce = false)
 	{
 		m_iTransTime = iTransTime;
@@ -794,187 +263,12 @@ public:
 		return m_iTransTime;
 	}
 
-	inline const void SetSkillDamagePer(float fPer) const
-	{
-		m_pkCurData->fSkillDamagePer = fPer;
-	}
-
-	inline const float GetSkillDamagePer(void) const
-	{
-		return m_pkCurData->fSkillDamagePer;
-	}
-
-	inline const float GetMagicDamage(void) const
-	{
-		return m_pkCurData->fMagicDamage;
-	}
-
-	inline	const	float	GetDamagePer()	const
-	{
-		return m_pkCurData->fDamagePer;
-	}
-
-	inline	const	float	GetBeDamagePer()	const
-	{
-		return m_pkCurData->fBeDamagePer;
-	}
-
-	inline const float GetSkillBlastPer(void) const
-	{
-		return m_pkCurData->fSkillBlastPer;
-	}
-
-	inline const float GetSkillBlastDmgPer(void) const
-	{
-		return 1.5f;
-	}
-
-	inline void SetAntiMagic(float fAntiMagic)
-	{
-		m_pkCurData->fMagicArmor = fAntiMagic;
-	}
-
-	inline const float GetMagicArmor(void) const
-	{
-		return m_pkCurData->fMagicArmor;
-	}
-
-	inline const float GetAddMagicArmor(void) const
-	{
-		return m_pkCurData->fAddMagicArmor;
-	}
-
-	inline const float GetDecMagicArmor(void) const
-	{
-		return m_pkCurData->fDecAntiMagic;
-	}
-
-	inline const float GetLeech(void) const
-	{
-		return m_pkCurData->fLeech;
-	}
-
-	inline const float GetMagicLeech(void) const
-	{
-		return m_pkCurData->fMagicLeech;
-	}
-
-	inline const float GetToughness(void) const
-	{
-		return m_pkCurData->fToughness;
-	}
-
-	const float GetDecArmor(void) const
-	{
-		return m_pkCurData->fDecArmor;
-	}
-	const float GetPerDecArmor(void) const
-	{
-		return m_pkCurData->fPerDecArmor;
-	}
-	const	float	GetPerDecMagicArmor()	const
-	{
-		return m_pkCurData->fPerDecMagicArmor;
-	}
-
-	inline const float GetSpeedFixup(void) const
-	{
-		return m_fSpeedFixup;
-	}
-
-	inline void SetSpeedFixup(float fValue)
-	{
-		m_fSpeedFixup = fValue;
-	}
-
 	inline void SetDecMPCost(float fDecMPCost)
 	{
 		if (fDecMPCost != m_pkCurData->fDecMPCost)
 		{
 		}
 		m_pkCurData->fDecMPCost = fDecMPCost;
-	}
-	inline const float GetDecMPCost(void) const
-	{
-		return m_pkCurData->fDecMPCost;
-	}
-	inline const float GetDecCDTime(void) const
-	{
-		return m_pkCurData->fDecCDTime;
-	}
-	float	GetPerCDTime()
-	{
-		return m_pkCurData->fPerCDTime;
-	}
-	float	GetBaoJiRate()	const
-	{
-		return m_pkCurData->fBaoJi;
-	}
-	float	GetBaoJiDamagePer()	const
-	{
-		return m_pkCurData->fBaoJiDamagePer;
-	}
-
-	inline const float GetAddEnmityPoint(void) const
-	{
-		return m_pkCurData->fEnmityPoint;
-	}
-
-	inline const float GetPerDamageReduce(void) const
-	{
-		return m_pkCurData->fPerDamageReduce;
-	}
-	inline const float GetEvadeRate(void) const
-	{
-		return m_pkCurData->fEvadeRate;
-	}
-
-	void SetOtherFlag(int iFlag)
-	{
-		if (!HasOtherFlag(iFlag))
-		{
-			SetShareUnitChangeFlag(BSUDCF_OTHERFLAG);
-		}
-		m_iOtherFlag |= iFlag;
-	}
-
-	void ClrOtherFlag(int iFlag)
-	{
-		if (HasOtherFlag(iFlag))
-		{
-			SetShareUnitChangeFlag(BSUDCF_OTHERFLAG);
-		}
-		m_iOtherFlag &= ~iFlag;
-	}
-
-	bool HasOtherFlag(int iFalg) const
-	{
-		return (m_iOtherFlag & iFalg) == iFalg;
-	}
-
-	int GetOtherFlag() const
-	{
-		return m_iOtherFlag;
-	}
-
-	inline int GetDeathRecordLastTime(void) const
-	{
-		return m_iDeathRecordLastTime;
-	}
-
-	inline void SetDeathRecordLastTime(int iDeathRecordLastTime)
-	{
-		m_iDeathRecordLastTime = iDeathRecordLastTime;
-	}
-
-	inline float GetDeathRecordTotalDamage(void) const
-	{
-		return m_fDeathRecordTotalDamage;
-	}
-
-	inline void SetWalkLineIdx(int iIdx)
-	{
-		m_iWalkLineIdx = iIdx;
 	}
 
 	inline bool IsPureNeedUpdate()
@@ -1031,26 +325,6 @@ public:
 			SetShareUnitChangeFlag(BSUDCF_PATHFINDER);
 		}
 		m_fWalkTargetY = fTarPosY;
-	}
-
-	inline int GetWalkLineIdx(void)
-	{
-		return m_iWalkLineIdx;
-	}
-
-	std::map<int, int> GetCommonCD()
-	{
-		return m_akCommonCD;
-	}
-
-	void SetCommonCD(std::map<int, int> kMap)
-	{
-		m_akCommonCD = kMap;
-	}
-
-	std::map<int, float>& GetShield()
-	{
-		return m_akShield;
 	}
 
 	unsigned int GetTransAlphaDec()
@@ -1257,40 +531,6 @@ public:
 
 	void				CopyAttribute(BeUnit* pkUnit);
 
-	int					GetDeadCount()
-	{
-		return m_iDeadCount;
-	}
-	void				AddDeadCount()
-	{
-		m_iDeadCount++;
-	}
-	void				ResetDeadCount()
-	{
-		m_iDeadCount = 0;
-	}
-
-	void				ChangeSkill(int iPos, int iSkillTypeID)
-	{
-		//if (iPos >= 0 && iPos < iMaxHeroSkillNum)
-		//{
-		//	int		iLastLevel = 0;
-		//	if (m_pkCurData->apkUISkill[iPos])
-		//	{
-		//		iLastLevel = m_pkCurData->apkUISkill[iPos]->GetLevel();
-
-		//		m_pkCurData->apkUISkill[iPos] = nullptr;
-		//		BeSkill* pkNewSkill = AddSkill(iSkillTypeID);
-		//		if (pkNewSkill)
-		//		{
-		//			pkNewSkill->SetLevel(iLastLevel);
-		//		}
-
-		//		m_bChangeSkill = true;
-		//	}
-		//}
-	}
-
 	bool			IsChangeSkill()
 	{
 		return m_bChangeSkill;
@@ -1310,12 +550,10 @@ public:
 	void			OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate = true, bool bDelEffect = true);
 	void SetCheatAttr(void);
 
-	float GetDecMagicResistance(void);
 	void SetAllLiveTime(int iAllTime);
 
 	void AddNewShield(int iBufferID, float fShield);
 	float GetShieldByBuffer(int iBufferID);
-	inline	float	GetTotalShield(void);
 
 	float		GetExtraBossDamageTotal(int iBossID);
 
@@ -1338,89 +576,32 @@ public:
 	void			GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID);
 
 	BeItem* AddItem(int iTypeID, int iPos = -1, int iForceID = 0, int iOrgData = 0);
-public:
-	void        SetUD_Int(UserDataKey eKey, int i);
-	void        SetUD_Float(UserDataKey eKey, float f);
-	int         GetUD_Int(UserDataKey eKey, int i = 0)const;
-	float       GetUD_Float(UserDataKey eKey, float f = 0.f)const;
-	int         PopUD_Int(UserDataKey eKey);
-	float       PopUD_Float(UserDataKey eKey);
-	void        ClearUserData(UserDataKey eKey);
-	bool        HasUserData(UserDataKey eKey) const;
 
-protected:
-	int				ParseItemAndCompose(int& iI167UseCount, int& iSellProtectTime, int& iCanPos, std::vector<int>& akChildItemOrgUnitID, int iAcceptItemID = 0, int iAccetItemOwnPlayer = 0);
 
 protected:
 	BeCommander									m_kCommander;
 
 	bool										m_bChangeSkill;
 
-	std::vector<BeSkill*>						m_apkNormalSkill;
-	int							m_iOtherFlag;
-
-	int							m_iImmunityFlag;
-	std::vector<BeCarry*>		m_apkCarry;
-	BeItem* m_apkItem[6];
-
-	int							m_iNotInvisByGroup;
-
-	std::map<int, int>			m_akCommonCD;
-
-	std::map<int, float>	m_akShield;
-
-	float						m_fPreMaxHP;
-	float						m_fPreMaxMP;
 
 	int							m_iMoveToUnitID;
 	float                       m_fMoveTarPosX;
 	float                       m_fMoveTarPosY;
 	int							m_iMoveAllTime;
 	float						m_fMinMoveDistance;
-
-	//std::vector<std::auto_ptr<BeUnit>>			m_akConnectUnits;
-	std::vector<int>			m_VecShareHPIDs;
-
-	int							m_iOrgSkillLevel;
+	float						m_fWalkTargetX;
+	float						m_fWalkTargetY;
 
 	int					m_iTransTime;
 	int					m_iAddTransTime;
 	UnitActorTransType  m_eActorTransType;
 	bool				m_bNeedTrans;
-
-	unsigned int				m_dwTransAlphaDec;
-	unsigned int				m_dwStartAlpha;
+	unsigned int		m_dwTransAlphaDec;
+	unsigned int		m_dwStartAlpha;
 	int					m_iAlphaTransTime;	
-
-	std::vector<BeBuffer*> m_apkMultyBuffer;
 
 	BeActionName		m_eActionName;
 	int					m_iActionStartTime;	
-
-	int					m_iHPLock;			
-	float				m_fSpeedFixup;		
-	bool				m_bSpeedLimit;		
-	bool				m_iSummonSkillOrItem;
-
-	int					m_iOutBattleTime;
-	bool				m_bOutOfBattle;
-
-	int			m_iDeathRecordLastTime;
-	float			m_fDeathRecordTotalDamage;
-	int			m_iWalkLineIdx;
-
-	unsigned int	m_iTurnTableFlag;
-	unsigned int	m_iTurnTableInfo[6];
-	unsigned int	m_uiNowTurnResult;
-	unsigned int	m_uiTurnResult[6];
-	unsigned int	m_uiReTurnNum;
-	unsigned int	m_uiConfirmResult;
-
-	unsigned int	m_uiHunQiSkillID;
-	unsigned short	m_usHunStoneNum;
-	unsigned short  m_usHunStoneTotalNum;
-	unsigned int	m_uiTurnTableAttrInfo[6];
-	std::vector<BeUnitBeDamageRecord> m_apkBeDamageRecord;
 
 	BeCommand			m_kLastCommand;
 
@@ -1430,23 +611,12 @@ protected:
 	void	UpdateLiveTime(int iDeltaTime);
 	void	UpdateBuffer(int iDeltaTime);
 
-protected:
-	bool m_bIsUpdate;
-protected:
-	std::vector<int>  m_kLabel;
-
-
 public:
 	int		m_iActionState;
-	float	m_fWalkTargetX;
-	float	m_fWalkTargetY;
 	int		m_iPathFindSucessTime;
 private:
 	bool	m_bPureNeedUpdae;
 	void	UpdateTransrate(int iDeltaTime);
-
-private:
-	void	UpdateSummonUnit();
 
 public:
 	void SetFlag(int iFlag, bool bNeedRecordChange = true);
@@ -1458,10 +628,6 @@ public:
 	void SetCurAttackCD(int iCurAttackCD);
 	void UpdateBattleState(bool bBattle);
 	void	UpdateItemPassiveSkill();
-	bool	GetBattleState()
-	{
-		return m_bOutOfBattle;
-	}
 private:
 	bool					m_bNewUnit[2];
 	BeShareSelfData			m_kShareSelfDataCur;
@@ -1470,36 +636,18 @@ private:
 	int						m_iActionStayTime;
 	int						m_iGrassIndex;
 	int						m_iGiveAttackCmdTime;
-	std::unordered_map<int, TePointerType>		m_akUserData;
-	int						m_iDeadCount;
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;
 	std::shared_ptr<BeUnit>		m_spSharePtr;
-	bool					m_abInPlayerVision[20];
-	bool					m_abEverInPlayerVision[20];
-	int						m_eCamp;
 	
-	std::vector<BeBuffer*>	m_apkBuffer;
-	float					m_fTotalShield;
-	bool					m_bVisionForCamp[iPureCampNum];
-	bool					m_bVisionForCampLast[iPureCampNum];
 	bool					m_bGrassVisionForCamp[iPureCampNum];
 	bool					m_bGrassVisionForCampLast[iPureCampNum];
-	unsigned	int			m_iTabInfoFlagForCampA;
-	unsigned	int			m_iTabInfoFlagForCampB;
 	std::vector<int>		m_kItemPassiveSkill;
 	int						m_iLastAttackTime;
 	int						m_iLastAttackHeroTime;
-	int						m_iCastVisionTime;
-	int						m_iOneFrameDamage;
-	std::vector<int>		m_kVecSkillUnit;
-
 
 public:
-	inline		void					SetUnitVision(void* pkData);
-	inline		void* GetUnitVision()	const;
 	inline		unsigned int			GetClass(void) const;
-	inline		unsigned int			GetSecClass(void) const;
 	inline		int						GetEffectID();
 	inline		void					SetEffectID(int iValue);
 	inline		void					SetActionStayTime(int iValue);
@@ -1509,23 +657,13 @@ public:
 	inline		void					SetNewUnit(bool bNew);
 	inline		BeShareSelfData& GetCurShareSelfData();
 	inline		const BeShareSelfData& GetLastShareSelfData();
-	inline		int						GetCamp(void) const;
-	inline		void					SetCamp(int iCamp);
 	inline		int						GetOrgAttackCD();
-	inline		int						GetVisionRadius(void) const;
-	inline		void					SetIsInPlayerVision(int iSeat);
-	inline		bool					GetIsInPlayerVision(int iSeat) const;
-	inline		bool					GetIsInPlayerVisionEver(int iSeat) const;
 	inline		void					SetHaveSetObstacle(bool bSet);
 	inline		bool					GetHaveSetObstacle() const;
 	inline		bool					GetNeedUpdateObstacle() const;
 	inline		const std::shared_ptr<BeUnit> GetSharePtr() const;
 	inline		int						GetDamageNum();
-	inline	const	bool				GetUnitVisionForCamp(int iDstCamp)	const;
-	inline		void					SetTabInfoFlag(int iFlag);
-	inline		unsigned	int			GetTabInfoFlag(int iCamp)	const;
-	inline		void					ClrTabInfoFlag(int iCamp);
-	inline		unsigned	int			GetZhuanShuSkillTypeID();
+
 	inline		unsigned	int			GetSkillTypeIDByPos(int iPos);
 	inline		void					AddItemPassiveSkill(int iSkillTypeID);
 	inline		void					ClearItemPassiveSkill();
@@ -1535,55 +673,10 @@ public:
 	inline		int						GetLastGiveAttackCmdTime();
 	inline		void					SetLastAttackHeroTime(int iTime);
 	inline		int						GetLastAttackHeroTime();
-	inline		void					SetCastVisionTime(int iTime);
 
-	inline		void					SetTurnTableFlag(int iFlag);
-	inline		unsigned int			GetTurnTableFlag();
-	inline		void					ClearTurnTableFlag();
-	inline		void					SetNextTurnTime(int iTime);
-	inline		int						GetNextTurnTime();
-	inline		void					SetTurnTableInfoByPos(int iIdx, unsigned int iValue);
-	inline		unsigned int			GetTurnTableInfoByPos(int iIdx);
-	inline		void					SetNowTurnTableResult(unsigned int iValue);
-	inline		unsigned int			GetNowTurnTableResult();
-	inline		unsigned int			GetReTurnNum();
-	inline		void					AddReTurnNum();
-	inline		unsigned int			GetTurnConfirmResult();
-	inline		void					SetTurnResultArrayByPos(int iIdx, unsigned int iValue);
-	inline		unsigned int			GetTurnResultArrayByPos(int iIdx);
-	inline		void					AddOneFrameDamage(float fDamage);
-	inline		float					GetOneFrameDamage();
-
-	inline		void					AddBeDamageRecord(int iID, unsigned int uiDamage);
-	inline		unsigned int 			GetBeDamageRecord(int iID);
-
-	inline void							SetHunQiSkillID(unsigned int uiSkillID);
-	inline unsigned int					GetHunQiSkillID();
-	inline void							AddHunStoneNum(unsigned short usCount);
-	inline void							ReduceHunStoneNum(unsigned short usCount);
-	inline void							SetHunStoneNum(unsigned short usCount);
-	inline unsigned short				GetHHunStoneNum();
-	inline void							AddHunStoneTotalNum(unsigned short usCount);
-	inline unsigned short				GetHunStoneTotalNum();
-	inline unsigned int					GetTurnTableAttrInfoByPos(int iPos);
-	inline void							SetTurnTableAttrInfoByPos(int iPos, unsigned int uiSkillID);
-	inline void							AddTurnTableAttrInfo(unsigned int uiSkillID);
 	inline	void						AddSkillUnit(int iUnitID);
-	inline	std::vector<int>& GetSkillUnit();
+	inline	std::vector<int>&			GetSkillUnit();
 };
-
-inline	const		bool	BeUnit::GetUnitVisionForCamp(int iDstCamp)	const
-{
-	if (iDstCamp < 0 || iDstCamp >= iPureCampNum)
-	{
-		return false;
-	}
-	if (m_bVisionForCamp[iDstCamp] && m_bGrassVisionForCamp[iDstCamp])
-	{
-		return true;
-	}
-	return false;
-}
 
 inline unsigned int BeUnit::GetClass(void) const
 {
@@ -1593,15 +686,6 @@ inline unsigned int BeUnit::GetClass(void) const
 	}
 
 	return m_pkBackData->pkRes->uiClassType;
-}
-inline unsigned int BeUnit::GetSecClass(void) const
-{
-	if (!m_pkBackData || !m_pkBackData->pkRes)
-	{
-		return 0;
-	}
-
-	//return m_pkBackData->pkRes->uiSecClassType;
 }
 
 inline int			BeUnit::GetEffectID()
@@ -1646,46 +730,12 @@ inline const BeShareSelfData& BeUnit::GetLastShareSelfData()
 {
 	return m_kShareSelfDataLast;
 }
-inline int			BeUnit::GetCamp(void) const
-{
-	return m_eCamp;
-}
-inline void			BeUnit::SetCamp(int iCamp)
-{
-	SetShareUnitChangeFlag(BSUDCF_CAMP);
-	m_eCamp = iCamp;
-}
+
 inline int			BeUnit::GetOrgAttackCD()
 {
 	return m_pkCurData->iOrgAttackCD;
 }
 
-inline void			BeUnit::SetIsInPlayerVision(int iSeat)
-{
-	if (iSeat < 0 || iSeat >= 20)
-	{
-		return;
-	}
-	m_abInPlayerVision[iSeat] = true;
-}
-inline bool			BeUnit::GetIsInPlayerVision(int iSeat) const
-{
-	return true;
-
-	if (iSeat < 0 || iSeat >= 20)
-	{
-		return false;
-	}
-	return m_abInPlayerVision[iSeat];
-}
-inline bool			BeUnit::GetIsInPlayerVisionEver(int iSeat) const
-{
-	if (iSeat < 0 || iSeat >= 20)
-	{
-		return false;
-	}
-	return m_abEverInPlayerVision[iSeat];
-}
 inline void			BeUnit::SetHaveSetObstacle(bool bSet)
 {
 	m_bSetObstacle = bSet;
@@ -1706,33 +756,7 @@ inline int			BeUnit::GetDamageNum()
 {
 	return m_pkCurData->fBaseDamage + m_pkCurData->fAddDamage;
 }
-inline		void					BeUnit::SetTabInfoFlag(int iFlag)
-{
-	m_iTabInfoFlagForCampA |= iFlag;
-	m_iTabInfoFlagForCampB |= iFlag;
-}
-inline		unsigned	int			BeUnit::GetTabInfoFlag(int iCamp)	const
-{
-	return 0;
-}
-inline		void					BeUnit::ClrTabInfoFlag(int iCamp)
-{
 
-}
-inline		unsigned	int			BeUnit::GetZhuanShuSkillTypeID()
-{
-	unsigned	int		iSkillTypeID = 0;
-	if (m_pkCurData->pkRes)
-	{
-		iSkillTypeID = m_pkCurData->pkRes->iSkillList[4];
-		if (iSkillTypeID < 'SM01' || iSkillTypeID > 'SM99')
-		{
-			return 0;
-		}
-	}
-
-	return iSkillTypeID;
-}
 inline		unsigned	int			BeUnit::GetSkillTypeIDByPos(int iPos)
 {
 	unsigned	int		iSkillTypeID = 0;
@@ -1787,148 +811,6 @@ inline		void					BeUnit::SetLastAttackHeroTime(int iTime)
 inline		int						BeUnit::GetLastAttackHeroTime()
 {
 	return m_iLastAttackHeroTime;
-}
-inline		float					BeUnit::GetTotalShield(void)
-{
-	return m_fTotalShield;
-}
-inline		void					BeUnit::SetCastVisionTime(int iTime)
-{
-	m_iCastVisionTime = iTime;
-}
-
-inline		void					BeUnit::SetTurnTableFlag(int iFlag)
-{
-	m_iTurnTableFlag |= iFlag;
-}
-
-inline		unsigned int			BeUnit::GetTurnTableFlag()
-{
-	return m_iTurnTableFlag;
-}
-
-inline		void					BeUnit::ClearTurnTableFlag()
-{
-	m_iTurnTableFlag = 0;
-}
-
-inline		void					BeUnit::SetTurnTableInfoByPos(int iIdx, unsigned int iValue)
-{
-	if (iIdx < 0 && iIdx >= 6)
-	{
-		return;
-	}
-	m_iTurnTableInfo[iIdx] = iValue;
-}
-
-inline		unsigned int			BeUnit::GetTurnTableInfoByPos(int iIdx)
-{
-	if (iIdx < 0 && iIdx >= 6)
-	{
-		return 0;
-	}
-	return m_iTurnTableInfo[iIdx];
-}
-
-inline		unsigned int			BeUnit::GetNowTurnTableResult()
-{
-	return this->m_uiNowTurnResult;
-}
-
-inline		void					BeUnit::SetNowTurnTableResult(unsigned int uiResult)
-{
-	this->m_uiNowTurnResult = uiResult;
-}
-
-inline		unsigned int			BeUnit::GetReTurnNum()
-{
-	return this->m_uiReTurnNum;
-}
-
-inline		void					BeUnit::AddReTurnNum()
-{
-	m_uiReTurnNum++;
-}
-
-inline		void					BeUnit::SetTurnResultArrayByPos(int iIdx, unsigned int iValue)
-{
-	if (iIdx < 0 && iIdx >= 6)
-	{
-		return;
-	}
-	this->m_uiTurnResult[iIdx] = iValue;
-}
-
-inline		unsigned int			BeUnit::GetTurnResultArrayByPos(int iIdx)
-{
-	if (iIdx < 0 && iIdx >= 6)
-	{
-		return 0;
-	}
-	return this->m_uiTurnResult[iIdx];
-}
-
-inline		unsigned int			BeUnit::GetTurnConfirmResult()
-{
-	return this->m_uiConfirmResult;
-}
-inline		void					BeUnit::AddOneFrameDamage(float fDamage)
-{
-	m_iOneFrameDamage += fDamage;
-}
-inline		float					BeUnit::GetOneFrameDamage()
-{
-	return m_iOneFrameDamage;
-}
-
-inline		void					BeUnit::AddBeDamageRecord(int iID, unsigned int uiDamage)
-{
-	for (int i = 0; i < m_apkBeDamageRecord.size(); i++)
-	{
-		if (m_apkBeDamageRecord[i].iID == iID)
-		{
-			m_apkBeDamageRecord[i].uiBeDamage += uiDamage;
-			return;
-		}
-	}
-	m_apkBeDamageRecord.push_back(BeUnitBeDamageRecord(iID, uiDamage));
-}
-
-inline		unsigned int 			BeUnit::GetBeDamageRecord(int iID)
-{
-	for (int i = 0; i < m_apkBeDamageRecord.size(); i++)
-	{
-		if (m_apkBeDamageRecord[i].iID == iID)
-		{
-			return m_apkBeDamageRecord[i].uiBeDamage;
-		}
-	}
-	return 0;
-}
-
-inline unsigned int					BeUnit::GetHunQiSkillID()
-{
-	return m_uiHunQiSkillID;
-}
-
-inline void					BeUnit::SetHunQiSkillID(unsigned int uiSkillID)
-{
-	m_uiHunQiSkillID = uiSkillID;
-}
-
-inline unsigned int					BeUnit::GetTurnTableAttrInfoByPos(int iPos)
-{
-	return m_uiTurnTableAttrInfo[iPos];
-}
-
-inline	void						BeUnit::AddSkillUnit(int iUnitID)
-{
-	m_kVecSkillUnit.push_back(iUnitID);
-}
-
-inline	std::vector<int>& BeUnit::GetSkillUnit()
-{
-	return	m_kVecSkillUnit;
 }
 
 inline bool BeUnit::IsInvincible(void) const
