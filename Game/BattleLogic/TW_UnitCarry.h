@@ -7,11 +7,17 @@
 
 #include "TW_UnitData.h"
 
+class BeBuffer;
 class BeSkill;
+class BeMapItem;
+class BeItem;
+class BeCarry;
 
 class TwUnitCarry : public TwUnitData
 {
 protected:
+    TwUnitCarry(int iID);
+    ~TwUnitCarry();
     std::vector<std::shared_ptr<BeSkill>>& GetNormalSkillVec();
 
     std::vector<std::shared_ptr<BeCarry>>		m_apkCarry;

@@ -25,13 +25,6 @@
 
 #include "TW_UnitCarry.h"
 
-class BeItem;
-class BeCarry;
-struct UnitTable;
-class BeBuffer;
-class BeSkill;
-class BeMapItem;
-
 class BeUnit : public TwUnitCarry
 {
 public:
@@ -416,9 +409,7 @@ public:
 
 	BeSkill* AddSkill(int iTypeID, int iLevel = 1, bool bCurrent = false, bool bGenus = false, bool bGenusSkill = false, int iForceID = 0);
 	BeSkill* GetSkill(int iTypeID, bool bCurrent = true) const;
-//	BeSkill*		GetEquipSkill(int iTypeID) const;
 	BeSkill* GetSkillByPos(int iPos, bool bOrg = false);
-	//	BeSkill*		GetGenusSkillByPos(int iPos) const;
 	int				GetCanLearnSkillIDByPos(int iPos) const;
 	BeSkill* GetSkillByUIPos(int iPos) const;
 	int				GetCanLearnSkillByIdx(int iPos) const;
@@ -426,8 +417,7 @@ public:
 	void			DelAllSkill(bool bHeroSkillOnly = false);
 	void			SetSkillLevel(int iTypeID, int iLevel);
 	int				GetSkillLevel(int iTypeID);
-	const std::vector<BeSkill*>& GetNormalSkill(void);
-	//	const SeSkillRes*	GetItemSkill(int iItemID) const;
+	const std::vector<std::shared_ptr<BeSkill>>& GetNormalSkill(void);
 	int				GetItemSkillTypeID(int iItemID);
 	int				GetItemUseSkill(int iItemTypeID);
 
@@ -445,22 +435,11 @@ public:
 	void			AddBufferEnd(BeBuffer* pkBuffer);
 	BeBuffer* GetBuffer(int iTypeID, int iUnitID = 0);
 	const BeBuffer* GetBuffer(int iTypeID, int iUnitID = 0) const;
-	BeBuffer* GetLilithBuffer();
-	void	RemoveLilithBuffer(int iUnitID);
-	const std::vector<BeBuffer*>& GetBufferByMulty(int iTypeID, int iUnitID = 0);
-	const int GetMultyBufferSize(int iTypeID, int iUnitID = 0) const;
-	const std::vector<BeBuffer*>& GetBufferByNegative(void);
-	std::vector<BeBuffer*> GetAllBuffer(void) const;
 	bool			DelBuffer(int iTypeID, int iUnitID = 0);
 	bool			DelBufferByID(int iBufferID);
 	void			UpdateState(int iDeltaTime);
-	bool			DelBufferByType(int iTypeID, int iUnitID = 0);
 	void			DelBufferByClean(bool bNegative = true, bool bGood = true);
 	void			DelBufferByAutoClean(void);
-	bool			DelNegativeBuffer(void);
-	bool			DelNegativeBufferExceptNoInvins(void);
-	BeBuffer* GetBufferByInnerID(int iID);
-
 	void			RemoveBufferAttr(BeNormalAttType eType);
 
 	template<class T>
@@ -491,10 +470,6 @@ public:
 	float			GetAttackedAntiLeech(void) const;
 	void			GetAttackedPhysicAttr(float& fAntiPhysic, const BeUnit* pkAttacker, float fDecArmorValue, float fDecArmorPer) const;
 	void			GetAttackedMagicAttr(float& fAntiMagic, const BeUnit* pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
-	float			GetAttackedReboundSkill(void) const;
-	float			GetAttackedReboundSkillAll(void) const;
-	float			GetAttackedReboundPhysicShorRange(int& iSkill) const;
-	void			GetAttackedReboundPhysicBoth(float& fShortRange, float& fEject, int& iShortSkill, int& iEjectSkill);
 	float			GetAttackedAttackCDAttr(void) const;
 	float			GetAttackedBaoJiAttr(void) const;
 	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel = -1);
@@ -524,8 +499,6 @@ public:
 
 	bool PickMapItem(BeMapItem* pkMapItem);
 
-	bool				InBossArea(const BeUnit* pkBoss) const;
-
 	void				AddIgnoreUnit(int iUnitID, int iTime = 5000);
 	bool				IsIgnoreUnit(int iUnitID) const;
 
@@ -541,13 +514,7 @@ public:
 	}
 
 public:
-	void SetCommonCDLastUseTime(int iTypeID, int iTime);
-	int GetCommonCDLastUseTime(int iTypeID) const;
-	bool CommonCDComplete(int iTypeID, int iCDTime) const;
-	void ClearAllCommonCD(void);
-	std::map<int, int>& GetAllCD(void);
-
-	void			OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate = true, bool bDelEffect = true);
+	void			OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate = true, bool bDelEffect = true);
 	void SetCheatAttr(void);
 
 	void SetAllLiveTime(int iAllTime);
@@ -560,7 +527,6 @@ public:
 protected:
 	void			SetDead(void);
 	void			DelAllBuffer(bool bRelive = false);
-	void			DelAllBufferFinal(void);
 	void			OnInitAttribute(bool bCurrent = true, bool bNeedRecordChange = true);
 	void			SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange = true);
 
@@ -569,12 +535,7 @@ protected:
 	void			UpdateValidSkill(bool bReset = false);
 	void			OnAddBuffer(BeBuffer* pkBuffer);
 
-	BeBuffer* SuperposeBuffer(int iTypeID, int iSingleCount = 1, int iMultiCount = 1, int iLevel = 1, int iUnitID = 0);
-
 public:
-	void			GetSingleSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID);
-	void			GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID);
-
 	BeItem* AddItem(int iTypeID, int iPos = -1, int iForceID = 0, int iOrgData = 0);
 
 

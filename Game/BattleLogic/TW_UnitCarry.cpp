@@ -17,12 +17,22 @@
 #include "TW_AttackAttr.h"
 #include "TW_MemoryObject.h"
 
+TwUnitCarry::TwUnitCarry(int iID) : TwUnitData(iID)
+{
+
+}
+
+TwUnitCarry::~TwUnitCarry()
+{
+
+}
+
 BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
 	const ItemTable* pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!pkRes)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int iItemPos = -1;
@@ -53,7 +63,7 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		{
 			gMain.SetGenerateID(GIT_CARRY, iID);
 		}
-		BeItem* pkItem = new BeItem(iID);
+		auto pkItem = std::shared_ptr<BeItem>(mpItem.alloc(iID));
 		pkItem->AttachMain(pkAttachMain);
 		pkItem->Initialize(iTypeID);
 		pkItem->SetPileCount(pkRes->iOrgPileCount);
@@ -100,10 +110,10 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 
 		OnItemUpDate(pkItem->GetID());
 
-		return pkItem;
+		return pkItem.get();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void BeUnit::OnItemUpDate(int iID)
@@ -246,7 +256,7 @@ void BeUnit::DelItemByPos(int iPos)
 	//	int iItemID = m_apkItem[iPos]->GetID();
 	//	int iTypeID = m_apkItem[iPos]->GetTypeID();
 	//	bool bValid = m_apkItem[iPos]->GetValid();
-	//	m_apkItem[iPos] = NULL;
+	//	m_apkItem[iPos] = nullptr;
 
 	//	TePtParam kParam;
 	//	kParam.SetParam(BTP_pkTrgUnit, this);
@@ -415,10 +425,6 @@ bool BeUnit::IsPackageEmpty(void) const
 
 bool BeUnit::PickAroundItem(void)
 {
-	if (IsGhost() || IsDividMan() || HasOtherFlag(BUOF_72BIAN))
-	{
-		return false;
-	}
 	if (IsDead())
 	{
 		return false;
@@ -446,10 +452,10 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 	if (!pkRes)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	BeSkill* pkOldSkill = GetSkill(iTypeID);
+	auto pkOldSkill = GetSkill(iTypeID);
 	if (pkOldSkill)
 	{
 		return pkOldSkill;
@@ -482,7 +488,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		int iCount = (int)m_akUnitData.size();
 		for (int i = iCount - 1; i >= 0; --i)
 		{
-			BeSkill* pkOldSkill = (m_akUnitData[i]->apkUISkill)[pkRes->iUIShowPos - 1];
+			auto pkOldSkill = (m_akUnitData[i]->apkUISkill)[pkRes->iUIShowPos - 1];
 			if (pkOldSkill)
 			{
 				if (pkOldSkill->GetTypeID() == iTypeID)
@@ -505,17 +511,17 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		{
 			if (pkRet == pkSkill)
 			{
-				pkRet = NULL;
+				pkRet = nullptr;
 			}
-			pkSkill = NULL;
+			pkSkill = nullptr;
 		}
 	}
 	else
 	{
 		bool bAdd = false;
-		for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 		{
-			BeSkill* pkOldSkill = *itr;
+			auto pkOldSkill = *itr;
 			if (pkOldSkill->GetTypeID() == iTypeID)
 			{
 				bAdd = true;
@@ -532,15 +538,15 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		{
 			if (pkRet == pkSkill)
 			{
-				pkRet = NULL;
+				pkRet = nullptr;
 			}
-			pkSkill = NULL;
+			pkSkill = nullptr;
 		}
 	}
 
 	if (!pkRet)
 	{
-		return NULL;
+		return nullptr;
 	}
 	pkSkill = pkRet;
 	pkSkill->SetLevel(iLevel);
@@ -548,7 +554,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 
 	TePtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkSkill, pkSkill);
+	kParam.SetParam(BTP_pkSkill, pkSkill.get());
 	kParam.SetParam(BTP_iIsLearnSkill, 1);
 
 	gTrgMgr.FireTrigger(BTE_LEARN_SPELL, kParam);
@@ -563,7 +569,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		SetFlag(BUF_NEEDUPDATESKILL);
 	}
 
-	return pkSkill;
+	return pkSkill.get();
 }
 
 int BeUnit::GetCanLearnSkillByIdx(int iPos) const
@@ -578,7 +584,7 @@ int BeUnit::GetCanLearnSkillIDByPos(int iPos) const
 
 BeSkill* BeUnit::GetSkill(int iTypeID, bool bCurrent) const
 {
-	BeUnitData* pkUnitData = 0;
+    std::shared_ptr<BeUnitData> pkUnitData;
 	if (bCurrent)
 	{
 		pkUnitData = m_pkCurData;
@@ -589,43 +595,43 @@ BeSkill* BeUnit::GetSkill(int iTypeID, bool bCurrent) const
 	}
 	if (!pkUnitData)
 	{
-		return NULL;
+		return nullptr;
 	}
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
-		BeSkill* pkSkill = (pkUnitData->apkUISkill)[i];
+		auto pkSkill = (pkUnitData->apkUISkill)[i];
 		if (pkSkill && pkSkill->GetTypeID() == iTypeID)
 		{
-			return pkSkill;
+			return pkSkill.get();
 		}
 	}
 	if (!m_apkNormalSkill.empty())
 	{
-		for (std::vector<BeSkill*>::const_iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 		{
-			BeSkill* pkSkill = *itr;
+			auto pkSkill = *itr;
 			if (pkSkill->GetTypeID() == iTypeID)
 			{
-				return pkSkill;
+				return pkSkill.get();
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 BeSkill* BeUnit::GetSkillByPos(int iPos, bool bOrg)
 {
 	if (m_pkCurData && iPos >= 0 && iPos < iMaxHeroSkillNum)
 	{
-		BeSkill* pkOldSkill = (m_pkCurData->apkUISkill)[iPos];
+		auto pkOldSkill = (m_pkCurData->apkUISkill)[iPos];
 		if (pkOldSkill)
 		{
-			return pkOldSkill;
+			return pkOldSkill.get();
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 BeSkill* BeUnit::GetSkillByUIPos(int iPos) const
@@ -634,44 +640,44 @@ BeSkill* BeUnit::GetSkillByUIPos(int iPos) const
 	{
 		for (int iIdx = 0; iIdx < iMaxHeroSkillNum; iIdx++)
 		{
-			BeSkill* pkSkill = (m_pkCurData->apkUISkill)[iIdx];
+            auto pkSkill = (m_pkCurData->apkUISkill)[iIdx];
 			if (pkSkill && pkSkill->GetUIShowPos() == iPos)
 			{
-				return pkSkill;
+				return pkSkill.get();
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void BeUnit::DelSkill(int iTypeID)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
-		BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
+		auto pkSkill = (m_pkCurData->apkUISkill)[i];
 		if (pkSkill && pkSkill->GetTypeID() == iTypeID)
 		{
 			if (!m_apkNormalSkill.empty())
 			{
-				for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+				for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 				{
-					BeSkill* pkNormalSkill = *itr;
+                    auto pkNormalSkill = *itr;
 					if (pkNormalSkill && pkNormalSkill == pkSkill)
 					{
 						m_apkNormalSkill.erase(itr);
-						pkNormalSkill = NULL;
+						pkNormalSkill = nullptr;
 						break;
 					}
 				}
 			}
 
 			bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
-			(m_pkCurData->apkUISkill)[i] = NULL;
+			(m_pkCurData->apkUISkill)[i] = nullptr;
 			for (int j = 0; j < (int)m_akUnitData.size(); ++j)
 			{
 				if (m_akUnitData[j]->apkUISkill[i] == pkSkill)
 				{
-					m_akUnitData[j]->apkUISkill[i] = NULL;
+					m_akUnitData[j]->apkUISkill[i] = nullptr;
 				}
 			}
 			UpdateAttribute(true);
@@ -681,13 +687,13 @@ void BeUnit::DelSkill(int iTypeID)
 
 	if (!m_apkNormalSkill.empty())
 	{
-		for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 		{
-			BeSkill* pkSkill = *itr;
+            auto pkSkill = *itr;
 			if (pkSkill && pkSkill->GetTypeID() == iTypeID)
 			{
 				bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
-				pkSkill = NULL;
+				pkSkill = nullptr;
 				m_apkNormalSkill.erase(itr);
 				UpdateAttribute(true);
 				return;
@@ -700,18 +706,18 @@ void BeUnit::DelAllSkill(bool bHeroSkillOnly)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
-		BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
+		auto pkSkill = (m_pkCurData->apkUISkill)[i];
 		if (pkSkill)
 		{
 			if (!m_apkNormalSkill.empty())
 			{
 				bool bHasPoint = false;
-				for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+				for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 				{
-					BeSkill* pkNormalSkill = *itr;
+					auto pkNormalSkill = *itr;
 					if (pkNormalSkill && pkNormalSkill == pkSkill)
 					{
-						(m_pkCurData->apkUISkill)[i] = NULL;
+						(m_pkCurData->apkUISkill)[i] = nullptr;
 						bHasPoint = true;
 						break;
 					}
@@ -730,13 +736,13 @@ void BeUnit::DelAllSkill(bool bHeroSkillOnly)
 			}
 
 			bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
-			(m_pkCurData->apkUISkill)[i] = NULL;
+			(m_pkCurData->apkUISkill)[i] = nullptr;
 
 			for (int j = 0; j < (int)m_akUnitData.size(); ++j)
 			{
 				if (m_akUnitData[j]->apkUISkill[i] == pkSkill)
 				{
-					m_akUnitData[j]->apkUISkill[i] = NULL;
+					m_akUnitData[j]->apkUISkill[i] = nullptr;
 				}
 			}
 			UpdateAttribute(true);
@@ -750,13 +756,13 @@ void BeUnit::DelAllSkill(bool bHeroSkillOnly)
 
 	if (!bHeroSkillOnly && !m_apkNormalSkill.empty())
 	{
-		for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 		{
-			BeSkill* pkSkill = *itr;
+			auto pkSkill = *itr;
 			if (pkSkill)
 			{
 				bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
-				pkSkill = NULL;
+				pkSkill = nullptr;
 				UpdateAttribute(true);
 			}
 		}
@@ -767,7 +773,7 @@ void BeUnit::DelAllSkill(bool bHeroSkillOnly)
 
 void BeUnit::SetSkillLevel(int iTypeID, int iLevel)
 {
-	BeSkill* pkSkill = GetSkill(iTypeID);
+	auto pkSkill = GetSkill(iTypeID);
 	if (pkSkill)
 	{
 		pkSkill->SetLevel(iLevel);
@@ -777,7 +783,7 @@ void BeUnit::SetSkillLevel(int iTypeID, int iLevel)
 
 int BeUnit::GetSkillLevel(int iTypeID)
 {
-	BeSkill* pkSkill = GetSkill(iTypeID);
+	auto pkSkill = GetSkill(iTypeID);
 	if (pkSkill)
 	{
 		return pkSkill->GetLevel();
@@ -785,31 +791,9 @@ int BeUnit::GetSkillLevel(int iTypeID)
 	return 0;
 }
 
-const std::vector<BeSkill*>& BeUnit::GetNormalSkill(void)
+const std::vector<std::shared_ptr<BeSkill>>& BeUnit::GetNormalSkill(void)
 {
 	return m_apkNormalSkill;
-}
-
-bool BeUnit::ActiveSkill(const BeActiveSkill& kCmd)
-{
-	int iSkillTypeID = kCmd.iSkillTypeID;
-	bool bActive = kCmd.bActive;
-
-	BeSkill* pkSkill = GetSkill(iSkillTypeID);
-	if (!pkSkill)
-	{
-		return false;
-	}
-	if (bActive)
-	{
-		pkSkill->SetActive(true);
-	}
-	else
-	{
-		pkSkill->SetActive(false);
-	}
-
-	return true;
 }
 
 int	BeUnit::GetItemUseSkill(int iItemTypeID)
@@ -856,7 +840,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 		{
 			iTypeID = pkItemRes->iItemSkill[i];
 		}
-		const SkillTable* pkRes = GetResSkill(iTypeID);
+		const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 		if (pkRes)
 		{
 			if (pkRes->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
@@ -866,21 +850,12 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 			}
 		}
 	}
-	const SkillTable* pkSkillRes = GetResSkill(iSkillTypeID);
+	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkSkillRes)
 	{
 		return 0;
 	}
 	return iSkillTypeID;
-}
-
-void BeUnit::SetMaxMP(float fMaxMP)
-{
-	if (fMaxMP != m_pkCurData->fMaxMP)
-	{
-		SetShareUnitChangeFlag(BSUDCF_MAXMP);
-	}
-	m_pkCurData->fMaxMP = fMaxMP;
 }
 
 bool BeUnit::IsForbidSkill(BeSkill* pkSkill) const
@@ -912,23 +887,15 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	const BufferTable* pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
 	if (!pkRes)
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (!bAddDead && !(pkRes->uiProperty & BUFFER_PROPERTY_DEATHADD) && IsDead())
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (m_apkBuffer.size() >= UNIT_MAX_BUFFER || HasUnitCarryFlag(BUCF_NO_BUFFER_EFFECT))
 	{
-		return NULL;
-	}
-
-	if (HasUnitCarryFlag(BUCF_IMMUNITY_CONTROL) || GetClass() == UNIT_CLASSTYPE_BOSS) {
-
-		if (iTypeID == 'BA01' || iTypeID == 'BA02' || iTypeID == 'BA04' || iTypeID == 'BA05' || iTypeID == 'BA06' || iTypeID == 'B571') {
-
-			return NULL;
-		}
+		return nullptr;
 	}
 
 	BeBuffer* pkRet = 0;
@@ -936,13 +903,13 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && !pkBuffer->GetHasDel())
 			{
 				//if (pkBuffer->GetSingleSpliceNum() == 1 && pkBuffer->GetMultiSpliceNum() == 1)
 				{
 					pkBuffer->SetHasDel(false);
-					pkRet = pkBuffer;
+					pkRet = pkBuffer.get();
 					pkRet->SetLevel(iLevel);
 
 					break;
@@ -952,7 +919,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 				//	BeBuffer* pkNewBuffer = SuperposeBuffer(iTypeID, pkBuffer->GetSingleSpliceNum(), pkBuffer->GetMultiSpliceNum(), iLevel, iUnitID);
 				//	if (!pkNewBuffer)
 				//	{
-				//		return NULL;
+				//		return nullptr;
 				//	}
 				//	pkRet = pkNewBuffer;
 				//	pkRet->SetLevel(iLevel);
@@ -976,7 +943,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 		{
 			gMain.SetGenerateID(GIT_CARRY, iID);
 		}
-		pkRet = BeBuffer::NEW(iID);
+		pkRet = mpBuffer.alloc(iID);
 		if (!pkRet)
 		{
 			return pkRet;
@@ -991,7 +958,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 		pkRet->SetLevel(iLevel);
 		pkRet->SetStartTime((int)gTime);
 
-		m_apkBuffer.push_back(pkRet);
+		m_apkBuffer.push_back(std::shared_ptr<BeBuffer>(pkRet));
 	}
 
 	pkRet->SetDecreased(false);
@@ -1016,10 +983,6 @@ void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
 	}
 
 	int iRemoveTime = (int)pkBuffer->GetRemoveTime();
-	if (pkBuffer->IsHaloBuffer())
-	{
-		iRemoveTime = -1;
-	}
 
 	OnAddBuffer(pkBuffer);
 
@@ -1041,15 +1004,15 @@ BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
 			{
-				return pkBuffer;
+				return pkBuffer.get();
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
@@ -1058,7 +1021,7 @@ void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer)
 			{
 				float	fValue = pkBuffer->GetNormalAttrValue(eType);
@@ -1077,107 +1040,15 @@ const BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID) const
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+            auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1)) //
 			{
-				return pkBuffer;
+				return pkBuffer.get();
 			}
 		}
 	}
 
-	return NULL;
-}
-
-BeBuffer* BeUnit::GetLilithBuffer()
-{
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer
-				&& (pkBuffer->GetTypeID() == 'B258' || pkBuffer->GetTypeID() == 'B207' || pkBuffer->GetTypeID() == 'B221' || pkBuffer->GetTypeID() == 'B439')
-				&& (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1)) //
-			{
-				return pkBuffer;
-			}
-		}
-	}
-
-	return NULL;
-}
-
-void BeUnit::RemoveLilithBuffer(int iUnitID)
-{
-	BeBuffer* pkBuffer = GetBufferByInnerID(iUnitID);
-
-	if (pkBuffer) {
-
-		int iNowRemoveTime = pkBuffer->GetRemoveTime();
-
-		if (iNowRemoveTime > gTime + iLogicFrameTime) {
-			pkBuffer->SetInterrupt(true);
-			pkBuffer->SetRemoveTime(gTime + iLogicFrameTime, true);
-		}
-	}
-}
-
-const std::vector<BeBuffer*>& BeUnit::GetBufferByMulty(int iTypeID, int iUnitID)
-{
-	m_apkMultyBuffer.clear();
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
-			{
-				m_apkMultyBuffer.push_back(pkBuffer);
-			}
-		}
-	}
-
-	return m_apkMultyBuffer;
-}
-
-const int BeUnit::GetMultyBufferSize(int iTypeID, int iUnitID) const
-{
-	int iCount = 0;
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && (pkBuffer->GetRemoveTime() > gTime || pkBuffer->GetRemoveTime() == -1))
-			{
-				++iCount;
-			}
-		}
-	}
-
-	return iCount;
-}
-
-const std::vector<BeBuffer*>& BeUnit::GetBufferByNegative(void)
-{
-	m_apkMultyBuffer.clear();
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER))
-			{
-				m_apkMultyBuffer.push_back(pkBuffer);
-			}
-		}
-	}
-	return m_apkMultyBuffer;
-}
-
-std::vector<BeBuffer*> BeUnit::GetAllBuffer(void) const
-{
-	return m_apkBuffer;
+	return nullptr;
 }
 
 bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
@@ -1186,7 +1057,7 @@ bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID) && !pkBuffer->GetHasDel())
 			{
 				pkBuffer->SetInterrupt(true);
@@ -1209,7 +1080,7 @@ bool BeUnit::DelBufferByID(int iBufferID)
 
 	for (int i = 0; i < (int)m_apkBuffer.size(); i++)
 	{
-		BeBuffer* pkBuffer = m_apkBuffer[i];
+		auto pkBuffer = m_apkBuffer[i];
 		if (!pkBuffer)
 		{
 			continue;
@@ -1230,33 +1101,13 @@ bool BeUnit::DelBufferByID(int iBufferID)
 	return false;
 }
 
-bool BeUnit::DelBufferByType(int iTypeID, int iUnitID)
-{
-	bool bFlag = false;
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && (0 == iUnitID || pkBuffer->GetBufferUnitID() == iUnitID))
-			{
-				OnDelBuffer(pkBuffer);
-				pkBuffer->SetRemoveTime(gTime);
-				bFlag = true;
-			}
-		}
-	}
-
-	return bFlag;
-}
-
 void BeUnit::DelAllBuffer(bool bRelive)
 {
 	if (!m_apkBuffer.empty())
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer || bRelive && pkBuffer->IsDeadNoRemove())
 			{
 				continue;
@@ -1269,26 +1120,13 @@ void BeUnit::DelAllBuffer(bool bRelive)
 	}
 }
 
-void BeUnit::DelAllBufferFinal(void)
-{
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			SafeDelBuf(pkBuffer);
-		}
-		m_apkBuffer.clear();
-	}
-}
-
 void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 {
 	if (!m_apkBuffer.empty())
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && !pkBuffer->HasProperty(BUFFER_PROPERTY_NOJINGHUA))
 			{
 				if (pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER))
@@ -1318,7 +1156,7 @@ void BeUnit::DelBufferByAutoClean(void)
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_AUTOREMOVE))
 			{
 				OnDelBuffer(pkBuffer);
@@ -1326,57 +1164,6 @@ void BeUnit::DelBufferByAutoClean(void)
 			}
 		}
 	}
-}
-
-bool BeUnit::DelNegativeBuffer(void)
-{
-	if (!m_apkBuffer.empty())
-	{
-		bool bHadDeld = false;
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->IsBadBuffer(GetCamp()))
-			{
-				if (!pkBuffer->HasProperty(BUFFER_PROPERTY_NONVYAO)) {
-
-					OnDelBuffer(pkBuffer);
-					pkBuffer->SetRemoveTime(gTime);
-					bHadDeld = true;
-				}
-			}
-		}
-
-		if (bHadDeld)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-bool BeUnit::DelNegativeBufferExceptNoInvins(void)
-{
-	if (!m_apkBuffer.empty())
-	{
-		bool bHadDeld = false;
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER) && pkBuffer->GetTypeID() != 'BA30')
-			{
-				OnDelBuffer(pkBuffer);
-				pkBuffer->SetRemoveTime(gTime);
-				bHadDeld = true;
-			}
-		}
-
-		if (bHadDeld)
-		{
-			return true;
-		}
-	}
-	return false;
 }
 
 void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
@@ -1405,7 +1192,7 @@ void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
 	}
 }
 
-void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
+void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool bDelEffect)
 {
 	if (!pkBuffer || pkBuffer->GetHasDel())
 	{
@@ -1415,7 +1202,7 @@ void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
 	pkBuffer->SetHasDel(true);
 	TePtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer);
+	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 
 	gTrgMgr.FireTrigger(BTE_UNIT_DELBUFFER, kParam);
 
@@ -1425,7 +1212,7 @@ void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
 	}
 
 	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer);
+	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 
 	gTrgMgr.FireTrigger(BTE_UNIT_DELBUFFER_AFTER, kParam);
 
@@ -1438,198 +1225,6 @@ void BeUnit::OnDelBuffer(BeBuffer* pkBuffer, bool bUpdate, bool bDelEffect)
 	kData.iAttackUnitID = pkBuffer->GetOrgUnitID();
 
 	//gMain.AddBufferShowData(kData);
-}
-
-BeBuffer* BeUnit::SuperposeBuffer(int iTypeID, int iSingleCount, int iMultiCount, int iLevel, int iUnitID)
-{
-	if (m_apkBuffer.size() >= UNIT_MAX_BUFFER)
-	{
-		return NULL;
-	}
-
-	BeBuffer* pkBuffer = NULL;
-	std::vector<BeBuffer*> akBuffer;
-
-	if (iSingleCount != 1)
-	{
-		GetSingleSuperposeBuffer(iTypeID, akBuffer, iUnitID);
-		if ((int)akBuffer.size() < iSingleCount)
-		{
-			pkBuffer = BeBuffer::NEW(gMain.GenerateID(GIT_CARRY));
-			if (!pkBuffer)
-			{
-				return pkBuffer;
-			}
-
-			pkBuffer->AttachMain(pkAttachMain);
-			pkBuffer->AttachUnit(this);
-			pkBuffer->Initialize(iTypeID);
-			pkBuffer->SetRemoveTime(-1);
-			pkBuffer->SetLevel(iLevel);
-			pkBuffer->SetUnitID(iUnitID);
-			pkBuffer->SetStartTime((int)gTime);
-			return pkBuffer;
-		}
-		else
-		{
-			for (std::vector<BeBuffer*>::iterator itr = akBuffer.begin(); itr != akBuffer.end(); ++itr)
-			{
-				BeBuffer* pkTempBuffer = *itr;
-				if (pkTempBuffer && pkTempBuffer->GetLevel() <= iLevel && pkTempBuffer->GetRemoveTime() != gTime)
-				{
-					if (!pkBuffer || pkBuffer->GetRemoveTime() > pkTempBuffer->GetRemoveTime())
-					{
-						pkBuffer = pkTempBuffer;
-						continue;
-					}
-				}
-			}
-			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-			{
-				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
-				if (pkBuffer && pkOrgBuffer && pkOrgBuffer->GetID() == pkBuffer->GetID())
-				{
-					OnDelBuffer(pkOrgBuffer);
-					pkOrgBuffer->SetRemoveTime(gTime);
-					break;
-				}
-			}
-
-			BeBuffer* pkNewBuffer = BeBuffer::NEW(gMain.GenerateID(GIT_CARRY));
-			if (!pkNewBuffer)
-			{
-				return pkNewBuffer;
-			}
-			pkNewBuffer->AttachMain(pkAttachMain);
-			pkNewBuffer->AttachUnit(this);
-			pkNewBuffer->Initialize(iTypeID);
-			pkNewBuffer->SetRemoveTime(-1);
-			pkNewBuffer->SetLevel(iLevel);
-			pkNewBuffer->SetUnitID(iUnitID);
-
-			return pkNewBuffer;
-		}
-	}
-
-	if (iMultiCount != 1)
-	{
-		if (!m_apkBuffer.empty())
-		{
-			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-			{
-				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
-				if (pkOrgBuffer && pkOrgBuffer->GetTypeID() == iTypeID && pkOrgBuffer->GetBufferUnitID() == iUnitID && iSingleCount == 1)
-				{
-					return pkOrgBuffer;
-				}
-			}
-		}
-
-		GetMultiSuperposeBuffer(iTypeID, akBuffer, iUnitID);
-		if ((int)akBuffer.size() < iMultiCount)
-		{
-			pkBuffer = BeBuffer::NEW(gMain.GenerateID(GIT_CARRY));
-			if (!pkBuffer)
-			{
-				return pkBuffer;
-			}
-			pkBuffer->AttachMain(pkAttachMain);
-			pkBuffer->AttachUnit(this);
-			pkBuffer->Initialize(iTypeID);
-			pkBuffer->SetRemoveTime(-1);
-			pkBuffer->SetLevel(iLevel);
-			pkBuffer->SetUnitID(iUnitID);
-			return pkBuffer;
-		}
-		else
-		{
-			for (std::vector<BeBuffer*>::iterator itr = akBuffer.begin(); itr != akBuffer.end(); ++itr)
-			{
-				BeBuffer* pkTempBuffer = *itr;
-				if (pkTempBuffer && pkTempBuffer->GetLevel() <= iLevel)
-				{
-					if (!pkBuffer || pkBuffer->GetRemoveTime() > pkTempBuffer->GetRemoveTime())
-					{
-						pkBuffer = pkTempBuffer;
-						continue;
-					}
-				}
-			}
-
-			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-			{
-				BeBuffer* pkOrgBuffer = m_apkBuffer[i];
-				if (pkOrgBuffer && pkBuffer && pkOrgBuffer->GetID() == pkBuffer->GetID())
-				{
-					OnDelBuffer(pkOrgBuffer);
-					pkOrgBuffer->SetRemoveTime(gTime);
-					break;
-				}
-			}
-
-			BeBuffer* pkNewBuffer = BeBuffer::NEW(gMain.GenerateID(GIT_CARRY));
-			if (!pkNewBuffer)
-			{
-				return pkNewBuffer;
-			}
-
-			pkNewBuffer->AttachMain(pkAttachMain);
-			pkNewBuffer->AttachUnit(this);
-			pkNewBuffer->Initialize(iTypeID);
-			pkNewBuffer->SetRemoveTime(-1);
-			pkNewBuffer->SetLevel(iLevel);
-			pkNewBuffer->SetUnitID(iUnitID);
-
-			return pkNewBuffer;
-		}
-	}
-	return NULL;
-}
-
-void BeUnit::GetSingleSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID)
-{
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && !pkBuffer->GetHasDel())
-			{
-				rakBuffer.push_back(pkBuffer);
-			}
-		}
-	}
-}
-
-void BeUnit::GetMultiSuperposeBuffer(int iTypeID, std::vector<BeBuffer*>& rakBuffer, int iUnitID)
-{
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetTypeID() == iTypeID && pkBuffer->GetBufferUnitID() != iUnitID && !pkBuffer->GetHasDel())
-			{
-				rakBuffer.push_back(pkBuffer);
-			}
-		}
-	}
-}
-
-BeBuffer* BeUnit::GetBufferByInnerID(int iID)
-{
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->GetID() == iID)
-			{
-				return pkBuffer;
-			}
-		}
-	}
-	return NULL;
 }
 
 void BeUnit::UpdateValidItem(void)
@@ -1651,7 +1246,7 @@ void BeUnit::UpdateValidBuffer(void)
 	{
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
-			BeBuffer* pkBuffer = m_apkBuffer[i];
+			auto pkBuffer = m_apkBuffer[i];
 			if (pkBuffer->GetHasDel())
 			{
 				continue;
@@ -1667,7 +1262,6 @@ void BeUnit::UpdateValidBuffer(void)
 			m_apkCarry.push_back(pkBuffer);
 			SetUnitCarryFlag(pkBuffer->GetCarryFlag());
 			SetUnitImmunityFlag(pkBuffer->GetImmunityFlag());
-			SetUnitNotInvisFlag(pkBuffer->GetNotInvisCampFlag());
 		}
 	}
 }
@@ -1676,10 +1270,10 @@ void BeUnit::UpdateValidSkill(bool bReset)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
-		BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
+		auto pkSkill = (m_pkCurData->apkUISkill)[i];
 		if (pkSkill)
 		{
-			if (bReset && !m_bIsUpdate)
+			if (bReset)
 			{
 				pkSkill->SetLevel(pkSkill->GetLevel());
 			}
@@ -1687,7 +1281,7 @@ void BeUnit::UpdateValidSkill(bool bReset)
 			bool bHasSame = false;
 			for (int j = 0; j < (int)m_apkCarry.size(); j++)
 			{
-				BeCarry* pkCarry = m_apkCarry[j];
+				auto pkCarry = m_apkCarry[j];
 				if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
 				{
 					bHasSame = true;
@@ -1708,10 +1302,10 @@ void BeUnit::UpdateValidSkill(bool bReset)
 
 	if (!m_apkNormalSkill.empty())
 	{
-		for (std::vector<BeSkill*>::iterator itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
 		{
-			BeSkill* pkSkill = *itr;
-			if (bReset && !m_bIsUpdate)
+			auto pkSkill = *itr;
+			if (bReset)
 			{
 				pkSkill->SetLevel(pkSkill->GetLevel());
 			}
@@ -1719,7 +1313,7 @@ void BeUnit::UpdateValidSkill(bool bReset)
 			bool bHasSame = false;
 			for (int i = 0; i < (int)m_apkCarry.size(); i++)
 			{
-				BeCarry* pkCarry = m_apkCarry[i];
+				auto pkCarry = m_apkCarry[i];
 				if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
 				{
 					bHasSame = true;
@@ -1760,9 +1354,9 @@ bool BeUnit::GetAttackingMiss(void) const
 {
 	if (!m_apkCarry.empty())
 	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+		for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 		{
-			BeCarry* pkCarry = *itr;
+			auto pkCarry = *itr;
 			if (pkCarry->GetAttackMissPhysic())
 			{
 				return true;
@@ -1778,9 +1372,9 @@ bool BeUnit::GetAttackedAvoid(void) const
 	if (!m_apkCarry.empty())
 	{
 		float fMaxAvoidRate = GetEvadeRate();
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+		for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 		{
-			BeCarry* pkCarry = *itr;
+			auto pkCarry = *itr;
 
 			if (fMaxAvoidRate < pkCarry->GetAttackedAvoidPhysic())
 			{
@@ -1810,44 +1404,14 @@ void BeUnit::GetAttackedMagicAttr(float& fAntiMagic, const BeUnit* pkAttacker, f
 	fAntiMagic = BeFormula::GetAmorForDamage(fFinalAntiArmor);
 }
 
-float BeUnit::GetAttackedReboundSkill(void) const
-{
-	float fPercent = 0.0f;
-	if (!m_apkCarry.empty())
-	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
-		{
-			BeCarry* pkCarry = *itr;
-			fPercent += pkCarry->GetAttackedReboundSkill();
-		}
-	}
-
-	return fPercent;
-}
-
-float BeUnit::GetAttackedReboundSkillAll(void) const
-{
-	float fPercent = 0.0f;
-	if (!m_apkCarry.empty())
-	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
-		{
-			BeCarry* pkCarry = *itr;
-			fPercent += pkCarry->GetAttackedReboundSkillAll();
-		}
-	}
-
-	return fPercent;
-}
-
 float BeUnit::GetAttackedAntiLeech(void) const
 {
 	float fPercent = 0.0f;
 	if (!m_apkCarry.empty())
 	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+		for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 		{
-			BeCarry* pkCarry = *itr;
+			auto pkCarry = *itr;
 
 			fPercent += pkCarry->GetAttackedAntiLeech();
 		}
@@ -1856,59 +1420,14 @@ float BeUnit::GetAttackedAntiLeech(void) const
 	return fPercent;
 }
 
-float BeUnit::GetAttackedReboundPhysicShorRange(int& iSkill) const
-{
-	float fValue = 0.0f;
-	if (!m_apkCarry.empty())
-	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
-		{
-			BeCarry* pkCarry = *itr;
-			if (fValue <= 0.0f || fValue < pkCarry->GetAttackedReboundPhysicShortRange())
-			{
-				fValue = pkCarry->GetAttackedReboundPhysicShortRange();
-				iSkill = pkCarry->GetTypeID();
-			}
-		}
-	}
-
-	return fValue;
-}
-
-void BeUnit::GetAttackedReboundPhysicBoth(float& fShortRange, float& fEject, int& iShortSkill, int& iEjectSkill)
-{
-	if (!m_apkCarry.empty())
-	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
-		{
-			BeCarry* pkCarry = *itr;
-			float fShortRangeTure = 0.0f;
-			float fEjectTure = 0.0f;
-			pkCarry->GetAttackedReboundPhysicBoth(fShortRangeTure, fEjectTure);
-
-			if (fShortRange <= 0.0f || fShortRange < fShortRangeTure)
-			{
-				fShortRange = fShortRangeTure;
-				iShortSkill = pkCarry->GetTypeID();
-			}
-
-			if (fEject <= 0.0f || fEject < fEjectTure)
-			{
-				fEject = fEjectTure;
-				iShortSkill = pkCarry->GetTypeID();
-			}
-		}
-	}
-}
-
 float BeUnit::GetAttackedAttackCDAttr(void) const
 {
 	float fTotalACD = 0.0f;
 	if (!m_apkCarry.empty())
 	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+		for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 		{
-			BeCarry* pkCarry = *itr;
+			auto pkCarry = *itr;
 			float fAttackCD = 0.0f;
 			fAttackCD = pkCarry->GetNormalAttrValue(NAT_PER_ATTACK_SPEED);
 			fTotalACD += fAttackCD;
@@ -1922,9 +1441,9 @@ float BeUnit::GetAttackedBaoJiAttr(void) const
 	float fTotalBaoji = 0.0f;
 	if (!m_apkCarry.empty())
 	{
-		for (std::vector<BeCarry*>::const_iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+		for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 		{
-			BeCarry* pkCarry = *itr;
+			auto pkCarry = *itr;
 			float fBaoji = 0.0f;
 			fBaoji = pkCarry->GetNormalAttrValue(NAT_BAOJI);
 			fTotalBaoji += fBaoji;

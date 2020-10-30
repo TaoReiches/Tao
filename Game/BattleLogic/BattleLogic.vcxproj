@@ -254,6 +254,7 @@
     <ClCompile Include="TW_TaskMoveToUnit.cpp" />
     <ClCompile Include="TW_TriggerFunc.cpp" />
     <ClCompile Include="TW_Unit.cpp" />
+    <ClCompile Include="TW_UnitBase.cpp" />
     <ClCompile Include="TW_UnitCarry.cpp" />
     <ClCompile Include="TW_UnitData.cpp" />
     <ClCompile Include="TW_UnitDataDefine.cpp" />

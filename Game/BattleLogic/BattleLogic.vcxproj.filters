@@ -404,5 +404,8 @@
     <ClCompile Include="TW_UnitDataDefine.cpp">
       <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="TW_UnitBase.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

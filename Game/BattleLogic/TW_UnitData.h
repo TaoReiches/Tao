@@ -181,12 +181,13 @@ public:
 
 protected:
     TwUnitData();
+    TwUnitData(int iID);
     ~TwUnitData();
 
 protected:
-    std::shared_ptr<BeUnitData> m_pkBackData;
-	std::shared_ptr<BeUnitData> m_pkCurData;
-    std::vector<std::shared_ptr<BeUnitData>>					m_akUnitData;
+    std::shared_ptr<BeUnitData>                         m_pkBackData;
+	std::shared_ptr<BeUnitData>                         m_pkCurData;
+    std::vector<std::shared_ptr<BeUnitData>>            m_akUnitData;
 };
 
 inline void TwUnitData::SetMP(float fMP, bool bChange)
@@ -894,7 +895,7 @@ inline int TwUnitData::GetAttackingUnitID(void) const
 	return m_pkBackData->iAttackingUnitID;
 }
 
-inline void TwUnitData::SetAttackingUnitID(int iID, bool bIsOrb = false, bool bAttackPos = false)
+inline void TwUnitData::SetAttackingUnitID(int iID, bool bIsOrb, bool bAttackPos)
 {
 	int iOldID = m_pkBackData->iAttackingUnitID;
 	m_pkBackData->iAttackingUnitID = iID;

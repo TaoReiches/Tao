@@ -144,9 +144,10 @@ public:
 	float				fTreatment;
 	int					iOrgPlayer;
 
-protected:
+public:
 	BeUnitData();
 	~BeUnitData();
+
 private:
 	BeUnitData(const BeUnitData& other);
 	BeUnitData& operator = (const BeUnitData& other);

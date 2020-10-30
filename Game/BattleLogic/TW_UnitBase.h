@@ -5,31 +5,36 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <unordered_map>
+
 #include "TW_Entity.h"
 #include "TW_UserDataDefine.h"
+#include <TW_PointerType.h>
+#include "TW_ShareUnitData.h"
 
 class TwUnitBase : public BeSingleLinkEntity, public BeEntity
 {
 protected:
-	TwUnitBase();
+    TwUnitBase();
+	TwUnitBase(int iID);
 	~TwUnitBase();
 
-	bool HasUnitImmunityFlag(int iFlag) const;
-	void SetUnitImmunityFlag(int iFlag);
-	int GetUnitImmunityFlag(void) const;
-	void ClrUnitImmunityFlag(int iFlag);
-	void SetOtherFlag(int iFlag);
-	void ClrOtherFlag(int iFlag);
-	bool HasOtherFlag(int iFalg) const;
-	int GetOtherFlag() const;
-	int GetUnitCarryFlag(void) const;
-	void SetUnitCarryFlag(int iFlag);
-	bool HasUnitCarryFlag(int iFlag) const;
-	void ClrUnitCarryFlag(int iFlag);
-	void SetShareUnitChangeFlag(int iFlag);
-	bool HasShareUnitChangeFlag(int iFlag);
-	void ClrShareUnitChangeFlag(int iFlag);
-	int GetShareUnitChangeFlag() const;
+	bool        HasUnitImmunityFlag(int iFlag) const;
+	void        SetUnitImmunityFlag(int iFlag);
+	int         GetUnitImmunityFlag(void) const;
+	void        ClrUnitImmunityFlag(int iFlag);
+	void        SetOtherFlag(int iFlag);
+	void        ClrOtherFlag(int iFlag);
+	bool        HasOtherFlag(int iFalg) const;
+	int         GetOtherFlag() const;
+	int         GetUnitCarryFlag(void) const;
+	void        SetUnitCarryFlag(int iFlag);
+	bool        HasUnitCarryFlag(int iFlag) const;
+	void        ClrUnitCarryFlag(int iFlag);
+	void        SetShareUnitChangeFlag(int iFlag);
+	bool        HasShareUnitChangeFlag(int iFlag);
+	void        ClrShareUnitChangeFlag(int iFlag);
+	int         GetShareUnitChangeFlag() const;
 	void        SetUD_Int(UserDataKey eKey, int i);
 	void        SetUD_Float(UserDataKey eKey, float f);
 	int         GetUD_Int(UserDataKey eKey, int i = 0)const;
@@ -39,11 +44,11 @@ protected:
 	void        ClearUserData(UserDataKey eKey);
 	bool        HasUserData(UserDataKey eKey) const;
 
-    int							m_iOtherFlag;
-    int							m_iImmunityFlag;
-	int							m_iCarryFlag;
-	int							m_iShareUnitDataChangeFlag;
-	std::unordered_map<int, TePointerType>		m_akUserData;
+    int                                         m_iOtherFlag;
+    int                                         m_iImmunityFlag;
+	int                                         m_iCarryFlag;
+	int                                         m_iShareUnitDataChangeFlag;
+	std::unordered_map<int, TePointerType>      m_akUserData;
 };
 
 inline void TwUnitBase::SetUnitImmunityFlag(int iFlag)

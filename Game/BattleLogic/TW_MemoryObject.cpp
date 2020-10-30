@@ -48,3 +48,4 @@ TeMemoryPool<BeEffectData>               mpEffectData(256);
 TeMemoryPool<BeEffect>                   mpEffect(256);
 TeMemoryPool<BeLearnSkillData>           mpLearnSkillData(256);
 TeMemoryPool<BeUnit>                     mpUnit(256);
+TeMemoryPool<BeUnitData>                 mpUnitData(256);

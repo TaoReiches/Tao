@@ -6,6 +6,8 @@
 **********************************************/
 
 #include <string>
+#include <memory>
+#include "Skill_table.hpp"
 
 enum MoMapID
 {
@@ -819,12 +821,10 @@ struct BeShareGameNotice
 	char			byType;
 };
 
-class SkillTable;
 struct SeSkillLvlData
 {
 	SeSkillLvlData()
 	{
-		iNextLearnLevel = 0;
 		iCastTime = 0;
 		iShakesTime = 0;
 		iEffectTime = 0;
@@ -986,11 +986,9 @@ struct SeCalSkillLvlData : public SeSkillLvlData
 		fBlastPer = 0.0f;
 		fBlastDmgPer = 1.75f;
 		bCalBlast = false;
-
-		iNextLearnLevel = other.iNextLearnLevel;
-		iCastTime = other.iCastTime;			
-		iShakesTime = other.iShakesTime;		
-		iEffectTime = other.iEffectTime;		
+		iCastTime = other.iCastTime;
+		iShakesTime = other.iShakesTime;
+		iEffectTime = other.iEffectTime;
 		iCoolDown = other.iCoolDown;			
 		iManaSpend = other.iManaSpend;			
 		iSpellScope = other.iSpellScope;		
@@ -1007,7 +1005,6 @@ struct SeCalSkillLvlData : public SeSkillLvlData
 
 	SeCalSkillLvlData& operator = (const SeSkillLvlData& other)
 	{
-		iNextLearnLevel = other.iNextLearnLevel;
 		iCastTime = other.iCastTime;			
 		iShakesTime = other.iShakesTime;		
 		iEffectTime = other.iEffectTime;		
@@ -1030,8 +1027,6 @@ struct SeCalSkillLvlData : public SeSkillLvlData
 		fBlastPer = other.fBlastPer;
 		fBlastDmgPer = other.fBlastDmgPer;
 		bCalBlast = other.bCalBlast;
-
-		iNextLearnLevel = other.iNextLearnLevel;
 		iCastTime = other.iCastTime;			
 		iShakesTime = other.iShakesTime;		
 		iEffectTime = other.iEffectTime;		
@@ -1138,105 +1133,6 @@ struct SeCalSkillLvlData : public SeSkillLvlData
 	{
 		iCoolDown = iCD;
 	}
-};
-
-struct SeRaceEndPlayerInfo
-{
-	SeRaceEndPlayerInfo()
-	{
-		iSeatIndex = -1;	
-		iMaxScoreTime = 0;
-		iPlayerID = 0;
-		dwHeroTypeID = 0;	
-		iHeroLevel = 0;		
-		iKillHeroNums = 0;	
-		iDeathNums = 0;		
-		iAssistanceNums = 0;
-		iMoney = 0;			
-		iReLiveTime = 0;	
-		iTownNum = 0;		
-		iImTownNum = 0;		
-		iCampNum = 0;		
-		iImCampNum = 0;		
-		iBuildingNum = 0;	
-		iImBuildingNum = 0;	
-		iKillSoildiers = 0;	
-		iImKillSoildiers = 0;
-		iKillMonsterNum = 0;
-		iComboMaxKills = 0;	
-		iComboKills = 0;
-		iTotalDamage = 0;
-		iTotalHeroDamage = 0;
-		iSpyNums = 0;		
-		iFightScore = 0;	
-		bKillBase = false;	
-		dwZhiliao = 0;
-		dwDamageEndure = 0;
-		iPrize = -1;
-		iRaceEndFlag = 0;
-		dwWishID = 0;
-		iMissionCount = 0;
-		iKillBigBossNum = 0;
-		iKillSmallBossNum = 0;
-		TotalBuildingDamage = 0;
-		iFeatsValue = 0;
-		iRaceTime = 0;
-	}
-
-	int				iSeatIndex;		
-	int				iPlayerID;		
-	int				iMaxScoreTime;	
-	int				dwHeroTypeID;	
-	int				iHeroLevel;		
-	int				iKillHeroNums;	
-	int				iDeathNums;		
-	int				iAssistanceNums;
-	int				iMoney;			
-	int				iReLiveTime;		
-	int				iTownNum;			
-	int				iImTownNum;			
-	int				iCampNum;			
-	int				iImCampNum;			
-	int				iBuildingNum;		
-	int				iImBuildingNum;		
-	int				iKillSoildiers;		
-	int				iImKillSoildiers;	
-	int				iKillMonsterNum;	
-	int				iComboMaxKills;		
-	int				iComboKills;		
-	int				iSpyNums;			
-	int				iFightScore;		
-	bool			bKillBase;			
-	int				dwZhiliao;			
-	int				dwDamageEndure;		
-	int				iTotalDamage;		
-	int				iTotalHeroDamage;	
-	int				iPrize;				
-	int				iRaceEndFlag;		
-	int				iMVPValue;			
-	int				dwWishID;			
-	int				iMissionCount;		
-	int				adwMissionID[10];	
-	char			acName[64];			
-	int				iItemTypeID[6];		
-	int				iKillBigBossNum;	
-	int				iKillSmallBossNum;	
-	int				TotalBuildingDamage;
-	int				iFeatsValue;		
-	int				iRaceTime;			
-};
-
-enum BeUnitGuankaFlag
-{
-	BUGF_SHOW_NAME = (1 << 0),		
-	BUGF_HIDE_HP = (1 << 1),		
-	BUGF_CANNT_AUTOATTACK = (1 << 2),
-	//BUGF_BOSS				= (1<<3),
-	BUGF_SOLDIER = (1 << 3),		
-	BUGF_OTHER_SOLDIER = (1 << 4),	
-	//BUGF_FINAL_BOSS		= (1<<5),
-	BUGF_JINDAN = (1 << 5),			
-	BUGF_MOUSEPICK_HP = (1 << 6),	
 };
 
 enum BeUnitFlag

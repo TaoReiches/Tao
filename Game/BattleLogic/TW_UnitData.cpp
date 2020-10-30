@@ -23,6 +23,11 @@ TwUnitData::TwUnitData()
 
 }
 
+TwUnitData::TwUnitData(int iID) : TwUnitBase(iID)
+{
+
+}
+
 TwUnitData::~TwUnitData()
 {
 
@@ -433,7 +438,7 @@ float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)
 	}
 	case SKILL_AADJ_ATTACK:
 	{
-		fResult = GetDamageNum() * fValue;
+		//fResult = GetDamageNum() * fValue;
 		break;
 	}
 	case SKILL_AADJ_FASHANG:
@@ -453,7 +458,7 @@ float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)
 	}
 	case SKILL_AADJ_ADDATTACK:
 	{
-		fResult = (GetDamageNum() - GetBaseDamage()) * fValue;
+		//fResult = (GetDamageNum() - GetBaseDamage()) * fValue;
 		break;
 	}
 	case SKILL_AADJ_ADDARMOR:
@@ -487,18 +492,18 @@ bool TwUnitData::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, in
 {
 	bool bRet = false;
 	std::shared_ptr<const SkillTable> pkSkillRes;
-	BeSkill* pkSkill = GetSkill(iSkillTypeID);
-	if (pkSkill)
-	{
-		SeSkillLvlData kData;
-		pkSkill->GetLvlData(kData, iSkillLevel);
-		pkSkillRes = pkSkill->GetSkillRes();
-		if (pkSkillRes)
-		{
-			rkData = kData;
-			bRet = true;
-		}
-	}
+	//BeSkill* pkSkill = GetSkill(iSkillTypeID);
+	//if (pkSkill)
+	//{
+	//	SeSkillLvlData kData;
+	//	pkSkill->GetLvlData(kData, iSkillLevel);
+	//	pkSkillRes = pkSkill->GetSkillRes();
+	//	if (pkSkillRes)
+	//	{
+	//		rkData = kData;
+	//		bRet = true;
+	//	}
+	//}
 
 	if (!bRet)
 	{

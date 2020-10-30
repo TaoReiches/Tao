@@ -7,6 +7,12 @@
 #include "TW_EntityMgr.h"
 #include "TW_Functions.h"
 
+
+BeEntity::BeEntity()
+{
+
+}
+
 BeEntity::BeEntity(int iID)
 {
 	m_iID = iID;
