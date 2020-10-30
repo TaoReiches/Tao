@@ -82,7 +82,7 @@ void	BeItem::InitItemSkill(void)
 		{
 			m_akSkill.push_back(std::move(pkSkill));
 			InitAttrFromSkill(iTypeID, pkSkill->GetLevel());
-			m_iSkillCDTime = pkSkill->GetResPtr()->iCoolDown[0];
+			m_iSkillCDTime = pkSkill->GetSkillRes()->iCoolDown[0];
 			if (pkSkill->GetOperateType() != SKILL_OPERATETYPE_BEIDONG)
 			{
 				m_iSkillTypeID = iTypeID;

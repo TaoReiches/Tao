@@ -17,11 +17,11 @@ BeEntityMgr::BeEntityMgr(void)
 
 BeEntityMgr::~BeEntityMgr(void)
 {
-	if (m_akBlock.get() != nullptr)
-	{
-		delete[] m_akBlock.get();
-	}
-	m_akBlock.release();
+	//if (m_akBlock.get() != nullptr)
+	//{
+	//	delete[] m_akBlock.get();
+	//}
+	m_akBlock.clear();
 }
 
 bool BeEntityMgr::Initialize(void)
@@ -32,14 +32,14 @@ bool BeEntityMgr::Initialize(void)
 	m_iBlocksH = (int)gMap.GetHeight() / BLOCK_ELE_SIZE;
 
 	int iBlocks = m_iBlocksW * m_iBlocksH;
-	m_akBlock.reset(new BeElement[iBlocks]);
+	m_akBlock.push_back(std::unique_ptr<BeElement>(new BeElement[iBlocks]));
 
-	BeElement* pkEle = m_akBlock.get();
+	auto pkEle = m_akBlock.begin();
 	for (int i = 0; i < iBlocks; i++, pkEle++)
 	{
-		pkEle->pkBlock = nullptr;
-		pkEle->pkNext = pkEle;
-		pkEle->pkPrev = pkEle;
+		(*pkEle).get()->pkBlock = nullptr;
+        (*pkEle).get()->pkNext = (*pkEle).get();
+        (*pkEle).get()->pkPrev = (*pkEle).get();
 	}
 
 	return true;
@@ -49,11 +49,11 @@ void BeEntityMgr::Finialize(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
-	if (m_akBlock.get() != nullptr)
-	{
-		delete[] m_akBlock.get();
-	}
-	m_akBlock.release();
+	//if (m_akBlock.get() != nullptr)
+	//{
+	//	delete[] m_akBlock.get();
+	//}
+	m_akBlock.clear();
 }
 
 void BeEntityMgr::Link(float fX, float fY, BeEntity* pkEnt)

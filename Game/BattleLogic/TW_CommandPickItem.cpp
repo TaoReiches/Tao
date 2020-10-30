@@ -20,7 +20,7 @@ BePickItemCommand::BePickItemCommand()
 bool BePickItemCommand::SetItemID(int iItemID)
 {
 	m_iItemID = iItemID;
-	BeMapItem* pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
+	auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
 	if (pkMapItem)
 	{
 		m_kTargetPos.fX = pkMapItem->GetPosX();
@@ -45,22 +45,17 @@ BeExeResult BePickItemCommand::Execute(int& iDeltaTime)
 	BeExeCommand::Execute(iDeltaTime);
 	if (m_pkCurTask->Execute(iDeltaTime) == BeExeResult::BER_EXE_END)
 	{
-		if (gUnit.IsGhost() || gUnit.IsDividMan())
-		{
-			return BeExeResult::BER_EXE_END;
-		}
-
 		if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS)
 		{
 			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
 			{
-				BeMapItem* pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
+				auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
 				if (!pkMapItem)
 				{
 					return BeExeResult::BER_EXE_END;
 				}
 
-				gUnit.PickMapItem(pkMapItem);
+				gUnit.PickMapItem(pkMapItem.get());
 				return BeExeResult::BER_EXE_END;
 			}
 		}

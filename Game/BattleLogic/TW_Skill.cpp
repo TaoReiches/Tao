@@ -98,47 +98,47 @@ void BeSkill::SetLastUseTime(BeUnit* pkUnit, int iTime, bool bLearnSkill)
 {
 	int iID = m_iTypeID;
 
-	{
-		if (bLearnSkill)
-		{
-			pkUnit->SetCommonCDLastUseTime(iID, iTime);
-		}
-		else
-		{
-			SeCalSkillLvlData	rkData;
-			if (!pkUnit->GetSkillLvlData(rkData, iID))
-			{
-				return;
-			}
-			int iCDTime = rkData.GetCoolDown();
-			int iPilePoint = rkData.GetPilePointNums();
+	//{
+	//	if (bLearnSkill)
+	//	{
+	//		pkUnit->SetCommonCDLastUseTime(iID, iTime);
+	//	}
+	//	else
+	//	{
+	//		SeCalSkillLvlData	rkData;
+	//		if (!pkUnit->GetSkillLvlData(rkData, iID))
+	//		{
+	//			return;
+	//		}
+	//		int iCDTime = rkData.GetCoolDown();
+	//		int iPilePoint = rkData.GetPilePointNums();
 
-			if (iPilePoint != 0 && m_iCurPileNums > 0)
-			{
-				if (m_iCurPileNums != iPilePoint)
-				{
-					int DecTime = iCDTime - (GetLastUseTime(pkUnit) + iCDTime - (int)gTime);
-					pkUnit->SetCommonCDLastUseTime(iID, iTime - DecTime);
-				}
-				else
-				{
-					pkUnit->SetCommonCDLastUseTime(iID, iTime);
-				}
+	//		if (iPilePoint != 0 && m_iCurPileNums > 0)
+	//		{
+	//			if (m_iCurPileNums != iPilePoint)
+	//			{
+	//				int DecTime = iCDTime - (GetLastUseTime(pkUnit) + iCDTime - (int)gTime);
+	//				pkUnit->SetCommonCDLastUseTime(iID, iTime - DecTime);
+	//			}
+	//			else
+	//			{
+	//				pkUnit->SetCommonCDLastUseTime(iID, iTime);
+	//			}
 
-				SetCurPileNums(--m_iCurPileNums);
+	//			SetCurPileNums(--m_iCurPileNums);
 
-				TePtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, pkUnit);
-				kParam.SetParam(BTP_pkSkill, this);
+	//			TePtParam kParam;
+	//			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
+	//			kParam.SetParam(BTP_pkSkill, this);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_PILENUM, kParam);
-			}
-			else
-			{
-				pkUnit->SetCommonCDLastUseTime(iID, iTime);
-			}
-		}
-	}
+	//			gTrgMgr.FireTrigger(BTE_SKILL_PILENUM, kParam);
+	//		}
+	//		else
+	//		{
+	//			pkUnit->SetCommonCDLastUseTime(iID, iTime);
+	//		}
+	//	}
+	//}
 }
 
 bool BeSkill::CDComplete(BeUnit* pkUnit)
@@ -175,7 +175,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 	{
 		//if (m_iCurPileNums < rkData.GetPilePointNums() && pkUnit->CommonCDComplete(GetTypeID(), gData.GetCoolDown(rkData)))
 		{
-			pkUnit->SetCommonCDLastUseTime(GetShareCDSkill(), (int)gTime);
+			//pkUnit->SetCommonCDLastUseTime(GetShareCDSkill(), (int)gTime);
 			SetCurPileNums(++m_iCurPileNums);
 
 			TePtParam kParam;
@@ -202,7 +202,8 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 
 int BeSkill::GetLastUseTime(const BeUnit* pkUnit) const
 {
-	return pkUnit->GetCommonCDLastUseTime(GetShareCDSkill());
+	//return pkUnit->GetCommonCDLastUseTime(GetShareCDSkill());
+    return 0;
 }
 
 int BeSkill::GetCurPileNums(void) const
