@@ -14,7 +14,7 @@ class BeItem : public BeCarrySkill
 {
 public:
     BeItem(int iID);
-    ~BeItem(void);
+    ~BeItem();
 
     virtual bool Initialize(int iTypeID) override;
     bool	CDComplete(int iCoolTime)const;

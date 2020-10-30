@@ -9,11 +9,10 @@
 
 class BeDropItemCommand : public BeExeCommand
 {
-protected:
+public:
 	BeDropItemCommand();
 	~BeDropItemCommand() {};
 
-public:
 	void SetTargetIDDropItem(int iID, int iItemID);
 	void SetTargetPosDropItem(const TePos2& kPos, int iItemID);
 

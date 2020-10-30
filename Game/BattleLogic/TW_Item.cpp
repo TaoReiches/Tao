@@ -19,7 +19,7 @@ BeItem::BeItem(int iID) : BeCarrySkill(iID)
 	m_bComposeFlag = false;
 }
 
-BeItem::~BeItem(void)
+BeItem::~BeItem()
 {
 }
 

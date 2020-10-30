@@ -24,6 +24,12 @@
 #include "TW_MapItem.h"
 #include "TW_UnitLearnSkillData.h"
 #include "TW_Unit.h"
+#include "TW_CommandStop.h"
+#include "TW_CommandMove.h"
+#include "TW_CommandAttack.h"
+#include "TW_CommandSpell.h"
+#include "TW_CommandDropItem.h"
+#include "TW_CommandPickItem.h"
 
 TeMemoryPool<BeTaskActionStand>          mpTaskActionStand(256);
 TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk(256);
@@ -49,3 +55,10 @@ TeMemoryPool<BeEffect>                   mpEffect(256);
 TeMemoryPool<BeLearnSkillData>           mpLearnSkillData(256);
 TeMemoryPool<BeUnit>                     mpUnit(256);
 TeMemoryPool<BeUnitData>                 mpUnitData(256);
+
+TeMemoryPool<BeStopCommand>              mpStopCommand(256);
+TeMemoryPool<BeMoveCommand>              mpMoveCommand(256);
+TeMemoryPool<BeAttackCommand>            mpAttackCommand(256);
+TeMemoryPool<BeSpellCommand>             mpSpellCommand(256);
+TeMemoryPool<BeDropItemCommand>          mpDropItemCommand(256);
+TeMemoryPool<BePickItemCommand>          mpPickItemCommand(256);

@@ -21,6 +21,16 @@
 #include <algorithm>
 #include "TW_UnitLearnSkillData.h"
 
+void BeUnit::Link(float fX, float fY, BeEntityMgr* pkMgr)
+{
+
+}
+
+void BeUnit::Unlink()
+{
+
+}
+
 template<class T>
 void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
 {

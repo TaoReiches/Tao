@@ -28,7 +28,7 @@ class BeEntityMgr;
 class BeEntity : public BeFlagObj, public BeMainPtr
 {
 public:
-	BeEntity() {};
+    BeEntity();
 	BeEntity(int iID );
 	virtual ~BeEntity(void);
 

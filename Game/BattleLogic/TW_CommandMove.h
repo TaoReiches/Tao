@@ -9,10 +9,10 @@
 
 class BeMoveCommand : public BeExeCommand
 {
-protected:
+public:
 	BeMoveCommand();
 	~BeMoveCommand() {};
-public:
+
 	void SetTargetPos(const TePos2& kPos, float fDistance, bool bTurn);
 	TePos2 GetTargetPos() const;
 

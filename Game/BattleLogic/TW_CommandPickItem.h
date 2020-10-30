@@ -9,11 +9,10 @@
 
 class BePickItemCommand : public BeExeCommand
 {
-protected:
+public:
 	BePickItemCommand();
 	~BePickItemCommand() {};
 
-public:
 	bool SetItemID(int iItemID);
 
 	virtual BeExeResult Execute(int& iDeltaTime);

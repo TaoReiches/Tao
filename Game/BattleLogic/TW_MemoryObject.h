@@ -72,3 +72,21 @@ extern TeMemoryPool<BeEffect>                   mpEffect;
 
 class BeLearnSkillData;
 extern TeMemoryPool<BeLearnSkillData>           mpLearnSkillData;
+
+class BeStopCommand;
+extern TeMemoryPool<BeStopCommand>              mpStopCommand;
+
+class BeMoveCommand;
+extern TeMemoryPool<BeMoveCommand>              mpMoveCommand;
+
+class BeAttackCommand;
+extern TeMemoryPool<BeAttackCommand>            mpAttackCommand;
+
+class BeSpellCommand;
+extern TeMemoryPool<BeSpellCommand>             mpSpellCommand;
+
+class BeDropItemCommand;
+extern TeMemoryPool<BeDropItemCommand>          mpDropItemCommand;
+
+class BePickItemCommand;
+extern TeMemoryPool<BePickItemCommand>          mpPickItemCommand;

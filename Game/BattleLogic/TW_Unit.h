@@ -31,6 +31,9 @@ public:
 	BeUnit(int iID);
 	~BeUnit(void);
 
+    void Link(float fX, float fY, BeEntityMgr* pkMgr) override;
+    void Unlink() override;
+
 public:
 
 	int GetAttackCD(void) const;

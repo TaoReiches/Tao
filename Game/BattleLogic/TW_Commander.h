@@ -7,6 +7,7 @@
 
 #include <list>
 #include "TW_Command.h"
+#include "TW_LogicBase.h"
 
 class BeExeCommand;
 

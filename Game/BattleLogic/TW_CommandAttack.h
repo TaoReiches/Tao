@@ -9,11 +9,10 @@
 
 class BeAttackCommand : public BeExeCommand
 {
-protected:
+public:
 	BeAttackCommand();
 	~BeAttackCommand() {};
 
-public:
 	void SetTargetID(int iID, float fDistance, bool bIsOrb = false, int iSkillTypeID = 0, int iSkillLevel = 0, int iAttackCountLimit = -1);
 	void SetTargetPos(const TePos2& kPos, float fRange = 0.0f);
 	void SetTargetItem(int iItemID);

@@ -9,11 +9,10 @@
 
 class BeStopCommand : public BeExeCommand
 {
-protected:
+public:
 	BeStopCommand();
 	~BeStopCommand() {};
 
-public:
 	bool IsDead();
 	void SetDead();
 	void SetStopTime(int iTime)

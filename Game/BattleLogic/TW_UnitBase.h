@@ -19,6 +19,7 @@ protected:
 	TwUnitBase(int iID);
 	~TwUnitBase();
 
+public:
 	bool        HasUnitImmunityFlag(int iFlag) const;
 	void        SetUnitImmunityFlag(int iFlag);
 	int         GetUnitImmunityFlag(void) const;
@@ -44,6 +45,7 @@ protected:
 	void        ClearUserData(UserDataKey eKey);
 	bool        HasUserData(UserDataKey eKey) const;
 
+protected:
     int                                         m_iOtherFlag;
     int                                         m_iImmunityFlag;
 	int                                         m_iCarryFlag;
