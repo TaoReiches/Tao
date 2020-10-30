@@ -385,7 +385,7 @@ void* BeEffect::UpdateTargetPos(void)
 		else if (pkTarget->HasFlag(BUF_HASINVISIBLE) && !HasFlag(BEF_IGNORE_INVISIBLE))
 		{
 			BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
-			if (pkAttacker && !pkTarget->IsUnitNotInvisToCamp(pkAttacker->GetCamp()))
+			if (pkAttacker)
 			{
 				if (m_kEffectData.iSkillTypeID)
 				{
@@ -435,14 +435,14 @@ void* BeEffect::UpdateTargetPos(void)
 	}
 	case BET_ITEM:
 	{
-		BeMapItem* pkTarget = gMapItemMgr.GetMapItemByID(GetTargetID());
+		auto pkTarget = gMapItemMgr.GetMapItemByID(GetTargetID());
 		if (pkTarget)
 		{
 			m_kEffectData.fTarPosX = pkTarget->GetPosX();
 			m_kEffectData.fTarPosY = pkTarget->GetPosY();
 			m_kEffectData.fTarPosZ = 0.0f;
 		}
-		return pkTarget;
+		return pkTarget.get();
 		break;
 	}
 	case BET_EFFECT:
@@ -1190,7 +1190,7 @@ void BeEffect::ParseAttack(void)
 			SetFlag(BEF_REMOVE);
 			break;
 		}
-		BeMapItem* pkTarget = gMapItemMgr.GetMapItemByID(GetTargetID());
+		auto pkTarget = gMapItemMgr.GetMapItemByID(GetTargetID());
 		if (pkTarget)
 		{
 			pkTarget->BeDamage();

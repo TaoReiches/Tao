@@ -169,11 +169,6 @@ bool	BeMain::UpdateFrame(unsigned int dwFrame)
 {
 	BeMain* pkAttachMain = this;
 
-	if (IsRacePause())
-	{
-		return true;
-	}
-
 	while (m_uiFrameCount < dwFrame)
 	{
 		m_pkTriggerMgr->Update(GAME_FRAME_TIME);

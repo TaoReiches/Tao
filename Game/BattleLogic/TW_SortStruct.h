@@ -64,10 +64,6 @@ struct UnitBufferScore
 		{
 			iScore = 10000;
 		}
-		else if (pkUnit->IsHero())
-		{
-			iScore = 6000;
-		}
 		else
 		{
 			iScore = 2000;

@@ -120,36 +120,36 @@ void BeMain::UpdateRaceOut()
 		akShareData.clear();
 		auto	Iter = kAllLiveUnit.begin();
 		auto	IterEnd = kAllLiveUnit.end();
-		while (Iter != IterEnd)
-		{
-			BeUnit* pkTempUnit = Iter->second;
-			if (pkTempUnit)
-			{
-				if (pkTempUnit->GetUnitVisionForCamp(iIndex) || pkTempUnit->HasFlag(BUF_DEAD))
-				{
-				}
-			}
-			Iter++;
-		}
+		//while (Iter != IterEnd)
+		//{
+		//	BeUnit* pkTempUnit = Iter->second;
+		//	if (pkTempUnit)
+		//	{
+		//		if (pkTempUnit->GetUnitVisionForCamp(iIndex) || pkTempUnit->HasFlag(BUF_DEAD))
+		//		{
+		//		}
+		//	}
+		//	Iter++;
+		//}
 
 		auto	IterSuspend = kAllSuspendUnit.begin();
 		auto	IterSuspendEnd = kAllSuspendUnit.end();
-		while (IterSuspend != IterSuspendEnd)
-		{
-			BeUnit* pkTempUnit = IterSuspend->second;
-			if (pkTempUnit)
-			{
-				if (pkTempUnit->GetUnitVisionForCamp(iIndex))
-				{
-					//const BeShareUnitData& rkData = GetUnitShowData(pkTempUnit, pkTempUnit->IsNewUnit(iIndex));
-					//if (rkData.iChangeFlag != 0)
-					//{
-					//	akShareData.push_back(rkData);
-					//}
-				}
-			}
-			IterSuspend++;
-		}
+		//while (IterSuspend != IterSuspendEnd)
+		//{
+		//	BeUnit* pkTempUnit = IterSuspend->second;
+		//	if (pkTempUnit)
+		//	{
+		//		if (pkTempUnit->GetUnitVisionForCamp(iIndex))
+		//		{
+		//			//const BeShareUnitData& rkData = GetUnitShowData(pkTempUnit, pkTempUnit->IsNewUnit(iIndex));
+		//			//if (rkData.iChangeFlag != 0)
+		//			//{
+		//			//	akShareData.push_back(rkData);
+		//			//}
+		//		}
+		//	}
+		//	IterSuspend++;
+		//}
 
 		//PushRecordV(akShareData, SePureCmd_UnitShowData);
 	}
