@@ -14,6 +14,10 @@ public:
 		iLearnLevel = 0;
 		iPos = 0;
 	}
+    ~BeLearnSkillData()
+    {
+
+    }
 
 	int			iTypeID;
 	int			iLearnLevel;

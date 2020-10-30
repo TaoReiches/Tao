@@ -519,11 +519,6 @@ public:
 
 	void SetAllLiveTime(int iAllTime);
 
-	void AddNewShield(int iBufferID, float fShield);
-	float GetShieldByBuffer(int iBufferID);
-
-	float		GetExtraBossDamageTotal(int iBossID);
-
 protected:
 	void			SetDead(void);
 	void			DelAllBuffer(bool bRelive = false);
@@ -587,7 +582,6 @@ public:
 	void SetPreTurnFace(float fFace);
 	float	GetSkillAddValue(int iEnum, float fValue);
 	void SetCurAttackCD(int iCurAttackCD);
-	void UpdateBattleState(bool bBattle);
 	void	UpdateItemPassiveSkill();
 private:
 	bool					m_bNewUnit[2];

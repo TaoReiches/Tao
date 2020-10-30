@@ -18,20 +18,22 @@
 #include "Item_table.hpp"
 #include "TW_MemoryObject.h"
 #include "TW_Command.h"
+#include <algorithm>
+#include "TW_UnitLearnSkillData.h"
 
 template<class T>
 void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
 {
 	for (int i = 0; i < iCount; ++i)
 	{
-		BeSkill* pkSkill = kSkill[i];
+		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_SHANGHAICHUFA))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
 			kParam.SetParam(BTP_pkAttacker, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill);
+			kParam.SetParam(BTP_pkSkill, pkSkill.get());
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
 			kParam.SetParam(BTP_pfDamage, &fDamage);
 			kParam.SetParam(BTP_iFlag, iFlag);
@@ -48,14 +50,14 @@ void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDa
 {
 	for (int i = 0; i < iCount; ++i)
 	{
-		BeSkill* pkSkill = kSkill[i];
+		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_BEIJICHUFA))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkAttacker, pkAttacker);
 			kParam.SetParam(BTP_pkTarget, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill);
+			kParam.SetParam(BTP_pkSkill, pkSkill.get());
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
 			kParam.SetParam(BTP_pfDamage, &fDamage);
 			kParam.SetParam(BTP_fRawDamage, fRawDamage);
@@ -73,14 +75,14 @@ void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamag
 {
 	for (int i = 0; i < iCount; ++i)
 	{
-		BeSkill* pkSkill = kSkill[i];
+		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_SHANGHAICHUFA))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
 			kParam.SetParam(BTP_pkAttacker, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill);
+			kParam.SetParam(BTP_pkSkill, pkSkill.get());
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
 			kParam.SetParam(BTP_iItemID, iItemID);
 			kParam.SetParam(BTP_pfDamage, &fDamage);
@@ -99,18 +101,13 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingA
 {
 	for (int i = 0; i < iCount; ++i)
 	{
-		BeSkill* pkSkill = kSkill[i];
+		auto pkSkill = kSkill[i];
 		if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_GONGJICHUFA)))
 		{
-			if ((IsDividMan() || IsGhost()))
-			{
-				continue;
-			}
-
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
-			kParam.SetParam(BTP_pkSkill, pkSkill);
+			kParam.SetParam(BTP_pkSkill, pkSkill.get());
 			kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
 			if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_GONGJICHUFA))
@@ -215,7 +212,6 @@ bool BeUnit::Initialize(int iTypeID)
 	m_kCommander.AttachMain(pkAttachMain);
 
 	DelAllBuffer();
-	ClearAllCommonCD();
 	DelAllSkill();
 
 	mpLearnSkillData.free(m_pkBackData->akLearnSkill.get());
@@ -377,8 +373,6 @@ void BeUnit::Update(int iDeltaTime)
 			}
 		}
 	}
-
-	UpdateBattleState(false);
 
 	UpdateBuffer(iDeltaTime);
 
@@ -2029,7 +2023,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 					kParam.SetParam(BTP_pkTrgUnit, this);
 					kParam.SetParam(BTP_pkTarget, pkTarget);
 					kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
-					kParam.SetParam(BTP_pkBuffer, pkBuffer);
+					kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 
 					gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLEBREAK, kParam);
 				}
@@ -2087,7 +2081,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
+				kParam.SetParam(BTP_pkSkill, pkSkill.get());
 				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
 				kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
 				kParam.SetParam(BTP_iItemID, iItemID);
@@ -2192,7 +2186,7 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 		{
 			if (m_pkCurData)
 			{
-				BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
+				auto pkSkill = (m_pkCurData->apkUISkill)[i];
 				if (pkSkill)
 				{
 					pkSkill->Update(this);
@@ -2336,7 +2330,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkAttacker, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer);
+				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 				kParam.SetParam(BTP_pfDamage, &fDamage);
 				kParam.SetParam(BTP_iFlag, iFlag);
 				kParam.SetParam(BTP_iAttackType, eAttackType);
@@ -2397,7 +2391,7 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 				AddSkill(iSkillTypeID);
 			}
 
-			BeCommand	kComm(BCT_SPELL, GetID(), 0.0f, 0.0f, iSkillTypeID);
+			BeCommand	kComm(BeCommandType::BCT_SPELL, GetID(), 0.0f, 0.0f, iSkillTypeID);
 			GiveCommand(kComm);
 		}
 	}
@@ -2407,7 +2401,7 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 	{
 		gMapItemMgr.DelMapItem(pkMapItem->GetID());
 
-		return BER_EXE_END;
+		return true;
 	}
 	else
 	{
@@ -2449,84 +2443,6 @@ void BeUnit::SetAllLiveTime(int iAllTime)
 	SetUnitAllLiveTime(iAllTime);
 	SetUnitCurLiveTime(iAllTime);
 	SetUnitCreateTime(gTime);
-}
-
-void BeUnit::AutoSpell(UnitAutoSpellType eType, BeUnit* pkEnemy)
-{
-	if (HasAutoSpellFlag(eType))
-	{
-		for (int i = 0; i < iMaxHeroSkillNum; ++i)
-		{
-			BeSkill* pkSkill = (m_pkCurData->apkUISkill)[i];
-			if (!pkSkill)
-			{
-				continue;
-			}
-
-			if (pkSkill->HasAutoSpellFlag(eType) && UnitCanUseSkill(pkSkill->GetTypeID(), nullptr, true))
-			{
-				return;
-				break;
-			}
-		}
-
-		for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
-		{
-			BeSkill* pkSkill = m_apkNormalSkill[i];
-			if (!pkSkill)
-			{
-				continue;
-			}
-			if (pkSkill->HasAutoSpellFlag(eType) && UnitCanUseSkill(pkSkill->GetTypeID(), nullptr, true))
-			{
-				return;
-				break;
-			}
-		}
-	}
-}
-
-void BeUnit::AddNewShield(int iBufferID, float fShield)
-{
-	auto	IterShild = m_akShield.find(iBufferID);
-	if (IterShild != m_akShield.end())
-	{
-		float	fDeltaShild = fShield - IterShild->second;
-		m_fTotalShield += fDeltaShild;
-	}
-	else
-	{
-		m_fTotalShield += fShield;
-	}
-
-	SetShareUnitChangeFlag(BSUDCF_SHELD);
-	m_akShield[iBufferID] = fShield;
-}
-
-float BeUnit::GetShieldByBuffer(int iBuffer)
-{
-	std::map<int, float>::iterator iter = m_akShield.find(iBuffer);
-	if (iter != m_akShield.end())
-	{
-		return iter->second;
-	}
-
-	return 0.0f;
-}
-
-float BeUnit::GetExtraBossDamageTotal(int iBossID)
-{
-	float fResult = 0.0f;
-	for (int i = 0; i < (int)m_apkCarry.size(); i++)
-	{
-		BeCarry* pkCarry = m_apkCarry[i];
-		if (pkCarry && pkCarry->GetBossExtraDamage(iBossID) != 0)
-		{
-			fResult += pkCarry->GetBossExtraDamage(iBossID);
-		}
-	}
-
-	return fResult;
 }
 
 void BeUnit::SetChangeScale(int iBufferID, float fChangeScale, int iChangeTime /*= 0*/)
@@ -2654,7 +2570,7 @@ void BeUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
 	}
 
 	int iID = pkBuffer->GetID();
-	BeBuffer::DEL(pkBuffer);
+	mpBuffer.free(pkBuffer);
 }
 
 void BeUnit::ClrAllPureData()
@@ -2670,24 +2586,6 @@ void BeUnit::ClrAllPureData()
 	m_iShareUnitDataChangeFlag = 0;
 
 	m_iPathFindSucessTime = 0;
-
-	for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-	{
-		BeBuffer* pkBuffer = m_apkBuffer[i];
-		if (!pkBuffer)
-		{
-			continue;
-		}
-	}
-
-	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
-	//{
-	//	BeItem* pkItem = m_apkItem[i];
-	//	if (!pkItem)
-	//	{
-	//		continue;
-	//	}
-	//}
 }
 
 #define CLIENTNONEEDFLAG (BUF_IGNOREDOODADOBS|BUF_NOOBSTACLE|BUF_IGNOREUNITOBS|BUF_IGNOREFIXEDOBS|BUF_HASHALOSKILL|BUF_OBSTACLESET|BUF_MOVING|BUF_ISBLOCKED |BUF_ISPERSISTSKILL)
@@ -2872,8 +2770,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	float temp1, temp2 = 0.f;
 
 	int iOldCarryFlag = m_iCarryFlag;
-	int iOldImmunityFlag = BeUnit::m_iImmunityFlag;
-	int iOldInvisByGroup = BeUnit::m_iNotInvisByGroup;
+	int iOldImmunityFlag = m_iImmunityFlag;
 
 	m_apkCarry.clear();
 
@@ -2881,8 +2778,6 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	m_iCarryFlag = 0;
 	iOldImmunityFlag = BeUnit::m_iImmunityFlag;
 	m_iImmunityFlag = 0;
-	iOldInvisByGroup = m_iNotInvisByGroup;
-	m_iNotInvisByGroup = 0;
 
 	UpdateValidItem();
 	UpdateValidBuffer();
@@ -2907,14 +2802,9 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	memset(afDecAntiMagic, 0, sizeof(afDecAntiMagic));
 
 	memset(afChangeTemp, 0, sizeof(afChangeTemp));
-	for (std::vector<BeCarry*>::iterator itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
+	for (auto itr = m_apkCarry.begin(); itr != m_apkCarry.end(); ++itr)
 	{
-		BeCarry* pkCarry = *itr;
-		if (IsGhost() || IsDividMan())
-		{
-			pkCarry->ApplyNormalAttr(afChangeTemp, true, m_iImmunityFlag);
-		}
-		else
+		auto pkCarry = *itr;
 		{
 			pkCarry->ApplyNormalAttr(afChangeTemp, false, m_iImmunityFlag);
 			float fAntiRate = pkCarry->GetAttackedAntiMagic();
@@ -3036,12 +2926,6 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 		pkCurData->fMaxMP = pkCurData->fBaseMaxMP + afChange[NAT_ABS_MAX_MP];
 		pkCurData->fRegenMP = pkCurData->fBaseRegenMP + afChange[NAT_ABS_REGEN_MP] + pkCurData->fBaseRegenMP * afChange[NAT_PER_REGEN_MP];
 	}
-
-	if (m_fSpeedFixup >= 0.0f)
-	{
-		pkCurData->fMoveSpeed = m_fSpeedFixup;
-	}
-	else
 	{
 		pkCurData->fMoveSpeed = (pkCurData->fBaseMoveSpeed + afChange[NAT_BASE_MOVE_SPEED]) * (1.0f + afChange[NAT_PER_MOVE_SPEED]) + afChange[NAT_ABS_MOVE_SPEED];
 	}
@@ -3100,37 +2984,14 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	pkCurData->fAddDamage += afChange[NAT_PER_DAMAGE_ADD] * (pkCurData->fAddDamage + pkCurData->fBaseDamage);
 	pkCurData->fDamage = pkCurData->fBaseDamage + pkCurData->fAddDamage;
 
-	if (m_fPreMaxHP > 0.0f && (pkCurData->fMaxHP != m_fPreMaxHP))
-	{
-		if (pkCurData->fMaxHP > m_fPreMaxHP) {
-
-			float fHPTemp = ((pkCurData->fMaxHP - m_fPreMaxHP) * (1.0f - (m_fPreMaxHP - pkCurData->fHP) / m_fPreMaxHP));
-			pkCurData->fHP += fHPTemp;
-		}
-		else {
-
-			if (pkCurData->fHP > pkCurData->fMaxHP) {
-				pkCurData->fHP = pkCurData->fMaxHP;
-			}
-		}
-
 		if (pkCurData->fHP <= 0.0f)
 		{
 			pkCurData->fHP = 1.0f;
 		}
-	}
-	m_fPreMaxHP = pkCurData->fMaxHP;
-
-	if (m_fPreMaxMP > 0.0f && (pkCurData->fMaxMP != m_fPreMaxMP))
-	{
-		float fMPTemp = ((pkCurData->fMaxMP - m_fPreMaxMP) * (1.0f - (m_fPreMaxMP - pkCurData->fMP) / m_fPreMaxMP));
-		pkCurData->fMP += fMPTemp;
 		if (pkCurData->fMP <= 0.0f)
 		{
 			pkCurData->fMP = 1.0f;
 		}
-	}
-	m_fPreMaxMP = pkCurData->fMaxMP;
 
 	float fDivAttackSpeed = afChange[NAT_PER_ATTACK_SPEED];
 	if (HasProperty(UNIT_PROPERTY_NOTADDATTACKCD)) {
@@ -3194,14 +3055,6 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	}
 }
 
-const SkillTable* BeUnit::GetResSkill(int iTypeID) const
-{
-	const SkillTable* pkSkill = SkillTableMgr::Get()->GetSkillTable(iTypeID);
-
-	return pkSkill;
-}
-
-
 void BeUnit::CopyAttribute(BeUnit* pkUnit)
 {
 	SetPlayer(pkUnit->GetPlayer());
@@ -3216,10 +3069,6 @@ void BeUnit::CopyAttribute(BeUnit* pkUnit)
 	SetBaseArmor(pkUnit->GetBaseArmor());
 	SetMaxHP(pkUnit->GetMaxHP());
 	m_pkCurData->fMaxMP = pkUnit->GetMaxMP();
-	m_fPreMaxHP = m_pkCurData->fMaxHP;
-	m_fPreMaxMP = m_pkCurData->fMaxMP;
-
-
 	SetHP(pkUnit->GetHP());
 	SetMP(pkUnit->GetMP());
 	SetFace(pkUnit->GetFace());
@@ -3627,38 +3476,4 @@ void BeUnit::SetCurAttackCD(int iCurAttackCD)
 		SetShareUnitChangeFlag(BSUDCF_ATTACKCD);
 	}
 	m_pkCurData->iAttackCD = iCurAttackCD;
-}
-
-void BeUnit::UpdateBattleState(bool bBattle)
-{
-	if (!IsHero())
-	{
-		return;
-	}
-	if (bBattle)
-	{
-		m_iOutBattleTime = gTime + 6000;
-		if (m_bOutOfBattle)
-		{
-			m_bOutOfBattle = false;
-			TePtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_iIntData, 0);
-
-			gTrgMgr.FireTrigger(BTE_CHANGE_BATTLE_STATE, kParam);
-		}
-	}
-	else
-	{
-		if (gTime >= m_iOutBattleTime && !m_bOutOfBattle)
-		{
-			m_bOutOfBattle = true;
-
-			TePtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_iIntData, 1);
-
-			gTrgMgr.FireTrigger(BTE_CHANGE_BATTLE_STATE, kParam);
-		}
-	}
 }
