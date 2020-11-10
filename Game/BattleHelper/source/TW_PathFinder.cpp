@@ -427,11 +427,11 @@ TeFindResult TePathFinder::FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, 
 	m_iChangeListLimit = PATH_CHANGE_LIST;
 
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
-	TeFindResult eRet = TFR_NONE;
+	TeFindResult eRet = TeFindResult::TFR_NONE;
 
 	if (fSrcX == fDstX && fSrcY == fDstY)
 	{
-		eRet = TFR_ARRIVED;
+		eRet = TeFindResult::TFR_ARRIVED;
 	}
 	else
 	{
@@ -439,11 +439,11 @@ TeFindResult TePathFinder::FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, 
 		{
 			m_iPathPointCount = 0;
 			m_piPathPoint[m_iPathPointCount++] = TePos2(fDstX, fDstY);
-			eRet = TFR_DIRECT;
+			eRet = TeFindResult::TFR_DIRECT;
 		}
 	}
 
-	if (eRet == TFR_NONE)
+	if (eRet == TeFindResult::TFR_NONE)
 	{
 		if (m_bUseTStar)
 		{
@@ -1050,7 +1050,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 		int iY = iIndex / m_iWidth;
 		fPos1X = Grid2Map(iX);
 		fPos1Y = Grid2Map(iY);
-		if (iPos == 0 && eRet != TFR_NOT_ARRIVE && iDistance == 0)
+		if (iPos == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 		{
 			fPos1X = fEndX;
 			fPos1Y = fEndY;
@@ -1069,7 +1069,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	int iY3 = iIndex3 / m_iWidth;
 	fPos1X = Grid2Map(iX3);
 	fPos1Y = Grid2Map(iY3);
-	if (iPos3 == 0 && eRet != TFR_NOT_ARRIVE && iDistance == 0)
+	if (iPos3 == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 	{
 		fPos1X = fEndX;
 		fPos1Y = fEndY;
@@ -1083,7 +1083,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 		int iY = iIndex / m_iWidth;
 		fPosX = Grid2Map(iX);
 		fPosY = Grid2Map(iY);
-		if (iPos2 == iEnd && eRet != TFR_NOT_ARRIVE && iDistance == 0)
+		if (iPos2 == iEnd && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 		{
 			fPosX = fEndX;
 			fPosY = fEndY;
@@ -1120,7 +1120,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	int iY = iIndex / m_iWidth;
 	float fX = Grid2Map(iX);
 	float fY = Grid2Map(iY);
-	if (iPos3 == 0 && eRet != TFR_NOT_ARRIVE && iDistance == 0)
+	if (iPos3 == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 	{
 		fX = fEndX;
 		fY = fEndY;
@@ -1209,25 +1209,25 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 	m_iPathCount = 0;
 	if (!m_akGrid)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TFR_ARRIVED;
+		return TeFindResult::TFR_ARRIVED;
 	}
 
-	TeFindResult eRet = TFR_NONE;
+	TeFindResult eRet = TeFindResult::TFR_NONE;
 
 	MarkLine(iSrcGridX, iSrcGridY, iSize, iDstGridX, iDstGridY, iDistance, iObs);
 
@@ -1361,15 +1361,15 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 				int iD2 = GetDistance2Path(iGridX1, iGridY1, iDstGridX, iDstGridY);
 				if (iDistance2 > iD2)
 				{
-					if (eRet == TFR_NONE)
+					if (eRet == TeFindResult::TFR_NONE)
 					{
-						eRet = TFR_NOT_ARRIVE;
+						eRet = TeFindResult::TFR_NOT_ARRIVE;
 					}
 					iDistance2 = iD2;
 					iNearestIndex = iIndex1;
 					if (iD2 <= iDistanceLimit2)
 					{
-						eRet = TFR_ARRIVE;
+						eRet = TeFindResult::TFR_ARRIVE;
 						OpenListClear();
 						break;
 					}
@@ -1391,10 +1391,10 @@ bool TePathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fD
 	m_iChangeListLimit = 500;
 
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
-	TeFindResult eRet = TFR_NONE;
+	TeFindResult eRet = TeFindResult::TFR_NONE;
 	if (fSrcX == fDstX && fSrcY == fDstY)
 	{
-		eRet = TFR_ARRIVED;
+		eRet = TeFindResult::TFR_ARRIVED;
 		bRet = true;
 	}
 	else
@@ -1403,17 +1403,17 @@ bool TePathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fD
 		{
 			m_iPathPointCount = 0;
 			m_piPathPoint[m_iPathPointCount++] = TePos2(fDstX, fDstY);
-			eRet = TFR_DIRECT;
+			eRet = TeFindResult::TFR_DIRECT;
 			bRet = true;
 		}
 	}
 
-	if (eRet == TFR_NONE)
+	if (eRet == TeFindResult::TFR_NONE)
 	{
 		CreateList();
 		eRet = FindPathGrid_Edge(Map2Grid(fSrcX), Map2Grid(fSrcY), iSrcSize, Map2Grid(fDstX), Map2Grid(fDstY), iDistance, iObs);
 
-		if (TFR_ARRIVE == eRet)
+		if (TeFindResult::TFR_ARRIVE == eRet)
 		{
 			bRet = true;
 		}
@@ -1427,26 +1427,26 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 {
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TFR_ARRIVED;
+		return TeFindResult::TFR_ARRIVED;
 	}
 
 	m_iPathCount = 0;
 	if (!m_akGrid)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
-	TeFindResult eRet = TFR_NONE;
+	TeFindResult eRet = TeFindResult::TFR_NONE;
 
 	MarkLine(iSrcGridX, iSrcGridY, iSize, iDstGridX, iDstGridY, iDistance, iObs);
 
@@ -1655,15 +1655,15 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 				int iD2 = GetDistance2Path(iGridX1, iGridY1, iDstGridX, iDstGridY);
 				if (iDistance2 > iD2)
 				{
-					if (eRet == TFR_NONE)
+					if (eRet == TeFindResult::TFR_NONE)
 					{
-						eRet = TFR_NOT_ARRIVE;
+						eRet = TeFindResult::TFR_NOT_ARRIVE;
 					}
 					iDistance2 = iD2;
 					iNearestIndex = iIndex1;
 					if (iD2 <= iDistanceLimit2)
 					{
-						eRet = TFR_ARRIVE;
+						eRet = TeFindResult::TFR_ARRIVE;
 						OpenListClear();
 						break;
 					}
@@ -1698,23 +1698,23 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 {
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TFR_ARRIVED;
+		return TeFindResult::TFR_ARRIVED;
 	}
 
 	m_iPathCount = 0;
 	if (!m_akTGrid)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	VecTMapGrid akOpenList;
@@ -1729,7 +1729,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 	if (!pkOriginGrid || pkOriginGrid->iState == TMPS_TLOCK || !pkTargetGrid || pkTargetGrid->iState == TMPS_TLOCK)
 	{
-		return TFR_NONE;
+		return TeFindResult::TFR_NONE;
 	}
 
 	pkOriginGrid->iState = TMPS_ORIGIN;
@@ -1806,7 +1806,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 					CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-					return TFR_ARRIVE;
+					return TeFindResult::TFR_ARRIVE;
 				}
 				break;
 				case TMPS_NONE:
@@ -2066,7 +2066,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 								CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-								return TFR_ARRIVE;
+								return TeFindResult::TFR_ARRIVE;
 							}
 
 							switch (pkNextGrid->iState)
@@ -2208,7 +2208,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 								CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-								return TFR_ARRIVE;
+								return TeFindResult::TFR_ARRIVE;
 							}
 
 							switch (pkNextGrid->iState)
@@ -2325,7 +2325,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 	m_iPathPointCount = 0;
 
-	return TFR_NONE;
+	return TeFindResult::TFR_NONE;
 }
 
 void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTargetGrid)
