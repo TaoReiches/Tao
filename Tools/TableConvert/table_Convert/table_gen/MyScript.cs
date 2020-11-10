@@ -1,9 +1,4 @@
 using System;
-using System.Reflection;
-using System.Globalization;
-using Microsoft.CSharp;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Text;
 using System.Data;
 using System.Text.RegularExpressions;
@@ -18,10 +13,6 @@ namespace table_gen
         string script_expand_;
         string code_;
         DataTable def_table_;
-
- //       Assembly assembly_;
- //       object instance_;
- //       MethodInfo method_info_;
 
         public string FieldName
         {
@@ -93,13 +84,6 @@ namespace table_gen
             sb.Append("        float.TryParse(s, out data);");
             sb.Append("        return data;");
             sb.Append("    }");
-
-            ///// ret
-            //sb.Append("    void ret(string s, ref string msg)");
-            //sb.Append("    {");
-            //sb.Append("        msg = s;");
-            //sb.Append("        throw new Exception(msg);");
-            //sb.Append("    }");
 
             /// gt(field_name, sql)
             sb.Append("    string gt(string field_name, string sql)");
@@ -281,54 +265,6 @@ namespace table_gen
 
             TransformCode();
         }
-
-        //public void Build()
-        //{
-        //    // 1.CSharpCodePrivoder
-        //    using (CSharpCodeProvider provider = new CSharpCodeProvider())
-        //    {
-
-        //        // 2.ICodeComplier
-        //        ICodeCompiler compiler = provider.CreateCompiler();
-
-        //        // 3.CompilerParameters
-        //        CompilerParameters parameters = new CompilerParameters();
-        //        parameters.ReferencedAssemblies.Add("System.dll");
-        //        parameters.ReferencedAssemblies.Add("System.Xml.dll");
-        //        parameters.ReferencedAssemblies.Add("System.Data.dll");
-        //        parameters.GenerateExecutable = false;
-        //        parameters.GenerateInMemory = true;
-
-        //        // 4.CompilerResults
-        //        CompilerResults result = compiler.CompileAssemblyFromSource(parameters,
-        //            GenCode(this.Script));
-
-        //        if (result.Errors.HasErrors)
-        //        {
-        //            string s = "±‡“Î¥ÌŒÛ£∫";
-        //            foreach (CompilerError err in result.Errors)
-        //                s += err.ErrorText;
-
-        //            throw new Exception(s);
-        //        }
-        //        else
-        //        {
-        //            assembly_ = result.CompiledAssembly;
-        //            instance_ = assembly_.CreateInstance("Checker");
-        //            method_info_ = instance_.GetType().GetMethod("Run");
-        //        }
-        //    }
-        //}
-
-        //public bool Check(string field_name, string v, DataRow row, ref string msg, 
-        //    DataTable table, Dictionary<string, DataTable> tables, string envir_path)
-        //{
-        //    object[] param = { field_name, v, row, msg, table, tables, envir_path };
-        //    object result = method_info_.Invoke(instance_, param);
-        //    msg = param[3].ToString();
-
-        //    return bool.Parse(result.ToString());
-        //}
     }
 
 }

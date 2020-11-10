@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "table_gen2", "table_gen\table_gen2.csproj", "{5D307D36-C3AC-4933-AB95-0E92771FCCF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableGenerate", "table_gen\TableGenerate.csproj", "{5D307D36-C3AC-4933-AB95-0E92771FCCF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98ECB38F-14B9-4D42-B1B2-5F2B0852ABD8}
 	EndGlobalSection
 EndGlobal

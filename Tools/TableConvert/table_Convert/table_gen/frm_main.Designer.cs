@@ -101,28 +101,28 @@ namespace table_gen
             // 
             this.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem";
             this.SelectAllToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.SelectAllToolStripMenuItem.Text = "全部选中";
+            this.SelectAllToolStripMenuItem.Text = "SelectAllToolStripMenuItem";
             this.SelectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
             // SelectNullToolStripMenuItem
             // 
             this.SelectNullToolStripMenuItem.Name = "SelectNullToolStripMenuItem";
             this.SelectNullToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.SelectNullToolStripMenuItem.Text = "全部取消";
+            this.SelectNullToolStripMenuItem.Text = "SelectNullToolStripMenuItem";
             this.SelectNullToolStripMenuItem.Click += new System.EventHandler(this.SelectNullToolStripMenuItem_Click);
             // 
             // FilpSelectToolStripMenuItem
             // 
             this.FilpSelectToolStripMenuItem.Name = "FilpSelectToolStripMenuItem";
             this.FilpSelectToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.FilpSelectToolStripMenuItem.Text = "反向选中";
+            this.FilpSelectToolStripMenuItem.Text = "FilpSelectToolStripMenuItem";
             this.FilpSelectToolStripMenuItem.Click += new System.EventHandler(this.FilpSelectToolStripMenuItem_Click);
             // 
             // CancelDropDigDropToolStripMenuItem
             // 
             this.CancelDropDigDropToolStripMenuItem.Name = "CancelDropDigDropToolStripMenuItem";
             this.CancelDropDigDropToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.CancelDropDigDropToolStripMenuItem.Text = "取消Drop/Dip";
+            this.CancelDropDigDropToolStripMenuItem.Text = "CancelDrop/Dip";
             this.CancelDropDigDropToolStripMenuItem.Click += new System.EventHandler(this.CancelDropDigDropToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
@@ -134,7 +134,7 @@ namespace table_gen
             // 
             this.LoadToolStripMenuItem.Name = "LoadToolStripMenuItem";
             this.LoadToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.LoadToolStripMenuItem.Text = "读取表格";
+            this.LoadToolStripMenuItem.Text = "LoadTool";
             this.LoadToolStripMenuItem.Click += new System.EventHandler(this.LoadToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
@@ -146,7 +146,7 @@ namespace table_gen
             // 
             this.ResetToolStripMenuItem.Name = "ResetToolStripMenuItem";
             this.ResetToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.ResetToolStripMenuItem.Text = "重置";
+            this.ResetToolStripMenuItem.Text = "ResetTool";
             this.ResetToolStripMenuItem.Click += new System.EventHandler(this.ResetToolStripMenuItem_Click);
             // 
             // lblTable
@@ -156,7 +156,7 @@ namespace table_gen
             this.lblTable.Name = "lblTable";
             this.lblTable.Size = new System.Drawing.Size(125, 12);
             this.lblTable.TabIndex = 16;
-            this.lblTable.Text = "数据表: 灰色为基本表";
+            this.lblTable.Text = "Excel";
             // 
             // btn_gen_code
             // 
@@ -165,7 +165,7 @@ namespace table_gen
             this.btn_gen_code.Name = "btn_gen_code";
             this.btn_gen_code.Size = new System.Drawing.Size(142, 23);
             this.btn_gen_code.TabIndex = 21;
-            this.btn_gen_code.Text = "生成数据结构(程序用)";
+            this.btn_gen_code.Text = "GenerateCode";
             this.btn_gen_code.UseVisualStyleBackColor = true;
             this.btn_gen_code.Click += new System.EventHandler(this.btn_gen_code_Click);
             // 
@@ -176,7 +176,7 @@ namespace table_gen
             this.btn_gen_table.Name = "btn_gen_table";
             this.btn_gen_table.Size = new System.Drawing.Size(135, 23);
             this.btn_gen_table.TabIndex = 28;
-            this.btn_gen_table.Text = "生成表格(策划用)";
+            this.btn_gen_table.Text = "GenerateTable";
             this.btn_gen_table.UseVisualStyleBackColor = true;
             this.btn_gen_table.Click += new System.EventHandler(this.btn_gen_table_Click);
             // 
@@ -191,7 +191,7 @@ namespace table_gen
             this.cb_data.Name = "cb_data";
             this.cb_data.Size = new System.Drawing.Size(72, 16);
             this.cb_data.TabIndex = 27;
-            this.cb_data.Text = "数据约束";
+            this.cb_data.Text = "Data";
             this.cb_data.UseVisualStyleBackColor = true;
             this.cb_data.CheckedChanged += new System.EventHandler(this.cb_data_CheckedChanged);
             // 
@@ -205,7 +205,7 @@ namespace table_gen
             this.cb_forign.Name = "cb_forign";
             this.cb_forign.Size = new System.Drawing.Size(72, 16);
             this.cb_forign.TabIndex = 26;
-            this.cb_forign.Text = "外键约束";
+            this.cb_forign.Text = "Foreign";
             this.cb_forign.UseVisualStyleBackColor = true;
             // 
             // cb_primary
@@ -218,7 +218,7 @@ namespace table_gen
             this.cb_primary.Name = "cb_primary";
             this.cb_primary.Size = new System.Drawing.Size(72, 16);
             this.cb_primary.TabIndex = 25;
-            this.cb_primary.Text = "主键约束";
+            this.cb_primary.Text = "Primary";
             this.cb_primary.UseVisualStyleBackColor = true;
             // 
             // tabControl1
@@ -238,7 +238,7 @@ namespace table_gen
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(452, 367);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "输出";
+            this.tabPage1.Text = "Output";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // out_filter_txt
@@ -265,7 +265,7 @@ namespace table_gen
             // 
             this.ClearOutputToolStripMenuItem.Name = "ClearOutputToolStripMenuItem";
             this.ClearOutputToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.ClearOutputToolStripMenuItem.Text = "清空";
+            this.ClearOutputToolStripMenuItem.Text = "Clear";
             this.ClearOutputToolStripMenuItem.Click += new System.EventHandler(this.ClearOutputToolStripMenuItem_Click);
             // 
             // btn_load_table
@@ -275,7 +275,7 @@ namespace table_gen
             this.btn_load_table.Name = "btn_load_table";
             this.btn_load_table.Size = new System.Drawing.Size(131, 23);
             this.btn_load_table.TabIndex = 30;
-            this.btn_load_table.Text = "读取表格(必须)";
+            this.btn_load_table.Text = "Load";
             this.btn_load_table.UseVisualStyleBackColor = true;
             this.btn_load_table.Click += new System.EventHandler(this.btn_load_table_Click);
             // 
@@ -298,13 +298,13 @@ namespace table_gen
             this.ExitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.FileToolStripMenuItem.Text = "文件";
+            this.FileToolStripMenuItem.Text = "Tool";
             // 
             // ResetAllToolStripMenuItem
             // 
             this.ResetAllToolStripMenuItem.Name = "ResetAllToolStripMenuItem";
             this.ResetAllToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.ResetAllToolStripMenuItem.Text = "重置";
+            this.ResetAllToolStripMenuItem.Text = "ResetAll";
             this.ResetAllToolStripMenuItem.Click += new System.EventHandler(this.ResetAllToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
@@ -316,7 +316,7 @@ namespace table_gen
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
             this.ExitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.ExitToolStripMenuItem.Text = "退出";
+            this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // UtilToolStripMenuItem
@@ -330,13 +330,13 @@ namespace table_gen
             this.OpenClientCodeGenToolStripMenuItem});
             this.UtilToolStripMenuItem.Name = "UtilToolStripMenuItem";
             this.UtilToolStripMenuItem.Size = new System.Drawing.Size(48, 21);
-            this.UtilToolStripMenuItem.Text = " 辅助";
+            this.UtilToolStripMenuItem.Text = "UtilTool";
             // 
             // OpenCurrentToolStripMenuItem
             // 
             this.OpenCurrentToolStripMenuItem.Name = "OpenCurrentToolStripMenuItem";
             this.OpenCurrentToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.OpenCurrentToolStripMenuItem.Text = "打开当前文件夹";
+            this.OpenCurrentToolStripMenuItem.Text = "OpenCurrent";
             this.OpenCurrentToolStripMenuItem.Click += new System.EventHandler(this.OpenCurrentToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
@@ -348,31 +348,31 @@ namespace table_gen
             // 
             this.OpenDataSourceToolStripMenuItem.Name = "OpenDataSourceToolStripMenuItem";
             this.OpenDataSourceToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.OpenDataSourceToolStripMenuItem.Text = "打开策划数据文件夹";
+            this.OpenDataSourceToolStripMenuItem.Text = "OpenDataSource";
             this.OpenDataSourceToolStripMenuItem.Click += new System.EventHandler(this.OpenDataSourceToolStripMenuItem_Click);
             // 
             // OpenDataGenToolStripMenuItem
             // 
             this.OpenDataGenToolStripMenuItem.Name = "OpenDataGenToolStripMenuItem";
             this.OpenDataGenToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.OpenDataGenToolStripMenuItem.Text = "打开策划生成文件夹";
+            this.OpenDataGenToolStripMenuItem.Text = "OpenTool";
             this.OpenDataGenToolStripMenuItem.Click += new System.EventHandler(this.OpenDataGenToolStripMenuItem_Click);
             // 
             // OpenCodeGenToolStripMenuItem
             // 
             this.OpenCodeGenToolStripMenuItem.Name = "OpenCodeGenToolStripMenuItem";
             this.OpenCodeGenToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.OpenCodeGenToolStripMenuItem.Text = "打开服务器代码生成文件夹";
+            this.OpenCodeGenToolStripMenuItem.Text = "OpenCodeTool";
             this.OpenCodeGenToolStripMenuItem.Click += new System.EventHandler(this.OpenCodeGenToolStripMenuItem_Click);
             // 
             // OpenClientCodeGenToolStripMenuItem
             // 
             this.OpenClientCodeGenToolStripMenuItem.Name = "OpenClientCodeGenToolStripMenuItem";
             this.OpenClientCodeGenToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.OpenClientCodeGenToolStripMenuItem.Text = "打开客户端代码生成文件夹";
+            this.OpenClientCodeGenToolStripMenuItem.Text = "OpenClient";
             this.OpenClientCodeGenToolStripMenuItem.Click += new System.EventHandler(this.OpenClientCodeGenToolStripMenuItem_Click);
             // 
-            // 关于ToolStripMenuItem
+            // AboutToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutToolStripMenuItem1});
@@ -395,7 +395,7 @@ namespace table_gen
             this.SelectAllTable.Name = "SelectAllTable";
             this.SelectAllTable.Size = new System.Drawing.Size(48, 16);
             this.SelectAllTable.TabIndex = 32;
-            this.SelectAllTable.Text = "全选";
+            this.SelectAllTable.Text = "Select";
             this.SelectAllTable.UseVisualStyleBackColor = true;
             this.SelectAllTable.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -420,7 +420,7 @@ namespace table_gen
             this.MaximizeBox = false;
             this.Name = "frm_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "表格转换工具";
+            this.Text = "TableGenerate";
             this.Load += new System.EventHandler(this.frm_main_Load);
             this.cms_clb.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
