@@ -1275,10 +1275,10 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 	float fMultiDamage = 0.f;
 	if (rkAttackingAttr.eAttackType == BAT_NORMAL && GetClass() != UNIT_CLASSTYPE_BUILDING)
 	{
-		if (rkAttackingAttr.GetFlag() & BAF_NOT_BAOJI)
+		if (rkAttackingAttr.GetFlag() & BeAttackingFlag::BAF_NOT_BAOJI)
 		{
 		}
-		else if (rkAttackingAttr.GetFlag() & BAF_BAOJI)
+		else if (rkAttackingAttr.GetFlag() & BeAttackingFlag::BAF_BAOJI)
 		{
 			float	fBaoJiPerDamage = 0;
 			if (m_pkCurData->fBaoJiDecDamage > 0.1 && m_pkCurData->fBaoJiDecDamage < 1.0) {
@@ -1290,7 +1290,7 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 			fMultiDamage = rkAttackingAttr.fDamage;
 			rkAttackingAttr.fDamage *= fBaoJiPerDamage;
 
-			rkAttackingAttr.SetFlag(BAF_NOT_BAOJI);
+			rkAttackingAttr.SetFlag(BeAttackingFlag::BAF_NOT_BAOJI);
 		}
 	}
 

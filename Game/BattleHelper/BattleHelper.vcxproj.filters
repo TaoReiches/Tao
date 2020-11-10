@@ -69,6 +69,9 @@
     <ClInclude Include="include\TW_PointerType.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="include\TW_BitmaskEnum.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\TW_PathFinderFormular.cpp">

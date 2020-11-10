@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\TW_BitmaskEnum.h" />
     <ClInclude Include="include\TW_Define.h" />
     <ClInclude Include="include\TW_IPathFinder.h" />
     <ClInclude Include="include\TW_IRandom.h" />

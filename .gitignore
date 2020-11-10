@@ -35,3 +35,10 @@ Game/BattleHelper/x64/
 Game/BattleLogic/x64/
 Tools/TableConvert/table_Convert/table_gen/obj/
 Game/Table/x64/
+Tools/TableConvert/table_Convert/.vs/
+Tools/TableConvert/table_Convert/table_gen/table_gen.application
+Tools/TableConvert/table_Convert/table_gen/table_gen.exe
+Tools/TableConvert/table_Convert/table_gen/table_gen.exe.config
+Tools/TableConvert/table_Convert/table_gen/table_gen.exe.manifest
+Tools/TableConvert/table_Convert/table_gen/table_gen.pdb
+Tools/TableConvert/table_Convert/table_gen/app.publish/table_gen.exe

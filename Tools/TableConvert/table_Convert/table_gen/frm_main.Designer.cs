@@ -63,7 +63,7 @@ namespace table_gen
             this.OpenDataGenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenCodeGenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenClientCodeGenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SelectAllTable = new System.Windows.Forms.CheckBox();
             this.cms_clb.SuspendLayout();
@@ -284,7 +284,7 @@ namespace table_gen
             this.main_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.UtilToolStripMenuItem,
-            this.关于ToolStripMenuItem});
+            this.OpenToolStripMenuItem});
             this.main_menu.Location = new System.Drawing.Point(0, 0);
             this.main_menu.Name = "main_menu";
             this.main_menu.Size = new System.Drawing.Size(748, 25);
@@ -374,17 +374,17 @@ namespace table_gen
             // 
             // 关于ToolStripMenuItem
             // 
-            this.关于ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AboutToolStripMenuItem1});
-            this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.关于ToolStripMenuItem.Text = "关于";
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.OpenToolStripMenuItem.Text = "Open";
             // 
             // AboutToolStripMenuItem1
             // 
             this.AboutToolStripMenuItem1.Name = "AboutToolStripMenuItem1";
             this.AboutToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
-            this.AboutToolStripMenuItem1.Text = "关于";
+            this.AboutToolStripMenuItem1.Text = "About";
             this.AboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem1_Click);
             // 
             // SelectAllTable
@@ -459,7 +459,7 @@ namespace table_gen
         private System.Windows.Forms.ToolStripMenuItem ResetAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem UtilToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenCurrentToolStripMenuItem;

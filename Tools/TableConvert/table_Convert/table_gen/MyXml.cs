@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Data;
 
@@ -12,11 +11,9 @@ namespace table_gen
         {
             List<MyExcel.DefData> kDefData = MyExcel.kTableDefDataList[kFileName];
 
-            //  文件头
             sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
             sb.AppendLine("<root>");
 
-            //  翻译每行的数据
             int iRowIndex = 1;
 
             foreach (DataRow kData in kNode.content_data_set.Tables[0].Rows)
@@ -30,21 +27,18 @@ namespace table_gen
                 {
                     if(i >= kDefData.Count)
                     {
-                        System.Windows.Forms.MessageBox.Show(string.Format("已经超过数据最大{0}列", MyExcel.s_RowIndex[i]));
+                        System.Windows.Forms.MessageBox.Show(string.Format("Exceed the maximum column{0}", MyExcel.s_RowIndex[i]));
                         return;
                     }
-                    // 根据该列的类型翻译数据
                     MyExcel.DefData kDefTypeData = kDefData[i];
                     object kValue = kAllValue[i];    
                 
                     if(iType == 1)
                     {
-                        //  跳过只服务器用的数据
                         if(kDefTypeData.iUseType == 2)
                         {
                             continue;
                         }
-                        //  客户端如果数据为- 则不生成
                         if (kValue.ToString() == "-")
                         {
                             continue;
@@ -52,7 +46,6 @@ namespace table_gen
                     }
                     if (iType == 2)
                     {
-                        //  跳过只客户端用的数据
                         if (kDefTypeData.iUseType == 1)
                         {
                             continue;
@@ -61,17 +54,14 @@ namespace table_gen
 
                     if (MyExcel.kTypeClass[0] == kDefTypeData.kType[0] || MyExcel.kTypeClass[5] == kDefTypeData.kType[0])
                     {
-                        //  整形 需要看是否要转换
                         int iIntValue = 250;
 
-                        //  - 直接赋值0
                         if(kValue.ToString() == "-")
                         {
                             iIntValue = -1;
                         }
                         else if(!int.TryParse(kValue.ToString(), out iIntValue))
                         {
-                            //  无法直接解析
                             byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kValue.ToString());
                             if (idIntBytes.Length == 4)
                             {
@@ -87,18 +77,15 @@ namespace table_gen
                     }
                     else if(MyExcel.kTypeClass[1] == kDefTypeData.kType[0])
                     {
-                        //  字符串直接保存
                         sb.Append(string.Format("{0}=", kDefTypeData.kMemberName));
                         sb.Append(string.Format("\"{0}\" ", kValue.ToString()));
                         //sb.Append(" ");
                     }
                     else if(MyExcel.kTypeClass[2] == kDefTypeData.kType[0])
                     {
-                        //  枚举  直接转换成值
                         int iEnumValue = 0;
 
                         List<string> kDefTypeStr = kDefTypeData.kType;
-                        //  查看是否定义在其他列
                         if(kDefTypeData.iFatherRow != -1)
                         {
                             bool bFind = false;
@@ -126,7 +113,6 @@ namespace table_gen
                             }
                             string[] kSplitEnum = { "[", "]", ":" };
                             string[] kEnumData = kDefTypeStr[k].Split(kSplitEnum, StringSplitOptions.RemoveEmptyEntries);
-                            //  兼容一下:注释
                             string[] kSplitValue = { ":" };
                             string[] kValueData = kValue.ToString().Split(kSplitValue, StringSplitOptions.RemoveEmptyEntries);
                             if (kValueData[0] == kEnumData[0])

@@ -8,6 +8,7 @@
 #include <memory>
 #include "TW_FlagObject.h"
 #include "TW_Pos2.h"
+#include "TW_BitmaskEnum.h"
 
 enum BeAttackingFlag
 {
@@ -30,6 +31,7 @@ enum BeAttackingFlag
 	BAF_HAS_BAOJI		=	(1 << 16),
 	BAF_EFFECT			=	(1 << 17),
 };
+ENABLE_BITMASK_OPERATORS(BeAttackingFlag)
 
 enum BeAttackType
 {
