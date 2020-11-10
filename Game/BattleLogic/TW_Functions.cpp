@@ -207,7 +207,7 @@ float GetPointToLineDistance(float fPosX, float fPosY, float fA, float fB, float
 	return fDistance;
 }
 
-const char* g_apcActionName[BUAN_NUM] = {
+const std::string g_apcActionName[BUAN_NUM] = {
 	"stand",
 	"stand-1",
 	"stand-2",
@@ -273,44 +273,6 @@ const char* g_apcActionName[BUAN_NUM] = {
 
 	"idle",
 };
-
-int GetIndexByActionName(const char* pcName)
-{
-	char acName[128] = { 0 };
-	strcpy(acName, pcName);
-#ifdef _WIN32
-	strlwr(acName);
-#else
-	for (int i = 0; i < strlen(pcName); i++)
-	{
-		acName[i] = tolower(acName[i]);
-	}
-#endif
-	if (acName == NULL)
-	{
-		return -1;
-	}
-
-	char acName1[128] = { 0 };
-	int iLen = strlen(acName);
-	int iStrLen = 0;
-	for (int i = 0; i < iLen; i++)
-	{
-		if (acName[i] != ' ')
-		{
-			acName1[iStrLen++] = acName[i];
-		}
-	}
-	acName1[iStrLen] = '\0';
-	for (int i = 0; i < BUAN_NUM; i++)
-	{
-		if (strcmp(g_apcActionName[i], acName1) == 0)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
 
 int TruncToInt(float fValue)
 {

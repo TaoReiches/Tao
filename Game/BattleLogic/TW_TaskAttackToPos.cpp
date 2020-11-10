@@ -129,7 +129,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			if (gUnit.GetAttackingUnitID())
 			{
 				BeUnit* pkOrgTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
-				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE) || pkOrgTarget->IsUnitNotInvisToCamp(gUnit.GetCamp())))
+				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE)))
 				{
 					TePos2 kPos;
 					kPos.fX = pkOrgTarget->GetPosX();
@@ -160,8 +160,6 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 
 				if (pkTarget && !pkTarget->IsDead())
 				{
-					if (pkTarget->GetUnitVisionForCamp(gUnit.GetCamp() - 1))
-					{
 						m_dwOutSightTime = 0;
 						TePos2 kPos = m_pkMoveToPos->GetTargetPos();
 						if (fabs(kPos.fX - pkTarget->GetPosX()) > 16.0f || fabs(kPos.fY - pkTarget->GetPosY()) > 16.0f)
@@ -171,12 +169,6 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 							float fDistance = gUnit.GetAttackRange(pkTarget);
 							m_pkMoveToPos->SetTargetPos(kPos, fDistance);
 						}
-					}
-					else
-					{
-						m_eState = BeAttackToPosState::BAP_REFRESH;
-						break;
-					}
 
 					m_dwOutSightTime += iDeltaTime;
 					m_dwMoveTime += iDeltaTime;

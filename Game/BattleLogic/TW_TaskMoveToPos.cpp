@@ -19,7 +19,7 @@ BeTaskMoveToPos::BeTaskMoveToPos()
 	m_eType = BeTaskType::STT_MOVE_TO_POS;
 	m_eMoveState = BeMoveState::BMS_INIT;
 	m_eRetryState = BeMoveRetryState::BMRS_DITECT;
-	m_eFindPathRet = TFR_NONE;
+	m_eFindPathRet = TeFindResult::TFR_NONE;
 	m_bSoliderCheck = false;
 	m_eState = BeMoveResult::BMR_NONE;
 	m_fDistance = 0.0f;
@@ -134,13 +134,13 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 			}
 
-			if (m_eFindPathRet == TFR_NONE || !gUnit.CanMove())
+			if (m_eFindPathRet == TeFindResult::TFR_NONE || !gUnit.CanMove())
 			{
 				m_pkWalk->SetTargetPos(m_kTarPos, true);
 				m_eMoveState = BeMoveState::BMS_WALK;
 				m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 			}
-			else if (m_eFindPathRet == TFR_ARRIVED)
+			else if (m_eFindPathRet == TeFindResult::TFR_ARRIVED)
 			{
 				m_eState = BeMoveResult::BMR_SUCCESS;
 				m_eMoveState = BeMoveState::BMS_END;
@@ -210,7 +210,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			}
 
 			m_iStandTime = 0;
-			m_iWalkBlockTime = gUnit.IsHero() ? HERO_WALK_BLOCK_TIME : WALK_BLOCK_TIME;
+			m_iWalkBlockTime = HERO_WALK_BLOCK_TIME;
 
 			TePos2 kFindPos = m_kTarPos;
 			switch (m_eRetryState)
@@ -262,12 +262,12 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 
-				if (m_eFindPathRet == TFR_NONE)
+				if (m_eFindPathRet == TeFindResult::TFR_NONE)
 				{
 					m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
 					m_eMoveState = BeMoveState::BMS_STAND;
 				}
-				else if (m_eFindPathRet == TFR_ARRIVED)
+				else if (m_eFindPathRet == TeFindResult::TFR_ARRIVED)
 				{
 					m_iRetryTime = 0;
 					if (m_eRetryState == BeMoveRetryState::BMRS_FINNAL || m_kTarPos == m_kMiddlePos)

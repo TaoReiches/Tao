@@ -191,7 +191,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			{
 				if (pkTarget->GetClass() == UNIT_CLASSTYPE_SOLIDER || pkTarget->GetClass() == UNIT_CLASSTYPE_HERO)
 				{
-					gUnit.SetCastVisionTime(gTime + 3000);
+					//gUnit.SetCastVisionTime(gTime + 3000);
 				}
 			}
 		}
@@ -247,7 +247,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			}
 			else if (gUnit.GetWeaponType() == 1)
 			{
-				BeEffect* pkEffect = gEffectMgr.AddEffect(BER_LINE_TRACE);
+				auto pkEffect = gEffectMgr.AddEffect(BER_LINE_TRACE);
 				if (pkEffect)
 				{
 					pkEffect->SetChangeFlag(BECF_CASTMISSILE);
@@ -272,30 +272,30 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 				gUnit.TrgOnAttack(GetTargetID(), m_kAttr);
 			}
 
-			if (gUnit.IsHero())
-			{
+			//if (gUnit.IsHero())
+			//{
 				TePtParam kParamHero;
 				kParamHero.SetParam(BTP_pkTrgUnit, &gUnit);
 				kParamHero.SetParam(BTP_iTargetID, GetTargetID());
 
 				gTrgMgr.FireTrigger(BTE_HERO_ATTACK, kParamHero);
-			}
-			else if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
-			{
-				TePtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-				kParam.SetParam(BTP_iTargetID, GetTargetID());
+			//}
+			//else if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
+			//{
+			//	TePtParam kParam;
+			//	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
+			//	kParam.SetParam(BTP_iTargetID, GetTargetID());
 
-				gTrgMgr.FireTrigger(BTE_BUILDING_ATTACK, kParam);
-			}
-			else
-			{
-				TePtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-				kParam.SetParam(BTP_iTargetID, GetTargetID());
+			//	gTrgMgr.FireTrigger(BTE_BUILDING_ATTACK, kParam);
+			//}
+			//else
+			//{
+			//	TePtParam kParam;
+			//	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
+			//	kParam.SetParam(BTP_iTargetID, GetTargetID());
 
-				gTrgMgr.FireTrigger(BTE_NOT_HERO_ATTACK, kParam);
-			}
+			//	gTrgMgr.FireTrigger(BTE_NOT_HERO_ATTACK, kParam);
+			//}
 		}
 		else
 		{

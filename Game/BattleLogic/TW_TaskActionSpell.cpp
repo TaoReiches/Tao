@@ -133,7 +133,7 @@ bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bE
 		{
 			return false;
 		}
-		if (m_iTargetType == BCTT_UNIT)
+		if (m_iTargetType == (int)BeCommandTargetType::BCTT_UNIT)
 		{
 			BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 			if (pkTarget)
@@ -183,7 +183,7 @@ bool BeTaskActionSpell::SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool 
 
 	if (iItemID)
 	{
-		BeMapItem* pkMapItem = gMapItemMgr.GetMapItemByID(iOtherID);
+		auto pkMapItem = gMapItemMgr.GetMapItemByID(iOtherID);
 		if (pkMapItem && gUnit.GetClass() != UNIT_CLASSTYPE_BUILDING)
 		{
 			float fTarFace = atan2f(pkMapItem->GetPosY() - gUnit.GetPosY(), pkMapItem->GetPosX() - gUnit.GetPosX());
@@ -306,7 +306,7 @@ void BeTaskActionSpell::OnSpellEffect(void)
 	m_iPersitTime = 100;
 	m_iPersitDeltaTime = 100;
 
-	if (m_iTargetType == BCTT_UNIT && m_iTargetID)
+	if (m_iTargetType == (int)BeCommandTargetType::BCTT_UNIT && m_iTargetID)
 	{
 		BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 		if (pkTarget)
@@ -439,23 +439,23 @@ bool BeTaskActionSpell::CanUseSpell(void)
 			return false;
 		}
 
-		BeItem* pkItem = gUnit.GetItemByID(m_iItemID);
+		auto pkItem = gUnit.GetItemByID(m_iItemID);
 		if (pkItem)
 		{
-			BeSkill* pkSkill = pkItem->GetSkillByTypeID(m_iSkillTypeID);
-			if (pkSkill)
-			{
-				int iSkillCD = rkData.GetSkillCoolDown();
+			//auto pkSkill = pkItem->GetSkillByTypeID(m_iSkillTypeID);
+			//if (pkSkill)
+			//{
+			//	int iSkillCD = rkData.GetSkillCoolDown();
 
-				if (!gUnit.CommonCDComplete(pkItem->GetCDSkillID(), iSkillCD))
-				{
-					return false;
-				}
-			}
-			else
-			{
-				return false;
-			}
+			//	//if (!gUnit.CommonCDComplete(pkItem->GetCDSkillID(), iSkillCD))
+			//	//{
+			//	//	return false;
+			//	//}
+			//}
+			//else
+			//{
+			//	return false;
+			//}
 		}
 		else
 		{
@@ -493,10 +493,10 @@ bool BeTaskActionSpell::CanUseSpell(void)
 		if (pkSkill->GetCurPileNums() > 0 || (iSkillCount > 0 && iSkillCount != 234))
 		{
 		}
-		else if (!gUnit.CommonCDComplete(m_iSkillTypeID, iSkillCD))
-		{
-			return false;
-		}
+		//else if (!gUnit.CommonCDComplete(m_iSkillTypeID, iSkillCD))
+		//{
+		//	return false;
+		//}
 
 
 		UnitUseSkillResultType eResult = gUnit.UnitCanUseSkill(m_iSkillTypeID, NULL, true, true, m_kTargetPos.fX, m_kTargetPos.fY);
@@ -565,7 +565,7 @@ void BeTaskActionSpell::OperateItem(BeItem* pkItem)
 		pkItem->SetUseCount(pkItem->GetUseCount() - 1);
 	}
 
-	gUnit.SetCommonCDLastUseTime(pkItem->GetCDSkillID(), (int)gTime);
+	//gUnit.SetCommonCDLastUseTime(pkItem->GetCDSkillID(), (int)gTime);
 	for (int i = 0; i < 6; i++)
 	{
 		BeItem* pkOldItem = gUnit.GetItemByPos(i);

@@ -9,6 +9,7 @@
 
 #include "TW_UnitDataDefine.h"
 #include "TW_UnitBase.h"
+#include "Unit_table.hpp"
 
 class TwUnitData : public TwUnitBase
 {

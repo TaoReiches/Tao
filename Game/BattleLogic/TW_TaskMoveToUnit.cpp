@@ -72,8 +72,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 	BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 	if (pkTarget
 		&& !pkTarget->IsDead()
-		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE)) || (pkTarget->GetCamp() == gUnit.GetCamp()))
-		)
+		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE))))
 	{
 		TePos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		float fDistance2 = GetDistance2(kTarPos.fX, kTarPos.fY, pkTarget->GetPosX(), pkTarget->GetPosY());

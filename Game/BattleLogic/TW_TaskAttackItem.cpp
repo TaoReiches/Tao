@@ -36,7 +36,7 @@ void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
 		return;
 	}
 	m_iItemID = iID;
-	const BeMapItem* pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
+	const auto pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
 	m_pkMoveToPos->AttachMain(pkAttachMain);
 	m_pkMoveToPos->AttachUnit(pkAttachUnit);
 
@@ -68,7 +68,7 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 
-	const BeMapItem* pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
+	const auto pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
 
 	int iLoopCount = 10;
 	while (iDeltaTime > 0)

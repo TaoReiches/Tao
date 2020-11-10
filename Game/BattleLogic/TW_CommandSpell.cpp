@@ -75,7 +75,7 @@ void BeSpellCommand::SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkill
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
 
-	BeMapItem* pkMapItem = gMapItemMgr.GetMapItemByID(iTargetID);
+	auto pkMapItem = gMapItemMgr.GetMapItemByID(iTargetID);
 	if (!pkMapItem)
 	{
 		return;
@@ -204,7 +204,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 			}
 			else if (m_iTargetType == BeCommandTargetType::BCTT_MAPITEM)
 			{
-				BeMapItem* pkMapItem = gMapItemMgr.GetMapItemByID(m_iTargetID);
+				auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iTargetID);
 				if (pkMapItem)
 				{
 					bSucSet = pkTask->SpellTargetItem(m_iSkillTypeID, m_iSkillLevel, m_bExpendMP, m_kTargetPos, m_iItemID, m_iTargetID, m_iUsePlayer);

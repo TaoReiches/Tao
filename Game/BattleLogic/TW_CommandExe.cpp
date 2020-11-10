@@ -5,6 +5,16 @@
 
 #include "TW_CommandExe.h"
 #include "TW_MemoryObject.h"
+#include "TW_TaskAttackItem.h"
+#include "TW_TaskAttackToPos.h"
+#include "TW_TaskAttackUnit.h"
+#include "TW_TaskMoveToUnit.h"
+#include "TW_TaskMoveToPos.h"
+#include "TW_TaskActionDeath.h"
+#include "TW_TaskActionSpell.h"
+#include "TW_TaskActionAttack.h"
+#include "TW_TaskActionWalk.h"
+#include "TW_TaskActionStand.h"
 
 BeExeCommand::BeExeCommand()
 {
