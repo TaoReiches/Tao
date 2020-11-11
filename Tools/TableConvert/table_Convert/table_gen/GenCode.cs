@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace table_gen
@@ -33,10 +32,10 @@ namespace table_gen
 
         void GenCppGet(StringBuilder sb)
         {
-            sb.AppendLine(string.Format("{0}* {0}::m_pk{0} = NULL;", kClassMgrName));
+            sb.AppendLine(string.Format("{0}* {0}::m_pk{0} = nullptr;", kClassMgrName));
             sb.AppendLine(string.Format("{0}* {0}::Get()", kClassMgrName));
             sb.AppendLine("{");
-            sb.AppendLine(string.Format("    if(m_pk{0} == NULL)", kClassMgrName));
+            sb.AppendLine(string.Format("    if(m_pk{0} == nullptr)", kClassMgrName));
             sb.AppendLine("    {");
             sb.AppendLine(string.Format("        m_pk{0} = new {0}();", kClassMgrName));
             sb.AppendLine("    }");
@@ -51,18 +50,18 @@ namespace table_gen
             sb.AppendLine(string.Format("    return m_k{0}Map;", kClassName));
             sb.AppendLine("}");
 
-            //  get data for Lua
-            sb.AppendLine("");
-            sb.AppendLine(string.Format("TableResArray {0}Mgr::Get{0}Vec()", kClassName));
-            sb.AppendLine("{");
-            sb.AppendLine("    TableResArray kRecVec;");
-            sb.AppendLine(string.Format("    for (std::map<unsigned int, {0}*>::iterator iMapItr = m_k{0}Map.begin(); iMapItr != m_k{0}Map.end(); ++iMapItr)", kClassName));
-            sb.AppendLine("    {");
-            sb.AppendLine("        kRecVec.pushBack(iMapItr->second);");
-            sb.AppendLine("    }");
-            sb.AppendLine("");
-            sb.AppendLine("    return kRecVec;");
-            sb.AppendLine("}");
+            ////  get data for Lua
+            //sb.AppendLine("");
+            //sb.AppendLine(string.Format("TableResArray {0}Mgr::Get{0}Vec()", kClassName));
+            //sb.AppendLine("{");
+            //sb.AppendLine("    TableResArray kRecVec;");
+            //sb.AppendLine(string.Format("    for (std::map<unsigned int, {0}*>::iterator iMapItr = m_k{0}Map.begin(); iMapItr != m_k{0}Map.end(); ++iMapItr)", kClassName));
+            //sb.AppendLine("    {");
+            //sb.AppendLine("        kRecVec.pushBack(iMapItr->second);");
+            //sb.AppendLine("    }");
+            //sb.AppendLine("");
+            //sb.AppendLine("    return kRecVec;");
+            //sb.AppendLine("}");
         }
 
         void GenCppGetClass(StringBuilder sb)
@@ -75,7 +74,7 @@ namespace table_gen
             sb.AppendLine("    {");
             sb.AppendLine("        return iter->second;");
             sb.AppendLine("    }");
-            sb.AppendLine("    return NULL;");
+            sb.AppendLine("    return nullptr;");
             sb.AppendLine("}");
         }
 
@@ -103,8 +102,8 @@ namespace table_gen
             sb.AppendLine(string.Format("    const {0}* Get{0}({1} iTypeID);", kClassName, MyExcel.kTypeReal[0]));
             //  get all
             sb.AppendLine(string.Format("    const std::map<unsigned int, {0}*>& Get{0}Map();", kClassName));
-            //  get data for lua
-            sb.AppendLine(string.Format("    TableResArray Get{0}Vec();", kClassName));           
+            ////  get data for lua
+            //sb.AppendLine(string.Format("    TableResArray Get{0}Vec();", kClassName));           
 
             GenMember(sb);
 
@@ -129,17 +128,15 @@ namespace table_gen
             sb.AppendLine("");
             sb.AppendLine("#include <string>");
             sb.AppendLine("#include <map>");
-            sb.AppendLine("#include \"SeTableResBase.h\"");
         }
 
         void GenStruct(StringBuilder sb)
         {
             sb.AppendLine("");
-            sb.AppendLine("//  Auto genarate table struct");
-            sb.AppendLine(string.Format("struct {0} : SeTableResBase", kClassName));
+            // sb.AppendLine("//  Auto genarate table struct");
+            sb.AppendLine(string.Format("struct {0}", kClassName));
             sb.AppendLine("{");
 
-            //sb.AppendLine("public:");
             List<MyExcel.DefData> kDefData = MyExcel.kTableDefDataList[kFileName];
             foreach (MyExcel.DefData kData in kDefData)
             {
@@ -158,38 +155,38 @@ namespace table_gen
                         string s = "";
                         if (i == 0 || i == 2 || i == 3)
                         {
-                            s = string.Format("    {0,-12}               ui{1,-32}  ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               ui{1,-32}  ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
                         }
                         else if (i == 1)
                         {
-                            s = string.Format("    {0,-12}               k{1,-32}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               k{1,-32}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
                         }
                         else if (i == 4)
                         {
-                            s = string.Format("    {0,-12}               f{1,-32}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               f{1,-32}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
                         }
                         else if (i == 5)
                         {
-                            s = string.Format("    {0,-12}               i{1,-32}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               i{1,-32}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc);
                         }
                         else if (i == 6 || i == 9)
                         {
-                            s = string.Format("    {0,-12}               i{1}[{3}]{4,-23}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
+                            s = string.Format("    {0,-12}               i{1}[{3}]{4,-23}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
                         }
                         else if (i == 7)
                         {
                             //int iSpaseLen = -32 + kData.kMemberName.Length + kData.iLength + 3;
-                            s = string.Format("    {0,-12}               f{1}[{3}]{4,-23}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
+                            s = string.Format("    {0,-12}               f{1}[{3}]{4,-23}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
                         }
                         else if (i == 8)
                         {
-                            s = string.Format("    {0,-12}               k{1}[{3}]{4,-23}   ;   //  {2}   ", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
+                            s = string.Format("    {0,-12}               k{1}[{3}]{4,-23}   ;   //  {2}", MyExcel.kTypeReal[i], kData.kMemberName, kData.kDesc, kData.iLength, "");
                         }
                         else if(i == 10)
                         {
-                            s = string.Format("    {0,-12}               ui{1,-32}  ;   //  {2}   ", MyExcel.kTypeReal[0], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               ui{1,-32}  ;   //  {2}", MyExcel.kTypeReal[0], kData.kMemberName, kData.kDesc);
                             sb.AppendLine(s);
-                            s = string.Format("    {0,-12}               f{1,-32}   ;   //  {2}   ", MyExcel.kTypeReal[4], kData.kMemberName, kData.kDesc);
+                            s = string.Format("    {0,-12}               f{1,-32}   ;   //  {2}", MyExcel.kTypeReal[4], kData.kMemberName, kData.kDesc);
                         }
 
                         sb.AppendLine(s);
@@ -309,14 +306,23 @@ namespace table_gen
             sb.AppendLine(string.Format("bool {0}::Load()", kClassMgrName));
             sb.AppendLine("{");
             sb.AppendLine(string.Format("    std::string path = \"Data/Table/{0}.xml\";", kFileName));
-            sb.AppendLine("    FileMemory kMemory;");
-            sb.AppendLine("    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))");
+            sb.AppendLine("    char* fileData = nullptr;");
+            sb.AppendLine("    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);");
+            sb.AppendLine("    if (file.is_open())");
+            sb.AppendLine("    {");
+            sb.AppendLine("        std::streampos size = file.tellg();");
+            sb.AppendLine("        fileData = new char[size];");
+            sb.AppendLine("        file.seekg(0, std::ios::beg);");
+            sb.AppendLine("        file.read(fileData, size);");
+            sb.AppendLine("        file.close();");
+            sb.AppendLine("    }");
+            sb.AppendLine("    if (fileData == nullptr)");
             sb.AppendLine("    {");
             sb.AppendLine("        return false;");
             sb.AppendLine("    }");
-            sb.AppendLine("");
+
             sb.AppendLine("    TiXmlDocument doc;");
-            sb.AppendLine("    doc.Parse(kMemory.GetData());");
+            sb.AppendLine("    doc.Parse(fileData);");
             sb.AppendLine("    if (doc.Error())");
             sb.AppendLine("    {");
             sb.AppendLine("        std::string err = path + \"   \" + std::string(doc.ErrorDesc());");
@@ -345,6 +351,7 @@ namespace table_gen
             sb.AppendLine("        element = element->NextSiblingElement();");
             sb.AppendLine("    }");
             sb.AppendLine("");
+            sb.AppendLine("    delete[] fileData;");
             sb.AppendLine("    return true;");
             sb.AppendLine("}");
         }

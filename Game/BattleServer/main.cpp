@@ -5,12 +5,15 @@
 
 #include "TW_GameLog.h"
 
+#include "Mapinfo_table.hpp"
+
 int main()
 {
     TW_LOG("Battle server start!");
     TW_WARN("Test warning message.");
     TW_ERROR("Test error message.");
 
+    MapInfoTableMgr::Get();
 
     getchar();
 }

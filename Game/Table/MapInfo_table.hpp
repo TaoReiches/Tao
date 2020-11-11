@@ -3,36 +3,28 @@
 
 #include <string>
 #include <map>
-#include "SeTableResBase.h"
 
 
 enum E_MAPINFOTABLE_TYPE
 {
-    MAPINFO_TYPE_NONE                           =    0      ,   //  未定义
-    MAPINFO_TYPE_RACE                           =    1      ,   //  竞技
-    MAPINFO_TYPE_TEST                           =    2      ,   //  试炼关卡
-    MAPINFO_TYPE_BOSS                           =    3      ,   //  boss关卡
-    MAPINFO_TYPE_MAIN                           =    4      ,   //  主线关卡
-    MAPINFO_TYPE_JIAOHU                         =    5      ,   //  交互关卡
-    MAPINFO_TYPE_WAR                            =    6      ,   //  战场
-    MAPINFO_TYPE_MMWAR                          =    7      ,   //  人机对战
+    MAPINFO_TYPE_NONE                           =    0      ,   //  None
+    MAPINFO_TYPE_MAINMAP                        =    1      ,   //  Main
+    MAPINFO_TYPE_MISSIONMAP                     =    2      ,   //  Mission
 };
 
 
 enum M_MAPINFOTABLE_PROPERTY
 {
-    MAPINFO_PROPERTY_ALLOPEN                    =    1 << 1        ,   //  英雄全开
-    MAPINFO_PROPERTY_USEAI                      =    1 << 2        ,   //  支持AI
+    MAPINFO_PROPERTY_ALLHERO                    =    1 << 1        ,   //  AllHeros
+    MAPINFO_PROPERTY_USEAI                      =    1 << 2        ,   //  AISupported
 };
 
-//  自动生成表结构
-struct MapInfoTable : SeTableResBase
+struct MapInfoTable
 {
-    unsigned int               uiMapTypeID                         ;   //  地图ID   
-    std::string                kName                               ;   //  地图名称   
-    std::string                kresId                              ;   //  资源ID   
-    int                        uiType                              ;   //  地图类型   
-    unsigned int               uiProperty                          ;   //  地图特性   
+    unsigned int               uiMapTypeID                         ;   //  MapID
+    std::string                kName                               ;   //  MapName
+    int                        uiType                              ;   //  MapType
+    unsigned int               uiProperty                          ;   //  MapAttr
 };
 
 class TiXmlElement;
@@ -45,7 +37,6 @@ public:
 
     const MapInfoTable* GetMapInfoTable(unsigned int iTypeID);
     const std::map<unsigned int, MapInfoTable*>& GetMapInfoTableMap();
-    TableResArray GetMapInfoTableVec();
 
 private:
     bool    Load();

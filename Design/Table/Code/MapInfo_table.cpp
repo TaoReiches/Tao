@@ -1,12 +1,11 @@
 ﻿#include "MapInfo_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
+#include <fstream>
 
-MapInfoTableMgr* MapInfoTableMgr::m_pkMapInfoTableMgr = NULL;
+MapInfoTableMgr* MapInfoTableMgr::m_pkMapInfoTableMgr = nullptr;
 MapInfoTableMgr* MapInfoTableMgr::Get()
 {
-    if(m_pkMapInfoTableMgr == NULL)
+    if(m_pkMapInfoTableMgr == nullptr)
     {
         m_pkMapInfoTableMgr = new MapInfoTableMgr();
     }
@@ -19,17 +18,6 @@ const std::map<unsigned int, MapInfoTable*>& MapInfoTableMgr::GetMapInfoTableMap
     return m_kMapInfoTableMap;
 }
 
-TableResArray MapInfoTableMgr::GetMapInfoTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, MapInfoTable*>::iterator iMapItr = m_kMapInfoTableMap.begin(); iMapItr != m_kMapInfoTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
-
 const MapInfoTable* MapInfoTableMgr::GetMapInfoTable(unsigned int iTypeID)
 {
     std::map<unsigned int, MapInfoTable*>::iterator iter = m_kMapInfoTableMap.find(iTypeID);
@@ -37,7 +25,7 @@ const MapInfoTable* MapInfoTableMgr::GetMapInfoTable(unsigned int iTypeID)
     {
         return iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 MapInfoTableMgr::MapInfoTableMgr()
@@ -53,14 +41,22 @@ MapInfoTableMgr::~MapInfoTableMgr()
 bool MapInfoTableMgr::Load()
 {
     std::string path = "Data/Table/MapInfo.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    char* fileData = nullptr;
+    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);
+    if (file.is_open())
+    {
+        std::streampos size = file.tellg();
+        fileData = new char[size];
+        file.seekg(0, std::ios::beg);
+        file.read(fileData, size);
+        file.close();
+    }
+    if (fileData == nullptr)
     {
         return false;
     }
-
     TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
+    doc.Parse(fileData);
     if (doc.Error())
     {
         std::string err = path + "   " + std::string(doc.ErrorDesc());
@@ -83,6 +79,7 @@ bool MapInfoTableMgr::Load()
         element = element->NextSiblingElement();
     }
 
+    delete[] fileData;
     return true;
 }
 

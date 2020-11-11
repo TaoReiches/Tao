@@ -8,6 +8,10 @@
     <ClCompile Include="Unit_table.cpp" />
     <ClCompile Include="SeTableResBase.cpp" />
     <ClCompile Include="TableMgr.cpp" />
+    <ClCompile Include="tinyxml\tinystr.cpp" />
+    <ClCompile Include="tinyxml\tinyxml.cpp" />
+    <ClCompile Include="tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer_table.hpp" />
@@ -17,5 +21,7 @@
     <ClInclude Include="Unit_table.hpp" />
     <ClInclude Include="SeTableResBase.h" />
     <ClInclude Include="TableMgr.h" />
+    <ClInclude Include="tinyxml\tinystr.h" />
+    <ClInclude Include="tinyxml\tinyxml.h" />
   </ItemGroup>
 </Project>

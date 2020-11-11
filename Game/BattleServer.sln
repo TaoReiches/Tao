@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleServer", "BattleServer\BattleServer.vcxproj", "{2E24956F-907C-4EAF-904E-64B19E27943A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F7F7D23-074D-4D40-9B32-21DD473BDA4D} = {1F7F7D23-074D-4D40-9B32-21DD473BDA4D}
+		{4ECA09B0-3FA6-4F88-A534-1412E15A5829} = {4ECA09B0-3FA6-4F88-A534-1412E15A5829}
+		{F8B6F6B7-1B88-4BE6-BEAE-5AEBF9C73650} = {F8B6F6B7-1B88-4BE6-BEAE-5AEBF9C73650}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleHelper", "BattleHelper\BattleHelper.vcxproj", "{F8B6F6B7-1B88-4BE6-BEAE-5AEBF9C73650}"
 EndProject

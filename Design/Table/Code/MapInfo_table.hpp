@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-#include "SeTableResBase.h"
 
 
 enum E_MAPINFOTABLE_TYPE
@@ -20,13 +19,12 @@ enum M_MAPINFOTABLE_PROPERTY
     MAPINFO_PROPERTY_USEAI                      =    1 << 2        ,   //  AISupported
 };
 
-//  Auto genarate table struct
-struct MapInfoTable : SeTableResBase
+struct MapInfoTable
 {
-    unsigned int               uiMapTypeID                         ;   //  MapID   
-    std::string                kName                               ;   //  MapName   
-    int                        uiType                              ;   //  MapType   
-    unsigned int               uiProperty                          ;   //  MapAttr   
+    unsigned int               uiMapTypeID                         ;   //  MapID
+    std::string                kName                               ;   //  MapName
+    int                        uiType                              ;   //  MapType
+    unsigned int               uiProperty                          ;   //  MapAttr
 };
 
 class TiXmlElement;
@@ -39,7 +37,6 @@ public:
 
     const MapInfoTable* GetMapInfoTable(unsigned int iTypeID);
     const std::map<unsigned int, MapInfoTable*>& GetMapInfoTableMap();
-    TableResArray GetMapInfoTableVec();
 
 private:
     bool    Load();

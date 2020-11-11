@@ -264,10 +264,9 @@ namespace table_gen
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(String.Format("#include \"{0}\"", hpp_filename));
+            sb.AppendLine(string.Format("#include \"{0}\"", hpp_filename));
             sb.AppendLine("#include \"tinyxml.h\"");
-            sb.AppendLine("#include \"EeFileMemory.h\"");
-            sb.AppendLine("#include \"EeFilePackage.h\"");
+            sb.AppendLine("#include <fstream>");
 
             sb.AppendLine("");
 
