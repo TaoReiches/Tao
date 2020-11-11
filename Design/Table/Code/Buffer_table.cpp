@@ -1,12 +1,11 @@
 ﻿#include "Buffer_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
+#include <fstream>
 
-BufferTableMgr* BufferTableMgr::m_pkBufferTableMgr = NULL;
+BufferTableMgr* BufferTableMgr::m_pkBufferTableMgr = nullptr;
 BufferTableMgr* BufferTableMgr::Get()
 {
-    if(m_pkBufferTableMgr == NULL)
+    if(m_pkBufferTableMgr == nullptr)
     {
         m_pkBufferTableMgr = new BufferTableMgr();
     }
@@ -19,17 +18,6 @@ const std::map<unsigned int, BufferTable*>& BufferTableMgr::GetBufferTableMap()
     return m_kBufferTableMap;
 }
 
-TableResArray BufferTableMgr::GetBufferTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, BufferTable*>::iterator iMapItr = m_kBufferTableMap.begin(); iMapItr != m_kBufferTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
-
 const BufferTable* BufferTableMgr::GetBufferTable(unsigned int iTypeID)
 {
     std::map<unsigned int, BufferTable*>::iterator iter = m_kBufferTableMap.find(iTypeID);
@@ -37,7 +25,7 @@ const BufferTable* BufferTableMgr::GetBufferTable(unsigned int iTypeID)
     {
         return iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 BufferTableMgr::BufferTableMgr()
@@ -53,14 +41,22 @@ BufferTableMgr::~BufferTableMgr()
 bool BufferTableMgr::Load()
 {
     std::string path = "Data/Table/Buffer.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    char* fileData = nullptr;
+    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);
+    if (file.is_open())
+    {
+        std::streampos size = file.tellg();
+        fileData = new char[size];
+        file.seekg(0, std::ios::beg);
+        file.read(fileData, size);
+        file.close();
+    }
+    if (fileData == nullptr)
     {
         return false;
     }
-
     TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
+    doc.Parse(fileData);
     if (doc.Error())
     {
         std::string err = path + "   " + std::string(doc.ErrorDesc());
@@ -83,6 +79,7 @@ bool BufferTableMgr::Load()
         element = element->NextSiblingElement();
     }
 
+    delete[] fileData;
     return true;
 }
 
@@ -97,10 +94,6 @@ void BufferTableMgr::FillData(BufferTable* row, TiXmlElement* element)
     row->kName = str_value;
     element->Attribute("Property", &int_value);
     row->uiProperty = (unsigned int)int_value;
-    element->Attribute("SingleSpliceNum", &int_value);
-    row->iSingleSpliceNum = int_value;
-    element->Attribute("MultiSpliceNum", &int_value);
-    row->iMultiSpliceNum = int_value;
 
     m_kBufferTableMap[row->uiBufferTypeID] = row;
 }

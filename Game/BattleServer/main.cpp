@@ -6,6 +6,7 @@
 #include "TW_GameLog.h"
 
 #include "Mapinfo_table.hpp"
+#include "Buffer_table.hpp"
 
 int main()
 {
@@ -14,6 +15,7 @@ int main()
     TW_ERROR("Test error message.");
 
     MapInfoTableMgr::Get();
+    BufferTableMgr::Get();
 
     getchar();
 }

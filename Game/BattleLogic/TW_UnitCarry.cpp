@@ -889,10 +889,10 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	{
 		return nullptr;
 	}
-	if (!bAddDead && !(pkRes->uiProperty & BUFFER_PROPERTY_DEATHADD) && IsDead())
-	{
-		return nullptr;
-	}
+	//if (!bAddDead && !(pkRes->uiProperty & BUFFER_PROPERTY_DEATHADD) && IsDead())
+	//{
+	//	return nullptr;
+	//}
 	if (m_apkBuffer.size() >= UNIT_MAX_BUFFER || HasUnitCarryFlag(BUCF_NO_BUFFER_EFFECT))
 	{
 		return nullptr;
@@ -1127,9 +1127,9 @@ void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && !pkBuffer->HasProperty(BUFFER_PROPERTY_NOJINGHUA))
+			if (pkBuffer && !pkBuffer->HasProperty(BUFFER_PROPERTY_NOCLEAN))
 			{
-				if (pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFFER))
+				if (pkBuffer->HasProperty(BUFFER_PROPERTY_DEBUFF))
 				{
 					if (bNegative)
 					{
@@ -1152,18 +1152,18 @@ void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 
 void BeUnit::DelBufferByAutoClean(void)
 {
-	if (!m_apkBuffer.empty())
-	{
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			auto pkBuffer = m_apkBuffer[i];
-			if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_AUTOREMOVE))
-			{
-				OnDelBuffer(pkBuffer);
-				pkBuffer->SetRemoveTime(gTime);
-			}
-		}
-	}
+	//if (!m_apkBuffer.empty())
+	//{
+	//	for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
+	//	{
+	//		auto pkBuffer = m_apkBuffer[i];
+	//		if (pkBuffer && pkBuffer->HasProperty(BUFFER_PROPERTY_AUTOREMOVE))
+	//		{
+	//			OnDelBuffer(pkBuffer);
+	//			pkBuffer->SetRemoveTime(gTime);
+	//		}
+	//	}
+	//}
 }
 
 void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)

@@ -1685,7 +1685,7 @@ void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, i
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHANGHAI))
+			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1726,7 +1726,7 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, B
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_BEIJI))
+			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_BEATTACKTRIGGER))
 			{
 
 				TePtParam kParam;
@@ -1764,7 +1764,7 @@ void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int 
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHANGHAI))
+			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1841,7 +1841,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				auto pkBuffer = m_apkBuffer[i];
-				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SIWANG))
+				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
 					TePtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1887,7 +1887,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 			{
 				auto pkBuffer = m_apkBuffer[i];
-				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SIWANG))
+				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
 					TePtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1975,7 +1975,7 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_GONGJI))
+			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2015,7 +2015,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_GONGJI))
+			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2025,19 +2025,19 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 
 				gTrgMgr.FireTrigger(BTE_BUFFER_ONATTACK, kParam);
 			}
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
-			{
-				if (pkBuffer->HasCarryFlag(BUCF_ISINVISIBLE) && HasFlag(BUF_HASINVISIBLE))
-				{
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_pkTarget, pkTarget);
-					kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
-					kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+			//if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
+			//{
+			//	if (pkBuffer->HasCarryFlag(BUCF_ISINVISIBLE) && HasFlag(BUF_HASINVISIBLE))
+			//	{
+			//		TePtParam kParam;
+			//		kParam.SetParam(BTP_pkTrgUnit, this);
+			//		kParam.SetParam(BTP_pkTarget, pkTarget);
+			//		kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
+			//		kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 
-					gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLEBREAK, kParam);
-				}
-			}
+			//		gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLEBREAK, kParam);
+			//	}
+			//}
 		}
 	}
 
@@ -2149,36 +2149,36 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
 		{
 			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHIFA))
-			{
-				auto pkAttacker = pkBuffer->GetUnit();
-				TePtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkAttacker, pkAttacker.get());
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-				kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
-				kParam.SetParam(BTP_iItemID, iItemID);
-				kParam.SetParam(BTP_iItemPos, i + 1);
-				kParam.SetParam(BTP_iSpellTargetID, iTargetID);
-				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
-				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
+			//if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_SHIFA))
+			//{
+			//	auto pkAttacker = pkBuffer->GetUnit();
+			//	TePtParam kParam;
+			//	kParam.SetParam(BTP_pkTrgUnit, this);
+			//	kParam.SetParam(BTP_pkAttacker, pkAttacker.get());
+			//	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+			//	kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
+			//	kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
+			//	kParam.SetParam(BTP_iItemID, iItemID);
+			//	kParam.SetParam(BTP_iItemPos, i + 1);
+			//	kParam.SetParam(BTP_iSpellTargetID, iTargetID);
+			//	kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
+			//	kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONSPELL, kParam);
-			}
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
-			{
-				if (pkBuffer->HasCarryFlag(BUCF_ISINVISIBLE) && HasFlag(BUF_HASINVISIBLE))
-				{
-					auto pkAttacker = pkBuffer->GetUnit();
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker.get());
-					kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+			//	gTrgMgr.FireTrigger(BTE_BUFFER_ONSPELL, kParam);
+			//}
+			//if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
+			//{
+			//	if (pkBuffer->HasCarryFlag(BUCF_ISINVISIBLE) && HasFlag(BUF_HASINVISIBLE))
+			//	{
+			//		auto pkAttacker = pkBuffer->GetUnit();
+			//		TePtParam kParam;
+			//		kParam.SetParam(BTP_pkTrgUnit, this);
+			//		kParam.SetParam(BTP_pkAttacker, pkAttacker.get());
+			//		kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 
-					gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLEBREAK, kParam);
-				}
-			}
+			//		gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLEBREAK, kParam);
+			//	}
+			//}
 		}
 	}
 
@@ -2326,29 +2326,29 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 	//	}
 	//}
 
-	if (!m_apkBuffer.empty())
-	{
-		/////////////////////////////////////////////////////////
-		for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
-		{
-			auto pkBuffer = m_apkBuffer[i];
-			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_JISHA))
-			{
+	//if (!m_apkBuffer.empty())
+	//{
+	//	/////////////////////////////////////////////////////////
+	//	for (int i = 0; i < (int)m_apkBuffer.size(); ++i)
+	//	{
+	//		auto pkBuffer = m_apkBuffer[i];
+	//		if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_JISHA))
+	//		{
 
-				TePtParam kParam;
+	//			TePtParam kParam;
 
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkAttacker, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+	//			kParam.SetParam(BTP_pkTrgUnit, this);
+	//			kParam.SetParam(BTP_pkAttacker, this);
+	//			kParam.SetParam(BTP_pkTarget, pkTarget);
+	//			kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+	//			kParam.SetParam(BTP_pfDamage, &fDamage);
+	//			kParam.SetParam(BTP_iFlag, iFlag);
+	//			kParam.SetParam(BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONKILL, kParam);
-			}
-		}
-	}
+	//			gTrgMgr.FireTrigger(BTE_BUFFER_ONKILL, kParam);
+	//		}
+	//	}
+	//}
 }
 
 bool BeUnit::PickMapItem(BeMapItem* pkMapItem)

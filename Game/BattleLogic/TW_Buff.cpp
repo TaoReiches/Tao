@@ -102,7 +102,7 @@ void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
 				return;
 			}
 
-			if (HasProperty(BUFFER_PROPERTY_CDWANCHENG))
+			if (HasProperty(BUFFER_PROPERTY_CDTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, pkUnit);
