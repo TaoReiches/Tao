@@ -95,8 +95,6 @@ void MapInfoTableMgr::FillData(MapInfoTable* row, TiXmlElement* element)
     row->uiMapTypeID = (unsigned int)int_value;
     str_value = element->Attribute("Name");
     row->kName = str_value;
-    str_value = element->Attribute("resId");
-    row->kresId = str_value;
     element->Attribute("Type", &int_value);
     row->uiType = (unsigned int)int_value;
     element->Attribute("Property", &int_value);

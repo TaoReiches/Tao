@@ -66,14 +66,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="table_gen.exe" size="61440">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="table_gen.exe" size="60928">
       <assemblyIdentity name="table_gen" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EbXF9DWxxgrRaCBwnql9A0HhKrt/kZ7VrD/QAOoBrso=</dsig:DigestValue>
+        <dsig:DigestValue>ZHhAv+FuZDcFW64diaDYmhLgeasVv6MSioelpZIffq8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

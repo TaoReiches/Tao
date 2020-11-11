@@ -216,7 +216,7 @@ namespace table_gen
 
                 string kType = kData.kType[0];
 
-                if (kType == MyExcel.kTypeClass[2] || kType == MyExcel.kTypeClass[10])
+                if (kType == MyExcel.kTypeClass[2])
                 {
                     string strEnumName = kClassName.ToUpper() + "_" + kData.kMemberName.ToUpper();
                     sb.AppendLine("");
@@ -425,21 +425,6 @@ namespace table_gen
                         sb.AppendLine(string.Format("    str_value = element->Attribute(\"{0}{1}\");", kData.kMemberName, i));
                         sb.AppendLine(string.Format("    row->k{0}[{1}] = str_value;", kData.kMemberName, i));
                     }
-                }
-                else if (kData.kType[0] == MyExcel.kTypeClass[9])
-                {
-                    for (int i = 0; i < kData.iLength; i++)
-                    {
-                        sb.AppendLine(string.Format("    element->Attribute(\"{0}{1}\", &int_value);", kData.kMemberName, i));
-                        sb.AppendLine(string.Format("    row->i{0}[{1}] = int_value;", kData.kMemberName, i));
-                    }
-                }
-                else if (kData.kType[0] == MyExcel.kTypeClass[10])
-                {
-                    sb.AppendLine(string.Format("    element->Attribute(\"ui{0}\", &int_value);", kData.kMemberName));
-                    sb.AppendLine(string.Format("    row->ui{0} = ({1})int_value;", kData.kMemberName, MyExcel.kTypeReal[0]));
-                    sb.AppendLine(string.Format("    element->Attribute(\"f{0}\", &float_value);", kData.kMemberName));
-                    sb.AppendLine(string.Format("    row->f{0} = ({1})float_value;", kData.kMemberName, MyExcel.kTypeReal[4]));
                 }
                 else
                 {
