@@ -4,7 +4,6 @@ using System.Data;
 using System.Text;
 using System.IO;
 using System.Xml;
-using System.Data.OleDb;
 using System.Threading;
 using ExcelDataReader;
 
@@ -95,6 +94,10 @@ namespace table_gen
                             UseHeaderRow = true
                         }
                     });
+                    //foreach (DataColumn c in content_ds.Tables[0].Columns)
+                    //{
+                    //    c.ColumnMapping = MappingType.Attribute;
+                    //}
 
                     content_data_set = content_ds;
                     content_table = content_ds.Tables[0];
@@ -152,15 +155,6 @@ namespace table_gen
             kMyExcel = new MyExcel();
             kMyExcel.ConvertExcel(path, name);
 
-            //string conn = "";
-
-            //if (path.EndsWith(".xls"))
-            //    conn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + path + ";" + "Extended Properties=Excel 8.0;";
-            //else if (path.EndsWith(".xlsx"))
-            //    conn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path + ";" + "Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1;\";";
-            //else
-            //    throw new Exception("Load xls error");
-
             Reset();
             LoadContent(path);
 
@@ -171,11 +165,11 @@ namespace table_gen
         {
             string out_name = name + "_China" + ".xml";
             string out_path = xml_path + "Base/";
-            string file = System.IO.Path.Combine(out_path, out_name);
-            if (!System.IO.Directory.Exists(out_path))
-                System.IO.Directory.CreateDirectory(out_path);
-            if (System.IO.File.Exists(file))
-                System.IO.File.Delete(file);
+            string file = Path.Combine(out_path, out_name);
+            if (!Directory.Exists(out_path))
+                Directory.CreateDirectory(out_path);
+            if (File.Exists(file))
+                File.Delete(file);
 
             using (FileStream fs = new FileStream(file, FileMode.Create))
             {
@@ -201,10 +195,10 @@ namespace table_gen
             string  kFileName = kClientXmlPath + name + ".xml"; 
             kMyXml.GenXml(name, sbClient, this, 1);
 
-            if (!System.IO.Directory.Exists(kClientXmlPath))
-                System.IO.Directory.CreateDirectory(kClientXmlPath);
-            if (System.IO.File.Exists(kFileName))
-                System.IO.File.Delete(kFileName);
+            if (!Directory.Exists(kClientXmlPath))
+                Directory.CreateDirectory(kClientXmlPath);
+            if (File.Exists(kFileName))
+                File.Delete(kFileName);
 
             using (FileStream fs = new FileStream(kFileName, FileMode.Create))
             {
@@ -221,10 +215,10 @@ namespace table_gen
             string kServerFileName = kServerXmlPath + name + ".xml";
             kMyXml.GenXml(name, sbServer, this, 2);
 
-            if (!System.IO.Directory.Exists(kServerXmlPath))
-                System.IO.Directory.CreateDirectory(kServerXmlPath);
-            if (System.IO.File.Exists(kServerFileName))
-                System.IO.File.Delete(kServerFileName);
+            if (!Directory.Exists(kServerXmlPath))
+                Directory.CreateDirectory(kServerXmlPath);
+            if (File.Exists(kServerFileName))
+                File.Delete(kServerFileName);
 
             using (FileStream fs = new FileStream(kServerFileName, FileMode.Create))
             {

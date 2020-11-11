@@ -1,16 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
-using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace table_gen
-{ 
+{
     public partial class frm_main : Form
     {
         public frm_main()
@@ -28,37 +21,18 @@ namespace table_gen
 
             foreach (MyNode node in my_table.Nodes.Values)
             {
-                int index = clb.Items.Add(node);
-                
-            //    if (config.IsBaseFile(node.filename))
-             //       clb.SetItemCheckState(index, CheckState.Indeterminate);
+                _ = clb.Items.Add(node);
             }
-
-            //SelectAll();
         }
+
         void LoadNodes()
         {
             btn_gen_table.Enabled = false;
             btn_gen_code.Enabled = false;
 
-            for (int i = 0; i < clb.Items.Count; ++i)
-            {
-                if (!clb.GetItemChecked(i))
-                {
-               //     if (config.UseTip)
-               //         System.Windows.Forms.MessageBox.Show("未选中全部的数据表，接下来将不能数据完整性检查。", "注意");
-                    cb_primary.Checked = false;
-                    cb_primary.Enabled = false;
-                    cb_forign.Checked = false;
-                    cb_forign.Enabled = false;
-
-                    break;
-                }
-            }
-
             int total_files = 0;
             double total_seconds = 0;
-            PrintText("加载数据表，请耐心等待 ^_^", System.Drawing.Color.Red, true);
+            PrintText("Load Excel Begin", Color.Red, true);
             for (int i = 0; i < clb.Items.Count; ++i)
             {
                 if (clb.GetItemChecked(i))
@@ -69,25 +43,23 @@ namespace table_gen
                     MyNode node = clb.Items[i] as MyNode;
 
                     string begin = string.Format("  {0, -32}",
-                        string.Format("→ [{0}]", node.name));
+                        string.Format("Load excel [{0}]", node.name));
 
-                    System.Drawing.Color color = System.Drawing.Color.Black;
-              //      if (config.IsBaseFile(node.filename))
-              //          color = System.Drawing.Color.Gray;
+                    var color = Color.Black;
 
                     PrintText(begin, color, false);
                     node.Load();
 
-                    double seconds = ((System.TimeSpan)(DateTime.Now - t)).TotalSeconds;
+                    double seconds = (DateTime.Now - t).TotalSeconds;
                     total_seconds += seconds;
-                    string end = string.Format("√        耗时 {0:N2} 秒.", seconds);
+                    string end = string.Format("Used         {0:N2} Seconds.", seconds);
                     PrintText(end, color, true);
                 }
             }
 
-            string done_text = string.Format("全部加载完成, 共 {0} 表格, 耗时 {1:N2} 秒.\n",
+            string done_text = string.Format("Load Finished, Total Files {0} , Total Time {1:N2} .\n",
                 total_files, total_seconds);
-            PrintText(done_text, System.Drawing.Color.Red, true);
+            PrintText(done_text, Color.Red, true);
 
             btn_gen_table.Enabled = true;
             btn_gen_code.Enabled = true;
@@ -98,10 +70,10 @@ namespace table_gen
             {
                 LoadNodes();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                PrintText(ex.Message, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                PrintText(ex.Message, Color.Red, true);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -140,9 +112,9 @@ namespace table_gen
         }
         void PrintText(string text)
         {
-            PrintText(text, System.Drawing.Color.Black);
+            PrintText(text, Color.Black);
         }
-        void PrintText(string text, System.Drawing.Color c)
+        void PrintText(string text, Color c)
         {
             PrintText(text, c, false);
         }
@@ -162,98 +134,79 @@ namespace table_gen
         {
             int total_files = 0;
             double total_seconds = 0;
-            PrintText("开始导出数据表格为XML格式", System.Drawing.Color.Green, true);
+            PrintText("Convert begin", Color.Green, true);
             for (int i = 0; i < clb.Items.Count; ++i)
             {
                 if (!clb.GetItemChecked(i))
                     continue;
 
                 MyNode node = clb.Items[i] as MyNode;
-                //if (config.IsBaseFile(node.filename))
-                //    continue;
 
                 ++total_files;
                 string begin = string.Format("  {0, -24}",
-                    string.Format("→ [{0}]", node.name));
+                    string.Format("Start [{0}]", node.name));
 
-                PrintText(begin, System.Drawing.Color.Black, false);
+                PrintText(begin, Color.Black, false);
 
                 DateTime t = DateTime.Now;
       
                 node.Convert(config.DefPath, config.XMLPath, config.CodePath);
 
-                double seconds = ((System.TimeSpan)(DateTime.Now - t)).TotalSeconds;
+                double seconds = (DateTime.Now - t).TotalSeconds;
                 total_seconds += seconds;
 
-                string end = string.Format("      √        耗时 {0:N2} 秒.", seconds);
-                PrintText(end, System.Drawing.Color.Black, true);
+                string end = string.Format("              Used {0:N2} Seconds.", seconds);
+                PrintText(end, Color.Black, true);
             }
-            string done_text = string.Format("全部导出成功, 共 {0} 文件, 耗时 {1:N2} 秒.\n",
+            string done_text = string.Format("Covent Finished, Total Files {0} , Total Time {1:N2} .\n",
                 total_files, total_seconds);
-            PrintText(done_text, System.Drawing.Color.Green, true);
+            PrintText(done_text, Color.Green, true);
         }
 
         void DoGenCode()
         {
             int total_files = 0;
             double total_seconds = 0;
-            PrintText("开始生成代码", System.Drawing.Color.Blue, true);
+            PrintText("Covent Code Begin", Color.Blue, true);
             for (int i = 0; i < clb.Items.Count; ++i)
             {
                 if (!clb.GetItemChecked(i))
                     continue;
 
                 MyNode node = clb.Items[i] as MyNode;
-                //if (config.IsBaseFile(node.filename))
-                //    continue;
 
                 ++total_files;
                 string begin = string.Format("  {0, -24}",
-                    string.Format("→ [{0}]", node.name));
+                    string.Format("Begin [{0}]", node.name));
                 
-                PrintText(begin, System.Drawing.Color.Black, false);
+                PrintText(begin, Color.Black, false);
 
                 DateTime t = DateTime.Now;
-                //PrintText("服务器 ", System.Drawing.Color.Black, false);
-                //node.GenCode(config.CodePath, false);
-                //PrintText("√ ", System.Drawing.Color.Black, false);
-                PrintText("客户端 ", System.Drawing.Color.Black, false);
+                PrintText("Begin ", Color.Black, false);
                 node.GenCode(config.ClientCodePath, true);
-                PrintText("√ ", System.Drawing.Color.Black, false);
-                double seconds = ((System.TimeSpan)(DateTime.Now - t)).TotalSeconds;
+                PrintText("End ", Color.Black, false);
+                double seconds = (DateTime.Now - t).TotalSeconds;
                 total_seconds += seconds;
 
-                string end = string.Format("      耗时 {0:N2} 秒.", seconds);
-                PrintText(end, System.Drawing.Color.Black, true);
+                string end = string.Format("      Time {0:N2} 秒.", seconds);
+                PrintText(end, Color.Black, true);
             }
-            string done_text = string.Format("全部代码生成成功, 共 {0} 文件, 耗时 {1:N2} 秒.\n",
+            string done_text = string.Format("Convert Code Finished, Total Files {0} , Total Time {1:N2} .\n",
                 total_files, total_seconds);
-            PrintText(done_text, System.Drawing.Color.Blue, true);
+            PrintText(done_text, Color.Blue, true);
         }
 
         private void btn_gen_table_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    DoCheck();
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    string s = string.Format("\n{0}\n\n调用堆栈:\n{1}", ex.Message, ex.StackTrace);
-            //    PrintText(s, System.Drawing.Color.Red, true);
-            //    System.Windows.Forms.MessageBox.Show(s, "生成XML错误");
-            //    return;
-            //}
-
             try
             {
                 DoConvert();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string s = string.Format("\n{0}\n\n调用堆栈:\n{1}", ex.Message, ex.StackTrace);
-                PrintText(s, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(s, "生成XML错误");
+                string s = string.Format("\n{0}\n\n Error:\n{1}", ex.Message, ex.StackTrace);
+                PrintText(s, Color.Red, true);
+                MessageBox.Show(s, "Convert Table Failed");
             }
         }
 
@@ -265,9 +218,9 @@ namespace table_gen
             }
             catch (System.Exception ex)
             {
-                string s = string.Format("\n{0}\n\n调用堆栈:\n{1}", ex.Message, ex.StackTrace);
-                PrintText(s, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(s, "生成代码错误");
+                string s = string.Format("\n{0}\n\nError:\n{1}", ex.Message, ex.StackTrace);
+                PrintText(s, Color.Red, true);
+                MessageBox.Show(s, "Convert Code Failed");
             }
         }
 
@@ -276,11 +229,7 @@ namespace table_gen
             config.Load();
             InitAllFile(config.XLSPath);
 
-            cb_primary.Checked = true;
-            cb_primary.Enabled = true;
-            cb_forign.Checked = true;
-            cb_forign.Enabled = true;
-            this.out_filter_txt.Clear();
+            out_filter_txt.Clear();
 
             btn_gen_table.Enabled = false;
             btn_gen_code.Enabled = false;
@@ -297,25 +246,11 @@ namespace table_gen
             {
                 LoadNodes();
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                string s = string.Format("\n{0}\n\n调用堆栈:\n{1}", ex.Message, ex.StackTrace);
-                PrintText(s, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(s, "加载错误");
-            }
-        }
-
-        private void LoadTableToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                LoadNodes();
-            }
-            catch (System.Exception ex)
-            {
-                string s = string.Format("\n{0}\n\n调用堆栈:\n{1}", ex.Message, ex.StackTrace);
-                PrintText(s, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(s, "加载错误");
+                string s = string.Format("\n{0}\n\nError:\n{1}", ex.Message, ex.StackTrace);
+                PrintText(s, Color.Red, true);
+                MessageBox.Show(s, "Load Excel Error");
             }
         }
 
@@ -331,8 +266,8 @@ namespace table_gen
 
         private void AboutToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string s = "表格转换工具v1.0\n策划xlsx to xml\n数据完整性有效性检测\n程序代码生成\n 2011-05-23";
-            System.Windows.Forms.MessageBox.Show(s, "关于");
+            string s = "Tao Wang";
+            MessageBox.Show(s, "OK");
         }
 
         private void clb_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -350,10 +285,10 @@ namespace table_gen
 
                 System.Diagnostics.Process.Start("explorer.exe", dir);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                PrintText(ex.Message, System.Drawing.Color.Red, true);
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                PrintText(ex.Message, Color.Red, true);
+                MessageBox.Show(ex.Message);
             }
         }
         private void OpenCurrentToolStripMenuItem_Click(object sender, EventArgs e)

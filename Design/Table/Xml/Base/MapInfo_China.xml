@@ -1,6 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-      <content 地图ID="M001" 地图名称="永生谷" 备注="永生谷（5V5对战测试）" 资源ID="small_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
-      <content 地图ID="M002" 地图名称="王涛测试用的地图" 备注="王涛测试用的地图" 资源ID="small_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
-      <content 地图ID="M003" 地图名称="标准地图" 备注="标准地图" 资源ID="standard_land" 地图类型="竞技" 地图特性="英雄全开" 地图文件路径="Data/Scence/JingJi_5v5/5v5DiXing" />
-</root>
+<NewDataSet>
+      <content>
+            <MapID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">M001</MapID>
+            <MapName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Demo Map</MapName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Used for demo</Note>
+            <MapType xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Main</MapType>
+            <MapAttr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">AllHeros</MapAttr>
+            <MapFile xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Data/Scence/JingJi_5v5/5v5DiXing</MapFile>
+      </content>
+      <content>
+            <MapID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">M002</MapID>
+            <MapName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Test Map</MapName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Used for Tao Wang testing</Note>
+            <MapType xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Main</MapType>
+            <MapAttr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">AllHeros</MapAttr>
+            <MapFile xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Data/Scence/JingJi_5v5/5v5DiXing</MapFile>
+      </content>
+      <content>
+            <MapID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">M003</MapID>
+            <MapName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Main Map</MapName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">The major map</Note>
+            <MapType xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Main</MapType>
+            <MapAttr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">AllHeros</MapAttr>
+            <MapFile xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Data/Scence/JingJi_5v5/5v5DiXing</MapFile>
+      </content>
+</NewDataSet>

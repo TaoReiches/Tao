@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.Office.Interop.Excel;
 using System.IO;
-
-//using System.Dynamic;
 
 namespace table_gen
 {
     class MyExcel
     {
-        Microsoft.Office.Interop.Excel.Application kExcelApp = new Microsoft.Office.Interop.Excel.Application();
+        Application kExcelApp = new Application();
 
         static public string[] s_RowIndex = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S",
                                      "T","U","V","W","X","Y","Z",
@@ -30,17 +27,18 @@ namespace table_gen
             public int iUseType = 0;    //  0 both  1 client  2 server
         }
 
-        static public Dictionary<string, List<DefData>> kTableDefDataList = new Dictionary<string, List<DefData>>();        //  所有字段信息
-        static public string[] kTypeClass = { "无符号整形", "字符串", "枚举", "位组合", "浮点数", "整数", "整数数组", "浮点数组", "字符串数组", "默认整数数组", "枚举数值" };
-        static public string[] kTypeReal = { "unsigned int", "std::string", "int", "unsigned int", "float", "int", "int", "float", "std::string","int" };
+        static public Dictionary<string, List<DefData>> kTableDefDataList = new Dictionary<string, List<DefData>>();
+        static public string[] kTypeClass = { "UInt", "String", "Enum", "BitmaskEnum", "Float",
+                                                "Int", "IntArray", "FloatArray","StringArray" };
+        static public string[] kTypeReal = { "unsigned int", "std::string", "int", "unsigned int", "float",
+                                                "int", "int", "float", "std::string"};
 
         public void ConvertExcel(string kName, string kNodeName)
         {
             List<DefData> kDefData = new List<DefData>();
 
-            string kFullPath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, kName);
+            string kFullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, kName);
             Workbook kWorkBook = kExcelApp.Workbooks.Open(kFullPath);
-            string a = kWorkBook._CodeName;
             Sheets kWorkSheets = kWorkBook.Worksheets;
             Worksheet kWorkSheet = (Worksheet)kWorkSheets[1];
 
@@ -89,7 +87,7 @@ namespace table_gen
                     kData.iLength = int.Parse(kAllType[1]);
                 }
 
-                if (kData.kType[0] == kTypeClass[2] || kData.kType[0] == kTypeClass[3] || kData.kType[0] == kTypeClass[10])
+                if (kData.kType[0] == kTypeClass[2] || kData.kType[0] == kTypeClass[3])
                 {
                     if (kData.kType[1].StartsWith("[") || kData.kType[1].StartsWith("<"))
                     {

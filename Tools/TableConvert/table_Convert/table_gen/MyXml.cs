@@ -31,7 +31,7 @@ namespace table_gen
                         return;
                     }
                     MyExcel.DefData kDefTypeData = kDefData[i];
-                    object kValue = kAllValue[i];    
+                    object kValue = kAllValue[i];
                 
                     if(iType == 1)
                     {
@@ -62,14 +62,14 @@ namespace table_gen
                         }
                         else if(!int.TryParse(kValue.ToString(), out iIntValue))
                         {
-                            byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kValue.ToString());
+                            byte[] idIntBytes = Encoding.UTF8.GetBytes(kValue.ToString());
                             if (idIntBytes.Length == 4)
                             {
                                 iIntValue = 0
-                                            | ((Int32)idIntBytes[0] << 24)
-                                            | ((Int32)idIntBytes[1] << 16)
-                                           | ((Int32)idIntBytes[2] << 8)
-                                          | ((Int32)idIntBytes[3] << 0);
+                                            | (idIntBytes[0] << 24)
+                                            | (idIntBytes[1] << 16)
+                                            | (idIntBytes[2] << 8)
+                                            | (idIntBytes[3] << 0);
                             }
                         }
                         sb.Append(string.Format("{0}=", kDefTypeData.kMemberName));
@@ -79,7 +79,6 @@ namespace table_gen
                     {
                         sb.Append(string.Format("{0}=", kDefTypeData.kMemberName));
                         sb.Append(string.Format("\"{0}\" ", kValue.ToString()));
-                        //sb.Append(" ");
                     }
                     else if(MyExcel.kTypeClass[2] == kDefTypeData.kType[0])
                     {
@@ -132,52 +131,53 @@ namespace table_gen
                         sb.Append(string.Format("{0}=", kDefTypeData.kMemberName));
                         sb.Append(string.Format("\"{0}\" ", iEnumValue.ToString()));
                     }
-                    else if (MyExcel.kTypeClass[10] == kDefTypeData.kType[0])
-                    {
-                        int iEnumValue = 0;
-                        float fEnumValue = 0.0f;
+                    //else if (MyExcel.kTypeClass[10] == kDefTypeData.kType[0])
+                    //{
+                    //    int iEnumValue = 0;
+                    //    float fEnumValue = 0.0f;
 
-                        List<string> kDefTypeStr = kDefTypeData.kType;
-                        if (kDefTypeData.iFatherRow != -1)
-                        {
-                            bool bFind = false;
-                            foreach (MyExcel.DefData kFindData in kDefData)
-                            {
-                                if (kFindData.iRowIndex == kDefTypeData.iFatherRow)
-                                {
-                                    bFind = true;
-                                    kDefTypeStr = kFindData.kType;
-                                    break;
-                                }
-                            }
-                            if (!bFind)
-                            {
-                                System.Windows.Forms.MessageBox.Show(string.Format("An error Enum occurs at {0}Row{1}Column", kData.ToString(), kDefTypeStr.ToString()));
-                            }
-                        }
+                    //    List<string> kDefTypeStr = kDefTypeData.kType;
+                    //    if (kDefTypeData.iFatherRow != -1)
+                    //    {
+                    //        bool bFind = false;
+                    //        foreach (MyExcel.DefData kFindData in kDefData)
+                    //        {
+                    //            if (kFindData.iRowIndex == kDefTypeData.iFatherRow)
+                    //            {
+                    //                bFind = true;
+                    //                kDefTypeStr = kFindData.kType;
+                    //                break;
+                    //            }
+                    //        }
+                    //        if (!bFind)
+                    //        {
+                    //            System.Windows.Forms.MessageBox.Show(
+                    //                string.Format("An error Enum occurs at {0}Row{1}Column", kData.ToString(), kDefTypeStr.ToString()));
+                    //        }
+                    //    }
 
-                        for (int k = 1; k < kDefTypeStr.Count; k++)
-                        {
-                            if (!kDefTypeStr[k].StartsWith("["))
-                            {
-                                continue;
-                            }
-                            string[] kSplitEnum = { "[", "]", ":" };
-                            string[] kEnumData = kDefTypeStr[k].Split(kSplitEnum, StringSplitOptions.RemoveEmptyEntries);
-                            string[] kSplitValue = { ":" };
-                            string[] kValueData = kValue.ToString().Split(kSplitValue, StringSplitOptions.RemoveEmptyEntries);
-                            if (kValueData[0] == kEnumData[0])
-                            {
-                                iEnumValue = int.Parse(kEnumData[1]);
-                                fEnumValue = float.Parse(kValueData[1]);
-                                break;
-                            }
-                        }
-                        sb.Append(string.Format("ui{0}=", kDefTypeData.kMemberName));
-                        sb.Append(string.Format("\"{0}\" ", iEnumValue.ToString()));
-                        sb.Append(string.Format("f{0}=", kDefTypeData.kMemberName));
-                        sb.Append(string.Format("\"{0}\" ", fEnumValue.ToString()));
-                    }
+                    //    for (int k = 1; k < kDefTypeStr.Count; k++)
+                    //    {
+                    //        if (!kDefTypeStr[k].StartsWith("["))
+                    //        {
+                    //            continue;
+                    //        }
+                    //        string[] kSplitEnum = { "[", "]", ":" };
+                    //        string[] kEnumData = kDefTypeStr[k].Split(kSplitEnum, StringSplitOptions.RemoveEmptyEntries);
+                    //        string[] kSplitValue = { ":" };
+                    //        string[] kValueData = kValue.ToString().Split(kSplitValue, StringSplitOptions.RemoveEmptyEntries);
+                    //        if (kValueData[0] == kEnumData[0])
+                    //        {
+                    //            iEnumValue = int.Parse(kEnumData[1]);
+                    //            fEnumValue = float.Parse(kValueData[1]);
+                    //            break;
+                    //        }
+                    //    }
+                    //    sb.Append(string.Format("ui{0}=", kDefTypeData.kMemberName));
+                    //    sb.Append(string.Format("\"{0}\" ", iEnumValue.ToString()));
+                    //    sb.Append(string.Format("f{0}=", kDefTypeData.kMemberName));
+                    //    sb.Append(string.Format("\"{0}\" ", fEnumValue.ToString()));
+                    //}
                     else if (MyExcel.kTypeClass[3] == kDefTypeData.kType[0])
                     {
                         int iBitMoveValue = 0;
@@ -203,7 +203,8 @@ namespace table_gen
                         {
                             if (kValue.ToString() != "-")
                             {
-                                System.Windows.Forms.MessageBox.Show(string.Format("Not exsit Bitmask Enum at {0}Row{1}Column", iRowIndex, MyExcel.s_RowIndex[i]));
+                                System.Windows.Forms.MessageBox.Show(
+                                    string.Format("Not exsit Bitmask Enum at {0}Row{1}Column", iRowIndex, MyExcel.s_RowIndex[i]));
                             }
                         }
 
@@ -213,7 +214,7 @@ namespace table_gen
                     else if (MyExcel.kTypeClass[4] == kDefTypeData.kType[0])
                     {
                         float fFloatValue = 0.0f;
-                        System.String kStr = kValue.ToString();
+                        string kStr = kValue.ToString();
                         if (kStr == "-" || kStr == "")
                         {
                             fFloatValue = -1.0f;
@@ -247,12 +248,12 @@ namespace table_gen
                                 {                                    
                                     if (n < kShuZu.Length && !int.TryParse(kShuZu[n], out iIntValue))
                                     {
-                                        byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kShuZu[n]);
+                                        byte[] idIntBytes = Encoding.UTF8.GetBytes(kShuZu[n]);
                                         if (idIntBytes.Length == 4)
                                         {
                                             iIntValue = 0
-                                                        | ((Int32)idIntBytes[0] << 24)
-                                                        | ((Int32)idIntBytes[1] << 16)
+                                                        | (idIntBytes[0] << 24)
+                                                        | (idIntBytes[1] << 16)
                                                        | ((Int32)idIntBytes[2] << 8)
                                                       | ((Int32)idIntBytes[3] << 0);
                                         }
@@ -336,7 +337,8 @@ namespace table_gen
                             {
                                 if(kShuZu.Length < 2)
                                 {
-                                    System.Windows.Forms.MessageBox.Show(string.Format("Error float format at {0}Row{1}Column", iRowIndex, MyExcel.s_RowIndex[i]));
+                                    System.Windows.Forms.MessageBox.Show(
+                                        string.Format("Error float format at {0}Row{1}Column", iRowIndex, MyExcel.s_RowIndex[i]));
                                 }
                                 if (n * 2 < kShuZu.Length && int.Parse(kShuZu[iIndex]) == n + 1)
                                 {
@@ -417,7 +419,7 @@ namespace table_gen
                                 {
                                     if (n < kShuZu.Length && !int.TryParse(kShuZu[n], out iIntValue))
                                     {
-                                        byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kShuZu[n]);
+                                        byte[] idIntBytes = Encoding.UTF8.GetBytes(kShuZu[n]);
                                         if (idIntBytes.Length == 4)
                                         {
                                             iIntValue = 0
