@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-#include "SeTableResBase.h"
 
 
 enum E_SKILLTABLE_OPERATETYPE
@@ -198,7 +197,7 @@ enum M_SKILLTABLE_SKILLPROPERTY
 };
 
 //  自动生成表结构
-struct SkillTable : SeTableResBase
+struct SkillTable
 {
     unsigned int               uiTypeID                            ;   //  技能ID   
     std::string                kName                               ;   //  技能名称   
@@ -269,7 +268,6 @@ public:
 
     const SkillTable* GetSkillTable(unsigned int iTypeID);
     const std::map<unsigned int, SkillTable*>& GetSkillTableMap();
-    TableResArray GetSkillTableVec();
 
 private:
     bool    Load();

@@ -1,12 +1,11 @@
 ﻿#include "Item_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
+#include <fstream>
 
-ItemTableMgr* ItemTableMgr::m_pkItemTableMgr = NULL;
+ItemTableMgr* ItemTableMgr::m_pkItemTableMgr = nullptr;
 ItemTableMgr* ItemTableMgr::Get()
 {
-    if(m_pkItemTableMgr == NULL)
+    if(m_pkItemTableMgr == nullptr)
     {
         m_pkItemTableMgr = new ItemTableMgr();
     }
@@ -19,17 +18,6 @@ const std::map<unsigned int, ItemTable*>& ItemTableMgr::GetItemTableMap()
     return m_kItemTableMap;
 }
 
-TableResArray ItemTableMgr::GetItemTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, ItemTable*>::iterator iMapItr = m_kItemTableMap.begin(); iMapItr != m_kItemTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
-
 const ItemTable* ItemTableMgr::GetItemTable(unsigned int iTypeID)
 {
     std::map<unsigned int, ItemTable*>::iterator iter = m_kItemTableMap.find(iTypeID);
@@ -37,7 +25,7 @@ const ItemTable* ItemTableMgr::GetItemTable(unsigned int iTypeID)
     {
         return iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 ItemTableMgr::ItemTableMgr()
@@ -53,14 +41,22 @@ ItemTableMgr::~ItemTableMgr()
 bool ItemTableMgr::Load()
 {
     std::string path = "Data/Table/Item.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    char* fileData = nullptr;
+    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);
+    if (file.is_open())
+    {
+        std::streampos size = file.tellg();
+        fileData = new char[size];
+        file.seekg(0, std::ios::beg);
+        file.read(fileData, size);
+        file.close();
+    }
+    if (fileData == nullptr)
     {
         return false;
     }
-
     TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
+    doc.Parse(fileData);
     if (doc.Error())
     {
         std::string err = path + "   " + std::string(doc.ErrorDesc());
@@ -83,6 +79,7 @@ bool ItemTableMgr::Load()
         element = element->NextSiblingElement();
     }
 
+    delete[] fileData;
     return true;
 }
 
@@ -107,22 +104,16 @@ void ItemTableMgr::FillData(ItemTable* row, TiXmlElement* element)
     row->iItemSkill[4] = int_value;
     element->Attribute("ItemSkill5", &int_value);
     row->iItemSkill[5] = int_value;
-    element->Attribute("ItemBuffer0", &int_value);
-    row->iItemBuffer[0] = int_value;
-    element->Attribute("ItemBuffer1", &int_value);
-    row->iItemBuffer[1] = int_value;
-    element->Attribute("ItemBuffer2", &int_value);
-    row->iItemBuffer[2] = int_value;
     element->Attribute("ItemProperty", &int_value);
     row->uiItemProperty = (unsigned int)int_value;
     element->Attribute("ItemPrice", &int_value);
-    row->iItemPrice = int_value;
+    row->uiItemPrice = (unsigned int)int_value;
     element->Attribute("OrgPileCount", &int_value);
-    row->iOrgPileCount = int_value;
+    row->uiOrgPileCount = (unsigned int)int_value;
     element->Attribute("OrgUseCount", &int_value);
-    row->iOrgUseCount = int_value;
+    row->uiOrgUseCount = (unsigned int)int_value;
     element->Attribute("PileCount", &int_value);
-    row->iPileCount = int_value;
+    row->uiPileCount = (unsigned int)int_value;
 
     m_kItemTableMap[row->uiItemTypeID] = row;
 }

@@ -143,7 +143,6 @@
     <ClCompile Include="Buffer_table.cpp" />
     <ClCompile Include="Item_table.cpp" />
     <ClCompile Include="MapInfo_table.cpp" />
-    <ClCompile Include="SeTableResBase.cpp" />
     <ClCompile Include="Skill_table.cpp" />
     <ClCompile Include="TableMgr.cpp" />
     <ClCompile Include="tinyxml\tinystr.cpp" />
@@ -156,7 +155,6 @@
     <ClInclude Include="Buffer_table.hpp" />
     <ClInclude Include="Item_table.hpp" />
     <ClInclude Include="MapInfo_table.hpp" />
-    <ClInclude Include="SeTableResBase.h" />
     <ClInclude Include="Skill_table.hpp" />
     <ClInclude Include="TableMgr.h" />
     <ClInclude Include="tinyxml\tinystr.h" />

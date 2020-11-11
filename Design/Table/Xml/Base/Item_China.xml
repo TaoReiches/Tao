@@ -1,17 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-      <content ID="I001" 物品名字="速度之靴" 物品数值="-" 物品描述="{YELLOW}唯一被动-疾速：{/YELLOW}提高25移动速度" 物品技能="1#SI01" 物品出售时删除buffer="-" 物品特性="-" 物品价格="300" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I001" 物品特效="-" 模型="-" />
-      <content ID="I002" 物品名字="敏捷之靴" 物品数值="{GREEN}30%攻击速度{/GREEN}" 物品描述="{YELLOW}唯一被动-疾速：{/YELLOW}提高45移动速度" 物品技能="1#SI02&#xA;2#SJ43" 物品出售时删除buffer="-" 物品特性="-" 物品价格="900" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I002" 物品特效="-" 模型="-" />
-      <content ID="I003" 物品名字="魔能之靴" 物品数值="{GREEN}15法术穿透{/GREEN}" 物品描述="{YELLOW}唯一被动-疾速：{/YELLOW}提高45移动速度" 物品技能="1#SI03&#xA;2#SJ43" 物品出售时删除buffer="-" 物品特性="-" 物品价格="1100" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I003" 物品特效="-" 模型="-" />
-      <content ID="I004" 物品名字="疾风之靴" 物品数值="-" 物品描述="{YELLOW}唯一被动-疾速：{/YELLOW}提高45移动速度\n{YELLOW}唯一被动-神行：{/YELLOW}脱离战斗5秒后提高105移动速度" 物品技能="1#SI04&#xA;2#SJ43" 物品出售时删除buffer="1#B217" 物品特性="-" 物品价格="1000" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I004" 物品特效="-" 模型="-" />
-      <content ID="I005" 物品名字="铁剑" 物品数值="{GREEN}增加10物理攻击{/GREEN}" 物品描述="-" 物品技能="1#SI05" 物品出售时删除buffer="-" 物品特性="-" 物品价格="350" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I005" 物品特效="-" 模型="-" />
-      <content ID="I006" 物品名字="透甲剑" 物品数值="{GREEN}25攻击力{/GREEN}" 物品描述="{YELLOW}唯一被动-强破：{/YELLOW}10护甲穿透" 物品技能="1#SI06&#xA;2#SP06" 物品出售时删除buffer="-" 物品特性="-" 物品价格="1100" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I006" 物品特效="-" 模型="-" />
-      <content ID="I007" 物品名字="暴君之怒" 物品数值="{GREEN}70攻击力\n25%暴击率{/GREEN}" 物品描述="{YELLOW}唯一被动-暴伤：{/YELLOW}暴击伤害提高为250%，原来为200%" 物品技能="1#SI07&#xA;2#SJ44" 物品出售时删除buffer="-" 物品特性="-" 物品价格="3600" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I007" 物品特效="-" 模型="-" />
-      <content ID="I008" 物品名字="黑曜石利斧" 物品数值="{GREEN}250生命\n50攻击力\n20%冷却缩减\n10护甲穿透{/GREEN}" 物品描述="{YELLOW}唯一被动-切割：{/YELLOW}对一名敌方英雄造成物理伤害时，减少目标6.25%护甲，持续4秒。最多减少25%。" 物品技能="1#SI08&#xA;2#SJ45" 物品出售时删除buffer="-" 物品特性="-" 物品价格="3300" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I008" 物品特效="-" 模型="-" />
-      <content ID="I009" 物品名字="冰冻之矛" 物品数值="{GREEN}700生命\n30攻击力{/GREEN}" 物品描述="{YELLOW}唯一被动-冰霜重击：{/YELLOW}普攻使目标减速40%，持续1.5秒。（远程攻击将减速30%）" 物品技能="1#SI09&#xA;2#SJ46" 物品出售时删除buffer="-" 物品特性="-" 物品价格="3100" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I009" 物品特效="-" 模型="-" />
-      <content ID="I010" 物品名字="翡翠刀" 物品数值="{GREEN}60攻击力\n10%冷却缩减{/GREEN}" 物品描述="{YELLOW}唯一被动-翡翠：{/YELLOW}提升20点护甲穿透&#xA;{YELLOW}唯一主动-妖刀：{/YELLOW}3秒内提高自身50%移速。" 物品技能="1#SI10&#xA;2#SI11" 物品出售时删除buffer="-" 物品特性="-" 物品价格="2600" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I010" 物品特效="-" 模型="-" />
-      <content ID="I011" 物品名字="猩红乱舞" 物品数值="{GREEN}55%攻击速度\n30%暴击几率{/GREEN}" 物品描述="{YELLOW}唯一被动-鬼步：{/YELLOW}增加10%移动速度并无视体积碰撞&#xA;{YELLOW}唯一被动-猩红：{/YELLOW}降低最后一名目标对你造成伤害的12%，持续6秒。" 物品技能="1#SI12&#xA;2#SJ47" 物品出售时删除buffer="-" 物品特性="-" 物品价格="2300" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I011" 物品特效="-" 模型="-" />
-      <content ID="I012" 物品名字="嗜血之剑" 物品数值="{GREEN}75攻击力{/GREEN}" 物品描述="{YELLOW}唯一被动-嗜血：{/YELLOW}20%生命偷取{YELLOW}\n唯一被动-血盾：{/YELLOW}偷取的生命值溢出后会存储一个能够吸收70-410（基于等级）伤害的护盾，若25秒内没有造成任何伤害，那么这个护盾会缓慢衰减。" 物品技能="1#SI13&#xA;2#SJ48&#xA;3#SJ61" 物品出售时删除buffer="-" 物品特性="-" 物品价格="3700" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I012" 物品特效="-" 模型="-" />
-      <content ID="I013" 物品名字="春之守望" 物品数值="{GREEN}500生命值\n70魔法抗性\n150%基础生命回复\n10%冷却缩减{/GREEN}" 物品描述="{YELLOW}唯一被动-振兴：{/YELLOW}所受全部治疗效果提高20%。" 物品技能="1#SI14&#xA;2#SJ49" 物品出售时删除buffer="-" 物品特性="-" 物品价格="3350" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I013" 物品特效="-" 模型="-" />
-      <content ID="I014" 物品名字="重生庇护" 物品数值="{GREEN}60护甲\n60魔法抗性{/GREEN}" 物品描述="{YELLOW}唯一被动-重生：{/YELLOW}英雄死亡时，4秒后原地复活，恢复40%最大生命值和最大法力值。冷却时间150秒" 物品技能="1#SI15&#xA;2#SJ50" 物品出售时删除buffer="1#B312" 物品特性="-" 物品价格="2700" 初始叠加="1" 使用次数="1" 可叠加次数="1" 图标="I014" 物品特效="-" 模型="-" />
-</root>
+<NewDataSet>
+      <content>
+            <TypeID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">I001</TypeID>
+            <ItemName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Speed Up</ItemName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30% Move Speed UP</Note>
+            <ItemSkills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#SI01</ItemSkills>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <Price xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">300</Price>
+            <Original_x0020_pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Original_x0020_pile_x0020_count>
+            <Use_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Use_x0020_count>
+            <Pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Pile_x0020_count>
+            <Effect xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Effect>
+            <Model xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Model>
+      </content>
+      <content>
+            <TypeID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">I002</TypeID>
+            <ItemName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Attack Speed Up</ItemName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30% Speed Up</Note>
+            <ItemSkills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#SI02
+2#SJ43</ItemSkills>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <Price xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">900</Price>
+            <Original_x0020_pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Original_x0020_pile_x0020_count>
+            <Use_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Use_x0020_count>
+            <Pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Pile_x0020_count>
+            <Effect xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Effect>
+            <Model xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Model>
+      </content>
+      <content>
+            <TypeID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">I003</TypeID>
+            <ItemName xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Skill Damage Up</ItemName>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30% Skill Damage Up</Note>
+            <ItemSkills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#SI03
+2#SJ43</ItemSkills>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <Price xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1100</Price>
+            <Original_x0020_pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Original_x0020_pile_x0020_count>
+            <Use_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Use_x0020_count>
+            <Pile_x0020_count xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1</Pile_x0020_count>
+            <Effect xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Effect>
+            <Model xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Model>
+      </content>
+</NewDataSet>

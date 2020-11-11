@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-#include "SeTableResBase.h"
 
 
 enum E_UNITTABLE_CLASSTYPE
@@ -68,7 +67,7 @@ enum M_UNITTABLE_PROPERTY
 };
 
 //  自动生成表结构
-struct UnitTable : SeTableResBase
+struct UnitTable
 {
     unsigned int               uiUnitTypeID                        ;   //  ID   
     std::string                kUnitName                           ;   //  单位名称   
@@ -123,7 +122,6 @@ public:
 
     const UnitTable* GetUnitTable(unsigned int iTypeID);
     const std::map<unsigned int, UnitTable*>& GetUnitTableMap();
-    TableResArray GetUnitTableVec();
 
 private:
     bool    Load();

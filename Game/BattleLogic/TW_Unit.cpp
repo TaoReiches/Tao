@@ -2391,29 +2391,29 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 
 	gTrgMgr.FireTrigger(BTE_UNIT_PICKUP_ITEM, kParam);
 
-	if (pkItemRes)
-	{
-		if (pkItemRes->uiItemProperty & ITEM_ITEMPROPERTY_PICKUSE)
-		{
-			BeSkill* pkSkill = GetSkill(iSkillTypeID);
-			if (!pkSkill)
-			{
-				AddSkill(iSkillTypeID);
-			}
+	//if (pkItemRes)
+	//{
+	//	if (pkItemRes->uiItemProperty & ITEM_ITEMPROPERTY_PICKUSE)
+	//	{
+	//		BeSkill* pkSkill = GetSkill(iSkillTypeID);
+	//		if (!pkSkill)
+	//		{
+	//			AddSkill(iSkillTypeID);
+	//		}
 
-			BeCommand	kComm(BeCommandType::BCT_SPELL, GetID(), 0.0f, 0.0f, iSkillTypeID);
-			GiveCommand(kComm);
-		}
-	}
+	//		BeCommand	kComm(BeCommandType::BCT_SPELL, GetID(), 0.0f, 0.0f, iSkillTypeID);
+	//		GiveCommand(kComm);
+	//	}
+	//}
 
 	BeItemData kData = pkMapItem->GetItemData();
-	if (pkItemRes && (pkItemRes->uiItemProperty & ITEM_ITEMPROPERTY_PICKUSE))
-	{
-		gMapItemMgr.DelMapItem(pkMapItem->GetID());
+	//if (pkItemRes && (pkItemRes->uiItemProperty & ITEM_ITEMPROPERTY_PICKUSE))
+	//{
+	//	gMapItemMgr.DelMapItem(pkMapItem->GetID());
 
-		return true;
-	}
-	else
+	//	return true;
+	//}
+	//else
 	{
 		gMapItemMgr.DelMapItem(pkMapItem->GetID());
 	}

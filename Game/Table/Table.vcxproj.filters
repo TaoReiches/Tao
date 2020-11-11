@@ -6,7 +6,6 @@
     <ClCompile Include="MapInfo_table.cpp" />
     <ClCompile Include="Skill_table.cpp" />
     <ClCompile Include="Unit_table.cpp" />
-    <ClCompile Include="SeTableResBase.cpp" />
     <ClCompile Include="TableMgr.cpp" />
     <ClCompile Include="tinyxml\tinystr.cpp" />
     <ClCompile Include="tinyxml\tinyxml.cpp" />
@@ -19,7 +18,6 @@
     <ClInclude Include="MapInfo_table.hpp" />
     <ClInclude Include="Skill_table.hpp" />
     <ClInclude Include="Unit_table.hpp" />
-    <ClInclude Include="SeTableResBase.h" />
     <ClInclude Include="TableMgr.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />

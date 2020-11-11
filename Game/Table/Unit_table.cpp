@@ -1,7 +1,6 @@
 ﻿#include "Unit_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
+
 
 UnitTableMgr* UnitTableMgr::m_pkUnitTableMgr = NULL;
 UnitTableMgr* UnitTableMgr::Get()
@@ -19,16 +18,6 @@ const std::map<unsigned int, UnitTable*>& UnitTableMgr::GetUnitTableMap()
     return m_kUnitTableMap;
 }
 
-TableResArray UnitTableMgr::GetUnitTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, UnitTable*>::iterator iMapItr = m_kUnitTableMap.begin(); iMapItr != m_kUnitTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
 
 const UnitTable* UnitTableMgr::GetUnitTable(unsigned int iTypeID)
 {
@@ -52,36 +41,36 @@ UnitTableMgr::~UnitTableMgr()
 
 bool UnitTableMgr::Load()
 {
-    std::string path = "Data/Table/Unit.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
-    {
-        return false;
-    }
+    //std::string path = "Data/Table/Unit.xml";
+    //FileMemory kMemory;
+    //if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    //{
+    //    return false;
+    //}
 
-    TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
-    if (doc.Error())
-    {
-        std::string err = path + "   " + std::string(doc.ErrorDesc());
-        // throw std::exception(err.c_str());
-        return false;
-    }
+    //TiXmlDocument doc;
+    //doc.Parse(kMemory.GetData());
+    //if (doc.Error())
+    //{
+    //    std::string err = path + "   " + std::string(doc.ErrorDesc());
+    //    // throw std::exception(err.c_str());
+    //    return false;
+    //}
 
-    TiXmlElement* root = doc.FirstChildElement("root");
-    if (root == 0)
-    {
-        // throw std::exception("root is null!");
-        return false;
-    }
+    //TiXmlElement* root = doc.FirstChildElement("root");
+    //if (root == 0)
+    //{
+    //    // throw std::exception("root is null!");
+    //    return false;
+    //}
 
-    TiXmlElement* element = root->FirstChildElement("content");
-    while (element != 0)
-    {
-        UnitTable * row = new UnitTable();
-        FillData(row, element);
-        element = element->NextSiblingElement();
-    }
+    //TiXmlElement* element = root->FirstChildElement("content");
+    //while (element != 0)
+    //{
+    //    UnitTable * row = new UnitTable();
+    //    FillData(row, element);
+    //    element = element->NextSiblingElement();
+    //}
 
     return true;
 }

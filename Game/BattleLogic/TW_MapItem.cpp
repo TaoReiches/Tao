@@ -29,8 +29,8 @@ bool BeMapItem::Initialize(int iTypeID)
 		return false;
 	}
 	m_kData.iItemProperty = m_pkRes->uiItemProperty;
-	m_kData.iUseCount = m_pkRes->iOrgUseCount;
-	m_kData.iPileCount = m_pkRes->iOrgPileCount;
+	m_kData.iUseCount = m_pkRes->uiOrgUseCount;
+	m_kData.iPileCount = m_pkRes->uiOrgPileCount;
 	m_kData.iBuyTime = 1;
 
 	m_iLife = 100;

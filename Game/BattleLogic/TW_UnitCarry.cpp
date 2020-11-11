@@ -66,8 +66,8 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		auto pkItem = std::shared_ptr<BeItem>(mpItem.alloc(iID));
 		pkItem->AttachMain(pkAttachMain);
 		pkItem->Initialize(iTypeID);
-		pkItem->SetPileCount(pkRes->iOrgPileCount);
-		pkItem->SetUseCount(pkRes->iOrgUseCount);
+		pkItem->SetPileCount(pkRes->uiOrgPileCount);
+		pkItem->SetUseCount(pkRes->uiOrgUseCount);
 		pkItem->SetData(iOrgData);
 		m_apkItem[iItemPos] = pkItem;
 		pkItem->SetPackagePos(iItemPos);

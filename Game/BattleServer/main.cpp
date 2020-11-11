@@ -7,6 +7,7 @@
 
 #include "Mapinfo_table.hpp"
 #include "Buffer_table.hpp"
+#include "Item_table.hpp"
 
 int main()
 {
@@ -16,6 +17,7 @@ int main()
 
     MapInfoTableMgr::Get();
     BufferTableMgr::Get();
+    ItemTableMgr::Get();
 
     getchar();
 }

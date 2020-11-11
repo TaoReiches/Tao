@@ -1,7 +1,5 @@
 ﻿#include "Skill_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
 
 SkillTableMgr* SkillTableMgr::m_pkSkillTableMgr = NULL;
 SkillTableMgr* SkillTableMgr::Get()
@@ -19,16 +17,6 @@ const std::map<unsigned int, SkillTable*>& SkillTableMgr::GetSkillTableMap()
     return m_kSkillTableMap;
 }
 
-TableResArray SkillTableMgr::GetSkillTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, SkillTable*>::iterator iMapItr = m_kSkillTableMap.begin(); iMapItr != m_kSkillTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
 
 const SkillTable* SkillTableMgr::GetSkillTable(unsigned int iTypeID)
 {
@@ -52,36 +40,36 @@ SkillTableMgr::~SkillTableMgr()
 
 bool SkillTableMgr::Load()
 {
-    std::string path = "Data/Table/Skill.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
-    {
-        return false;
-    }
+    //std::string path = "Data/Table/Skill.xml";
+    //FileMemory kMemory;
+    //if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    //{
+    //    return false;
+    //}
 
-    TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
-    if (doc.Error())
-    {
-        std::string err = path + "   " + std::string(doc.ErrorDesc());
-        // throw std::exception(err.c_str());
-        return false;
-    }
+    //TiXmlDocument doc;
+    //doc.Parse(kMemory.GetData());
+    //if (doc.Error())
+    //{
+    //    std::string err = path + "   " + std::string(doc.ErrorDesc());
+    //    // throw std::exception(err.c_str());
+    //    return false;
+    //}
 
-    TiXmlElement* root = doc.FirstChildElement("root");
-    if (root == 0)
-    {
-        // throw std::exception("root is null!");
-        return false;
-    }
+    //TiXmlElement* root = doc.FirstChildElement("root");
+    //if (root == 0)
+    //{
+    //    // throw std::exception("root is null!");
+    //    return false;
+    //}
 
-    TiXmlElement* element = root->FirstChildElement("content");
-    while (element != 0)
-    {
-        SkillTable * row = new SkillTable();
-        FillData(row, element);
-        element = element->NextSiblingElement();
-    }
+    //TiXmlElement* element = root->FirstChildElement("content");
+    //while (element != 0)
+    //{
+    //    SkillTable * row = new SkillTable();
+    //    FillData(row, element);
+    //    element = element->NextSiblingElement();
+    //}
 
     return true;
 }

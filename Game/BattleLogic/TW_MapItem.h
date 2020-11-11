@@ -79,12 +79,12 @@ protected:
 
 inline int BeMapItem::GetOrgPileCount(void) const
 {
-    return m_pkRes->iOrgPileCount;
+    return m_pkRes->uiOrgPileCount;
 }
 
 inline int BeMapItem::GetOrgUseCount(void) const
 {
-    return m_pkRes->iOrgUseCount;
+    return m_pkRes->uiOrgUseCount;
 }
 
 inline bool BeMapItem::HasProperty(int iProperty)
