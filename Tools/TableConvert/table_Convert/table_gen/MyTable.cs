@@ -6,6 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Data.OleDb;
 using System.Threading;
+using ExcelDataReader;
 
 namespace table_gen
 {
@@ -82,27 +83,45 @@ namespace table_gen
 
         void LoadContent(string conn)
         {
-            using (OleDbDataAdapter content_da = new OleDbDataAdapter("SELECT * FROM [content$]", conn))
+            using (var stream = new FileStream(conn, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                using (DataSet content_ds = new DataSet("root"))
+                using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    content_da.Fill(content_ds, "content");
-
-                    foreach (DataColumn c in content_ds.Tables[0].Columns)
-                        c.ColumnMapping = MappingType.Attribute;
+                    DataSet content_ds = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        UseColumnDataType = false,
+                        ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true
+                        }
+                    });
 
                     content_data_set = content_ds;
                     content_table = content_ds.Tables[0];
-
-                    //bool remove_first = false;
-                    //CheckTableValid(ref remove_first);
-          
-                    //if (remove_first)
-                    //    content_table.Rows.RemoveAt(0);
                 }
-
-                content_da.Dispose();
             }
+
+            //using (OleDbDataAdapter content_da = new OleDbDataAdapter("SELECT * FROM [content$]", conn))
+            //{
+            //    using (DataSet content_ds = new DataSet("root"))
+            //    {
+            //        content_da.Fill(content_ds, "content");
+
+            //        foreach (DataColumn c in content_ds.Tables[0].Columns)
+            //            c.ColumnMapping = MappingType.Attribute;
+
+            //        content_data_set = content_ds;
+            //        content_table = content_ds.Tables[0];
+
+            //        //bool remove_first = false;
+            //        //CheckTableValid(ref remove_first);
+          
+            //        //if (remove_first)
+            //        //    content_table.Rows.RemoveAt(0);
+            //    }
+
+            //    content_da.Dispose();
+            //}
         }
 
         MyExcel kMyExcel = null;
@@ -133,17 +152,17 @@ namespace table_gen
             kMyExcel = new MyExcel();
             kMyExcel.ConvertExcel(path, name);
 
-            string conn = "";
+            //string conn = "";
 
-            if (path.EndsWith(".xls"))
-                conn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + path + ";" + "Extended Properties=Excel 8.0;";
-            else if (path.EndsWith(".xlsx"))
-                conn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path + ";" + "Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1;\";";
-            else
-                throw new Exception("Load xls error");
+            //if (path.EndsWith(".xls"))
+            //    conn = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + path + ";" + "Extended Properties=Excel 8.0;";
+            //else if (path.EndsWith(".xlsx"))
+            //    conn = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path + ";" + "Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1;\";";
+            //else
+            //    throw new Exception("Load xls error");
 
             Reset();
-            LoadContent(conn);
+            LoadContent(path);
 
             GC.Collect();
         }
