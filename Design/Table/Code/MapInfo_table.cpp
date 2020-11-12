@@ -7,7 +7,7 @@
 #include "tinyxml.h"
 #include <fstream>
 
-std::unique_ptr<MapInfoTableMgr>       MapInfoTableMgr::m_pkMapInfoTableMgr = nullptr;
+std::unique_ptr<MapInfoTableMgr>       MapInfoTableMgr::m_pkMapInfoTableMgr(nullptr);
 const std::unique_ptr<MapInfoTableMgr>& MapInfoTableMgr::Get()
 {
     if(!m_pkMapInfoTableMgr)

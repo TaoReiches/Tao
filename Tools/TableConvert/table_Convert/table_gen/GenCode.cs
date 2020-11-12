@@ -32,7 +32,7 @@ namespace table_gen
 
         void GenCppGet(StringBuilder sb)
         {
-            sb.AppendLine(string.Format("std::unique_ptr<{0}>       {0}::m_pk{0} = nullptr;", kClassMgrName));
+            sb.AppendLine(string.Format("std::unique_ptr<{0}>       {0}::m_pk{0}(nullptr);", kClassMgrName));
             sb.AppendLine(string.Format("const std::unique_ptr<{0}>& {0}::Get()", kClassMgrName));
             sb.AppendLine("{");
             sb.AppendLine(string.Format("    if(!m_pk{0})", kClassMgrName));

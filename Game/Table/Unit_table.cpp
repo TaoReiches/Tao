@@ -7,7 +7,7 @@
 #include "tinyxml.h"
 #include <fstream>
 
-std::unique_ptr<UnitTableMgr>       UnitTableMgr::m_pkUnitTableMgr = nullptr;
+std::unique_ptr<UnitTableMgr>       UnitTableMgr::m_pkUnitTableMgr(nullptr);
 const std::unique_ptr<UnitTableMgr>& UnitTableMgr::Get()
 {
     if(!m_pkUnitTableMgr)

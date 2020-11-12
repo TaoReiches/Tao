@@ -7,7 +7,7 @@
 #include "tinyxml.h"
 #include <fstream>
 
-std::unique_ptr<BufferTableMgr>       BufferTableMgr::m_pkBufferTableMgr = nullptr;
+std::unique_ptr<BufferTableMgr>       BufferTableMgr::m_pkBufferTableMgr(nullptr);
 const std::unique_ptr<BufferTableMgr>& BufferTableMgr::Get()
 {
     if(!m_pkBufferTableMgr)

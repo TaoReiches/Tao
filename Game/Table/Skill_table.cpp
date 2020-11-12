@@ -7,7 +7,7 @@
 #include "tinyxml.h"
 #include <fstream>
 
-std::unique_ptr<SkillTableMgr>       SkillTableMgr::m_pkSkillTableMgr = nullptr;
+std::unique_ptr<SkillTableMgr>       SkillTableMgr::m_pkSkillTableMgr(nullptr);
 const std::unique_ptr<SkillTableMgr>& SkillTableMgr::Get()
 {
     if(!m_pkSkillTableMgr)
