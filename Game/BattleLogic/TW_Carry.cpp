@@ -609,11 +609,6 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 		iSkillLevel = 1;
 	}
 
-	if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
-	{
-		return;
-	}
-
 	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
 	TePtParam kParam;

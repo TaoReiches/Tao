@@ -186,7 +186,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 		}
 	}
 
-	if (HasProperty(SKILL_SKILLPROPERTY_CDCHUFA))
+	if (HasProperty(SKILL_SKILLPROPERTY_CDTRIGGER))
 	{
 		//if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
 		{
@@ -220,17 +220,17 @@ void BeSkill::SetCurPileNums(int iPileNums)
 
 void BeSkill::SetActive(bool bActive)
 {
-	if ((m_pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_ZIDONGCHIXU) != 0)
-	{
-		m_kData.bIsActive = bActive;
+	//if ((m_pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_ZIDONGCHIXU) != 0)
+	//{
+	//	m_kData.bIsActive = bActive;
 
-		BeUnit* pkUnit = (BeUnit*)pkAttachUnit;
-		if (pkUnit)
-		{
-			pkUnit->UpdateAttribute(true);
-		}
-	}
-	else if (IsSwitch())
+	//	BeUnit* pkUnit = (BeUnit*)pkAttachUnit;
+	//	if (pkUnit)
+	//	{
+	//		pkUnit->UpdateAttribute(true);
+	//	}
+	//}
+	//else if (IsSwitch())
 	{
 		m_kData.bIsActive = bActive;
 	}

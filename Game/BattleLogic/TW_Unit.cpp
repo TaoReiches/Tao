@@ -37,7 +37,7 @@ void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDa
 	for (int i = 0; i < iCount; ++i)
 	{
 		auto pkSkill = kSkill[i];
-		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_SHANGHAICHUFA))
+		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
@@ -61,7 +61,7 @@ void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDa
 	for (int i = 0; i < iCount; ++i)
 	{
 		auto pkSkill = kSkill[i];
-		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_BEIJICHUFA))
+		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_BEATTACKTRIGGER))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
@@ -86,7 +86,7 @@ void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamag
 	for (int i = 0; i < iCount; ++i)
 	{
 		auto pkSkill = kSkill[i];
-		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_SHANGHAICHUFA))
+		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
@@ -112,7 +112,7 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingA
 	for (int i = 0; i < iCount; ++i)
 	{
 		auto pkSkill = kSkill[i];
-		if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_GONGJICHUFA)))
+		if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER)))
 		{
 			TePtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
@@ -120,7 +120,7 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingA
 			kParam.SetParam(BTP_pkSkill, pkSkill.get());
 			kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
-			if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_GONGJICHUFA))
+			if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER))
 			{
 				kParam.SetParam(BTP_iTrgEventBy, BTE_SKILL_ONATTACK);
 				gTrgMgr.FireTrigger(BTE_SKILL_ONATTACK, kParam);
@@ -640,30 +640,6 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 	case BeCommandType::BCT_SPELL:
 	{
 		BeSkill* pkSkill = GetSkill(kCmd.iData);
-		if (pkSkill)
-		{
-			const	SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(pkSkill->GetTypeID());
-			if (pkSkillRes)
-			{
-				if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_GODUSE)
-				{
-					if (!pkSkill->CDComplete(this))
-					{
-						return false;
-					}
-
-					pkSkill->SetLastUseTime(this, gTime);
-
-					TePtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
-					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-					gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
-
-					return true;
-				}
-			}
-		}
 
 		if (HasUnitCarryFlag(BUCF_ISFORBIDSKILL))
 		{
@@ -680,7 +656,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		if (pkSkill->GetOperateType() == SKILL_OPERATETYPE_BEIDONG)
+		if (pkSkill->GetOperateType() == SKILL_OPERATETYPE_PASSIVE)
 		{
 			return false;
 		}
@@ -740,25 +716,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		auto pkSkillRes = pkSkill->GetSkillRes();
 		if (pkSkillRes)
 		{
-			if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_GODUSE)
-			{
-				if (!pkSkill->CDComplete(this))
-				{
-					return false;
-				}
-
-				TePtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-				kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-				gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
-
-				pkSkill->SetLastUseTime(this, gTime);
-				pkItem->SetLastUseTime(gTime);
-				return true;
-			}
-
-			if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_TAKEDRUGS)
+			//if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_TAKEDRUGS)
 			{
 				if (!pkSkill->CDComplete(this))
 				{
@@ -1460,7 +1418,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const BeUnit* p
 	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes)
 	{
-		iNeedMana = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID)->fManaSpend[pkSkill->GetLevel() - 1];
+		iNeedMana = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID)->iManaSpend[pkSkill->GetLevel() - 1];
 	}
 
 	if (GetMP() < iNeedMana)
@@ -1523,24 +1481,14 @@ void BeUnit::TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag
 
 	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_HERO ? BUSP_CLASS_HERO : 0;
 	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_BUILDING ? BUSP_CLASS_BUILDING : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_YUANGU ? BUSP_PROP_ANCIENT : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_SOLIDER ? BUSP_CLASS_SOLIDER : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_YEGUAI ? BUSP_CLASS_YEGUAI : 0;
 	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_BOSS ? BUSP_CLASS_BOSS : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_TOUSHI ? BUSP_CLASS_TOUSHI : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_TOTEM ? BUSP_CLASS_TOTEM : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_BRAND ? BUSP_CLASS_BRAND : 0;
-	iStaticProcFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_MJ ? BUSP_CLASS_MIJING : 0;
 
 	iDynaPropFlag = 0;
 	iDynaPropFlag |= BUDP_SUMMON | BUDP_NOTSUMMON;
 
-	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_DIJUN ? BUDP_CAMP_ENEMY : 0;
+	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_ENEMY ? BUDP_CAMP_ENEMY : 0;
 	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_SELF ? BUDP_CAMP_SELF : 0;
-	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_YOUJUN ? BUDP_CAMP_ALLY : 0;
-	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_MOMIAN ? BUDP_MAGIC_IMMUNITY : 0;
-	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_WUDI ? BUDP_INVINCIBLE : 0;
-	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_ZHONGLI ? BUDP_CAMP_NATURE : 0;
+	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_FRIEND ? BUDP_CAMP_ALLY : 0;
 }
 
 int BeUnit::GetAttackCD(void) const
@@ -1789,7 +1737,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADCHUFA))
+			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1814,7 +1762,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 		for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
 		{
 			auto pkSkill = m_apkNormalSkill[i];
-			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADCHUFA))
+			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1924,7 +1872,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
 	//		{
 	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADCHUFA))
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 	//			{
 	//				TePtParam kParam;
 	//				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -1955,7 +1903,7 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_GONGJICHUFA))
+			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2050,7 +1998,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY)
 {
 	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
-	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_BEIDONG)
+	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_PASSIVE)
 	{
 		return;
 	}
@@ -2063,7 +2011,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE)))
+			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2075,7 +2023,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
 				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
 
-				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
+				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER))
 				{
 					gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
 				}
@@ -2087,7 +2035,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 		for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
 		{
 			auto pkSkill = m_apkNormalSkill[i];
-			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE)))
+			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2098,7 +2046,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 				kParam.SetParam(BTP_iSpellTargetID, iTargetID);
 				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
 				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
-				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
+				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER))
 				{
 					gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
 				}
@@ -2118,7 +2066,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
 	//		{
 	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ONSPELLFIRE))
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER))
 	//			{
 	//				if ((IsDividMan() || IsGhost()))
 	//				{
@@ -2252,7 +2200,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLCHUFA))
+			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 			{
 
 				TePtParam kParam;
@@ -2273,7 +2221,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 		for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
 		{
 			auto pkSkill = m_apkNormalSkill[i];
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLCHUFA))
+			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 			{
 				TePtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
@@ -2302,7 +2250,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 	//		for (int iSkill = 0; iSkill < (int)pkItem->m_akSkill.size(); ++iSkill)
 	//		{
 	//			BeSkill* pkSkill = pkItem->m_akSkill[iSkill];
-	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLCHUFA))
+	//			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 	//			{
 	//				if ((IsDividMan() || IsGhost()))
 	//				{
@@ -2374,7 +2322,7 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 			const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iID);
 			if (pkSkillRes)
 			{
-				if (pkSkillRes->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
+				if (pkSkillRes->uiOperateType != SKILL_OPERATETYPE_PASSIVE)
 				{
 					iSkillTypeID = iID;
 					break;

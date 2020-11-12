@@ -110,7 +110,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const 
 		return;
 	}
 
-	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_MUBIAO || SKILL_OPERATETYPE_MOFAQIANG == pkSkillRes->uiOperateType)
+	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_SINGLETARGET)
 	{
 		SeCalSkillLvlData kData;
 		if (!gUnit.GetSkillLvlData(kData, iSkillTypeID))
@@ -143,7 +143,8 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		{
 			return BeExeResult::BER_EXE_END;
 		}
-		if (!gUnit.CanMove() && (pkResData->uiSkillProperty & SKILL_SKILLPROPERTY_DISPLACE)) {
+		if (!gUnit.CanMove())
+        {
 			return BeExeResult::BER_EXE_END;
 		}
 
@@ -173,7 +174,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 				}
 			}
 		}
-		else if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS && pkResData->uiOperateType == SKILL_OPERATETYPE_MUBIAO)
+		else if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS && pkResData->uiOperateType == SKILL_OPERATETYPE_SINGLETARGET)
 		{
 			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() != BeMoveResult::BMR_SUCCESS)
 			{
@@ -278,7 +279,7 @@ bool BeSpellCommand::CanCancel() const
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_CAST)
 	{
 		const SkillTable* pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
-		if (pkRes && (pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_KEDADUAN))
+		if (pkRes)
 		{
 			return true;
 		}
@@ -288,7 +289,7 @@ bool BeSpellCommand::CanCancel() const
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_EFFECT)
 	{
 		const SkillTable* pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
-		if (pkRes && (pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_CHIXUSHIFA || pkRes->iShakesTime[0] > 0))
+		if (pkRes && (pkRes->iShakesTime[0] > 0))
 		{
 			return false;
 		}

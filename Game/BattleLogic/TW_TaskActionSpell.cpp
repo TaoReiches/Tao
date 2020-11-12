@@ -63,16 +63,16 @@ BeTaskActionSpell::~BeTaskActionSpell()
 			gTrgMgr.FireTrigger(BTE_SPELL_EFFECTEND, kParam);
 		}
 
-		if ((m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_SENDBAR) != 0)
-		{
-			BeShareUIWindowData	kWindowData;
-			kWindowData.eWindowType = BWT_SPELL_EFFECT;
-			kWindowData.iSkillID = m_iSkillTypeID;
-			kWindowData.iRemoveTime = m_iEffectTime;
-			kWindowData.iUnitID = gUnit.GetID();
-			kWindowData.bRemove = true;
-			//gMain.AddWindowData(kWindowData);
-		}
+		//if ((m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_SENDBAR) != 0)
+		//{
+		//	BeShareUIWindowData	kWindowData;
+		//	kWindowData.eWindowType = BWT_SPELL_EFFECT;
+		//	kWindowData.iSkillID = m_iSkillTypeID;
+		//	kWindowData.iRemoveTime = m_iEffectTime;
+		//	kWindowData.iUnitID = gUnit.GetID();
+		//	kWindowData.bRemove = true;
+		//	//gMain.AddWindowData(kWindowData);
+		//}
 	}
 	else if (m_ePhase == BeSpellPhase::BSP_CAST)
 	{
@@ -208,28 +208,10 @@ bool BeTaskActionSpell::SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool b
 
 	m_pkSkillRes = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);
 
-	if ((m_pkSkillRes->uiOperateType == SKILL_OPERATETYPE_LIJISHIFA))
+	if ((m_pkSkillRes->uiOperateType == SKILL_OPERATETYPE_IMMEDIATELY))
 	{
 		m_kTargetPos.fX = 0.0f;
 		m_kTargetPos.fY = 0.0f;
-	}
-
-	if (!(m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_NOJULI)) {
-
-		if (m_pkSkillRes->uiOperateType == SKILL_OPERATETYPE_QUYU || m_pkSkillRes->uiOperateType == SKILL_OPERATETYPE_XIANXING)
-		{
-			SeCalSkillLvlData	rkData;
-			if (gUnit.GetSkillLvlData(rkData, iSkillTypeID))
-			{
-				float	fDis = rkData.GetSpellDistance();
-				if (GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), m_kTargetPos.fX, m_kTargetPos.fY) > fDis * fDis)
-				{
-					float fTarFace = atan2f(kPos.fY - gUnit.GetPosY(), kPos.fX - gUnit.GetPosX());
-					m_kTargetPos.fX = gUnit.GetPosX() + fDis * cosf(fTarFace);
-					m_kTargetPos.fY = gUnit.GetPosY() + fDis * sinf(fTarFace);
-				}
-			}
-		}
 	}
 
 	if (!m_pkSkillRes)
@@ -540,7 +522,7 @@ bool BeTaskActionSpell::UseUpItem()
 {
 	if (m_bExpendMP)
 	{
-		m_iManaSpend = m_pkSkillRes->fManaSpend[m_iSkillLevel];
+		m_iManaSpend = m_pkSkillRes->iManaSpend[m_iSkillLevel];
 		gUnit.SetMP(gUnit.GetMP() - m_iManaSpend);
 	}
 
@@ -763,18 +745,18 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 
 				OnSpellEffect();
 
-				do
-				{
-					if ((m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_SENDBAR) != 0)
-					{
-						BeShareUIWindowData	kWindowData;
-						kWindowData.eWindowType = BWT_SPELL_EFFECT;
-						kWindowData.iSkillID = m_iSkillTypeID;
-						kWindowData.iRemoveTime = m_iEffectTime;
-						kWindowData.iUnitID = gUnit.GetID();
-						//gMain.AddWindowData(kWindowData);
-					}
-				} while (0);
+				//do
+				//{
+				//	if ((m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_SENDBAR) != 0)
+				//	{
+				//		BeShareUIWindowData	kWindowData;
+				//		kWindowData.eWindowType = BWT_SPELL_EFFECT;
+				//		kWindowData.iSkillID = m_iSkillTypeID;
+				//		kWindowData.iRemoveTime = m_iEffectTime;
+				//		kWindowData.iUnitID = gUnit.GetID();
+				//		//gMain.AddWindowData(kWindowData);
+				//	}
+				//} while (0);
 
 				break;
 			}

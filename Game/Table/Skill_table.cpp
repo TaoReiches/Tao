@@ -1,10 +1,11 @@
 ﻿#include "Skill_table.hpp"
 #include "tinyxml.h"
+#include <fstream>
 
-SkillTableMgr* SkillTableMgr::m_pkSkillTableMgr = NULL;
+SkillTableMgr* SkillTableMgr::m_pkSkillTableMgr = nullptr;
 SkillTableMgr* SkillTableMgr::Get()
 {
-    if(m_pkSkillTableMgr == NULL)
+    if(m_pkSkillTableMgr == nullptr)
     {
         m_pkSkillTableMgr = new SkillTableMgr();
     }
@@ -17,7 +18,6 @@ const std::map<unsigned int, SkillTable*>& SkillTableMgr::GetSkillTableMap()
     return m_kSkillTableMap;
 }
 
-
 const SkillTable* SkillTableMgr::GetSkillTable(unsigned int iTypeID)
 {
     std::map<unsigned int, SkillTable*>::iterator iter = m_kSkillTableMap.find(iTypeID);
@@ -25,7 +25,7 @@ const SkillTable* SkillTableMgr::GetSkillTable(unsigned int iTypeID)
     {
         return iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 SkillTableMgr::SkillTableMgr()
@@ -40,37 +40,46 @@ SkillTableMgr::~SkillTableMgr()
 
 bool SkillTableMgr::Load()
 {
-    //std::string path = "Data/Table/Skill.xml";
-    //FileMemory kMemory;
-    //if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
-    //{
-    //    return false;
-    //}
+    std::string path = "Data/Table/Skill.xml";
+    char* fileData = nullptr;
+    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);
+    if (file.is_open())
+    {
+        std::streampos size = file.tellg();
+        fileData = new char[size];
+        file.seekg(0, std::ios::beg);
+        file.read(fileData, size);
+        file.close();
+    }
+    if (fileData == nullptr)
+    {
+        return false;
+    }
+    TiXmlDocument doc;
+    doc.Parse(fileData);
+    if (doc.Error())
+    {
+        std::string err = path + "   " + std::string(doc.ErrorDesc());
+        // throw std::exception(err.c_str());
+        return false;
+    }
 
-    //TiXmlDocument doc;
-    //doc.Parse(kMemory.GetData());
-    //if (doc.Error())
-    //{
-    //    std::string err = path + "   " + std::string(doc.ErrorDesc());
-    //    // throw std::exception(err.c_str());
-    //    return false;
-    //}
+    TiXmlElement* root = doc.FirstChildElement("root");
+    if (root == 0)
+    {
+        // throw std::exception("root is null!");
+        return false;
+    }
 
-    //TiXmlElement* root = doc.FirstChildElement("root");
-    //if (root == 0)
-    //{
-    //    // throw std::exception("root is null!");
-    //    return false;
-    //}
+    TiXmlElement* element = root->FirstChildElement("content");
+    while (element != 0)
+    {
+        SkillTable * row = new SkillTable();
+        FillData(row, element);
+        element = element->NextSiblingElement();
+    }
 
-    //TiXmlElement* element = root->FirstChildElement("content");
-    //while (element != 0)
-    //{
-    //    SkillTable * row = new SkillTable();
-    //    FillData(row, element);
-    //    element = element->NextSiblingElement();
-    //}
-
+    delete[] fileData;
     return true;
 }
 
@@ -192,26 +201,26 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->iPilePointNums[3] = int_value;
     element->Attribute("PilePointNums4", &int_value);
     row->iPilePointNums[4] = int_value;
-    element->Attribute("HpSpend0", &float_value);
-    row->fHpSpend[0] = float_value;
-    element->Attribute("HpSpend1", &float_value);
-    row->fHpSpend[1] = float_value;
-    element->Attribute("HpSpend2", &float_value);
-    row->fHpSpend[2] = float_value;
-    element->Attribute("HpSpend3", &float_value);
-    row->fHpSpend[3] = float_value;
-    element->Attribute("HpSpend4", &float_value);
-    row->fHpSpend[4] = float_value;
-    element->Attribute("ManaSpend0", &float_value);
-    row->fManaSpend[0] = float_value;
-    element->Attribute("ManaSpend1", &float_value);
-    row->fManaSpend[1] = float_value;
-    element->Attribute("ManaSpend2", &float_value);
-    row->fManaSpend[2] = float_value;
-    element->Attribute("ManaSpend3", &float_value);
-    row->fManaSpend[3] = float_value;
-    element->Attribute("ManaSpend4", &float_value);
-    row->fManaSpend[4] = float_value;
+    element->Attribute("HpSpend0", &int_value);
+    row->iHpSpend[0] = int_value;
+    element->Attribute("HpSpend1", &int_value);
+    row->iHpSpend[1] = int_value;
+    element->Attribute("HpSpend2", &int_value);
+    row->iHpSpend[2] = int_value;
+    element->Attribute("HpSpend3", &int_value);
+    row->iHpSpend[3] = int_value;
+    element->Attribute("HpSpend4", &int_value);
+    row->iHpSpend[4] = int_value;
+    element->Attribute("ManaSpend0", &int_value);
+    row->iManaSpend[0] = int_value;
+    element->Attribute("ManaSpend1", &int_value);
+    row->iManaSpend[1] = int_value;
+    element->Attribute("ManaSpend2", &int_value);
+    row->iManaSpend[2] = int_value;
+    element->Attribute("ManaSpend3", &int_value);
+    row->iManaSpend[3] = int_value;
+    element->Attribute("ManaSpend4", &int_value);
+    row->iManaSpend[4] = int_value;
     element->Attribute("DataContentA", &int_value);
     row->uiDataContentA = (unsigned int)int_value;
     element->Attribute("ValueA0", &float_value);
@@ -224,10 +233,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueA[3] = float_value;
     element->Attribute("ValueA4", &float_value);
     row->fValueA[4] = float_value;
-    element->Attribute("uiAAdj", &int_value);
-    row->uiAAdj = (unsigned int)int_value;
-    element->Attribute("fAAdj", &float_value);
-    row->fAAdj = (float)float_value;
     element->Attribute("DataContentB", &int_value);
     row->uiDataContentB = (unsigned int)int_value;
     element->Attribute("ValueB0", &float_value);
@@ -240,10 +245,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueB[3] = float_value;
     element->Attribute("ValueB4", &float_value);
     row->fValueB[4] = float_value;
-    element->Attribute("uiBAdj", &int_value);
-    row->uiBAdj = (unsigned int)int_value;
-    element->Attribute("fBAdj", &float_value);
-    row->fBAdj = (float)float_value;
     element->Attribute("DataContentC", &int_value);
     row->uiDataContentC = (unsigned int)int_value;
     element->Attribute("ValueC0", &float_value);
@@ -256,10 +257,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueC[3] = float_value;
     element->Attribute("ValueC4", &float_value);
     row->fValueC[4] = float_value;
-    element->Attribute("uiCAdj", &int_value);
-    row->uiCAdj = (unsigned int)int_value;
-    element->Attribute("fCAdj", &float_value);
-    row->fCAdj = (float)float_value;
     element->Attribute("DataContentD", &int_value);
     row->uiDataContentD = (unsigned int)int_value;
     element->Attribute("ValueD0", &float_value);
@@ -272,10 +269,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueD[3] = float_value;
     element->Attribute("ValueD4", &float_value);
     row->fValueD[4] = float_value;
-    element->Attribute("uiDAdj", &int_value);
-    row->uiDAdj = (unsigned int)int_value;
-    element->Attribute("fDAdj", &float_value);
-    row->fDAdj = (float)float_value;
     element->Attribute("DataContentE", &int_value);
     row->uiDataContentE = (unsigned int)int_value;
     element->Attribute("ValueE0", &float_value);
@@ -288,10 +281,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueE[3] = float_value;
     element->Attribute("ValueE4", &float_value);
     row->fValueE[4] = float_value;
-    element->Attribute("uiEAdj", &int_value);
-    row->uiEAdj = (unsigned int)int_value;
-    element->Attribute("fEAdj", &float_value);
-    row->fEAdj = (float)float_value;
     element->Attribute("DataContentF", &int_value);
     row->uiDataContentF = (unsigned int)int_value;
     element->Attribute("ValueF0", &float_value);
@@ -304,10 +293,6 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueF[3] = float_value;
     element->Attribute("ValueF4", &float_value);
     row->fValueF[4] = float_value;
-    element->Attribute("uiFAdj", &int_value);
-    row->uiFAdj = (unsigned int)int_value;
-    element->Attribute("fFAdj", &float_value);
-    row->fFAdj = (float)float_value;
     element->Attribute("DataContentG", &int_value);
     row->uiDataContentG = (unsigned int)int_value;
     element->Attribute("ValueG0", &float_value);
@@ -320,24 +305,18 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     row->fValueG[3] = float_value;
     element->Attribute("ValueG4", &float_value);
     row->fValueG[4] = float_value;
-    element->Attribute("uiGAdj", &int_value);
-    row->uiGAdj = (unsigned int)int_value;
-    element->Attribute("fGAdj", &float_value);
-    row->fGAdj = (float)float_value;
     element->Attribute("MissileModel", &int_value);
-    row->iMissileModel = int_value;
+    row->uiMissileModel = (unsigned int)int_value;
     element->Attribute("MissileSpeed", &float_value);
     row->fMissileSpeed = (float)float_value;
-    element->Attribute("MissileArc", &float_value);
-    row->fMissileArc = (float)float_value;
     element->Attribute("SrcEffect", &int_value);
-    row->iSrcEffect = int_value;
+    row->uiSrcEffect = (unsigned int)int_value;
     element->Attribute("DstPosEffect", &int_value);
-    row->iDstPosEffect = int_value;
+    row->uiDstPosEffect = (unsigned int)int_value;
     element->Attribute("DstUnitEffect", &int_value);
-    row->iDstUnitEffect = int_value;
+    row->uiDstUnitEffect = (unsigned int)int_value;
     element->Attribute("SkillEffect", &int_value);
-    row->iSkillEffect = int_value;
+    row->uiSkillEffect = (unsigned int)int_value;
 
     m_kSkillTableMap[row->uiTypeID] = row;
 }

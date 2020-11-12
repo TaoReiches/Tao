@@ -414,76 +414,76 @@ bool TwUnitData::LearnSkill(int iSkillPos)
 float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)
 {
 	float	fResult = 0.0f;
-	switch (iEnum)
-	{
-	case SKILL_AADJ_MAXHP:
-	{
-		fResult = GetMaxHP() * fValue;
-		break;
-	}
-	case SKILL_AADJ_CURHP:
-	{
-		fResult = GetHP() * fValue;
-		break;
-	}
-	case SKILL_AADJ_MAXMP:
-	{
-		fResult = GetMaxMP() * fValue;
-		break;
-	}
-	case SKILL_AADJ_CURMP:
-	{
-		fResult = GetMP() * fValue;
-		break;
-	}
-	case SKILL_AADJ_ATTACK:
-	{
-		//fResult = GetDamageNum() * fValue;
-		break;
-	}
-	case SKILL_AADJ_FASHANG:
-	{
-		fResult = GetMagicDamage() * fValue;
-		break;
-	}
-	case SKILL_AADJ_HEROLEVEL:
-	{
-		fResult = GetLevel() * fValue;
-		break;
-	}
-	case SKILL_AADJ_MOVESPEED:
-	{
-		fResult = GetMoveSpeed() * fValue;
-		break;
-	}
-	case SKILL_AADJ_ADDATTACK:
-	{
-		//fResult = (GetDamageNum() - GetBaseDamage()) * fValue;
-		break;
-	}
-	case SKILL_AADJ_ADDARMOR:
-	{
-		fResult = (GetArmor() - GetBaseArmor()) * fValue;
-		break;
-	}
-	case SKILL_AADJ_ADDHP:
-	{
-		fResult = (GetMaxHP() - GetBaseMaxHP()) * fValue;
-		break;
-	}
-	case SKILL_AADJ_ADDMP:
-	{
-		fResult = (GetMaxMP() - GetBaseMaxMP()) * fValue;
-		break;
-	}
-	case SKILL_AADJ_ADDMOVESPEED:
-	{
-		fResult = (GetMoveSpeed() - GetBaseMoveSpeed()) * fValue;
-		break;
-	}
-	default:
-		break;
-	}
+	//switch (iEnum)
+	//{
+	//case SKILL_AADJ_MAXHP:
+	//{
+	//	fResult = GetMaxHP() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_CURHP:
+	//{
+	//	fResult = GetHP() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_MAXMP:
+	//{
+	//	fResult = GetMaxMP() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_CURMP:
+	//{
+	//	fResult = GetMP() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ATTACK:
+	//{
+	//	//fResult = GetDamageNum() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_FASHANG:
+	//{
+	//	fResult = GetMagicDamage() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_HEROLEVEL:
+	//{
+	//	fResult = GetLevel() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_MOVESPEED:
+	//{
+	//	fResult = GetMoveSpeed() * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ADDATTACK:
+	//{
+	//	//fResult = (GetDamageNum() - GetBaseDamage()) * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ADDARMOR:
+	//{
+	//	fResult = (GetArmor() - GetBaseArmor()) * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ADDHP:
+	//{
+	//	fResult = (GetMaxHP() - GetBaseMaxHP()) * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ADDMP:
+	//{
+	//	fResult = (GetMaxMP() - GetBaseMaxMP()) * fValue;
+	//	break;
+	//}
+	//case SKILL_AADJ_ADDMOVESPEED:
+	//{
+	//	fResult = (GetMoveSpeed() - GetBaseMoveSpeed()) * fValue;
+	//	break;
+	//}
+	//default:
+	//	break;
+	//}
 
 	return fResult;
 }
@@ -527,51 +527,51 @@ bool TwUnitData::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, in
 		rkData.SetSkillManaSpend((int)(rkData.GetSkillManaSpend() * (1.0f - GetDecMPCost())));
 
 		{
-			float fAllSkillDamagePer = GetMagicDamage();
-			if (pkSkillRes->uiDataContentA != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiAAdj, pkSkillRes->fAAdj);
-				float fValue = rkData.GetDataValue(VALUE_A) + fAddValue;
-				rkData.SetDataValue(VALUE_A, fValue, 1);
-			}
+			//float fAllSkillDamagePer = GetMagicDamage();
+			//if (pkSkillRes->uiDataContentA != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiAAdj, pkSkillRes->fAAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_A) + fAddValue;
+			//	rkData.SetDataValue(VALUE_A, fValue, 1);
+			//}
 
-			if (pkSkillRes->uiDataContentB != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiBAdj, pkSkillRes->fBAdj);
-				float fValue = rkData.GetDataValue(VALUE_B) + fAddValue;
-				rkData.SetDataValue(VALUE_B, fValue, 1);
-			}
+			//if (pkSkillRes->uiDataContentB != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiBAdj, pkSkillRes->fBAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_B) + fAddValue;
+			//	rkData.SetDataValue(VALUE_B, fValue, 1);
+			//}
 
-			if (pkSkillRes->uiDataContentC != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiCAdj, pkSkillRes->fCAdj);
-				float fValue = rkData.GetDataValue(VALUE_C) + fAddValue;
-				rkData.SetDataValue(VALUE_C, fValue, 1);
-			}
+			//if (pkSkillRes->uiDataContentC != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiCAdj, pkSkillRes->fCAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_C) + fAddValue;
+			//	rkData.SetDataValue(VALUE_C, fValue, 1);
+			//}
 
-			if (pkSkillRes->uiDataContentD != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiDAdj, pkSkillRes->fDAdj);
-				float fValue = rkData.GetDataValue(VALUE_D) + fAddValue;
-				rkData.SetDataValue(VALUE_D, fValue, 1);
-			}
+			//if (pkSkillRes->uiDataContentD != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiDAdj, pkSkillRes->fDAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_D) + fAddValue;
+			//	rkData.SetDataValue(VALUE_D, fValue, 1);
+			//}
 
-			if (pkSkillRes->uiDataContentE != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiEAdj, pkSkillRes->fEAdj);
-				float fValue = rkData.GetDataValue(VALUE_E) + fAddValue;
-				rkData.SetDataValue(VALUE_E, fValue, 1);
-			}
+			//if (pkSkillRes->uiDataContentE != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiEAdj, pkSkillRes->fEAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_E) + fAddValue;
+			//	rkData.SetDataValue(VALUE_E, fValue, 1);
+			//}
 
-			if (pkSkillRes->uiDataContentF != SKILL_DATACONTENTA_FASHANG)
-			{
-				float	fAddValue = GetSkillAddValue(pkSkillRes->uiFAdj, pkSkillRes->fFAdj);
-				float fValue = rkData.GetDataValue(VALUE_F) + fAddValue;
-				rkData.SetDataValue(VALUE_F, fValue, 1);
-			}
+			//if (pkSkillRes->uiDataContentF != SKILL_DATACONTENTA_FASHANG)
+			//{
+			//	float	fAddValue = GetSkillAddValue(pkSkillRes->uiFAdj, pkSkillRes->fFAdj);
+			//	float fValue = rkData.GetDataValue(VALUE_F) + fAddValue;
+			//	rkData.SetDataValue(VALUE_F, fValue, 1);
+			//}
 		}
 
-		if ((pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_NOTDECCD) == 0)
+		//if ((pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_NOTDECCD) == 0)
 		{
 			int iNowCD = rkData.GetSkillCoolDown();
 			{

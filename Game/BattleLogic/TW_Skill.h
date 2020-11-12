@@ -96,12 +96,12 @@ inline bool BeSkill::HasProperty(int iProperty) const
 
 inline bool BeSkill::IsHaloSkill(void) const
 {
-    return (m_pkRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN) != 0;
+    return false;
 }
 
 inline bool BeSkill::IsSwitch(void) const
 {
-    return (m_pkRes->uiOperateType == SKILL_OPERATETYPE_KAIGUAN);
+    return (m_pkRes->uiOperateType == E_SKILLTABLE_OPERATETYPE::SKILL_OPERATETYPE_SWITCH);
 }
 
 inline int BeSkill::GetMaxLevel(void) const

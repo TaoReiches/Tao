@@ -399,82 +399,82 @@ namespace table_gen
                             }
                         }                       
                     }
-                    else if (MyExcel.kTypeClass[9] == kDefTypeData.kType[0])
-                    {
-                        int iIntValue = 0;
-                        string kSrcStr = kValue.ToString();
-                        if (kSrcStr.Contains(","))
-                        {
-                            string[] kSplitShuZu = { ",", "\n" };
-                            string[] kShuZu = kValue.ToString().Split(kSplitShuZu, StringSplitOptions.RemoveEmptyEntries);
-                            for (int n = 0; n < kDefTypeData.iLength; n++)
-                            {
-                                iIntValue = 0;
-                                sb.Append(string.Format("{0}{1}=", kDefTypeData.kMemberName, n));
-                                if (kValue.ToString() == "-")
-                                {
-                                    sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
-                                }
-                                else
-                                {
-                                    if (n < kShuZu.Length && !int.TryParse(kShuZu[n], out iIntValue))
-                                    {
-                                        byte[] idIntBytes = Encoding.UTF8.GetBytes(kShuZu[n]);
-                                        if (idIntBytes.Length == 4)
-                                        {
-                                            iIntValue = 0
-                                                        | ((Int32)idIntBytes[0] << 24)
-                                                        | ((Int32)idIntBytes[1] << 16)
-                                                       | ((Int32)idIntBytes[2] << 8)
-                                                      | ((Int32)idIntBytes[3] << 0);
-                                        }
-                                    }
+                    //else if (MyExcel.kTypeClass[9] == kDefTypeData.kType[0])
+                    //{
+                    //    int iIntValue = 0;
+                    //    string kSrcStr = kValue.ToString();
+                    //    if (kSrcStr.Contains(","))
+                    //    {
+                    //        string[] kSplitShuZu = { ",", "\n" };
+                    //        string[] kShuZu = kValue.ToString().Split(kSplitShuZu, StringSplitOptions.RemoveEmptyEntries);
+                    //        for (int n = 0; n < kDefTypeData.iLength; n++)
+                    //        {
+                    //            iIntValue = 0;
+                    //            sb.Append(string.Format("{0}{1}=", kDefTypeData.kMemberName, n));
+                    //            if (kValue.ToString() == "-")
+                    //            {
+                    //                sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
+                    //            }
+                    //            else
+                    //            {
+                    //                if (n < kShuZu.Length && !int.TryParse(kShuZu[n], out iIntValue))
+                    //                {
+                    //                    byte[] idIntBytes = Encoding.UTF8.GetBytes(kShuZu[n]);
+                    //                    if (idIntBytes.Length == 4)
+                    //                    {
+                    //                        iIntValue = 0
+                    //                                    | ((Int32)idIntBytes[0] << 24)
+                    //                                    | ((Int32)idIntBytes[1] << 16)
+                    //                                   | ((Int32)idIntBytes[2] << 8)
+                    //                                  | ((Int32)idIntBytes[3] << 0);
+                    //                    }
+                    //                }
 
-                                    sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            string[] kSplitShuZu = { "#", "\n" };
-                            string[] kShuZu = kValue.ToString().Split(kSplitShuZu, StringSplitOptions.RemoveEmptyEntries);
+                    //                sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
+                    //            }
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        string[] kSplitShuZu = { "#", "\n" };
+                    //        string[] kShuZu = kValue.ToString().Split(kSplitShuZu, StringSplitOptions.RemoveEmptyEntries);
 
-                            int iIndex = 0;
-                            for (int n = 0; n < kDefTypeData.iLength; n++)
-                            {
-                                iIntValue = 0; 
+                    //        int iIndex = 0;
+                    //        for (int n = 0; n < kDefTypeData.iLength; n++)
+                    //        {
+                    //            iIntValue = 0; 
 
-                                sb.Append(string.Format("{0}{1}=", kDefTypeData.kMemberName, n));
-                                if (kValue.ToString() == "-")
-                                {
-                                    sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
-                                }
-                                else
-                                {
-                                    if (n * 2 < kShuZu.Length && int.Parse(kShuZu[iIndex]) == n + 1)
-                                    {
-                                        iIndex++;
+                    //            sb.Append(string.Format("{0}{1}=", kDefTypeData.kMemberName, n));
+                    //            if (kValue.ToString() == "-")
+                    //            {
+                    //                sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
+                    //            }
+                    //            else
+                    //            {
+                    //                if (n * 2 < kShuZu.Length && int.Parse(kShuZu[iIndex]) == n + 1)
+                    //                {
+                    //                    iIndex++;
 
-                                        if (!int.TryParse(kShuZu[iIndex], out iIntValue))
-                                        {
-                                            byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kShuZu[iIndex]);
-                                            if (idIntBytes.Length == 4)
-                                            {
-                                                iIntValue = 0
-                                                            | ((Int32)idIntBytes[0] << 24)
-                                                            | ((Int32)idIntBytes[1] << 16)
-                                                           | ((Int32)idIntBytes[2] << 8)
-                                                          | ((Int32)idIntBytes[3] << 0);
-                                            }
-                                        }
+                    //                    if (!int.TryParse(kShuZu[iIndex], out iIntValue))
+                    //                    {
+                    //                        byte[] idIntBytes = System.Text.UTF8Encoding.UTF8.GetBytes(kShuZu[iIndex]);
+                    //                        if (idIntBytes.Length == 4)
+                    //                        {
+                    //                            iIntValue = 0
+                    //                                        | ((Int32)idIntBytes[0] << 24)
+                    //                                        | ((Int32)idIntBytes[1] << 16)
+                    //                                       | ((Int32)idIntBytes[2] << 8)
+                    //                                      | ((Int32)idIntBytes[3] << 0);
+                    //                        }
+                    //                    }
 
-                                        iIndex++;
-                                    }
-                                    sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
-                                }
-                            }
-                        }
-                    }
+                    //                    iIndex++;
+                    //                }
+                    //                sb.Append(string.Format("\"{0}\" ", iIntValue.ToString()));
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
 
                 sb.AppendLine("/>");

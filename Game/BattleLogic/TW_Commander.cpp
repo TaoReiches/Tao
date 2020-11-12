@@ -567,11 +567,6 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 			return false;
 		}
 
-		if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_DISPLACE) && gUnit.HasUnitCarryFlag(BUCF_CANNOTMOVE)) {
-
-			return false;
-		}
-
 		if (pkSkill->IsSwitch())
 		{
 			auto& pkSkillRes = pkSkill->GetSkillRes();
@@ -660,7 +655,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		pkCmd->AttachMain(pkAttachMain);
 		pkCmd->AttachUnit(pkAttachUnit);
 
-		if (pkRes->uiOperateType == SKILL_OPERATETYPE_LIJISHIFA)
+		if (pkRes->uiOperateType == SKILL_OPERATETYPE_IMMEDIATELY)
 		{
 			pkCmd->SpellTargetID(iSkillTypeID, kCmd.iUnitID, kCmd.kPos, 1, kCmd.iData);
 		}

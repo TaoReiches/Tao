@@ -94,12 +94,12 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 				break;
 			}
 
-			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
-			{
-				SetFlag(BUF_HASHALOSKILL);
-			}
+			//if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_GUANGHUAN)
+			//{
+			//	SetFlag(BUF_HASHALOSKILL);
+			//}
 
-			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_CDCHUFA)
+			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_CDTRIGGER)
 			{
 				SetFlag(BUF_NEEDUPDATEITEMSKILL);
 			}
@@ -810,7 +810,7 @@ int	BeUnit::GetItemUseSkill(int iItemTypeID)
 		const SkillTable* pkSkillTable = SkillTableMgr::Get()->GetSkillTable(iItemSkillTypeID);
 		if (pkSkillTable)
 		{
-			if (pkSkillTable->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
+			if (pkSkillTable->uiOperateType != SKILL_OPERATETYPE_PASSIVE)
 			{
 				return iItemSkillTypeID;
 			}
@@ -843,7 +843,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 		const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 		if (pkRes)
 		{
-			if (pkRes->uiOperateType != SKILL_OPERATETYPE_BEIDONG)
+			if (pkRes->uiOperateType != SKILL_OPERATETYPE_PASSIVE)
 			{
 				iSkillTypeID = iTypeID;
 				break;
@@ -873,7 +873,7 @@ bool BeUnit::IsForbidSkill(BeSkill* pkSkill) const
 			bForbid = true;
 		}
 
-		if (pkSkill->GetOperateType() == SKILL_OPERATETYPE_BEIDONG)
+		if (pkSkill->GetOperateType() == SKILL_OPERATETYPE_PASSIVE)
 		{
 			bForbid = false;
 		}
