@@ -429,22 +429,22 @@ inline int TwUnitData::GetLevel(void) const
 
 inline int TwUnitData::GetDeathMoney(void) const
 {
-	return m_pkBackData->pkRes->iDeathMoney;
+	return 0;
 }
 
 inline int TwUnitData::GetDeathExp(void) const
 {
-	return m_pkBackData->pkRes->iDeathExp;
+	return 0;
 }
 
 inline float TwUnitData::GetModelScale(void) const
 {
-	return m_pkCurData->pkRes->fModelScale;
+	return 0;
 }
 
 inline int		TwUnitData::GetDamageModle()
 {
-	return m_pkCurData->pkRes->iTargetDamage;
+	return 0;
 }
 
 inline int TwUnitData::GetPlayer(void) const
@@ -464,7 +464,7 @@ inline float TwUnitData::GetCollision(void) const
 
 inline int TwUnitData::GetOBSize(void) const
 {
-	return m_pkBackData->pkRes->fCollision;
+	return m_pkBackData->pkRes->uiCollision;
 }
 
 inline float TwUnitData::GetTurnSpeed(void) const
@@ -509,9 +509,7 @@ inline float TwUnitData::GetBackAttackRange(void) const
 
 inline float TwUnitData::GetMissileArc(void)
 {
-	float fSrcArc = m_pkCurData->pkRes->fMissileArc;
-	float fValue = fSrcArc * 3.1415926f / 180.0f;
-	return fValue;
+	return 0;
 }
 
 inline int TwUnitData::GetCurrentTypeID() const
@@ -739,7 +737,7 @@ inline int TwUnitData::GetMissleModel(void) const
 
 inline int TwUnitData::GetResMissleModel(void) const
 {
-	return m_pkCurData->pkRes->iMissileModel;
+	return m_pkCurData->pkRes->uiMissileModel;
 }
 
 inline void TwUnitData::SetMissileSpeed(float fSpeed)

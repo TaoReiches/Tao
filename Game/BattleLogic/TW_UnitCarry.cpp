@@ -972,10 +972,6 @@ void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
 	{
 		return;
 	}
-	if (GetClass() == UNIT_CLASSTYPE_BOSS)
-	{
-		pkBuffer->ClrCarryFlag(BUCF_DIZZY | BUCF_ISFORBIDITEM | BUCF_ISFORBIDSKILL | BUCF_CANNOTMOVE | BUCF_CANNOTATTACK | BUCF_CANNOTCONTROL);
-	}
 
 	if (HasUnitCarryFlag(BUCF_IMMUNITY_CONTROL))
 	{

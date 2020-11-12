@@ -627,7 +627,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		{
 			return false;
 		}
-		if (GetClass() == UNIT_CLASSTYPE_BUILDING || GetClass() == UNIT_CLASSTYPE_SHOP)
+		if (GetClass() == UNIT_CLASSTYPE_BUILDING)
 		{
 			return false;
 		}
@@ -835,10 +835,6 @@ void BeUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, 
 	}
 	case BUA_ATTACK:
 	{
-		if (HasProperty(UNIT_PROPERTY_NOATTACKACTION))
-		{
-			return;
-		}
 		m_pkCurData->eActionType = eAction;
 		m_pkCurData->iActionCurTime = 0;
 		SetActionAllTime(GetAttackCD());
@@ -1150,11 +1146,11 @@ float BeUnit::GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAtt
 	{
 		if (GetClass() == UNIT_CLASSTYPE_BUILDING)
 		{
-			if (pkAttacker->HasProperty(UNIT_PROPERTY_DECPOWDAMAGE))
-			{
-				fDamage *= 1.8f;
-			}
-			else
+			//if (pkAttacker->HasProperty(UNIT_PROPERTY_DECPOWDAMAGE))
+			//{
+			//	fDamage *= 1.8f;
+			//}
+			//else
 			{
 				fDamage *= 1.0f;
 			}
@@ -1166,10 +1162,10 @@ float BeUnit::GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAtt
 	}
 	else if (pkAttacker->GetClass() == UNIT_CLASSTYPE_BUILDING)
 	{
-		if (HasProperty(UNIT_PROPERTY_DECPOWDAMAGE))
-		{
-			fDamage *= 0.7f;
-		}
+		//if (HasProperty(UNIT_PROPERTY_DECPOWDAMAGE))
+		//{
+		//	fDamage *= 0.7f;
+		//}
 	}
 
 	if (rkAttackingAttr.eAttackType == SKILL_ATTACKTYPE_MAGIC)
@@ -1374,11 +1370,7 @@ bool BeUnit::UnitCanAttack(const BeUnit* pkTarget, bool bTemp, bool bForceAttack
 
 		if (GetClass() == UNIT_CLASSTYPE_BUILDING)
 		{
-			unsigned	int		iTargetClass = pkTarget->GetClass();
-			if (iTargetClass == UNIT_CLASSTYPE_SMALLMONST || iTargetClass == UNIT_CLASSTYPE_BIGMONST || iTargetClass == UNIT_CLASSTYPE_BOSS)
-			{
-				return false;
-			}
+			return false;
 		}
 	}
 	return true;
@@ -1456,17 +1448,6 @@ bool BeUnit::IsSkillTargetType(const SkillTable* pkRes, const BeUnit* pkTarget) 
 		return false;
 	}
 
-	if (pkTarget->GetClass() == UNIT_CLASSTYPE_EYE)
-	{
-		if (pkRes->uiTypeID == 'S059' || pkRes->uiTypeID == 'SA01' || pkRes->uiTypeID == 'S206' || pkRes->uiTypeID == 'S151')
-		{
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 	int iSkillTargetFlag = pkRes->uiTargetType;
 	int iStaticProcFlag = 0;
 	int iDynaPropFlag = 0;
@@ -1521,38 +1502,6 @@ bool BeUnit::IsTargetUnit(const BeUnit* pkUnit, int iStaticProcFlag, int iDynaPr
 	{
 		iStaticFlag |= BUSP_CLASS_SOLIDER;
 	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_SMALLMONST)
-	{
-		iStaticFlag |= BUSP_CLASS_YEGUAI;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_MACHINE)
-	{
-		iStaticFlag |= BUSP_CLASS_TOUSHI;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_BOSS)
-	{
-		iStaticFlag |= BUSP_CLASS_BOSS;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_TOTEM)
-	{
-		iStaticFlag |= BUSP_CLASS_TOTEM;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_BRAND)
-	{
-		iStaticFlag |= BUSP_CLASS_BRAND;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_BIGMONST)
-	{
-		iStaticFlag |= BUSP_PROP_ANCIENT;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_MIJINGMONSTER)
-	{
-		iStaticFlag |= BUSP_CLASS_MIJING;
-	}
-	if (pkUnit->GetClass() == UNIT_CLASSTYPE_MIJINGBOSS)
-	{
-		iStaticFlag |= BUSP_CLASS_MIJING;
-	}
 
 	if ((iStaticFlag & iStaticProcFlag) != iStaticFlag)
 	{
@@ -1562,11 +1511,6 @@ bool BeUnit::IsTargetUnit(const BeUnit* pkUnit, int iStaticProcFlag, int iDynaPr
 	if (pkUnit->HasProperty(UNIT_PROPERTY_NONE))
 	{
 		iStaticFlag |= BUSP_PROP_NONE;
-	}
-
-	if (pkUnit->HasProperty(UNIT_PROPERTY_YUANGU))
-	{
-		iStaticFlag |= BUSP_PROP_ANCIENT;
 	}
 
 	if ((iStaticFlag & iStaticProcFlag) != iStaticFlag)
@@ -2619,10 +2563,7 @@ void BeUnit::UpdateMP(int iDeltaTime)
 	{
 		return;
 	}
-	if (HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
-	{
-		return;
-	}
+
 	if (!HasUnitCarryFlag(BUCF_NO_REVERTHPMP))
 	{
 		if (m_pkCurData->fRegenMP && m_pkCurData->fMP < m_pkCurData->fMaxMP)
@@ -2875,11 +2816,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 
 	pkCurData->fDecDamage = afChange[NAT_ABS_DECDAMAGE];
 	pkCurData->fRegenHP = pkCurData->fBaseRegenHP + afChange[NAT_ABS_REGEN_HP] + pkCurData->fBaseRegenHP * afChange[NAT_PER_REGEN_HP];
-	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
-	{
-		pkCurData->fRegenMP = 0.0f;
-	}
-	else
+
 	{
 		pkCurData->fMaxMP = pkCurData->fBaseMaxMP + afChange[NAT_ABS_MAX_MP];
 		pkCurData->fRegenMP = pkCurData->fBaseRegenMP + afChange[NAT_ABS_REGEN_MP] + pkCurData->fBaseRegenMP * afChange[NAT_PER_REGEN_MP];
@@ -2916,9 +2853,6 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	pkCurData->fToughness = afChange[NAT_TOUGHNESS];
 	pkCurData->fDecMPCost = afChange[NAT_DEC_MPCOST];
 	pkCurData->fBaoJi = afChange[NAT_BAOJI];
-	if (HasProperty(UNIT_PROPERTY_NOTADDBAOJI)) {
-		pkCurData->fBaoJi = 0.0f;
-	}
 	if (pkCurData->fBaoJi > 1.0f)
 	{
 		pkCurData->fBaoJi = 1.0f;
@@ -2952,9 +2886,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 		}
 
 	float fDivAttackSpeed = afChange[NAT_PER_ATTACK_SPEED];
-	if (HasProperty(UNIT_PROPERTY_NOTADDATTACKCD)) {
-		fDivAttackSpeed = 0.0f;
-	}
+
 	pkCurData->iAttackCD = m_pkCurData->iOrgAttackCD;
 
 	float	fBaseNum = 1000.0f / m_pkCurData->iOrgAttackCD;
@@ -2967,7 +2899,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 		pkCurData->iAttackCD = 400;
 	}
 
-	pkCurData->iAttackDamagePt = (int)((float)(pkCurData->pkRes)->fAttackDamagePt * (pkCurData->iAttackCD / pkCurData->pkRes->fAttackBackPt));
+	pkCurData->iAttackDamagePt = (int)((float)(pkCurData->pkRes)->uiAttackDamagePt * (pkCurData->iAttackCD / pkCurData->pkRes->fAttackBackPt));
 	if (pkCurData->iAttackDamagePt > pkCurData->iAttackCD)
 	{
 		pkCurData->iAttackDamagePt = pkCurData->iAttackCD;

@@ -1,12 +1,11 @@
 ﻿#include "Unit_table.hpp"
 #include "tinyxml.h"
-#include "EeFileMemory.h"
-#include "EeFilePackage.h"
+#include <fstream>
 
-UnitTableMgr* UnitTableMgr::m_pkUnitTableMgr = NULL;
+UnitTableMgr* UnitTableMgr::m_pkUnitTableMgr = nullptr;
 UnitTableMgr* UnitTableMgr::Get()
 {
-    if(m_pkUnitTableMgr == NULL)
+    if(m_pkUnitTableMgr == nullptr)
     {
         m_pkUnitTableMgr = new UnitTableMgr();
     }
@@ -19,17 +18,6 @@ const std::map<unsigned int, UnitTable*>& UnitTableMgr::GetUnitTableMap()
     return m_kUnitTableMap;
 }
 
-TableResArray UnitTableMgr::GetUnitTableVec()
-{
-    TableResArray kRecVec;
-    for (std::map<unsigned int, UnitTable*>::iterator iMapItr = m_kUnitTableMap.begin(); iMapItr != m_kUnitTableMap.end(); ++iMapItr)
-    {
-        kRecVec.pushBack(iMapItr->second);
-    }
-
-    return kRecVec;
-}
-
 const UnitTable* UnitTableMgr::GetUnitTable(unsigned int iTypeID)
 {
     std::map<unsigned int, UnitTable*>::iterator iter = m_kUnitTableMap.find(iTypeID);
@@ -37,7 +25,7 @@ const UnitTable* UnitTableMgr::GetUnitTable(unsigned int iTypeID)
     {
         return iter->second;
     }
-    return NULL;
+    return nullptr;
 }
 
 UnitTableMgr::UnitTableMgr()
@@ -53,14 +41,22 @@ UnitTableMgr::~UnitTableMgr()
 bool UnitTableMgr::Load()
 {
     std::string path = "Data/Table/Unit.xml";
-    FileMemory kMemory;
-    if(!FileLoader::LoadTableFile(path.c_str(),kMemory))
+    char* fileData = nullptr;
+    std::ifstream file (path, std::ios::in | std::ios::binary | std::ios::ate);
+    if (file.is_open())
+    {
+        std::streampos size = file.tellg();
+        fileData = new char[size];
+        file.seekg(0, std::ios::beg);
+        file.read(fileData, size);
+        file.close();
+    }
+    if (fileData == nullptr)
     {
         return false;
     }
-
     TiXmlDocument doc;
-    doc.Parse(kMemory.GetData());
+    doc.Parse(fileData);
     if (doc.Error())
     {
         std::string err = path + "   " + std::string(doc.ErrorDesc());
@@ -83,6 +79,7 @@ bool UnitTableMgr::Load()
         element = element->NextSiblingElement();
     }
 
+    delete[] fileData;
     return true;
 }
 
@@ -122,12 +119,8 @@ void UnitTableMgr::FillData(UnitTable* row, TiXmlElement* element)
     row->fOrgArmor = (float)float_value;
     element->Attribute("OrgAntiMagic", &float_value);
     row->fOrgAntiMagic = (float)float_value;
-    element->Attribute("DeathMoney", &int_value);
-    row->iDeathMoney = int_value;
-    element->Attribute("DeathExp", &int_value);
-    row->iDeathExp = int_value;
-    element->Attribute("AttackDamagePt", &float_value);
-    row->fAttackDamagePt = (float)float_value;
+    element->Attribute("AttackDamagePt", &int_value);
+    row->uiAttackDamagePt = (unsigned int)int_value;
     element->Attribute("AttackBackPt", &float_value);
     row->fAttackBackPt = (float)float_value;
     element->Attribute("SkillList0", &int_value);
@@ -144,18 +137,14 @@ void UnitTableMgr::FillData(UnitTable* row, TiXmlElement* element)
     row->fOrgMoveSpeed = (float)float_value;
     element->Attribute("TurnSpeed", &float_value);
     row->fTurnSpeed = (float)float_value;
-    element->Attribute("Collision", &float_value);
-    row->fCollision = (float)float_value;
+    element->Attribute("Collision", &int_value);
+    row->uiCollision = (unsigned int)int_value;
     element->Attribute("TouchRadius", &float_value);
     row->fTouchRadius = (float)float_value;
     element->Attribute("MissileSpeed", &float_value);
     row->fMissileSpeed = (float)float_value;
-    element->Attribute("MissileArc", &float_value);
-    row->fMissileArc = (float)float_value;
     element->Attribute("MissileModel", &int_value);
-    row->iMissileModel = int_value;
-    str_value = element->Attribute("ExclusiveItemTypeID");
-    row->kExclusiveItemTypeID = str_value;
+    row->uiMissileModel = (unsigned int)int_value;
     element->Attribute("HpLevelAdd", &float_value);
     row->fHpLevelAdd = (float)float_value;
     element->Attribute("MpLevelAdd", &float_value);
@@ -174,28 +163,6 @@ void UnitTableMgr::FillData(UnitTable* row, TiXmlElement* element)
     row->fHpRegenAddUp = (float)float_value;
     element->Attribute("MpRegenAddUp", &float_value);
     row->fMpRegenAddUp = (float)float_value;
-    element->Attribute("ModelScale", &float_value);
-    row->fModelScale = (float)float_value;
-    element->Attribute("TargetDamage", &int_value);
-    row->iTargetDamage = int_value;
-    element->Attribute("BasisEquip0", &int_value);
-    row->iBasisEquip[0] = int_value;
-    element->Attribute("BasisEquip1", &int_value);
-    row->iBasisEquip[1] = int_value;
-    element->Attribute("RecEquip0", &int_value);
-    row->iRecEquip[0] = int_value;
-    element->Attribute("RecEquip1", &int_value);
-    row->iRecEquip[1] = int_value;
-    element->Attribute("RecEquip2", &int_value);
-    row->iRecEquip[2] = int_value;
-    element->Attribute("RecEquip3", &int_value);
-    row->iRecEquip[3] = int_value;
-    element->Attribute("RecEquip4", &int_value);
-    row->iRecEquip[4] = int_value;
-    element->Attribute("RecEquip5", &int_value);
-    row->iRecEquip[5] = int_value;
-    element->Attribute("RecEquip6", &int_value);
-    row->iRecEquip[6] = int_value;
 
     m_kUnitTableMap[row->uiUnitTypeID] = row;
 }

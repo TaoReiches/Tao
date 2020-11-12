@@ -9,6 +9,7 @@
 #include "Buffer_table.hpp"
 #include "Item_table.hpp"
 #include "Skill_table.hpp"
+#include "Unit_table.hpp"
 
 int main()
 {
@@ -20,6 +21,7 @@ int main()
     BufferTableMgr::Get();
     ItemTableMgr::Get();
     SkillTableMgr::Get();
+    UnitTableMgr::Get();
 
     getchar();
 }

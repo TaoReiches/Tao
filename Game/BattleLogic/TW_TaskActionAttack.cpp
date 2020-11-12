@@ -116,7 +116,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 		if (pkTarget)
 		{
-			if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING && !gUnit.HasTableProperty(UNIT_PROPERTY_TURNBUILD))
+			if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
 			{
 			}
 			else
@@ -166,11 +166,6 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		if (fBaoJiRate < gUnit.GetBaoJiRate())
 		{
 			m_kAttr->SetFlag(BAF_BAOJI);
-			if (gUnit.HasProperty(UNIT_PROPERTY_CRITATTACKACTION))
-			{
-				gUnit.SetUnitAction(BUA_ATTACK, BAN_Crit_Attack);
-			}
-			else
 			{
 				gUnit.SetUnitAction(BUA_ATTACK, BAN_attack);
 			}

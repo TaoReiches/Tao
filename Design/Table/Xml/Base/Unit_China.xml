@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NewDataSet>
+      <content>
+            <Type_x0020_ID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UT01</Type_x0020_ID>
+            <Name xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">a</Name>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">aa</Note>
+            <Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Type>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <weapon_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">OneHand</weapon_x0020_Type>
+            <Original_x0020_Max_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">616.28</Original_x0020_Max_x0020_HP>
+            <Original_x0020_Regen_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.568</Original_x0020_Regen_x0020_HP>
+            <Original_x0020_Max_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Original_x0020_Max_x0020_MP>
+            <Original_x0020_Regen_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Original_x0020_Regen_x0020_MP>
+            <Attack_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Attack_x0020_Type>
+            <Attack_x0020_Number xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">57.88</Attack_x0020_Number>
+            <Original_x0020_Magic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Original_x0020_Magic>
+            <Attack_x0020_Range xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">205</Attack_x0020_Range>
+            <Original_x0020_Armor xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">27.536</Original_x0020_Armor>
+            <AntiMagic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">32.1</AntiMagic>
+            <Attack_x0020_Damage_x0020_pt xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">340</Attack_x0020_Damage_x0020_pt>
+            <Attack_x0020_CD_x0020_Time xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1500</Attack_x0020_CD_x0020_Time>
+            <Skills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#S001
+2#S002
+3#S003
+4#S004
+5#SM01</Skills>
+            <Move_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">330</Move_x0020_Speed>
+            <Turn_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">300</Turn_x0020_Speed>
+            <Collision xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2</Collision>
+            <Touch_x0020_Radius xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30</Touch_x0020_Radius>
+            <Missile_x0020_Speed xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Missile_x0020_Speed>
+            <Missile_x0020_Model xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Missile_x0020_Model>
+            <HP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">84</HP_x0020_level_x0020_add>
+            <MP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</MP_x0020_level_x0020_add>
+            <Attack_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">4</Attack_x0020_level_x0020_add>
+            <Attack_x0020_speed_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.4</Attack_x0020_speed_x0020_level_x0020_add>
+            <Magic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Magic_x0020_level_x0020_add>
+            <Armor_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">3.5</Armor_x0020_level_x0020_add>
+            <AntiMagic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.25</AntiMagic_x0020_level_x0020_add>
+            <HP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0.1</HP_x0020_regen_x0020_level_x0020_add>
+            <MP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</MP_x0020_regen_x0020_level_x0020_add>
+            <model_x0020_file xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">10001</model_x0020_file>
+      </content>
+      <content>
+            <Type_x0020_ID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UT02</Type_x0020_ID>
+            <Name xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">b</Name>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">bb</Note>
+            <Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Type>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <weapon_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">TwoHand</weapon_x0020_Type>
+            <Original_x0020_Max_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">527.72</Original_x0020_Max_x0020_HP>
+            <Original_x0020_Regen_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.084</Original_x0020_Regen_x0020_HP>
+            <Original_x0020_Max_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">280</Original_x0020_Max_x0020_MP>
+            <Original_x0020_Regen_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.39</Original_x0020_Regen_x0020_MP>
+            <Attack_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Attack_x0020_Type>
+            <Attack_x0020_Number xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">56.51</Attack_x0020_Number>
+            <Original_x0020_Magic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Original_x0020_Magic>
+            <Attack_x0020_Range xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">620</Attack_x0020_Range>
+            <Original_x0020_Armor xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">21.212</Original_x0020_Armor>
+            <AntiMagic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30</AntiMagic>
+            <Attack_x0020_Damage_x0020_pt xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">210</Attack_x0020_Damage_x0020_pt>
+            <Attack_x0020_CD_x0020_Time xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1500</Attack_x0020_CD_x0020_Time>
+            <Skills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#S005
+2#S006
+3#S007
+4#S008
+5#SM03</Skills>
+            <Move_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">325</Move_x0020_Speed>
+            <Turn_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">300</Turn_x0020_Speed>
+            <Collision xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2</Collision>
+            <Touch_x0020_Radius xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30</Touch_x0020_Radius>
+            <Missile_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2500</Missile_x0020_Speed>
+            <Missile_x0020_Model xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">120</Missile_x0020_Model>
+            <HP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">72</HP_x0020_level_x0020_add>
+            <MP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">32</MP_x0020_level_x0020_add>
+            <Attack_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2.2</Attack_x0020_level_x0020_add>
+            <Attack_x0020_speed_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2.1263010024902629</Attack_x0020_speed_x0020_level_x0020_add>
+            <Magic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Magic_x0020_level_x0020_add>
+            <Armor_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">3</Armor_x0020_level_x0020_add>
+            <AntiMagic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.25</AntiMagic_x0020_level_x0020_add>
+            <HP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0.11</HP_x0020_regen_x0020_level_x0020_add>
+            <MP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0.08</MP_x0020_regen_x0020_level_x0020_add>
+            <model_x0020_file xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">10002</model_x0020_file>
+      </content>
+      <content>
+            <Type_x0020_ID xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">UT03</Type_x0020_ID>
+            <Name xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">c</Name>
+            <Note xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">cc</Note>
+            <Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Type>
+            <Attr xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">-</Attr>
+            <weapon_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Archer</weapon_x0020_Type>
+            <Original_x0020_Max_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">492.76</Original_x0020_Max_x0020_HP>
+            <Original_x0020_Regen_x0020_HP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.084</Original_x0020_Regen_x0020_HP>
+            <Original_x0020_Max_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">392.4</Original_x0020_Max_x0020_MP>
+            <Original_x0020_Regen_x0020_MP xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.2</Original_x0020_Regen_x0020_MP>
+            <Attack_x0020_Type xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Hero</Attack_x0020_Type>
+            <Attack_x0020_Number xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">50.71</Attack_x0020_Number>
+            <Original_x0020_Magic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Original_x0020_Magic>
+            <Attack_x0020_Range xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">545</Attack_x0020_Range>
+            <Original_x0020_Armor xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">22.55</Original_x0020_Armor>
+            <AntiMagic xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30</AntiMagic>
+            <Attack_x0020_Damage_x0020_pt xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">225</Attack_x0020_Damage_x0020_pt>
+            <Attack_x0020_CD_x0020_Time xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1500</Attack_x0020_CD_x0020_Time>
+            <Skills xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1#S009
+2#S010
+3#S011
+4#S012
+5#SM08</Skills>
+            <Move_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">340</Move_x0020_Speed>
+            <Turn_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">300</Turn_x0020_Speed>
+            <Collision xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2</Collision>
+            <Touch_x0020_Radius xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">30</Touch_x0020_Radius>
+            <Missile_x0020_Speed xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1700</Missile_x0020_Speed>
+            <Missile_x0020_Model xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">305</Missile_x0020_Model>
+            <HP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">78</HP_x0020_level_x0020_add>
+            <MP_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">52</MP_x0020_level_x0020_add>
+            <Attack_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">2.4</Attack_x0020_level_x0020_add>
+            <Attack_x0020_speed_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">1.62224797219003</Attack_x0020_speed_x0020_level_x0020_add>
+            <Magic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</Magic_x0020_level_x0020_add>
+            <Armor_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">3</Armor_x0020_level_x0020_add>
+            <AntiMagic_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</AntiMagic_x0020_level_x0020_add>
+            <HP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0.11</HP_x0020_regen_x0020_level_x0020_add>
+            <MP_x0020_regen_x0020_level_x0020_add xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0.18</MP_x0020_regen_x0020_level_x0020_add>
+            <model_x0020_file xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">10191</model_x0020_file>
+      </content>
+</NewDataSet>

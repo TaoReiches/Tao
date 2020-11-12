@@ -65,7 +65,7 @@ void TwUnitData::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
 	pkData->fMagicDamage = pkData->pkRes->fOrgMagic;
 	pkData->fBaseArmor = (pkData->pkRes)->fOrgArmor;
 	pkData->fBaseMoveSpeed = (pkData->pkRes)->fOrgMoveSpeed;
-	pkData->iMissileModel = (pkData->pkRes)->iMissileModel;
+	pkData->iMissileModel = (pkData->pkRes)->uiMissileModel;
 	pkData->eMoveType = 1;
 	pkData->fMissileSpeed = (pkData->pkRes)->fMissileSpeed;
 	pkData->fMaxHP = pkData->fBaseMaxHP;
@@ -128,10 +128,6 @@ void TwUnitData::OnPropertyUpdate(int iLevel)
 	pkCurData->fOrgMagicDamage = pkCurData->pkRes->fOrgMagic + fAddMagic;
 	pkCurData->fBaseRegenHP = (pkOrgData->pkRes)->fOrgDayRegenHP + fAddRegenHp;
 
-	if (HasProperty(UNIT_PROPERTY_HUDUNBAR) || HasProperty(UNIT_PROPERTY_NUQIBAR) || HasProperty(UNIT_PROPERTY_POWERBAR) || HasProperty(UNIT_PROPERTY_NOBAR))
-	{
-	}
-	else
 	{
 		pkCurData->fBaseRegenMP = (pkOrgData->pkRes)->fOrgRegenMP + fAddRegenMp;
 		pkCurData->fBaseMaxMP = pkCurData->fOrgMaxMP + fAddMaxMp;
@@ -208,11 +204,6 @@ void TwUnitData::SetLevel(int iLevel, bool bNeedRecordChange)
 
 	SetHP(m_pkCurData->fMaxHP);
 	SetMP(m_pkCurData->fMaxMP);
-
-	if (HasProperty(UNIT_PROPERTY_NUQIBAR))
-	{
-		SetMP(0.0f, true);
-	}
 
 	if (iPreLevel != m_pkCurData->iLevel)
 	{
