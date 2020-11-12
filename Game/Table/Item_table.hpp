@@ -13,8 +13,9 @@ enum M_ITEMTABLE_ITEMPROPERTY
     ITEM_ITEMPROPERTY_ONLYONE                   =    1 << 3        ,   //  OnlyOne
 };
 
-struct ItemTable
+class ItemTable
 {
+public:
     unsigned int               uiItemTypeID                        ;   //  TypeID
     std::string                kName                               ;   //  ItemName
     int                        iItemSkill[6]                          ;   //  ItemSkills

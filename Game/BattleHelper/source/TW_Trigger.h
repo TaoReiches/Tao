@@ -9,18 +9,18 @@
 #include "TW_Switch.h"
 #include "TW_MemoryPool.h"
 
-enum TePtTriggerType
+enum class TwPtTriggerType
 {
-	PTTT_EVENT = 0,
-	PTTT_TIMER,
+    PTTT_EVENT = 0,
+    PTTT_TIMER,
 };
 
-enum TePtTriggerState
+enum class TePtTriggerState
 {
-	PTTS_CREATE = 0,
-	PTTS_WAIT,
-	PTTS_STAGE,
-	PTTS_OVER,
+    PTTS_CREATE = 0,
+    PTTS_WAIT,
+    PTTS_STAGE,
+    PTTS_OVER,
 };
 
 struct TePtTriggerInfo;
@@ -45,7 +45,7 @@ public:
 	void	OnDeleteUnit(void* pkUnit);
 
 public:
-	TePtTriggerType	m_eType;
+	TwPtTriggerType	m_eType;
 	int				m_iID;
 	TePtTriggerState	m_eState;
 	unsigned int			m_uiWaitTime;

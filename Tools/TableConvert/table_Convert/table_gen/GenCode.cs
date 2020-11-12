@@ -134,8 +134,9 @@ namespace table_gen
         {
             sb.AppendLine("");
             // sb.AppendLine("//  Auto genarate table struct");
-            sb.AppendLine(string.Format("struct {0}", kClassName));
+            sb.AppendLine(string.Format("class {0}", kClassName));
             sb.AppendLine("{");
+            sb.AppendLine("public:");
 
             List<MyExcel.DefData> kDefData = MyExcel.kTableDefDataList[kFileName];
             foreach (MyExcel.DefData kData in kDefData)

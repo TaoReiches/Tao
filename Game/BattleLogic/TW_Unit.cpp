@@ -199,7 +199,7 @@ BeUnit::~BeUnit(void)
 	gTrgMgr.OnUnitDelete(this);
 
 	m_spSharePtr.reset();
-	gMain.DelEntityPointer(GIT_ENTITY, m_iID);
+	//gMain.DelEntityPointer(GIT_ENTITY, m_iID);
 }
 
 bool BeUnit::Initialize(int iTypeID)

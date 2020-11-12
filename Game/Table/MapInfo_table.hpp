@@ -19,8 +19,9 @@ enum M_MAPINFOTABLE_PROPERTY
     MAPINFO_PROPERTY_USEAI                      =    1 << 2        ,   //  AISupported
 };
 
-struct MapInfoTable
+class MapInfoTable
 {
+public:
     unsigned int               uiMapTypeID                         ;   //  MapID
     std::string                kName                               ;   //  MapName
     int                        uiType                              ;   //  MapType

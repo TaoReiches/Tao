@@ -90,8 +90,9 @@ enum M_SKILLTABLE_SKILLPROPERTY
     SKILL_SKILLPROPERTY_DEATHRELIVE             =    1 << 9        ,   //  Relive
 };
 
-struct SkillTable
+class SkillTable
 {
+public:
     unsigned int               uiTypeID                            ;   //  TypeID
     std::string                kName                               ;   //  SkillName
     int                        uiOperateType                       ;   //  SkillType

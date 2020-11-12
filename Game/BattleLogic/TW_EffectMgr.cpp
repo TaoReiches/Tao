@@ -145,7 +145,7 @@ std::shared_ptr<BeEffect> BeEffectMgr::AddEffect(BeEffectRace iTypeID)
 	{
 		m_kID2Effect[iID] = pkEffect;
 
-		gMain.AddEntityPointer(GIT_EFFECT, iID, pkEffect.get());
+		//gMain.AddEntityPointer(GIT_EFFECT, iID, pkEffect.get());
 
 		return pkEffect;
 	}

@@ -58,7 +58,7 @@ void TePtTriggerMgr::Update(int iDeltaTime)
 	for (std::map<int, TePtTrigger*>::iterator kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end();)
 	{
 		TePtTrigger* pkTrigger = kIter->second;
-		if (pkTrigger->m_eState == PTTS_OVER)
+		if (pkTrigger->m_eState == TePtTriggerState::PTTS_OVER)
 		{
 			SAFE_DELETE(pkTrigger);
 			std::map<int, TePtTrigger*>::iterator itr1 = kIter;
@@ -286,7 +286,7 @@ void	TePtTriggerMgr::FireTrigger(int iEvent, TePtParam& rkParam)
 		rkData.m_pkCurTrigger = pkBackupTrg;
 		rkData.m_pkCurParam = pkBackupParam;
 
-		if (kTempTrg.m_eState == PTTS_WAIT)
+		if (kTempTrg.m_eState == TePtTriggerState::PTTS_WAIT)
 		{
 			TePtTrigger* pkTrigger = new TePtTrigger();
 			*pkTrigger = kTempTrg;
@@ -364,7 +364,7 @@ int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePt
 	pkTrigger->m_iID = ++(rkData.m_iGenID);
 	rkData.m_kTriggers[pkTrigger->m_iID] = pkTrigger;
 
-	pkTrigger->m_eType = PTTT_TIMER;
+	pkTrigger->m_eType = TwPtTriggerType::PTTT_TIMER;
 	pkTrigger->m_iTimerOut = iTimeOut;
 	pkTrigger->m_uiPeriodTime = rkData.m_uiTimeNow + iDelayTime;
 	pkTrigger->m_pkParam = rkData.m_pkParam;
@@ -387,7 +387,7 @@ int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePt
 	}
 	else
 	{
-		pkTrigger->m_eState = PTTS_STAGE;
+		pkTrigger->m_eState = TePtTriggerState::PTTS_STAGE;
 	}
 
 	return pkTrigger->m_iID;

@@ -38,8 +38,9 @@ enum M_UNITTABLE_PROPERTY
     UNIT_PROPERTY_HIDEEVER                      =    1 << 2        ,   //  HideEver
 };
 
-struct UnitTable
+class UnitTable
 {
+public:
     unsigned int               uiUnitTypeID                        ;   //  Type ID
     std::string                kUnitName                           ;   //  Name
     int                        uiClassType                         ;   //  Type

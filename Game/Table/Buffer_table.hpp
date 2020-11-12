@@ -18,8 +18,9 @@ enum M_BUFFERTABLE_PROPERTY
     BUFFER_PROPERTY_CDTRIGGER                   =    1 << 8        ,   //  CDTrigger
 };
 
-struct BufferTable
+class BufferTable
 {
+public:
     unsigned int               uiBufferTypeID                      ;   //  TypeID
     std::string                kName                               ;   //  Name
     unsigned int               uiProperty                          ;   //  Attr

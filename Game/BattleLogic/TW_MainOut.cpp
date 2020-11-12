@@ -176,7 +176,7 @@ void BeMain::UpdateRaceOut()
 		//PushViewRecordV(akShareData, SePureCmd_UnitShowData);
 	}
 
-	ClrAllPureData();
+	//ClrAllPureData();
 }
 
 int		BeMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize)
@@ -185,35 +185,35 @@ int		BeMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize
 	return 0;
 }
 
-void BeMain::ClrAllPureData()
-{
-	gUnitMgr.ClrPureData();
-	gEffectMgr.ClrAllPureEffectData();
-
-	const std::unordered_map<int, BeUnit*>& kAllUnit1 = gUnitMgr.GetID2Unit();
-	const std::unordered_map<int, BeUnit*>& kAllUnit2 = gUnitMgr.GetID2SuspendUnit();
-	std::unordered_map<int, BeUnit*>::const_iterator itr = kAllUnit1.begin();
-	for (; itr != kAllUnit1.end();)
-	{
-		BeUnit* pkUnit = itr->second;
-		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itr;
-		++itr;
-
-		if (pkUnit)
-		{
-			pkUnit->ClrAllPureData();
-		}
-	}
-	std::unordered_map<int, BeUnit*>::const_iterator itrDel = kAllUnit2.begin();
-	for (; itrDel != kAllUnit2.end();)
-	{
-		BeUnit* pkUnit = itrDel->second;
-		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itrDel;
-		++itrDel;
-
-		if (pkUnit)
-		{
-			pkUnit->ClrAllPureData();
-		}
-	}
-}
+//void BeMain::ClrAllPureData()
+//{
+//	gUnitMgr.ClrPureData();
+//	gEffectMgr.ClrAllPureEffectData();
+//
+//	const std::unordered_map<int, BeUnit*>& kAllUnit1 = gUnitMgr.GetID2Unit();
+//	const std::unordered_map<int, BeUnit*>& kAllUnit2 = gUnitMgr.GetID2SuspendUnit();
+//	std::unordered_map<int, BeUnit*>::const_iterator itr = kAllUnit1.begin();
+//	for (; itr != kAllUnit1.end();)
+//	{
+//		BeUnit* pkUnit = itr->second;
+//		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itr;
+//		++itr;
+//
+//		if (pkUnit)
+//		{
+//			pkUnit->ClrAllPureData();
+//		}
+//	}
+//	std::unordered_map<int, BeUnit*>::const_iterator itrDel = kAllUnit2.begin();
+//	for (; itrDel != kAllUnit2.end();)
+//	{
+//		BeUnit* pkUnit = itrDel->second;
+//		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itrDel;
+//		++itrDel;
+//
+//		if (pkUnit)
+//		{
+//			pkUnit->ClrAllPureData();
+//		}
+//	}
+//}

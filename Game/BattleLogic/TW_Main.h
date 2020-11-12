@@ -85,16 +85,6 @@ public:
 		return m_eState;
 	}
 
-	inline void SetGameValid(bool bValid)
-	{
-		m_bGameValid = bValid;
-	}
-
-	inline bool GetGameValid(void)
-	{
-		return m_bGameValid;
-	}
-
 	inline int GetGameTime(void) const
 	{
 		return (int)m_uiGameTime;
@@ -124,29 +114,12 @@ public:
 	void	InitServerMode();
 	void	FinializeServerMode();
 
-public:
-	bool HasChangeFlag(int iFlag) const;
-	void SetChangeFlag(int iFlag);
-	void ClrChangeFlag(int iFlag);
-	int GetChangeFlag() const;
-
-	void	SetHeroDataChangeFlag(int iSeat, int iFlag);
-	int		GetHeroDataChangeFlag(int iSeat);
-	void	ClrHeroDataChangeFlag(int iSeat, int iFlag);
-	bool	HasHeroDataChangeFlag(int iSeat, int iFlag);
-
-	void	ClrAllPureData();
 protected:
 	int								m_iChangeFlag;
 
 private:
 	int		m_iMaxPerLoadID;
 	bool	m_bReLink;
-
-public:
-	void	AddSmallMapMessage(float fX, float fY, bool bAttack, int iResID, int iTime, int iPlayer = -1, int iTarID = 0, bool bItem = false);
-	void	AddUIMessage(int iUnitID, int iType, int iStrIndex, int iTime);
-	void	AddFontEffect(int iUnitID, int iType, int iStrIndex, int iTime, int iColor, int iLable, int iFontSize);
 
 public:
 	BeCarry* GetTrgCarry(void);
@@ -267,83 +240,38 @@ public:
 
 protected:
 	void			ReleaseModule(void);
-	void			LoadLevelMainMapFile(void);
-
 	void			UpdatePlayerLeave();
 
 public:
-	unsigned int			m_uiGameTime;
-	ITeRandom* m_pkRandNum;
-	TeMap* m_pkMap;
-	BeUnitMgr* m_pkUnitMgr;
-	BeEffectMgr* m_pkEffectMgr;
-	BeMapItemMgr* m_pkMapItemMgr;
-	TePtTriggerMgr* m_pkTriggerMgr;
-	BeFormulaInfo* m_pkFormulaInfo;
+    unsigned int            m_uiGameTime;
+    ITeRandom*              m_pkRandNum;
+    TeMap*                  m_pkMap;
+    BeUnitMgr*              m_pkUnitMgr;
+    BeEffectMgr*            m_pkEffectMgr;
+    BeMapItemMgr*           m_pkMapItemMgr;
+    TePtTriggerMgr*         m_pkTriggerMgr;
+    BeFormulaInfo*          m_pkFormulaInfo;
 
 protected:
-	std::map<unsigned int, BePlayerInfo*>	m_akPlayer;
-
-	BeMainState		m_eState;
-	unsigned int	m_uiFrameCount;
-	int				m_iGameTimeLeft;
-	unsigned int	m_uiRealTimeNow;
-	int				m_aiGenID[GIT_MAX];
-
-	int				m_iOverTime;
-	bool			m_bGameValid;
-
-	std::vector<int> m_aiVecHeroTypeID;
-
-	unsigned int						m_iCurMapID;
-	bool								m_bShowAllDamage;
-
-	char								m_pcSend[4096];
-	//SeNetStream							m_kNetStream;
-
-	BeRaceGameModel						m_eRaceGameModel;
-
-	int									m_iGameBeginTime;
-
-public:
-	void	AddEntityPointer(BeGenIDType eType, int iID, void* pkVoid);
-	void	DelEntityPointer(BeGenIDType eType, int iID);
-	void* GetEntityPointer(BeGenIDType eType, int iID);
-
-	bool	IsShowAllDamage()
-	{
-		return m_bShowAllDamage;
-	}
-
-	void	RemoveGrassUnit(int iUnitID, int iGrassIndex)
-	{
-		std::map<int, int>::iterator iter = m_kGrassUnit.find(iUnitID);
-		if (iter != m_kGrassUnit.end())
-		{
-			m_kGrassUnit.erase(iter);
-		}
-	}
-	void	SetGrassUnit(int iUnitID, int iGrassIndex)
-	{
-		m_kGrassUnit[iUnitID] = iGrassIndex;
-	}
-	bool	HasGrassVision(int iSrcUnitID, int iTarUnitID);
-	bool	HasGrassVisionForCamp(int iGrassIndex, int iSrcCamp, int iDstCamp);
-
-private:
-	void* m_akEntityPointer[GIT_EFFECT + 1][65535];
-
-	std::map<int, int>			m_kGrassUnit;
+    std::map<unsigned int, BePlayerInfo*>   m_akPlayer;
+    BeMainState             m_eState;
+    unsigned int            m_uiFrameCount;
+    unsigned int            m_uiRealTimeNow;
+    int                     m_aiGenID[GIT_MAX];
+    std::vector<int>        m_aiVecHeroTypeID;
+    unsigned int            m_iCurMapID;
+    BeRaceGameModel         m_eRaceGameModel;
+    int                     m_iGameBeginTime;
 };
 
-#define gMain		(*((BeMain *)pkAttachMain))
-#define gUnit		(*((BeUnit *)pkAttachUnit))
-#define gTime		(gMain.m_uiGameTime)
-#define gRandNum	(*(gMain.m_pkRandNum))
-#define gMap		(*(gMain.m_pkMap))
-#define gData		(*(gMain.m_pkDataMgr))
-#define gUnitMgr	(*(gMain.m_pkUnitMgr))
-#define gEffectMgr	(*(gMain.m_pkEffectMgr))
-#define gMapItemMgr (*(gMain.m_pkMapItemMgr))
-#define gTrgMgr		(*(gMain.m_pkTriggerMgr))
-#define gFormulaInfo (*(gMain.m_pkFormulaInfo))
+#define gMain           (*((BeMain *)pkAttachMain))
+#define gUnit           (*((BeUnit *)pkAttachUnit))
+#define gTime           (gMain.m_uiGameTime)
+#define gRandNum        (*(gMain.m_pkRandNum))
+#define gMap            (*(gMain.m_pkMap))
+#define gData           (*(gMain.m_pkDataMgr))
+#define gUnitMgr        (*(gMain.m_pkUnitMgr))
+#define gEffectMgr      (*(gMain.m_pkEffectMgr))
+#define gMapItemMgr     (*(gMain.m_pkMapItemMgr))
+#define gTrgMgr         (*(gMain.m_pkTriggerMgr))
+#define gFormulaInfo    (*(gMain.m_pkFormulaInfo))

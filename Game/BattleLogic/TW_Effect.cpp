@@ -76,8 +76,6 @@ BeEffect::~BeEffect(void)
 {
 	mpAttackingAttr.free(m_pkAttr.get());
 	m_pkAttr.release();
-
-	gMain.DelEntityPointer(GIT_EFFECT, m_iID);
 }
 
 bool BeEffect::Initialize(int iTypeID)
