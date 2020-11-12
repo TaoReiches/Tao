@@ -12,8 +12,9 @@
 
 typedef unsigned short lc_t;
 
-struct pt
+class pt
 {
+public:
 	pt()
 	{
 		lc = 0;
@@ -24,12 +25,12 @@ struct pt
 			fFloatValue[i] = 0.0f;
 		}
 	}
-	lc_t			lc;
-	void* pkAttachMain;
-	int				iIntValue[10];
-	float			fFloatValue[10];
-	std::vector<int>	aiVector;
-	std::map<int, int>	aiMap;
+	lc_t                lc;
+	void*               pkAttachMain;
+	int                 iIntValue[10];
+	float               fFloatValue[10];
+	std::vector<int>    aiVector;
+	std::map<int, int>  aiMap;
 };
 
 #define PT_WAITING 0
@@ -87,25 +88,25 @@ struct pt
 
 #define PT_WAIT(time)				gTrgMgr.TrgWait(time);PT_WAIT_UNTIL(((pt*)(pkPama)),gTrgMgr.WaitFinish())
 
-#define PT_CONTION_FUN(funName)		TePtCondResult	funName(void* pkPama)
+#define PT_CONTION_FUN(funName)		TwPtCondResult	funName(void* pkPama)
 
 #define PT_ACTION_FUN(funName)		char funName(void* pkPama)
 
-enum class TePtCondResult
+enum class TwPtCondResult
 {
 	PTCR_OK = 0,
 	PTCR_END,
 	PTCR_END_THIS,
 };
 
-typedef		TePtCondResult(*PtConditionFun)(void*);
+typedef		TwPtCondResult(*PtConditionFun)(void*);
 typedef		char			(*PtActionFun)(void*);
 
-class TePtParam
+class TwPtParam
 {
 public:
-	TePtParam(void);
-	~TePtParam(void);
+	TwPtParam(void);
+	~TwPtParam(void);
 
 	void	SetParam(int iParamID, int iValue);
 	void	SetParam(int iParamID, float fValue);
@@ -128,11 +129,11 @@ protected:
 	std::vector<ParamData> m_akParams;
 };
 
-class TePtTriggerMgr
+class TwPtTriggerMgr
 {
 public:
-	TePtTriggerMgr(void* pkParam = NULL);
-	~TePtTriggerMgr(void);
+	TwPtTriggerMgr(void* pkParam = nullptr);
+	~TwPtTriggerMgr(void);
 
 	bool		Initialize(int iMaxEvent);
 	void		Update(int iDeltaTime);
@@ -145,19 +146,20 @@ public:
 	void		Finish(void);
 	bool		WaitFinish(void);
 
-	void		FireTrigger(int iEvent, TePtParam& rkParam);
-	bool		FireTriggerBegin(int iEvent, TePtParam& rkParam, std::shared_ptr<TePtParam>& pkBackupParam);
-	void		FireTriggerEnd(std::shared_ptr<TePtParam>& pkBackupParam);
-	void		RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditionFun pCondition = NULL);
-	int			StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePtParam& rkParam, PtConditionFun pCondition = NULL, unsigned int uiCounts = ((unsigned int)-1), int iDelayTime = 0);
+	void		FireTrigger(int iEvent, TwPtParam& rkParam);
+	bool		FireTriggerBegin(int iEvent, TwPtParam& rkParam, std::shared_ptr<TwPtParam>& pkBackupParam);
+	void		FireTriggerEnd(std::shared_ptr<TwPtParam>& pkBackupParam);
+	void		RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditionFun pCondition = nullptr);
+	int			StartTimerTrg(int iTimeOut, PtActionFun pAction, const TwPtParam& rkParam,
+                            PtConditionFun pCondition = nullptr, unsigned int uiCounts = ((unsigned int)-1), int iDelayTime = 0);
 
-	unsigned int		GetTimeNow(void);
+	unsigned int    GetTimeNow(void);
 	int			GetTriggerID(void);
 
 	bool		HasParam(int iParamID);
 	int			GetParamInt(int iParamID, int iDefault = 0);
 	float		GetParamFloat(int iParamID, float fDefault = 0.0f);
-	void* GetParamVoid(int iParamID);
+	void*       GetParamVoid(int iParamID);
 	void        OnUnitDelete(void* pkUnit);
 
 protected:

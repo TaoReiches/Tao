@@ -125,7 +125,7 @@ void BeUnit::OnItemUpDate(int iID)
 		pkItem->AttachUnit(this);
 	}
 
-	TePtParam kParamPre;
+	TwPtParam kParamPre;
 	kParamPre.SetParam(BTP_pkTrgUnit, this);
 	kParamPre.SetParam(BTP_iItemID, iID);
 
@@ -137,7 +137,7 @@ void BeUnit::OnItemUpDate(int iID)
 		UpdateAttribute(pkItem->HasFlag(BCF_HAS_NORMAL_ATTR));
 	}
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_iItemTypeID, iTypeID);
 	kParam.SetParam(BTP_iItemID, iID);
@@ -552,7 +552,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	pkSkill->SetLevel(iLevel);
 	UpdateAttribute(true);
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_pkSkill, pkSkill.get());
 	kParam.SetParam(BTP_iIsLearnSkill, 1);
@@ -1169,7 +1169,7 @@ void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
 		return;
 	}
 	pkBuffer->SetHasDel(false);
-	TePtParam kParam;
+	TwPtParam kParam;
 
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_pkBuffer, pkBuffer);
@@ -1196,7 +1196,7 @@ void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool 
 	}
 
 	pkBuffer->SetHasDel(true);
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
 

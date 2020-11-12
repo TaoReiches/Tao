@@ -177,7 +177,7 @@ public:
 	int* TrgGetPtr_PersistDelta(void);
 	int TrgGetTargetType(void);
 
-	TePtCondResult DefaultBuffer_Condition(int iOriginTypeID);
+	TwPtCondResult DefaultBuffer_Condition(int iOriginTypeID);
 	bool DefaultSkill_ActionParam(BeUnit*& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes);
 
 	void InitSkillEventTrigger(int iTypeID);
@@ -225,7 +225,7 @@ public:
 	void	ResetData(void);
 	void	SetGameFrame(unsigned int dwFrame);
 
-	TePtCondResult DefaultSkill_Condition(int iOriginTypeID);
+	TwPtCondResult DefaultSkill_Condition(int iOriginTypeID);
 
 	int GetSkillOrgTypeID(int iSkillTypeID);
 
@@ -249,7 +249,7 @@ public:
     BeUnitMgr*              m_pkUnitMgr;
     BeEffectMgr*            m_pkEffectMgr;
     BeMapItemMgr*           m_pkMapItemMgr;
-    TePtTriggerMgr*         m_pkTriggerMgr;
+    TwPtTriggerMgr*         m_pkTriggerMgr;
     BeFormulaInfo*          m_pkFormulaInfo;
 
 protected:

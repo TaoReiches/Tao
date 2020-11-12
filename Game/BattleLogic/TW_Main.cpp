@@ -181,7 +181,7 @@ bool BeMain::LoadRes(int iSeed)
 	m_pkRandNum = NewRandom();
 	m_pkRandNum->Initialize(iSeed);
 
-	m_pkTriggerMgr = new TePtTriggerMgr(this);
+	m_pkTriggerMgr = new TwPtTriggerMgr(this);
 	m_pkEffectMgr = new BeEffectMgr;
 	m_pkEffectMgr->AttachMain(this);
 

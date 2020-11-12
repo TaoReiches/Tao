@@ -13,7 +13,7 @@
 #include "TW_ShareUnitData.h"
 
 class BeUnit;
-class TePtParam;
+class TwPtParam;
 
 class BeSkill : public BeCarry
 {

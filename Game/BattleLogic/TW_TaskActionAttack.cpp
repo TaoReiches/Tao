@@ -269,7 +269,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 			//if (gUnit.IsHero())
 			//{
-				TePtParam kParamHero;
+				TwPtParam kParamHero;
 				kParamHero.SetParam(BTP_pkTrgUnit, &gUnit);
 				kParamHero.SetParam(BTP_iTargetID, GetTargetID());
 

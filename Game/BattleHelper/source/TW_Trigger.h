@@ -27,7 +27,7 @@ class TwPtTriggerInfo;
 
 class TePtTrigger
 {
-	friend class TePtTriggerMgr;
+	friend class TwPtTriggerMgr;
 
 public:
 	TePtTrigger(void);
@@ -53,7 +53,7 @@ public:
 	void*               m_pkParam;
 	PtConditionFun	    m_pCondition;
 	PtActionFun         m_pAction;
-	TePtParam           m_kParam;
+	TwPtParam           m_kParam;
 	std::shared_ptr<TwPtTriggerInfo>    m_pkInfo;
 	int                 m_iTimerOut;
 	unsigned int        m_uiPeriodTime;

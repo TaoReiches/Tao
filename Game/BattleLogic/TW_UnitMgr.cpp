@@ -80,7 +80,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 
 					//gMap.SetUnitPosition(pkUnit, fPosX, fPosY, 0.0f, 600.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
 
-					TePtParam kParamRelive;
+					TwPtParam kParamRelive;
 					kParamRelive.SetParam(BTP_pkTrgUnit, pkUnit);
 
 					gTrgMgr.FireTrigger(BTE_HERO_RELIVE, kParamRelive);
@@ -93,10 +93,6 @@ void BeUnitMgr::Update(int iDeltaTime)
 					//pkUnit->SetHP(fHP);
 					//pkUnit->SetMP(fMP);
 
-					if (pkUnit->HasProperty(UNIT_PROPERTY_NUQIBAR))
-					{
-						pkUnit->SetMP(0.0f);
-					}
 
 					//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
 					//{
@@ -111,7 +107,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 						BeSkill* pkSkill = pkUnit->GetSkillByPos(i);
 						if (pkSkill)
 						{
-							TePtParam kParam;
+							TwPtParam kParam;
 							kParam.SetParam(BTP_pkTrgUnit, pkUnit);
 							kParam.SetParam(BTP_pkSkill, pkSkill);
 
@@ -243,7 +239,7 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 
 	BeUnit* pkUnit = NewUnit(iID);
 
-	gMain.AddEntityPointer(GIT_ENTITY, iID, pkUnit);
+	//gMain.AddEntityPointer(GIT_ENTITY, iID, pkUnit);
 
 	m_kID2Unit[iID] = pkUnit;
 	if (iPlayer != -1)
@@ -267,7 +263,7 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 
 			m_kVAllHeroID.push_back(pkUnit->GetID());
 
-		TePtParam kParam;
+		TwPtParam kParam;
 		kParam.SetParam(BTP_pkTrgUnit, pkUnit);
 
 		gTrgMgr.FireTrigger(BTE_UNIT_ADDUNIT, kParam);
@@ -307,7 +303,7 @@ void BeUnitMgr::DelUnit(int iID)
 		BeUnit* pkUnit = itr->second;
 		if (pkUnit)
 		{
-			TePtParam kParamDel;
+			TwPtParam kParamDel;
 			kParamDel.SetParam(BTP_pkTrgUnit, pkUnit);
 
 			gTrgMgr.FireTrigger(BTE_UNIT_DELUNIT, kParamDel);
@@ -358,7 +354,7 @@ BeUnit* BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
 		return nullptr;
 	}
 
-	return (BeUnit*)(gMain.GetEntityPointer(GIT_ENTITY, iID));
+	//return (BeUnit*)(gMain.GetEntityPointer(GIT_ENTITY, iID));
 
 	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.find(iID);
 	if (itr == m_kID2Unit.end())
@@ -530,7 +526,7 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCom
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 
-	const SkillTable* pkRes = nullptr;
+	std::shared_ptr<const SkillTable> pkRes = nullptr;
 	if (eCommand == BeCommandType::BCT_SPELL)
 	{
 		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
@@ -764,7 +760,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	const SkillTable* pkRes = nullptr;
+	std::shared_ptr<const SkillTable> pkRes;
 
 	if (eCommand == BeCommandType::BCT_SPELL)
 	{
@@ -772,7 +768,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	}
 	else if (eCommand == BeCommandType::BCT_USE_ITEM)
 	{
-		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
+		auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
 		{
 			return;
@@ -873,15 +869,14 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	const SkillTable* pkRes = 0;
-
+	std::shared_ptr<const SkillTable> pkRes;
 	if (eCommand == BeCommandType::BCT_SPELL)
 	{
 		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
 	else if (eCommand == BeCommandType::BCT_USE_ITEM)
 	{
-		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
+		auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
 		{
 			return;

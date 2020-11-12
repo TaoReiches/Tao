@@ -78,7 +78,7 @@ void BeSkill::SetLevel(int iLevel)
 	ClearAttr();
 	InitAttrFromSkill(m_iTypeID, iLevel);
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 	kParam.SetParam(BTP_pkSkill, this);
 
@@ -178,7 +178,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 			//pkUnit->SetCommonCDLastUseTime(GetShareCDSkill(), (int)gTime);
 			SetCurPileNums(++m_iCurPileNums);
 
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
 			kParam.SetParam(BTP_pkSkill, this);
 
@@ -190,7 +190,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 	{
 		//if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
 			kParam.SetParam(BTP_pkSkill, this);
 			kParam.SetParam(BTP_iItemPos, iItemPos + 1);

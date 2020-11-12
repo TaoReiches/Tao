@@ -5,29 +5,29 @@
 
 #include "TW_TriggerMgr.h"
 
-TePtParam::TePtParam(void)
+TwPtParam::TwPtParam(void)
 {
 }
 
-TePtParam::~TePtParam(void)
+TwPtParam::~TwPtParam(void)
 {
 	m_akParams.clear();
 }
 
-void TePtParam::SetParam(int iParamID, int iValue)
+void TwPtParam::SetParam(int iParamID, int iValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TePointerType(iValue)));
 }
-void TePtParam::SetParam(int iParamID, float fValue)
+void TwPtParam::SetParam(int iParamID, float fValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TePointerType(fValue)));
 }
-void TePtParam::SetParam(int iParamID, void* pkValue)
+void TwPtParam::SetParam(int iParamID, void* pkValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TePointerType(pkValue)));
 }
 
-bool TePtParam::HasParam(int iParamID)
+bool TwPtParam::HasParam(int iParamID)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -40,7 +40,7 @@ bool TePtParam::HasParam(int iParamID)
 	return false;
 }
 
-int TePtParam::GetParamInt(int iParamID, int iDefault)
+int TwPtParam::GetParamInt(int iParamID, int iDefault)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -67,7 +67,7 @@ int TePtParam::GetParamInt(int iParamID, int iDefault)
 	return iDefault;
 }
 
-float TePtParam::GetParamFloat(int iParamID, float fDefault)
+float TwPtParam::GetParamFloat(int iParamID, float fDefault)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -94,7 +94,7 @@ float TePtParam::GetParamFloat(int iParamID, float fDefault)
 	return fDefault;
 }
 
-void* TePtParam::GetParamVoid(int iParamID)
+void* TwPtParam::GetParamVoid(int iParamID)
 {
 	for (std::vector<ParamData>::reverse_iterator kIter = m_akParams.rbegin(); kIter != m_akParams.rend(); ++kIter)
 	{
@@ -107,7 +107,7 @@ void* TePtParam::GetParamVoid(int iParamID)
 	return NULL;
 }
 
-void	TePtParam::OnDeleteUnit(void* pkUnit)
+void	TwPtParam::OnDeleteUnit(void* pkUnit)
 {
 	for (auto kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -122,6 +122,6 @@ void	TePtParam::OnDeleteUnit(void* pkUnit)
 	}
 }
 
-TePtParam::ParamData::ParamData(int id, const TePointerType& data) :iID(id), kData(data)
+TwPtParam::ParamData::ParamData(int id, const TePointerType& data) :iID(id), kData(data)
 {
 }

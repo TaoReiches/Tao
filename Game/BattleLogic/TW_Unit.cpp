@@ -39,7 +39,7 @@ void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDa
 		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
 			kParam.SetParam(BTP_pkAttacker, this);
@@ -63,7 +63,7 @@ void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDa
 		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_BEATTACKTRIGGER))
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkAttacker, pkAttacker);
 			kParam.SetParam(BTP_pkTarget, this);
@@ -88,7 +88,7 @@ void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamag
 		auto pkSkill = kSkill[i];
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
 			kParam.SetParam(BTP_pkAttacker, this);
@@ -114,7 +114,7 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingA
 		auto pkSkill = kSkill[i];
 		if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER)))
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkTrgUnit, this);
 			kParam.SetParam(BTP_pkTarget, pkTarget);
 			kParam.SetParam(BTP_pkSkill, pkSkill.get());
@@ -727,7 +727,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 					return false;
 				}
 
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkSkill, pkSkill.get());
 				kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
@@ -909,7 +909,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 	if (bFirstAttack)
 	{
-		TePtParam kParamAttackPre;
+		TwPtParam kParamAttackPre;
 		kParamAttackPre.SetParam(BTP_iAttackType, (int)eAttackType);
 		kParamAttackPre.SetParam(BTP_iFlag, iFlag);
 		kParamAttackPre.SetParam(BTP_iAttackerPlayer, iPlayer);
@@ -921,7 +921,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 		gTrgMgr.FireTrigger(BTE_UNIT_ATTACKED_PRE, kParamAttackPre);
 
-		TePtParam kParamAttack;
+		TwPtParam kParamAttack;
 		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
 		kParamAttack.SetParam(BTP_iFlag, iFlag);
 		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
@@ -935,7 +935,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 	}
 	else
 	{
-		TePtParam kParamAttack;
+		TwPtParam kParamAttack;
 		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
 		kParamAttack.SetParam(BTP_iFlag, iFlag);
 		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
@@ -978,7 +978,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 	if (bFirstAttack)
 	{
-		TePtParam kParamAttack;
+		TwPtParam kParamAttack;
 		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
 		kParamAttack.SetParam(BTP_iFlag, iFlag);
 		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
@@ -1076,7 +1076,7 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, BeUnit* pk
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(this))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
@@ -1250,7 +1250,7 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 
 	if (rkAttackingAttr.HasFlag(BAF_FIRST) && rkAttackingAttr.HasFlag(BAF_AVOID) && !rkAttackingAttr.HasFlag(BAF_CANTAVOID))
 	{
-		TePtParam kParam;
+		TwPtParam kParam;
 		kParam.SetParam(BTP_pkTrgUnit, this);
 		kParam.SetParam(BTP_pkAttacker, pkAttacker);
 		kParam.SetParam(BTP_pkTarget, this);
@@ -1579,7 +1579,7 @@ void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, i
 			auto pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
 				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
@@ -1621,7 +1621,7 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, B
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_BEATTACKTRIGGER))
 			{
 
-				TePtParam kParam;
+				TwPtParam kParam;
 
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkAttacker, pkAttacker);
@@ -1658,7 +1658,7 @@ void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int 
 			auto pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
 				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
@@ -1683,7 +1683,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
@@ -1708,7 +1708,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			auto pkSkill = m_apkNormalSkill[i];
 			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
@@ -1735,7 +1735,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 				auto pkBuffer = m_apkBuffer[i];
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, this);
 					if (pkAttacker)
 					{
@@ -1756,7 +1756,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 
 	if (!HasFlag(BUF_RELIVE))
 	{
-		TePtParam kParamDeath;
+		TwPtParam kParamDeath;
 		kParamDeath.SetParam(BTP_pkTrgUnit, this);
 		if (pkAttacker)
 		{
@@ -1781,7 +1781,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 				auto pkBuffer = m_apkBuffer[i];
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, this);
 					if (pkAttacker)
 					{
@@ -1849,7 +1849,7 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
 				kParam.SetParam(BTP_pkSkill, pkSkill);
@@ -1869,7 +1869,7 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 			auto pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
 				kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
@@ -1909,7 +1909,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 			auto pkBuffer = m_apkBuffer[i];
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
 				kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
@@ -1957,7 +1957,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkSkill, pkSkill);
 				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
@@ -1981,7 +1981,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 			auto pkSkill = m_apkNormalSkill[i];
 			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkSkill, pkSkill.get());
 				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
@@ -2147,7 +2147,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 			{
 
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkAttacker, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
@@ -2167,7 +2167,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 			auto pkSkill = m_apkNormalSkill[i];
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 			{
-				TePtParam kParam;
+				TwPtParam kParam;
 				kParam.SetParam(BTP_pkTrgUnit, this);
 				kParam.SetParam(BTP_pkAttacker, this);
 				kParam.SetParam(BTP_pkTarget, pkTarget);
@@ -2275,7 +2275,7 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 		}
 	}
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_iItemTypeID, iItemTypeID);
 	kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);

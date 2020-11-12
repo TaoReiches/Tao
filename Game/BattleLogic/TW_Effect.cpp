@@ -180,7 +180,7 @@ void BeEffect::OnRemove(void)
 		if (m_kEffectData.iSkillTypeID)
 		{
 			gRandNum.RandInt();
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 			kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 			if (pkAttacker)
@@ -213,7 +213,7 @@ void BeEffect::OnRemove(void)
 					{
 						m_akBumpAttackedID.push_back(pkUnit->GetID());
 
-						TePtParam kParam;
+						TwPtParam kParam;
 						kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 						kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 						kParam.SetParam(BTP_pkTrgUnit, pkUnit);
@@ -534,7 +534,7 @@ void BeEffect::UpdateLineFollowEarth(int iDeltaTime)
 				BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
 				if (pkAttacker)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
@@ -581,7 +581,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 			{
 				if (pkAttacker)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
@@ -672,7 +672,7 @@ void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
 			{
 				if (pkAttacker)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
@@ -737,7 +737,7 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 
 				if (!m_bPureShow)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkAttacked);
@@ -785,7 +785,7 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 			{
 				if (!m_bPureShow)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
@@ -865,7 +865,7 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 
 				if (!m_bPureShow)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkAttacked);
@@ -924,7 +924,7 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 			{
 				if (!m_bPureShow)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
@@ -1007,7 +1007,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 
 				if (!m_bPureShow)
 				{
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					if (pkAttacked)

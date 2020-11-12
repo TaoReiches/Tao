@@ -47,7 +47,7 @@ void BeEffectMgr::Update(int iDeltaTime)
 
 		if (pEffect->HasFlag(BEF_REMOVE) && !pEffect->IsNewEffect())
 		{
-			TePtParam kParam;
+			TwPtParam kParam;
 			kParam.SetParam(BTP_pkEffect, pEffect.get());
 
 			gTrgMgr.FireTrigger(BTE_EFFECT_DEL, kParam);

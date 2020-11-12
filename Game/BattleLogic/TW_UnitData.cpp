@@ -172,7 +172,7 @@ void TwUnitData::AddLevel(int iAddLevel)
 	}
 	m_pkBackData->iLevel += iAddLevel;
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, this);
 	kParam.SetParam(BTP_iIntData, m_pkBackData->iLevel);
 

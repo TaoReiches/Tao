@@ -15,11 +15,10 @@ TePtTrigger::TePtTrigger(void)
 	m_eState = TwPtTriggerState::PTTS_CREATE;
 	m_uiWaitTime = 0;
 
-
-	m_pkParam = NULL;
-	m_pCondition = NULL;
-	m_pAction = NULL;
-	m_pkInfo = NULL;
+	m_pkParam = nullptr;
+	m_pCondition = nullptr;
+	m_pAction = nullptr;
+	m_pkInfo = nullptr;
 
 	m_iTimerOut = 0;
 	m_uiPeriodTime = 0;

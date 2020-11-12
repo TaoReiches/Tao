@@ -47,7 +47,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 {
 	if (((m_ePhase == BeSpellPhase::BSP_EFFECT) || (m_ePhase == BeSpellPhase::BSP_FINISH) || (m_ePhase == BeSpellPhase::BSP_END)))
 	{
-		TePtParam kParam;
+		TwPtParam kParam;
 		kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 		kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
@@ -76,7 +76,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 	}
 	else if (m_ePhase == BeSpellPhase::BSP_CAST)
 	{
-		TePtParam kParam;
+		TwPtParam kParam;
 		kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 		kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
@@ -237,7 +237,7 @@ BeSpellPhase BeTaskActionSpell::GetPhase(void)
 
 void BeTaskActionSpell::OnSpellPrepare(void)
 {
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 	kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
@@ -254,7 +254,7 @@ void BeTaskActionSpell::OnSpellPrepare(void)
 
 void BeTaskActionSpell::OnSpellCast(void)
 {
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 	kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
@@ -298,7 +298,7 @@ void BeTaskActionSpell::OnSpellEffect(void)
 		}
 	}
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
@@ -343,7 +343,7 @@ void BeTaskActionSpell::OnSpellEffect(void)
 
 void BeTaskActionSpell::OnSpellFinish(void)
 {
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
 	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);

@@ -611,7 +611,7 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 
 	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
-	TePtParam kParam;
+	TwPtParam kParam;
 	kParam.SetParam(BTP_pkCarray, this);
 	kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
 	kParam.SetParam(BTP_iSkillLevel, iSkillLevel);

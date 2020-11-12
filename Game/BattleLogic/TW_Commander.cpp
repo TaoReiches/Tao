@@ -582,7 +582,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 
 					gUnit.TrgOnSpell(pkSkill->GetTypeID(), pkSkill->GetLevel(), 0, 0, gUnit.GetPosX(), gUnit.GetPosY());
 
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
 					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
@@ -592,7 +592,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 				{
 					pkSkill->SetUICounter(0);
 
-					TePtParam kParam;
+					TwPtParam kParam;
 					kParam.SetParam(BTP_pkTrgUnit, &gUnit);
 					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
 					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
