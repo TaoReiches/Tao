@@ -32,12 +32,12 @@ namespace table_gen
 
         void GenCppGet(StringBuilder sb)
         {
-            sb.AppendLine(string.Format("{0}* {0}::m_pk{0} = nullptr;", kClassMgrName));
-            sb.AppendLine(string.Format("{0}* {0}::Get()", kClassMgrName));
+            sb.AppendLine(string.Format("std::unique_ptr<{0}>       {0}::m_pk{0} = nullptr;", kClassMgrName));
+            sb.AppendLine(string.Format("const std::unique_ptr<{0}>& {0}::Get()", kClassMgrName));
             sb.AppendLine("{");
-            sb.AppendLine(string.Format("    if(m_pk{0} == nullptr)", kClassMgrName));
+            sb.AppendLine(string.Format("    if(!m_pk{0})", kClassMgrName));
             sb.AppendLine("    {");
-            sb.AppendLine(string.Format("        m_pk{0} = new {0}();", kClassMgrName));
+            sb.AppendLine(string.Format("        m_pk{0} = std::unique_ptr<{0}>(new {0}());", kClassMgrName));
             sb.AppendLine("    }");
             sb.AppendLine(string.Format("    return m_pk{0};", kClassMgrName));
             sb.AppendLine("}");
@@ -45,36 +45,24 @@ namespace table_gen
 
             //  get all
             sb.AppendLine("");
-            sb.AppendLine(string.Format("const std::map<unsigned int, {0}*>& {1}::Get{0}Map()", kClassName, kClassMgrName));
+            sb.AppendLine(string.Format("const std::map<unsigned int, std::shared_ptr<const {0}>>& {1}::Get{0}Map() const", kClassName, kClassMgrName));
             sb.AppendLine("{");
             sb.AppendLine(string.Format("    return m_k{0}Map;", kClassName));
             sb.AppendLine("}");
-
-            ////  get data for Lua
-            //sb.AppendLine("");
-            //sb.AppendLine(string.Format("TableResArray {0}Mgr::Get{0}Vec()", kClassName));
-            //sb.AppendLine("{");
-            //sb.AppendLine("    TableResArray kRecVec;");
-            //sb.AppendLine(string.Format("    for (std::map<unsigned int, {0}*>::iterator iMapItr = m_k{0}Map.begin(); iMapItr != m_k{0}Map.end(); ++iMapItr)", kClassName));
-            //sb.AppendLine("    {");
-            //sb.AppendLine("        kRecVec.pushBack(iMapItr->second);");
-            //sb.AppendLine("    }");
-            //sb.AppendLine("");
-            //sb.AppendLine("    return kRecVec;");
-            //sb.AppendLine("}");
         }
 
         void GenCppGetClass(StringBuilder sb)
         {
             sb.AppendLine("");
-            sb.AppendLine(string.Format("const {0}* {1}::Get{0}({2} iTypeID)", kClassName, kClassMgrName, MyExcel.kTypeReal[0]));
+            sb.AppendLine(string.Format("const std::shared_ptr<const {0}>& {1}::Get{0}({2} iTypeID) const", kClassName, kClassMgrName, MyExcel.kTypeReal[0]));
             sb.AppendLine("{");
-            sb.AppendLine(string.Format("    std::map<{0}, {1}*>::iterator iter = m_k{1}Map.find(iTypeID);", MyExcel.kTypeReal[0], kClassName));
+            sb.AppendLine(string.Format("    auto iter = m_k{1}Map.find(iTypeID);", MyExcel.kTypeReal[0], kClassName));
             sb.AppendLine(string.Format("    if(iter != m_k{0}Map.end())", kClassName));
             sb.AppendLine("    {");
             sb.AppendLine("        return iter->second;");
             sb.AppendLine("    }");
-            sb.AppendLine("    return nullptr;");
+            sb.AppendLine(string.Format("    static auto nullValue = std::shared_ptr<const {0}>();", kClassName));
+            sb.AppendLine("    return nullValue;");
             sb.AppendLine("}");
         }
 
@@ -88,7 +76,7 @@ namespace table_gen
             sb.AppendLine("{");
             //  load function
             sb.AppendLine("public:");
-            string s = string.Format("    static {0}* Get();", kClassMgrName);
+            string s = string.Format("    static const std::unique_ptr<{0}>& Get();", kClassMgrName);
             sb.AppendLine(s);
 
             //  constructor destructor
@@ -99,11 +87,9 @@ namespace table_gen
             sb.AppendLine("");
 
             //  get member
-            sb.AppendLine(string.Format("    const {0}* Get{0}({1} iTypeID);", kClassName, MyExcel.kTypeReal[0]));
+            sb.AppendLine(string.Format("    const std::shared_ptr<const {0}>& Get{0}({1} iTypeID) const;", kClassName, MyExcel.kTypeReal[0]));
             //  get all
-            sb.AppendLine(string.Format("    const std::map<unsigned int, {0}*>& Get{0}Map();", kClassName));
-            ////  get data for lua
-            //sb.AppendLine(string.Format("    TableResArray Get{0}Vec();", kClassName));           
+            sb.AppendLine(string.Format("    const std::map<unsigned int, std::shared_ptr<const {0}>>& Get{0}Map() const;", kClassName));
 
             GenMember(sb);
 
@@ -117,8 +103,8 @@ namespace table_gen
             sb.AppendLine("    bool    Load();");
             sb.AppendLine(string.Format("    void    FillData({0}* row, TiXmlElement* element);", kClassName));
             sb.AppendLine("");
-            sb.AppendLine(string.Format("    std::map<{0},{1}*>      m_k{2}Map;", MyExcel.kTypeReal[0], kClassName, kClassName));
-            sb.AppendLine(string.Format("    static {0}* m_pk{0};", kClassMgrName));
+            sb.AppendLine(string.Format("    std::map<{0},std::shared_ptr<const {1}>>      m_k{2}Map;", MyExcel.kTypeReal[0], kClassName, kClassName));
+            sb.AppendLine(string.Format("    static std::unique_ptr<{0}>        m_pk{0};", kClassMgrName));
         }
 
         void GenHead(StringBuilder sb)
@@ -128,6 +114,7 @@ namespace table_gen
             sb.AppendLine("");
             sb.AppendLine("#include <string>");
             sb.AppendLine("#include <map>");
+            sb.AppendLine("#include <memory>");
         }
 
         void GenStruct(StringBuilder sb)
@@ -442,7 +429,7 @@ namespace table_gen
             }
 
             sb.AppendLine("");
-            sb.AppendLine(string.Format("    m_k{0}Map[row->ui{1}] = row;", kClassName, kIDkey));
+            sb.AppendLine(string.Format("    m_k{0}Map[row->ui{1}] = std::shared_ptr<{0}>(row);", kClassName, kIDkey));
             sb.AppendLine("}");
         }
     }

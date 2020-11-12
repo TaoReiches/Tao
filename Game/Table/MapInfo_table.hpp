@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 
 enum E_MAPINFOTABLE_TYPE
@@ -32,17 +33,17 @@ class TiXmlElement;
 class MapInfoTableMgr
 {
 public:
-    static MapInfoTableMgr* Get();
+    static const std::unique_ptr<MapInfoTableMgr>& Get();
     MapInfoTableMgr();
     ~MapInfoTableMgr();
 
-    const MapInfoTable* GetMapInfoTable(unsigned int iTypeID);
-    const std::map<unsigned int, MapInfoTable*>& GetMapInfoTableMap();
+    const std::shared_ptr<const MapInfoTable>& GetMapInfoTable(unsigned int iTypeID) const;
+    const std::map<unsigned int, std::shared_ptr<const MapInfoTable>>& GetMapInfoTableMap() const;
 
 private:
     bool    Load();
     void    FillData(MapInfoTable* row, TiXmlElement* element);
 
-    std::map<unsigned int,MapInfoTable*>      m_kMapInfoTableMap;
-    static MapInfoTableMgr* m_pkMapInfoTableMgr;
+    std::map<unsigned int,std::shared_ptr<const MapInfoTable>>      m_kMapInfoTableMap;
+    static std::unique_ptr<MapInfoTableMgr>        m_pkMapInfoTableMgr;
 };

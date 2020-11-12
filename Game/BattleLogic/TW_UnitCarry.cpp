@@ -884,7 +884,7 @@ bool BeUnit::IsForbidSkill(BeSkill* pkSkill) const
 
 BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iUnitID, bool bAddDead, int iForceID)
 {
-	const BufferTable* pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
+	auto& pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
 	if (!pkRes)
 	{
 		return nullptr;

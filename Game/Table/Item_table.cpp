@@ -2,30 +2,31 @@
 #include "tinyxml.h"
 #include <fstream>
 
-ItemTableMgr* ItemTableMgr::m_pkItemTableMgr = nullptr;
-ItemTableMgr* ItemTableMgr::Get()
+std::unique_ptr<ItemTableMgr>       ItemTableMgr::m_pkItemTableMgr = nullptr;
+const std::unique_ptr<ItemTableMgr>& ItemTableMgr::Get()
 {
-    if(m_pkItemTableMgr == nullptr)
+    if(!m_pkItemTableMgr)
     {
-        m_pkItemTableMgr = new ItemTableMgr();
+        m_pkItemTableMgr = std::unique_ptr<ItemTableMgr>(new ItemTableMgr());
     }
     return m_pkItemTableMgr;
 }
 
 
-const std::map<unsigned int, ItemTable*>& ItemTableMgr::GetItemTableMap()
+const std::map<unsigned int, std::shared_ptr<const ItemTable>>& ItemTableMgr::GetItemTableMap() const
 {
     return m_kItemTableMap;
 }
 
-const ItemTable* ItemTableMgr::GetItemTable(unsigned int iTypeID)
+const std::shared_ptr<const ItemTable>& ItemTableMgr::GetItemTable(unsigned int iTypeID) const
 {
-    std::map<unsigned int, ItemTable*>::iterator iter = m_kItemTableMap.find(iTypeID);
+    auto iter = m_kItemTableMap.find(iTypeID);
     if(iter != m_kItemTableMap.end())
     {
         return iter->second;
     }
-    return nullptr;
+    static auto nullValue = std::shared_ptr<const ItemTable>();
+    return nullValue;
 }
 
 ItemTableMgr::ItemTableMgr()
@@ -115,5 +116,5 @@ void ItemTableMgr::FillData(ItemTable* row, TiXmlElement* element)
     element->Attribute("PileCount", &int_value);
     row->uiPileCount = (unsigned int)int_value;
 
-    m_kItemTableMap[row->uiItemTypeID] = row;
+    m_kItemTableMap[row->uiItemTypeID] = std::shared_ptr<ItemTable>(row);
 }

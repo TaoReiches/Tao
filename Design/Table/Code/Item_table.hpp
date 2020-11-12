@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 
 
@@ -30,17 +31,17 @@ class TiXmlElement;
 class ItemTableMgr
 {
 public:
-    static ItemTableMgr* Get();
+    static const std::unique_ptr<ItemTableMgr>& Get();
     ItemTableMgr();
     ~ItemTableMgr();
 
-    const ItemTable* GetItemTable(unsigned int iTypeID);
-    const std::map<unsigned int, ItemTable*>& GetItemTableMap();
+    const std::shared_ptr<const ItemTable>& GetItemTable(unsigned int iTypeID) const;
+    const std::map<unsigned int, std::shared_ptr<const ItemTable>>& GetItemTableMap() const;
 
 private:
     bool    Load();
     void    FillData(ItemTable* row, TiXmlElement* element);
 
-    std::map<unsigned int,ItemTable*>      m_kItemTableMap;
-    static ItemTableMgr* m_pkItemTableMgr;
+    std::map<unsigned int,std::shared_ptr<const ItemTable>>      m_kItemTableMap;
+    static std::unique_ptr<ItemTableMgr>        m_pkItemTableMgr;
 };

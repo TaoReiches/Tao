@@ -2,30 +2,31 @@
 #include "tinyxml.h"
 #include <fstream>
 
-BufferTableMgr* BufferTableMgr::m_pkBufferTableMgr = nullptr;
-BufferTableMgr* BufferTableMgr::Get()
+std::unique_ptr<BufferTableMgr>       BufferTableMgr::m_pkBufferTableMgr = nullptr;
+const std::unique_ptr<BufferTableMgr>& BufferTableMgr::Get()
 {
-    if(m_pkBufferTableMgr == nullptr)
+    if(!m_pkBufferTableMgr)
     {
-        m_pkBufferTableMgr = new BufferTableMgr();
+        m_pkBufferTableMgr = std::unique_ptr<BufferTableMgr>(new BufferTableMgr());
     }
     return m_pkBufferTableMgr;
 }
 
 
-const std::map<unsigned int, BufferTable*>& BufferTableMgr::GetBufferTableMap()
+const std::map<unsigned int, std::shared_ptr<const BufferTable>>& BufferTableMgr::GetBufferTableMap() const
 {
     return m_kBufferTableMap;
 }
 
-const BufferTable* BufferTableMgr::GetBufferTable(unsigned int iTypeID)
+const std::shared_ptr<const BufferTable>& BufferTableMgr::GetBufferTable(unsigned int iTypeID) const
 {
-    std::map<unsigned int, BufferTable*>::iterator iter = m_kBufferTableMap.find(iTypeID);
+    auto iter = m_kBufferTableMap.find(iTypeID);
     if(iter != m_kBufferTableMap.end())
     {
         return iter->second;
     }
-    return nullptr;
+    static auto nullValue = std::shared_ptr<const BufferTable>();
+    return nullValue;
 }
 
 BufferTableMgr::BufferTableMgr()
@@ -95,5 +96,5 @@ void BufferTableMgr::FillData(BufferTable* row, TiXmlElement* element)
     element->Attribute("Property", &int_value);
     row->uiProperty = (unsigned int)int_value;
 
-    m_kBufferTableMap[row->uiBufferTypeID] = row;
+    m_kBufferTableMap[row->uiBufferTypeID] = std::shared_ptr<BufferTable>(row);
 }

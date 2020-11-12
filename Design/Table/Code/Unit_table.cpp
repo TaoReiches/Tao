@@ -2,30 +2,31 @@
 #include "tinyxml.h"
 #include <fstream>
 
-UnitTableMgr* UnitTableMgr::m_pkUnitTableMgr = nullptr;
-UnitTableMgr* UnitTableMgr::Get()
+std::unique_ptr<UnitTableMgr>       UnitTableMgr::m_pkUnitTableMgr = nullptr;
+const std::unique_ptr<UnitTableMgr>& UnitTableMgr::Get()
 {
-    if(m_pkUnitTableMgr == nullptr)
+    if(!m_pkUnitTableMgr)
     {
-        m_pkUnitTableMgr = new UnitTableMgr();
+        m_pkUnitTableMgr = std::unique_ptr<UnitTableMgr>(new UnitTableMgr());
     }
     return m_pkUnitTableMgr;
 }
 
 
-const std::map<unsigned int, UnitTable*>& UnitTableMgr::GetUnitTableMap()
+const std::map<unsigned int, std::shared_ptr<const UnitTable>>& UnitTableMgr::GetUnitTableMap() const
 {
     return m_kUnitTableMap;
 }
 
-const UnitTable* UnitTableMgr::GetUnitTable(unsigned int iTypeID)
+const std::shared_ptr<const UnitTable>& UnitTableMgr::GetUnitTable(unsigned int iTypeID) const
 {
-    std::map<unsigned int, UnitTable*>::iterator iter = m_kUnitTableMap.find(iTypeID);
+    auto iter = m_kUnitTableMap.find(iTypeID);
     if(iter != m_kUnitTableMap.end())
     {
         return iter->second;
     }
-    return nullptr;
+    static auto nullValue = std::shared_ptr<const UnitTable>();
+    return nullValue;
 }
 
 UnitTableMgr::UnitTableMgr()
@@ -164,5 +165,5 @@ void UnitTableMgr::FillData(UnitTable* row, TiXmlElement* element)
     element->Attribute("MpRegenAddUp", &float_value);
     row->fMpRegenAddUp = (float)float_value;
 
-    m_kUnitTableMap[row->uiUnitTypeID] = row;
+    m_kUnitTableMap[row->uiUnitTypeID] = std::shared_ptr<UnitTable>(row);
 }

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 
 enum E_SKILLTABLE_OPERATETYPE
@@ -141,17 +142,17 @@ class TiXmlElement;
 class SkillTableMgr
 {
 public:
-    static SkillTableMgr* Get();
+    static const std::unique_ptr<SkillTableMgr>& Get();
     SkillTableMgr();
     ~SkillTableMgr();
 
-    const SkillTable* GetSkillTable(unsigned int iTypeID);
-    const std::map<unsigned int, SkillTable*>& GetSkillTableMap();
+    const std::shared_ptr<const SkillTable>& GetSkillTable(unsigned int iTypeID) const;
+    const std::map<unsigned int, std::shared_ptr<const SkillTable>>& GetSkillTableMap() const;
 
 private:
     bool    Load();
     void    FillData(SkillTable* row, TiXmlElement* element);
 
-    std::map<unsigned int,SkillTable*>      m_kSkillTableMap;
-    static SkillTableMgr* m_pkSkillTableMgr;
+    std::map<unsigned int,std::shared_ptr<const SkillTable>>      m_kSkillTableMap;
+    static std::unique_ptr<SkillTableMgr>        m_pkSkillTableMgr;
 };

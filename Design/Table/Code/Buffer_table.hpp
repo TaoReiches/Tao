@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 
 
@@ -30,17 +31,17 @@ class TiXmlElement;
 class BufferTableMgr
 {
 public:
-    static BufferTableMgr* Get();
+    static const std::unique_ptr<BufferTableMgr>& Get();
     BufferTableMgr();
     ~BufferTableMgr();
 
-    const BufferTable* GetBufferTable(unsigned int iTypeID);
-    const std::map<unsigned int, BufferTable*>& GetBufferTableMap();
+    const std::shared_ptr<const BufferTable>& GetBufferTable(unsigned int iTypeID) const;
+    const std::map<unsigned int, std::shared_ptr<const BufferTable>>& GetBufferTableMap() const;
 
 private:
     bool    Load();
     void    FillData(BufferTable* row, TiXmlElement* element);
 
-    std::map<unsigned int,BufferTable*>      m_kBufferTableMap;
-    static BufferTableMgr* m_pkBufferTableMgr;
+    std::map<unsigned int,std::shared_ptr<const BufferTable>>      m_kBufferTableMap;
+    static std::unique_ptr<BufferTableMgr>        m_pkBufferTableMgr;
 };

@@ -2,30 +2,31 @@
 #include "tinyxml.h"
 #include <fstream>
 
-SkillTableMgr* SkillTableMgr::m_pkSkillTableMgr = nullptr;
-SkillTableMgr* SkillTableMgr::Get()
+std::unique_ptr<SkillTableMgr>       SkillTableMgr::m_pkSkillTableMgr = nullptr;
+const std::unique_ptr<SkillTableMgr>& SkillTableMgr::Get()
 {
-    if(m_pkSkillTableMgr == nullptr)
+    if(!m_pkSkillTableMgr)
     {
-        m_pkSkillTableMgr = new SkillTableMgr();
+        m_pkSkillTableMgr = std::unique_ptr<SkillTableMgr>(new SkillTableMgr());
     }
     return m_pkSkillTableMgr;
 }
 
 
-const std::map<unsigned int, SkillTable*>& SkillTableMgr::GetSkillTableMap()
+const std::map<unsigned int, std::shared_ptr<const SkillTable>>& SkillTableMgr::GetSkillTableMap() const
 {
     return m_kSkillTableMap;
 }
 
-const SkillTable* SkillTableMgr::GetSkillTable(unsigned int iTypeID)
+const std::shared_ptr<const SkillTable>& SkillTableMgr::GetSkillTable(unsigned int iTypeID) const
 {
-    std::map<unsigned int, SkillTable*>::iterator iter = m_kSkillTableMap.find(iTypeID);
+    auto iter = m_kSkillTableMap.find(iTypeID);
     if(iter != m_kSkillTableMap.end())
     {
         return iter->second;
     }
-    return nullptr;
+    static auto nullValue = std::shared_ptr<const SkillTable>();
+    return nullValue;
 }
 
 SkillTableMgr::SkillTableMgr()
@@ -318,5 +319,5 @@ void SkillTableMgr::FillData(SkillTable* row, TiXmlElement* element)
     element->Attribute("SkillEffect", &int_value);
     row->uiSkillEffect = (unsigned int)int_value;
 
-    m_kSkillTableMap[row->uiTypeID] = row;
+    m_kSkillTableMap[row->uiTypeID] = std::shared_ptr<SkillTable>(row);
 }

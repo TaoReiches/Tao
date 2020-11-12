@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 
 
 enum E_UNITTABLE_CLASSTYPE
@@ -80,17 +81,17 @@ class TiXmlElement;
 class UnitTableMgr
 {
 public:
-    static UnitTableMgr* Get();
+    static const std::unique_ptr<UnitTableMgr>& Get();
     UnitTableMgr();
     ~UnitTableMgr();
 
-    const UnitTable* GetUnitTable(unsigned int iTypeID);
-    const std::map<unsigned int, UnitTable*>& GetUnitTableMap();
+    const std::shared_ptr<const UnitTable>& GetUnitTable(unsigned int iTypeID) const;
+    const std::map<unsigned int, std::shared_ptr<const UnitTable>>& GetUnitTableMap() const;
 
 private:
     bool    Load();
     void    FillData(UnitTable* row, TiXmlElement* element);
 
-    std::map<unsigned int,UnitTable*>      m_kUnitTableMap;
-    static UnitTableMgr* m_pkUnitTableMgr;
+    std::map<unsigned int,std::shared_ptr<const UnitTable>>      m_kUnitTableMap;
+    static std::unique_ptr<UnitTableMgr>        m_pkUnitTableMgr;
 };

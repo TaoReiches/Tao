@@ -33,7 +33,7 @@ bool BeBuffer::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
 
-	m_pkRes.reset(BufferTableMgr::Get()->GetBufferTable(iTypeID));
+	m_pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
 
 	return true;
 }

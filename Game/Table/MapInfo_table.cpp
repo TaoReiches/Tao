@@ -2,30 +2,31 @@
 #include "tinyxml.h"
 #include <fstream>
 
-MapInfoTableMgr* MapInfoTableMgr::m_pkMapInfoTableMgr = nullptr;
-MapInfoTableMgr* MapInfoTableMgr::Get()
+std::unique_ptr<MapInfoTableMgr>       MapInfoTableMgr::m_pkMapInfoTableMgr = nullptr;
+const std::unique_ptr<MapInfoTableMgr>& MapInfoTableMgr::Get()
 {
-    if(m_pkMapInfoTableMgr == nullptr)
+    if(!m_pkMapInfoTableMgr)
     {
-        m_pkMapInfoTableMgr = new MapInfoTableMgr();
+        m_pkMapInfoTableMgr = std::unique_ptr<MapInfoTableMgr>(new MapInfoTableMgr());
     }
     return m_pkMapInfoTableMgr;
 }
 
 
-const std::map<unsigned int, MapInfoTable*>& MapInfoTableMgr::GetMapInfoTableMap()
+const std::map<unsigned int, std::shared_ptr<const MapInfoTable>>& MapInfoTableMgr::GetMapInfoTableMap() const
 {
     return m_kMapInfoTableMap;
 }
 
-const MapInfoTable* MapInfoTableMgr::GetMapInfoTable(unsigned int iTypeID)
+const std::shared_ptr<const MapInfoTable>& MapInfoTableMgr::GetMapInfoTable(unsigned int iTypeID) const
 {
-    std::map<unsigned int, MapInfoTable*>::iterator iter = m_kMapInfoTableMap.find(iTypeID);
+    auto iter = m_kMapInfoTableMap.find(iTypeID);
     if(iter != m_kMapInfoTableMap.end())
     {
         return iter->second;
     }
-    return nullptr;
+    static auto nullValue = std::shared_ptr<const MapInfoTable>();
+    return nullValue;
 }
 
 MapInfoTableMgr::MapInfoTableMgr()
@@ -97,5 +98,5 @@ void MapInfoTableMgr::FillData(MapInfoTable* row, TiXmlElement* element)
     element->Attribute("Property", &int_value);
     row->uiProperty = (unsigned int)int_value;
 
-    m_kMapInfoTableMap[row->uiMapTypeID] = row;
+    m_kMapInfoTableMap[row->uiMapTypeID] = std::shared_ptr<MapInfoTable>(row);
 }
