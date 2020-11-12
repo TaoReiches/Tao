@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include "TW_FlagObject.h"
 #include "TW_ChangeFlagObject.h"
 #include "TW_LogicBase.h"
@@ -66,7 +67,7 @@ public:
     virtual bool Initialize(int iTypeID) = 0;
 
 protected:
-    void	InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int iSkillTypeID = 0);
+    void	InitNormalAttr(const std::shared_ptr<const SkillTable>& pkSkillRes, int iSkillLevel, int iSkillTypeID = 0);
     void	InitAttrFromSkill(int iSkillTypeID, int iSkillLevel = 1);
 
 protected:

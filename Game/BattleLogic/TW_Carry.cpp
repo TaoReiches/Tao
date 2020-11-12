@@ -540,7 +540,7 @@ void BeCarry::SetNormalAttrByData(int eType, float fValue, bool bAdd)
 	}
 }
 
-void BeCarry::InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int iSkillTypeID)
+void BeCarry::InitNormalAttr(const std::shared_ptr<const SkillTable>& pkSkillRes, int iSkillLevel, int iSkillTypeID)
 {
 	if (iSkillLevel < 1 || iSkillLevel > 5)
 	{
@@ -599,7 +599,7 @@ void BeCarry::InitNormalAttr(const SkillTable* pkSkillRes, int iSkillLevel, int 
 
 void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 {
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkSkillRes)
 	{
 		return;

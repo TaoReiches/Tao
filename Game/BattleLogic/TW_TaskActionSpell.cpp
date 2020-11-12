@@ -124,7 +124,7 @@ bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bE
 		}
 	}
 
-	m_pkSkillRes = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);///gMain.GetResSkill(iSkillTypeID,(BeUnit*)pkAttachUnit);
+	m_pkSkillRes = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);
 
 	gUnit.SetTarFace(gUnit.GetFace());
 	if (iTargetID && iTargetID != gUnit.GetID())

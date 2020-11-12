@@ -224,7 +224,7 @@ void BeMain::SetGameFrame(unsigned int dwFrame)
 
 int BeMain::GetSkillOrgTypeID(int iSkillTypeID)
 {
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes && pkSkillRes->uiOriginTypeID == (unsigned int)-1)
 	{
 		return iSkillTypeID;

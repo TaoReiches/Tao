@@ -23,7 +23,7 @@ BeMapItem::~BeMapItem(void)
 
 bool BeMapItem::Initialize(int iTypeID)
 {
-	m_pkRes.reset(ItemTableMgr::Get()->GetItemTable(iTypeID));
+	m_pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!m_pkRes)
 	{
 		return false;

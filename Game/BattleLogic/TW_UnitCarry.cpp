@@ -29,7 +29,7 @@ TwUnitCarry::~TwUnitCarry()
 
 BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
-	const ItemTable* pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
+	auto& pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!pkRes)
 	{
 		return nullptr;
@@ -88,7 +88,7 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 			}
 			iLastRegSkill = iSkillID;
 
-			const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillID);
+			auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillID);
 			if (!pkSkillRes)
 			{
 				break;
@@ -449,7 +449,7 @@ bool BeUnit::PickAroundItem(void)
 
 BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, bool bGenusSkill, int iForceID)
 {
-	const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
+	auto& pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 	if (!pkRes)
 	{
 		return nullptr;
@@ -798,7 +798,7 @@ const std::vector<std::shared_ptr<BeSkill>>& BeUnit::GetNormalSkill(void)
 
 int	BeUnit::GetItemUseSkill(int iItemTypeID)
 {
-	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
+	auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (!pkItemRes)
 	{
 		return 0;
@@ -807,7 +807,7 @@ int	BeUnit::GetItemUseSkill(int iItemTypeID)
 	for (int i = 0; i < 6; i++)
 	{
 		int iItemSkillTypeID = pkItemRes->iItemSkill[i];
-		const SkillTable* pkSkillTable = SkillTableMgr::Get()->GetSkillTable(iItemSkillTypeID);
+		auto& pkSkillTable = SkillTableMgr::Get()->GetSkillTable(iItemSkillTypeID);
 		if (pkSkillTable)
 		{
 			if (pkSkillTable->uiOperateType != SKILL_OPERATETYPE_PASSIVE)
@@ -826,7 +826,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 	{
 		return 0;
 	}
-	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
+	auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
 	if (!pkItemRes)
 	{
 		return 0;
@@ -840,7 +840,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 		{
 			iTypeID = pkItemRes->iItemSkill[i];
 		}
-		const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
+		auto& pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 		if (pkRes)
 		{
 			if (pkRes->uiOperateType != SKILL_OPERATETYPE_PASSIVE)
@@ -850,7 +850,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 			}
 		}
 	}
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkSkillRes)
 	{
 		return 0;

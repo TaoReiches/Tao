@@ -31,7 +31,7 @@ BeSkill::~BeSkill()
 bool BeSkill::Initialize(int iTypeID)
 {
 	BeCarry::Initialize(iTypeID);
-	m_pkRes.reset(SkillTableMgr::Get()->GetSkillTable(iTypeID));
+	m_pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 	if (!m_pkRes)
 	{
 		return false;

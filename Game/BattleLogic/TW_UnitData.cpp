@@ -506,7 +506,7 @@ bool TwUnitData::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, in
 		{
 			iSkillLevel -= 1;
 		}
-		pkSkillRes.reset(SkillTableMgr::Get()->GetSkillTable(iSkillTypeID));
+		pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 		if (pkSkillRes)
 		{
 			rkData = SeSkillLvlData(pkSkillRes, iSkillLevel);

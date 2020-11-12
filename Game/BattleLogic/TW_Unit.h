@@ -497,7 +497,7 @@ public:
 	bool UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel);
 
 	void TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag, int& iDynaPropFlag) const;
-	bool IsSkillTargetType(const SkillTable* pkRes, const BeUnit* pkTarget = 0) const;
+	bool IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const BeUnit* pkTarget = 0) const;
 	bool IsTargetUnit(const BeUnit* pkUnit, int iStaticProcFlag, int iDynaPropFlag) const;
 
 	bool PickMapItem(BeMapItem* pkMapItem);

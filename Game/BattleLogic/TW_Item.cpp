@@ -12,7 +12,7 @@
 BeItem::BeItem(int iID) : BeCarrySkill(iID)
 {
 	m_eType = BCT_ITEM;
-	m_pkRes = nullptr;
+	m_pkRes.reset();
 	m_iSkillCDTime = 0;
 	m_iSkillTypeID = 0;
 	m_iUniqueID = 0;
@@ -137,7 +137,7 @@ void BeItem::Update(BeUnit* pkUnit, int iDeltaTime)
 		return;
 	}
 	{
-		const ItemTable* pkItemRes = GetResPtr();
+		auto& pkItemRes = GetResPtr();
 		if (!pkItemRes)
 		{
 			return;

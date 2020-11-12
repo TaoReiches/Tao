@@ -5,6 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include "TW_Task.h"
 #include "TW_Pos2.h"
 
@@ -75,10 +76,10 @@ protected:
 	int				m_iShakesTime;
 	bool			m_bSkipEffectTime;
 
-	const SkillTable* m_pkSkillRes;
+	std::shared_ptr<const SkillTable> m_pkSkillRes;
 
 public:
-	inline const SkillTable* GetSkillRes() const
+	inline const std::shared_ptr<const SkillTable>& GetSkillRes() const
 	{
 		return m_pkSkillRes;
 	}

@@ -205,7 +205,7 @@ BeUnit::~BeUnit(void)
 bool BeUnit::Initialize(int iTypeID)
 {
 	m_iTypeID = iTypeID;
-	const UnitTable* pkRes = UnitTableMgr::Get()->GetUnitTable(iTypeID);
+	auto& pkRes = UnitTableMgr::Get()->GetUnitTable(iTypeID);
 	if (!pkRes)
 	{
 		return false;
@@ -675,7 +675,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 				{
 					return false;
 				}
-				if (!IsSkillTargetType(pkSkill->GetSkillRes().get(), pkUnit))
+				if (!IsSkillTargetType(pkSkill->GetSkillRes(), pkUnit))
 				{
 					return false;
 				}
@@ -1407,7 +1407,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const BeUnit* p
 	}
 
 	int iNeedMana = 0;
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes)
 	{
 		iNeedMana = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID)->iManaSpend[pkSkill->GetLevel() - 1];
@@ -1436,7 +1436,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const BeUnit* p
 	return UUSRT_OK;
 }
 
-bool BeUnit::IsSkillTargetType(const SkillTable* pkRes, const BeUnit* pkTarget) const
+bool BeUnit::IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const BeUnit* pkTarget) const
 {
 	if (!pkRes)
 	{
@@ -1941,7 +1941,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 
 void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY)
 {
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_PASSIVE)
 	{
 		return;
@@ -2257,13 +2257,13 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 
 	int iItemTypeID = pkMapItem->GetTypeID();
 	int iSkillTypeID = 0;
-	const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
+	auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (pkItemRes)
 	{
 		for (int i = 0; i < ITEM_MAX_SKILL; ++i)
 		{
 			int iID = pkItemRes->iItemSkill[i];
-			const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iID);
+			auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iID);
 			if (pkSkillRes)
 			{
 				if (pkSkillRes->uiOperateType != SKILL_OPERATETYPE_PASSIVE)

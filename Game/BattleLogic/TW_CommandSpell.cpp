@@ -31,7 +31,7 @@ BeSpellCommand::BeSpellCommand()
 
 void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TePos2& kPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer, int iTargetType)
 {
-	const SkillTable* pkResData = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkResData = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkResData)
 	{
 		return;
@@ -104,7 +104,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const 
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
 
-	const SkillTable* pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkSkillRes)
 	{
 		return;
@@ -138,7 +138,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 	}
 	if (m_pkCurTask->GetType() != BeTaskType::STT_ACTION_SPELL)
 	{
-		const SkillTable* pkResData = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);
+		auto& pkResData = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);
 		if (!pkResData)
 		{
 			return BeExeResult::BER_EXE_END;
@@ -278,7 +278,7 @@ bool BeSpellCommand::CanCancel() const
 	}
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_CAST)
 	{
-		const SkillTable* pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
+		auto& pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
 		if (pkRes)
 		{
 			return true;
@@ -288,7 +288,7 @@ bool BeSpellCommand::CanCancel() const
 	}
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_EFFECT)
 	{
-		const SkillTable* pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
+		auto& pkRes = ((BeTaskActionSpell*)m_pkCurTask.get())->GetSkillRes();
 		if (pkRes && (pkRes->iShakesTime[0] > 0))
 		{
 			return false;

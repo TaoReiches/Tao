@@ -36,8 +36,8 @@ public:
     int				GetLastUseTime(void)	const;
     int				GetItemAllCDTime()	const;
     void			SetItemCDTime(int iTime);
-    const ItemTable* GetResPtr(void) const;
-    void SetResPtr(const ItemTable* pkRes);
+    const std::shared_ptr<const ItemTable>& GetResPtr(void) const;
+    void SetResPtr(std::shared_ptr<const ItemTable> pkRes);
     int GetCDSkillID();
     bool HasProperty(int iProperty) const;
     int AddProperty(int iProperty);
@@ -89,7 +89,7 @@ public:
     void SetUniqueID(int iUniqueID);
 
 protected:
-    const ItemTable* m_pkRes;
+    std::shared_ptr<const ItemTable> m_pkRes;
     BeItemData				m_kData;
 
     int						m_iUniqueID;
@@ -141,11 +141,11 @@ inline	void			BeItem::SetItemCDTime(int iTime)
 {
     m_iSkillCDTime = iTime;
 }
-inline const ItemTable* BeItem::GetResPtr(void) const
+inline const std::shared_ptr<const ItemTable>& BeItem::GetResPtr() const
 {
     return m_pkRes;
 }
-inline void BeItem::SetResPtr(const ItemTable* pkRes)
+inline void BeItem::SetResPtr(std::shared_ptr<const ItemTable> pkRes)
 {
     m_pkRes = pkRes;
 }

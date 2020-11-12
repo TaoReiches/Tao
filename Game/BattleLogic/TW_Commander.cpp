@@ -632,7 +632,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		{
 			return false;
 		}
-		const ItemTable* pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
+		auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(pkItem->GetTypeID());
 		if (!pkItemRes)
 		{
 			return false;
@@ -640,7 +640,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 
 		int iSkillTypeID = gUnit.GetItemSkillTypeID(kCmd.iData);
 
-		const SkillTable* pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
+		auto& pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 		if (!pkRes)
 		{
 			return false;
