@@ -1,6 +1,11 @@
 ﻿#pragma once
 #pragma execution_character_set("utf-8")
 
+/**********************************************
+* Author: Tao Wang  Copyright reserved
+* Contact: tao.reiches@gmail.com
+**********************************************/
+
 #include <string>
 #include <map>
 #include <memory>

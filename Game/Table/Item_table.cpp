@@ -1,4 +1,9 @@
-﻿#include "Item_table.hpp"
+﻿/**********************************************
+* Author: Tao Wang  Copyright reserved
+* Contact: tao.reiches@gmail.com
+**********************************************/
+
+#include "Item_table.hpp"
 #include "tinyxml.h"
 #include <fstream>
 

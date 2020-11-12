@@ -112,6 +112,11 @@ namespace table_gen
             sb.AppendLine("#pragma once");
             sb.AppendLine("#pragma execution_character_set(\"utf-8\")");
             sb.AppendLine("");
+            sb.AppendLine("/**********************************************");
+            sb.AppendLine("* Author: Tao Wang  Copyright reserved");
+            sb.AppendLine("* Contact: tao.reiches@gmail.com");
+            sb.AppendLine("**********************************************/");
+            sb.AppendLine("");
             sb.AppendLine("#include <string>");
             sb.AppendLine("#include <map>");
             sb.AppendLine("#include <memory>");
@@ -410,7 +415,7 @@ namespace table_gen
                     for (int i = 0; i < kData.iLength; i++)
                     {
                         sb.AppendLine(string.Format("    element->Attribute(\"{0}{1}\", &float_value);", kData.kMemberName, i));
-                        sb.AppendLine(string.Format("    row->f{0}[{1}] = float_value;", kData.kMemberName, i));
+                        sb.AppendLine(string.Format("    row->f{0}[{1}] = ({2})float_value;", kData.kMemberName, i, MyExcel.kTypeReal[4]));
                     }
                 }
                 else if (kData.kType[0] == MyExcel.kTypeClass[8])

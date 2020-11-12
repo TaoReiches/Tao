@@ -264,6 +264,11 @@ namespace table_gen
         {
             StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine("/**********************************************");
+            sb.AppendLine("* Author: Tao Wang  Copyright reserved");
+            sb.AppendLine("* Contact: tao.reiches@gmail.com");
+            sb.AppendLine("**********************************************/");
+            sb.AppendLine("");
             sb.AppendLine(string.Format("#include \"{0}\"", hpp_filename));
             sb.AppendLine("#include \"tinyxml.h\"");
             sb.AppendLine("#include <fstream>");
