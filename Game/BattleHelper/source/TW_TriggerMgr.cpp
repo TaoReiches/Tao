@@ -6,31 +6,33 @@
 #include "TW_TriggerMgr.h"
 #include "TW_TriggerMgrDef.h"
 #include "TW_Define.h"
+#include "TW_MemoryPool.h"
 
-#define DATA_CONFERENCE() TePtTriggerMgrData& rkData = *((TePtTriggerMgrData *)m_pkData)
+TeMemoryPool<TePtTrigger>          mpTrigger(512);
+#define DATA_CONFERENCE() TwPtTriggerMgrData& rkData = *((TwPtTriggerMgrData *)m_pkData)
 
 TePtTriggerMgr::TePtTriggerMgr(void* pkParam)
 {
-	m_pkData = new TePtTriggerMgrData;
+	m_pkData = new TwPtTriggerMgrData;
 	DATA_CONFERENCE();
 
 	rkData.m_pkParam = pkParam;
 
 	rkData.m_iGenID = 0;
 	rkData.m_uiTimeNow = 0;
-	rkData.m_pkCurTrigger = NULL;
+	rkData.m_pkCurTrigger.reset();
 
 	rkData.m_iMaxEvent = 0;
-	rkData.m_akEventTrgs = NULL;
+	rkData.m_akEventTrgs.clear();
 }
 
 TePtTriggerMgr::~TePtTriggerMgr(void)
 {
 	Finialize();
 
-	TePtTriggerMgrData* pkData = (TePtTriggerMgrData*)m_pkData;
+	TwPtTriggerMgrData* pkData = (TwPtTriggerMgrData*)m_pkData;
 	delete pkData;
-	m_pkData = NULL;
+	m_pkData = nullptr;
 }
 
 bool TePtTriggerMgr::Initialize(int iMaxEvent)
@@ -39,10 +41,9 @@ bool TePtTriggerMgr::Initialize(int iMaxEvent)
 
 	rkData.m_iGenID = 0;
 	rkData.m_uiTimeNow = 0;
-	rkData.m_pkCurTrigger = NULL;
+	rkData.m_pkCurTrigger.reset();
 
 	rkData.m_iMaxEvent = iMaxEvent;
-	rkData.m_akEventTrgs = new PtListTrgInfo[iMaxEvent];
 
 	rkData.m_kTriggers.clear();
 
@@ -55,20 +56,20 @@ void TePtTriggerMgr::Update(int iDeltaTime)
 
 	rkData.m_uiTimeNow += iDeltaTime;
 
-	for (std::map<int, TePtTrigger*>::iterator kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end();)
+	for (auto kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end();)
 	{
-		TePtTrigger* pkTrigger = kIter->second;
-		if (pkTrigger->m_eState == TePtTriggerState::PTTS_OVER)
+		auto pkTrigger = kIter->second;
+		if (pkTrigger->m_eState == TwPtTriggerState::PTTS_OVER)
 		{
-			SAFE_DELETE(pkTrigger);
-			std::map<int, TePtTrigger*>::iterator itr1 = kIter;
+			mpTrigger.free(pkTrigger.get());
+            auto itr1 = kIter;
 			++kIter;
 			rkData.m_kTriggers.erase(itr1);
 			continue;
 		}
 
 		rkData.m_pkCurTrigger = pkTrigger;
-		rkData.m_pkCurParam = &(pkTrigger->m_kParam);
+		rkData.m_pkCurParam = std::shared_ptr<TePtParam>(&(pkTrigger->m_kParam));
 
 		pkTrigger->Execute(rkData.m_uiTimeNow);
 
@@ -83,11 +84,10 @@ void TePtTriggerMgr::Finialize(void)
 {
 	DATA_CONFERENCE();
 
-	for (std::map<int, TePtTrigger*>::iterator kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end(); ++kIter)
+	for (auto kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end(); ++kIter)
 	{
-		TePtTrigger* pkTrigger = kIter->second;
-
-		SAFE_DELETE(pkTrigger);
+		auto pkTrigger = kIter->second;
+		mpTrigger.free(pkTrigger.get());
 	}
 	rkData.m_kTriggers.clear();
 
@@ -96,7 +96,7 @@ void TePtTriggerMgr::Finialize(void)
 	rkData.m_pkCurTrigger = NULL;
 
 	rkData.m_iMaxEvent = 0;
-	SAFE_ARRAY_DELETE(rkData.m_akEventTrgs);
+	rkData.m_akEventTrgs.clear();
 }
 
 unsigned int TePtTriggerMgr::GetTimeNow(void)
@@ -167,8 +167,7 @@ void    TePtTriggerMgr::OnUnitDelete(void* pkUnit)
 
 	for (auto kIter = rkData.m_kTriggers.begin(); kIter != rkData.m_kTriggers.end(); ++kIter)
 	{
-		TePtTrigger* pkTrigger = kIter->second;
-
+		auto pkTrigger = kIter->second;
 		if (pkTrigger)
 		{
 			pkTrigger->OnDeleteUnit(pkUnit);
@@ -230,38 +229,37 @@ void	TePtTriggerMgr::FireTrigger(int iEvent, TePtParam& rkParam)
 {
 	DATA_CONFERENCE();
 
-	if (iEvent < 0 || iEvent >= rkData.m_iMaxEvent)
+    auto eventTrg = rkData.m_akEventTrgs.find(iEvent);
+    if (eventTrg == rkData.m_akEventTrgs.end())
+    {
+        return;
+    }
+
+	auto kList = eventTrg->second;
+	if (kList.size() == 0)
 	{
 		return;
 	}
 
-	PtListTrgInfo& kList = rkData.m_akEventTrgs[iEvent];
-	if (kList.size() <= 0)
+	for (auto kIter = kList.begin(); kIter != kList.end(); ++kIter)
 	{
-		return;
-	}
-
-	for (PtListTrgInfo::iterator kIter = kList.begin(); kIter != kList.end(); ++kIter)
-	{
-		TePtTriggerInfo& kInfo = *kIter;
-
+		auto& kInfo = *kIter;
 		if (kInfo.bDisabled)
 		{
 			continue;
 		}
-
 		if (kInfo.iTrgCount >= 24)
 		{
 			throw 0;
 			return;
 		}
 
-		TePtParam* pkBackupParam = rkData.m_pkCurParam;
-		rkData.m_pkCurParam = &rkParam;
+		auto pkBackupParam = rkData.m_pkCurParam;
+		rkData.m_pkCurParam = std::shared_ptr<TePtParam>(&rkParam);
 		if (kInfo.pCondition)
 		{
-			TePtCondResult eRet = kInfo.pCondition(rkData.m_pkParam);
-			if (eRet != PTCR_OK)
+			auto eRet = kInfo.pCondition(rkData.m_pkParam);
+			if (eRet != TePtCondResult::PTCR_OK)
 			{
 				rkData.m_pkCurParam = pkBackupParam;
 				continue;
@@ -270,12 +268,12 @@ void	TePtTriggerMgr::FireTrigger(int iEvent, TePtParam& rkParam)
 
 		TePtTrigger kTempTrg;
 		kTempTrg.m_iID = ++(rkData.m_iGenID);
-		kTempTrg.m_pkInfo = &kInfo;
+		kTempTrg.m_pkInfo = std::shared_ptr<TwPtTriggerInfo>(&kInfo);
 		kTempTrg.m_pkParam = rkData.m_pkParam;
 		kTempTrg.m_pAction = kInfo.pAction;
 
-		TePtTrigger* pkBackupTrg = rkData.m_pkCurTrigger;
-		rkData.m_pkCurTrigger = &kTempTrg;
+		auto pkBackupTrg = rkData.m_pkCurTrigger;
+		rkData.m_pkCurTrigger = std::shared_ptr<TePtTrigger>(&kTempTrg);
 
 		kInfo.iTrgCount++;
 
@@ -286,18 +284,18 @@ void	TePtTriggerMgr::FireTrigger(int iEvent, TePtParam& rkParam)
 		rkData.m_pkCurTrigger = pkBackupTrg;
 		rkData.m_pkCurParam = pkBackupParam;
 
-		if (kTempTrg.m_eState == TePtTriggerState::PTTS_WAIT)
+		if (kTempTrg.m_eState == TwPtTriggerState::PTTS_WAIT)
 		{
-			TePtTrigger* pkTrigger = new TePtTrigger();
+			TePtTrigger* pkTrigger = mpTrigger.alloc();
 			*pkTrigger = kTempTrg;
 			pkTrigger->m_kParam = rkParam;
 
-			rkData.m_kTriggers[pkTrigger->m_iID] = pkTrigger;
+			rkData.m_kTriggers[pkTrigger->m_iID] = std::shared_ptr<TePtTrigger>(pkTrigger);
 		}
 	}
 }
 
-bool	TePtTriggerMgr::FireTriggerBegin(int iEvent, TePtParam& rkParam, TePtParam*& pkBackupParam)
+bool	TePtTriggerMgr::FireTriggerBegin(int iEvent, TePtParam& rkParam, std::shared_ptr<TePtParam>& pkBackupParam)
 {
 	DATA_CONFERENCE();
 	if (iEvent < 0 || iEvent >= rkData.m_iMaxEvent)
@@ -305,11 +303,11 @@ bool	TePtTriggerMgr::FireTriggerBegin(int iEvent, TePtParam& rkParam, TePtParam*
 		return false;
 	}
 	pkBackupParam = rkData.m_pkCurParam;
-	rkData.m_pkCurParam = &rkParam;
+	rkData.m_pkCurParam = std::shared_ptr<TePtParam>(&rkParam);
 	return true;
 }
 
-void	TePtTriggerMgr::FireTriggerEnd(TePtParam* pkBackupParam)
+void	TePtTriggerMgr::FireTriggerEnd(std::shared_ptr<TePtParam>& pkBackupParam)
 {
 	DATA_CONFERENCE();
 	rkData.m_pkCurParam = pkBackupParam;
@@ -338,7 +336,7 @@ void	TePtTriggerMgr::RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditi
 	PtListTrgInfo& kList = rkData.m_akEventTrgs[iEvent];
 	for (PtListTrgInfo::iterator kIter = kList.begin(); kIter != kList.end(); ++kIter)
 	{
-		TePtTriggerInfo& kInfo = *kIter;
+		TwPtTriggerInfo& kInfo = *kIter;
 		if (kInfo.pAction == pAction)
 		{
 			kInfo.bDisabled = false;
@@ -346,7 +344,7 @@ void	TePtTriggerMgr::RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditi
 		}
 	}
 
-	TePtTriggerInfo info;
+	TwPtTriggerInfo info;
 	info.iEvent = iEvent;
 	info.bDisabled = false;
 	info.pCondition = pCondition;
@@ -356,11 +354,12 @@ void	TePtTriggerMgr::RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditi
 	kList.push_back(info);
 }
 
-int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePtParam& rkParam, PtConditionFun pCondition, unsigned int uiCounts, int iDelayTime)
+int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePtParam& rkParam,
+                                        PtConditionFun pCondition, unsigned int uiCounts, int iDelayTime)
 {
 	DATA_CONFERENCE();
 
-	TePtTrigger* pkTrigger = new TePtTrigger();
+	auto pkTrigger = std::shared_ptr<TePtTrigger>(mpTrigger.alloc());
 	pkTrigger->m_iID = ++(rkData.m_iGenID);
 	rkData.m_kTriggers[pkTrigger->m_iID] = pkTrigger;
 
@@ -375,10 +374,10 @@ int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePt
 
 	if (iDelayTime <= 0)
 	{
-		TePtTrigger* pkBackupTrg = rkData.m_pkCurTrigger;
+		auto pkBackupTrg = rkData.m_pkCurTrigger;
 		rkData.m_pkCurTrigger = pkTrigger;
-		TePtParam* pkBackupParam = rkData.m_pkCurParam;
-		rkData.m_pkCurParam = &(pkTrigger->m_kParam);
+		auto pkBackupParam = rkData.m_pkCurParam;
+		rkData.m_pkCurParam = std::shared_ptr<TePtParam>(&(pkTrigger->m_kParam));
 
 		pkTrigger->Execute(rkData.m_uiTimeNow);
 
@@ -387,7 +386,7 @@ int		TePtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePt
 	}
 	else
 	{
-		pkTrigger->m_eState = TePtTriggerState::PTTS_STAGE;
+		pkTrigger->m_eState = TwPtTriggerState::PTTS_STAGE;
 	}
 
 	return pkTrigger->m_iID;

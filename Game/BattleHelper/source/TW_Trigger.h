@@ -15,7 +15,7 @@ enum class TwPtTriggerType
     PTTT_TIMER,
 };
 
-enum class TePtTriggerState
+enum class TwPtTriggerState
 {
     PTTS_CREATE = 0,
     PTTS_WAIT,
@@ -23,7 +23,7 @@ enum class TePtTriggerState
     PTTS_OVER,
 };
 
-struct TePtTriggerInfo;
+class TwPtTriggerInfo;
 
 class TePtTrigger
 {
@@ -45,21 +45,19 @@ public:
 	void	OnDeleteUnit(void* pkUnit);
 
 public:
-	TwPtTriggerType	m_eType;
-	int				m_iID;
-	TePtTriggerState	m_eState;
-	unsigned int			m_uiWaitTime;
-	unsigned int			m_uiCurTime;
-	void* m_pkParam;
-	PtConditionFun	m_pCondition;
-	PtActionFun		m_pAction;
-	TePtParam		m_kParam;
-	TePtTriggerInfo* m_pkInfo;
-
-	int				m_iTimerOut;
-	unsigned int			m_uiPeriodTime;
-	unsigned int			m_uiExeCounts;
-	unsigned int			m_uiAllCounts;
-
-	pt				m_kPt;
+	TwPtTriggerType     m_eType;
+	int                 m_iID;
+	TwPtTriggerState    m_eState;
+	unsigned int        m_uiWaitTime;
+	unsigned int        m_uiCurTime;
+	void*               m_pkParam;
+	PtConditionFun	    m_pCondition;
+	PtActionFun         m_pAction;
+	TePtParam           m_kParam;
+	std::shared_ptr<TwPtTriggerInfo>    m_pkInfo;
+	int                 m_iTimerOut;
+	unsigned int        m_uiPeriodTime;
+	unsigned int        m_uiExeCounts;
+	unsigned int        m_uiAllCounts;
+	pt                  m_kPt;
 };

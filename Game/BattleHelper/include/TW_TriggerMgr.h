@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <map>
+#include <memory>
 #include "TW_PointerType.h"
 
 typedef unsigned short lc_t;
@@ -90,7 +91,7 @@ struct pt
 
 #define PT_ACTION_FUN(funName)		char funName(void* pkPama)
 
-enum TePtCondResult
+enum class TePtCondResult
 {
 	PTCR_OK = 0,
 	PTCR_END,
@@ -145,8 +146,8 @@ public:
 	bool		WaitFinish(void);
 
 	void		FireTrigger(int iEvent, TePtParam& rkParam);
-	bool		FireTriggerBegin(int iEvent, TePtParam& rkParam, TePtParam*& pkBackupParam);
-	void		FireTriggerEnd(TePtParam* pkBackupParam);
+	bool		FireTriggerBegin(int iEvent, TePtParam& rkParam, std::shared_ptr<TePtParam>& pkBackupParam);
+	void		FireTriggerEnd(std::shared_ptr<TePtParam>& pkBackupParam);
 	void		RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditionFun pCondition = NULL);
 	int			StartTimerTrg(int iTimeOut, PtActionFun pAction, const TePtParam& rkParam, PtConditionFun pCondition = NULL, unsigned int uiCounts = ((unsigned int)-1), int iDelayTime = 0);
 

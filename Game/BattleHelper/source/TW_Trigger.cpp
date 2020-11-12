@@ -12,7 +12,7 @@ TePtTrigger::TePtTrigger(void)
 {
 	m_eType = TwPtTriggerType::PTTT_EVENT;
 	m_iID = 0;
-	m_eState = TePtTriggerState::PTTS_CREATE;
+	m_eState = TwPtTriggerState::PTTS_CREATE;
 	m_uiWaitTime = 0;
 
 
@@ -51,7 +51,7 @@ void TePtTrigger::Disable(void)
 
 void	TePtTrigger::Finish(void)
 {
-	m_eState = TePtTriggerState::PTTS_OVER;
+	m_eState = TwPtTriggerState::PTTS_OVER;
 }
 
 void	TePtTrigger::Execute(unsigned int uiTimeNow)
@@ -61,7 +61,7 @@ void	TePtTrigger::Execute(unsigned int uiTimeNow)
 
 	if (m_eType == TwPtTriggerType::PTTT_TIMER)
 	{
-		if (m_eState == TePtTriggerState::PTTS_WAIT)
+		if (m_eState == TwPtTriggerState::PTTS_WAIT)
 		{
 			m_pAction(&m_kPt);
 		}
@@ -75,7 +75,7 @@ void	TePtTrigger::Execute(unsigned int uiTimeNow)
 	}
 	else
 	{
-		if (m_eState == TePtTriggerState::PTTS_WAIT)
+		if (m_eState == TwPtTriggerState::PTTS_WAIT)
 		{
 			if (m_uiCurTime >= m_uiWaitTime)
 			{
@@ -100,7 +100,7 @@ bool	TePtTrigger::WaitFinish(void)
 
 void	TePtTrigger::WaitToTime(unsigned int uiTime)
 {
-	m_eState = TePtTriggerState::PTTS_WAIT;
+	m_eState = TwPtTriggerState::PTTS_WAIT;
 	m_uiWaitTime = uiTime;
 }
 
@@ -110,16 +110,16 @@ void	TePtTrigger::Return(void)
 	{
 		if (m_uiExeCounts < m_uiAllCounts)
 		{
-			m_eState = TePtTriggerState::PTTS_STAGE;
+			m_eState = TwPtTriggerState::PTTS_STAGE;
 		}
 		else
 		{
-			m_eState = TePtTriggerState::PTTS_OVER;
+			m_eState = TwPtTriggerState::PTTS_OVER;
 		}
 	}
 	else
 	{
-		m_eState = TePtTriggerState::PTTS_OVER;
+		m_eState = TwPtTriggerState::PTTS_OVER;
 	}
 }
 
