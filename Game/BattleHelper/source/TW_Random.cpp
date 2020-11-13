@@ -7,23 +7,23 @@
 
 #define TW_DEFAULT_SEED		6869
 
-TeRandNum::TeRandNum(void)
+TwRandNum::TwRandNum(void)
 {
 	m_iSeed = TW_DEFAULT_SEED;
 	m_uiCount = 0;
 	m_uiPoolNum = 0;
 }
 
-TeRandNum::~TeRandNum(void)
+TwRandNum::~TwRandNum(void)
 {
 }
 
-ITeRandom* NewRandom()
+ITwRandom* NewRandom()
 {
-	return new TeRandNum;
+	return new TwRandNum;
 }
 
-void TeRandNum::Initialize(int iSeed)
+void TwRandNum::Initialize(int iSeed)
 {
 	if (iSeed == 0)
 	{
@@ -38,22 +38,22 @@ void TeRandNum::Initialize(int iSeed)
 	m_uiCount = 0;
 }
 
-int TeRandNum::GetSeed(void)
+int TwRandNum::GetSeed(void)
 {
 	return m_iSeed;
 }
 
-int TeRandNum::GetCount(void)
+int TwRandNum::GetCount(void)
 {
 	return m_uiCount;
 }
 
-int TeRandNum::GetPoolNum(void)
+int TwRandNum::GetPoolNum(void)
 {
 	return m_uiPoolNum;
 }
 
-int TeRandNum::RandInt(void)
+int TwRandNum::RandInt(void)
 {
 	unsigned int uiHigh = m_uiPoolNum / RAND_Q;
 	unsigned int uiLow = m_uiPoolNum - (uiHigh * RAND_Q);
@@ -74,7 +74,7 @@ int TeRandNum::RandInt(void)
 	return iRand;
 }
 
-int TeRandNum::RandInt(int iMin, int iMax)
+int TwRandNum::RandInt(int iMin, int iMax)
 {
 	if (iMax <= iMin)
 	{
@@ -84,7 +84,7 @@ int TeRandNum::RandInt(int iMin, int iMax)
 	return iMin + RandInt() % (iMax - iMin);
 }
 
-float TeRandNum::RandFloat(float fMin, float fMax)
+float TwRandNum::RandFloat(float fMin, float fMax)
 {
 	if (fMax <= fMin)
 	{

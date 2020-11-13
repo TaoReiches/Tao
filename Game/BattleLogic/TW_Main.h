@@ -24,7 +24,7 @@ class BeMapItemMgr;
 class TeMap;
 class BeUnitMgr;
 class BeEffectMgr;
-class ITeRandom;
+class ITwRandom;
 class BeSkill;
 class BeCarry;
 class SkillTable;
@@ -244,7 +244,7 @@ protected:
 
 public:
     unsigned int            m_uiGameTime;
-    ITeRandom*              m_pkRandNum;
+    ITwRandom*              m_pkRandNum;
     TeMap*                  m_pkMap;
     BeUnitMgr*              m_pkUnitMgr;
     BeEffectMgr*            m_pkEffectMgr;

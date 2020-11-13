@@ -5,7 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-class ITeRandom
+class ITwRandom
 {
 public:
 	virtual		void		Initialize(int iSeed = 0) = 0;
@@ -17,4 +17,4 @@ public:
 	virtual		float		RandFloat(float fMin, float fMax) = 0;
 };
 
-ITeRandom* NewRandom();
+ITwRandom* NewRandom();
