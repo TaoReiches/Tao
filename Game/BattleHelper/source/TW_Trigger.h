@@ -25,13 +25,13 @@ enum class TwPtTriggerState
 
 class TwPtTriggerInfo;
 
-class TePtTrigger
+class TwPtTrigger
 {
 	friend class TwPtTriggerMgr;
 
 public:
-	TePtTrigger(void);
-	~TePtTrigger(void);
+	TwPtTrigger(void);
+	~TwPtTrigger(void);
 
 	void	Enable(void);
 	void	Disable(void);

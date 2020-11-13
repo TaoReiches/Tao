@@ -8,7 +8,7 @@
 
 //ME_IMPLEMENT_POOL(TePtTrigger,true,128,32);
 
-TePtTrigger::TePtTrigger(void)
+TwPtTrigger::TwPtTrigger(void)
 {
 	m_eType = TwPtTriggerType::PTTT_EVENT;
 	m_iID = 0;
@@ -27,12 +27,12 @@ TePtTrigger::TePtTrigger(void)
 	m_uiCurTime = 0;
 }
 
-TePtTrigger::~TePtTrigger(void)
+TwPtTrigger::~TwPtTrigger(void)
 {
 
 }
 
-void TePtTrigger::Enable(void)
+void TwPtTrigger::Enable(void)
 {
 	if (m_pkInfo)
 	{
@@ -40,7 +40,7 @@ void TePtTrigger::Enable(void)
 	}
 }
 
-void TePtTrigger::Disable(void)
+void TwPtTrigger::Disable(void)
 {
 	if (m_pkInfo)
 	{
@@ -48,12 +48,12 @@ void TePtTrigger::Disable(void)
 	}
 }
 
-void	TePtTrigger::Finish(void)
+void	TwPtTrigger::Finish(void)
 {
 	m_eState = TwPtTriggerState::PTTS_OVER;
 }
 
-void	TePtTrigger::Execute(unsigned int uiTimeNow)
+void	TwPtTrigger::Execute(unsigned int uiTimeNow)
 {
 	m_uiCurTime = uiTimeNow;
 	m_kPt.pkAttachMain = m_pkParam;
@@ -88,7 +88,7 @@ void	TePtTrigger::Execute(unsigned int uiTimeNow)
 	}
 }
 
-bool	TePtTrigger::WaitFinish(void)
+bool	TwPtTrigger::WaitFinish(void)
 {
 	if (m_uiCurTime >= m_uiWaitTime)
 	{
@@ -97,13 +97,13 @@ bool	TePtTrigger::WaitFinish(void)
 	return false;
 }
 
-void	TePtTrigger::WaitToTime(unsigned int uiTime)
+void	TwPtTrigger::WaitToTime(unsigned int uiTime)
 {
 	m_eState = TwPtTriggerState::PTTS_WAIT;
 	m_uiWaitTime = uiTime;
 }
 
-void	TePtTrigger::Return(void)
+void	TwPtTrigger::Return(void)
 {
 	if (m_eType == TwPtTriggerType::PTTT_TIMER)
 	{
@@ -122,7 +122,7 @@ void	TePtTrigger::Return(void)
 	}
 }
 
-void	TePtTrigger::OnDeleteUnit(void* pkUnit)
+void	TwPtTrigger::OnDeleteUnit(void* pkUnit)
 {
 	m_kParam.OnDeleteUnit(pkUnit);
 }

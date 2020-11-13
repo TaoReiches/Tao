@@ -26,9 +26,9 @@ public:
 	void*                                       m_pkParam;
 	int                                         m_iGenID;
 	unsigned int                                m_uiTimeNow;
-	std::shared_ptr<TePtTrigger>                m_pkCurTrigger;
+	std::shared_ptr<TwPtTrigger>                m_pkCurTrigger;
     std::shared_ptr<TwPtParam>                  m_pkCurParam;
 	int                                         m_iMaxEvent;
     std::map<int, PtListTrgInfo>                m_akEventTrgs;
-	std::map<int, std::shared_ptr<TePtTrigger>> m_kTriggers;
+	std::map<int, std::shared_ptr<TwPtTrigger>> m_kTriggers;
 };

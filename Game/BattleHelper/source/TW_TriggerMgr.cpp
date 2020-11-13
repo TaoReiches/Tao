@@ -8,7 +8,7 @@
 #include "TW_Define.h"
 #include "TW_MemoryPool.h"
 
-TeMemoryPool<TePtTrigger>          mpTrigger(512);
+TeMemoryPool<TwPtTrigger>          mpTrigger(512);
 #define DATA_CONFERENCE() TwPtTriggerMgrData& rkData = *((TwPtTriggerMgrData *)m_pkData)
 
 TwPtTriggerMgr::TwPtTriggerMgr(void* pkParam)
@@ -266,14 +266,14 @@ void	TwPtTriggerMgr::FireTrigger(int iEvent, TwPtParam& rkParam)
 			}
 		}
 
-		TePtTrigger kTempTrg;
+		TwPtTrigger kTempTrg;
 		kTempTrg.m_iID = ++(rkData.m_iGenID);
 		kTempTrg.m_pkInfo = std::shared_ptr<TwPtTriggerInfo>(&kInfo);
 		kTempTrg.m_pkParam = rkData.m_pkParam;
 		kTempTrg.m_pAction = kInfo.pAction;
 
 		auto pkBackupTrg = rkData.m_pkCurTrigger;
-		rkData.m_pkCurTrigger = std::shared_ptr<TePtTrigger>(&kTempTrg);
+		rkData.m_pkCurTrigger = std::shared_ptr<TwPtTrigger>(&kTempTrg);
 
 		kInfo.iTrgCount++;
 
@@ -286,11 +286,11 @@ void	TwPtTriggerMgr::FireTrigger(int iEvent, TwPtParam& rkParam)
 
 		if (kTempTrg.m_eState == TwPtTriggerState::PTTS_WAIT)
 		{
-			TePtTrigger* pkTrigger = mpTrigger.alloc();
+			TwPtTrigger* pkTrigger = mpTrigger.alloc();
 			*pkTrigger = kTempTrg;
 			pkTrigger->m_kParam = rkParam;
 
-			rkData.m_kTriggers[pkTrigger->m_iID] = std::shared_ptr<TePtTrigger>(pkTrigger);
+			rkData.m_kTriggers[pkTrigger->m_iID] = std::shared_ptr<TwPtTrigger>(pkTrigger);
 		}
 	}
 }
@@ -359,7 +359,7 @@ int		TwPtTriggerMgr::StartTimerTrg(int iTimeOut, PtActionFun pAction, const TwPt
 {
 	DATA_CONFERENCE();
 
-	auto pkTrigger = std::shared_ptr<TePtTrigger>(mpTrigger.alloc());
+	auto pkTrigger = std::shared_ptr<TwPtTrigger>(mpTrigger.alloc());
 	pkTrigger->m_iID = ++(rkData.m_iGenID);
 	rkData.m_kTriggers[pkTrigger->m_iID] = pkTrigger;
 
