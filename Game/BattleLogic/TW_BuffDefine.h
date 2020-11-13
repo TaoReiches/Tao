@@ -30,7 +30,7 @@ public:
 	int						iData;
 	float					fData;
 	bool					bLastTimeUpdate;
-	TePos2					kPos;
+	TwPos2					kPos;
 
 	std::vector<int>		aiData;
 	std::vector<float>		afData;

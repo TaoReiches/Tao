@@ -69,7 +69,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 					pkUnit->SetMP(pkUnit->GetMaxMP());
 					int iPlayer = pkUnit->GetPlayer();
 
-					TePos2 kPos;
+					TwPos2 kPos;
 					float fFace = 0.0f;
 					//gMain.GetHeroOrgPos(iPlayer, kPos, fFace);
 					pkUnit->SetAbsFace(fFace);

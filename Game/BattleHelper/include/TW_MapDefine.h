@@ -5,7 +5,9 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum TeGridFlag
+#include "TW_BitmaskEnum.h"
+
+enum class TwGridFlag
 {
 	TGF_TERRAIN = (1 << 0),
 	TGF_DOODAD = (1 << 1),
@@ -20,8 +22,9 @@ enum TeGridFlag
 	TGF_FIXED_OTS = (TGF_TERRAIN | TGF_DOODAD | TGF_SKILL | TGF_GUTDOODAD),
 	TGF_UNIT_OTS = (TGF_UNIT | TGF_TEMP),
 };
+ENABLE_BITMASK_OPERATORS(TwGridFlag);
 
-enum class TeFindResult
+enum class TwFindResult
 {
 	TFR_NONE = 0,
 	TFR_NOT_ARRIVE,

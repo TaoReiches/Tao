@@ -22,5 +22,5 @@ public:
 
 protected:
 	int		m_iItemID;
-	TePos2	m_kTargetPos;
+	TwPos2	m_kTargetPos;
 };

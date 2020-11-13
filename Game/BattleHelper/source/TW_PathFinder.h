@@ -12,7 +12,7 @@
 #include "TW_Pos2.h"
 #include "TW_IPathFinder.h"
 
-enum TePathFinderDef
+enum TwPathFinderDef
 {
 	GRID_COORD_SIZE = 32,
 	PATH_OPEN_LIST = 512 * 512,
@@ -22,22 +22,22 @@ enum TePathFinderDef
 	PATH_POOL_ELE_SIZE = PATH_CHANGE_LIST + PATH_OPEN_LIST + PATH_OPEN_LIST + 1024,
 };
 
-struct TeMapGrid
+struct TwMapGrid
 {
-	unsigned short	iObstacle : 8;
+    TwGridFlag	iObstacle;
 	unsigned short	iState : 4;
 	unsigned short	iParent : 4;
-	inline bool IsObs(int iObs, bool bHasVision) const
+	inline bool IsObs(TwGridFlag iObs, bool bHasVision) const
 	{
-		iObs &= iObstacle;
+        iObs &= iObstacle;
 		if (!bHasVision)
 		{
-			iObs &= ~(TGF_UNIT | TGF_TEMP | TGF_SKILL);
+            iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
 		}
 		return iObs;
 	}
 
-	TeMapGrid()
+	TwMapGrid()
 	{
 		iObstacle = 0;
 		iState = 0;
@@ -45,9 +45,9 @@ struct TeMapGrid
 	}
 };
 
-struct TeTMapGrid
+struct TwTMapGrid
 {
-	unsigned short	iObstacle : 8;
+    TwGridFlag iObstacle;
 	unsigned short	iState : 4;
 	unsigned short	iTranch : 4;
 	unsigned short	iDir : 4;
@@ -58,19 +58,19 @@ struct TeTMapGrid
 	int		iStep;
 	int		iAngle;
 	bool	bChange;
-	TeTMapGrid* pkPreGrid;
+	TwTMapGrid* pkPreGrid;
 
 	inline bool IsObs(int iObs, bool bHasVision) const
 	{
 		iObs &= iObstacle;
 		if (!bHasVision)
 		{
-			iObs &= ~(TGF_UNIT | TGF_TEMP | TGF_SKILL);
+			iObs &= ~static_cast<unsigned short>(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
 		}
 		return iObs;
 	}
 
-	TeTMapGrid()
+	TwTMapGrid()
 	{
 		iObstacle = 0;
 		iState = 0;
@@ -86,9 +86,9 @@ struct TeTMapGrid
 		pkPreGrid = nullptr;
 	}
 };
-typedef std::list<TeTMapGrid*> VecTMapGrid;
+typedef std::list<TwTMapGrid*> VecTMapGrid;
 
-enum TeGridState
+enum TwGridState
 {
 	TGS_NONE = 0,
 	TGS_OTS,
@@ -100,7 +100,7 @@ enum TeGridState
 
 #define MAX_MAP_DIRECTION		4
 
-enum TMapGridState
+enum TwMapGridState
 {
 	TMPS_NONE = 0,
 	TMPS_TLOCK,
@@ -112,7 +112,7 @@ enum TMapGridState
 	TMPS_MAX,
 };
 
-enum TMapTranch
+enum TwMapTranch
 {
 	TMT_NONE = 0,
 	TMT_LEFT,
@@ -126,35 +126,40 @@ struct TagAround
 	int y;
 };
 
-struct TePathMem
+struct TwPathMem
 {
 	int m_aiData[PATH_POOL_ELE_SIZE];
 };
 
-class TePathFinder : public IPathFinder
+class TwPathFinder : public ITwPathFinder
 {
 	friend void InitServerPathGrids(int iW, int iH, unsigned short* akGrids);
 public:
-	TePathFinder();
-	virtual ~TePathFinder();
+	TwPathFinder();
+	virtual ~TwPathFinder();
 
-	virtual	const TePos2* GetPathPoint() const;
-	virtual	int				GetPathPointNum() const;
+	virtual	const TwPos2*   GetPathPoint() const override;
+	virtual	int				GetPathPointNum() const override;
 
-	virtual	void			InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar = false, int iTStarObs = TGF_TERRAIN | TGF_DOODAD);
+	virtual	void			InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar = false,
+                                TwGridFlag iTStarObs = TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD) override;
 
-	virtual	void			ClrObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
-	virtual	void			SetObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
+	virtual	void			ClrObstacle(float fX, float fY, TwGridFlag iObstacle = TwGridFlag::TGF_UNIT, int iSize = 2) override;
+	virtual	void			SetObstacle(float fX, float fY, TwGridFlag iObstacle = TwGridFlag::TGF_UNIT, int iSize = 2) override;
 
-	virtual	TeFindResult	FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL);
-	virtual	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL) const;
-	virtual bool			GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL) const;
+	virtual	TwFindResult	FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0,
+                                int iDistance = 0, TwGridFlag iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SKILL) override;
+	virtual	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY,
+                                float fDistance, TwGridFlag iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SKILL) const override;
+	virtual bool			GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY,
+                                float fDistance, TwGridFlag iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SKILL) const override;
 
-	virtual bool			IsObstacle(float fX, float fY, int iObstacle = TGF_UNIT, int iSize = 2);
-	virtual bool			UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0, int iDistance = 0, int iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SKILL);
+	virtual bool			IsObstacle(float fX, float fY, TwGridFlag iObstacle = TwGridFlag::TGF_UNIT, int iSize = 2) override;
+	virtual bool			UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize = 0,
+                                int iDistance = 0, TwGridFlag iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SKILL) override;
 	virtual	void			InitVision(int iW, int iH, unsigned short* pVision);
 
-	virtual void			CopyGridsFromServerGrids();
+	virtual void			CopyGridsFromServerGrids() override;
 public:
 	inline bool CanStayPos(float fX, float fY, int iSize, int iObs) const;
 	inline bool CanStayPos(int iX, int iY, int iSize, int iObs) const;
@@ -163,15 +168,15 @@ public:
 
 	inline bool CheckInput(float& fSrcX, float& fSrcY, float& fDstX, float& fDstY) const;
 
-	TeFindResult	FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY);
-	void			CreateTStarPath(TeTMapGrid* pkOriginPoint, TeTMapGrid* pkTargetPoint);
+	TwFindResult	FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY);
+	void			CreateTStarPath(TwTMapGrid* pkOriginPoint, TwTMapGrid* pkTargetPoint);
 	void			ResetTStarChangeList(void);
-	TeTMapGrid* CorrectOriginGrid(TeTMapGrid* pkOrigin);
-	void			FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd);
+	TwTMapGrid* CorrectOriginGrid(TwTMapGrid* pkOrigin);
+	void			FilterTStarDirectPoint(TwTMapGrid* pkStart, TwTMapGrid* pkEnd);
 
-	TeFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
+	TwFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
 
-	TeFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent = 0);
+	TwFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent = 0);
 
 	void			MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
 
@@ -179,8 +184,8 @@ public:
 
 	void CreatePath(int iNearestIndex, int iStart);
 
-	void SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, TeFindResult eRet);
-	bool IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs);
+	void SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, TwGridFlag iObs, TwFindResult eRet);
+	bool IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, TwGridFlag iObs) override;
 
 	inline int Map2Grid(int iMap) const
 	{
@@ -239,8 +244,8 @@ protected:
 	int			m_iWidth;
 	int			m_iHeight;
 	int			m_iMaxIdx;
-	TeMapGrid* m_akGrid;
-	TeTMapGrid* m_akTGrid;
+	TwMapGrid* m_akGrid;
+	TwTMapGrid* m_akTGrid;
 
 	int* m_piOpen;
 	int m_iT;
@@ -253,11 +258,11 @@ protected:
 	int* m_piPath;
 	int m_iPathCount;
 
-	TePos2 m_piPathPoint[PATH_RESULT];
+	TwPos2 m_piPathPoint[PATH_RESULT];
 	int m_iPathPointCount;
 
-	mutable TePos2 m_kSrcPos;
-	mutable TePos2 m_kDstPos;
+	mutable TwPos2 m_kSrcPos;
+	mutable TwPos2 m_kDstPos;
 	mutable int	m_iTlockType;
 	mutable int m_iTlockX;
 	mutable int m_iTlockY;

@@ -31,7 +31,7 @@ void BeDropItemCommand::SetTargetIDDropItem(int iID, int iItemID)
 	((BeTaskMoveToUnit*)m_pkCurTask.get())->SetTargetID(iID, 1000.0f);
 }
 
-void BeDropItemCommand::SetTargetPosDropItem(const TePos2& kPos, int iItemID)
+void BeDropItemCommand::SetTargetPosDropItem(const TwPos2& kPos, int iItemID)
 {
 	m_iItemID = iItemID;
 	m_kTargetPos = kPos;

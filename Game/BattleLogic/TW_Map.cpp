@@ -222,24 +222,24 @@ void TeMap::DelObstacle(float fX, float fY, int iObs, int iSize)
 	m_pkPathFinder->ClrObstacle(fX, fY, iObs, iSize);
 }
 
-TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs)
+TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs)
 {
 	if (!m_pkPathFinder)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	akPath.clear();
 
 	if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 	{
-		iObs &= ~TeGridFlag::TGF_UNIT_OTS;
-		iObs &= ~TeGridFlag::TGF_SOLIDER;
+		iObs &= ~TwGridFlag::TGF_UNIT_OTS;
+		iObs &= ~TwGridFlag::TGF_SOLIDER;
 	}
 
 	if (pkUnit->HasFlag(BUF_IGNOREFIXEDOBS))
 	{
-		iObs &= ~TeGridFlag::TGF_FIXED_OTS;
+		iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 	}
 
 	if (!iObs)
@@ -250,14 +250,14 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 		float fDistance2 = GetDistance2(fSrcX, fSrcY, fTargetX, fTargetY);
 		if (fDistance2 <= fDistance * fDistance)
 		{
-			return TeFindResult::TFR_ARRIVED;
+			return TwFindResult::TFR_ARRIVED;
 		}
 		else
 		{
 			fDistance -= 4.0f;
 			if (fDistance <= 0.0f)
 			{
-				TePos2 kPos;
+				TwPos2 kPos;
 				kPos.fX = fTargetX;
 				kPos.fY = fTargetY;
 				akPath.push_back(kPos);
@@ -267,14 +267,14 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 				float fL = GetDistance(fSrcX, fSrcY, fTargetX, fTargetY);
 				float fMX = (fL - fDistance) * fTargetX / fL + fDistance * fSrcX / fL;
 				float fMY = (fL - fDistance) * fTargetY / fL + fDistance * fSrcY / fL;
-				TePos2 kPos;
+				TwPos2 kPos;
 				kPos.fX = fMX;
 				kPos.fY = fMY;
 				akPath.push_back(kPos);
 			}
-			return TeFindResult::TFR_DIRECT;
+			return TwFindResult::TFR_DIRECT;
 		}
-		return TeFindResult::TFR_DIRECT;
+		return TwFindResult::TFR_DIRECT;
 	}
 
 	float fSrcX = pkUnit->GetPosX();
@@ -288,16 +288,16 @@ TeFindResult TeMap::FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fT
 		iSize = 2;
 	}
 
-	TeFindResult eRet = m_pkPathFinder->FindPathUnit(fSrcX, fSrcY, iSize, fDstX, fDstY, 0, (int)fDistance, iObs);
+	TwFindResult eRet = m_pkPathFinder->FindPathUnit(fSrcX, fSrcY, iSize, fDstX, fDstY, 0, (int)fDistance, iObs);
 	int iPoints = m_pkPathFinder->GetPathPointNum();
 	if (iPoints > 0)
 	{
-		const TePos2* pkPos = m_pkPathFinder->GetPathPoint();
+		const TwPos2* pkPos = m_pkPathFinder->GetPathPoint();
 		for (int i = 0; i < iPoints; i++)
 		{
-			akPath.push_back(TePos2(pkPos[i].fX, pkPos[i].fY));
+			akPath.push_back(TwPos2(pkPos[i].fX, pkPos[i].fY));
 		}
-		TePos2& kPos = akPath.back();
+		TwPos2& kPos = akPath.back();
 		if (pkPos[iPoints - 1].fX == fDstX && pkPos[iPoints - 1].fY == fDstY)
 		{
 			kPos.fX = fTargetX;
@@ -423,16 +423,16 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 		{
 			bFind = false;
 			int iCount = 2;
-			std::vector<TePos2> kPos;
+			std::vector<TwPos2> kPos;
 			do
 			{
-				std::list<TePos2> kPath;
-				TeFindResult eRet = FindPath(kPath, pkUnit, fX, fY, 0.0f, iReachableObs);
-				if (TeFindResult::TFR_NONE == eRet || TeFindResult::TFR_NOT_ARRIVE == eRet)
+				std::list<TwPos2> kPath;
+				TwFindResult eRet = FindPath(kPath, pkUnit, fX, fY, 0.0f, iReachableObs);
+				if (TwFindResult::TFR_NONE == eRet || TwFindResult::TFR_NOT_ARRIVE == eRet)
 				{
 					m_pkPathFinder->SetObstacle(fX, fY, iReachableObs, iSrcSize);
-					kPos.push_back(TePos2(fX, fY));
-					TePos2 kLastPos = m_pkPathFinder->GetPathPoint()[127];
+					kPos.push_back(TwPos2(fX, fY));
+					TwPos2 kLastPos = m_pkPathFinder->GetPathPoint()[127];
 					fX = kLastPos.fX;
 					fY = kLastPos.fY;
 					GetNearestCanStay(fSrcX, fSrcY, iSrcSize, fX, fY, fX, fY, fDistance, iObs);

@@ -38,7 +38,7 @@ BeTaskActionWalk::~BeTaskActionWalk()
 	}
 }
 
-void BeTaskActionWalk::SetTargetPos(const TePos2& kTargetPos, bool bTurn)
+void BeTaskActionWalk::SetTargetPos(const TwPos2& kTargetPos, bool bTurn)
 {
 	float fUnitX = gUnit.GetPosX();
 	float fUnitY = gUnit.GetPosY();
@@ -46,7 +46,7 @@ void BeTaskActionWalk::SetTargetPos(const TePos2& kTargetPos, bool bTurn)
 	gUnit.SetTarFace(fTarFace);
 
 	m_kTargetPos = kTargetPos;
-	m_kSrcPos = TePos2(fUnitX, fUnitY);
+	m_kSrcPos = TwPos2(fUnitX, fUnitY);
 	m_iWalkTime = 0;
 
 	gUnit.SetTarPosX(m_kTargetPos.fX);

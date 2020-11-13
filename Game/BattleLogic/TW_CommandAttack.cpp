@@ -27,7 +27,7 @@ void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSk
 	((BeTaskAttackUnit*)m_pkCurTask.get())->SetTargetID(iID, fDistance, bIsOrb, iSkillTypeID, iSkillLevel, iAttackCountLimit);
 }
 
-void BeAttackCommand::SetTargetPos(const TePos2& kPos, float fRange)
+void BeAttackCommand::SetTargetPos(const TwPos2& kPos, float fRange)
 {
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_TO_POS)
 	{

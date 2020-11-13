@@ -86,8 +86,8 @@ public:
 
 	BeCommandType	eCmdType;
 	int				iUnitID;
-	TePos2			kPos;
-	TePos2			kDirPos;
+	TwPos2			kPos;
+	TwPos2			kDirPos;
 	int				iData;
 	int				iData2;
 	bool			bForceAttackOnce;

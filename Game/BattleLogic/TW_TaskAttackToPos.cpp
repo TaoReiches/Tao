@@ -45,7 +45,7 @@ bool BeTaskAttackToPos::IsCanCancel() const
 {
 	return true;
 }
-void BeTaskAttackToPos::SetTargetPos(const TePos2& kPos, float fRange)
+void BeTaskAttackToPos::SetTargetPos(const TwPos2& kPos, float fRange)
 {
 	if (!m_pkAttack || !m_pkMoveToPos)
 	{
@@ -131,7 +131,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 				BeUnit* pkOrgTarget = gUnitMgr.GetUnitByID(gUnit.GetAttackingUnitID());
 				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE)))
 				{
-					TePos2 kPos;
+					TwPos2 kPos;
 					kPos.fX = pkOrgTarget->GetPosX();
 					kPos.fY = pkOrgTarget->GetPosY();
 					float fDistance = gUnit.GetAttackRange(pkOrgTarget);
@@ -144,7 +144,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			else
 			{
 				m_pkAttack->SetTargetID(0);
-				TePos2 kPos = m_pkMoveToPos->GetTargetPos();
+				TwPos2 kPos = m_pkMoveToPos->GetTargetPos();
 				if (m_kTarPos.fX != kPos.fX || m_kTarPos.fY != kPos.fY)
 				{
 					m_pkMoveToPos->SetTargetPos(m_kTarPos);
@@ -161,7 +161,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 				if (pkTarget && !pkTarget->IsDead())
 				{
 						m_dwOutSightTime = 0;
-						TePos2 kPos = m_pkMoveToPos->GetTargetPos();
+						TwPos2 kPos = m_pkMoveToPos->GetTargetPos();
 						if (fabs(kPos.fX - pkTarget->GetPosX()) > 16.0f || fabs(kPos.fY - pkTarget->GetPosY()) > 16.0f)
 						{
 							kPos.fX = pkTarget->GetPosX();
@@ -228,7 +228,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 					float fRange = gUnit.GetAttackRange(pkTarget);
 					if (fDistance2 > fRange * fRange)
 					{
-						TePos2 kPos(gUnit.GetPosX(), gUnit.GetPosY());
+						TwPos2 kPos(gUnit.GetPosX(), gUnit.GetPosY());
 						m_pkMoveToPos->SetTargetPos(kPos, fRange);
 						m_eState = BeAttackToPosState::BAP_TRACE;
 					}

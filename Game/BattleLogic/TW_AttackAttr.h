@@ -108,7 +108,7 @@ public:
 	bool						bIgnorePhysicResist;
 	float						fLeech;
 	int							iItemID;
-	TePos2						attackPos;
+	TwPos2						attackPos;
 	int							iMissileModel;
 	int							iBeDamagedEffect;
 };

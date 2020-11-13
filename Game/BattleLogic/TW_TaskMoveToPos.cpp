@@ -19,7 +19,7 @@ BeTaskMoveToPos::BeTaskMoveToPos()
 	m_eType = BeTaskType::STT_MOVE_TO_POS;
 	m_eMoveState = BeMoveState::BMS_INIT;
 	m_eRetryState = BeMoveRetryState::BMRS_DITECT;
-	m_eFindPathRet = TeFindResult::TFR_NONE;
+	m_eFindPathRet = TwFindResult::TFR_NONE;
 	m_bSoliderCheck = false;
 	m_eState = BeMoveResult::BMR_NONE;
 	m_fDistance = 0.0f;
@@ -35,7 +35,7 @@ BeTaskMoveToPos::~BeTaskMoveToPos()
 	m_pkWalk.release();
 };
 
-void BeTaskMoveToPos::SetTargetPos(const TePos2& kPos, float fDistance, bool bTurn)
+void BeTaskMoveToPos::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
 {
 	m_fDistance = fDistance;
 	m_kTarPos = kPos;
@@ -49,7 +49,7 @@ void BeTaskMoveToPos::SetTargetPos(const TePos2& kPos, float fDistance, bool bTu
 	m_pkWalk->AttachUnit(pkAttachUnit);
 }
 
-TePos2 BeTaskMoveToPos::GetTargetPos() const
+TwPos2 BeTaskMoveToPos::GetTargetPos() const
 {
 	return m_kTarPos;
 }
@@ -118,7 +118,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			gMap.DelUnitObstacle(&gUnit, false);
 			m_iStandTime = 0;
 			m_iRetryTime = 0;
-			std::list<TePos2> akPath;
+			std::list<TwPos2> akPath;
 
 			{
 				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
@@ -134,13 +134,13 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 			}
 
-			if (m_eFindPathRet == TeFindResult::TFR_NONE || !gUnit.CanMove())
+			if (m_eFindPathRet == TwFindResult::TFR_NONE || !gUnit.CanMove())
 			{
 				m_pkWalk->SetTargetPos(m_kTarPos, true);
 				m_eMoveState = BeMoveState::BMS_WALK;
 				m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 			}
-			else if (m_eFindPathRet == TeFindResult::TFR_ARRIVED)
+			else if (m_eFindPathRet == TwFindResult::TFR_ARRIVED)
 			{
 				m_eState = BeMoveResult::BMR_SUCCESS;
 				m_eMoveState = BeMoveState::BMS_END;
@@ -212,7 +212,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			m_iStandTime = 0;
 			m_iWalkBlockTime = HERO_WALK_BLOCK_TIME;
 
-			TePos2 kFindPos = m_kTarPos;
+			TwPos2 kFindPos = m_kTarPos;
 			switch (m_eRetryState)
 			{
 			case BeMoveRetryState::BMRS_DITECT:
@@ -248,7 +248,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			case BeMoveRetryState::BMRS_FINNAL:
 			default:
 			{
-				std::list<TePos2> akPath;
+				std::list<TwPos2> akPath;
 				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
 
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
@@ -262,12 +262,12 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 
 				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 
-				if (m_eFindPathRet == TeFindResult::TFR_NONE)
+				if (m_eFindPathRet == TwFindResult::TFR_NONE)
 				{
 					m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
 					m_eMoveState = BeMoveState::BMS_STAND;
 				}
-				else if (m_eFindPathRet == TeFindResult::TFR_ARRIVED)
+				else if (m_eFindPathRet == TwFindResult::TFR_ARRIVED)
 				{
 					m_iRetryTime = 0;
 					if (m_eRetryState == BeMoveRetryState::BMRS_FINNAL || m_kTarPos == m_kMiddlePos)

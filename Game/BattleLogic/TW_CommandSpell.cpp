@@ -29,7 +29,7 @@ BeSpellCommand::BeSpellCommand()
 	m_iUsePlayer = -1;
 }
 
-void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TePos2& kPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer, int iTargetType)
+void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TwPos2& kPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer, int iTargetType)
 {
 	auto& pkResData = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (!pkResData)
@@ -80,7 +80,7 @@ void BeSpellCommand::SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkill
 	{
 		return;
 	}
-	TePos2 kPos;
+	TwPos2 kPos;
 	kPos.fX = pkMapItem->GetPosX();
 	kPos.fY = pkMapItem->GetPosY();
 
@@ -94,7 +94,7 @@ void BeSpellCommand::SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkill
 	m_iTargetType = BeCommandTargetType::BCTT_MAPITEM;
 }
 
-void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const TePos2& kDirPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer)
+void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const TwPos2& kDirPos, int iSkillLevel, int iItemID, bool bExpendMP, int iUsePlayer)
 {
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
 	{
@@ -156,7 +156,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 				BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 				if (pkTarget)
 				{
-					m_kTargetPos = TePos2(pkTarget->GetPosX(), pkTarget->GetPosY());
+					m_kTargetPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 				}
 			}
 			return BeExeResult::BER_TIME_OUT;

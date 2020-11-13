@@ -43,10 +43,10 @@ void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
 	m_pkActionAttack->AttachMain(pkAttachMain);
 	m_pkActionAttack->AttachUnit(pkAttachUnit);
 
-	m_pkMoveToPos->SetTargetPos(TePos2(gUnit.GetPosX(), gUnit.GetPosY()), 50.0f);
+	m_pkMoveToPos->SetTargetPos(TwPos2(gUnit.GetPosX(), gUnit.GetPosY()), 50.0f);
 	if (pkTarget)
 	{
-		m_pkMoveToPos->SetTargetPos(TePos2(pkTarget->GetPosX(), pkTarget->GetPosY()), 0.0f);
+		m_pkMoveToPos->SetTargetPos(TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY()), 0.0f);
 	}
 	gUnit.SetAttackingUnitID(0);
 

@@ -14,7 +14,7 @@ public:
 	~BeDropItemCommand() {};
 
 	void SetTargetIDDropItem(int iID, int iItemID);
-	void SetTargetPosDropItem(const TePos2& kPos, int iItemID);
+	void SetTargetPosDropItem(const TwPos2& kPos, int iItemID);
 
 	virtual BeExeResult Execute(int& iDeltaTime);
 	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
@@ -24,6 +24,6 @@ public:
 protected:
 	int		m_iTargetID;
 	int     m_iItemID;
-	TePos2	m_kTargetPos;
+	TwPos2	m_kTargetPos;
 };
 

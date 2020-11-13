@@ -7,9 +7,6 @@
     <Filter Include="MemoryPool">
       <UniqueIdentifier>{4d4aaaaa-d9be-40a4-87bd-97f1b7681f80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Lock">
-      <UniqueIdentifier>{219489eb-30b8-4224-9b7f-ec54d1e7073a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Define">
       <UniqueIdentifier>{033ccec3-e253-4244-bd96-b6cb51c26adf}</UniqueIdentifier>
     </Filter>
@@ -41,9 +38,6 @@
     </ClInclude>
     <ClInclude Include="include\TW_MemoryPool.h">
       <Filter>MemoryPool</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TW_Lock.h">
-      <Filter>Lock</Filter>
     </ClInclude>
     <ClInclude Include="include\TW_Define.h">
       <Filter>Define</Filter>

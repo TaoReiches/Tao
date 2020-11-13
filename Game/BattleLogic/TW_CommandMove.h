@@ -13,8 +13,8 @@ public:
 	BeMoveCommand();
 	~BeMoveCommand() {};
 
-	void SetTargetPos(const TePos2& kPos, float fDistance, bool bTurn);
-	TePos2 GetTargetPos() const;
+	void SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn);
+	TwPos2 GetTargetPos() const;
 
 	virtual BeExeResult Execute(int& iDeltaTime);
 	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;

@@ -143,7 +143,6 @@
     <ClInclude Include="include\TW_Define.h" />
     <ClInclude Include="include\TW_IPathFinder.h" />
     <ClInclude Include="include\TW_IRandom.h" />
-    <ClInclude Include="include\TW_Lock.h" />
     <ClInclude Include="include\TW_MapDefine.h" />
     <ClInclude Include="include\TW_MemoryPool.h" />
     <ClInclude Include="include\TW_PointerType.h" />

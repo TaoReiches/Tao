@@ -29,9 +29,9 @@ public:
 	BeTaskActionSpell();
 	~BeTaskActionSpell();
 
-	bool SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TePos2& kPos, int iItemID = 0, int iUsePlayer = -1, int iTargetType = 0);
-	bool SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, int iItemID = 0, int iOtherID = 0, int iUsePlayer = -1);
-	bool SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, const TePos2& kDirPos, int iItemID = 0, int iUsePlayer = -1);
+	bool SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TwPos2& kPos, int iItemID = 0, int iUsePlayer = -1, int iTargetType = 0);
+	bool SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TwPos2& kPos, int iItemID = 0, int iOtherID = 0, int iUsePlayer = -1);
+	bool SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TwPos2& kPos, const TwPos2& kDirPos, int iItemID = 0, int iUsePlayer = -1);
 
 	bool CanSkip(void) const;
 	BeSpellPhase GetPhase(void);
@@ -61,8 +61,8 @@ protected:
 	int             m_iOtherID;
 	int				m_iItemTypeID;
 	int				m_iUsePlayer;
-	TePos2			m_kTargetPos;
-	TePos2			m_kDirectPos;
+	TwPos2			m_kTargetPos;
+	TwPos2			m_kDirectPos;
 
 	int				m_iManaSpend;
 

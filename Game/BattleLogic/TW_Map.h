@@ -11,7 +11,7 @@
 #include "TW_MapDefine.h"
 #include "TW_Pos2.h"
 
-class IPathFinder;
+class ITwPathFinder;
 class BeUnit;
 class TeDoodad;
 class TeEffect;
@@ -43,7 +43,7 @@ public:
 	void			AddObstacle(float fX, float fY, int iObs, int iSize);
 	void			DelObstacle(float fX, float fY, int iObs, int iSize);
 
-	TeFindResult	FindPath(std::list<TePos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
+	TwFindResult	FindPath(std::list<TwPos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs);
 	int				GetFirstCanStay(BeUnit* pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs);
 	int				GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs);
 
@@ -57,5 +57,5 @@ public:
 	bool			IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs);
 
 private:
-	std::unique_ptr<IPathFinder>	m_pkPathFinder;
+	std::unique_ptr<ITwPathFinder>	m_pkPathFinder;
 };

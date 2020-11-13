@@ -99,7 +99,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 	gUnit.ClrFlag(BUF_ISPERSISTSKILL);
 }
 
-bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TePos2& kPos, int iItemID, int iUsePlayer, int iTargetType)
+bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TwPos2& kPos, int iItemID, int iUsePlayer, int iTargetType)
 {
 	m_iSkillTypeID = iSkillTypeID;
 	m_iSkillLevel = iSkillLevel;
@@ -150,7 +150,7 @@ bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bE
 	return true;
 }
 
-bool BeTaskActionSpell::SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, int iItemID, int iOtherID, int iUsePlayer)
+bool BeTaskActionSpell::SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TwPos2& kPos, int iItemID, int iOtherID, int iUsePlayer)
 {
 	gUnit.SetAttackingUnitID(0);
 	m_iSkillTypeID = iSkillTypeID;
@@ -194,7 +194,7 @@ bool BeTaskActionSpell::SpellTargetItem(int iSkillTypeID, int iSkillLevel, bool 
 	return true;
 }
 
-bool BeTaskActionSpell::SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TePos2& kPos, const TePos2& kDirPos, int iItemID, int iUsePlayer)
+bool BeTaskActionSpell::SpellTargetPos(int iSkillTypeID, int iSkillLevel, bool bExpendMP, const TwPos2& kPos, const TwPos2& kDirPos, int iItemID, int iUsePlayer)
 {
 	gUnit.SetAttackingUnitID(0);
 	m_iSkillTypeID = iSkillTypeID;

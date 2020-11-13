@@ -39,14 +39,14 @@ void BeTaskMoveToUnit::SetTargetID(int iID, float fDistance)
 
 	if (!iID)
 	{
-		TePos2 kTarPos = TePos2(gUnit.GetPosX(), gUnit.GetPosY());
+		TwPos2 kTarPos = TwPos2(gUnit.GetPosX(), gUnit.GetPosY());
 		m_pkMoveToPos->SetTargetPos(kTarPos);
 	}
 
 	BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
 	if (pkTarget)
 	{
-		TePos2 kTarPos = TePos2(pkTarget->GetPosX(), pkTarget->GetPosY());
+		TwPos2 kTarPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 		m_pkMoveToPos->SetTargetPos(kTarPos, m_fDistance);
 	}
 	else
@@ -74,7 +74,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		&& !pkTarget->IsDead()
 		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE))))
 	{
-		TePos2 kTarPos = m_pkMoveToPos->GetTargetPos();
+		TwPos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		float fDistance2 = GetDistance2(kTarPos.fX, kTarPos.fY, pkTarget->GetPosX(), pkTarget->GetPosY());
 		if (fDistance2 > 2000.0f * 2000.0f)
 		{
@@ -87,20 +87,20 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 			{
 				if (fDistance2 > 64.0f * 64.0f)
 				{
-					kTarPos = TePos2(pkTarget->GetPosX(), pkTarget->GetPosY());
+					kTarPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 					m_pkMoveToPos->SetTargetPos(kTarPos, m_fDistance);
 				}
 			}
 			else
 			{
-				kTarPos = TePos2(pkTarget->GetPosX(), pkTarget->GetPosY());
+				kTarPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 				m_pkMoveToPos->SetTargetPos(kTarPos, m_fDistance);
 			}
 		}
 	}
 	else
 	{
-		TePos2 kTarPos = m_pkMoveToPos->GetTargetPos();
+		TwPos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		m_pkMoveToPos->SetTargetPos(kTarPos);
 		BeUnit* pkT = gUnitMgr.GetUnitByID(m_iTargetID, true);
 		if (pkT && pkT->GetPlayer() == gUnit.GetPlayer())

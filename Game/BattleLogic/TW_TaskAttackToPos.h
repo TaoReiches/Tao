@@ -28,13 +28,13 @@ public:
 	BeTaskAttackToPos();
 	~BeTaskAttackToPos();
 
-	void SetTargetPos(const TePos2& kPos, float fRange = 0.0f);
+	void SetTargetPos(const TwPos2& kPos, float fRange = 0.0f);
 	virtual BeExeResult Execute(int& iDeltaTime);
 	BeMoveResult GetMoveResult(void);
 	bool IsCanCancel() const;
 
 protected:
-	TePos2						m_kTarPos;
+	TwPos2						m_kTarPos;
 	float						m_fRange;
 	int							m_iRetryTime;
 	BeAttackToPosState			m_eState;

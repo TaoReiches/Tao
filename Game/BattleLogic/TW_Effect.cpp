@@ -15,12 +15,12 @@
 #include "TW_EffectMgr.h"
 #include "TW_MemoryObject.h"
 
-TePos2  GetPointOnBezier(TePos2* pkPos, float fValueT)
+TwPos2  GetPointOnBezier(TwPos2* pkPos, float fValueT)
 {
 	float   fAx, fBx, fCx;
 	float   fAy, fBy, fCy;
 	float   fTSquared, fTCubed;
-	TePos2	kResult;
+	TwPos2	kResult;
 
 	fCx = 3.0f * (pkPos[1].fX - pkPos[0].fX);
 	fBx = 3.0f * (pkPos[2].fX - pkPos[1].fX) - fCx;
@@ -1217,13 +1217,13 @@ void BeEffect::SetOrgScale(float fOrgScale, bool bChangeScale)
 	m_bChangeScale = bChangeScale;
 }
 
-void BeEffect::GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TePos2>& akCurvePos, int iPointNum /*= 100*/, BeEffectCurveType eCurveType /*= BECT_CURVELEFT*/, BeEffectCurveStyle eCurveStyle /*= BECS_LEFTBIG*/)
+void BeEffect::GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TwPos2>& akCurvePos, int iPointNum /*= 100*/, BeEffectCurveType eCurveType /*= BECT_CURVELEFT*/, BeEffectCurveStyle eCurveStyle /*= BECS_LEFTBIG*/)
 {
 	akCurvePos.clear();
 	const float fAllDistance = GetDistance(fOrgX, fOrgY, fTarX, fTarY);
 	const float fCosValue = cosf(fFace);
 	const float fSinValue = sinf(fFace);
-	TePos2 akPos[4];
+	TwPos2 akPos[4];
 
 	akPos[0].fX = fOrgX;
 	akPos[0].fY = fOrgY;
@@ -1359,7 +1359,7 @@ void BeEffect::GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, f
 	for (int i = 0; i < iPointNum; ++i)
 	{
 		fValueT += fAddT;
-		TePos2 kPos = GetPointOnBezier(akPos, fValueT);
+		TwPos2 kPos = GetPointOnBezier(akPos, fValueT);
 		akCurvePos.push_back(kPos);
 	}
 }
@@ -1453,7 +1453,7 @@ void BeEffect::ParseCurveTrace(void)
 		}
 		iPerDis %= iTotalNum;
 
-		TePos2& rkPosW = m_akCurvePosW[iPerDis];
+		TwPos2& rkPosW = m_akCurvePosW[iPerDis];
 
 		float fTempDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fPosX, m_kEffectData.fPosY);
 		iPerDis = abs((int)((m_fAllDistance - fTempDis) * iTotalNum / m_fAllDistance));
@@ -1527,7 +1527,7 @@ void BeEffect::ParseCurveTrace(void)
 			return;
 		}
 		iPerDis %= iTotalNum;
-		TePos2& rkPosW = m_akCurvePosW[iPerDis];
+		TwPos2& rkPosW = m_akCurvePosW[iPerDis];
 
 		float fTempDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fPosX, m_kEffectData.fPosY);
 		iPerDis = abs((int)((fAllDistance - fTempDis) * iTotalNum / fAllDistance));

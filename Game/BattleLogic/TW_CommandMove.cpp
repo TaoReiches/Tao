@@ -12,12 +12,12 @@ BeMoveCommand::BeMoveCommand()
 	m_eCmdType = BeCommandType::BCT_MOVE;
 }
 
-TePos2 BeMoveCommand::GetTargetPos() const
+TwPos2 BeMoveCommand::GetTargetPos() const
 {
 	return ((BeTaskMoveToPos*)m_pkCurTask.get())->GetTargetPos();
 }
 
-void BeMoveCommand::SetTargetPos(const TePos2& kPos, float fDistance, bool bTurn)
+void BeMoveCommand::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
 {
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
 	{

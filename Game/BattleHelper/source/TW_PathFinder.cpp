@@ -6,13 +6,13 @@
 #include "TW_PathFinder.h"
 #include "TW_PathFinderFormular.h"
 
-static TePathFinder gPthFinder;
-IPathFinder* CreatePathFinder()
+static TwPathFinder gPthFinder;
+ITwPathFinder* CreatePathFinder()
 {
-	return new TePathFinder;
+	return new TwPathFinder;
 }
 
-void ReleasePathFinder(IPathFinder* pkPathFinder)
+void ReleasePathFinder(ITwPathFinder* pkPathFinder)
 {
 	if (pkPathFinder)
 	{
@@ -31,15 +31,15 @@ void InitServerPathGrids(int iW, int iH, unsigned short* akGrids)
 
 		if (gPthFinder.m_bUseTStar)
 		{
-			gPthFinder.m_akTGrid = new TeTMapGrid[gPthFinder.m_iMaxIdx];
-			memset(gPthFinder.m_akTGrid, 0, sizeof(TeTMapGrid) * gPthFinder.m_iMaxIdx);
+			gPthFinder.m_akTGrid = new TwTMapGrid[gPthFinder.m_iMaxIdx];
+			memset(gPthFinder.m_akTGrid, 0, sizeof(TwTMapGrid) * gPthFinder.m_iMaxIdx);
 
 			for (int h = 0; h < iH; h++)
 			{
 				for (int w = 0; w < iW; w++, akGrids++)
 				{
-					gPthFinder.m_akTGrid[h * iW + w].iObstacle = *akGrids;
-					gPthFinder.m_akTGrid[h * iW + w].iObstacle &= TGF_TERRAIN | TGF_DOODAD;
+					gPthFinder.m_akTGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
+					gPthFinder.m_akTGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD;
 
 					bool bIsObs = gPthFinder.m_akTGrid[h * iW + w].IsObs(gPthFinder.m_iTStarObs, true);
 					gPthFinder.m_akTGrid[h * iW + w].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
@@ -48,15 +48,15 @@ void InitServerPathGrids(int iW, int iH, unsigned short* akGrids)
 		}
 		else
 		{
-			gPthFinder.m_akGrid = new TeMapGrid[gPthFinder.m_iMaxIdx];
-			memset(gPthFinder.m_akGrid, 0, sizeof(TeMapGrid) * gPthFinder.m_iMaxIdx);
+			gPthFinder.m_akGrid = new TwMapGrid[gPthFinder.m_iMaxIdx];
+			memset(gPthFinder.m_akGrid, 0, sizeof(TwMapGrid) * gPthFinder.m_iMaxIdx);
 
 			for (int h = 0; h < iH; h++)
 			{
 				for (int w = 0; w < iW; w++, akGrids++)
 				{
 					gPthFinder.m_akGrid[h * iW + w].iObstacle = *akGrids;
-					gPthFinder.m_akGrid[h * iW + w].iObstacle &= TGF_TERRAIN | TGF_DOODAD;
+					gPthFinder.m_akGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD;
 				}
 			}
 		}
@@ -68,11 +68,11 @@ void ReleaseServerPathGrids()
 	gPthFinder.Release();
 }
 
-IPathFinder::IPathFinder()
+ITwPathFinder::ITwPathFinder()
 {
 }
 
-IPathFinder::~IPathFinder()
+ITwPathFinder::~ITwPathFinder()
 {
 }
 
@@ -99,7 +99,7 @@ inline float GetDistancePath(float fSrcX, float fSrcY, float fDstX, float fDstY)
 	return static_cast<float>(sqrt(GetDistance2Path(fSrcX, fSrcY, fDstX, fDstY)));
 }
 
-TePathFinder::TePathFinder()
+TwPathFinder::TwPathFinder()
 {
 	m_iWidth = 0;
 	m_iHeight = 0;
@@ -134,12 +134,12 @@ TePathFinder::TePathFinder()
 	m_bUseTStar = false;
 	m_iTStarObs = TGF_TERRAIN | TGF_DOODAD;
 }
-TePathFinder::~TePathFinder()
+TwPathFinder::~TwPathFinder()
 {
 	Release();
 }
 
-inline void TePathFinder::OpenListPushTack(int iIndex)
+inline void TwPathFinder::OpenListPushTack(int iIndex)
 {
 	if (m_iE < PATH_OPEN_LIST)
 	{
@@ -147,7 +147,7 @@ inline void TePathFinder::OpenListPushTack(int iIndex)
 	}
 }
 
-inline int TePathFinder::OpenListPopHead(void)
+inline int TwPathFinder::OpenListPopHead(void)
 {
 	if (m_iT > m_iE)
 	{
@@ -156,7 +156,7 @@ inline int TePathFinder::OpenListPopHead(void)
 	return m_piOpen[m_iT++];
 }
 
-inline int TePathFinder::OpenListGetCount(void)
+inline int TwPathFinder::OpenListGetCount(void)
 {
 	int iRet = m_iE - m_iT;
 	if (iRet <= 0)
@@ -165,13 +165,13 @@ inline int TePathFinder::OpenListGetCount(void)
 	}
 	return iRet;
 }
-inline void TePathFinder::OpenListClear(void)
+inline void TwPathFinder::OpenListClear(void)
 {
 	m_iT = 0;
 	m_iE = 0;
 }
 
-inline void TePathFinder::ChangeListPush(int iIndex)
+inline void TwPathFinder::ChangeListPush(int iIndex)
 {
 	if (m_iChangeCount < PATH_CHANGE_LIST)
 	{
@@ -180,20 +180,20 @@ inline void TePathFinder::ChangeListPush(int iIndex)
 	}
 }
 
-inline bool TePathFinder::ChangeListFull(void)
+inline bool TwPathFinder::ChangeListFull(void)
 {
 	return m_iChangeCount > (m_iChangeListLimit - 32);
 }
 
-void TePathFinder::CreateList(void)
+void TwPathFinder::CreateList(void)
 {
 	ReleaseList();
-	m_piChange = (int*)new TePathMem;
+	m_piChange = (int*)new TwPathMem;
 	m_piOpen = m_piChange + PATH_CHANGE_LIST;
 	m_piPath = m_piOpen + PATH_OPEN_LIST;
 }
 
-void TePathFinder::ReleaseList(void)
+void TwPathFinder::ReleaseList(void)
 {
 	m_iChangeCount = 0;
 	if (m_piChange)
@@ -209,7 +209,7 @@ void TePathFinder::ReleaseList(void)
 	m_piPath = nullptr;
 }
 
-void TePathFinder::Release()
+void TwPathFinder::Release()
 {
 	ReleaseList();
 	SAFE_DELETE(m_akGrid);
@@ -230,24 +230,24 @@ void TePathFinder::Release()
 	}
 }
 
-const TePos2* TePathFinder::GetPathPoint() const
+const TwPos2* TwPathFinder::GetPathPoint() const
 {
 	return m_piPathPoint;
 }
 
-int	TePathFinder::GetPathPointNum() const
+int	TwPathFinder::GetPathPointNum() const
 {
 	return m_iPathPointCount;
 }
 
-void TePathFinder::InitVision(int iW, int iH, unsigned short* pVision)
+void TwPathFinder::InitVision(int iW, int iH, unsigned short* pVision)
 {
 	m_iVisionWidth = iW;
 	m_iVisionHeight = iH;
 	m_akVision = pVision;
 }
 
-void TePathFinder::CopyGridsFromServerGrids()
+void TwPathFinder::CopyGridsFromServerGrids()
 {
 	Release();
 
@@ -258,8 +258,8 @@ void TePathFinder::CopyGridsFromServerGrids()
 			m_iWidth = gPthFinder.m_iWidth;
 			m_iHeight = gPthFinder.m_iHeight;
 			m_iMaxIdx = gPthFinder.m_iMaxIdx;
-			m_akTGrid = new TeTMapGrid[gPthFinder.m_iMaxIdx];
-			memcpy(m_akTGrid, gPthFinder.m_akTGrid, sizeof(TeTMapGrid) * m_iMaxIdx);
+			m_akTGrid = new TwTMapGrid[gPthFinder.m_iMaxIdx];
+			memcpy(m_akTGrid, gPthFinder.m_akTGrid, sizeof(TwTMapGrid) * m_iMaxIdx);
 		}
 	}
 	else
@@ -269,13 +269,13 @@ void TePathFinder::CopyGridsFromServerGrids()
 			m_iWidth = gPthFinder.m_iWidth;
 			m_iHeight = gPthFinder.m_iHeight;
 			m_iMaxIdx = gPthFinder.m_iMaxIdx;
-			m_akGrid = new TeMapGrid[gPthFinder.m_iMaxIdx];
-			memcpy(m_akGrid, gPthFinder.m_akGrid, sizeof(TeMapGrid) * m_iMaxIdx);
+			m_akGrid = new TwMapGrid[gPthFinder.m_iMaxIdx];
+			memcpy(m_akGrid, gPthFinder.m_akGrid, sizeof(TwMapGrid) * m_iMaxIdx);
 		}
 	}
 }
 
-void TePathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar, int iTStarObs)
+void TwPathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseTStar, TwGridFlag iTStarObs)
 {
 	m_bUseTStar = bUseTStar;
 	m_iTStarObs = iTStarObs;
@@ -288,8 +288,8 @@ void TePathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 		m_iMaxIdx = iW * iH;
 		if (m_bUseTStar)
 		{
-			m_akTGrid = new TeTMapGrid[m_iMaxIdx];
-			memset(m_akTGrid, 0, sizeof(TeTMapGrid) * m_iMaxIdx);
+			m_akTGrid = new TwTMapGrid[m_iMaxIdx];
+			memset(m_akTGrid, 0, sizeof(TwTMapGrid) * m_iMaxIdx);
 
 			for (int h = 0; h < iH; h++)
 			{
@@ -310,8 +310,8 @@ void TePathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 		}
 		else
 		{
-			m_akGrid = new TeMapGrid[m_iMaxIdx];
-			memset(m_akGrid, 0, sizeof(TeMapGrid) * m_iMaxIdx);
+			m_akGrid = new TwMapGrid[m_iMaxIdx];
+			memset(m_akGrid, 0, sizeof(TwMapGrid) * m_iMaxIdx);
 
 			for (int h = 0; h < iH; h++)
 			{
@@ -325,7 +325,7 @@ void TePathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 	}
 }
 
-void TePathFinder::ClrObstacle(float fX, float fY, int iObstacle, int iSize)
+void TwPathFinder::ClrObstacle(float fX, float fY, TwGridFlag iObstacle, int iSize)
 {
 	int iX(Map2Grid(fX)), iY(Map2Grid(fY));
 	int iTX = iX - (iSize / 2);
@@ -364,7 +364,7 @@ void TePathFinder::ClrObstacle(float fX, float fY, int iObstacle, int iSize)
 	}
 }
 
-void TePathFinder::SetObstacle(float fX, float fY, int iObstacle, int iSize)
+void TwPathFinder::SetObstacle(float fX, float fY, TwGridFlag iObstacle, int iSize)
 {
 	int iX(Map2Grid(fX)), iY(Map2Grid(fY));
 	int iTX = iX - (iSize / 2);
@@ -405,7 +405,7 @@ void TePathFinder::SetObstacle(float fX, float fY, int iObstacle, int iSize)
 	}
 }
 
-inline bool TePathFinder::CheckInput(float& fSrcX, float& fSrcY, float& fDstX, float& fDstY) const
+inline bool TwPathFinder::CheckInput(float& fSrcX, float& fSrcY, float& fDstX, float& fDstY) const
 {
 	fSrcX = fSrcX < GRID_COORD_SIZE ? GRID_COORD_SIZE : fSrcX;
 	fSrcX = fSrcX > (float)((m_iWidth - 1) * GRID_COORD_SIZE) ? (float)((m_iWidth - 1) * GRID_COORD_SIZE) : fSrcX;
@@ -422,28 +422,28 @@ inline bool TePathFinder::CheckInput(float& fSrcX, float& fSrcY, float& fDstX, f
 	return true;
 }
 
-TeFindResult TePathFinder::FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs)
+TwFindResult TwPathFinder::FindPathUnit(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, TwGridFlag iObs)
 {
 	m_iChangeListLimit = PATH_CHANGE_LIST;
 
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
-	TeFindResult eRet = TeFindResult::TFR_NONE;
+	TwFindResult eRet = TwFindResult::TFR_NONE;
 
 	if (fSrcX == fDstX && fSrcY == fDstY)
 	{
-		eRet = TeFindResult::TFR_ARRIVED;
+		eRet = TwFindResult::TFR_ARRIVED;
 	}
 	else
 	{
 		if (IsPointDirect(fSrcX, fSrcY, iSrcSize, fDstX, fDstY, iDstSize, (float)iDistance, iObs))
 		{
 			m_iPathPointCount = 0;
-			m_piPathPoint[m_iPathPointCount++] = TePos2(fDstX, fDstY);
-			eRet = TeFindResult::TFR_DIRECT;
+			m_piPathPoint[m_iPathPointCount++] = TwPos2(fDstX, fDstY);
+			eRet = TwFindResult::TFR_DIRECT;
 		}
 	}
 
-	if (eRet == TeFindResult::TFR_NONE)
+	if (eRet == TwFindResult::TFR_NONE)
 	{
 		if (m_bUseTStar)
 		{
@@ -532,7 +532,7 @@ inline float f_line_x(float y, float x1, float y1, float x2, float y2, float fSc
 	return ((x1 - x2) * y + (x2 * y1 - x1 * y2)) * fScope;///(y1-y2);
 }
 
-int		TePathFinder::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const
+int		TwPathFinder::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, TwGridFlag iObs) const
 {
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
 	float iX1 = fSrcX;
@@ -717,7 +717,7 @@ int		TePathFinder::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float
 	}
 }
 
-bool TePathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const
+bool TwPathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const
 {
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
 
@@ -824,22 +824,22 @@ bool TePathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, flo
 	return false;
 }
 
-bool TePathFinder::IsObstacle(float fX, float fY, int iObstacle, int iSize)
+bool TwPathFinder::IsObstacle(float fX, float fY, int iObstacle, int iSize)
 {
 	return !CanStayPos(fX, fY, iSize, iObstacle);
 }
 
-inline bool TePathFinder::CanStayPos(float fX, float fY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayPos(float fX, float fY, int iSize, int iObs) const
 {
 	return CanStayGrid(Map2Grid(fX), Map2Grid(fY), iSize, iObs);
 }
 
-inline bool TePathFinder::CanStayPos(int iX, int iY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayPos(int iX, int iY, int iSize, int iObs) const
 {
 	return CanStayGrid(Map2Grid(iX), Map2Grid(iY), iSize, iObs);
 }
 
-inline bool TePathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, int iObs) const
 {
 	int iTX = iGridX - (iSize / 2);
 	int iTY = iGridY - (iSize / 2);
@@ -890,7 +890,7 @@ inline bool TePathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, int iOb
 	return true;
 }
 
-inline bool TePathFinder::CanStayGrid(int iIndex, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayGrid(int iIndex, int iSize, int iObs) const
 {
 	int iIndexTop = iIndex - (iSize / 2) * m_iWidth - (iSize / 2);
 	int iIndexTottom = iIndexTop + iSize * m_iWidth;
@@ -950,7 +950,7 @@ inline bool TePathFinder::CanStayGrid(int iIndex, int iSize, int iObs) const
 	return true;
 }
 
-void TePathFinder::CreatePath(int iNearestIndex, int iStart)
+void TwPathFinder::CreatePath(int iNearestIndex, int iStart)
 {
 	const int aiOff[][5] =
 	{
@@ -959,7 +959,7 @@ void TePathFinder::CreatePath(int iNearestIndex, int iStart)
 	};
 	int iLastGridX = iNearestIndex % m_iWidth;
 	int iLastGridY = iNearestIndex / m_iWidth;
-	m_piPathPoint[PATH_RESULT - 1] = TePos2(Grid2Map(iLastGridX), Grid2Map(iLastGridY));
+	m_piPathPoint[PATH_RESULT - 1] = TwPos2(Grid2Map(iLastGridX), Grid2Map(iLastGridY));
 
 	while (iNearestIndex != iStart)
 	{
@@ -969,7 +969,7 @@ void TePathFinder::CreatePath(int iNearestIndex, int iStart)
 		}
 		m_piPath[m_iPathCount++] = iNearestIndex;
 
-		TeMapGrid& kGrid = m_akGrid[iNearestIndex];
+		TwMapGrid& kGrid = m_akGrid[iNearestIndex];
 		int iParent = kGrid.iParent - 1;
 		int iGridX = iNearestIndex % m_iWidth;
 		int iGridY = iNearestIndex / m_iWidth;
@@ -991,14 +991,14 @@ void TePathFinder::CreatePath(int iNearestIndex, int iStart)
 		{
 			continue;
 		}
-		TeMapGrid& kGrid = m_akGrid[iIdx];
+		TwMapGrid& kGrid = m_akGrid[iIdx];
 		kGrid.iParent = 0;
 		kGrid.iState = TGS_NONE;
 	}
 	m_iChangeCount = 0;
 }
 
-bool TePathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs)
+bool TwPathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs)
 {
 	float fX(fSrcX), fY(fSrcY);
 	GetFirstCanStay(fSrcX, fSrcY, iSrcSize, fDstX, fDstY, fX, fY, 512 * 32, iObs);
@@ -1018,7 +1018,7 @@ bool TePathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float f
 }
 
 
-void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, TeFindResult eRet)
+void TwPathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, TwFindResult eRet)
 {
 	m_iPathPointCount = 0;
 	if (m_iPathCount <= 0)
@@ -1050,7 +1050,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 		int iY = iIndex / m_iWidth;
 		fPos1X = Grid2Map(iX);
 		fPos1Y = Grid2Map(iY);
-		if (iPos == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
+		if (iPos == 0 && eRet != TwFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 		{
 			fPos1X = fEndX;
 			fPos1Y = fEndY;
@@ -1069,7 +1069,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	int iY3 = iIndex3 / m_iWidth;
 	fPos1X = Grid2Map(iX3);
 	fPos1Y = Grid2Map(iY3);
-	if (iPos3 == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
+	if (iPos3 == 0 && eRet != TwFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 	{
 		fPos1X = fEndX;
 		fPos1Y = fEndY;
@@ -1083,7 +1083,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 		int iY = iIndex / m_iWidth;
 		fPosX = Grid2Map(iX);
 		fPosY = Grid2Map(iY);
-		if (iPos2 == iEnd && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
+		if (iPos2 == iEnd && eRet != TwFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 		{
 			fPosX = fEndX;
 			fPosY = fEndY;
@@ -1105,7 +1105,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 					{
 						if (m_iPathPointCount < PATH_RESULT)
 						{
-							m_piPathPoint[m_iPathPointCount++] = TePos2(fX, fY);
+							m_piPathPoint[m_iPathPointCount++] = TwPos2(fX, fY);
 						}
 						return;
 					}
@@ -1120,7 +1120,7 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	int iY = iIndex / m_iWidth;
 	float fX = Grid2Map(iX);
 	float fY = Grid2Map(iY);
-	if (iPos3 == 0 && eRet != TeFindResult::TFR_NOT_ARRIVE && iDistance == 0)
+	if (iPos3 == 0 && eRet != TwFindResult::TFR_NOT_ARRIVE && iDistance == 0)
 	{
 		fX = fEndX;
 		fY = fEndY;
@@ -1128,11 +1128,11 @@ void TePathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 
 	if (m_iPathPointCount < PATH_RESULT)
 	{
-		m_piPathPoint[m_iPathPointCount++] = TePos2(fX, fY);
+		m_piPathPoint[m_iPathPointCount++] = TwPos2(fX, fY);
 	}
 }
 
-void TePathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
+void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
 {
 	int iDX = abs(iSrcGridX - iDstGridX);
 	int iDY = abs(iSrcGridY - iDstGridY);
@@ -1145,7 +1145,7 @@ void TePathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 
 	{
 		int iIndex = GridIndex(iX, iY);
-		TeMapGrid& kGrid = m_akGrid[iIndex];
+		TwMapGrid& kGrid = m_akGrid[iIndex];
 		ChangeListPush(iIndex);
 
 		if (CanStayGrid(iX, iY, iSize, iObs))
@@ -1162,7 +1162,7 @@ void TePathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 		int iY = iDstGridY;
 		{
 			int iIndex = GridIndex(iX, iY);
-			TeMapGrid& kGrid = m_akGrid[iIndex];
+			TwMapGrid& kGrid = m_akGrid[iIndex];
 			ChangeListPush(iIndex);
 
 			if (CanStayGrid(iX, iY, iSize, iObs))
@@ -1191,7 +1191,7 @@ void TePathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 		}
 
 		int iIndex = GridIndex(iX, iY);
-		TeMapGrid& kGrid = m_akGrid[iIndex];
+		TwMapGrid& kGrid = m_akGrid[iIndex];
 		ChangeListPush(iIndex);
 		if (CanStayGrid(iX, iY, iSize, iObs))
 		{
@@ -1204,35 +1204,35 @@ void TePathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 	}
 }
 
-TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
+TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
 {
 	m_iPathCount = 0;
 	if (!m_akGrid)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TeFindResult::TFR_ARRIVED;
+		return TwFindResult::TFR_ARRIVED;
 	}
 
-	TeFindResult eRet = TeFindResult::TFR_NONE;
+	TwFindResult eRet = TwFindResult::TFR_NONE;
 
 	MarkLine(iSrcGridX, iSrcGridY, iSize, iDstGridX, iDstGridY, iDistance, iObs);
 
 	int iStart = GridIndex(iSrcGridX, iSrcGridY);
-	TeMapGrid& kStartGrid = m_akGrid[iStart];
+	TwMapGrid& kStartGrid = m_akGrid[iStart];
 	kStartGrid.iState = TGS_OPEN;
 	OpenListPushTack(iStart);
 	ChangeListPush(iStart);
@@ -1270,7 +1270,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 		}
 		int iGridX = iIndex % m_iWidth;
 		int iGridY = iIndex / m_iWidth;
-		TeMapGrid& kGrid = m_akGrid[iIndex];
+		TwMapGrid& kGrid = m_akGrid[iIndex];
 		kGrid.iState = TGS_CLOSE;
 
 		int iC1 = aiParent[kGrid.iParent / 2][0];
@@ -1284,7 +1284,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 				continue;
 			}
 
-			TeMapGrid& kGrid1 = m_akGrid[iIndex1];
+			TwMapGrid& kGrid1 = m_akGrid[iIndex1];
 
 			switch (kGrid1.iState)
 			{
@@ -1308,7 +1308,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 					{
 						continue;
 					}
-					TeMapGrid& kGridOut = m_akGrid[iIndexOut];
+					TwMapGrid& kGridOut = m_akGrid[iIndexOut];
 
 					if (kGridOut.iState == TGS_NONE)
 					{
@@ -1361,15 +1361,15 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 				int iD2 = GetDistance2Path(iGridX1, iGridY1, iDstGridX, iDstGridY);
 				if (iDistance2 > iD2)
 				{
-					if (eRet == TeFindResult::TFR_NONE)
+					if (eRet == TwFindResult::TFR_NONE)
 					{
-						eRet = TeFindResult::TFR_NOT_ARRIVE;
+						eRet = TwFindResult::TFR_NOT_ARRIVE;
 					}
 					iDistance2 = iD2;
 					iNearestIndex = iIndex1;
 					if (iD2 <= iDistanceLimit2)
 					{
-						eRet = TeFindResult::TFR_ARRIVE;
+						eRet = TwFindResult::TFR_ARRIVE;
 						OpenListClear();
 						break;
 					}
@@ -1385,16 +1385,16 @@ TeFindResult TePathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 	return eRet;
 }
 
-bool TePathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs)
+bool TwPathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs)
 {
 	bool bRet = false;
 	m_iChangeListLimit = 500;
 
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
-	TeFindResult eRet = TeFindResult::TFR_NONE;
+	TwFindResult eRet = TwFindResult::TFR_NONE;
 	if (fSrcX == fDstX && fSrcY == fDstY)
 	{
-		eRet = TeFindResult::TFR_ARRIVED;
+		eRet = TwFindResult::TFR_ARRIVED;
 		bRet = true;
 	}
 	else
@@ -1402,18 +1402,18 @@ bool TePathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fD
 		if (IsPointDirect(fSrcX, fSrcY, iSrcSize, fDstX, fDstY, iDstSize, (float)iDistance, iObs))
 		{
 			m_iPathPointCount = 0;
-			m_piPathPoint[m_iPathPointCount++] = TePos2(fDstX, fDstY);
-			eRet = TeFindResult::TFR_DIRECT;
+			m_piPathPoint[m_iPathPointCount++] = TwPos2(fDstX, fDstY);
+			eRet = TwFindResult::TFR_DIRECT;
 			bRet = true;
 		}
 	}
 
-	if (eRet == TeFindResult::TFR_NONE)
+	if (eRet == TwFindResult::TFR_NONE)
 	{
 		CreateList();
 		eRet = FindPathGrid_Edge(Map2Grid(fSrcX), Map2Grid(fSrcY), iSrcSize, Map2Grid(fDstX), Map2Grid(fDstY), iDistance, iObs);
 
-		if (TeFindResult::TFR_ARRIVE == eRet)
+		if (TwFindResult::TFR_ARRIVE == eRet)
 		{
 			bRet = true;
 		}
@@ -1423,35 +1423,35 @@ bool TePathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fD
 	return bRet;
 }
 
-TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent)
+TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent)
 {
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TeFindResult::TFR_ARRIVED;
+		return TwFindResult::TFR_ARRIVED;
 	}
 
 	m_iPathCount = 0;
 	if (!m_akGrid)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
-	TeFindResult eRet = TeFindResult::TFR_NONE;
+	TwFindResult eRet = TwFindResult::TFR_NONE;
 
 	MarkLine(iSrcGridX, iSrcGridY, iSize, iDstGridX, iDstGridY, iDistance, iObs);
 
 	int iStart = GridIndex(iSrcGridX, iSrcGridY);
-	TeMapGrid& kStartGrid = m_akGrid[iStart];
+	TwMapGrid& kStartGrid = m_akGrid[iStart];
 	kStartGrid.iState = TGS_OPEN;
 	OpenListPushTack(iStart);
 	ChangeListPush(iStart);
@@ -1466,7 +1466,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 		int iIndex = OpenListPopHead();
 		int iGridX = iIndex % m_iWidth;
 		int iGridY = iIndex / m_iWidth;
-		TeMapGrid& kGrid = m_akGrid[iIndex];
+		TwMapGrid& kGrid = m_akGrid[iIndex];
 		kGrid.iState = TGS_CLOSE;
 
 
@@ -1585,7 +1585,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 				continue;
 			}
 
-			TeMapGrid& kGrid1 = m_akGrid[iIndex1];
+			TwMapGrid& kGrid1 = m_akGrid[iIndex1];
 
 			switch (kGrid1.iState)
 			{
@@ -1610,7 +1610,7 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 					for (int iNX = iTX; iNX <= iEX; ++iNX)
 					{
 						int iIndexOut = iNX + iNY * m_iWidth;
-						TeMapGrid& kGridOut = m_akGrid[iIndexOut];
+						TwMapGrid& kGridOut = m_akGrid[iIndexOut];
 						switch (kGridOut.iState)
 						{
 						case TGS_NONE:
@@ -1655,15 +1655,15 @@ TeFindResult TePathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 				int iD2 = GetDistance2Path(iGridX1, iGridY1, iDstGridX, iDstGridY);
 				if (iDistance2 > iD2)
 				{
-					if (eRet == TeFindResult::TFR_NONE)
+					if (eRet == TwFindResult::TFR_NONE)
 					{
-						eRet = TeFindResult::TFR_NOT_ARRIVE;
+						eRet = TwFindResult::TFR_NOT_ARRIVE;
 					}
 					iDistance2 = iD2;
 					iNearestIndex = iIndex1;
 					if (iD2 <= iDistanceLimit2)
 					{
-						eRet = TeFindResult::TFR_ARRIVE;
+						eRet = TwFindResult::TFR_ARRIVE;
 						OpenListClear();
 						break;
 					}
@@ -1694,27 +1694,27 @@ int g_aiTranchAround[TMT_MAX][MAX_MAP_DIRECTION] =
 	{0, 1, 2, 3,},
 };
 
-TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY)
+TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY)
 {
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{
-		return TeFindResult::TFR_ARRIVED;
+		return TwFindResult::TFR_ARRIVED;
 	}
 
 	m_iPathCount = 0;
 	if (!m_akTGrid)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iSrcGridX < 0 || iSrcGridY < 0 || iSrcGridX >= m_iWidth || iSrcGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	if (iDstGridX < 0 || iDstGridY < 0 || iDstGridX >= m_iWidth || iDstGridY >= m_iHeight)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	VecTMapGrid akOpenList;
@@ -1722,14 +1722,14 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 	int iSrcGridIndex = GridIndex(iSrcGridX, iSrcGridY);
 	int iDstGridIndex = GridIndex(iDstGridX, iDstGridY);
-	TeTMapGrid* pkOriginGrid = &m_akTGrid[iSrcGridIndex];
-	TeTMapGrid* pkTargetGrid = &m_akTGrid[iDstGridIndex];
+	TwTMapGrid* pkOriginGrid = &m_akTGrid[iSrcGridIndex];
+	TwTMapGrid* pkTargetGrid = &m_akTGrid[iDstGridIndex];
 
 	pkOriginGrid = CorrectOriginGrid(pkOriginGrid);
 
 	if (!pkOriginGrid || pkOriginGrid->iState == TMPS_TLOCK || !pkTargetGrid || pkTargetGrid->iState == TMPS_TLOCK)
 	{
-		return TeFindResult::TFR_NONE;
+		return TwFindResult::TFR_NONE;
 	}
 
 	pkOriginGrid->iState = TMPS_ORIGIN;
@@ -1742,10 +1742,10 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 	akOpenList.push_back(pkOriginGrid);
 
 	VecTMapGrid::iterator itrGrid;
-	TeTMapGrid* pkCurGrid = nullptr;
-	TeTMapGrid* pkNextGrid = nullptr;
-	TeTMapGrid* pkLeftGrid = nullptr;
-	TeTMapGrid* pkRightGrid = nullptr;
+	TwTMapGrid* pkCurGrid = nullptr;
+	TwTMapGrid* pkNextGrid = nullptr;
+	TwTMapGrid* pkLeftGrid = nullptr;
+	TwTMapGrid* pkRightGrid = nullptr;
 	bool bCancelTranch = false;
 	int iDir = 0, iNextX = 0, iNextY = 0, iNextIndex = 0, iCount = 0;
 
@@ -1806,7 +1806,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 					CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-					return TeFindResult::TFR_ARRIVE;
+					return TwFindResult::TFR_ARRIVE;
 				}
 				break;
 				case TMPS_NONE:
@@ -2066,7 +2066,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 								CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-								return TeFindResult::TFR_ARRIVE;
+								return TwFindResult::TFR_ARRIVE;
 							}
 
 							switch (pkNextGrid->iState)
@@ -2208,7 +2208,7 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 								CreateTStarPath(pkOriginGrid, pkTargetGrid);
 
-								return TeFindResult::TFR_ARRIVE;
+								return TwFindResult::TFR_ARRIVE;
 							}
 
 							switch (pkNextGrid->iState)
@@ -2325,10 +2325,10 @@ TeFindResult TePathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 	m_iPathPointCount = 0;
 
-	return TeFindResult::TFR_NONE;
+	return TwFindResult::TFR_NONE;
 }
 
-void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTargetGrid)
+void TwPathFinder::CreateTStarPath(TwTMapGrid* pkOriginGrid, TwTMapGrid* pkTargetGrid)
 {
 	if (!pkOriginGrid || !pkTargetGrid)
 	{
@@ -2343,7 +2343,7 @@ void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTarge
 	}
 
 	m_iPathCount = 0;
-	TeTMapGrid* pkGrid = pkTargetGrid;
+	TwTMapGrid* pkGrid = pkTargetGrid;
 	while (true)
 	{
 		if (!pkGrid || m_iPathCount >= PATH_CHANGE_LIST)
@@ -2370,8 +2370,8 @@ void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTarge
 
 		if (m_iPathCount >= 2)
 		{
-			TeTMapGrid& rkCurGrid = m_akTGrid[m_piPath[m_iPathCount - 1]];
-			TeTMapGrid& rkPreGrid = m_akTGrid[m_piPath[m_iPathCount - 2]];
+			TwTMapGrid& rkCurGrid = m_akTGrid[m_piPath[m_iPathCount - 1]];
+			TwTMapGrid& rkPreGrid = m_akTGrid[m_piPath[m_iPathCount - 2]];
 
 			if ((pkGrid->x - rkCurGrid.x) * (rkCurGrid.y - rkPreGrid.y) == (rkCurGrid.x - rkPreGrid.x) * (pkGrid->y - rkCurGrid.y))
 			{
@@ -2408,8 +2408,8 @@ void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTarge
 
 		if (m_iPathCount >= 2)
 		{
-			TeTMapGrid& rkCurGrid = m_akTGrid[m_piPath[m_iPathCount - 1]];
-			TeTMapGrid& rkPreGrid = m_akTGrid[m_piPath[m_iPathCount - 2]];
+			TwTMapGrid& rkCurGrid = m_akTGrid[m_piPath[m_iPathCount - 1]];
+			TwTMapGrid& rkPreGrid = m_akTGrid[m_piPath[m_iPathCount - 2]];
 
 			int iDiff = (pkGrid->x - rkCurGrid.x) * (rkCurGrid.y - rkPreGrid.y) - (rkCurGrid.x - rkPreGrid.x) * (pkGrid->y - rkCurGrid.y);
 			if (iDiff <= 10 && iDiff >= -10)
@@ -2438,14 +2438,14 @@ void TePathFinder::CreateTStarPath(TeTMapGrid* pkOriginGrid, TeTMapGrid* pkTarge
 
 	for (int i = 0; i < m_iPathPointCount; ++i)
 	{
-		TeTMapGrid& rkGrid = m_akTGrid[m_piPath[i + 1]];
-		m_piPathPoint[i] = TePos2(Grid2Map(rkGrid.x), Grid2Map(rkGrid.y));
+		TwTMapGrid& rkGrid = m_akTGrid[m_piPath[i + 1]];
+		m_piPathPoint[i] = TwPos2(Grid2Map(rkGrid.x), Grid2Map(rkGrid.y));
 	}
 
 	ResetTStarChangeList();
 }
 
-void TePathFinder::FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd)
+void TwPathFinder::FilterTStarDirectPoint(TwTMapGrid* pkStart, TwTMapGrid* pkEnd)
 {
 	if (!pkStart || !pkEnd)
 	{
@@ -2460,8 +2460,8 @@ void TePathFinder::FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd
 	}
 
 	bool bDirect = false;
-	TeTMapGrid* pkLast = pkEnd;
-	TeTMapGrid* pkNextStart = nullptr;
+	TwTMapGrid* pkLast = pkEnd;
+	TwTMapGrid* pkNextStart = nullptr;
 	while (pkLast && pkLast != pkStart)
 	{
 		bDirect = IsPointDirect(Grid2Map(pkStart->x), Grid2Map(pkStart->y), 1, Grid2Map(pkLast->x), Grid2Map(pkLast->y), 0, 0, m_iTStarObs);
@@ -2477,7 +2477,7 @@ void TePathFinder::FilterTStarDirectPoint(TeTMapGrid* pkStart, TeTMapGrid* pkEnd
 	return FilterTStarDirectPoint(pkNextStart, pkEnd);
 }
 
-void TePathFinder::ResetTStarChangeList(void)
+void TwPathFinder::ResetTStarChangeList(void)
 {
 	for (int i = 0; i < m_iChangeCount; ++i)
 	{
@@ -2486,7 +2486,7 @@ void TePathFinder::ResetTStarChangeList(void)
 		{
 			continue;
 		}
-		TeTMapGrid& rkGrid = m_akTGrid[iIdx];
+		TwTMapGrid& rkGrid = m_akTGrid[iIdx];
 
 		rkGrid.iState = (rkGrid.iState != TMPS_TLOCK ? TMPS_NONE : TMPS_TLOCK);
 		rkGrid.iTranch = 0;
@@ -2502,7 +2502,7 @@ void TePathFinder::ResetTStarChangeList(void)
 
 int g_aiGridOff[4][2] = { {0,1},{1,0},{0,-1},{-1,0}, };
 
-TeTMapGrid* TePathFinder::CorrectOriginGrid(TeTMapGrid* pkOrigin)
+TwTMapGrid* TwPathFinder::CorrectOriginGrid(TwTMapGrid* pkOrigin)
 {
 	if (!pkOrigin || pkOrigin->iState != TMPS_TLOCK)
 	{
@@ -2515,7 +2515,7 @@ TeTMapGrid* TePathFinder::CorrectOriginGrid(TeTMapGrid* pkOrigin)
 		for (int iDir = 0; iDir < 4; iDir++)
 		{
 			iGridIndex = GridIndex(pkOrigin->x + g_aiGridOff[iDir][0] * iDis, pkOrigin->y + g_aiGridOff[iDir][1] * iDis);
-			TeTMapGrid* pkGrid = &m_akTGrid[iGridIndex];
+			TwTMapGrid* pkGrid = &m_akTGrid[iGridIndex];
 
 			if (pkGrid && pkGrid->iState != TMPS_TLOCK)
 			{

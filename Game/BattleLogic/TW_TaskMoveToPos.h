@@ -27,8 +27,8 @@ public:
 
 	BeMoveResult GetMoveResult(void) const;
 	void SetMoveResult(BeMoveResult eResult);
-	void SetTargetPos(const TePos2& kPos, float fDistance = 0.0f, bool bTurn = false);
-	TePos2 GetTargetPos() const;
+	void SetTargetPos(const TwPos2& kPos, float fDistance = 0.0f, bool bTurn = false);
+	TwPos2 GetTargetPos() const;
 
 	virtual BeExeResult Execute(int& iDeltaTime);
 
@@ -40,11 +40,11 @@ protected:
 
 	BeMoveResult		m_eState;
 	BeMoveRetryState	m_eRetryState;
-	TeFindResult		m_eFindPathRet;
+	TwFindResult		m_eFindPathRet;
 
-	TePos2				m_kTarPos;
-	TePos2				m_kMiddlePos;
-	TePos2				m_kDirectPos;
+	TwPos2				m_kTarPos;
+	TwPos2				m_kMiddlePos;
+	TwPos2				m_kDirectPos;
 	bool				m_bSoliderCheck;
 	float				m_fDistance;
 

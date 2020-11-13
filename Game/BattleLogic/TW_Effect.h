@@ -57,7 +57,7 @@ public:
     void	SetBirthTime(unsigned int iTime);
     unsigned int	GetBirthTime();
     void	SetSearchTarget(bool bSearch);
-    void	SetAttackerPos(TePos2 pos) { m_posAttacker = pos; }
+    void	SetAttackerPos(TwPos2 pos) { m_posAttacker = pos; }
     void	SetMaxTargetNum(int iNum) { m_iMaxTargetNum = iNum; }
 
     void	SetNoDelayDelete(bool bDelay);
@@ -146,8 +146,8 @@ public:
     BeEffectCurveStyle GetCurveStyle(void);
     void SetCurveDividNum(int iCurveDividNum);
     int GetCurveDividNum(void);
-    TePos2 GetPointMul2Pos(void);
-    TePos2 GetPointMul3Pos(void);
+    TwPos2 GetPointMul2Pos(void);
+    TwPos2 GetPointMul3Pos(void);
     void SetOrgPosX(float fOrgPosX);
     void SetOrgPosY(float fOrgPosY);
     void SetOrgPosZ(float fOrgPosZ);
@@ -187,7 +187,7 @@ protected:
     void	UpdateCurveTraceCollision(int iDeltaTime);
     void    ParseAttack(void);
     void*   UpdateTargetPos(void);
-    void    GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TePos2>& akCurvePos, int iPointNum = 100, BeEffectCurveType eCurveType = BECT_CURVELEFT, BeEffectCurveStyle eCurveStyle = BECS_LEFTBIG);
+    void    GetCurvePos(float fOrgX, float fOrgY, float fTarX, float fTarY, float fFace, std::vector<TwPos2>& akCurvePos, int iPointNum = 100, BeEffectCurveType eCurveType = BECT_CURVELEFT, BeEffectCurveStyle eCurveStyle = BECS_LEFTBIG);
     void    ParseCurveTrace(void);
     float   GetEffecttrueFace(int iDY, int iDX, int iDeltaTime = 0);
 
@@ -196,14 +196,14 @@ protected:
     BeAttachPos				m_eAttachNode;
     BeEffectCurveType   	m_eCurveType;
     float					m_fAllDistance;
-    std::vector<TePos2> 	m_akCurvePosW;
-    std::vector<TePos2> 	m_akCurvePosH;
+    std::vector<TwPos2> 	m_akCurvePosW;
+    std::vector<TwPos2> 	m_akCurvePosH;
     float					m_fOwnerFace;
     float					m_fPrePosX;
     float					m_fPrePosY;
     float					m_fPrePosZ;
-    TePos2					m_kCurvePointMul2;
-    TePos2					m_kCurvePointMul3;
+    TwPos2					m_kCurvePointMul2;
+    TwPos2					m_kCurvePointMul3;
     float					m_fCycleAngle;
     bool					m_bTurning;
     bool					m_bRotate;
@@ -213,7 +213,7 @@ protected:
     unsigned int			m_birthTime;
     bool					m_bSearchTargetSelf;
     int						m_iMaxTargetNum;
-    TePos2					m_posAttacker;
+    TwPos2					m_posAttacker;
     std::unordered_map<UserDataKey, TePointerType>	m_kUserData;
     bool					m_bNoDelayDelete;
     BeEffectData		    m_kEffectData;
@@ -566,11 +566,11 @@ inline int BeEffect::GetCurveDividNum(void)
 {
     return m_iCurveDividNum;
 }
-inline TePos2 BeEffect::GetPointMul2Pos(void)
+inline TwPos2 BeEffect::GetPointMul2Pos(void)
 {
     return m_kCurvePointMul2;
 }
-inline TePos2 BeEffect::GetPointMul3Pos(void)
+inline TwPos2 BeEffect::GetPointMul3Pos(void)
 {
     return m_kCurvePointMul3;
 }

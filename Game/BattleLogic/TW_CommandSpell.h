@@ -13,9 +13,9 @@ public:
 	BeSpellCommand();
 	~BeSpellCommand() {};
 
-	void SpellTargetID(int iSkillTypeID, int iTargetID, const TePos2& kPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1, int iTargetType = 0);
+	void SpellTargetID(int iSkillTypeID, int iTargetID, const TwPos2& kPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1, int iTargetType = 0);
 	void SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
-	void SpellTargetPos(int iSkillTypeID, const TePos2& kPos, const TePos2& kDirPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
+	void SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const TwPos2& kDirPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
 
 	virtual BeExeResult Execute(int& iDeltaTime);
 	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
@@ -31,6 +31,6 @@ protected:
 	BeCommandTargetType			m_iTargetType;
 	int							m_iItemID;
 	int							m_iUsePlayer;
-	TePos2						m_kTargetPos;
-	TePos2						m_kDirectPos;
+	TwPos2						m_kTargetPos;
+	TwPos2						m_kDirectPos;
 };
