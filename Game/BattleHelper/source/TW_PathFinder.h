@@ -22,73 +22,7 @@ enum TwPathFinderDef
 	PATH_POOL_ELE_SIZE = PATH_CHANGE_LIST + PATH_OPEN_LIST + PATH_OPEN_LIST + 1024,
 };
 
-struct TwMapGrid
-{
-    TwGridFlag	iObstacle;
-	unsigned short	iState : 4;
-	unsigned short	iParent : 4;
-	inline bool IsObs(TwGridFlag iObs, bool bHasVision) const
-	{
-        iObs &= iObstacle;
-		if (!bHasVision)
-		{
-            iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
-		}
-		return (bool)iObs;
-	}
-
-	TwMapGrid()
-	{
-		iObstacle = TwGridFlag::TGF_NONE;
-		iState = 0;
-		iParent = 0;
-	}
-};
-
-struct TwTMapGrid
-{
-    TwGridFlag iObstacle;
-	unsigned short	iState : 4;
-	unsigned short	iTranch : 4;
-	unsigned short	iDir : 4;
-	unsigned short	iReel : 4;
-	int		iIndex;
-	int		x;
-	int		y;
-	int		iStep;
-	int		iAngle;
-	bool	bChange;
-	TwTMapGrid* pkPreGrid;
-
-	inline bool IsObs(TwGridFlag iObs, bool bHasVision) const
-	{
-		iObs &= iObstacle;
-		if (!bHasVision)
-		{
-			iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
-		}
-		return (bool)iObs;
-	}
-
-	TwTMapGrid()
-	{
-		iObstacle = TwGridFlag::TGF_NONE;
-		iState = 0;
-		iTranch = 0;
-		iDir = -1;
-		iReel = 0;
-		iIndex = 0;
-		x = 0;
-		y = 0;
-		iStep = 0;
-		iAngle = 0;
-		bChange = false;
-		pkPreGrid = nullptr;
-	}
-};
-typedef std::list<TwTMapGrid*> VecTMapGrid;
-
-enum TwGridState
+enum class TwGridState
 {
 	TGS_NONE = 0,
 	TGS_OTS,
@@ -100,7 +34,7 @@ enum TwGridState
 
 #define MAX_MAP_DIRECTION		4
 
-enum TwMapGridState
+enum class TwMapGridState
 {
 	TMPS_NONE = 0,
 	TMPS_TLOCK,
@@ -112,7 +46,7 @@ enum TwMapGridState
 	TMPS_MAX,
 };
 
-enum TwMapTranch
+enum class TwMapTranch
 {
 	TMT_NONE = 0,
 	TMT_LEFT,
@@ -120,15 +54,85 @@ enum TwMapTranch
 	TMT_MAX,
 };
 
-struct TagAround
+class TagAround
 {
+public:
 	int x;
 	int y;
 };
 
-struct TwPathMem
+class TwMapGrid
 {
-	int m_aiData[PATH_POOL_ELE_SIZE];
+public:
+    TwGridFlag      iObstacle;
+    TwGridState     iState;
+    unsigned short	iParent : 4;
+    inline bool IsObs(TwGridFlag iObs, bool bHasVision) const
+    {
+        iObs &= iObstacle;
+        if (!bHasVision)
+        {
+            iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
+        }
+        return (bool)iObs;
+    }
+
+    TwMapGrid()
+    {
+        iObstacle = TwGridFlag::TGF_NONE;
+        iState = TwGridState::TGS_NONE;
+        iParent = 0;
+    }
+};
+
+class TwTMapGrid
+{
+public:
+    TwGridFlag iObstacle;
+    TwMapGridState	iState;
+    TwMapTranch	iTranch;
+    unsigned short	iDir : 4;
+    unsigned short	iReel : 4;
+    int		iIndex;
+    int		x;
+    int		y;
+    int		iStep;
+    int		iAngle;
+    bool	bChange;
+    TwTMapGrid* pkPreGrid;
+
+    bool IsObs(TwGridFlag iObs, bool bHasVision) const
+    {
+        iObs &= iObstacle;
+        if (!bHasVision)
+        {
+            iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
+        }
+        return (bool)iObs;
+    }
+
+    TwTMapGrid()
+    {
+        iObstacle = TwGridFlag::TGF_NONE;
+        iState = TwMapGridState::TMPS_NONE;
+        iTranch = TwMapTranch::TMT_NONE;
+        iDir = -1;
+        iReel = 0;
+        iIndex = 0;
+        x = 0;
+        y = 0;
+        iStep = 0;
+        iAngle = 0;
+        bChange = false;
+        pkPreGrid = nullptr;
+    }
+};
+typedef std::list<TwTMapGrid*> VecTMapGrid;
+
+class TwPathMem
+{
+public:
+	int m_aiData[static_cast<unsigned int>(TwPathFinderDef::PATH_POOL_ELE_SIZE)];
 };
 
 class TwPathFinder : public ITwPathFinder

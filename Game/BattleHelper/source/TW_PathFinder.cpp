@@ -42,7 +42,7 @@ void InitServerPathGrids(int iW, int iH, unsigned short* akGrids)
 					gPthFinder.m_akTGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD;
 
 					bool bIsObs = gPthFinder.m_akTGrid[h * iW + w].IsObs(gPthFinder.m_iTStarObs, true);
-					gPthFinder.m_akTGrid[h * iW + w].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
+					gPthFinder.m_akTGrid[h * iW + w].iState = bIsObs ? TwMapGridState::TMPS_TLOCK : TwMapGridState::TMPS_NONE;
 				}
 			}
 		}
@@ -302,7 +302,7 @@ void TwPathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 					m_akTGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD | TwGridFlag::TGF_GUTDOODAD;
 
 					bool bIsObs = m_akTGrid[h * iW + w].IsObs(m_iTStarObs, true);
-					m_akTGrid[h * iW + w].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
+					m_akTGrid[h * iW + w].iState = bIsObs ? TwMapGridState::TMPS_TLOCK : TwMapGridState::TMPS_NONE;
 
 					m_akTGrid[h * iW + w].iIndex = h * iW + w;
 				}
@@ -348,7 +348,7 @@ void TwPathFinder::ClrObstacle(float fX, float fY, TwGridFlag iObstacle, int iSi
 				m_akTGrid[y * m_iWidth + x].iObstacle &= ~iObstacle;
 
 				bool bIsObs = m_akTGrid[y * m_iWidth + x].IsObs(m_iTStarObs, true);
-				m_akTGrid[y * m_iWidth + x].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
+				m_akTGrid[y * m_iWidth + x].iState = bIsObs ? TwMapGridState::TMPS_TLOCK : TwMapGridState::TMPS_NONE;
 			}
 		}
 	}
@@ -388,7 +388,7 @@ void TwPathFinder::SetObstacle(float fX, float fY, TwGridFlag iObstacle, int iSi
 				m_akTGrid[iYvalue + x].iObstacle |= iObstacle;
 
 				bool bIsObs = m_akTGrid[iYvalue + x].IsObs(m_iTStarObs, true);
-				m_akTGrid[iYvalue + x].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
+				m_akTGrid[iYvalue + x].iState = bIsObs ? TwMapGridState::TMPS_TLOCK : TwMapGridState::TMPS_NONE;
 			}
 		}
 	}
@@ -993,7 +993,7 @@ void TwPathFinder::CreatePath(int iNearestIndex, int iStart)
 		}
 		TwMapGrid& kGrid = m_akGrid[iIdx];
 		kGrid.iParent = 0;
-		kGrid.iState = TGS_NONE;
+		kGrid.iState = TwGridState::TGS_NONE;
 	}
 	m_iChangeCount = 0;
 }
@@ -1150,11 +1150,11 @@ void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 
 		if (CanStayGrid(iX, iY, iSize, iObs))
 		{
-			kGrid.iState = TGS_ONLINE;
+			kGrid.iState = TwGridState::TGS_ONLINE;
 		}
 		else
 		{
-			kGrid.iState = TGS_OTS;
+			kGrid.iState = TwGridState::TGS_OTS;
 		}
 	}
 	{
@@ -1167,11 +1167,11 @@ void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 
 			if (CanStayGrid(iX, iY, iSize, iObs))
 			{
-				kGrid.iState = TGS_ONLINE;
+				kGrid.iState = TwGridState::TGS_ONLINE;
 			}
 			else
 			{
-				kGrid.iState = TGS_OTS;
+				kGrid.iState = TwGridState::TGS_OTS;
 			}
 		}
 	}
@@ -1195,11 +1195,11 @@ void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 		ChangeListPush(iIndex);
 		if (CanStayGrid(iX, iY, iSize, iObs))
 		{
-			kGrid.iState = TGS_ONLINE;
+			kGrid.iState = TwGridState::TGS_ONLINE;
 		}
 		else
 		{
-			kGrid.iState = TGS_OTS;
+			kGrid.iState = TwGridState::TGS_OTS;
 		}
 	}
 }
@@ -1233,7 +1233,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 
 	int iStart = GridIndex(iSrcGridX, iSrcGridY);
 	TwMapGrid& kStartGrid = m_akGrid[iStart];
-	kStartGrid.iState = TGS_OPEN;
+	kStartGrid.iState = TwGridState::TGS_OPEN;
 	OpenListPushTack(iStart);
 	ChangeListPush(iStart);
 
@@ -1271,7 +1271,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 		int iGridX = iIndex % m_iWidth;
 		int iGridY = iIndex / m_iWidth;
 		TwMapGrid& kGrid = m_akGrid[iIndex];
-		kGrid.iState = TGS_CLOSE;
+		kGrid.iState = TwGridState::TGS_CLOSE;
 
 		int iC1 = aiParent[kGrid.iParent / 2][0];
 		int iC2 = aiParent[kGrid.iParent / 2][1];
@@ -1288,14 +1288,14 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 
 			switch (kGrid1.iState)
 			{
-			case TGS_NONE:
+			case TwGridState::TGS_NONE:
 				ChangeListPush(iIndex1);
 				if (!CanStayGrid(iIndex1, iSize, iObs))
 				{
-					kGrid1.iState = TGS_OTS;
+					kGrid1.iState = TwGridState::TGS_OTS;
 					break;
 				}
-			case TGS_NOOTS:
+			case TwGridState::TGS_NOOTS:
 			{
 				bool bOK = false;
 				int iStart = 0;
@@ -1310,21 +1310,21 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 					}
 					TwMapGrid& kGridOut = m_akGrid[iIndexOut];
 
-					if (kGridOut.iState == TGS_NONE)
+					if (kGridOut.iState == TwGridState::TGS_NONE)
 					{
 						ChangeListPush(iIndexOut);
 						if (!CanStayGrid(iIndexOut, iSize, iObs))
 						{
-							kGridOut.iState = TGS_OTS;
+							kGridOut.iState = TwGridState::TGS_OTS;
 							bOK = true;
 							break;
 						}
 						else
 						{
-							kGridOut.iState = TGS_NOOTS;
+							kGridOut.iState = TwGridState::TGS_NOOTS;
 						}
 					}
-					else if (kGridOut.iState == TGS_OTS)
+					else if (kGridOut.iState == TwGridState::TGS_OTS)
 					{
 						bOK = true;
 						break;
@@ -1336,7 +1336,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 
 				if (!bOK)
 				{
-					kGrid1.iState = TGS_CLOSE;
+					kGrid1.iState = TwGridState::TGS_CLOSE;
 					break;
 				}
 				else
@@ -1345,14 +1345,14 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 					int iGridY1 = iIndex1 / m_iWidth;
 					if (abs(iGridX - iGridX1) > 1 || abs(iGridY - iGridY1) > 1)
 					{
-						kGrid1.iState = TGS_CLOSE;
+						kGrid1.iState = TwGridState::TGS_CLOSE;
 						break;
 					}
 				}
 			}
-			case TGS_ONLINE:
+			case TwGridState::TGS_ONLINE:
 			{
-				kGrid1.iState = TGS_OPEN;
+				kGrid1.iState = TwGridState::TGS_OPEN;
 				kGrid1.iParent = aiOff[i][0];
 				OpenListPushTack(iIndex1);
 				int iGridX1 = iIndex1 % m_iWidth;
@@ -1452,7 +1452,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 
 	int iStart = GridIndex(iSrcGridX, iSrcGridY);
 	TwMapGrid& kStartGrid = m_akGrid[iStart];
-	kStartGrid.iState = TGS_OPEN;
+	kStartGrid.iState = TwGridState::TGS_OPEN;
 	OpenListPushTack(iStart);
 	ChangeListPush(iStart);
 
@@ -1467,7 +1467,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 		int iGridX = iIndex % m_iWidth;
 		int iGridY = iIndex / m_iWidth;
 		TwMapGrid& kGrid = m_akGrid[iIndex];
-		kGrid.iState = TGS_CLOSE;
+		kGrid.iState = TwGridState::TGS_CLOSE;
 
 
 		switch (kGrid.iParent)
@@ -1589,14 +1589,14 @@ TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 
 			switch (kGrid1.iState)
 			{
-			case TGS_NONE:
+			case TwGridState::TGS_NONE:
 				ChangeListPush(iIndex1);
 				if (!CanStayGrid(iIndex1, iSize, iObs))
 				{
-					kGrid1.iState = TGS_OTS;
+					kGrid1.iState = TwGridState::TGS_OTS;
 					break;
 				}
-			case TGS_NOOTS:
+			case TwGridState::TGS_NOOTS:
 			{
 				bool bOK = false;
 
@@ -1613,23 +1613,23 @@ TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 						TwMapGrid& kGridOut = m_akGrid[iIndexOut];
 						switch (kGridOut.iState)
 						{
-						case TGS_NONE:
+						case TwGridState::TGS_NONE:
 						{
 							ChangeListPush(iIndexOut);
 							if (!CanStayGrid(iIndexOut, iSize, iObs))
 							{
-								kGridOut.iState = TGS_OTS;
+								kGridOut.iState = TwGridState::TGS_OTS;
 								bOK = true;
 								iNY = iEY + 1;
 								iNX = iEX + 1;
 							}
 							else
 							{
-								kGridOut.iState = TGS_NOOTS;
+								kGridOut.iState = TwGridState::TGS_NOOTS;
 							}
 							break;
 						}
-						case TGS_OTS:
+						case TwGridState::TGS_OTS:
 						{
 							bOK = true;
 							iNY = iEY + 1;
@@ -1642,13 +1642,13 @@ TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, 
 
 				if (!bOK)
 				{
-					kGrid1.iState = TGS_CLOSE;
+					kGrid1.iState = TwGridState::TGS_CLOSE;
 					break;
 				}
 			}
-			case TGS_ONLINE:
+			case TwGridState::TGS_ONLINE:
 			{
-				kGrid1.iState = TGS_OPEN;
+				kGrid1.iState = TwGridState::TGS_OPEN;
 				kGrid1.iParent = aiParent[iChild];
 				OpenListPushTack(iIndex1);
 
@@ -1687,7 +1687,7 @@ TagAround  g_akTagAround[MAX_MAP_DIRECTION] =
 	{1, 0},
 };
 
-int g_aiTranchAround[TMT_MAX][MAX_MAP_DIRECTION] =
+int g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_MAX)][MAX_MAP_DIRECTION] =
 {
 	{0, 1, 2, 3,},
 	{0, 3, 2, 1,},
@@ -1727,13 +1727,13 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 	pkOriginGrid = CorrectOriginGrid(pkOriginGrid);
 
-	if (!pkOriginGrid || pkOriginGrid->iState == TMPS_TLOCK || !pkTargetGrid || pkTargetGrid->iState == TMPS_TLOCK)
+	if (!pkOriginGrid || pkOriginGrid->iState == TwMapGridState::TMPS_TLOCK || !pkTargetGrid || pkTargetGrid->iState == TwMapGridState::TMPS_TLOCK)
 	{
 		return TwFindResult::TFR_NONE;
 	}
 
-	pkOriginGrid->iState = TMPS_ORIGIN;
-	pkTargetGrid->iState = TMPS_TARGET;
+	pkOriginGrid->iState = TwMapGridState::TMPS_ORIGIN;
+	pkTargetGrid->iState = TwMapGridState::TMPS_TARGET;
 	pkTargetGrid->bChange = true;
 
 	ChangeListPush(iSrcGridIndex);
@@ -1764,12 +1764,12 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 			ChangeListPush(pkCurGrid->iIndex);
 
-			if (pkCurGrid->iState != TMPS_ORIGIN)
+			if (pkCurGrid->iState != TwMapGridState::TMPS_ORIGIN)
 			{
-				pkCurGrid->iState = TMPS_CHECK;
+				pkCurGrid->iState = TwMapGridState::TMPS_CHECK;
 			}
 
-			if (pkCurGrid->iTranch == TMT_NONE)
+			if (pkCurGrid->iTranch == TwMapTranch::TMT_NONE)
 			{
 				for (iDir = 0; iDir < MAX_MAP_DIRECTION; ++iDir)
 				{
@@ -1778,7 +1778,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 					if (iNextY < 0 || iNextY >= m_iHeight || iNextX < 0 || iNextX >= m_iWidth)
 					{
-						pkCurGrid->iState = TMPS_CLOSE;
+						pkCurGrid->iState = TwMapGridState::TMPS_CLOSE;
 						continue;
 					}
 
@@ -1799,7 +1799,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 				switch (pkNextGrid->iState)
 				{
-				case TMPS_TARGET:
+				case TwMapGridState::TMPS_TARGET:
 				{
 					pkNextGrid->pkPreGrid = pkCurGrid;
 					pkNextGrid->iStep = pkCurGrid->iStep + 1;
@@ -1809,12 +1809,12 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					return TwFindResult::TFR_ARRIVE;
 				}
 				break;
-				case TMPS_NONE:
+				case TwMapGridState::TMPS_NONE:
 				{
 					pkNextGrid->pkPreGrid = pkCurGrid;
 					pkNextGrid->iStep = pkCurGrid->iStep + 1;
 					pkNextGrid->iDir = iDir;
-					pkNextGrid->iState = TMPS_OPEN;
+					pkNextGrid->iState = TwMapGridState::TMPS_OPEN;
 
 					if (pkNextGrid->iDir != pkCurGrid->iDir && (pkCurGrid->pkPreGrid && pkNextGrid->iDir != pkCurGrid->pkPreGrid->iDir))
 					{
@@ -1825,19 +1825,19 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					akTackList.push_back(pkNextGrid);
 				}
 				break;
-				case TMPS_OPEN:
+				case TwMapGridState::TMPS_OPEN:
 				{
-					pkCurGrid->iState = TMPS_CLOSE;
+					pkCurGrid->iState = TwMapGridState::TMPS_CLOSE;
 					continue;
 				}
 				break;
-				case TMPS_CLOSE:
+				case TwMapGridState::TMPS_CLOSE:
 				{
-					pkCurGrid->iState = TMPS_CLOSE;
+					pkCurGrid->iState = TwMapGridState::TMPS_CLOSE;
 					continue;
 				}
 				break;
-				case TMPS_TLOCK:
+				case TwMapGridState::TMPS_TLOCK:
 				{
 					pkLeftGrid = nullptr;
 					pkRightGrid = nullptr;
@@ -1846,7 +1846,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					int iTestDir = 0;
 					for (iTestDir = 0; iTestDir < MAX_MAP_DIRECTION; ++iTestDir)
 					{
-						if (g_aiTranchAround[TMT_LEFT][iTestDir] == iDir)
+						if (g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iTestDir] == iDir)
 						{
 							break;
 						}
@@ -1856,8 +1856,8 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					{
 						iTestDir = (iTestDir == MAX_MAP_DIRECTION ? 0 : iTestDir);
 
-						iNextX = pkCurGrid->x + g_akTagAround[g_aiTranchAround[TMT_LEFT][iTestDir]].x;
-						iNextY = pkCurGrid->y + g_akTagAround[g_aiTranchAround[TMT_LEFT][iTestDir]].y;
+						iNextX = pkCurGrid->x + g_akTagAround[g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iTestDir]].x;
+						iNextY = pkCurGrid->y + g_akTagAround[g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iTestDir]].y;
 
 						if (iNextY < 0 || iNextY >= m_iHeight || iNextX < 0 || iNextX >= m_iWidth)
 						{
@@ -1866,7 +1866,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 						}
 
 						pkLeftGrid = &m_akTGrid[iNextY * m_iWidth + iNextX];
-						if (!pkLeftGrid || pkLeftGrid->iState != TMPS_TLOCK)
+						if (!pkLeftGrid || pkLeftGrid->iState != TwMapGridState::TMPS_TLOCK)
 						{
 							break;
 						}
@@ -1876,20 +1876,20 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					{
 						ChangeListPush(pkLeftGrid->iIndex);
 
-						pkLeftGrid->iTranch = TMT_LEFT;
-						pkLeftGrid->iDir = g_aiTranchAround[TMT_LEFT][iTestDir];
+						pkLeftGrid->iTranch = TwMapTranch::TMT_LEFT;
+						pkLeftGrid->iDir = g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iTestDir];
 
 						switch (pkLeftGrid->iState)
 						{
-						case TMPS_NONE:
+						case TwMapGridState::TMPS_NONE:
 						{
 							pkLeftGrid->pkPreGrid = pkCurGrid;
 							pkLeftGrid->iStep = pkCurGrid->iStep + 1;
 						}
 						break;
-						case TMPS_CLOSE:
+						case TwMapGridState::TMPS_CLOSE:
 						{
-							if (pkLeftGrid->iTranch == TMT_RIGHT && (pkCurGrid->pkPreGrid && pkLeftGrid->x == pkCurGrid->pkPreGrid->x && pkLeftGrid->y == pkCurGrid->pkPreGrid->y))
+							if (pkLeftGrid->iTranch == TwMapTranch::TMT_RIGHT && (pkCurGrid->pkPreGrid && pkLeftGrid->x == pkCurGrid->pkPreGrid->x && pkLeftGrid->y == pkCurGrid->pkPreGrid->y))
 							{
 								bCancelTranch = true;
 							}
@@ -1900,7 +1900,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 							}
 						}
 						break;
-						case TMPS_OPEN:
+						case TwMapGridState::TMPS_OPEN:
 						{
 							if (pkLeftGrid->iStep > pkCurGrid->iStep + 1)
 							{
@@ -1917,7 +1917,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 						{
 							pkLeftGrid->iAngle = 0;
 							pkLeftGrid->iReel = iCount + 1;
-							pkLeftGrid->iState = TMPS_OPEN;
+							pkLeftGrid->iState = TwMapGridState::TMPS_OPEN;
 
 							int iAngle = BSF_GetDirAngle(pkOriginGrid->x, pkOriginGrid->y, pkLeftGrid->x, pkLeftGrid->y, pkNextGrid->x, pkNextGrid->y);
 							iAngle = (iAngle > 32 ? (iAngle - 64) : -iAngle);
@@ -1932,7 +1932,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					bCancelTranch = false;
 					for (iTestDir = 0; iTestDir < MAX_MAP_DIRECTION; ++iTestDir)
 					{
-						if (g_aiTranchAround[TMT_RIGHT][iTestDir] == iDir)
+						if (g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iTestDir] == iDir)
 						{
 							break;
 						}
@@ -1942,8 +1942,8 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					{
 						iTestDir = (iTestDir == MAX_MAP_DIRECTION ? 0 : iTestDir);
 
-						iNextX = pkCurGrid->x + g_akTagAround[g_aiTranchAround[TMT_RIGHT][iTestDir]].x;
-						iNextY = pkCurGrid->y + g_akTagAround[g_aiTranchAround[TMT_RIGHT][iTestDir]].y;
+						iNextX = pkCurGrid->x + g_akTagAround[g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iTestDir]].x;
+						iNextY = pkCurGrid->y + g_akTagAround[g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iTestDir]].y;
 
 						if (iNextY < 0 || iNextY >= m_iHeight || iNextX < 0 || iNextX >= m_iWidth)
 						{
@@ -1952,7 +1952,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 						}
 
 						pkRightGrid = &m_akTGrid[iNextY * m_iWidth + iNextX];
-						if (!pkRightGrid || pkRightGrid->iState != TMPS_TLOCK)
+						if (!pkRightGrid || pkRightGrid->iState != TwMapGridState::TMPS_TLOCK)
 						{
 							break;
 						}
@@ -1962,20 +1962,20 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					{
 						ChangeListPush(pkRightGrid->iIndex);
 
-						pkRightGrid->iTranch = TMT_RIGHT;
-						pkRightGrid->iDir = g_aiTranchAround[TMT_RIGHT][iTestDir];
+						pkRightGrid->iTranch = TwMapTranch::TMT_RIGHT;
+						pkRightGrid->iDir = g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iTestDir];
 
 						switch (pkRightGrid->iState)
 						{
-						case TMPS_NONE:
+						case TwMapGridState::TMPS_NONE:
 						{
 							pkRightGrid->pkPreGrid = pkCurGrid;
 							pkRightGrid->iStep = pkCurGrid->iStep + 1;
 						}
 						break;
-						case TMPS_CLOSE:
+						case TwMapGridState::TMPS_CLOSE:
 						{
-							if (pkRightGrid->iTranch == TMT_LEFT && (pkCurGrid->pkPreGrid && pkRightGrid->x == pkCurGrid->pkPreGrid->x && pkRightGrid->y == pkCurGrid->pkPreGrid->y))
+							if (pkRightGrid->iTranch == TwMapTranch::TMT_LEFT && (pkCurGrid->pkPreGrid && pkRightGrid->x == pkCurGrid->pkPreGrid->x && pkRightGrid->y == pkCurGrid->pkPreGrid->y))
 							{
 								bCancelTranch = true;
 							}
@@ -1986,7 +1986,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 							}
 						}
 						break;
-						case TMPS_OPEN:
+						case TwMapGridState::TMPS_OPEN:
 						{
 							if (pkRightGrid->iStep > pkCurGrid->iStep + 1)
 							{
@@ -2002,7 +2002,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 						if (!bCancelTranch)
 						{
 							pkRightGrid->iReel = iCount + 1;
-							pkRightGrid->iState = TMPS_OPEN;
+							pkRightGrid->iState = TwMapGridState::TMPS_OPEN;
 
 							int iAngle = BSF_GetDirAngle(pkOriginGrid->x, pkOriginGrid->y, pkRightGrid->x, pkRightGrid->y, pkNextGrid->x, pkNextGrid->y);
 							iAngle = (iAngle > 32 ? (iAngle - 64) : iAngle);
@@ -2022,11 +2022,11 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 			{
 				switch (pkCurGrid->iTranch)
 				{
-				case TMT_LEFT:
+				case TwMapTranch::TMT_LEFT:
 				{
 					for (iDir = 0; iDir < MAX_MAP_DIRECTION; ++iDir)
 					{
-						if (g_aiTranchAround[TMT_LEFT][iDir] == pkCurGrid->iDir)
+						if (g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iDir] == pkCurGrid->iDir)
 						{
 							break;
 						}
@@ -2039,7 +2039,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					for (iCount = 0; iCount < MAX_MAP_DIRECTION; ++iCount, ++iDir)
 					{
 						iDir = (iDir >= MAX_MAP_DIRECTION ? iDir - MAX_MAP_DIRECTION : iDir);
-						int iNextDir = g_aiTranchAround[TMT_LEFT][iDir];
+						int iNextDir = g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_LEFT)][iDir];
 
 						iNextX = pkCurGrid->x + g_akTagAround[iNextDir].x;
 						iNextY = pkCurGrid->y + g_akTagAround[iNextDir].y;
@@ -2057,9 +2057,9 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 						ChangeListPush(pkNextGrid->iIndex);
 
-						if (pkNextGrid->iState != TMPS_TLOCK)
+						if (pkNextGrid->iState != TwMapGridState::TMPS_TLOCK)
 						{
-							if (pkNextGrid->iState == TMPS_TARGET)
+							if (pkNextGrid->iState == TwMapGridState::TMPS_TARGET)
 							{
 								pkNextGrid->pkPreGrid = pkCurGrid;
 								pkNextGrid->iStep = pkCurGrid->iStep + 1;
@@ -2071,25 +2071,25 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 							switch (pkNextGrid->iState)
 							{
-							case TMPS_NONE:
+							case TwMapGridState::TMPS_NONE:
 							{
 								pkNextGrid->pkPreGrid = pkCurGrid;
 								pkNextGrid->iStep = pkCurGrid->iStep + 1;
 							}
 							break;
-							case TMPS_CLOSE:
+							case TwMapGridState::TMPS_CLOSE:
 							{
-								if (pkNextGrid->iTranch == TMT_RIGHT && pkNextGrid == pkCurGrid->pkPreGrid && pkNextGrid->iDir != iNextDir)
+								if (pkNextGrid->iTranch == TwMapTranch::TMT_RIGHT && pkNextGrid == pkCurGrid->pkPreGrid && pkNextGrid->iDir != iNextDir)
 								{
 									bTreak = true;
 									break;
 								}
-								else if (pkNextGrid->iTranch == TMT_LEFT && pkNextGrid->iDir == iNextDir)
+								else if (pkNextGrid->iTranch == TwMapTranch::TMT_LEFT && pkNextGrid->iDir == iNextDir)
 								{
 									bTreak = true;
 									break;
 								}
-								else if (pkNextGrid->iTranch == TMT_NONE && pkNextGrid->iStep > pkCurGrid->iStep)
+								else if (pkNextGrid->iTranch == TwMapTranch::TMT_NONE && pkNextGrid->iStep > pkCurGrid->iStep)
 								{
 									bTreak = true;
 									break;
@@ -2101,9 +2101,9 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 								}
 							}
 							break;
-							case TMPS_OPEN:
+							case TwMapGridState::TMPS_OPEN:
 							{
-								if (pkNextGrid->iTranch == TMT_LEFT && pkNextGrid->iDir == iNextDir)
+								if (pkNextGrid->iTranch == TwMapTranch::TMT_LEFT && pkNextGrid->iDir == iNextDir)
 								{
 									bTreak = true;
 									break;
@@ -2128,7 +2128,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 							pkNextGrid->iReel = pkCurGrid->iReel + iAddReel;
 							pkNextGrid->iReel = (pkNextGrid->iReel < 0 ? 0 : pkNextGrid->iReel);
 
-							pkNextGrid->iState = TMPS_OPEN;
+							pkNextGrid->iState = TwMapGridState::TMPS_OPEN;
 
 							int iAngle = BSF_GetDirAngle(pkOriginGrid->x, pkOriginGrid->y, pkNextGrid->x, pkNextGrid->y, pkCurGrid->x, pkCurGrid->y);
 							iAngle = (iAngle > 32 ? (64 - iAngle) : -iAngle);
@@ -2142,12 +2142,12 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 							if (pkNextGrid->iReel > 0)
 							{
-								pkNextGrid->iTranch = TMT_LEFT;
+								pkNextGrid->iTranch = TwMapTranch::TMT_LEFT;
 								pkNextGrid->iDir = iNextDir;
 							}
 							else
 							{
-								pkNextGrid->iTranch = TMT_NONE;
+								pkNextGrid->iTranch = TwMapTranch::TMT_NONE;
 								pkNextGrid->iDir = -1;
 								pkNextGrid->iAngle = 0;
 								pkCurGrid->bChange = true;
@@ -2164,11 +2164,11 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					}
 				}
 				break;
-				case TMT_RIGHT:
+				case TwMapTranch::TMT_RIGHT:
 				{
 					for (iDir = 0; iDir < MAX_MAP_DIRECTION; ++iDir)
 					{
-						if (g_aiTranchAround[TMT_RIGHT][iDir] == pkCurGrid->iDir)
+						if (g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iDir] == pkCurGrid->iDir)
 						{
 							break;
 						}
@@ -2181,7 +2181,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 					for (iCount = 0; iCount < MAX_MAP_DIRECTION; ++iCount, ++iDir)
 					{
 						iDir = (iDir >= MAX_MAP_DIRECTION ? iDir - MAX_MAP_DIRECTION : iDir);
-						int iNextDir = g_aiTranchAround[TMT_RIGHT][iDir];
+						int iNextDir = g_aiTranchAround[static_cast<unsigned int>(TwMapTranch::TMT_RIGHT)][iDir];
 
 						iNextX = pkCurGrid->x + g_akTagAround[iNextDir].x;
 						iNextY = pkCurGrid->y + g_akTagAround[iNextDir].y;
@@ -2199,9 +2199,9 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 						ChangeListPush(pkNextGrid->iIndex);
 
-						if (pkNextGrid->iState != TMPS_TLOCK)
+						if (pkNextGrid->iState != TwMapGridState::TMPS_TLOCK)
 						{
-							if (pkNextGrid->iState == TMPS_TARGET)
+							if (pkNextGrid->iState == TwMapGridState::TMPS_TARGET)
 							{
 								pkNextGrid->pkPreGrid = pkCurGrid;
 								pkNextGrid->iStep = pkCurGrid->iStep + 1;
@@ -2213,25 +2213,25 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 							switch (pkNextGrid->iState)
 							{
-							case TMPS_NONE:
+							case TwMapGridState::TMPS_NONE:
 							{
 								pkNextGrid->pkPreGrid = pkCurGrid;
 								pkNextGrid->iStep = pkCurGrid->iStep + 1;
 							}
 							break;
-							case TMPS_CLOSE:
+							case TwMapGridState::TMPS_CLOSE:
 							{
-								if (pkNextGrid->iTranch == TMT_LEFT && pkNextGrid == pkCurGrid->pkPreGrid && pkNextGrid->iDir != iNextDir)
+								if (pkNextGrid->iTranch == TwMapTranch::TMT_LEFT && pkNextGrid == pkCurGrid->pkPreGrid && pkNextGrid->iDir != iNextDir)
 								{
 									bTreak = true;
 									break;
 								}
-								else if (pkNextGrid->iTranch == TMT_RIGHT && pkNextGrid->iDir == iNextDir)
+								else if (pkNextGrid->iTranch == TwMapTranch::TMT_RIGHT && pkNextGrid->iDir == iNextDir)
 								{
 									bTreak = true;
 									break;
 								}
-								else if (pkNextGrid->iTranch == TMT_NONE && pkNextGrid->iStep > pkCurGrid->iStep)
+								else if (pkNextGrid->iTranch == TwMapTranch::TMT_NONE && pkNextGrid->iStep > pkCurGrid->iStep)
 								{
 									bTreak = true;
 									break;
@@ -2243,9 +2243,9 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 								}
 							}
 							break;
-							case TMPS_OPEN:
+							case TwMapGridState::TMPS_OPEN:
 							{
-								if (pkNextGrid->iTranch == TMT_RIGHT && pkNextGrid->iDir == iNextDir)
+								if (pkNextGrid->iTranch == TwMapTranch::TMT_RIGHT && pkNextGrid->iDir == iNextDir)
 								{
 									bTreak = true;
 									break;
@@ -2270,7 +2270,7 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 							pkNextGrid->iReel = pkCurGrid->iReel + iAddReel;
 							pkNextGrid->iReel = (pkNextGrid->iReel < 0 ? 0 : pkNextGrid->iReel);
 
-							pkNextGrid->iState = TMPS_OPEN;
+							pkNextGrid->iState = TwMapGridState::TMPS_OPEN;
 
 							int iAngle = BSF_GetDirAngle(pkOriginGrid->x, pkOriginGrid->y, pkNextGrid->x, pkNextGrid->y, pkCurGrid->x, pkCurGrid->y);
 							iAngle = (iAngle > 32 ? (64 - iAngle) : iAngle);
@@ -2284,12 +2284,12 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 
 							if (pkNextGrid->iReel > 0)
 							{
-								pkNextGrid->iTranch = TMT_RIGHT;
+								pkNextGrid->iTranch = TwMapTranch::TMT_RIGHT;
 								pkNextGrid->iDir = iNextDir;
 							}
 							else
 							{
-								pkNextGrid->iTranch = TMT_NONE;
+								pkNextGrid->iTranch = TwMapTranch::TMT_NONE;
 								pkNextGrid->iDir = -1;
 								pkNextGrid->iAngle = 0;
 								pkCurGrid->bChange = true;
@@ -2311,9 +2311,9 @@ TwFindResult TwPathFinder::FindPathTStarGrid(int iSrcGridX, int iSrcGridY, int i
 				}
 			}
 
-			if (pkCurGrid->iState != TMPS_ORIGIN)
+			if (pkCurGrid->iState != TwMapGridState::TMPS_ORIGIN)
 			{
-				pkCurGrid->iState = TMPS_CLOSE;
+				pkCurGrid->iState = TwMapGridState::TMPS_CLOSE;
 			}
 		}
 
@@ -2351,7 +2351,7 @@ void TwPathFinder::CreateTStarPath(TwTMapGrid* pkOriginGrid, TwTMapGrid* pkTarge
 			break;
 		}
 
-		if (pkGrid->iState == TMPS_ORIGIN)
+		if (pkGrid->iState == TwMapGridState::TMPS_ORIGIN)
 		{
 			m_piPath[m_iPathCount++] = pkGrid->iIndex;
 			if (m_iPathCount > 1)
@@ -2400,7 +2400,7 @@ void TwPathFinder::CreateTStarPath(TwTMapGrid* pkOriginGrid, TwTMapGrid* pkTarge
 			break;
 		}
 
-		if (pkGrid->iState == TMPS_ORIGIN)
+		if (pkGrid->iState == TwMapGridState::TMPS_ORIGIN)
 		{
 			m_piPath[m_iPathCount++] = pkGrid->iIndex;
 			break;
@@ -2488,8 +2488,8 @@ void TwPathFinder::ResetTStarChangeList(void)
 		}
 		TwTMapGrid& rkGrid = m_akTGrid[iIdx];
 
-		rkGrid.iState = (rkGrid.iState != TMPS_TLOCK ? TMPS_NONE : TMPS_TLOCK);
-		rkGrid.iTranch = 0;
+		rkGrid.iState = (rkGrid.iState != TwMapGridState::TMPS_TLOCK ? TwMapGridState::TMPS_NONE : TwMapGridState::TMPS_TLOCK);
+		rkGrid.iTranch = TwMapTranch::TMT_NONE;
 		rkGrid.iDir = -1;
 		rkGrid.iReel = 0;
 		rkGrid.iStep = 0;
@@ -2504,7 +2504,7 @@ int g_aiGridOff[4][2] = { {0,1},{1,0},{0,-1},{-1,0}, };
 
 TwTMapGrid* TwPathFinder::CorrectOriginGrid(TwTMapGrid* pkOrigin)
 {
-	if (!pkOrigin || pkOrigin->iState != TMPS_TLOCK)
+	if (!pkOrigin || pkOrigin->iState != TwMapGridState::TMPS_TLOCK)
 	{
 		return pkOrigin;
 	}
@@ -2517,7 +2517,7 @@ TwTMapGrid* TwPathFinder::CorrectOriginGrid(TwTMapGrid* pkOrigin)
 			iGridIndex = GridIndex(pkOrigin->x + g_aiGridOff[iDir][0] * iDis, pkOrigin->y + g_aiGridOff[iDir][1] * iDis);
 			TwTMapGrid* pkGrid = &m_akTGrid[iGridIndex];
 
-			if (pkGrid && pkGrid->iState != TMPS_TLOCK)
+			if (pkGrid && pkGrid->iState != TwMapGridState::TMPS_TLOCK)
 			{
 				pkGrid->pkPreGrid = pkOrigin;
 				pkGrid->bChange = true;
