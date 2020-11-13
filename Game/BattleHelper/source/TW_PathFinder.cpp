@@ -55,7 +55,7 @@ void InitServerPathGrids(int iW, int iH, unsigned short* akGrids)
 			{
 				for (int w = 0; w < iW; w++, akGrids++)
 				{
-					gPthFinder.m_akGrid[h * iW + w].iObstacle = *akGrids;
+					gPthFinder.m_akGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
 					gPthFinder.m_akGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD;
 				}
 			}
@@ -120,7 +120,7 @@ TwPathFinder::TwPathFinder()
 
 	OpenListClear();
 
-	m_iTlockType = 0;
+	m_iTlockType = TwGridFlag::TGF_NONE;
 	m_iTlockX = 0;
 	m_iTlockY = 0;
 
@@ -132,7 +132,7 @@ TwPathFinder::TwPathFinder()
 	m_akVision = nullptr;
 
 	m_bUseTStar = false;
-	m_iTStarObs = TGF_TERRAIN | TGF_DOODAD;
+	m_iTStarObs = TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD;
 }
 TwPathFinder::~TwPathFinder()
 {
@@ -298,8 +298,8 @@ void TwPathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 					m_akTGrid[h * iW + w].x = w;
 					m_akTGrid[h * iW + w].y = h;
 
-					m_akTGrid[h * iW + w].iObstacle = *akGrids;
-					m_akTGrid[h * iW + w].iObstacle &= TGF_TERRAIN | TGF_DOODAD | TGF_GUTDOODAD;
+					m_akTGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
+					m_akTGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD | TwGridFlag::TGF_GUTDOODAD;
 
 					bool bIsObs = m_akTGrid[h * iW + w].IsObs(m_iTStarObs, true);
 					m_akTGrid[h * iW + w].iState = bIsObs ? TMPS_TLOCK : TMPS_NONE;
@@ -317,8 +317,8 @@ void TwPathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 			{
 				for (int w = 0; w < iW; w++, akGrids++)
 				{
-					m_akGrid[h * iW + w].iObstacle = *akGrids;
-					m_akGrid[h * iW + w].iObstacle &= TGF_TERRAIN | TGF_DOODAD | TGF_GUTDOODAD;
+					m_akGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
+					m_akGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD | TwGridFlag::TGF_GUTDOODAD;
 				}
 			}
 		}
@@ -540,7 +540,7 @@ int		TwPathFinder::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float
 	float iX2 = fDstX;
 	float iY2 = fDstY;
 
-	m_iTlockType = 0;
+	m_iTlockType = TwGridFlag::TGF_NONE;
 	m_kSrcPos.fX = fSrcX;
 	m_kSrcPos.fY = fSrcY;
 
@@ -717,7 +717,7 @@ int		TwPathFinder::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float
 	}
 }
 
-bool TwPathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const
+bool TwPathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, TwGridFlag iObs) const
 {
 	CheckInput(fSrcX, fSrcY, fDstX, fDstY);
 
@@ -824,22 +824,22 @@ bool TwPathFinder::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, flo
 	return false;
 }
 
-bool TwPathFinder::IsObstacle(float fX, float fY, int iObstacle, int iSize)
+bool TwPathFinder::IsObstacle(float fX, float fY, TwGridFlag iObstacle, int iSize)
 {
 	return !CanStayPos(fX, fY, iSize, iObstacle);
 }
 
-inline bool TwPathFinder::CanStayPos(float fX, float fY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayPos(float fX, float fY, int iSize, TwGridFlag iObs) const
 {
 	return CanStayGrid(Map2Grid(fX), Map2Grid(fY), iSize, iObs);
 }
 
-inline bool TwPathFinder::CanStayPos(int iX, int iY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayPos(int iX, int iY, int iSize, TwGridFlag iObs) const
 {
 	return CanStayGrid(Map2Grid(iX), Map2Grid(iY), iSize, iObs);
 }
 
-inline bool TwPathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, TwGridFlag iObs) const
 {
 	int iTX = iGridX - (iSize / 2);
 	int iTY = iGridY - (iSize / 2);
@@ -890,7 +890,7 @@ inline bool TwPathFinder::CanStayGrid(int iGridX, int iGridY, int iSize, int iOb
 	return true;
 }
 
-inline bool TwPathFinder::CanStayGrid(int iIndex, int iSize, int iObs) const
+inline bool TwPathFinder::CanStayGrid(int iIndex, int iSize, TwGridFlag iObs) const
 {
 	int iIndexTop = iIndex - (iSize / 2) * m_iWidth - (iSize / 2);
 	int iIndexTottom = iIndexTop + iSize * m_iWidth;
@@ -998,7 +998,7 @@ void TwPathFinder::CreatePath(int iNearestIndex, int iStart)
 	m_iChangeCount = 0;
 }
 
-bool TwPathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs)
+bool TwPathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, TwGridFlag iObs)
 {
 	float fX(fSrcX), fY(fSrcY);
 	GetFirstCanStay(fSrcX, fSrcY, iSrcSize, fDstX, fDstY, fX, fY, 512 * 32, iObs);
@@ -1018,7 +1018,7 @@ bool TwPathFinder::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float f
 }
 
 
-void TwPathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs, TwFindResult eRet)
+void TwPathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, TwGridFlag iObs, TwFindResult eRet)
 {
 	m_iPathPointCount = 0;
 	if (m_iPathCount <= 0)
@@ -1132,7 +1132,7 @@ void TwPathFinder::SmoothPath(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	}
 }
 
-void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
+void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs)
 {
 	int iDX = abs(iSrcGridX - iDstGridX);
 	int iDY = abs(iSrcGridY - iDstGridY);
@@ -1204,7 +1204,7 @@ void TwPathFinder::MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGri
 	}
 }
 
-TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs)
+TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs)
 {
 	m_iPathCount = 0;
 	if (!m_akGrid)
@@ -1385,7 +1385,7 @@ TwFindResult TwPathFinder::FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int i
 	return eRet;
 }
 
-bool TwPathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, int iObs)
+bool TwPathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, int iDistance, TwGridFlag iObs)
 {
 	bool bRet = false;
 	m_iChangeListLimit = 500;
@@ -1423,7 +1423,7 @@ bool TwPathFinder::UnitCanReach(float fSrcX, float fSrcY, int iSrcSize, float fD
 	return bRet;
 }
 
-TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent)
+TwFindResult TwPathFinder::FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs, int iSrcParent)
 {
 	if (iSrcGridX == iDstGridX && iSrcGridY == iDstGridY)
 	{

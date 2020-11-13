@@ -34,12 +34,12 @@ struct TwMapGrid
 		{
             iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
 		}
-		return iObs;
+		return (bool)iObs;
 	}
 
 	TwMapGrid()
 	{
-		iObstacle = 0;
+		iObstacle = TwGridFlag::TGF_NONE;
 		iState = 0;
 		iParent = 0;
 	}
@@ -60,19 +60,19 @@ struct TwTMapGrid
 	bool	bChange;
 	TwTMapGrid* pkPreGrid;
 
-	inline bool IsObs(int iObs, bool bHasVision) const
+	inline bool IsObs(TwGridFlag iObs, bool bHasVision) const
 	{
 		iObs &= iObstacle;
 		if (!bHasVision)
 		{
-			iObs &= ~static_cast<unsigned short>(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
+			iObs &= ~(TwGridFlag::TGF_UNIT | TwGridFlag::TGF_TEMP | TwGridFlag::TGF_SKILL);
 		}
-		return iObs;
+		return (bool)iObs;
 	}
 
 	TwTMapGrid()
 	{
-		iObstacle = 0;
+		iObstacle = TwGridFlag::TGF_NONE;
 		iState = 0;
 		iTranch = 0;
 		iDir = -1;
@@ -161,10 +161,10 @@ public:
 
 	virtual void			CopyGridsFromServerGrids() override;
 public:
-	inline bool CanStayPos(float fX, float fY, int iSize, int iObs) const;
-	inline bool CanStayPos(int iX, int iY, int iSize, int iObs) const;
-	inline bool CanStayGrid(int iGridX, int iGridY, int iSize, int iObs) const;
-	inline bool CanStayGrid(int iIndex, int iSize, int iObs) const;
+	inline bool CanStayPos(float fX, float fY, int iSize, TwGridFlag iObs) const;
+	inline bool CanStayPos(int iX, int iY, int iSize, TwGridFlag iObs) const;
+	inline bool CanStayGrid(int iGridX, int iGridY, int iSize, TwGridFlag iObs) const;
+	inline bool CanStayGrid(int iIndex, int iSize, TwGridFlag iObs) const;
 
 	inline bool CheckInput(float& fSrcX, float& fSrcY, float& fDstX, float& fDstY) const;
 
@@ -174,11 +174,11 @@ public:
 	TwTMapGrid* CorrectOriginGrid(TwTMapGrid* pkOrigin);
 	void			FilterTStarDirectPoint(TwTMapGrid* pkStart, TwTMapGrid* pkEnd);
 
-	TwFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
+	TwFindResult	FindPathGrid_Edge(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs);
 
-	TwFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs, int iSrcParent = 0);
+	TwFindResult	FindPathGrid_Edge_Safe(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs, int iSrcParent = 0);
 
-	void			MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, int iObs);
+	void			MarkLine(int iSrcGridX, int iSrcGridY, int iSize, int iDstGridX, int iDstGridY, int iDistance, TwGridFlag iObs);
 
 	void Release();
 
@@ -263,7 +263,7 @@ protected:
 
 	mutable TwPos2 m_kSrcPos;
 	mutable TwPos2 m_kDstPos;
-	mutable int	m_iTlockType;
+	mutable TwGridFlag	m_iTlockType;
 	mutable int m_iTlockX;
 	mutable int m_iTlockY;
 
@@ -272,7 +272,7 @@ protected:
 	unsigned short* m_akVision;
 
 	bool		m_bUseTStar;
-	int			m_iTStarObs;
+    TwGridFlag  m_iTStarObs;
 protected:
 	inline void OpenListPushTack(int iIndex);
 	inline int OpenListPopHead(void);

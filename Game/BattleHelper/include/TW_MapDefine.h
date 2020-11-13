@@ -9,6 +9,7 @@
 
 enum class TwGridFlag
 {
+    TGF_NONE = 0,
 	TGF_TERRAIN = (1 << 0),
 	TGF_DOODAD = (1 << 1),
 	TGF_UNIT = (1 << 2),
