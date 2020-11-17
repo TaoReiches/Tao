@@ -50,7 +50,7 @@ protected:
     int                                         m_iImmunityFlag;
 	int                                         m_iCarryFlag;
 	int                                         m_iShareUnitDataChangeFlag;
-	std::unordered_map<int, TwPointerType>      m_akUserData;
+	std::unordered_map<UserDataKey, TwPointerType>      m_akUserData;
 };
 
 inline void TwUnitBase::SetUnitImmunityFlag(int iFlag)
@@ -68,11 +68,11 @@ inline int TwUnitBase::GetUnitImmunityFlag(void) const
 	return m_iImmunityFlag;
 }
 
-void TwUnitBase::ClrUnitImmunityFlag(int iFlag)
+inline void TwUnitBase::ClrUnitImmunityFlag(int iFlag)
 {
 	m_iImmunityFlag &= ~iFlag;
 }
-void TwUnitBase::SetOtherFlag(int iFlag)
+inline void TwUnitBase::SetOtherFlag(int iFlag)
 {
 	if (!HasOtherFlag(iFlag))
 	{
@@ -81,7 +81,7 @@ void TwUnitBase::SetOtherFlag(int iFlag)
 	m_iOtherFlag |= iFlag;
 }
 
-void TwUnitBase::ClrOtherFlag(int iFlag)
+inline void TwUnitBase::ClrOtherFlag(int iFlag)
 {
 	if (HasOtherFlag(iFlag))
 	{
@@ -90,12 +90,12 @@ void TwUnitBase::ClrOtherFlag(int iFlag)
 	m_iOtherFlag &= ~iFlag;
 }
 
-bool TwUnitBase::HasOtherFlag(int iFalg) const
+inline bool TwUnitBase::HasOtherFlag(int iFalg) const
 {
 	return (m_iOtherFlag & iFalg) == iFalg;
 }
 
-int TwUnitBase::GetOtherFlag() const
+inline int TwUnitBase::GetOtherFlag() const
 {
 	return m_iOtherFlag;
 }
@@ -139,17 +139,17 @@ inline int TwUnitBase::GetShareUnitChangeFlag() const
 	return m_iShareUnitDataChangeFlag;
 }
 
-void TwUnitBase::SetUD_Int(UserDataKey eKey, int i)
+inline void TwUnitBase::SetUD_Int(UserDataKey eKey, int i)
 {
 	m_akUserData[eKey] = TwPointerType(i);
 }
 
-void TwUnitBase::SetUD_Float(UserDataKey eKey, float f)
+inline void TwUnitBase::SetUD_Float(UserDataKey eKey, float f)
 {
 	m_akUserData[eKey] = TwPointerType(f);
 }
 
-int TwUnitBase::PopUD_Int(UserDataKey eKey)
+inline int TwUnitBase::PopUD_Int(UserDataKey eKey)
 {
 	int iValue = 0;
 	auto itr = m_akUserData.find(eKey);
@@ -162,7 +162,7 @@ int TwUnitBase::PopUD_Int(UserDataKey eKey)
 	return iValue;
 }
 
-float TwUnitBase::PopUD_Float(UserDataKey eKey)
+inline float TwUnitBase::PopUD_Float(UserDataKey eKey)
 {
 	float fValue = 0.f;
 	auto itr = m_akUserData.find(eKey);
@@ -175,7 +175,7 @@ float TwUnitBase::PopUD_Float(UserDataKey eKey)
 	return fValue;
 }
 
-int TwUnitBase::GetUD_Int(UserDataKey eKey, int i) const
+inline int TwUnitBase::GetUD_Int(UserDataKey eKey, int i) const
 {
 	auto itr = m_akUserData.find(eKey);
 	if (itr != m_akUserData.end())
@@ -186,7 +186,7 @@ int TwUnitBase::GetUD_Int(UserDataKey eKey, int i) const
 	return i;
 }
 
-float TwUnitBase::GetUD_Float(UserDataKey eKey, float f) const
+inline float TwUnitBase::GetUD_Float(UserDataKey eKey, float f) const
 {
 	auto itr = m_akUserData.find(eKey);
 	if (itr != m_akUserData.end())
@@ -197,7 +197,7 @@ float TwUnitBase::GetUD_Float(UserDataKey eKey, float f) const
 	return f;
 }
 
-bool TwUnitBase::HasUserData(UserDataKey eKey) const
+inline bool TwUnitBase::HasUserData(UserDataKey eKey) const
 {
 	auto itr = m_akUserData.find(eKey);
 	if (itr != m_akUserData.end())
@@ -207,7 +207,7 @@ bool TwUnitBase::HasUserData(UserDataKey eKey) const
 	return false;
 }
 
-void TwUnitBase::ClearUserData(UserDataKey eKey)
+inline void TwUnitBase::ClearUserData(UserDataKey eKey)
 {
 	m_akUserData.erase(eKey);
 }

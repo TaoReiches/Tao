@@ -149,7 +149,7 @@ inline void BeItem::SetResPtr(std::shared_ptr<const ItemTable> pkRes)
 {
     m_pkRes = pkRes;
 }
-int BeItem::GetCDSkillID()
+inline int BeItem::GetCDSkillID()
 {
     return m_iSkillTypeID;
 }
@@ -366,11 +366,11 @@ inline void BeItem::SetUniqueID(int iUniqueID)
 {
     m_iUniqueID = iUniqueID;
 }
-bool		BeItem::IsComposeUse()
+inline bool		BeItem::IsComposeUse()
 {
     return m_bComposeFlag;
 }
-void		BeItem::SetComposeUse(bool bValue)
+inline void		BeItem::SetComposeUse(bool bValue)
 {
     m_bComposeFlag = bValue;
 }

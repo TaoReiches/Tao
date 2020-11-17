@@ -13,8 +13,8 @@ struct UnitEnmityPoint_MoreThan
 {
 	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
 	{
-		int iLeft = pkLeft->GetUD_Int(UDK_MonsterAI);
-		int iRight = pkRight->GetUD_Int(UDK_MonsterAI);
+		int iLeft = pkLeft->GetUD_Int(UserDataKey::UDK_MonsterAI);
+		int iRight = pkRight->GetUD_Int(UserDataKey::UDK_MonsterAI);
 		return (iLeft > iRight);
 	}
 };

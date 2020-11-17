@@ -1072,7 +1072,7 @@ void BeEffect::ParseAttack(void)
 			m_pkAttr->ClrFlag(BAF_NORMAL);
 			m_pkAttr->ClrFlag(BAF_FIRST);
 
-			if (pkTarget->HasUserData(UDK_NONE))
+			if (pkTarget->HasUserData(UserDataKey::UDK_NONE))
 			{
 				SetFlag(BEF_REMOVE);
 				break;
@@ -1105,7 +1105,7 @@ void BeEffect::ParseAttack(void)
 						for (int i = 0; i < (int)kGroup.empty(); ++i)
 						{
 							BeUnit* pkAttacked = kGroup[i];
-							if (pkAttacked && !pkAttacked->IsDead() && !pkAttacked->HasUserData(UDK_NONE))
+							if (pkAttacked && !pkAttacked->IsDead() && !pkAttacked->HasUserData(UserDataKey::UDK_NONE))
 							{
 								float fTarFace = atan2f(pkAttacked->GetPosY() - pkTarget->GetPosY(), pkAttacked->GetPosX() - pkTarget->GetPosX());
 								float fDelFace = fTarFace - fOrgFace;
@@ -1146,7 +1146,7 @@ void BeEffect::ParseAttack(void)
 						else
 						{
 							BeUnit* pkNewAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
-							if (pkNewAttacked && !pkNewAttacked->IsDead() && pkNewAttacked->GetID() != m_kEffectData.iTargetID && !pkNewAttacked->HasUserData(UDK_NONE))
+							if (pkNewAttacked && !pkNewAttacked->IsDead() && pkNewAttacked->GetID() != m_kEffectData.iTargetID && !pkNewAttacked->HasUserData(UserDataKey::UDK_NONE))
 							{
 								SetEffectPosition(pkNewAttacked->GetID(), m_kEffectData.fPosX, m_kEffectData.fPosY, 0.0f, 0.0f, m_kEffectData.fMissileArc, m_kEffectData.fPosZ);
 								SetSkillBumpCount(m_kEffectData.iBumpCount + 1);

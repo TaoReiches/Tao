@@ -298,7 +298,7 @@ inline float BeEffect::GetMissileArc(void)
 {
     return m_kEffectData.fMissileArc;
 }
-void BeEffect::SetMissileArc(float fMissileArc)
+inline void BeEffect::SetMissileArc(float fMissileArc)
 {
     if (m_kEffectData.fMissileArc != fMissileArc)
     {
@@ -687,7 +687,7 @@ inline void* BeEffect::GetUD_Void(UserDataKey rkKey) const
     }
     return nullptr;
 }
-BeAttachPos	BeEffect::GetAttachNode()
+inline BeAttachPos	BeEffect::GetAttachNode()
 {
     return m_eAttachNode;
 }

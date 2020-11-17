@@ -4,7 +4,6 @@
 **********************************************/
 
 #include "TW_TaskActionDeath.h"
-#include "TW_UnitData.h"
 #include "TW_Main.h"
 #include "TW_Unit.h"
 

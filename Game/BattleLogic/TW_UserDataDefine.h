@@ -5,7 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum UserDataKey
+enum class UserDataKey
 {
 	UDK_NONE,
 	UDK_MonsterAI,
