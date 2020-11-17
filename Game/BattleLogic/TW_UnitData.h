@@ -124,8 +124,8 @@ public:
 	float GetAddDamage(void) const;
 	float GetBaseArmor(void) const;
 	float GetAddAromorPer(void) const;
-	int GetAddAntiMagic(void);
-	int GetAddAntiMagicPer(void);
+	float GetAddAntiMagic(void);
+	float GetAddAntiMagicPer(void);
 	float GetBaseMaxHP(void);
 	float GetBaseMaxMP(void);
 	float GetBaseRegenMP(void);
@@ -767,11 +767,11 @@ inline float TwUnitData::GetAddAromorPer(void) const
 {
 	return m_pkCurData->fAddArmorPer;
 }
-inline int TwUnitData::GetAddAntiMagic(void)
+inline float TwUnitData::GetAddAntiMagic(void)
 {
 	return m_pkCurData->fAddMagicArmor;
 }
-inline int TwUnitData::GetAddAntiMagicPer(void)
+inline float TwUnitData::GetAddAntiMagicPer(void)
 {
 	return m_pkCurData->fAddMagicArmorPer;
 }
@@ -804,7 +804,7 @@ inline bool TwUnitData::IsActionCurTimeOut(int iDeltaTime) const
 }
 inline int		TwUnitData::GetRealDamagePt()
 {
-	float iRealPtTime = m_pkCurData->iAttackDamagePt;
+	int iRealPtTime = m_pkCurData->iAttackDamagePt;
 
 	return iRealPtTime;
 }

@@ -50,7 +50,7 @@ bool TeMap::Initialize()
 	return true;
 }
 
-bool TeMap::IsObstacle(float fX, float fY, int iObstacle, int iSize)
+bool TeMap::IsObstacle(float fX, float fY, TwGridFlag iObstacle, int iSize)
 {
 	if (!m_pkPathFinder)
 	{
@@ -60,7 +60,7 @@ bool TeMap::IsObstacle(float fX, float fY, int iObstacle, int iSize)
 	return m_pkPathFinder->IsObstacle(fX, fY, iObstacle, iSize);
 }
 
-bool TeMap::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, int iObs)
+bool TeMap::IsPointDirect(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, int iDstSize, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{
@@ -83,7 +83,7 @@ void TeMap::Update(int iDeltaTime)
 {
 }
 
-void TeMap::AddUnitObstacle(BeUnit* pkUnit, bool bAddFixed, bool bForce)
+void TeMap::AddUnitObstacle(std::shared_ptr<BeUnit> pkUnit, bool bAddFixed, bool bForce)
 {
 	if (!m_pkPathFinder)
 	{
@@ -118,7 +118,7 @@ void TeMap::AddUnitObstacle(BeUnit* pkUnit, bool bAddFixed, bool bForce)
 		if (bAddFixed)
 		{
 			pkUnit->SetFlag(BUF_OBSTACLESET);
-			m_pkPathFinder->SetObstacle(fX, fY, TGF_DOODAD, iSize);
+			m_pkPathFinder->SetObstacle(fX, fY, TwGridFlag::TGF_DOODAD, iSize);
 		}
 	}
 	else
@@ -126,19 +126,19 @@ void TeMap::AddUnitObstacle(BeUnit* pkUnit, bool bAddFixed, bool bForce)
 		if (pkUnit->HasFlag(BUF_MOVING))
 		{
 			pkUnit->SetFlag(BUF_OBSTACLESET);
-			m_pkPathFinder->SetObstacle(fX, fY, TGF_TEMP, iSize);
+			m_pkPathFinder->SetObstacle(fX, fY, TwGridFlag::TGF_TEMP, iSize);
 		}
 		else
 		{
 			pkUnit->SetFlag(BUF_OBSTACLESET);
 			if (pkUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				m_pkPathFinder->SetObstacle(fX, fY, TGF_SOLIDER | TGF_TEMP, iSize);
-				m_pkPathFinder->SetObstacle(fX, fY, TGF_SOLIDER_COLLION, 4);
+				m_pkPathFinder->SetObstacle(fX, fY, TwGridFlag::TGF_SOLIDER | TwGridFlag::TGF_TEMP, iSize);
+				m_pkPathFinder->SetObstacle(fX, fY, TwGridFlag::TGF_SOLIDER_COLLION, 4);
 			}
 			else
 			{
-				m_pkPathFinder->SetObstacle(fX, fY, TGF_UNIT_OTS, iSize);
+				m_pkPathFinder->SetObstacle(fX, fY, TwGridFlag::TGF_UNIT_OTS, iSize);
 			}
 		}
 	}
@@ -149,7 +149,7 @@ void TeMap::AddUnitObstacle(BeUnit* pkUnit, bool bAddFixed, bool bForce)
 	}
 }
 
-void TeMap::DelUnitObstacle(BeUnit* pkUnit, bool bDelFixed, bool bForce)
+void TeMap::DelUnitObstacle(std::shared_ptr<BeUnit> pkUnit, bool bDelFixed, bool bForce)
 {
 	if (!m_pkPathFinder)
 	{
@@ -184,7 +184,7 @@ void TeMap::DelUnitObstacle(BeUnit* pkUnit, bool bDelFixed, bool bForce)
 		if (bDelFixed)
 		{
 			pkUnit->ClrFlag(BUF_OBSTACLESET);
-			m_pkPathFinder->ClrObstacle(fX, fY, TGF_DOODAD, iSize);
+			m_pkPathFinder->ClrObstacle(fX, fY, TwGridFlag::TGF_DOODAD, iSize);
 		}
 	}
 	else
@@ -192,17 +192,17 @@ void TeMap::DelUnitObstacle(BeUnit* pkUnit, bool bDelFixed, bool bForce)
 		pkUnit->ClrFlag(BUF_OBSTACLESET);
 		if (pkUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 		{
-			m_pkPathFinder->ClrObstacle(fX, fY, TGF_SOLIDER | TGF_TEMP, iSize);
-			m_pkPathFinder->ClrObstacle(fX, fY, TGF_SOLIDER_COLLION, 4);
+			m_pkPathFinder->ClrObstacle(fX, fY, TwGridFlag::TGF_SOLIDER | TwGridFlag::TGF_TEMP, iSize);
+			m_pkPathFinder->ClrObstacle(fX, fY, TwGridFlag::TGF_SOLIDER_COLLION, 4);
 		}
 		else
 		{
-			m_pkPathFinder->ClrObstacle(fX, fY, TGF_UNIT_OTS, iSize);
+			m_pkPathFinder->ClrObstacle(fX, fY, TwGridFlag::TGF_UNIT_OTS, iSize);
 		}
 	}
 }
 
-void TeMap::AddObstacle(float fX, float fY, int iObs, int iSize)
+void TeMap::AddObstacle(float fX, float fY, TwGridFlag iObs, int iSize)
 {
 	if (!m_pkPathFinder)
 	{
@@ -212,7 +212,7 @@ void TeMap::AddObstacle(float fX, float fY, int iObs, int iSize)
 	m_pkPathFinder->SetObstacle(fX, fY, iObs, iSize);
 }
 
-void TeMap::DelObstacle(float fX, float fY, int iObs, int iSize)
+void TeMap::DelObstacle(float fX, float fY, TwGridFlag iObs, int iSize)
 {
 	if (!m_pkPathFinder)
 	{
@@ -222,7 +222,7 @@ void TeMap::DelObstacle(float fX, float fY, int iObs, int iSize)
 	m_pkPathFinder->ClrObstacle(fX, fY, iObs, iSize);
 }
 
-TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs)
+TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{
@@ -242,7 +242,7 @@ TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, BeUnit* pkUnit, float fT
 		iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 	}
 
-	if (!iObs)
+	if (!(bool)iObs)
 	{
 		float fSrcX = pkUnit->GetPosX();
 		float fSrcY = pkUnit->GetPosY();
@@ -308,18 +308,18 @@ TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, BeUnit* pkUnit, float fT
 	return eRet;
 }
 
-int TeMap::GetFirstCanStay(BeUnit* pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs)
+int TeMap::GetFirstCanStay(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, TwGridFlag iObs)
 {
 	if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 	{
-		iObs &= ~TGF_UNIT_OTS;
+		iObs &= ~TwGridFlag::TGF_UNIT_OTS;
 	}
 	if (pkUnit->HasFlag(BUF_IGNOREFIXEDOBS))
 	{
-		iObs &= ~TGF_FIXED_OTS;
+		iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 	}
 
-	if (!iObs)
+	if (!(bool)iObs)
 	{
 		fWalkX = fTargetX;
 		fWalkY = fTargetY;
@@ -331,7 +331,7 @@ int TeMap::GetFirstCanStay(BeUnit* pkUnit, float fTargetX, float fTargetY, float
 	float fDstX = fTargetX;
 	float fDstY = fTargetY;
 	int iSrcSize = pkUnit->GetOBSize();
-	if (iObs == TGF_SOLIDER_COLLION)
+	if (iObs == TwGridFlag::TGF_SOLIDER_COLLION)
 	{
 		iSrcSize = 4;
 	}
@@ -339,7 +339,7 @@ int TeMap::GetFirstCanStay(BeUnit* pkUnit, float fTargetX, float fTargetY, float
 	return bRet;
 }
 
-int TeMap::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, int iObs)
+int TeMap::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{
@@ -362,7 +362,7 @@ int TeMap::GetFirstCanStay(float fSrcX, float fSrcY, int iSrcSize, float fTarget
 	return bRet;
 }
 
-bool TeMap::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, int iObs) const
+bool TeMap::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDstX, float fDstY, float& fX, float& fY, float fDistance, TwGridFlag iObs) const
 {
 	if (m_pkPathFinder)
 	{
@@ -373,7 +373,7 @@ bool TeMap::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	return false;
 }
 
-bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, int iObs, int iReachableObs, bool bNeedRecordChange)
+bool TeMap::SetUnitPosition(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, TwGridFlag iObs, TwGridFlag iReachableObs, bool bNeedRecordChange)
 {
 	if (!pkUnit)
 	{
@@ -388,13 +388,13 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 	bool bRet = true;
 	if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 	{
-		iObs &= ~TGF_UNIT_OTS;
+		iObs &= ~TwGridFlag::TGF_UNIT_OTS;
 	}
 	if (pkUnit->HasFlag(BUF_IGNOREFIXEDOBS))
 	{
-		iObs &= ~TGF_FIXED_OTS;
+		iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 	}
-	if (!iObs)
+	if (!(bool)iObs)
 	{
 		bCanStayOnObstacle = true;
 	}
@@ -419,7 +419,7 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 		}
 		bRet = GetNearestCanStay(fSrcX, fSrcY, iSrcSize, fTargetX, fTargetY, fX, fY, fDistance, iObs);
 		bool bFind = true;
-		if (iReachableObs)
+		if ((bool)iReachableObs)
 		{
 			bFind = false;
 			int iCount = 2;
@@ -460,7 +460,7 @@ bool TeMap::SetUnitPosition(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 	return bRet;
 }
 
-bool TeMap::GetUnitCanReach(BeUnit* pkUnit, float fTargetX, float fTargetY, float fDistance, int iObs)
+bool TeMap::GetUnitCanReach(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{
@@ -469,24 +469,24 @@ bool TeMap::GetUnitCanReach(BeUnit* pkUnit, float fTargetX, float fTargetY, floa
 	{
 		if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 		{
-			iObs &= ~TGF_UNIT_OTS;
+			iObs &= ~TwGridFlag::TGF_UNIT_OTS;
 		}
 
 		if (pkUnit->HasFlag(BUF_IGNOREFIXEDOBS))
 		{
-			iObs &= ~TGF_FIXED_OTS;
+			iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 		}
 		if (pkUnit->HasFlag(BUF_IGNOREDOODADOBS))
 		{
-			iObs &= ~TGF_DOODAD;
-			iObs &= ~TGF_SKILL;
-			iObs &= ~TGF_GUTDOODAD;
+			iObs &= ~TwGridFlag::TGF_DOODAD;
+			iObs &= ~TwGridFlag::TGF_SKILL;
+			iObs &= ~TwGridFlag::TGF_GUTDOODAD;
 		}
 		if (pkUnit->HasFlag(BUF_IGNORETERRAINOBS))
 		{
-			iObs &= ~TGF_TERRAIN;
+			iObs &= ~TwGridFlag::TGF_TERRAIN;
 		}
-		if (!iObs)
+		if (!(bool)iObs)
 		{
 			return true;
 		}

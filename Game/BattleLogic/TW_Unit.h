@@ -620,7 +620,7 @@ public:
 	inline		bool					GetHaveSetObstacle() const;
 	inline		bool					GetNeedUpdateObstacle() const;
 	inline		const std::shared_ptr<BeUnit> GetSharePtr() const;
-	inline		int						GetDamageNum();
+	inline		float						GetDamageNum();
 
 	inline		unsigned	int			GetSkillTypeIDByPos(int iPos);
 	inline		void					AddItemPassiveSkill(int iSkillTypeID);
@@ -710,7 +710,7 @@ inline const std::shared_ptr<BeUnit> BeUnit::GetSharePtr() const
 {
 	return m_spSharePtr;
 }
-inline int			BeUnit::GetDamageNum()
+inline float			BeUnit::GetDamageNum()
 {
 	return m_pkCurData->fBaseDamage + m_pkCurData->fAddDamage;
 }

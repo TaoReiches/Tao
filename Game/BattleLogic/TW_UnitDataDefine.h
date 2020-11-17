@@ -28,7 +28,7 @@ enum BeUnitAction
 };
 
 class BeSkill;
-struct UnitTable;
+class UnitTable;
 class BeLearnSkillData;
 
 class BeUnitData

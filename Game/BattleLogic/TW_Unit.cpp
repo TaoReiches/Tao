@@ -183,7 +183,7 @@ void BeUnit::OnDelete(void)
 	m_kCommander.OnDelete();
 	DelAllBuffer();
 
-	gMap.DelUnitObstacle(this, true, true);
+	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true, true);
 	gUnitMgr.Unlink(this);
 
 	m_apkNormalSkill.clear();
@@ -312,7 +312,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		{
 			float fPosX = GetPosX() + fMMinDis * cosf(fMFace);
 			float fPosY = GetPosY() + fMMinDis * sinf(fMFace);
-			if (m_iMoveToUnitID == 0 && gMap.IsObstacle(fPosX, fPosY, TGF_GUTDOODAD, GetOBSize())) {
+			if (m_iMoveToUnitID == 0 && gMap.IsObstacle(fPosX, fPosY, TwGridFlag::TGF_GUTDOODAD, GetOBSize())) {
 
 				m_iMoveAllTime = 0;
 			}
@@ -322,7 +322,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		}
 		else
 		{
-			if (gMap.IsObstacle(GetPosX(), GetPosY(), TGF_GUTDOODAD, GetOBSize()) || gMap.IsObstacle(m_fMoveTarPosX, m_fMoveTarPosY, TGF_GUTDOODAD, GetOBSize())) {
+			if (gMap.IsObstacle(GetPosX(), GetPosY(), TwGridFlag::TGF_GUTDOODAD, GetOBSize()) || gMap.IsObstacle(m_fMoveTarPosX, m_fMoveTarPosY, TwGridFlag::TGF_GUTDOODAD, GetOBSize())) {
 
 			}
 			else {
@@ -339,7 +339,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 			ClrFlag(BUF_IGNOREUNITOBS);
 			ClrOtherFlag(BUOF_WEIYI);
 
-			gMap.SetUnitPosition(this, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
+			gMap.SetUnitPosition(std::shared_ptr<BeUnit>(this), GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			SetShareUnitChangeFlag(BSUDCF_RESET_POX);
 		}
 	}
@@ -351,7 +351,7 @@ void BeUnit::Update(int iDeltaTime)
 
 	TrgOnUpdate(iDeltaTime);
 
-	gMap.DelUnitObstacle(this, false, false);
+	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), false, false);
 
 	m_kCommander.ExecuteCmd(iDeltaTime);
 
@@ -362,7 +362,7 @@ void BeUnit::Update(int iDeltaTime)
 	}
 	else
 	{
-		gMap.AddUnitObstacle(this, false, false);
+		gMap.AddUnitObstacle(std::shared_ptr<BeUnit>(this), false, false);
 	}
 
 	float fPerCDTime = GetPerCDTime();
@@ -1194,7 +1194,7 @@ void BeUnit::SetDead(void)
 	GiveCommand(kComm, BeGiveCmdType::BCT_DEATH);
 
 	SetFlag(BUF_DEAD);
-	gMap.DelUnitObstacle(this, true);
+	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true);
 	gUnitMgr.OnUnitDead(this);
 }
 

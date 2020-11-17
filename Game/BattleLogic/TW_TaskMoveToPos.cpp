@@ -108,30 +108,30 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		{
 			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_SOLIDER, 0, true);
+				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
+				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			}
 
-			gMap.DelUnitObstacle(&gUnit, false);
+			gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(&gUnit), false);
 			m_iStandTime = 0;
 			m_iRetryTime = 0;
 			std::list<TwPos2> akPath;
 
 			{
-				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
+				auto iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					iObs = TGF_FIXED_OTS | TGF_SOLIDER_COLLION;
+					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION;
 				}
 				else
 				{
-					iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SOLIDER;
+					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SOLIDER;
 				}
 
-				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
+				m_eFindPathRet = gMap.FindPath(akPath, std::shared_ptr<BeUnit>(&gUnit), m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 			}
 
 			if (m_eFindPathRet == TwFindResult::TFR_NONE || !gUnit.CanMove())
@@ -180,14 +180,14 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			++m_iRetryTime;
 			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_SOLIDER, 0, true);
+				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(&gUnit, gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TGF_FIXED_OTS | TGF_UNIT, 0, true);
+				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			}
 
-			gMap.DelUnitObstacle(&gUnit, false);
+			gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(&gUnit), false);
 			if (m_iRetryTime > WALK_BLOCK_COUNT)
 			{
 				if (m_eRetryState == BeMoveRetryState::BMRS_DITECT)
@@ -224,11 +224,11 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				float fWalkY = 0.0f;
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TGF_FIXED_OTS | TGF_SOLIDER_COLLION | TGF_TEMP);
+					gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION | TwGridFlag::TGF_TEMP);
 				}
 				else
 				{
-					gMap.GetFirstCanStay(&gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TGF_FIXED_OTS | TGF_UNIT_OTS | TGF_SOLIDER);
+					gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT_OTS | TwGridFlag::TGF_SOLIDER);
 				}
 
 				float fNeedMoveDistance = GetDistance(gUnit.GetPosX(), gUnit.GetPosY(), fWalkX, fWalkY);
@@ -249,18 +249,18 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			default:
 			{
 				std::list<TwPos2> akPath;
-				int iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TGF_FIXED_OTS | TGF_UNIT : TGF_FIXED_OTS;
+				auto iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
 
 				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					iObs = TGF_FIXED_OTS | TGF_SOLIDER_COLLION;
+					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION;
 				}
 				else
 				{
-					iObs = TGF_FIXED_OTS | TGF_UNIT | TGF_SOLIDER;
+					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SOLIDER;
 				}
 
-				m_eFindPathRet = gMap.FindPath(akPath, &gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
+				m_eFindPathRet = gMap.FindPath(akPath, std::shared_ptr<BeUnit>(&gUnit), m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 
 				if (m_eFindPathRet == TwFindResult::TFR_NONE)
 				{

@@ -62,7 +62,7 @@ void BeBuffer::SetRemoveTime(unsigned int uiTime, bool bForceChange, bool bNeedR
 			int		iOldLiveTime = uiTime - gTime;
 			if (iOldLiveTime > 0)
 			{
-				int iNewLiveTime = iOldLiveTime * (1.0f - fToughness);
+				int iNewLiveTime = (int)(iOldLiveTime * (1.0f - fToughness));
 				uiTime = gTime + iNewLiveTime;
 			}
 		}

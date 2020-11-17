@@ -102,17 +102,17 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	float fWalkX = 0.0f;
 	float fWalkY = 0.0f;
 
-	int		iObs = TGF_FIXED_OTS;
+	auto iObs = TwGridFlag::TGF_FIXED_OTS;
 	if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
 	{
-		iObs = TGF_FIXED_OTS | TGF_SOLIDER;
+		iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER;
 	}
 	else
 	{
-		iObs = TGF_FIXED_OTS | TGF_UNIT;
+		iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT;
 	}
 
-	int bRet = gMap.GetFirstCanStay(&gUnit, m_kTargetPos.fX, m_kTargetPos.fY, fWalkX, fWalkY, fMaxMoveDistance, iObs);
+	int bRet = gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kTargetPos.fX, m_kTargetPos.fY, fWalkX, fWalkY, fMaxMoveDistance, iObs);
 
 	float fNeedMoveDistance = GetDistance(fUnitX, fUnitY, fWalkX, fWalkY);
 
@@ -143,7 +143,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 		float fCanMoveX = fUnitX;
 		float fCanMoveY = fUnitY;
 
-		int bRet1 = gMap.GetFirstCanStay(&gUnit, fWalkX, fWalkY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
+		int bRet1 = gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), fWalkX, fWalkY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
 		if (fWalkX != fCanMoveX || fWalkY != fCanMoveY)
 		{
 			m_bBlocked = true;
