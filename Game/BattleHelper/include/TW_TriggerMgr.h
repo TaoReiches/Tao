@@ -121,10 +121,10 @@ public:
 protected:
 	struct ParamData
 	{
-		ParamData(int id, const TePointerType& data);
+		ParamData(int id, const TwPointerType& data);
 
 		int iID;
-		TePointerType kData;
+		TwPointerType kData;
 	};
 	std::vector<ParamData> m_akParams;
 };

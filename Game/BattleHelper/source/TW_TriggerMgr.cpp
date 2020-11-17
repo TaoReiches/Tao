@@ -8,7 +8,7 @@
 #include "TW_Define.h"
 #include "TW_MemoryPool.h"
 
-TeMemoryPool<TwPtTrigger>          mpTrigger(512);
+TwMemoryPool<TwPtTrigger>          mpTrigger(512);
 #define DATA_CONFERENCE() TwPtTriggerMgrData& rkData = *((TwPtTriggerMgrData *)m_pkData)
 
 TwPtTriggerMgr::TwPtTriggerMgr(void* pkParam)

@@ -50,7 +50,7 @@ protected:
     int                                         m_iImmunityFlag;
 	int                                         m_iCarryFlag;
 	int                                         m_iShareUnitDataChangeFlag;
-	std::unordered_map<int, TePointerType>      m_akUserData;
+	std::unordered_map<int, TwPointerType>      m_akUserData;
 };
 
 inline void TwUnitBase::SetUnitImmunityFlag(int iFlag)
@@ -141,12 +141,12 @@ inline int TwUnitBase::GetShareUnitChangeFlag() const
 
 void TwUnitBase::SetUD_Int(UserDataKey eKey, int i)
 {
-	m_akUserData[eKey] = TePointerType(i);
+	m_akUserData[eKey] = TwPointerType(i);
 }
 
 void TwUnitBase::SetUD_Float(UserDataKey eKey, float f)
 {
-	m_akUserData[eKey] = TePointerType(f);
+	m_akUserData[eKey] = TwPointerType(f);
 }
 
 int TwUnitBase::PopUD_Int(UserDataKey eKey)

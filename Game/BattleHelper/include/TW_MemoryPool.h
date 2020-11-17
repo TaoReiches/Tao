@@ -12,7 +12,7 @@
 #include <utility>
 
 template <typename T>
-class TeMemoryPool
+class TwMemoryPool
 {
 private:
 	union TeMemoryPoolElement
@@ -67,7 +67,7 @@ private:
 	TeMemoryPoolElement* freeList;
 
 public:
-	TeMemoryPool(size_t size) : storeSize(size), store(new TeMemoryPoolStore(size))
+	TwMemoryPool(size_t size) : storeSize(size), store(new TeMemoryPoolStore(size))
 	{
 		freeList = store->GetStorage();
 	}

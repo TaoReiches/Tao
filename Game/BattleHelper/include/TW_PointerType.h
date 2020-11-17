@@ -5,7 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum class TePointerValType
+enum class TwPointerValType
 {
 	BPVT_PVOID,
 	BPVT_int,
@@ -13,27 +13,28 @@ enum class TePointerValType
 	BPVT_Int64,
 };
 
-struct TePointerType
+class TwPointerType
 {
-	TePointerType(void* p = 0)
+public:
+	TwPointerType(void* p = 0)
 	{
 		v.i64init = 0;
 		v.pVoid = p;
-		eValType = TePointerValType::BPVT_PVOID;
+		eValType = TwPointerValType::BPVT_PVOID;
 	}
 
-	TePointerType(int i)
+	TwPointerType(int i)
 	{
 		v.i64init = 0;
 		v.iValue = i;
-		eValType = TePointerValType::BPVT_int;
+		eValType = TwPointerValType::BPVT_int;
 	}
 
-	TePointerType(float f)
+	TwPointerType(float f)
 	{
 		v.i64init = 0;
 		v.fValue = f;
-		eValType = TePointerValType::BPVT_float;
+		eValType = TwPointerValType::BPVT_float;
 	}
 	union
 	{
@@ -42,5 +43,5 @@ struct TePointerType
 		float			fValue;
 		std::int64_t	i64init;
 	} v;
-	TePointerValType eValType;
+	TwPointerValType eValType;
 };

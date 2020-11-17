@@ -16,15 +16,15 @@ TwPtParam::~TwPtParam(void)
 
 void TwPtParam::SetParam(int iParamID, int iValue)
 {
-	m_akParams.push_back(ParamData(iParamID, TePointerType(iValue)));
+	m_akParams.push_back(ParamData(iParamID, TwPointerType(iValue)));
 }
 void TwPtParam::SetParam(int iParamID, float fValue)
 {
-	m_akParams.push_back(ParamData(iParamID, TePointerType(fValue)));
+	m_akParams.push_back(ParamData(iParamID, TwPointerType(fValue)));
 }
 void TwPtParam::SetParam(int iParamID, void* pkValue)
 {
-	m_akParams.push_back(ParamData(iParamID, TePointerType(pkValue)));
+	m_akParams.push_back(ParamData(iParamID, TwPointerType(pkValue)));
 }
 
 bool TwPtParam::HasParam(int iParamID)
@@ -49,12 +49,12 @@ int TwPtParam::GetParamInt(int iParamID, int iDefault)
 		{
 			switch (rkData.kData.eValType)
 			{
-			case TePointerValType::BPVT_int:
+			case TwPointerValType::BPVT_int:
 			{
 				return rkData.kData.v.iValue;
 				break;
 			}
-			case TePointerValType::BPVT_float:
+			case TwPointerValType::BPVT_float:
 			{
 				return (int)rkData.kData.v.fValue;
 				break;
@@ -76,12 +76,12 @@ float TwPtParam::GetParamFloat(int iParamID, float fDefault)
 		{
 			switch (rkData.kData.eValType)
 			{
-			case TePointerValType::BPVT_int:
+			case TwPointerValType::BPVT_int:
 			{
 				return (float)rkData.kData.v.iValue;
 				break;
 			}
-			case TePointerValType::BPVT_float:
+			case TwPointerValType::BPVT_float:
 			{
 				return rkData.kData.v.fValue;
 				break;
@@ -112,7 +112,7 @@ void	TwPtParam::OnDeleteUnit(void* pkUnit)
 	for (auto kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
 		ParamData& rkData = *kIter;
-		if (rkData.kData.eValType == TePointerValType::BPVT_PVOID)
+		if (rkData.kData.eValType == TwPointerValType::BPVT_PVOID)
 		{
 			if (rkData.kData.v.pVoid == pkUnit)
 			{
@@ -122,6 +122,6 @@ void	TwPtParam::OnDeleteUnit(void* pkUnit)
 	}
 }
 
-TwPtParam::ParamData::ParamData(int id, const TePointerType& data) :iID(id), kData(data)
+TwPtParam::ParamData::ParamData(int id, const TwPointerType& data) :iID(id), kData(data)
 {
 }

@@ -8,85 +8,85 @@
 #include "TW_MemoryPool.h"
 
 class BeTaskActionStand;
-extern TeMemoryPool<BeTaskActionStand>          mpTaskActionStand;
+extern TwMemoryPool<BeTaskActionStand>          mpTaskActionStand;
 
 class BeTaskActionWalk;
-extern TeMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
+extern TwMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
 
 class BeTaskActionAttack;
-extern TeMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;
+extern TwMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;
 
 class BeTaskActionSpell;
-extern TeMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
+extern TwMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
 
 class BeTaskActionDeath;
-extern TeMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
+extern TwMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
 
 class BeTaskMoveToPos;
-extern TeMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos;
+extern TwMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos;
 
 class BeTaskMoveToUnit;
-extern TeMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit;
+extern TwMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit;
 
 class BeTaskAttackUnit;
-extern TeMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit;
+extern TwMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit;
 
 class BeTaskAttackToPos;
-extern TeMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos;
+extern TwMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos;
 
 class BeTaskAttackItem;
-extern TeMemoryPool<BeTaskAttackItem>           mpTaskAttackItem;
+extern TwMemoryPool<BeTaskAttackItem>           mpTaskAttackItem;
 
 class BeAttackingAttr;
-extern TeMemoryPool<BeAttackingAttr>            mpAttackingAttr;
+extern TwMemoryPool<BeAttackingAttr>            mpAttackingAttr;
 
 class BeCarry;
-extern TeMemoryPool<BeCarry>                    mpCarry;
+extern TwMemoryPool<BeCarry>                    mpCarry;
 
 class BeUnitData;
-extern TeMemoryPool<BeUnitData>                 mpUnitData;
+extern TwMemoryPool<BeUnitData>                 mpUnitData;
 
 class BeUnit;
-extern TeMemoryPool<BeUnit>                     mpUnit;
+extern TwMemoryPool<BeUnit>                     mpUnit;
 
 class BeSkill;
-extern TeMemoryPool<BeSkill>                    mpSkill;
+extern TwMemoryPool<BeSkill>                    mpSkill;
 
 class BeBuffer;
-extern TeMemoryPool<BeBuffer>                   mpBuffer;
+extern TwMemoryPool<BeBuffer>                   mpBuffer;
 
 class BeItem;
-extern TeMemoryPool<BeItem>                     mpItem;
+extern TwMemoryPool<BeItem>                     mpItem;
 
 class BeMapItem;
-extern TeMemoryPool<BeMapItem>                  mpMapItem;
+extern TwMemoryPool<BeMapItem>                  mpMapItem;
 
 class BeEquip;
-extern TeMemoryPool<BeEquip>                    mpEquip;
+extern TwMemoryPool<BeEquip>                    mpEquip;
 
 class BeEffectData;
-extern TeMemoryPool<BeEffectData>               mpEffectData;
+extern TwMemoryPool<BeEffectData>               mpEffectData;
 
 class BeEffect;
-extern TeMemoryPool<BeEffect>                   mpEffect;
+extern TwMemoryPool<BeEffect>                   mpEffect;
 
 class BeLearnSkillData;
-extern TeMemoryPool<BeLearnSkillData>           mpLearnSkillData;
+extern TwMemoryPool<BeLearnSkillData>           mpLearnSkillData;
 
 class BeStopCommand;
-extern TeMemoryPool<BeStopCommand>              mpStopCommand;
+extern TwMemoryPool<BeStopCommand>              mpStopCommand;
 
 class BeMoveCommand;
-extern TeMemoryPool<BeMoveCommand>              mpMoveCommand;
+extern TwMemoryPool<BeMoveCommand>              mpMoveCommand;
 
 class BeAttackCommand;
-extern TeMemoryPool<BeAttackCommand>            mpAttackCommand;
+extern TwMemoryPool<BeAttackCommand>            mpAttackCommand;
 
 class BeSpellCommand;
-extern TeMemoryPool<BeSpellCommand>             mpSpellCommand;
+extern TwMemoryPool<BeSpellCommand>             mpSpellCommand;
 
 class BeDropItemCommand;
-extern TeMemoryPool<BeDropItemCommand>          mpDropItemCommand;
+extern TwMemoryPool<BeDropItemCommand>          mpDropItemCommand;
 
 class BePickItemCommand;
-extern TeMemoryPool<BePickItemCommand>          mpPickItemCommand;
+extern TwMemoryPool<BePickItemCommand>          mpPickItemCommand;

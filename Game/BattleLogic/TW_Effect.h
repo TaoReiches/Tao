@@ -214,7 +214,7 @@ protected:
     bool					m_bSearchTargetSelf;
     int						m_iMaxTargetNum;
     TwPos2					m_posAttacker;
-    std::unordered_map<UserDataKey, TePointerType>	m_kUserData;
+    std::unordered_map<UserDataKey, TwPointerType>	m_kUserData;
     bool					m_bNoDelayDelete;
     BeEffectData		    m_kEffectData;
     std::unique_ptr<BeAttackingAttr>        m_pkAttr;
@@ -650,15 +650,15 @@ inline void BeEffect::ClearUserData(UserDataKey rkKey)
 }
 inline void BeEffect::SetUD_Int(UserDataKey rkKey, int i)
 {
-    m_kUserData[rkKey] = TePointerType(i);
+    m_kUserData[rkKey] = TwPointerType(i);
 }
 inline void BeEffect::SetUD_Float(UserDataKey rkKey, float f)
 {
-    m_kUserData[rkKey] = TePointerType(f);
+    m_kUserData[rkKey] = TwPointerType(f);
 }
 inline void BeEffect::SetUD_Void(UserDataKey rkKey, void* pkVoid)
 {
-    m_kUserData[rkKey] = TePointerType(pkVoid);
+    m_kUserData[rkKey] = TwPointerType(pkVoid);
 }
 inline int BeEffect::GetUD_Int(UserDataKey rkKey, int iDefault) const
 {
