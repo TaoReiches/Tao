@@ -313,14 +313,14 @@ void TwPathFinder::InitGrids(int iW, int iH, unsigned short* akGrids, bool bUseT
 			m_akGrid = new TwMapGrid[m_iMaxIdx];
 			memset(m_akGrid, 0, sizeof(TwMapGrid) * m_iMaxIdx);
 
-			for (int h = 0; h < iH; h++)
-			{
-				for (int w = 0; w < iW; w++, akGrids++)
-				{
-					m_akGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
-					m_akGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD | TwGridFlag::TGF_GUTDOODAD;
-				}
-			}
+			//for (int h = 0; h < iH; h++)
+			//{
+			//	for (int w = 0; w < iW; w++, akGrids++)
+			//	{
+			//		m_akGrid[h * iW + w].iObstacle = static_cast<TwGridFlag>(*akGrids);
+			//		m_akGrid[h * iW + w].iObstacle &= TwGridFlag::TGF_TERRAIN | TwGridFlag::TGF_DOODAD | TwGridFlag::TGF_GUTDOODAD;
+			//	}
+			//}
 		}
 	}
 }
