@@ -14,7 +14,7 @@
 
 class TwUnitBase : public BeSingleLinkEntity, public BeEntity
 {
-protected:
+public:
     TwUnitBase();
 	TwUnitBase(int iID);
 	~TwUnitBase();

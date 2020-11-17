@@ -467,7 +467,6 @@ public:
 	void			TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
 
 	void			GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr*& rkAttackingAttr);
-	BeAttackingAttr& GetSelfAttackingAttr(void);
 	bool			GetAttackingMiss(void) const;
 	bool			GetAttackedAvoid(void) const;
 	float			GetAttackedAntiLeech(void) const;
@@ -475,16 +474,10 @@ public:
 	void			GetAttackedMagicAttr(float& fAntiMagic, const BeUnit* pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
 	float			GetAttackedAttackCDAttr(void) const;
 	float			GetAttackedBaoJiAttr(void) const;
-	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel = -1);
 
-	void			OnPropertyUpdate(int iLevel);
-	void            SetCurExp(int iCurExp);
-	void			SetLevel(int iLevel, bool bNeedRecordChange = true);
 	void			ResetSkill(void);
 
 	//	void			PlayLevelupEffect();
-
-	void			SetHP(float fHP, bool bChange = true);
 
 	void			GuanQiaAddExp(int iExp);
 
@@ -525,7 +518,6 @@ public:
 protected:
 	void			SetDead(void);
 	void			DelAllBuffer(bool bRelive = false);
-	void			OnInitAttribute(bool bCurrent = true, bool bNeedRecordChange = true);
 	void			SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange = true);
 
 	void			UpdateValidItem(void);

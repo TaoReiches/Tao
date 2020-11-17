@@ -16,6 +16,7 @@ int main()
     TW_ERROR("Test error message.");
 
     auto pkMain = std::unique_ptr<BeMain>(new BeMain());
+    pkMain->LoadRes(888);
     pkMain->Initialize();
 
     while (true)

@@ -139,7 +139,7 @@ void BeEffect::Update(int iDeltaTime)
 	}
 	case BET_CURVE_TRACE_FRANK:
 	{
-		UpdateCurveTraceFrank(iDeltaTime);
+		//UpdateCurveTraceFrank(iDeltaTime);
 		break;
 	}
 	case BER_LINE_TRACE_COLLISION:
@@ -614,87 +614,87 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 	}
 }
 
-void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
-{
-	void* pkTarget = UpdateTargetPos();
-
-	int spendTime = gTime - m_kEffectData.dwCreateTime;
-	float needDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fTarPosX, m_kEffectData.fTarPosY);
-	float needTime = needDis * 1000.0f / GetMoveSpeed();
-	float fSpendTime = (float)spendTime / needTime;
-	float t = 1.0f;//std::min(1, fSpendTime);
-	if (t > fSpendTime)
-	{
-		t = fSpendTime;
-	}
-
-	float sinH = sin(m_kEffectData.fFace - D3DX_PI * 0.5f);
-	float cosH = cos(m_kEffectData.fFace - D3DX_PI * 0.5f);
-	float fOrgPosX, fOrgPosY, fTarPosX, fTarPosY, fResDis, fCurDis, fParaPer = 0.0f;
-	fOrgPosX = m_kEffectData.fOrgPosX;
-	fOrgPosY = m_kEffectData.fOrgPosY;
-	fTarPosX = m_kEffectData.fTarPosX;
-	fTarPosY = m_kEffectData.fTarPosY;
-	BeUnit* pkAttacker = nullptr;
-
-	SeCalSkillLvlData rkData;
-	pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
-
-	if (!pkAttacker)
-	{
-		return;
-	}
-
-	if (!pkAttacker->GetSkillLvlData(rkData, m_kEffectData.iSkillTypeID)) {
-
-		return;
-	}
-
-	fResDis = rkData.GetSpellDistance();
-	fCurDis = GetDistance(fOrgPosX, fOrgPosY, fTarPosX, fTarPosY);
-	fParaPer = float(fCurDis / fResDis);
-
-	float offset1X = rkData.GetDataValue(VALUE_D) * GetMissileArc() * fParaPer;
-	float offset1Y = rkData.GetDataValue(VALUE_E);
-	float offset2X = rkData.GetDataValue(VALUE_F) * GetMissileArc() * fParaPer;
-	float offset2Y = rkData.GetDataValue(VALUE_G);
-
-	float p2x = fOrgPosX + cosH * offset1X;
-	float p2y = fOrgPosY + sinH * offset1X;
-	float p3x = fTarPosX + cosH * offset2X;
-	float p3y = fTarPosY + sinH * offset2X;
-
-	if (t >= 1)
-	{
-		if (m_kEffectData.iSkillTypeID)
-		{
-			if (!m_bPureShow)
-			{
-				if (pkAttacker)
-				{
-					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
-
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
-				}
-			}
-		}
-
-		OnRemove();
-		ParseAttack();
-		return;
-	}
-
-	m_kEffectData.fPosX = pow(1 - t, 3) * fOrgPosX + 3 * pow(1 - t, 2) * t * p2x + 3 * (1 - t) * t * t * p3x + t * t * t * fTarPosX;
-	m_kEffectData.fPosY = pow(1 - t, 3) * fOrgPosY + 3 * pow(1 - t, 2) * t * p2y + 3 * (1 - t) * t * t * p3y + t * t * t * fTarPosY;
-}
+//void BeEffect::UpdateCurveTraceFrank(int iDeltaTime)
+//{
+//	void* pkTarget = UpdateTargetPos();
+//
+//	int spendTime = gTime - m_kEffectData.dwCreateTime;
+//	float needDis = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, m_kEffectData.fTarPosX, m_kEffectData.fTarPosY);
+//	float needTime = needDis * 1000.0f / GetMoveSpeed();
+//	float fSpendTime = (float)spendTime / needTime;
+//	float t = 1.0f;//std::min(1, fSpendTime);
+//	if (t > fSpendTime)
+//	{
+//		t = fSpendTime;
+//	}
+//
+//	float sinH = sin(m_kEffectData.fFace - D3DX_PI * 0.5f);
+//	float cosH = cos(m_kEffectData.fFace - D3DX_PI * 0.5f);
+//	float fOrgPosX, fOrgPosY, fTarPosX, fTarPosY, fResDis, fCurDis, fParaPer = 0.0f;
+//	fOrgPosX = m_kEffectData.fOrgPosX;
+//	fOrgPosY = m_kEffectData.fOrgPosY;
+//	fTarPosX = m_kEffectData.fTarPosX;
+//	fTarPosY = m_kEffectData.fTarPosY;
+//	BeUnit* pkAttacker = nullptr;
+//
+//	SeCalSkillLvlData rkData;
+//	pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+//
+//	if (!pkAttacker)
+//	{
+//		return;
+//	}
+//
+//	if (!pkAttacker->GetSkillLvlData(rkData, m_kEffectData.iSkillTypeID)) {
+//
+//		return;
+//	}
+//
+//	fResDis = rkData.GetSpellDistance();
+//	fCurDis = GetDistance(fOrgPosX, fOrgPosY, fTarPosX, fTarPosY);
+//	fParaPer = float(fCurDis / fResDis);
+//
+//	float offset1X = rkData.GetDataValue(VALUE_D) * GetMissileArc() * fParaPer;
+//	float offset1Y = rkData.GetDataValue(VALUE_E);
+//	float offset2X = rkData.GetDataValue(VALUE_F) * GetMissileArc() * fParaPer;
+//	float offset2Y = rkData.GetDataValue(VALUE_G);
+//
+//	float p2x = fOrgPosX + cosH * offset1X;
+//	float p2y = fOrgPosY + sinH * offset1X;
+//	float p3x = fTarPosX + cosH * offset2X;
+//	float p3y = fTarPosY + sinH * offset2X;
+//
+//	if (t >= 1)
+//	{
+//		if (m_kEffectData.iSkillTypeID)
+//		{
+//			if (!m_bPureShow)
+//			{
+//				if (pkAttacker)
+//				{
+//					TwPtParam kParam;
+//					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+//					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+//					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
+//					kParam.SetParam(BTP_pkAttacker, pkAttacker);
+//					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+//					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+//					kParam.SetParam(BTP_pkEffect, this);
+//					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+//
+//					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+//				}
+//			}
+//		}
+//
+//		OnRemove();
+//		ParseAttack();
+//		return;
+//	}
+//
+//	m_kEffectData.fPosX = pow(1 - t, 3) * fOrgPosX + 3 * pow(1 - t, 2) * t * p2x + 3 * (1 - t) * t * t * p3x + t * t * t * fTarPosX;
+//	m_kEffectData.fPosY = pow(1 - t, 3) * fOrgPosY + 3 * pow(1 - t, 2) * t * p2y + 3 * (1 - t) * t * t * p3y + t * t * t * fTarPosY;
+//}
 
 void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 {

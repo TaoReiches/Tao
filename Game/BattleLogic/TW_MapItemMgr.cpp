@@ -30,7 +30,7 @@ bool BeMapItemMgr::Initialize(void)
 
 void BeMapItemMgr::Update(int iDeltaTime)
 {
-	BeEntityMgr::Update(iDeltaTime);
+	//BeEntityMgr::Update(iDeltaTime);
 
 	for (auto itr = m_kID2MapItem.begin(); itr != m_kID2MapItem.end();)
 	{

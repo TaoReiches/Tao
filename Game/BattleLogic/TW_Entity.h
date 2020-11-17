@@ -60,7 +60,7 @@ protected:
 class BeSingleLinkEntity : public BeElement
 {
 public:
-    BeSingleLinkEntity();
+    BeSingleLinkEntity(){};
 	BeSingleLinkEntity(int iID);
 	virtual ~BeSingleLinkEntity(void);
 	virtual void Link(float fX, float fY, BeEntityMgr* pkMgr);

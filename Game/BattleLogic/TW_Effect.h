@@ -179,7 +179,7 @@ protected:
     void	UpdateAttach(int iDeltaTime);
     void    UpdateLineFollowEarth(int iDeltaTime);
     void 	UpdateLineTrace(int iDeltaTime);
-    void 	UpdateCurveTraceFrank(int iDeltaTime);
+    //void 	UpdateCurveTraceFrank(int iDeltaTime);
     void	UpdateLineTraceCollision(int iDeltaTime);
     void	UpdateCastTrace(int iDeltaTime);
     void	UpdateCastTraceCollision(int iDeltaTime);

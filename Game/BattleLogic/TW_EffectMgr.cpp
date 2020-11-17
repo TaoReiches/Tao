@@ -30,7 +30,7 @@ bool BeEffectMgr::Initialize(void)
 
 void BeEffectMgr::Update(int iDeltaTime)
 {
-	BeEntityMgr::Update(iDeltaTime);
+	//BeEntityMgr::Update(iDeltaTime);
 
 	for (auto itr = m_kID2Effect.begin(); itr != m_kID2Effect.end();)
 	{

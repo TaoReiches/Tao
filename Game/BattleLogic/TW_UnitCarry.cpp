@@ -461,8 +461,8 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		return pkOldSkill;
 	}
 
-	gMain.InitSkillEventTrigger(gMain.GetSkillOrgTypeID(iTypeID));
-	gMain.InitSkillEventTrigger(iTypeID);
+	//gMain.InitSkillEventTrigger(gMain.GetSkillOrgTypeID(iTypeID));
+	//gMain.InitSkillEventTrigger(iTypeID);
 
 	std::shared_ptr<BeSkill> pkSkill;
 	std::shared_ptr<BeSkill> pkRet;

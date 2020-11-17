@@ -46,7 +46,7 @@ BeUnit* BeUnitMgr::GetUnitByTypeID(int iTypeID)
 
 void BeUnitMgr::Update(int iDeltaTime)
 {
-	BeEntityMgr::Update(iDeltaTime);
+	//BeEntityMgr::Update(iDeltaTime);
 
 	if (!m_kID2SuspendUnit.empty())
 	{

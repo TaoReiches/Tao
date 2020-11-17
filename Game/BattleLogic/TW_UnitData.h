@@ -17,12 +17,12 @@ public:
     void OnInitAttribute(bool bCurrent, bool bNeedRecordChange);
     void OnPropertyUpdate(int iLevel);
     void SetCurExp(int iCurExp);
-    void SetLevel(int iLevel, bool bNeedRecordChange);
+    void SetLevel(int iLevel, bool bNeedRecordChange = false);
 
 	BeLearnSkillData* GetLearnSkillData(int iPos);
 	bool LearnSkill(int iSkillPos);
 	float	GetSkillAddValue(int iEnum, float fValue);
-	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel);
+	bool GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel = 1);
 
 	int	GetSkillPointSum(void);
 	void SetSkillPointSum(int iSkillPoint);
