@@ -3,13 +3,11 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
+#include <chrono>
+#include <thread>
 #include "TW_GameLog.h"
-
-#include "Mapinfo_table.hpp"
-#include "Buffer_table.hpp"
-#include "Item_table.hpp"
-#include "Skill_table.hpp"
-#include "Unit_table.hpp"
+#include "TW_Main.h"
 
 int main()
 {
@@ -17,11 +15,15 @@ int main()
     TW_WARN("Test warning message.");
     TW_ERROR("Test error message.");
 
-    MapInfoTableMgr::Get();
-    BufferTableMgr::Get();
-    ItemTableMgr::Get();
-    SkillTableMgr::Get();
-    UnitTableMgr::Get();
+    auto pkMain = std::unique_ptr<BeMain>(new BeMain());
+    pkMain->Initialize();
+
+    while (true)
+    {
+        pkMain->UpdateFrame(1);
+
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }
 
     getchar();
 }
