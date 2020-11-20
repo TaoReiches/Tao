@@ -19,9 +19,11 @@ int main()
     pkMain->LoadRes(888);
     pkMain->Initialize();
 
+    unsigned int frame = 0;
     while (true)
     {
-        pkMain->UpdateFrame(1);
+        ++frame;
+        pkMain->UpdateFrame(frame);
 
         std::this_thread::sleep_for(std::chrono::microseconds(100));
     }
