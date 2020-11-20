@@ -402,7 +402,7 @@ void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 		{
 			auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-			BeUnit* pkUnit = (BeUnit*)temp;
+			BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -424,7 +424,7 @@ void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 					kGroup.push_back(pkUnit);
 					break;
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -452,7 +452,7 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -485,7 +485,7 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 					break;
 				}
 
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -638,7 +638,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -653,7 +653,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 						kGroup.push_back(pkUnit);
 					}
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -675,7 +675,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -691,7 +691,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 						kGroup.push_back(pkUnit);
 					}
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -725,7 +725,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -741,7 +741,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 						rkGroupID.push_back(pkUnit->GetID());
 					}
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -783,7 +783,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -818,7 +818,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 						kGroup.push_back(pkUnit);
 					}
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}
@@ -891,7 +891,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 		{
             auto pkHead = &m_akBlock[m_iBlocksW * y + x];
             auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp;
+            BeUnit* pkUnit = (BeUnit*)temp.get();
 			if (!pkUnit)
 			{
 				continue;
@@ -925,7 +925,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 						rkGroupID.push_back(pkUnit->GetID());
 					}
 				}
-				pkUnit = (BeUnit*)pkUnit->pkNext;
+				pkUnit = (BeUnit*)pkUnit->pkNext.get();
 			}
 		}
 	}

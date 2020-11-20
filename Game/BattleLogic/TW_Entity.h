@@ -5,6 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include <vector>
 #include "TW_FlagObject.h"
 #include "TW_LogicBase.h"
@@ -19,9 +20,9 @@ public:
 		pkNext = nullptr;
 		pkBlock = nullptr;
 	}
-	BeElement* pkPrev;
-	BeElement* pkNext;
-	BeElement* pkBlock;
+    std::shared_ptr<BeElement>  pkPrev;
+    std::shared_ptr<BeElement>  pkNext;
+    std::shared_ptr<BeElement>  pkBlock;
 };
 
 class BeEntityMgr;

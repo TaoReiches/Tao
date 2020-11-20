@@ -33,7 +33,7 @@ public:
 	{
 		return m_iBlocksH;
 	}
-	const std::vector<std::unique_ptr<BeElement>>& GetBlock(void) const
+	const std::vector<std::shared_ptr<BeElement>>& GetBlock(void) const
 	{
 		return m_akBlock;
 	}
@@ -44,5 +44,5 @@ public:
 protected:
 	int							m_iBlocksW;
 	int							m_iBlocksH;
-	std::vector<std::unique_ptr<BeElement>>	m_akBlock;
+	std::vector<std::shared_ptr<BeElement>>	m_akBlock;
 };

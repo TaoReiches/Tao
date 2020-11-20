@@ -32,15 +32,22 @@ bool BeEntityMgr::Initialize(void)
 	m_iBlocksH = (int)gMap.GetHeight() / BLOCK_ELE_SIZE;
 
 	int iBlocks = m_iBlocksW * m_iBlocksH;
-	m_akBlock.push_back(std::unique_ptr<BeElement>(new BeElement[iBlocks]));
+    for (auto i = 0; i < iBlocks; ++i)
+    {
+        auto block = std::shared_ptr<BeElement>(new BeElement);
+        block->pkBlock = nullptr;
+        block->pkNext = block;
+        block->pkPrev = block;
+        m_akBlock.push_back(block);
+    }
 
-	auto pkEle = m_akBlock.begin();
-	for (int i = 0; i < iBlocks; i++, pkEle++)
-	{
-		(*pkEle).get()->pkBlock = nullptr;
-        (*pkEle).get()->pkNext = (*pkEle).get();
-        (*pkEle).get()->pkPrev = (*pkEle).get();
-	}
+	//auto pkEle = m_akBlock.begin();
+	//for (int i = 0; i < iBlocks; i++, pkEle++)
+	//{
+	//	(*pkEle)->pkBlock = nullptr;
+ //       (*pkEle)->pkNext = (*pkEle);
+ //       (*pkEle)->pkPrev = (*pkEle);
+	//}
 
 	return true;
 }

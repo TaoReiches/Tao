@@ -38,7 +38,7 @@ BeSingleLinkEntity::~BeSingleLinkEntity(void)
 
 void BeSingleLinkEntity::Link(float fX, float fY, BeEntityMgr* pkMgr)
 {
-	BeElement* pkEle = this;
+	auto pkEle = std::shared_ptr<BeElement>(this);
 
 	int iBX = TruncToInt(fX) / BeEntityMgr::BLOCK_ELE_SIZE;
 	int iBY = TruncToInt(fY) / BeEntityMgr::BLOCK_ELE_SIZE;
@@ -61,8 +61,8 @@ void BeSingleLinkEntity::Link(float fX, float fY, BeEntityMgr* pkMgr)
 		iBY = pkMgr->GetBlocksH() - 1;
 	}
 
-	auto pkHead = &pkMgr->GetBlock()[iBY * pkMgr->GetBlocksW() + iBX];
-	if (!pkHead || pkEle->pkBlock == pkHead->get())
+	auto pkHead = pkMgr->GetBlock()[iBY * pkMgr->GetBlocksW() + iBX];
+	if (!pkHead || pkEle->pkBlock == pkHead)
 	{
 		return;
 	}
@@ -76,16 +76,16 @@ void BeSingleLinkEntity::Link(float fX, float fY, BeEntityMgr* pkMgr)
 		pkEle->pkNext->pkPrev = pkEle->pkPrev;
 	}
 
-	auto pkTrail = pkHead->get()->pkPrev;
+	auto pkTrail = pkHead->pkPrev;
 	if (pkTrail)
 	{
 		pkTrail->pkNext = pkEle;
 		pkEle->pkPrev = pkTrail;
 
-		pkHead->get()->pkPrev = pkEle;
-		pkEle->pkNext = pkHead->get();
+		pkHead->pkPrev = pkEle;
+		pkEle->pkNext = pkHead;
 
-		pkEle->pkBlock = pkHead->get();
+		pkEle->pkBlock = pkHead;
 	}
 }
 

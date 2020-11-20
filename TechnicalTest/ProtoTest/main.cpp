@@ -9,9 +9,30 @@
 
 #include "TW_MemoryPool.h"
 
+#pragma pack(push, 1)
+class EmptyClass
+{
+public:
+    EmptyClass(){};
+    int getTestValue()
+    {
+        return 1000000;
+    }
+
+private:
+    int a = 0;
+    short b = 0;
+    char c = 0;
+};
+#pragma pack(pop)
 
 int main()
 {
+    auto len = sizeof(EmptyClass);
+    auto emptyClass = new EmptyClass();
+    auto len2 = sizeof(emptyClass);
+    auto empv = emptyClass->getTestValue();
+
     auto u = new Unit();
     auto i = u->GetBaseId();
 
