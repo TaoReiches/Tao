@@ -11,6 +11,7 @@
 #include "Skill_table.hpp"
 #include "Item_table.hpp"
 #include "TW_MemoryObject.h"
+#include <TW_TriggerMgr.h>
 
 BeUnitMgr::BeUnitMgr(void)
 {
@@ -81,9 +82,9 @@ void BeUnitMgr::Update(int iDeltaTime)
 					//gMap.SetUnitPosition(pkUnit, fPosX, fPosY, 0.0f, 600.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
 
 					TwPtParam kParamRelive;
-					kParamRelive.SetParam(BTP_pkTrgUnit, pkUnit);
+					kParamRelive.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
 
-					gTrgMgr.FireTrigger(BTE_HERO_RELIVE, kParamRelive);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_HERO_RELIVE, kParamRelive);
 
 					//float fHP = pkUnit->GetUD_Float(UDK_UnitReliveMaxHp, pkUnit->GetMaxHP());
 					//float fMP = pkUnit->GetUD_Float(UDK_UnitReliveMaxMp, pkUnit->GetMaxMP());
@@ -108,10 +109,10 @@ void BeUnitMgr::Update(int iDeltaTime)
 						if (pkSkill)
 						{
 							TwPtParam kParam;
-							kParam.SetParam(BTP_pkTrgUnit, pkUnit);
-							kParam.SetParam(BTP_pkSkill, pkSkill);
+							kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+							kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
 
-							gTrgMgr.FireTrigger(BTE_LEARN_SPELL, kParam);
+							gTrgMgr.FireTrigger(TwTriggerEvent::BTE_LEARN_SPELL, kParam);
 						}
 					}
 
@@ -264,9 +265,9 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 			m_kVAllHeroID.push_back(pkUnit->GetID());
 
 		TwPtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, pkUnit);
+		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_ADDUNIT, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADDUNIT, kParam);
 
 		return pkUnit;
 	}
@@ -304,9 +305,9 @@ void BeUnitMgr::DelUnit(int iID)
 		if (pkUnit)
 		{
 			TwPtParam kParamDel;
-			kParamDel.SetParam(BTP_pkTrgUnit, pkUnit);
+			kParamDel.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
 
-			gTrgMgr.FireTrigger(BTE_UNIT_DELUNIT, kParamDel);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_DELUNIT, kParamDel);
 			//////////////////////////////////////////////////////////////////////////
 			OnDelUnit(pkUnit);
 			pkUnit->SetFlag(BUF_REMOVE);

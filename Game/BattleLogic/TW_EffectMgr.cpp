@@ -48,9 +48,9 @@ void BeEffectMgr::Update(int iDeltaTime)
 		if (pEffect->HasFlag(BEF_REMOVE) && !pEffect->IsNewEffect())
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkEffect, pEffect.get());
+			kParam.SetParam(TwTrgParamID::BTP_pkEffect, pEffect.get());
 
-			gTrgMgr.FireTrigger(BTE_EFFECT_DEL, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_DEL, kParam);
 
 			SafeDeleteEffect(pEffect);
 			itr = m_kID2Effect.erase(itr);
