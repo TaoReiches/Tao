@@ -3,32 +3,43 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_Main.h"
+#include "TW_TriggerFunc.h"
 #include "TW_TriggerEvent.h"
+#include "TW_TriggerMgr.h"
 #include "TW_Carry.h"
 #include "TW_Skill.h"
 #include "TW_AttackAttr.h"
 #include "TW_Buff.h"
 #include "TW_Unit.h"
 
-BeCarry* BeMain::GetTrgCarry(void)
+TwTriggerFunc::TwTriggerFunc()
+{
+
+}
+
+TwTriggerFunc::~TwTriggerFunc()
+{
+
+}
+
+BeCarry* TwTriggerFunc::GetTrgCarry(void)
 {
 	return (BeCarry*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkCarray));
 }
 
-int	BeMain::GetTrgSkillTypeID(void)
+int	TwTriggerFunc::GetTrgSkillTypeID(void)
 {
 	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillTypeID);
 	return iSkillTypeID;
 }
 
-int BeMain::GetTrgSkillOrgTypeID(void)
+int TwTriggerFunc::GetTrgSkillOrgTypeID(void)
 {
 	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillOrgTypeID);
 	return iSkillTypeID;
 }
 
-int BeMain::GetTrgSkillLevel(void)
+int TwTriggerFunc::GetTrgSkillLevel(void)
 {
 	int iSkillLevel = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillLevel);
 	if (!iSkillLevel)
@@ -42,149 +53,149 @@ int BeMain::GetTrgSkillLevel(void)
 	return iSkillLevel;
 }
 
-int	BeMain::GetTrgSpellUsePlayer(void)
+int	TwTriggerFunc::GetTrgSpellUsePlayer(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillUsePlayer);
 }
 
-int	BeMain::GetTrgSpellTargetID(void)
+int	TwTriggerFunc::GetTrgSpellTargetID(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSpellTargetID);
 }
 
-int* BeMain::GetTrgPtrSpellTargetID(void)
+int* TwTriggerFunc::GetTrgPtrSpellTargetID(void)
 {
 	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piSpellTargetID));
 }
 
-float BeMain::GetTrgSpellOrgPosX(void)
+float TwTriggerFunc::GetTrgSpellOrgPosX(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellOrgPosX);
 }
 
-float BeMain::GetTrgSpellOrgPosY(void)
+float TwTriggerFunc::GetTrgSpellOrgPosY(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellOrgPosY);
 }
 
-float BeMain::GetTrgSpellTargetPosX(void)
+float TwTriggerFunc::GetTrgSpellTargetPosX(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellTargetPosX);
 }
 
-float BeMain::GetTrgSpellTargetPosY(void)
+float TwTriggerFunc::GetTrgSpellTargetPosY(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellTargetPosY);
 }
 
-float BeMain::GetTrgSpellDirectPosX(void)
+float TwTriggerFunc::GetTrgSpellDirectPosX(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellDirectPosX);
 }
 
-float BeMain::GetTrgSpellDirectPosY(void)
+float TwTriggerFunc::GetTrgSpellDirectPosY(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellDirectPosY);
 }
 
-BeUnit* BeMain::GetTrgUnit(bool bIncSuspend)
+BeUnit* TwTriggerFunc::GetTrgUnit(bool bIncSuspend)
 {
 	return TrgGetPtr_Unit();
 }
 
-BeUnit* BeMain::GetTrgAttacker(void)
+BeUnit* TwTriggerFunc::GetTrgAttacker(void)
 {
 	return TrgGetPtr_Attacker();
 }
 
-BeUnit* BeMain::GetTrgTarget(void)
+BeUnit* TwTriggerFunc::GetTrgTarget(void)
 {
 	return TrgGetPtr_Target();
 }
 
-float BeMain::GetTrgAttackedDamge(void)
+float TwTriggerFunc::GetTrgAttackedDamge(void)
 {
 	return *(TrgGetPtr_Damage());
 }
 
-int BeMain::GetTrgAttackedType(void)
+int TwTriggerFunc::GetTrgAttackedType(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iAttackType);
 }
 
-int BeMain::GetTrgAttackedIsFirst(void)
+int TwTriggerFunc::GetTrgAttackedIsFirst(void)
 {
 	return GetTrgAttackedFlag() & BAF_FIRST;
 }
 
-int BeMain::GetTrgAttackedFlag(void)
+int TwTriggerFunc::GetTrgAttackedFlag(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iFlag);
 }
-int* BeMain::GetTrgAttackedFlagPtr(void)
+int* TwTriggerFunc::GetTrgAttackedFlagPtr(void)
 {
 	return (int*)m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iFlagPtr);
 }
-int	BeMain::GetTrgTargetID()
+int	TwTriggerFunc::GetTrgTargetID()
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iTargetID);
 }
-int	BeMain::GetTrgAttackerPlayer(void)
+int	TwTriggerFunc::GetTrgAttackerPlayer(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iAttackerPlayer);
 }
 
-int BeMain::GetTrgBufferTypeID(void)
+int TwTriggerFunc::GetTrgBufferTypeID(void)
 {
 	return TrgGetPtr_Buffer()->GetTypeID();
 }
 
-int BeMain::GetTrgBufferLevel(void)
+int TwTriggerFunc::GetTrgBufferLevel(void)
 {
 	return TrgGetPtr_Buffer()->GetLevel();
 }
 
-int BeMain::GetTrgBufferInnerID(void)
+int TwTriggerFunc::GetTrgBufferInnerID(void)
 {
 	return TrgGetPtr_Buffer()->GetID();
 }
 
-int	BeMain::GetTrgIntData(void)
+int	TwTriggerFunc::GetTrgIntData(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iIntData);
 }
 
-float BeMain::GetTrgFloatData(void)
+float TwTriggerFunc::GetTrgFloatData(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fFloatData);
 }
 
-bool BeMain::GetTrgIsLearnSkill(void)
+bool TwTriggerFunc::GetTrgIsLearnSkill(void)
 {
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iIsLearnSkill) == 1 ? true : false;
 }
 
-BeUnit* BeMain::TrgGetPtr_Unit(void)
+BeUnit* TwTriggerFunc::TrgGetPtr_Unit(void)
 {
 	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTrgUnit));
 }
 
-BeMapItem* BeMain::TrgGetPtr_MapItem(void)
+BeMapItem* TwTriggerFunc::TrgGetPtr_MapItem(void)
 {
 	return (BeMapItem*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkMapItem));
 }
 
-BeUnit* BeMain::TrgGetPtr_Attacker(void)
+BeUnit* TwTriggerFunc::TrgGetPtr_Attacker(void)
 {
 	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttacker));
 }
 
-BeUnit* BeMain::TrgGetPtr_Target(void)
+BeUnit* TwTriggerFunc::TrgGetPtr_Target(void)
 {
 	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTarget));
 }
 
-BeSkill* BeMain::TrgGetPtr_Skill(void)
+BeSkill* TwTriggerFunc::TrgGetPtr_Skill(void)
 {
 	int iItemPos = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos) - 1;
 	if (iItemPos >= 0 && iItemPos < 6)
@@ -198,37 +209,37 @@ BeSkill* BeMain::TrgGetPtr_Skill(void)
 	return (BeSkill*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkSkill));
 }
 
-int BeMain::TrgGetItemPos(void)
+int TwTriggerFunc::TrgGetItemPos(void)
 {
 	return (m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos) - 1);
 }
 
-int	BeMain::TrgGetItemTypeID(void)
+int	TwTriggerFunc::TrgGetItemTypeID(void)
 {
-	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iItemTypeID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemTypeID);
 }
 
-int	BeMain::TrgGetItemID(void)
+int	TwTriggerFunc::TrgGetItemID(void)
 {
-	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iItemID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemID);
 }
 
-int	BeMain::TrgGetTriggerItemID(void)
+int	TwTriggerFunc::TrgGetTriggerItemID(void)
 {
-	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iTriggerItemID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iTriggerItemID);
 }
 
-BeBuffer* BeMain::TrgGetPtr_Buffer(void)
+BeBuffer* TwTriggerFunc::TrgGetPtr_Buffer(void)
 {
 	return (BeBuffer*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkBuffer));
 }
 
-BeEffect* BeMain::TrgGetPtr_Effect(void)
+BeEffect* TwTriggerFunc::TrgGetPtr_Effect(void)
 {
 	return (BeEffect*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkEffect));
 }
 
-BeItem* BeMain::TrgGetPtr_Item(void)
+BeItem* TwTriggerFunc::TrgGetPtr_Item(void)
 {
 	BeItem* pkItem = NULL;
 	int iItemPos = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos);
@@ -240,38 +251,58 @@ BeItem* BeMain::TrgGetPtr_Item(void)
 	return pkItem;
 }
 
-float BeMain::TrgGetDamageFace(void)
+float TwTriggerFunc::TrgGetDamageFace(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fDamageFace);
 }
 
-float* BeMain::TrgGetPtr_Damage(void)
+float* TwTriggerFunc::TrgGetPtr_Damage(void)
 {
 	return (float*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pfDamage));
 }
 
-float BeMain::GetTrgAttackedRawDamge(void)
+float TwTriggerFunc::GetTrgAttackedRawDamge(void)
 {
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fRawDamage);
 }
 
 
-BeAttackingAttr* BeMain::TrgGetPtr_AttackAttr(void)
+BeAttackingAttr* TwTriggerFunc::TrgGetPtr_AttackAttr(void)
 {
 	return (BeAttackingAttr*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttackAttr));
 }
 
-int* BeMain::TrgGetPtr_Persist(void)
+int* TwTriggerFunc::TrgGetPtr_Persist(void)
 {
 	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piPersistTime));
 }
 
-int* BeMain::TrgGetPtr_PersistDelta(void)
+int* TwTriggerFunc::TrgGetPtr_PersistDelta(void)
 {
 	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piPersistDeltaTime));
 }
 
-int BeMain::TrgGetTargetType(void)
+int TwTriggerFunc::TrgGetTargetType(void)
 {
 	return (m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iTargetType));
+}
+
+TwPtCondResult TwTriggerFunc::DefaultBuffer_Condition(int iOriginTypeID)
+{
+    return TwPtCondResult::PTCR_OK;
+}
+
+bool TwTriggerFunc::DefaultSkill_ActionParam(BeUnit*& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes)
+{
+    return true;
+}
+
+void TwTriggerFunc::InitSkillEventTrigger(int iTypeID)
+{
+
+}
+
+void TwTriggerFunc::InitItemEventTrigger(int iTypeID)
+{
+
 }

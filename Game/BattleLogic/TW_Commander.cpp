@@ -21,6 +21,7 @@
 #include "TW_CommandSpell.h"
 #include "TW_CommandDropItem.h"
 #include "TW_CommandPickItem.h"
+#include "TW_TriggerMgr.h"
 
 BeCommander::BeCommander()
 {

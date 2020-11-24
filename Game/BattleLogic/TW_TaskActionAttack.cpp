@@ -12,6 +12,7 @@
 #include "TW_Effect.h"
 #include "TW_EffectMgr.h"
 #include "TW_IRandom.h"
+#include "TW_TriggerMgr.h"
 
 BeTaskActionAttack::BeTaskActionAttack()
 {

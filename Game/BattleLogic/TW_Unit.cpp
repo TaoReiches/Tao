@@ -20,6 +20,7 @@
 #include "TW_Command.h"
 #include <algorithm>
 #include "TW_UnitLearnSkillData.h"
+#include "TW_TriggerMgr.h"
 
 void BeUnit::Link(float fX, float fY, BeEntityMgr* pkMgr)
 {

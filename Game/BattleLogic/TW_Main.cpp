@@ -14,6 +14,7 @@
 #include "TW_TriggerEvent.h"
 #include "TW_FormulaInfo.h"
 #include "Skill_table.hpp"
+#include "TW_TriggerMgr.h"
 
 BeMain::BeMain(void)
 {

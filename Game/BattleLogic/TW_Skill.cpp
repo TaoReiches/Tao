@@ -9,6 +9,7 @@
 #include "TW_TriggerEvent.h"
 #include "TW_UnitMgr.h"
 #include "TW_IRandom.h"
+#include "TW_TriggerMgr.h"
 
 BeSkill::BeSkill(int iTypeID) : BeCarry(iTypeID)
 {

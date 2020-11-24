@@ -14,6 +14,7 @@
 #include "TW_MapItem.h"
 #include "TW_EffectMgr.h"
 #include "TW_MemoryObject.h"
+#include "TW_TriggerMgr.h"
 
 TwPos2  GetPointOnBezier(TwPos2* pkPos, float fValueT)
 {
