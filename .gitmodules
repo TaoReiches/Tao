@@ -4,12 +4,9 @@
 [submodule "ThirdParty/protobuf"]
 	path = ThirdParty/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
-[submodule "ThirdParty/GameNetworkingSockets"]
-	path = ThirdParty/GameNetworkingSockets
-	url = https://github.com/ValveSoftware/GameNetworkingSockets
 [submodule "ThirdParty/kcp"]
 	path = ThirdParty/kcp
 	url = https://github.com/skywind3000/kcp
-[submodule "ThirdParty/openssl"]
-	path = ThirdParty/openssl
-	url = https://github.com/openssl/openssl
+[submodule "ThirdParty/socket"]
+	path = ThirdParty/socket
+	url = https://github.com/Qihoo360/evpp
