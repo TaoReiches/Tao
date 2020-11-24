@@ -1,9 +1,12 @@
-[submodule "Third Party/spdlog"]
-	path = ThirdParty/spdlog
-	url = https://github.com/gabime/spdlog.git
 [submodule "ThirdParty/spdlog"]
 	path = ThirdParty/spdlog
 	url = https://github.com/gabime/spdlog.git
 [submodule "ThirdParty/protobuf"]
 	path = ThirdParty/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
+[submodule "ThirdParty/GameNetworkingSockets"]
+	path = ThirdParty/GameNetworkingSockets
+	url = https://github.com/ValveSoftware/GameNetworkingSockets
+[submodule "ThirdParty/kcp"]
+	path = ThirdParty/kcp
+	url = https://github.com/skywind3000/kcp
