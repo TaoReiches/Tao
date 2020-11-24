@@ -261,6 +261,9 @@
     <ClInclude Include="TW_TriggerFunc.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
+    <ClInclude Include="TW_CommandProc.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -401,7 +404,7 @@
     <ClCompile Include="TW_UnitBase.cpp">
       <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="TW_MainCommandProc.cpp">
+    <ClCompile Include="TW_CommandProc.cpp">
       <Filter>LogicMain</Filter>
     </ClCompile>
   </ItemGroup>

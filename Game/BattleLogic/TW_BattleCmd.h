@@ -361,7 +361,6 @@ struct SeAddPlayerRaceLoad : public SeRaceCmd
 		iDataSize = 0;
 		bIsServerMode = false;
 		dwUserID = 0;
-		std::memset(acData, 0, SSD_ENDSTR_LEN);
 	}
 
 	int			iCmdLength;

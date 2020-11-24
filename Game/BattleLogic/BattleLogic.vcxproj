@@ -157,6 +157,7 @@
     <ClInclude Include="TW_Commander.h" />
     <ClInclude Include="TW_CommandMove.h" />
     <ClInclude Include="TW_CommandPickItem.h" />
+    <ClInclude Include="TW_CommandProc.h" />
     <ClInclude Include="TW_CommandSpell.h" />
     <ClInclude Include="TW_CommandStop.h" />
     <ClInclude Include="TW_Effect.h" />
@@ -234,7 +235,7 @@
     <ClCompile Include="TW_Functions.cpp" />
     <ClCompile Include="TW_Item.cpp" />
     <ClCompile Include="TW_Main.cpp" />
-    <ClCompile Include="TW_MainCommandProc.cpp" />
+    <ClCompile Include="TW_CommandProc.cpp" />
     <ClCompile Include="TW_MainOut.cpp" />
     <ClCompile Include="TW_Map.cpp" />
     <ClCompile Include="TW_MapItem.cpp" />

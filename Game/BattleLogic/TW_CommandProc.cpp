@@ -3,11 +3,21 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TW_Main.h"
+#include "TW_CommandProc.h"
 #include "TW_BattleCmd.h"
 #include "TW_ShareUnitData.h"
 
-bool BeMain::ProcFrameCMD(const SeRaceCmd* pkRaceCmd)
+TwCommandProc::TwCommandProc()
+{
+
+}
+
+TwCommandProc::~TwCommandProc()
+{
+
+}
+
+bool TwCommandProc::ProcFrameCMD(const SeRaceCmd* pkRaceCmd)
 {
 	if (pkRaceCmd->dwCmd >= SRC_CMD_NUM)
 	{
@@ -35,7 +45,7 @@ bool BeMain::ProcFrameCMD(const SeRaceCmd* pkRaceCmd)
 	}
 }
 
-bool BeMain::Proc_HERO_ATTACK_CANCEL(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_ATTACK_CANCEL(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackCancel* pkCmd = (SeRaceCmd_HeroAttackCancel*)pkRaceCmd;
 	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
@@ -45,7 +55,7 @@ bool BeMain::Proc_HERO_ATTACK_CANCEL(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_HERO_DIRECT_MOVE(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_DIRECT_MOVE(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroDirectMove* pkCmd = (SeRaceCmd_HeroDirectMove*)pkRaceCmd;
 
@@ -72,12 +82,12 @@ bool BeMain::Proc_HERO_DIRECT_MOVE(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_FRAME(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_FRAME(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_PLAYER_INFO(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_PLAYER_INFO(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRacePlayerInfo* pkCmd = (SeRacePlayerInfo*)pkRaceCmd;
 
@@ -90,22 +100,22 @@ bool BeMain::Proc_PLAYER_INFO(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_START(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_START(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_END(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_END(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_CHART_PLAYER(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_CHART_PLAYER(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_PLAYER_LEAVE(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_PLAYER_LEAVE(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_PlayerLeave* pkCmd = (SeRaceCmd_PlayerLeave*)pkRaceCmd;
 
@@ -123,7 +133,7 @@ bool BeMain::Proc_PLAYER_LEAVE(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_SYSTEM_CHEAT(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_SYSTEM_CHEAT(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_Cheat* pkCmd = (SeRaceCmd_Cheat*)pkRaceCmd;
 
@@ -137,22 +147,22 @@ bool BeMain::Proc_SYSTEM_CHEAT(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_HERO_MOVE(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_MOVE(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_UNIT_MOVE(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_MOVE(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_HERO_STOP(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_STOP(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_HERO_ATTACK_POS(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_ATTACK_POS(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackPos* pkCmd = (SeRaceCmd_HeroAttackPos*)pkRaceCmd;
 
@@ -166,7 +176,7 @@ bool BeMain::Proc_HERO_ATTACK_POS(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_HERO_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_HERO_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackUnit* pkCmd = (SeRaceCmd_HeroAttackUnit*)pkRaceCmd;
 
@@ -180,7 +190,7 @@ bool BeMain::Proc_HERO_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_UNIT_SPELL(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_SPELL(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_UnitSpell* pkCmd = (SeRaceCmd_UnitSpell*)pkRaceCmd;
 
@@ -218,12 +228,12 @@ bool BeMain::Proc_UNIT_SPELL(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_UNIT_DISPLACE_ITEM(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_DISPLACE_ITEM(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
 
-bool BeMain::Proc_Show_Action(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_Show_Action(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_ShowAction* pkCmd = (SeRaceCmd_ShowAction*)pkRaceCmd;
 
@@ -248,7 +258,7 @@ bool BeMain::Proc_Show_Action(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_UnitChangeItem* pkCmd = (SeRaceCmd_UnitChangeItem*)pkRaceCmd;
 	//int iSeat = pkCmd->dwSeat;
@@ -310,7 +320,7 @@ bool BeMain::Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd)
 
 
 
-bool BeMain::Proc_UNIT_LEARN_SKILL(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_LEARN_SKILL(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_UnitLearnSkill* pkCmd = (SeRaceCmd_UnitLearnSkill*)pkRaceCmd;
 
@@ -322,7 +332,7 @@ bool BeMain::Proc_UNIT_LEARN_SKILL(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_UNIT_ACTIVE_SKILL(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_UNIT_ACTIVE_SKILL(const SeRaceCmd* pkRaceCmd)
 {
 	// SeRaceCmd_UnitActiveSkill* pkCmd = (SeRaceCmd_UnitActiveSkill*)pkRaceCmd;
 
@@ -338,7 +348,7 @@ bool BeMain::Proc_UNIT_ACTIVE_SKILL(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_PLAYER_RELIVEHERO(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_PLAYER_RELIVEHERO(const SeRaceCmd* pkRaceCmd)
 {
 	// SeRaceCmd_ReliveHero* pkCmd = (SeRaceCmd_ReliveHero*)pkRaceCmd;
 
@@ -349,7 +359,7 @@ bool BeMain::Proc_PLAYER_RELIVEHERO(const SeRaceCmd* pkRaceCmd)
 	return true;
 }
 
-bool BeMain::Proc_PLAYER_MAP_MESSAGE(const SeRaceCmd* pkRaceCmd)
+bool TwCommandProc::Proc_PLAYER_MAP_MESSAGE(const SeRaceCmd* pkRaceCmd)
 {
 	return true;
 }
