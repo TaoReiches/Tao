@@ -13,7 +13,8 @@
 BeEffectMgr::BeEffectMgr(void)
 {
 	m_uiDecPureID = 0xFFFFFFFE;
-	m_iIncPureID = INT_MIN;
+	m_iIncPureID = std::numeric_limits<int>::min();
+    m_iFontEffectID = 0;
 }
 
 BeEffectMgr::~BeEffectMgr(void)
