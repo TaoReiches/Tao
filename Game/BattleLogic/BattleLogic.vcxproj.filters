@@ -323,16 +323,7 @@
     <ClCompile Include="TW_Main.cpp">
       <Filter>LogicMain</Filter>
     </ClCompile>
-    <ClCompile Include="TW_MainCommand.cpp">
-      <Filter>LogicMain</Filter>
-    </ClCompile>
-    <ClCompile Include="TW_MainFrameProc.cpp">
-      <Filter>LogicMain</Filter>
-    </ClCompile>
     <ClCompile Include="TW_MainOut.cpp">
-      <Filter>LogicMain</Filter>
-    </ClCompile>
-    <ClCompile Include="TW_MainRace.cpp">
       <Filter>LogicMain</Filter>
     </ClCompile>
     <ClCompile Include="TW_Map.cpp">
@@ -409,6 +400,9 @@
     </ClCompile>
     <ClCompile Include="TW_UnitBase.cpp">
       <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_MainCommandProc.cpp">
+      <Filter>LogicMain</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

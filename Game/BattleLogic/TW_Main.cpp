@@ -233,3 +233,13 @@ int BeMain::GetSkillOrgTypeID(int iSkillTypeID)
 
 	return pkSkillRes->uiOriginTypeID;
 }
+
+void BeMain::SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName)
+{
+
+}
+
+bool BeMain::CreateHero(int iPlayer)
+{
+    return true;
+}
