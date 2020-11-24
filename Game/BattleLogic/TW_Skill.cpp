@@ -79,12 +79,12 @@ void BeSkill::SetLevel(int iLevel)
 	InitAttrFromSkill(m_iTypeID, iLevel);
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-	kParam.SetParam(BTP_pkSkill, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+	kParam.SetParam(TwTrgParamID::BTP_pkSkill, this);
 
 	if (m_kData.iCurLevel != iOldLevel)
 	{
-		gTrgMgr.FireTrigger(BTE_SKILL_LEVEL_CHANGE, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_LEVEL_CHANGE, kParam);
 	}
 }
 
@@ -179,10 +179,10 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 			SetCurPileNums(++m_iCurPileNums);
 
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
-			kParam.SetParam(BTP_pkSkill, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, this);
 
-			gTrgMgr.FireTrigger(BTE_SKILL_PILENUM, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_PILENUM, kParam);
 		}
 	}
 
@@ -191,11 +191,11 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 		//if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, pkUnit);
-			kParam.SetParam(BTP_pkSkill, this);
-			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, this);
+			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
 
-			gTrgMgr.FireTrigger(BTE_SKILL_ONCDCOMPLETE, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONCDCOMPLETE, kParam);
 		}
 	}
 }

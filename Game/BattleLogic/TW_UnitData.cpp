@@ -173,10 +173,10 @@ void TwUnitData::AddLevel(int iAddLevel)
 	m_pkBackData->iLevel += iAddLevel;
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_iIntData, m_pkBackData->iLevel);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_iIntData, m_pkBackData->iLevel);
 
-	gTrgMgr.FireTrigger(BTE_UNIT_LEVELUP, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_LEVELUP, kParam);
 
 	OnPropertyUpdate(m_pkBackData->iLevel);
 

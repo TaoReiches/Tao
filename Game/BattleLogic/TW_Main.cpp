@@ -101,7 +101,7 @@ bool BeMain::Initialize(void)
 		return false;
 	}
 
-	if (!m_pkTriggerMgr->Initialize(BTE_MAX_NUM))
+	if (!m_pkTriggerMgr->Initialize(static_cast<int>(TwTriggerEvent::BTE_MAX_NUM)))
 	{
 		return false;
 	}

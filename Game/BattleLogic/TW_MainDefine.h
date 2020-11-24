@@ -137,7 +137,7 @@ struct BeQuestInfo
 
 #define VALIDFUNC(val) ((val >= 0 && (val < sizeof(afParseFunc) / sizeof(ParseFunc)) && afParseFunc[val])?true:false)
 
-enum MapActorType
+enum TwMapActorType
 {
 	MAT_UNIT = 0,
 	MAT_MAPITEM,

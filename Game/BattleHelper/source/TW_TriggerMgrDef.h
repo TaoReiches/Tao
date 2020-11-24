@@ -11,7 +11,7 @@
 class TwPtTriggerInfo
 {
 public:
-	int				iEvent;
+    TwTriggerEvent  iEvent;
 	bool			bDisabled;
 	PtConditionFun	pCondition;
 	PtActionFun		pAction;
@@ -29,6 +29,6 @@ public:
 	std::shared_ptr<TwPtTrigger>                m_pkCurTrigger;
     std::shared_ptr<TwPtParam>                  m_pkCurParam;
 	int                                         m_iMaxEvent;
-    std::map<int, PtListTrgInfo>                m_akEventTrgs;
+    std::map<TwTriggerEvent, PtListTrgInfo>     m_akEventTrgs;
 	std::map<int, std::shared_ptr<TwPtTrigger>> m_kTriggers;
 };

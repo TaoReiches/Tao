@@ -48,19 +48,19 @@ BeTaskActionSpell::~BeTaskActionSpell()
 	if (((m_ePhase == BeSpellPhase::BSP_EFFECT) || (m_ePhase == BeSpellPhase::BSP_FINISH) || (m_ePhase == BeSpellPhase::BSP_END)))
 	{
 		TwPtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-		kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
-		kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-		kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-		kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-		kParam.SetParam(BTP_iTargetType, m_iTargetType);
+		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
+		kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+		kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+		kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+		kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
-		gTrgMgr.FireTrigger(BTE_SPELL_CMDEND, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_CMDEND, kParam);
 
 		if (m_ePhase == BeSpellPhase::BSP_EFFECT)
 		{
-			gTrgMgr.FireTrigger(BTE_SPELL_EFFECTEND, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECTEND, kParam);
 		}
 
 		//if ((m_pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_SENDBAR) != 0)
@@ -77,15 +77,15 @@ BeTaskActionSpell::~BeTaskActionSpell()
 	else if (m_ePhase == BeSpellPhase::BSP_CAST)
 	{
 		TwPtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-		kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
-		kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-		kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-		kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-		kParam.SetParam(BTP_iTargetType, m_iTargetType);
+		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
+		kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+		kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+		kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+		kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
-		gTrgMgr.FireTrigger(BTE_SPELL_CASTEND, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_CASTEND, kParam);
 
 		BeShareUIWindowData	kWindowData;
 		kWindowData.eWindowType = BWT_SPELL_CAST;
@@ -238,43 +238,43 @@ BeSpellPhase BeTaskActionSpell::GetPhase(void)
 void BeTaskActionSpell::OnSpellPrepare(void)
 {
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-	kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
-	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-	kParam.SetParam(BTP_iSkillUsePlayer, m_iUsePlayer);
-	kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-	kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-	kParam.SetParam(BTP_fSpellDirectPosX, m_kDirectPos.fX);
-	kParam.SetParam(BTP_fSpellDirectPosY, m_kDirectPos.fY);
-	kParam.SetParam(BTP_iTargetType, m_iTargetType);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
+	kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillUsePlayer, m_iUsePlayer);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellDirectPosX, m_kDirectPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellDirectPosY, m_kDirectPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
-	gTrgMgr.FireTrigger(BTE_SPELL_PREPARE, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_PREPARE, kParam);
 }
 
 void BeTaskActionSpell::OnSpellCast(void)
 {
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-	kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
-	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-	kParam.SetParam(BTP_iSkillUsePlayer, m_iUsePlayer);
-	kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-	kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-	kParam.SetParam(BTP_iTargetType, m_iTargetType);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
+	kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillUsePlayer, m_iUsePlayer);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
 	if (m_iItemID == 0)
 	{
-		gTrgMgr.FireTrigger(BTE_SPELL_CAST, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_CAST, kParam);
 	}
 	else
 	{
-		kParam.SetParam(BTP_iSkillLevel, 1);
-		kParam.SetParam(BTP_iItemID, m_iItemID);
-		kParam.SetParam(BTP_iOtherID, m_iOtherID);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, 1);
+		kParam.SetParam(TwTrgParamID::BTP_iItemID, m_iItemID);
+		kParam.SetParam(TwTrgParamID::BTP_iOtherID, m_iOtherID);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_USE_ITEMCAST, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_USE_ITEMCAST, kParam);
 	}
 }
 
@@ -299,24 +299,24 @@ void BeTaskActionSpell::OnSpellEffect(void)
 	}
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-	kParam.SetParam(BTP_piSpellTargetID, &m_iTargetID);
-	kParam.SetParam(BTP_iSkillUsePlayer, m_iUsePlayer);
-	kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-	kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-	kParam.SetParam(BTP_fSpellDirectPosX, m_kDirectPos.fX);
-	kParam.SetParam(BTP_fSpellDirectPosY, m_kDirectPos.fY);
-	kParam.SetParam(BTP_piPersistTime, &m_iPersitTime);
-	kParam.SetParam(BTP_piPersistDeltaTime, &m_iPersitDeltaTime);
-	kParam.SetParam(BTP_iTargetType, m_iTargetType);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+	kParam.SetParam(TwTrgParamID::BTP_piSpellTargetID, &m_iTargetID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillUsePlayer, m_iUsePlayer);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellDirectPosX, m_kDirectPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellDirectPosY, m_kDirectPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_piPersistTime, &m_iPersitTime);
+	kParam.SetParam(TwTrgParamID::BTP_piPersistDeltaTime, &m_iPersitDeltaTime);
+	kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
 	if (m_iItemID == 0)
 	{
-		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECT, kParam);
 	}
 	else
 	{
@@ -326,37 +326,37 @@ void BeTaskActionSpell::OnSpellEffect(void)
 		{
 			iItemTypeID = pkItem->GetTypeID();
 			pkItem->SetBuyTime(0);
-			kParam.SetParam(BTP_iItemTypeID, iItemTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_iItemTypeID, iItemTypeID);
 		}
 		else
 		{
-			kParam.SetParam(BTP_iItemTypeID, iItemTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_iItemTypeID, iItemTypeID);
 		}
-		kParam.SetParam(BTP_iSkillLevel, 1);
-		kParam.SetParam(BTP_iItemID, m_iItemID);
-		kParam.SetParam(BTP_iItemOwnerPlayer, m_iItemOwnerPlayer);
-		kParam.SetParam(BTP_iOtherID, m_iOtherID);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, 1);
+		kParam.SetParam(TwTrgParamID::BTP_iItemID, m_iItemID);
+		kParam.SetParam(TwTrgParamID::BTP_iItemOwnerPlayer, m_iItemOwnerPlayer);
+		kParam.SetParam(TwTrgParamID::BTP_iOtherID, m_iOtherID);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_USE_ITEM, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_USE_ITEM, kParam);
 	}
 }
 
 void BeTaskActionSpell::OnSpellFinish(void)
 {
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-	kParam.SetParam(BTP_iSkillTypeID, m_iSkillTypeID);
-	kParam.SetParam(BTP_iSpellTargetID, m_iTargetID);
-	kParam.SetParam(BTP_iSkillUsePlayer, m_iUsePlayer);
-	kParam.SetParam(BTP_fSpellTargetPosX, m_kTargetPos.fX);
-	kParam.SetParam(BTP_fSpellTargetPosY, m_kTargetPos.fY);
-	kParam.SetParam(BTP_iTargetType, m_iTargetType);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, m_iTargetID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillUsePlayer, m_iUsePlayer);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kTargetPos.fX);
+	kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kTargetPos.fY);
+	kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_iTargetType);
 
 	if (m_iItemID == 0)
 	{
-		kParam.SetParam(BTP_iSkillLevel, m_iSkillLevel);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_SPELL_FINISH, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_FINISH, kParam);
 	}
 	else
 	{
@@ -393,11 +393,11 @@ void BeTaskActionSpell::OnSpellFinish(void)
 			}
 		}
 
-		kParam.SetParam(BTP_iSkillLevel, 1);
-		kParam.SetParam(BTP_iItemID, m_iItemID);
-		kParam.SetParam(BTP_iOtherID, m_iOtherID);
+		kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, 1);
+		kParam.SetParam(TwTrgParamID::BTP_iItemID, m_iItemID);
+		kParam.SetParam(TwTrgParamID::BTP_iOtherID, m_iOtherID);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_USEITEM_FINISH, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_USEITEM_FINISH, kParam);
 	}
 }
 

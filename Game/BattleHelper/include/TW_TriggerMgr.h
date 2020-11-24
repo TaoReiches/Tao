@@ -102,33 +102,36 @@ enum class TwPtCondResult
 typedef		TwPtCondResult(*PtConditionFun)(void*);
 typedef		char			(*PtActionFun)(void*);
 
+enum class TwTrgParamID;
+
 class TwPtParam
 {
 public:
 	TwPtParam(void);
 	~TwPtParam(void);
 
-	void	SetParam(int iParamID, int iValue);
-	void	SetParam(int iParamID, float fValue);
-	void	SetParam(int iParamID, void* pkValue);
+	void	SetParam(TwTrgParamID iParamID, int iValue);
+	void	SetParam(TwTrgParamID iParamID, float fValue);
+	void	SetParam(TwTrgParamID iParamID, void* pkValue);
 
-	bool	HasParam(int iParamID);
-	int		GetParamInt(int iParamID, int iDefault = 0);
-	float	GetParamFloat(int iParamID, float fDefault = 0.0f);
-	void*	GetParamVoid(int iParamID);
+	bool	HasParam(TwTrgParamID iParamID);
+	int		GetParamInt(TwTrgParamID iParamID, int iDefault = 0);
+	float	GetParamFloat(TwTrgParamID iParamID, float fDefault = 0.0f);
+	void*	GetParamVoid(TwTrgParamID iParamID);
 	void	OnDeleteUnit(void* pkUnit);
 
 protected:
 	struct ParamData
 	{
-		ParamData(int id, const TwPointerType& data);
+		ParamData(TwTrgParamID id, const TwPointerType& data);
 
-		int iID;
+        TwTrgParamID iID;
 		TwPointerType kData;
 	};
 	std::vector<ParamData> m_akParams;
 };
 
+enum class TwTriggerEvent;
 class TwPtTriggerMgr
 {
 public:
@@ -146,20 +149,20 @@ public:
 	void		Finish(void);
 	bool		WaitFinish(void);
 
-	void		FireTrigger(int iEvent, TwPtParam& rkParam);
-	bool		FireTriggerBegin(int iEvent, TwPtParam& rkParam, std::shared_ptr<TwPtParam>& pkBackupParam);
+	void		FireTrigger(TwTriggerEvent iEvent, TwPtParam& rkParam);
+	bool		FireTriggerBegin(TwTriggerEvent iEvent, TwPtParam& rkParam, std::shared_ptr<TwPtParam>& pkBackupParam);
 	void		FireTriggerEnd(std::shared_ptr<TwPtParam>& pkBackupParam);
-	void		RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditionFun pCondition = nullptr);
+	void		RegisterEventTrg(TwTriggerEvent iEvent, PtActionFun pAction, PtConditionFun pCondition = nullptr);
 	int			StartTimerTrg(int iTimeOut, PtActionFun pAction, const TwPtParam& rkParam,
                             PtConditionFun pCondition = nullptr, unsigned int uiCounts = ((unsigned int)-1), int iDelayTime = 0);
 
 	unsigned int    GetTimeNow(void);
 	int			GetTriggerID(void);
 
-	bool		HasParam(int iParamID);
-	int			GetParamInt(int iParamID, int iDefault = 0);
-	float		GetParamFloat(int iParamID, float fDefault = 0.0f);
-	void*       GetParamVoid(int iParamID);
+	bool		HasParam(TwTrgParamID iParamID);
+	int			GetParamInt(TwTrgParamID iParamID, int iDefault = 0);
+	float		GetParamFloat(TwTrgParamID iParamID, float fDefault = 0.0f);
+	void*       GetParamVoid(TwTrgParamID iParamID);
 	void        OnUnitDelete(void* pkUnit);
 
 protected:

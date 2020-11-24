@@ -583,20 +583,20 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 					gUnit.TrgOnSpell(pkSkill->GetTypeID(), pkSkill->GetLevel(), 0, 0, gUnit.GetPosX(), gUnit.GetPosY());
 
 					TwPtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-					gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, pkSkill->GetTypeID());
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, pkSkill->GetLevel());
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECT, kParam);
 				}
 				else
 				{
 					pkSkill->SetUICounter(0);
 
 					TwPtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, &gUnit);
-					kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-					kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-					gTrgMgr.FireTrigger(BTE_SPELL_CLOSE, kParam);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, pkSkill->GetTypeID());
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, pkSkill->GetLevel());
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_CLOSE, kParam);
 				}
 			}
 			break;

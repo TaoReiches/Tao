@@ -181,23 +181,23 @@ void BeEffect::OnRemove(void)
 		{
 			gRandNum.RandInt();
 			TwPtParam kParam;
-			kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-			kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+			kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 			if (pkAttacker)
 			{
-				kParam.SetParam(BTP_pkAttacker, pkAttacker);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 			}
 
-			kParam.SetParam(BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
-			kParam.SetParam(BTP_fSpellOrgPosY, m_kEffectData.fOrgPosY);
-			kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-			kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-			kParam.SetParam(BTP_iIntData, m_kEffectData.iData);
-			kParam.SetParam(BTP_fFloatData, m_kEffectData.fData);
-			kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
-			kParam.SetParam(BTP_pkEffect, this);
+			kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
+			kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosY, m_kEffectData.fOrgPosY);
+			kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+			kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+			kParam.SetParam(TwTrgParamID::BTP_iIntData, m_kEffectData.iData);
+			kParam.SetParam(TwTrgParamID::BTP_fFloatData, m_kEffectData.fData);
+			kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
+			kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
 
-			gTrgMgr.FireTrigger(BTE_EFFECT_AFFECT, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_AFFECT, kParam);
 		}
 	}
 	else
@@ -214,40 +214,40 @@ void BeEffect::OnRemove(void)
 						m_akBumpAttackedID.push_back(pkUnit->GetID());
 
 						TwPtParam kParam;
-						kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-						kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-						kParam.SetParam(BTP_pkTrgUnit, pkUnit);
+						kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+						kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
 						if (pkAttacker)
 						{
-							kParam.SetParam(BTP_pkAttacker, pkAttacker);
+							kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 						}
 
-						kParam.SetParam(BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
-						kParam.SetParam(BTP_fSpellOrgPosY, m_kEffectData.fOrgPosY);
+						kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
+						kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosY, m_kEffectData.fOrgPosY);
 						if (GetRace() != BER_LINE_TRACE_COLLISION && GetRace() != BER_CAST_TRACE_COLLISION)
 						{
-							kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-							kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+							kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+							kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
 						}
 						else
 						{
-							kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fPosX);
-							kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fPosY);
+							kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
+							kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
 						}
 
-						kParam.SetParam(BTP_iIntData, m_kEffectData.iData);
-						kParam.SetParam(BTP_fFloatData, m_kEffectData.fData);
-						kParam.SetParam(BTP_pkEffect, this);
-						kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+						kParam.SetParam(TwTrgParamID::BTP_iIntData, m_kEffectData.iData);
+						kParam.SetParam(TwTrgParamID::BTP_fFloatData, m_kEffectData.fData);
+						kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+						kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-						gTrgMgr.FireTrigger(BTE_EFFECT_AFFECT, kParam);
+						gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_AFFECT, kParam);
 
 						if (m_pkAttr)
 						{
 							pkUnit->OnBeDamaged(*m_pkAttr);
 						}
 
-						gTrgMgr.FireTrigger(BTE_EFFECT_AFFECT_AFTER, kParam);
+						gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_AFFECT_AFTER, kParam);
 					}
 				}
 				else
@@ -535,16 +535,16 @@ void BeEffect::UpdateLineFollowEarth(int iDeltaTime)
 				if (pkAttacker)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -582,16 +582,16 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 				if (pkAttacker)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -738,16 +738,16 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 				if (!m_bPureShow)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkAttacked);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -786,16 +786,16 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 				if (!m_bPureShow)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -866,16 +866,16 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 				if (!m_bPureShow)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkAttacked);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -925,16 +925,16 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 				if (!m_bPureShow)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}
@@ -1008,23 +1008,23 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 				if (!m_bPureShow)
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
-					kParam.SetParam(BTP_iSkillLevel, m_kEffectData.iSkillLevel);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
+					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					if (pkAttacked)
 					{
-						kParam.SetParam(BTP_pkTrgUnit, pkAttacked);
+						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
 					}
 					else
 					{
-						kParam.SetParam(BTP_pkTrgUnit, pkTarget);
+						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
 					}
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
-					kParam.SetParam(BTP_fSpellTargetPosX, m_kEffectData.fPosX);
-					kParam.SetParam(BTP_fSpellTargetPosY, m_kEffectData.fPosY);
-					kParam.SetParam(BTP_pkEffect, this);
-					kParam.SetParam(BTP_iTargetType, m_kEffectData.eTargetType);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
+					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
+					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
+					kParam.SetParam(TwTrgParamID::BTP_iTargetType, m_kEffectData.eTargetType);
 
-					gTrgMgr.FireTrigger(BTE_EFFECT_ARRIVED, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_EFFECT_ARRIVED, kParam);
 				}
 			}
 		}

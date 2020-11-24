@@ -5,7 +5,7 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum BeTriggerEvent
+enum class TwTriggerEvent
 {
 	BTE_NULL = 0,
 
@@ -123,10 +123,10 @@ enum BeTriggerEvent
 	BTE_CHANGE_BATTLE_STATE,
 	BTE_ATTACK_AVOIDED,
 
-	BTE_MAX_NUM,
+	BTE_MAX_NUM
 };
 
-enum BeTrgParamID
+enum class TwTrgParamID
 {
 	BTP_pkCarray = 0,
 	BTP_iSkillOrgTypeID,

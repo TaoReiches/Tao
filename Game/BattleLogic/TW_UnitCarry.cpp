@@ -126,10 +126,10 @@ void BeUnit::OnItemUpDate(int iID)
 	}
 
 	TwPtParam kParamPre;
-	kParamPre.SetParam(BTP_pkTrgUnit, this);
-	kParamPre.SetParam(BTP_iItemID, iID);
+	kParamPre.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParamPre.SetParam(TwTrgParamID::BTP_iItemID, iID);
 
-	gTrgMgr.FireTrigger(BTE_UNIT_ADD_ITEMPRE, kParamPre);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADD_ITEMPRE, kParamPre);
 
 	if (pkItem)
 	{
@@ -138,11 +138,11 @@ void BeUnit::OnItemUpDate(int iID)
 	}
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_iItemTypeID, iTypeID);
-	kParam.SetParam(BTP_iItemID, iID);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_iItemTypeID, iTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iItemID, iID);
 
-	gTrgMgr.FireTrigger(BTE_UNIT_ADD_ITEM, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADD_ITEM, kParam);
 }
 
 BeItem* BeUnit::GetItemByID(int iID) const
@@ -553,11 +553,11 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	UpdateAttribute(true);
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkSkill, pkSkill.get());
-	kParam.SetParam(BTP_iIsLearnSkill, 1);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+	kParam.SetParam(TwTrgParamID::BTP_iIsLearnSkill, 1);
 
-	gTrgMgr.FireTrigger(BTE_LEARN_SPELL, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_LEARN_SPELL, kParam);
 
 	if (pkSkill->IsHaloSkill())
 	{
@@ -1171,20 +1171,20 @@ void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
 	pkBuffer->SetHasDel(false);
 	TwPtParam kParam;
 
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer);
-	gTrgMgr.FireTrigger(BTE_UNIT_ADDBUFFER, kParam);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADDBUFFER, kParam);
 
 	UpdateAttribute(pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR));
 
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer);
 
-	gTrgMgr.FireTrigger(BTE_UNIT_ADDBUFFER_AFTER, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADDBUFFER_AFTER, kParam);
 
 	if (pkBuffer->HasCarryFlag(BUCF_ISINVISIBLE))
 	{
-		gTrgMgr.FireTrigger(BTE_BUFFER_INVISIBLE_ENTER, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_INVISIBLE_ENTER, kParam);
 	}
 }
 
@@ -1197,20 +1197,20 @@ void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool 
 
 	pkBuffer->SetHasDel(true);
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
 
-	gTrgMgr.FireTrigger(BTE_UNIT_DELBUFFER, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_DELBUFFER, kParam);
 
 	if (bUpdate)
 	{
 		UpdateAttribute(pkBuffer->HasFlag(BCF_HAS_NORMAL_ATTR));
 	}
 
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
 
-	gTrgMgr.FireTrigger(BTE_UNIT_DELBUFFER_AFTER, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_DELBUFFER_AFTER, kParam);
 
 	BeShareBufferData kData;
 	kData.bRemove = true;

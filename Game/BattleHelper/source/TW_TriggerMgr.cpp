@@ -117,7 +117,7 @@ int TwPtTriggerMgr::GetTriggerID(void)
 	return -1;
 }
 
-bool TwPtTriggerMgr::HasParam(int iParamID)
+bool TwPtTriggerMgr::HasParam(TwTrgParamID iParamID)
 {
 	DATA_CONFERENCE();
 
@@ -128,7 +128,7 @@ bool TwPtTriggerMgr::HasParam(int iParamID)
 	return false;
 }
 
-int TwPtTriggerMgr::GetParamInt(int iParamID, int iDefault)
+int TwPtTriggerMgr::GetParamInt(TwTrgParamID iParamID, int iDefault)
 {
 	DATA_CONFERENCE();
 
@@ -139,7 +139,7 @@ int TwPtTriggerMgr::GetParamInt(int iParamID, int iDefault)
 	return iDefault;
 }
 
-float TwPtTriggerMgr::GetParamFloat(int iParamID, float fDefault)
+float TwPtTriggerMgr::GetParamFloat(TwTrgParamID iParamID, float fDefault)
 {
 	DATA_CONFERENCE();
 
@@ -150,7 +150,7 @@ float TwPtTriggerMgr::GetParamFloat(int iParamID, float fDefault)
 	return fDefault;
 }
 
-void* TwPtTriggerMgr::GetParamVoid(int iParamID)
+void* TwPtTriggerMgr::GetParamVoid(TwTrgParamID iParamID)
 {
 	DATA_CONFERENCE();
 
@@ -225,7 +225,7 @@ void	TwPtTriggerMgr::Finish(void)
 	}
 }
 
-void	TwPtTriggerMgr::FireTrigger(int iEvent, TwPtParam& rkParam)
+void	TwPtTriggerMgr::FireTrigger(TwTriggerEvent iEvent, TwPtParam& rkParam)
 {
 	DATA_CONFERENCE();
 
@@ -295,10 +295,10 @@ void	TwPtTriggerMgr::FireTrigger(int iEvent, TwPtParam& rkParam)
 	}
 }
 
-bool	TwPtTriggerMgr::FireTriggerBegin(int iEvent, TwPtParam& rkParam, std::shared_ptr<TwPtParam>& pkBackupParam)
+bool	TwPtTriggerMgr::FireTriggerBegin(TwTriggerEvent iEvent, TwPtParam& rkParam, std::shared_ptr<TwPtParam>& pkBackupParam)
 {
 	DATA_CONFERENCE();
-	if (iEvent < 0 || iEvent >= rkData.m_iMaxEvent)
+	if (static_cast<int>(iEvent) < 0 || static_cast<int>(iEvent) >= rkData.m_iMaxEvent)
 	{
 		return false;
 	}
@@ -324,11 +324,11 @@ bool	TwPtTriggerMgr::WaitFinish(void)
 	return false;
 }
 
-void	TwPtTriggerMgr::RegisterEventTrg(int iEvent, PtActionFun pAction, PtConditionFun pCondition)
+void	TwPtTriggerMgr::RegisterEventTrg(TwTriggerEvent iEvent, PtActionFun pAction, PtConditionFun pCondition)
 {
 	DATA_CONFERENCE();
 
-	if (!pAction || iEvent < 0 || iEvent >= rkData.m_iMaxEvent)
+	if (!pAction || static_cast<int>(iEvent) < 0 || static_cast<int>(iEvent) >= rkData.m_iMaxEvent)
 	{
 		return;
 	}

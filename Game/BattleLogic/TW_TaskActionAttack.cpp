@@ -270,10 +270,10 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			//if (gUnit.IsHero())
 			//{
 				TwPtParam kParamHero;
-				kParamHero.SetParam(BTP_pkTrgUnit, &gUnit);
-				kParamHero.SetParam(BTP_iTargetID, GetTargetID());
+				kParamHero.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
+				kParamHero.SetParam(TwTrgParamID::BTP_iTargetID, GetTargetID());
 
-				gTrgMgr.FireTrigger(BTE_HERO_ATTACK, kParamHero);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_HERO_ATTACK, kParamHero);
 			//}
 			//else if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
 			//{

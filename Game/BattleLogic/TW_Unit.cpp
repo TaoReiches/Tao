@@ -40,17 +40,17 @@ void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDa
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_pkTarget, pkTarget);
-			kParam.SetParam(BTP_pkAttacker, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill.get());
-			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
-			kParam.SetParam(BTP_pfDamage, &fDamage);
-			kParam.SetParam(BTP_iFlag, iFlag);
-			kParam.SetParam(BTP_iAttackType, eAttackType);
-			kParam.SetParam(BTP_pkAttackAttr, &kAttr);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+			kParam.SetParam(TwTrgParamID::BTP_pkAttacker, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
+			kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+			kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+			kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+			kParam.SetParam(TwTrgParamID::BTP_pkAttackAttr, &kAttr);
 
-			gTrgMgr.FireTrigger(BTE_SKILL_PREONDAMAGE, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_PREONDAMAGE, kParam);
 		}
 	}
 }
@@ -64,18 +64,18 @@ void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDa
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_BEATTACKTRIGGER))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_pkAttacker, pkAttacker);
-			kParam.SetParam(BTP_pkTarget, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill.get());
-			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
-			kParam.SetParam(BTP_pfDamage, &fDamage);
-			kParam.SetParam(BTP_fRawDamage, fRawDamage);
-			kParam.SetParam(BTP_iFlag, iFlag);
-			kParam.SetParam(BTP_iAttackType, eAttackType);
-			kParam.SetParam(BTP_iSkillTypeID, iAttackSkillTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+			kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
+			kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+			kParam.SetParam(TwTrgParamID::BTP_fRawDamage, fRawDamage);
+			kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+			kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+			kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iAttackSkillTypeID);
 
-			gTrgMgr.FireTrigger(BTE_SKILL_ONBEDAMAGE, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONBEDAMAGE, kParam);
 		}
 	}
 }
@@ -89,19 +89,19 @@ void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamag
 		if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DAMAGETRIGGER))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_pkTarget, pkTarget);
-			kParam.SetParam(BTP_pkAttacker, this);
-			kParam.SetParam(BTP_pkSkill, pkSkill.get());
-			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
-			kParam.SetParam(BTP_iItemID, iItemID);
-			kParam.SetParam(BTP_pfDamage, &fDamage);
-			kParam.SetParam(BTP_iFlag, iFlag);
-			kParam.SetParam(BTP_iAttackType, eAttackType);
-			kParam.SetParam(BTP_iSkillTypeID, iAttackSkillTypeID);
-			kParam.SetParam(BTP_iSkillOrgTypeID, iAttackSkillTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+			kParam.SetParam(TwTrgParamID::BTP_pkAttacker, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
+			kParam.SetParam(TwTrgParamID::BTP_iItemID, iItemID);
+			kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+			kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+			kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+			kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iAttackSkillTypeID);
+			kParam.SetParam(TwTrgParamID::BTP_iSkillOrgTypeID, iAttackSkillTypeID);
 
-			gTrgMgr.FireTrigger(BTE_SKILL_ONDAMAGE, kParam);
+			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONDAMAGE, kParam);
 		}
 	}
 }
@@ -115,15 +115,15 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingA
 		if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER)))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(BTP_pkTrgUnit, this);
-			kParam.SetParam(BTP_pkTarget, pkTarget);
-			kParam.SetParam(BTP_pkSkill, pkSkill.get());
-			kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
-			kParam.SetParam(BTP_iItemPos, iItemPos + 1);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+			kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+			kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+			kParam.SetParam(TwTrgParamID::BTP_pkAttackAttr, pkAttackAttr);
+			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
 			if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER))
 			{
-				kParam.SetParam(BTP_iTrgEventBy, BTE_SKILL_ONATTACK);
-				gTrgMgr.FireTrigger(BTE_SKILL_ONATTACK, kParam);
+				kParam.SetParam(TwTrgParamID::BTP_iTrgEventBy, static_cast<int>(TwTriggerEvent::BTE_SKILL_ONATTACK));
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONATTACK, kParam);
 			}
 		}
 	}
@@ -728,12 +728,12 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 				}
 
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill.get());
-				kParam.SetParam(BTP_iSkillTypeID, pkSkill->GetTypeID());
-				kParam.SetParam(BTP_iSkillLevel, pkSkill->GetLevel());
-				gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
-				gTrgMgr.FireTrigger(BTE_SPELL_EFFECT, kParam);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, pkSkill->GetTypeID());
+				kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, pkSkill->GetLevel());
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONSPELL, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECT, kParam);
 
 				pkSkill->SetLastUseTime(this, gTime);
 				return true;
@@ -910,42 +910,42 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 	if (bFirstAttack)
 	{
 		TwPtParam kParamAttackPre;
-		kParamAttackPre.SetParam(BTP_iAttackType, (int)eAttackType);
-		kParamAttackPre.SetParam(BTP_iFlag, iFlag);
-		kParamAttackPre.SetParam(BTP_iAttackerPlayer, iPlayer);
-		kParamAttackPre.SetParam(BTP_pkTrgUnit, this);
-		kParamAttackPre.SetParam(BTP_pkAttacker, pkAttacker);
-		kParamAttackPre.SetParam(BTP_pfDamage, &fDamage);
-		kParamAttackPre.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-		kParamAttackPre.SetParam(BTP_iSkillLevel, iSkillLevel);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_iAttackType, (int)eAttackType);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_iAttackerPlayer, iPlayer);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+		kParamAttackPre.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_ATTACKED_PRE, kParamAttackPre);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ATTACKED_PRE, kParamAttackPre);
 
 		TwPtParam kParamAttack;
-		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
-		kParamAttack.SetParam(BTP_iFlag, iFlag);
-		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
-		kParamAttack.SetParam(BTP_pkTrgUnit, this);
-		kParamAttack.SetParam(BTP_pkAttacker, pkAttacker);
-		kParamAttack.SetParam(BTP_pfDamage, &fDamage);
-		kParamAttack.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-		kParamAttack.SetParam(BTP_iSkillLevel, iSkillLevel);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackType, (int)eAttackType);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackerPlayer, iPlayer);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_ATTACKED, kParamAttack);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ATTACKED, kParamAttack);
 	}
 	else
 	{
 		TwPtParam kParamAttack;
-		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
-		kParamAttack.SetParam(BTP_iFlag, iFlag);
-		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
-		kParamAttack.SetParam(BTP_pkTrgUnit, this);
-		kParamAttack.SetParam(BTP_pkAttacker, pkAttacker);
-		kParamAttack.SetParam(BTP_pfDamage, &fDamage);
-		kParamAttack.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-		kParamAttack.SetParam(BTP_iSkillLevel, iSkillLevel);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackType, (int)eAttackType);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackerPlayer, iPlayer);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_ATTACKED_NOTFIRST, kParamAttack);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ATTACKED_NOTFIRST, kParamAttack);
 	}
 
 	BeShareDamageData	kData;
@@ -979,16 +979,16 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 	if (bFirstAttack)
 	{
 		TwPtParam kParamAttack;
-		kParamAttack.SetParam(BTP_iAttackType, (int)eAttackType);
-		kParamAttack.SetParam(BTP_iFlag, iFlag);
-		kParamAttack.SetParam(BTP_iAttackerPlayer, iPlayer);
-		kParamAttack.SetParam(BTP_pkTrgUnit, this);
-		kParamAttack.SetParam(BTP_pkAttacker, pkAttacker);
-		kParamAttack.SetParam(BTP_pfDamage, &fDamage);
-		kParamAttack.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-		kParamAttack.SetParam(BTP_iSkillLevel, iSkillLevel);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackType, (int)eAttackType);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iAttackerPlayer, iPlayer);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+		kParamAttack.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+		kParamAttack.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_AFTERATTACKED, kParamAttack);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_AFTERATTACKED, kParamAttack);
 	}
 
 		if (!bCanDead && m_pkCurData->fHP <= 0.0f)
@@ -1077,20 +1077,20 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, BeUnit* pk
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(this))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 				}
 
-				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-				kParam.SetParam(BTP_pkTarget, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_SKIP_DEATH, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_SKIP_DEATH, kParam);
 
 				pkSkill->SetLastUseTime(this, (int)gTime);
 				return;
@@ -1251,11 +1251,11 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 	if (rkAttackingAttr.HasFlag(BAF_FIRST) && rkAttackingAttr.HasFlag(BAF_AVOID) && !rkAttackingAttr.HasFlag(BAF_CANTAVOID))
 	{
 		TwPtParam kParam;
-		kParam.SetParam(BTP_pkTrgUnit, this);
-		kParam.SetParam(BTP_pkAttacker, pkAttacker);
-		kParam.SetParam(BTP_pkTarget, this);
+		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+		kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+		kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
 
-		gTrgMgr.FireTrigger(BTE_ATTACK_AVOIDED, kParam);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_ATTACK_AVOIDED, kParam);
 	}
 
 	TrgOnPreBeDamaged(rkAttackingAttr.eAttackType, rkAttackingAttr.fDamage, rkAttackingAttr.fDamage, pkAttacker, rkAttackingAttr.iPlayer, rkAttackingAttr.GetFlag(), bCanDead, rkAttackingAttr.iSkillTypeID, rkAttackingAttr);
@@ -1580,14 +1580,14 @@ void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, i
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONPREDAMAGE, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONPREDAMAGE, kParam);
 			}
 		}
 	}
@@ -1623,17 +1623,17 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, B
 
 				TwPtParam kParam;
 
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkAttacker, pkAttacker);
-				kParam.SetParam(BTP_pkTarget, this);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_fRawDamage, fRawDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
-				kParam.SetParam(BTP_iSkillTypeID, iAttackSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_fRawDamage, fRawDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iAttackSkillTypeID);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONBEDAMAGE, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONBEDAMAGE, kParam);
 			}
 		}
 	}
@@ -1659,16 +1659,16 @@ void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int 
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DAMAGETRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iFlagPtr, &iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
-				kParam.SetParam(BTP_iSkillTypeID, iAttackSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iFlagPtr, &iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iAttackSkillTypeID);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONDAMAGE, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONDAMAGE, kParam);
 			}
 		}
 	}
@@ -1684,19 +1684,19 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 				}
 
-				kParam.SetParam(BTP_pkTarget, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_ONDEAD, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONDEAD, kParam);
 			}
 		}
 	}
@@ -1709,19 +1709,19 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 				if (pkAttacker)
 				{
-					kParam.SetParam(BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 				}
 
-				kParam.SetParam(BTP_pkTarget, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_ONDEAD, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONDEAD, kParam);
 			}
 		}
 	}
@@ -1736,19 +1736,19 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 					if (pkAttacker)
 					{
-						kParam.SetParam(BTP_pkAttacker, pkAttacker);
+						kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 					}
 
-					kParam.SetParam(BTP_pkTarget, this);
-					kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-					kParam.SetParam(BTP_pfDamage, &fDamage);
-					kParam.SetParam(BTP_iFlag, iFlag);
-					kParam.SetParam(BTP_iAttackType, eAttackType);
+					kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+					kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
+					kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+					kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+					kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-					gTrgMgr.FireTrigger(BTE_BUFFER_ONDEAD_PRE, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONDEAD_PRE, kParam);
 				}
 			}
 		}
@@ -1757,18 +1757,18 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 	if (!HasFlag(BUF_RELIVE))
 	{
 		TwPtParam kParamDeath;
-		kParamDeath.SetParam(BTP_pkTrgUnit, this);
+		kParamDeath.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 		if (pkAttacker)
 		{
-			kParamDeath.SetParam(BTP_pkAttacker, pkAttacker);
+			kParamDeath.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 		}
-		kParamDeath.SetParam(BTP_iAttackerPlayer, iPlayer);
-		kParamDeath.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-		kParamDeath.SetParam(BTP_pfDamage, &fDamage);
-		kParamDeath.SetParam(BTP_fDamageFace, pkAttacker->GetFace());
-		kParamDeath.SetParam(BTP_iFlag, iFlag);
+		kParamDeath.SetParam(TwTrgParamID::BTP_iAttackerPlayer, iPlayer);
+		kParamDeath.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+		kParamDeath.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+		kParamDeath.SetParam(TwTrgParamID::BTP_fDamageFace, pkAttacker->GetFace());
+		kParamDeath.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
 
-		gTrgMgr.FireTrigger(BTE_UNIT_DEATH, kParamDeath);
+		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_DEATH, kParamDeath);
 
 		if (pkAttacker)
 		{
@@ -1782,19 +1782,19 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int i
 				if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_DEADTRIGGER))
 				{
 					TwPtParam kParam;
-					kParam.SetParam(BTP_pkTrgUnit, this);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
 					if (pkAttacker)
 					{
-						kParam.SetParam(BTP_pkAttacker, pkAttacker);
+						kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
 					}
 
-					kParam.SetParam(BTP_pkTarget, this);
-					kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
-					kParam.SetParam(BTP_pfDamage, &fDamage);
-					kParam.SetParam(BTP_iFlag, iFlag);
-					kParam.SetParam(BTP_iAttackType, eAttackType);
+					kParam.SetParam(TwTrgParamID::BTP_pkTarget, this);
+					kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
+					kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+					kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+					kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-					gTrgMgr.FireTrigger(BTE_BUFFER_ONDEAD, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONDEAD, kParam);
 				}
 			}
 		}
@@ -1850,12 +1850,12 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_ATTACKTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
-				kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttackAttr, pkAttackAttr);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_ONPREATTACK, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONPREATTACK, kParam);
 
 				UpdateAttribute(true);
 			}
@@ -1870,12 +1870,12 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttackAttr, pkAttackAttr);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONPREATTACK, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONPREATTACK, kParam);
 			}
 		}
 	}
@@ -1910,12 +1910,12 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 			if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_ATTACKTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkAttackAttr, pkAttackAttr);
-				kParam.SetParam(BTP_pkBuffer, pkBuffer.get());
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttackAttr, pkAttackAttr);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, pkBuffer.get());
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONATTACK, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONATTACK, kParam);
 			}
 			//if (!pkBuffer->GetHasDel() && pkBuffer->HasProperty(BUFFER_PROPERTY_YINSHENTUICHU))
 			//{
@@ -1958,18 +1958,18 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
-				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-				kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
-				kParam.SetParam(BTP_iItemID, iItemID);
-				kParam.SetParam(BTP_iSpellTargetID, iTargetID);
-				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
-				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
+				kParam.SetParam(TwTrgParamID::BTP_iItemID, iItemID);
+				kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, iTargetID);
+				kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, fTargetPosX);
+				kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, fTargetPosY);
 
 				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER))
 				{
-					gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONSPELL, kParam);
 				}
 			}
 		}
@@ -1982,17 +1982,17 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 			if (pkSkill && (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER)))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkSkill, pkSkill.get());
-				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-				kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
-				kParam.SetParam(BTP_iItemID, iItemID);
-				kParam.SetParam(BTP_iSpellTargetID, iTargetID);
-				kParam.SetParam(BTP_fSpellTargetPosX, fTargetPosX);
-				kParam.SetParam(BTP_fSpellTargetPosY, fTargetPosY);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
+				kParam.SetParam(TwTrgParamID::BTP_iItemID, iItemID);
+				kParam.SetParam(TwTrgParamID::BTP_iSpellTargetID, iTargetID);
+				kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, fTargetPosX);
+				kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, fTargetPosY);
 				if (pkSkill->HasProperty(SKILL_SKILLPROPERTY_SKILLTRIGGER))
 				{
-					gTrgMgr.FireTrigger(BTE_SKILL_ONSPELL, kParam);
+					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONSPELL, kParam);
 				}
 			}
 		}
@@ -2148,15 +2148,15 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 			{
 
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkAttacker, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkSkill, pkSkill);
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_ONKILL, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONKILL, kParam);
 			}
 		}
 
@@ -2168,16 +2168,16 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPl
 			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_KILLTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, this);
-				kParam.SetParam(BTP_pkAttacker, this);
-				kParam.SetParam(BTP_pkTarget, pkTarget);
-				kParam.SetParam(BTP_pkSkill, pkSkill.get());
-				kParam.SetParam(BTP_pfDamage, &fDamage);
-				kParam.SetParam(BTP_iFlag, iFlag);
-				kParam.SetParam(BTP_iAttackType, eAttackType);
-				kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTarget, pkTarget);
+				kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill.get());
+				kParam.SetParam(TwTrgParamID::BTP_pfDamage, &fDamage);
+				kParam.SetParam(TwTrgParamID::BTP_iFlag, iFlag);
+				kParam.SetParam(TwTrgParamID::BTP_iAttackType, eAttackType);
+				kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
 
-				gTrgMgr.FireTrigger(BTE_SKILL_ONKILL, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONKILL, kParam);
 			}
 		}
 	}
@@ -2276,12 +2276,12 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 	}
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkTrgUnit, this);
-	kParam.SetParam(BTP_iItemTypeID, iItemTypeID);
-	kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-	kParam.SetParam(BTP_pkMapItem, pkMapItem);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
+	kParam.SetParam(TwTrgParamID::BTP_iItemTypeID, iItemTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_pkMapItem, pkMapItem);
 
-	gTrgMgr.FireTrigger(BTE_UNIT_PICKUP_ITEM, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_PICKUP_ITEM, kParam);
 
 	//if (pkItemRes)
 	//{

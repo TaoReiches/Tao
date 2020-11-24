@@ -14,20 +14,20 @@ TwPtParam::~TwPtParam(void)
 	m_akParams.clear();
 }
 
-void TwPtParam::SetParam(int iParamID, int iValue)
+void TwPtParam::SetParam(TwTrgParamID iParamID, int iValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TwPointerType(iValue)));
 }
-void TwPtParam::SetParam(int iParamID, float fValue)
+void TwPtParam::SetParam(TwTrgParamID iParamID, float fValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TwPointerType(fValue)));
 }
-void TwPtParam::SetParam(int iParamID, void* pkValue)
+void TwPtParam::SetParam(TwTrgParamID iParamID, void* pkValue)
 {
 	m_akParams.push_back(ParamData(iParamID, TwPointerType(pkValue)));
 }
 
-bool TwPtParam::HasParam(int iParamID)
+bool TwPtParam::HasParam(TwTrgParamID iParamID)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -40,7 +40,7 @@ bool TwPtParam::HasParam(int iParamID)
 	return false;
 }
 
-int TwPtParam::GetParamInt(int iParamID, int iDefault)
+int TwPtParam::GetParamInt(TwTrgParamID iParamID, int iDefault)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -67,7 +67,7 @@ int TwPtParam::GetParamInt(int iParamID, int iDefault)
 	return iDefault;
 }
 
-float TwPtParam::GetParamFloat(int iParamID, float fDefault)
+float TwPtParam::GetParamFloat(TwTrgParamID iParamID, float fDefault)
 {
 	for (std::vector<ParamData>::iterator kIter = m_akParams.begin(); kIter != m_akParams.end(); ++kIter)
 	{
@@ -94,7 +94,7 @@ float TwPtParam::GetParamFloat(int iParamID, float fDefault)
 	return fDefault;
 }
 
-void* TwPtParam::GetParamVoid(int iParamID)
+void* TwPtParam::GetParamVoid(TwTrgParamID iParamID)
 {
 	for (std::vector<ParamData>::reverse_iterator kIter = m_akParams.rbegin(); kIter != m_akParams.rend(); ++kIter)
 	{
@@ -122,6 +122,6 @@ void	TwPtParam::OnDeleteUnit(void* pkUnit)
 	}
 }
 
-TwPtParam::ParamData::ParamData(int id, const TwPointerType& data) :iID(id), kData(data)
+TwPtParam::ParamData::ParamData(TwTrgParamID id, const TwPointerType& data) :iID(id), kData(data)
 {
 }

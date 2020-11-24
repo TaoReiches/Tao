@@ -13,24 +13,24 @@
 
 BeCarry* BeMain::GetTrgCarry(void)
 {
-	return (BeCarry*)(m_pkTriggerMgr->GetParamVoid(BTP_pkCarray));
+	return (BeCarry*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkCarray));
 }
 
 int	BeMain::GetTrgSkillTypeID(void)
 {
-	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(BTP_iSkillTypeID);
+	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillTypeID);
 	return iSkillTypeID;
 }
 
 int BeMain::GetTrgSkillOrgTypeID(void)
 {
-	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(BTP_iSkillOrgTypeID);
+	int iSkillTypeID = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillOrgTypeID);
 	return iSkillTypeID;
 }
 
 int BeMain::GetTrgSkillLevel(void)
 {
-	int iSkillLevel = m_pkTriggerMgr->GetParamInt(BTP_iSkillLevel);
+	int iSkillLevel = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillLevel);
 	if (!iSkillLevel)
 	{
 		const BeSkill* pkSkill = TrgGetPtr_Skill();
@@ -44,47 +44,47 @@ int BeMain::GetTrgSkillLevel(void)
 
 int	BeMain::GetTrgSpellUsePlayer(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iSkillUsePlayer);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSkillUsePlayer);
 }
 
 int	BeMain::GetTrgSpellTargetID(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iSpellTargetID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iSpellTargetID);
 }
 
 int* BeMain::GetTrgPtrSpellTargetID(void)
 {
-	return (int*)(m_pkTriggerMgr->GetParamVoid(BTP_piSpellTargetID));
+	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piSpellTargetID));
 }
 
 float BeMain::GetTrgSpellOrgPosX(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellOrgPosX);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellOrgPosX);
 }
 
 float BeMain::GetTrgSpellOrgPosY(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellOrgPosY);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellOrgPosY);
 }
 
 float BeMain::GetTrgSpellTargetPosX(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellTargetPosX);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellTargetPosX);
 }
 
 float BeMain::GetTrgSpellTargetPosY(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellTargetPosY);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellTargetPosY);
 }
 
 float BeMain::GetTrgSpellDirectPosX(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellDirectPosX);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellDirectPosX);
 }
 
 float BeMain::GetTrgSpellDirectPosY(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fSpellDirectPosY);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellDirectPosY);
 }
 
 BeUnit* BeMain::GetTrgUnit(bool bIncSuspend)
@@ -109,7 +109,7 @@ float BeMain::GetTrgAttackedDamge(void)
 
 int BeMain::GetTrgAttackedType(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iAttackType);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iAttackType);
 }
 
 int BeMain::GetTrgAttackedIsFirst(void)
@@ -119,19 +119,19 @@ int BeMain::GetTrgAttackedIsFirst(void)
 
 int BeMain::GetTrgAttackedFlag(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iFlag);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iFlag);
 }
 int* BeMain::GetTrgAttackedFlagPtr(void)
 {
-	return (int*)m_pkTriggerMgr->GetParamInt(BTP_iFlagPtr);
+	return (int*)m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iFlagPtr);
 }
 int	BeMain::GetTrgTargetID()
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iTargetID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iTargetID);
 }
 int	BeMain::GetTrgAttackerPlayer(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iAttackerPlayer);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iAttackerPlayer);
 }
 
 int BeMain::GetTrgBufferTypeID(void)
@@ -151,52 +151,42 @@ int BeMain::GetTrgBufferInnerID(void)
 
 int	BeMain::GetTrgIntData(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iIntData);
-}
-
-int BeMain::GetTrgMissionPlayer(void)
-{
-	return m_pkTriggerMgr->GetParamInt(BTP_iMissionPlayer);
-}
-
-int BeMain::GetTrgMissionID(void)
-{
-	return m_pkTriggerMgr->GetParamInt(BTP_iMissionID);
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iIntData);
 }
 
 float BeMain::GetTrgFloatData(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fFloatData);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fFloatData);
 }
 
 bool BeMain::GetTrgIsLearnSkill(void)
 {
-	return m_pkTriggerMgr->GetParamInt(BTP_iIsLearnSkill) == 1 ? true : false;
+	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iIsLearnSkill) == 1 ? true : false;
 }
 
 BeUnit* BeMain::TrgGetPtr_Unit(void)
 {
-	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(BTP_pkTrgUnit));
+	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTrgUnit));
 }
 
 BeMapItem* BeMain::TrgGetPtr_MapItem(void)
 {
-	return (BeMapItem*)(m_pkTriggerMgr->GetParamVoid(BTP_pkMapItem));
+	return (BeMapItem*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkMapItem));
 }
 
 BeUnit* BeMain::TrgGetPtr_Attacker(void)
 {
-	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(BTP_pkAttacker));
+	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttacker));
 }
 
 BeUnit* BeMain::TrgGetPtr_Target(void)
 {
-	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(BTP_pkTarget));
+	return (BeUnit*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTarget));
 }
 
 BeSkill* BeMain::TrgGetPtr_Skill(void)
 {
-	int iItemPos = m_pkTriggerMgr->GetParamInt(BTP_iItemPos) - 1;
+	int iItemPos = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos) - 1;
 	if (iItemPos >= 0 && iItemPos < 6)
 	{
 		BeItem* pkItem = TrgGetPtr_Item();
@@ -205,43 +195,43 @@ BeSkill* BeMain::TrgGetPtr_Skill(void)
 			return NULL;
 		}
 	}
-	return (BeSkill*)(m_pkTriggerMgr->GetParamVoid(BTP_pkSkill));
+	return (BeSkill*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkSkill));
 }
 
 int BeMain::TrgGetItemPos(void)
 {
-	return (m_pkTriggerMgr->GetParamInt(BTP_iItemPos) - 1);
+	return (m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos) - 1);
 }
 
 int	BeMain::TrgGetItemTypeID(void)
 {
-	return gTrgMgr.GetParamInt(BTP_iItemTypeID);
+	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iItemTypeID);
 }
 
 int	BeMain::TrgGetItemID(void)
 {
-	return gTrgMgr.GetParamInt(BTP_iItemID);
+	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iItemID);
 }
 
 int	BeMain::TrgGetTriggerItemID(void)
 {
-	return gTrgMgr.GetParamInt(BTP_iTriggerItemID);
+	return gTrgMgr.GetParamInt(TwTrgParamID::BTP_iTriggerItemID);
 }
 
 BeBuffer* BeMain::TrgGetPtr_Buffer(void)
 {
-	return (BeBuffer*)(m_pkTriggerMgr->GetParamVoid(BTP_pkBuffer));
+	return (BeBuffer*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkBuffer));
 }
 
 BeEffect* BeMain::TrgGetPtr_Effect(void)
 {
-	return (BeEffect*)(m_pkTriggerMgr->GetParamVoid(BTP_pkEffect));
+	return (BeEffect*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkEffect));
 }
 
 BeItem* BeMain::TrgGetPtr_Item(void)
 {
 	BeItem* pkItem = NULL;
-	int iItemPos = m_pkTriggerMgr->GetParamInt(BTP_iItemPos);
+	int iItemPos = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos);
 	BeUnit* pkUnit = TrgGetPtr_Unit();
 	if (pkUnit)
 	{
@@ -252,36 +242,36 @@ BeItem* BeMain::TrgGetPtr_Item(void)
 
 float BeMain::TrgGetDamageFace(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fDamageFace);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fDamageFace);
 }
 
 float* BeMain::TrgGetPtr_Damage(void)
 {
-	return (float*)(m_pkTriggerMgr->GetParamVoid(BTP_pfDamage));
+	return (float*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pfDamage));
 }
 
 float BeMain::GetTrgAttackedRawDamge(void)
 {
-	return m_pkTriggerMgr->GetParamFloat(BTP_fRawDamage);
+	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fRawDamage);
 }
 
 
 BeAttackingAttr* BeMain::TrgGetPtr_AttackAttr(void)
 {
-	return (BeAttackingAttr*)(m_pkTriggerMgr->GetParamVoid(BTP_pkAttackAttr));
+	return (BeAttackingAttr*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttackAttr));
 }
 
 int* BeMain::TrgGetPtr_Persist(void)
 {
-	return (int*)(m_pkTriggerMgr->GetParamVoid(BTP_piPersistTime));
+	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piPersistTime));
 }
 
 int* BeMain::TrgGetPtr_PersistDelta(void)
 {
-	return (int*)(m_pkTriggerMgr->GetParamVoid(BTP_piPersistDeltaTime));
+	return (int*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_piPersistDeltaTime));
 }
 
 int BeMain::TrgGetTargetType(void)
 {
-	return (m_pkTriggerMgr->GetParamInt(BTP_iTargetType));
+	return (m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iTargetType));
 }

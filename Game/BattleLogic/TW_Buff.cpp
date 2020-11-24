@@ -105,10 +105,10 @@ void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
 			if (HasProperty(BUFFER_PROPERTY_CDTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(BTP_pkTrgUnit, pkUnit);
-				kParam.SetParam(BTP_pkBuffer, this);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, this);
 
-				gTrgMgr.FireTrigger(BTE_BUFFER_ONCDCOMPLETE, kParam);
+				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONCDCOMPLETE, kParam);
 			}
 		}
 	}

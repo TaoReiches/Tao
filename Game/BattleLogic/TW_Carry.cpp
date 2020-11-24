@@ -612,10 +612,10 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 	InitNormalAttr(pkSkillRes, iSkillLevel, iSkillTypeID);
 
 	TwPtParam kParam;
-	kParam.SetParam(BTP_pkCarray, this);
-	kParam.SetParam(BTP_iSkillTypeID, iSkillTypeID);
-	kParam.SetParam(BTP_iSkillLevel, iSkillLevel);
-	kParam.SetParam(BTP_pkTrgUnit, pkAttachUnit);
+	kParam.SetParam(TwTrgParamID::BTP_pkCarray, this);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
+	kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttachUnit);
 
-	gTrgMgr.FireTrigger(BTE_INIT_SKILL_ATTR, kParam);
+	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_INIT_SKILL_ATTR, kParam);
 }
