@@ -1,0 +1,65 @@
+syntax = "proto2";
+
+package Game;
+
+enum TwGameCommandType
+{
+	SRC_FRAME = 0;
+	SRC_PLAYER_INFO = 1;
+	SRC_PLAYER_LEAVE = 2 ;
+	SRC_HERO_DIRECT_MOVE = 3;
+	SRC_HERO_MOVE = 4;
+	SRC_HERO_STOP = 5;
+	SRC_HERO_ATTACK_POS = 6;
+	SRC_HERO_ATTACK_CANCEL = 7;
+	SRC_HERO_ATTACK_UNIT = 8;
+	SRC_HERO_ATTACK = 9;
+	SRC_HERO_SPELL = 10;
+	SRC_HERO_USE_ITEM = 11;
+	SRC_HERO_DROP_ITEM = 12;
+	SRC_HERO_PICK_ITEM = 13;
+
+	SPRCT_UNITDISAPPEAR = 14;
+	SPRCT_DAMAGEDATA = 15;
+	SPRCT_SELFDATA = 16;
+	SPRCT_ATTACHDATA = 17;
+	SPRCT_UIWINDOWDATA = 18;
+	SPRCT_BUFFERDATA = 19;
+	SPRCT_CHAINEFFECTDATA = 20;
+	SPRCT_EFFECTDATA = 21;
+	SPRCT_EFFECTDEL = 22;
+	SPRCT_GLOBALDATA = 23;
+	SPRCT_PING = 24;
+	SPRCT_LOCKUNITDATA = 25;
+	SPRCT_LOAD = 26;
+    SPRCT_END = 27;
+    
+	SRC_TOOMANY_PACK = 28;
+	SRC_CMD_NUM = 29;
+}
+
+message TwGameCommand
+{
+    required uint64 UserId = 1;
+    required TwGameCommandType CommandType = 2;
+}
+
+message TwGameConnectionCS
+{
+    required TwGameCommand GameCommand = 1;
+}
+
+message TwGameConnectionSC
+{
+    required TwGameCommand GameCommand = 1; 
+    required uint32 MapId = 2;
+    required uint32 HeroTypeId = 3;
+}
+
+message TwGameHeroMoveCS
+{
+    required TwGameCommand GameCommand = 1;
+    optional uint32 PosX = 2;
+    optional uint32 PosY = 3;
+    optional float Direction = 4;
+}
