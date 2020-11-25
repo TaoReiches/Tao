@@ -10,3 +10,6 @@
 [submodule "ThirdParty/socket"]
 	path = ThirdParty/socket
 	url = https://github.com/Qihoo360/evpp
+[submodule "ThirdParty/libevent"]
+	path = ThirdParty/libevent
+	url = https://github.com/libevent/libevent
