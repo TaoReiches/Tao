@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NeIOCPMgr">
+      <UniqueIdentifier>{95ec4d3e-b965-475c-8dfd-891e57d90942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NeHttpMgr">
+      <UniqueIdentifier>{5e9e9632-5a3a-420f-a366-73782ea1c886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NeEpollMgr">
+      <UniqueIdentifier>{60529c6f-e731-43bd-909f-d963004dbe2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{3a8fa8c5-2de2-4915-b062-e17bac5c0bd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\C++Sockets">
+      <UniqueIdentifier>{34755e50-1535-4f38-b825-f0961175d2db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NeMulitTcpMgr">
+      <UniqueIdentifier>{ed2a97af-72f3-433e-97aa-ea8f0d94a211}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NeUdpMgr">
+      <UniqueIdentifier>{0b56b5d4-b46c-4d13-916b-132485ffdda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\Enet">
+      <UniqueIdentifier>{8b38b211-5082-4e5b-9c9d-409357ca947b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Src\NeNetDef.h" />
+    <ClInclude Include="..\Src\TeNetMgr.h" />
+    <ClInclude Include="..\Src\NeEpollMgr.h">
+      <Filter>NeEpollMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\NeIOCPMgr.h">
+      <Filter>NeIOCPMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\NeBuffer.h" />
+    <ClInclude Include="..\Src\NeRecvBuffer.h" />
+    <ClInclude Include="..\Src\NeSendBuffer.h" />
+    <ClInclude Include="..\Src\NeHttpMgr.h">
+      <Filter>NeHttpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\TeInclude.h" />
+    <ClInclude Include="..\Src\NeMulitTcpMgr.h">
+      <Filter>NeMulitTcpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Base64.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Debug.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Event.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\EventHandler.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\EventTime.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Exception.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\File.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\FileStream.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpBaseSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpClientSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpdCookies.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpDebugSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpdForm.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpdSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpGetSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpPostSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpPutSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpRequest.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpResponse.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HTTPSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\HttpTransaction.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IBase.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\iconv.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IEventHandler.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IEventOwner.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IFile.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IFileUpload.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IHttpServer.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IModel.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IMutex.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Ipv4Address.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Ipv6Address.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\ISocketHandler.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\IStream.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Json.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\ListenSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Lock.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\MemFile.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Mutex.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Parse.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\ResolvServer.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\ResolvSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SctpSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Semaphore.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SmtpdSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Socket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\socket_include.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketAddress.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketHandler.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketHandlerEp.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketHandlerThread.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\sockets-config.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketStream.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SocketThread.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\SSLInitializer.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\StdLog.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\StdoutLog.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\StreamSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\StreamWriter.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\TcpSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Thread.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\UdpSocket.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\C++Sockets\Utility.h">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\NeUdpMgr.h">
+      <Filter>NeUdpMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\callbacks.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\enet.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\list.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\protocol.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\time.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\types.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\unix.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\utility.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Src\Enet\include\enet\win32.h">
+      <Filter>3rdParty\Enet</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\TeNetMgr.cpp" />
+    <ClCompile Include="..\Src\NeEpollMgr.cpp">
+      <Filter>NeEpollMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NeIOCPMgr.cpp">
+      <Filter>NeIOCPMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NeBuffer.cpp" />
+    <ClCompile Include="..\Src\NeRecvBuffer.cpp" />
+    <ClCompile Include="..\Src\NeSendBuffer.cpp" />
+    <ClCompile Include="..\Src\NeHttpMgr.cpp">
+      <Filter>NeHttpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NeMulitTcpMgr.cpp">
+      <Filter>NeMulitTcpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Base64.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Debug.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Event.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\EventHandler.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\EventTime.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Exception.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\File.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\FileStream.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpBaseSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpClientSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpdCookies.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpDebugSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpdForm.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpdSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpGetSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpPostSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpPutSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpRequest.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpResponse.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HTTPSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\HttpTransaction.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\IEventOwner.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Ipv4Address.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Ipv6Address.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Json.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Lock.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\MemFile.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Mutex.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Parse.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\ResolvServer.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\ResolvSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SctpSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Semaphore.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SmtpdSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Socket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\socket_include.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SocketHandler.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SocketHandlerEp.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SocketHandlerThread.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Sockets-config.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SocketStream.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SocketThread.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\SSLInitializer.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\StdoutLog.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\StreamSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\StreamWriter.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\TcpSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Thread.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\UdpSocket.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\C++Sockets\Utility.cpp">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\NeUdpMgr.cpp">
+      <Filter>NeUdpMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\callbacks.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\compress.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\host.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\list.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\packet.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\peer.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\protocol.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\unix.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Enet\win32.c">
+      <Filter>3rdParty\Enet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Src\C++Sockets\mkdot.sh">
+      <Filter>3rdParty\C++Sockets</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+</Project>

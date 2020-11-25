@@ -48,3 +48,9 @@ Design/Table/app.publish/table_gen.exe
 Game/lib/
 Proto/GameProtocol/x64/
 ThirdParty/GameNetworkingSocketsbuild/
+Socket/Windwos/Debug/
+Socket/Windwos/Release/
+Socket/Windwos/.vs/
+TechnicalTest/NetTest/NetServer/Debug/
+TechnicalTest/NetTest/NetServer/x64/
+TechnicalTest/NetTest/NetServer/.vs/

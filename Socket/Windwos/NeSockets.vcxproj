@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4DED316B-3DF9-4D65-982F-5E488BF82D88}</ProjectGuid>
+    <RootNamespace>NeSockets</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformShortName)</TargetName>
+    <OutDir>$(ProjectDir)../../../Share/lib/win/</OutDir>
+    <IntDir>$(OutDir)Obj/$(ProjectName)\$(Configuration)_$(PlatformShortName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformShortName)</TargetName>
+    <OutDir>$(ProjectDir)../../../Share/lib/win/</OutDir>
+    <IntDir>$(OutDir)Obj/$(ProjectName)\$(Configuration)_$(PlatformShortName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformShortName)</TargetName>
+    <OutDir>$(ProjectDir)../../../Share/lib/win/</OutDir>
+    <IntDir>$(OutDir)Obj/$(ProjectName)\$(Configuration)_$(PlatformShortName)/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)_$(Configuration)_$(PlatformShortName)</TargetName>
+    <OutDir>$(ProjectDir)../../../Share/lib/win/</OutDir>
+    <IntDir>$(OutDir)Obj/$(ProjectName)\$(Configuration)_$(PlatformShortName)/</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Src/Enet/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Src/Enet/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>../Src/Enet/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ShowProgress>ws2_32.lib;%(AdditionalDependencies)</ShowProgress>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_MBCS;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Src/Enet/include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>ws2_32.lib;winmm.lib;</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Src\C++Sockets\Base64.h" />
+    <ClInclude Include="..\Src\C++Sockets\Debug.h" />
+    <ClInclude Include="..\Src\C++Sockets\Event.h" />
+    <ClInclude Include="..\Src\C++Sockets\EventHandler.h" />
+    <ClInclude Include="..\Src\C++Sockets\EventTime.h" />
+    <ClInclude Include="..\Src\C++Sockets\Exception.h" />
+    <ClInclude Include="..\Src\C++Sockets\File.h" />
+    <ClInclude Include="..\Src\C++Sockets\FileStream.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpBaseSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpClientSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpdCookies.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpDebugSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpdForm.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpdSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpGetSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpPostSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpPutSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpRequest.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpResponse.h" />
+    <ClInclude Include="..\Src\C++Sockets\HTTPSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\HttpTransaction.h" />
+    <ClInclude Include="..\Src\C++Sockets\IBase.h" />
+    <ClInclude Include="..\Src\C++Sockets\iconv.h" />
+    <ClInclude Include="..\Src\C++Sockets\IEventHandler.h" />
+    <ClInclude Include="..\Src\C++Sockets\IEventOwner.h" />
+    <ClInclude Include="..\Src\C++Sockets\IFile.h" />
+    <ClInclude Include="..\Src\C++Sockets\IFileUpload.h" />
+    <ClInclude Include="..\Src\C++Sockets\IHttpServer.h" />
+    <ClInclude Include="..\Src\C++Sockets\IModel.h" />
+    <ClInclude Include="..\Src\C++Sockets\IMutex.h" />
+    <ClInclude Include="..\Src\C++Sockets\Ipv4Address.h" />
+    <ClInclude Include="..\Src\C++Sockets\Ipv6Address.h" />
+    <ClInclude Include="..\Src\C++Sockets\ISocketHandler.h" />
+    <ClInclude Include="..\Src\C++Sockets\IStream.h" />
+    <ClInclude Include="..\Src\C++Sockets\Json.h" />
+    <ClInclude Include="..\Src\C++Sockets\ListenSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\Lock.h" />
+    <ClInclude Include="..\Src\C++Sockets\MemFile.h" />
+    <ClInclude Include="..\Src\C++Sockets\Mutex.h" />
+    <ClInclude Include="..\Src\C++Sockets\Parse.h" />
+    <ClInclude Include="..\Src\C++Sockets\ResolvServer.h" />
+    <ClInclude Include="..\Src\C++Sockets\ResolvSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\SctpSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\Semaphore.h" />
+    <ClInclude Include="..\Src\C++Sockets\SmtpdSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\Socket.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketAddress.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketHandler.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketHandlerEp.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketHandlerThread.h" />
+    <ClInclude Include="..\Src\C++Sockets\sockets-config.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketStream.h" />
+    <ClInclude Include="..\Src\C++Sockets\SocketThread.h" />
+    <ClInclude Include="..\Src\C++Sockets\socket_include.h" />
+    <ClInclude Include="..\Src\C++Sockets\SSLInitializer.h" />
+    <ClInclude Include="..\Src\C++Sockets\StdLog.h" />
+    <ClInclude Include="..\Src\C++Sockets\StdoutLog.h" />
+    <ClInclude Include="..\Src\C++Sockets\StreamSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\StreamWriter.h" />
+    <ClInclude Include="..\Src\C++Sockets\TcpSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\Thread.h" />
+    <ClInclude Include="..\Src\C++Sockets\UdpSocket.h" />
+    <ClInclude Include="..\Src\C++Sockets\Utility.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\callbacks.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\enet.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\list.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\protocol.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\time.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\types.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\unix.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\utility.h" />
+    <ClInclude Include="..\Src\Enet\include\enet\win32.h" />
+    <ClInclude Include="..\Src\NeBuffer.h" />
+    <ClInclude Include="..\Src\NeEpollMgr.h" />
+    <ClInclude Include="..\Src\NeHttpMgr.h" />
+    <ClInclude Include="..\Src\NeIOCPMgr.h" />
+    <ClInclude Include="..\Src\NeNetDef.h" />
+    <ClInclude Include="..\Src\NeRecvBuffer.h" />
+    <ClInclude Include="..\Src\NeSendBuffer.h" />
+    <ClInclude Include="..\Src\NeMulitTcpMgr.h" />
+    <ClInclude Include="..\Src\NeUdpMgr.h" />
+    <ClInclude Include="..\Src\TeInclude.h" />
+    <ClInclude Include="..\Src\TeNetMgr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\C++Sockets\Base64.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Debug.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Event.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\EventHandler.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\EventTime.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Exception.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\File.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\FileStream.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpBaseSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpClientSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpdCookies.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpDebugSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpdForm.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpdSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpGetSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpPostSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpPutSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpRequest.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpResponse.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HTTPSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\HttpTransaction.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\IEventOwner.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Ipv4Address.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Ipv6Address.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Json.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Lock.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\MemFile.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Mutex.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Parse.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\ResolvServer.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\ResolvSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SctpSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Semaphore.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SmtpdSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Socket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SocketHandler.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SocketHandlerEp.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SocketHandlerThread.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Sockets-config.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SocketStream.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SocketThread.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\socket_include.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\SSLInitializer.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\StdoutLog.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\StreamSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\StreamWriter.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\TcpSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Thread.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\UdpSocket.cpp" />
+    <ClCompile Include="..\Src\C++Sockets\Utility.cpp" />
+    <ClCompile Include="..\Src\Enet\callbacks.c" />
+    <ClCompile Include="..\Src\Enet\compress.c" />
+    <ClCompile Include="..\Src\Enet\host.c" />
+    <ClCompile Include="..\Src\Enet\list.c" />
+    <ClCompile Include="..\Src\Enet\packet.c" />
+    <ClCompile Include="..\Src\Enet\peer.c" />
+    <ClCompile Include="..\Src\Enet\protocol.c" />
+    <ClCompile Include="..\Src\Enet\unix.c" />
+    <ClCompile Include="..\Src\Enet\win32.c" />
+    <ClCompile Include="..\Src\NeBuffer.cpp" />
+    <ClCompile Include="..\Src\NeEpollMgr.cpp" />
+    <ClCompile Include="..\Src\NeHttpMgr.cpp" />
+    <ClCompile Include="..\Src\NeIOCPMgr.cpp" />
+    <ClCompile Include="..\Src\NeRecvBuffer.cpp" />
+    <ClCompile Include="..\Src\NeSendBuffer.cpp" />
+    <ClCompile Include="..\Src\NeMulitTcpMgr.cpp" />
+    <ClCompile Include="..\Src\NeUdpMgr.cpp" />
+    <ClCompile Include="..\Src\TeNetMgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Src\C++Sockets\mkdot.sh" />
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
