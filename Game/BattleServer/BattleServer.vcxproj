@@ -99,12 +99,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../ThirdParty/spdlog/include;../Table;../BattleLogic;../BattleHelper/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../ThirdParty/spdlog/include;../Table;../BattleLogic;../BattleHelper/include;../../Socket/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Table.lib;BattleLogic.lib;BattleHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Table.lib;BattleLogic.lib;BattleHelper.lib;NeSockets_Debug_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -142,9 +142,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TW_Network.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_GameLog.h" />
+    <ClInclude Include="TW_Network.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,9 @@
 #include <thread>
 #include "TW_GameLog.h"
 #include "TW_Main.h"
+#include "TW_Network.h"
+
+SeNetMgr	kNet;
 
 int main()
 {
@@ -22,6 +25,8 @@ int main()
     unsigned int frame = 0;
     while (true)
     {
+        kNet.UpdateNet();
+
         ++frame;
         pkMain->UpdateFrame(frame);
 

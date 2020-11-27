@@ -2,15 +2,24 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TW_Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Log">
       <UniqueIdentifier>{4857ce8c-263d-49fc-bee8-9a89eb69e0ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{5922c20a-0529-451b-9fa8-da8c85f52d44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_GameLog.h">
       <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Network.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
