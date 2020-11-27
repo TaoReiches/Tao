@@ -1,4 +1,5 @@
 #include "NetWork.h"
+#include "GameCommand.h"
 
 SeNetMgr::SeNetMgr()
 {
@@ -10,8 +11,9 @@ SeNetMgr::~SeNetMgr()
 
 }
 
-void	SeNetMgr::SendData(void* pkData, int iSize, const	HSock& rkSock)
+void	SeNetMgr::SendData(std::string Data, int iSize, const	HSock& rkSock)
 {
+    static void* sendBuffer = new char[1024];
     static	int	dwLastTime = 0;
     //int	dwNowTime = GetTickCount();
     //int	dwDeltaTime = dwNowTime - dwLastTime;
@@ -19,7 +21,9 @@ void	SeNetMgr::SendData(void* pkData, int iSize, const	HSock& rkSock)
 
     //printf("SendDataTime: %d     DeltaTime: %d \n", dwNowTime, dwDeltaTime);
 
-    m_kNetMgr.SendData(rkSock, pkData, iSize);
+    std::memset(sendBuffer, 0, 1024);
+    std::memcpy(sendBuffer, Data.c_str(), iSize);
+    m_kNetMgr.SendData(rkSock, sendBuffer, iSize);
 }
 
 void	SeNetMgr::DisConnect(const	HSock& rkSock)
@@ -65,4 +69,8 @@ void	SeNetMgr::BeginGame()
     {
         printf("Send Connect Handle Ok!!!!  \n");
     }
+
+    // send connect command
+    auto connectCmd = GameCommand::Connect();
+    SendData(connectCmd.c_str(), connectCmd.size(), m_kServerSock);
 }

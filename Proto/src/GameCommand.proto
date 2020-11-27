@@ -36,6 +36,9 @@ enum TwGameCommandType
     
 	SRC_TOOMANY_PACK = 28;
 	SRC_CMD_NUM = 29;
+
+	SC_CONNECT = 30;
+	CS_CONNECT = 31;
 }
 
 message TwGameCommand

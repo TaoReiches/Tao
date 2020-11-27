@@ -14,6 +14,8 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+
+PROTOBUF_PRAGMA_INIT_SEG
 extern PROTOBUF_INTERNAL_EXPORT_GameCommand_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TwGameCommand_GameCommand_2eproto;
 namespace Game {
 class TwGameCommandDefaultTypeInternal {
@@ -158,7 +160,7 @@ const char descriptor_table_protodef_GameCommand_2eproto[] PROTOBUF_SECTION_VARI
   "d\030\002 \002(\r\022\022\n\nHeroTypeId\030\003 \002(\r\"k\n\020TwGameHer"
   "oMoveCS\022(\n\013GameCommand\030\001 \002(\0132\023.Game.TwGa"
   "meCommand\022\014\n\004PosX\030\002 \001(\r\022\014\n\004PosY\030\003 \001(\r\022\021\n"
-  "\tDirection\030\004 \001(\002*\235\005\n\021TwGameCommandType\022\r"
+  "\tDirection\030\004 \001(\002*\275\005\n\021TwGameCommandType\022\r"
   "\n\tSRC_FRAME\020\000\022\023\n\017SRC_PLAYER_INFO\020\001\022\024\n\020SR"
   "C_PLAYER_LEAVE\020\002\022\030\n\024SRC_HERO_DIRECT_MOVE"
   "\020\003\022\021\n\rSRC_HERO_MOVE\020\004\022\021\n\rSRC_HERO_STOP\020\005"
@@ -175,7 +177,7 @@ const char descriptor_table_protodef_GameCommand_2eproto[] PROTOBUF_SECTION_VARI
   "SPRCT_GLOBALDATA\020\027\022\016\n\nSPRCT_PING\020\030\022\026\n\022SP"
   "RCT_LOCKUNITDATA\020\031\022\016\n\nSPRCT_LOAD\020\032\022\r\n\tSP"
   "RCT_END\020\033\022\024\n\020SRC_TOOMANY_PACK\020\034\022\017\n\013SRC_C"
-  "MD_NUM\020\035"
+  "MD_NUM\020\035\022\016\n\nSC_CONNECT\020\036\022\016\n\nCS_CONNECT\020\037"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_GameCommand_2eproto_deps[1] = {
 };
@@ -187,14 +189,14 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Gam
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_GameCommand_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_GameCommand_2eproto = {
-  false, false, descriptor_table_protodef_GameCommand_2eproto, "GameCommand.proto", 1048,
+  false, false, descriptor_table_protodef_GameCommand_2eproto, "GameCommand.proto", 1080,
   &descriptor_table_GameCommand_2eproto_once, descriptor_table_GameCommand_2eproto_sccs, descriptor_table_GameCommand_2eproto_deps, 4, 0,
   schemas, file_default_instances, TableStruct_GameCommand_2eproto::offsets,
   file_level_metadata_GameCommand_2eproto, 4, file_level_enum_descriptors_GameCommand_2eproto, file_level_service_descriptors_GameCommand_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_GameCommand_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_GameCommand_2eproto)), true);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_GameCommand_2eproto(&descriptor_table_GameCommand_2eproto);
 namespace Game {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TwGameCommandType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_GameCommand_2eproto);
@@ -232,6 +234,8 @@ bool TwGameCommandType_IsValid(int value) {
     case 27:
     case 28:
     case 29:
+    case 30:
+    case 31:
       return true;
     default:
       return false;

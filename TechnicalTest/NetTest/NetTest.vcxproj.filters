@@ -13,10 +13,17 @@
     <ClCompile Include="NetWork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NetWork.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameCommand.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
   </ItemGroup>
 </Project>

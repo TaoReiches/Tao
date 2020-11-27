@@ -2,6 +2,7 @@
 
 #include "TeNetMgr.h"
 #include <map>
+#include <string>
 
 class SeNetMgr : public TeNetCall
 {
@@ -15,7 +16,7 @@ public:
     virtual void OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam) override;
 
     void	UpdateNet();
-    void	SendData(void* pkData, int iSize, const	HSock& rkSock);
+    void	SendData(std::string Data, int iSize, const	HSock& rkSock);
     void	DisConnect(const	HSock& rkSock);
 
     void	BeginGame();

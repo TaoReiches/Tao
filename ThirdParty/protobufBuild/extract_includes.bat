@@ -53,7 +53,6 @@ copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\generated_m
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\generated_message_util.h" include\google\protobuf\generated_message_util.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\has_bits.h" include\google\protobuf\has_bits.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\implicit_weak_message.h" include\google\protobuf\implicit_weak_message.h
-copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\inlined_string_field.h" include\google\protobuf\inlined_string_field.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\io\coded_stream.h" include\google\protobuf\io\coded_stream.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\io\gzip_stream.h" include\google\protobuf\io\gzip_stream.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\io\io_win32.h" include\google\protobuf\io\io_win32.h
@@ -88,7 +87,6 @@ copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\bytes
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\callback.h" include\google\protobuf\stubs\callback.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\casts.h" include\google\protobuf\stubs\casts.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\common.h" include\google\protobuf\stubs\common.h
-copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\fastmem.h" include\google\protobuf\stubs\fastmem.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\hash.h" include\google\protobuf\stubs\hash.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\logging.h" include\google\protobuf\stubs\logging.h
 copy "D:\TaoReiches\ThirdParty\protobuf\cmake\..\src\google\protobuf\stubs\macros.h" include\google\protobuf\stubs\macros.h
