@@ -252,7 +252,6 @@
     <ClInclude Include="..\Src\NeNetDef.h" />
     <ClInclude Include="..\Src\NeRecvBuffer.h" />
     <ClInclude Include="..\Src\NeSendBuffer.h" />
-    <ClInclude Include="..\Src\TeInclude.h" />
     <ClInclude Include="..\Src\TeNetMgr.h" />
   </ItemGroup>
   <ItemGroup>

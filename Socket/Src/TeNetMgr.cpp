@@ -64,7 +64,7 @@ void TeNetMgr::Finialize(void)
 #endif
 }
 
-bool TeNetMgr::Connect(const char* pcIP, int iPort, int iTimeOut, int iBufferSize, int iFlag)
+bool TeNetMgr::Connect(const char* pcIP, int iPort, int iTimeOut, int iBufferSize, TeSockFlag iFlag)
 {
 #if defined WIN32 || defined __LINUX__
 	DATA_CONFERENCE();
@@ -75,7 +75,7 @@ bool TeNetMgr::Connect(const char* pcIP, int iPort, int iTimeOut, int iBufferSiz
 #endif
 }
 
-bool TeNetMgr::Listen(int iListenPort, int iListenNum, int iBufferSize, int iFlag)
+bool TeNetMgr::Listen(int iListenPort, int iListenNum, int iBufferSize, TeSockFlag iFlag)
 {
 #if defined WIN32 || defined __LINUX__
 	DATA_CONFERENCE();
@@ -97,7 +97,7 @@ bool TeNetMgr::SendData(const HSock& rkSock, void* pkData, int iSize)
 	}
 
 	TeSendResult eRet = rkSockMgr.SendData(*((NeHSock *)&rkSock), (char *)pkData, iSize);
-	if (eRet != TSR_SUCCESS)
+	if (eRet != TeSendResult::TSR_SUCCESS)
 	{
 		return false;
 	}
@@ -114,7 +114,7 @@ TeSendResult TeNetMgr::SendDataDetail(const HSock& rkSock, void* pkData, int iSi
 
 	if (rkSock.IsInvalid() || pkData == NULL || iSize <= 0)
 	{
-		return TSR_PARAM_ERROR;
+		return TeSendResult::TSR_PARAM_ERROR;
 	}
 
 	return rkSockMgr.SendData(*((NeHSock *)&rkSock), (char *)pkData, iSize);

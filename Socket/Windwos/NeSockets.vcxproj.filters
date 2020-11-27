@@ -29,7 +29,6 @@
     <ClInclude Include="..\Src\NeBuffer.h" />
     <ClInclude Include="..\Src\NeRecvBuffer.h" />
     <ClInclude Include="..\Src\NeSendBuffer.h" />
-    <ClInclude Include="..\Src\TeInclude.h" />
     <ClInclude Include="..\Src\C++Sockets\Base64.h">
       <Filter>3rdParty\C++Sockets</Filter>
     </ClInclude>

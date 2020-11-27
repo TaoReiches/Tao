@@ -4,6 +4,7 @@
 #include "NeSendBuffer.h"
 #include "TeNetMgr.h"
 #include "Include/SeLock.h"
+#include "TeNetMgr.h"
 
 #ifndef WIN32
 #define  INVALID_SOCKET -1
@@ -21,8 +22,6 @@
 typedef LPFN_ACCEPTEX FAcceptEx;
 typedef LPFN_GETACCEPTEXSOCKADDRS FSockaddrs;
 
-
-// Winsock准备工作
 struct NeWinSock
 {
 	NeWinSock(void)
@@ -38,11 +37,12 @@ struct NeWinSock
 };
 
 #endif
-// 外部使用Sock
-struct NeSock;
-struct NeHSock
+
+class NeSock;
+class NeHSock
 {
-	NeHSock(NeSock* sock = NULL, unsigned int id = 0) :pkSock(sock), dwAllocID(id)
+public:
+	NeHSock(NeSock* sock = nullptr, unsigned int id = 0) :pkSock(sock), dwAllocID(id)
 	{
 	}
 
@@ -59,36 +59,15 @@ struct NeHSock
 	NeSock*			pkSock;
 };
 
-class NeMulitSock;
-struct NeHMulitSock
+enum class NeOVType
 {
-	NeHMulitSock(NeMulitSock* sock = NULL, unsigned int id = 0) :pkSock(sock), dwAllocID(id)
-	{
-	}
-
-	bool operator < (const NeHMulitSock& rkR) const
-	{
-		if ((pkSock < rkR.pkSock) || (pkSock == rkR.pkSock && dwAllocID < rkR.dwAllocID))
-		{
-			return true;
-		}
-		return false;
-	}
-
-	unsigned int			dwAllocID;
-	NeMulitSock*			pkSock;
+	NOV_RECV = 0,
+	NOV_SEND,
 };
 
-// OV类型
-enum NeOVType
+class NeConnect
 {
-	NOV_RECV = 0,	// 接收
-	NOV_SEND,	// 发送
-};
-
-// 客户端连接定义
-struct NeConnect
-{
+public:
 	NeConnect()
 	{
 		memset(this, 0, sizeof(NeConnect));
@@ -103,41 +82,36 @@ struct NeConnect
 
 #ifdef WIN32
 
-// OV定义
-struct NeOverlap : public OVERLAPPED
+class NeOverlap : public OVERLAPPED
 {
+public:
 	NeOVType	eType;
 	NeHSock		kSock;
 	WSABUF		kWSABuf;
 };
 
-
-// AcceptOV定义
 #define NET_ADDR_LEN	(sizeof(SOCKADDR_IN)+16)
 #define NET_APTBUF_LEN	256
-struct NeAcceptOV : public OVERLAPPED
+class NeAcceptOV : public OVERLAPPED
 {
-	// 创建后不会改变的
-	SOCKET	hListenSock;				// 监听socket
-	int		iPort;						// 监听端口
-	int		iBufferSize;				// 给接收的socket分配的缓冲大小
-	int		iFlag;						// 连接属性
+public:
+	SOCKET	hListenSock;
+	int		iPort;
+	int		iBufferSize;
+	int		iFlag;
 
-	// 动态改变的
-	SOCKET	hSocket;					// 预分配sokcet
+	SOCKET	hSocket;
 	char	acBuffer[NET_APTBUF_LEN];
 };
 #elif defined __LINUX__
 struct NeAcceptOV
 {
-	// 创建后不会改变的
-	SOCKET	hListenSock;				// 监听socket
-	int		iPort;						// 监听端口
-	int		iBufferSize;				// 给接收的socket分配的缓冲大小
-	int		iFlag;						// 连接属性
+	SOCKET	hListenSock;
+	int		iPort;
+	int		iBufferSize;
+	int		iFlag;
 
-	// 动态改变的
-	SOCKET	hSocket;					// 预分配sokcet
+	SOCKET	hSocket;
 	struct sockaddr_in	kAddress;
 };
 #else
@@ -146,37 +120,37 @@ struct NeAcceptOV
 };
 #endif
 
-// 监听结构定义
 #define MAX_PACK_SIZE	(64 * 1024)
 #define MIN_BUFFER_SIZE (8 * 1024)
 #define MAX_BUFFER_SZIE (16 * 1024 * 1024)
-struct NeListen
+class NeListen
 {
+public:
 	NeListen()
 	{
 		hSock = INVALID_SOCKET;
 		iPort = 0;
 		iBufferSize = MIN_BUFFER_SIZE;
-		iFlag = TSF_16BIT_WIN;
+		iFlag = TeSockFlag::TSF_16BIT_WIN;
 		iListenNum = 16;
 #ifdef WIN32
-		apkAcceptOV = NULL;
+		apkAcceptOV = nullptr;
 #endif
 	}
 
-	SOCKET		hSock;			// 监听socket
-	int			iPort;			// 监听端口
-	int			iBufferSize;	// 给接收的socket分配的缓冲大小
-	int			iFlag;			// 连接属性
-	int			iListenNum;		// 监听队列数量
-	NeAcceptOV*	apkAcceptOV;	// 接收连接缓冲
+	SOCKET		hSock;
+	int			iPort;
+	int			iBufferSize;
+    TeSockFlag	iFlag;
+	int			iListenNum;
+	NeAcceptOV*	apkAcceptOV;
 
 };
 typedef std::vector<NeListen> VListen;
 
-// 自定义Sock
-struct NeSock
+class NeSock
 {
+public:
 	SOCKET			hSocket;
 	unsigned int	dwAllocID;
 
@@ -195,35 +169,32 @@ struct NeSock
 };
 typedef std::map<unsigned int, NeSock*> MSock;
 
-// 投递类型
-enum NePostType
+enum class NePostType
 {
-	NPT_CONNECTED	,	// 客户端连接返回结果
-	NPT_ACCEPTED	,	// 服务器端接收到连接
-	NPT_RECV		,	// 收到网络数据包
-	NPT_DISCONNECT	,	// 断开连接
-	NPT_SEND		,	// 发送数据
+	NPT_CONNECTED	,
+	NPT_ACCEPTED	,
+	NPT_RECV		,
+	NPT_DISCONNECT	,
+	NPT_SEND		,
 };
 
-// 投递数据
-struct NePostData
+class NePostData
 {
+public:
 	NeHSock			kSock;
-	NeHMulitSock	kMulitSock;
 	int				iID;
 	NePostType		eType;
 
-	// 具体数据
 	char			acIP[16];
 	int				iAcceptPort;
 	int				iPort;
 	int				iSize;
-	int				iCode;
+    TeDisconnectCode iCode;
 	int				iParam;
 };
 typedef std::queue<NePostData> QPostData;
 
-enum NeIOCPKey
+enum class NeIOCPKey
 {
 	NIK_ALL_EXIT = 0,
 	NIK_CONNECT_KEY,
@@ -231,8 +202,9 @@ enum NeIOCPKey
 	NIK_ORIGIN_KEY,
 };
 
-struct NeDelSock
+class NeDelSock
 {
+public:
 	NeDelSock(unsigned int time, NeSock* sock) :dwDelTime(time), pkSock(sock)
 	{
 	}

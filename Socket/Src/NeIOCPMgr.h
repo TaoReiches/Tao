@@ -16,8 +16,8 @@ public:
 	void Update(void);
 	void Finialize(void);
 
-	bool Connect(const char* pcIP,int iPort,int iTimeOut,int iBufferSize,int iFlag);
-	bool Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag);
+	bool Connect(const char* pcIP,int iPort,int iTimeOut,int iBufferSize, TeSockFlag iFlag);
+	bool Listen(int iListenPort,int iListenNum,int iBufferSize, TeSockFlag iFlag);
 	TeSendResult SendData(const NeHSock& rkSock,char* pcData,int iSize);
 	void Disconnect(const NeHSock& rkSock);
 
@@ -25,25 +25,18 @@ protected:
 	static DWORD WINAPI NetProcThread(LPVOID pkParam);
 	DWORD NetProc(void);
 
-	// 客户端使用
 	NeSock* Connect(NeConnect* pkConnect);
-
-	// 服务器端需要使用
 	bool PostAccept(NeAcceptOV& rkOV);
-
-	// 放入消息队列
 	void PushConnected(const NeHSock& rkSock,BYTE abyIP[],int iPort);
 	void PushAccept(const NeHSock& rkSock,int iAcceptPort,BYTE abyIP[],int iPort);
 	void PushDisconnect(const NeHSock& rkSock,TeDisconnectCode eCode,int iParam = 0);
 	void PushPost(NePostData& rkData);
 	void PushRecv(const NeHSock& rkSock,char* pcData,int iSize);
 
-	// 连接管理
 	NeSock* CreateSock(SOCKET hSocket,NeAcceptOV* pkAcceptOV,NeConnect* pkConnect);
 	void ReleaseSocket(SOCKET hSocket);
 
-	// Sock池
-	NeSock*	AllocSock(SOCKET hSocket,int iBufferSize,int iFlag);
+	NeSock*	AllocSock(SOCKET hSocket,int iBufferSize, TeSockFlag iFlag);
 	void	FreeSock(NeSock* pkSock);
 
 protected:
@@ -59,7 +52,6 @@ protected:
 	SeLock			m_kPostLock;
 	QPostData		m_kPostData;
 
-	// 服务器端需要(使用AcceptEx)
 	FAcceptEx		m_pkAcceptEx;
 	FSockaddrs		m_pkSockaddrs;
 	VListen			m_akListen;

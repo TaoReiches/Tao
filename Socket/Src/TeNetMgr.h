@@ -1,7 +1,4 @@
 #pragma once
-#include "stdio.h"
-#include <iostream>
-#include <vector>
 
 class HSock
 {
@@ -41,7 +38,7 @@ public:
 	void*			pkSock;
 };
 
-enum TeDisconnectCode
+enum class TeDisconnectCode
 {
 	TDC_SELF_DISC	= 0	,
 	TDC_SYSTEM_ERROR	,
@@ -58,13 +55,13 @@ public:
 	virtual ~TeNetCall(void){}
 
 	// TCP
-	virtual void OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort){}
-	virtual void OnNetAccept(const HSock& rkSock, int iListenPort, const char* pcIP, int iPort){}
-	virtual void OnNetRecv(const HSock& rkSock, void* pkData, int iSize){}
-	virtual void OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam){}
+	virtual void OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort) = 0;
+	virtual void OnNetAccept(const HSock& rkSock, int iListenPort, const char* pcIP, int iPort) = 0;
+	virtual void OnNetRecv(const HSock& rkSock, void* pkData, int iSize) = 0;
+	virtual void OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam) = 0;
 };
 
-enum TeSendResult
+enum class TeSendResult
 {
 	TSR_SUCCESS		= 0	,
 	TSR_NET_ERROR		,
@@ -92,8 +89,8 @@ public:
 	void Update(void);
 	void Finialize(void);
 
-	bool Connect(const char* pcIP,int iPort,int iTimeOut = 2000,int iBufferSize = 8 * 1024,int iFlag = TSF_16BIT_WIN);
-	bool Listen(int iListenPort,int iListenNum = 8,int iBufferSize = 8 * 1024,int iFlag = TSF_16BIT_WIN);
+	bool Connect(const char* pcIP,int iPort,int iTimeOut = 2000,int iBufferSize = 8 * 1024, TeSockFlag iFlag = TeSockFlag::TSF_16BIT_WIN);
+	bool Listen(int iListenPort,int iListenNum = 8,int iBufferSize = 8 * 1024, TeSockFlag iFlag = TeSockFlag::TSF_16BIT_WIN);
 	bool SendData(const HSock& rkSock,void* pkData,int iSize);
 	TeSendResult SendDataDetail(const HSock& rkSock,void* pkData,int iSize);
 	void Disconnect(const HSock& rkSock);

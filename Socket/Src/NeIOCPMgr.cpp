@@ -11,16 +11,16 @@ void NetError(const char* pcFun,int iLine)
 
 NeIOCPMgr::NeIOCPMgr(void)
 {
-	m_hIOCP = NULL;
-	m_pkNetCall = NULL;
+	m_hIOCP = nullptr;
+	m_pkNetCall = nullptr;
 
 	m_iThreadNum = 0;
-	m_ahThread = NULL;
+	m_ahThread = nullptr;
 
-	m_pkAcceptEx = NULL;
-	m_pkSockaddrs = NULL;
+	m_pkAcceptEx = nullptr;
+	m_pkSockaddrs = nullptr;
 
-	m_lGenID = NIK_ORIGIN_KEY + 1;
+	m_lGenID = static_cast<LONG>(NeIOCPKey::NIK_ORIGIN_KEY) + 1;
 }
 
 NeIOCPMgr::~NeIOCPMgr(void)
@@ -32,13 +32,11 @@ bool NeIOCPMgr::Initialize(TeNetCall* pkNetCall,int iMaxThread)
 {
 	m_pkNetCall = pkNetCall;
 
-	// 初始化完成端口
-	if((m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE,NULL,0,0)) == NULL)
+	if((m_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE,nullptr,0,0)) == nullptr)
 	{
 		return false;
 	}
 
-	// 限制最大和最小线程数量
 	if(iMaxThread < MIN_THREAD_NUM)
 	{
 		iMaxThread = MIN_THREAD_NUM;
@@ -48,7 +46,6 @@ bool NeIOCPMgr::Initialize(TeNetCall* pkNetCall,int iMaxThread)
 		iMaxThread = MAX_THREAD_NUM;
 	}
 
-	// 根据CPU核数决定最大线程
 	SYSTEM_INFO kSysInfo;
 	GetSystemInfo(&kSysInfo);
 	m_iThreadNum = kSysInfo.dwNumberOfProcessors * 2;
@@ -60,11 +57,10 @@ bool NeIOCPMgr::Initialize(TeNetCall* pkNetCall,int iMaxThread)
 	m_ahThread = new HANDLE[m_iThreadNum];
 	memset(m_ahThread,0,sizeof(HANDLE) * m_iThreadNum);
 
-	// 创建网络处理线程
 	DWORD dwThreadID;
 	for(int i = 0;i < m_iThreadNum;i++)
 	{
-		m_ahThread[i] = (HANDLE)CreateThread(NULL,0,NetProcThread,this,0,&dwThreadID);
+		m_ahThread[i] = (HANDLE)CreateThread(nullptr,0,NetProcThread,this,0,&dwThreadID);
 	}
 
 	return true;
@@ -86,7 +82,7 @@ void NeIOCPMgr::Update(void)
 
 		switch(kData.eType)
 		{
-		case NPT_CONNECTED:
+		case NePostType::NPT_CONNECTED:
 			{
 				if(m_pkNetCall)
 				{
@@ -94,7 +90,7 @@ void NeIOCPMgr::Update(void)
 				}
 				break;
 			}
-		case NPT_ACCEPTED:
+		case NePostType::NPT_ACCEPTED:
 			{
 				if(m_pkNetCall)
 				{
@@ -102,7 +98,7 @@ void NeIOCPMgr::Update(void)
 				}
 				break;
 			}
-		case NPT_RECV:
+		case NePostType::NPT_RECV:
 			{
 				char* pcData = m_kRecvBuffer.GetData(kData.iSize);
 				if(m_pkNetCall && pcData)
@@ -111,7 +107,7 @@ void NeIOCPMgr::Update(void)
 				}
 				break;
 			}
-		case NPT_DISCONNECT:
+		case NePostType::NPT_DISCONNECT:
 			{
 				if(m_pkNetCall)
 				{
@@ -125,23 +121,21 @@ void NeIOCPMgr::Update(void)
 
 void NeIOCPMgr::Finialize(void)
 {
-	// 等待所有线程结束
 	if(m_ahThread)
 	{
 		for(int i = 0;i < m_iThreadNum;i++)
 		{
-			PostQueuedCompletionStatus(m_hIOCP,0,NIK_ALL_EXIT,NULL);
+			PostQueuedCompletionStatus(m_hIOCP,0,static_cast<ULONG_PTR>(NeIOCPKey::NIK_ALL_EXIT),nullptr);
 		}
 		WaitForMultipleObjects(m_iThreadNum,m_ahThread,true,WAIT_THREAD_TIME);
 		SAFE_ARRAY_DELETE(m_ahThread);
 
 		m_iThreadNum = 0;
-		m_ahThread = NULL;
+		m_ahThread = nullptr;
 	}
 
-	// 关闭监听socket
-	m_pkAcceptEx = NULL;
-	m_pkSockaddrs = NULL;
+	m_pkAcceptEx = nullptr;
+	m_pkSockaddrs = nullptr;
 	for(int i = 0;i < (int)m_akListen.size();i++)
 	{
 		NeListen& rkListen = m_akListen[i];
@@ -150,7 +144,6 @@ void NeIOCPMgr::Finialize(void)
 	}
 	m_akListen.clear();
 
-	// 关闭所有socket连接
 	m_kSockLock.Lock();
 	for(MSock::iterator itr = m_kAllSock.begin();itr != m_kAllSock.end();++itr)
 	{
@@ -161,7 +154,6 @@ void NeIOCPMgr::Finialize(void)
 	m_kAllSock.clear();
 	m_kSockLock.UnLock();
 
-	// 清除连接缓冲
 	m_kDelSockLock.Lock();
 	for(LDelSock::iterator itr = m_kDelSocks.begin();itr != m_kDelSocks.end();++itr)
 	{
@@ -171,17 +163,15 @@ void NeIOCPMgr::Finialize(void)
 	m_kDelSocks.clear();
 	m_kDelSockLock.UnLock();
 
-	// 清除接收缓冲
 	m_kRecvBuffer.Clear();
 
-	// 关闭完成端口
 	CloseHandle(m_hIOCP);
-	m_hIOCP = NULL;
+	m_hIOCP = nullptr;
 
-	m_pkNetCall = NULL;
+	m_pkNetCall = nullptr;
 }
 
-bool NeIOCPMgr::Connect(const char* pcIP,int iPort,int iTimeOut,int iBufferSize,int iFlag)
+bool NeIOCPMgr::Connect(const char* pcIP,int iPort,int iTimeOut,int iBufferSize, TeSockFlag iFlag)
 {
 	if(!m_hIOCP || m_iThreadNum <= 0 || !m_ahThread || !pcIP || iPort < 0)
 	{
@@ -195,18 +185,17 @@ bool NeIOCPMgr::Connect(const char* pcIP,int iPort,int iTimeOut,int iBufferSize,
 	pkConnect->iBufferSize = iBufferSize;
 	pkConnect->iFlag = iFlag;
 
-	PostQueuedCompletionStatus(m_hIOCP,0,NIK_CONNECT_KEY,(OVERLAPPED *)pkConnect);
+	PostQueuedCompletionStatus(m_hIOCP,0,static_cast<ULONG_PTR>(NeIOCPKey::NIK_CONNECT_KEY),(OVERLAPPED *)pkConnect);
 	return true;
 }
 
-bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
+bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize, TeSockFlag iFlag)
 {
 	if(iListenPort <= 0)
 	{
 		return false;
 	}
 
-	// 查看该端口是否已经在监听了
 	for(int i = 0;i < (int)m_akListen.size();i++)
 	{
 		if(m_akListen[i].iPort == iListenPort)
@@ -215,7 +204,6 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 		}
 	}
 
-	// 参数合法化
 	if(iBufferSize < 8 * 1024)
 	{
 		iBufferSize = 8 * 1024;
@@ -225,7 +213,6 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 		iListenNum = 4;
 	}
 
-	// 创建监听网络
 	WSADATA	kData;
 	WSAStartup(MAKEWORD(2, 2), &kData);
 	SOCKET hListenSock = (int)socket(PF_INET,SOCK_STREAM,IPPROTO_IP);
@@ -234,11 +221,6 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 		return false;
 	}
 
-	////	设置tcp属性
-	//int	optval = 1;                    
-	//setsockopt(hListenSock, IPPROTO_TCP, TCP_NODELAY, (char*)&optval, sizeof(optval));
-
-	// 绑定端口
 	SOCKADDR_IN kLocal;
 	kLocal.sin_family = AF_INET;
 	kLocal.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -248,24 +230,21 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 		return false;
 	}
 
-	// 使用完成端口
-	if(m_hIOCP != CreateIoCompletionPort((HANDLE)hListenSock,m_hIOCP,NIK_ACCEPT_KEY,0))
+	if(m_hIOCP != CreateIoCompletionPort((HANDLE)hListenSock,m_hIOCP,static_cast<ULONG_PTR>(NeIOCPKey::NIK_ACCEPT_KEY),0))
 	{
 		return false;
 	}
 
-	// 由于使用了AcceptEx，所以等待队列的长度可以设置的比较大一些
 	if(listen(hListenSock,4) == SOCKET_ERROR)
 	{
 		return false;
 	}
 
-	// 取得AcceptEx和GetAcceptExSockaddrs函数指针
 	DWORD dwbytes = 0;
 	GUID kGuidAcceptEx = WSAID_ACCEPTEX;
 	GUID kGuidSockaddrs = WSAID_GETACCEPTEXSOCKADDRS;
-	WSAIoctl(hListenSock,SIO_GET_EXTENSION_FUNCTION_POINTER,&kGuidAcceptEx,sizeof(kGuidAcceptEx),&m_pkAcceptEx,sizeof(FAcceptEx),&dwbytes,NULL,NULL);
-	WSAIoctl(hListenSock,SIO_GET_EXTENSION_FUNCTION_POINTER,&kGuidSockaddrs,sizeof(kGuidSockaddrs),&m_pkSockaddrs,sizeof(FSockaddrs),&dwbytes,NULL,NULL);
+	WSAIoctl(hListenSock,SIO_GET_EXTENSION_FUNCTION_POINTER,&kGuidAcceptEx,sizeof(kGuidAcceptEx),&m_pkAcceptEx,sizeof(FAcceptEx),&dwbytes,nullptr,nullptr);
+	WSAIoctl(hListenSock,SIO_GET_EXTENSION_FUNCTION_POINTER,&kGuidSockaddrs,sizeof(kGuidSockaddrs),&m_pkSockaddrs,sizeof(FSockaddrs),&dwbytes,nullptr,nullptr);
 
 	NeListen kListen;
 	kListen.hSock = hListenSock;
@@ -274,7 +253,6 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 	kListen.iFlag = iFlag;
 	kListen.iListenNum = iListenNum;
 
-	// 提交监听给完成端口
 	kListen.apkAcceptOV = new NeAcceptOV[iListenNum];
 	for(int i = 0;i < iListenNum;i++)
 	{
@@ -293,13 +271,11 @@ bool NeIOCPMgr::Listen(int iListenPort,int iListenNum,int iBufferSize,int iFlag)
 
 TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 {
-	// 判断是否已经关闭
 	if(rkSock.dwAllocID != rkSock.pkSock->dwAllocID)
 	{
-		return TSR_NET_CLOSED;
+		return TeSendResult::TSR_NET_CLOSED;
 	}
 
-	// 确认网络句柄是有效的
 	{
 		bool bFind = false;
 		m_kSockLock.Lock();
@@ -311,7 +287,7 @@ TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 		m_kSockLock.UnLock();
 		if(!bFind)
 		{
-			return TSR_NET_CLOSED;
+			return TeSendResult::TSR_NET_CLOSED;
 		}
 	}
 
@@ -320,10 +296,10 @@ TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 	NeSendBuffer& rkExtraBuf = rkSock.pkSock->kExtraBuf;
 
 	bool bNeedSend = false;
-	TeSendResult eRet = TSR_SUCCESS;
+	TeSendResult eRet = TeSendResult::TSR_SUCCESS;
 
 	rkLock.Lock();
-	if(rkExtraBuf.GetData() == NULL)
+	if(rkExtraBuf.GetData() == nullptr)
 	{
 		if(rkSendBuf.GetSize() <= 0)
 		{
@@ -334,11 +310,11 @@ TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 		{
 			if(bNeedSend)
 			{
-				eRet = TSR_NET_BUSY;
+				eRet = TeSendResult::TSR_NET_BUSY;
 			}
 			else if(!rkExtraBuf.PushData(pcData,iSize))
 			{
-				eRet = TSR_NET_BUSY;
+				eRet = TeSendResult::TSR_NET_BUSY;
 			}
 		}
 	}
@@ -346,26 +322,26 @@ TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 	{
 		if(!rkExtraBuf.PushData(pcData,iSize))
 		{
-			eRet = TSR_NET_BUSY;
+			eRet = TeSendResult::TSR_NET_BUSY;
 		}
 	}
 
 	if(bNeedSend)
 	{
 		NeOverlap& rkSendOV = rkSock.pkSock->kSendOV;
-		rkSendOV.eType = NOV_SEND;
+		rkSendOV.eType = NeOVType::NOV_SEND;
 		rkSendOV.kWSABuf.buf = rkSendBuf.GetBuffer();
 		rkSendOV.kWSABuf.len = rkSendBuf.GetSize();
 
 		DWORD dwIOSize = 0;
 		memset(&rkSendOV,0,sizeof(OVERLAPPED));
-		if(WSASend(rkSock.pkSock->hSocket,&rkSendOV.kWSABuf,1,&dwIOSize,0,&rkSendOV,NULL) == SOCKET_ERROR)
+		if(WSASend(rkSock.pkSock->hSocket,&rkSendOV.kWSABuf,1,&dwIOSize,0,&rkSendOV,nullptr) == SOCKET_ERROR)
 		{
 			int iSendError = WSAGetLastError();
 			if(iSendError != ERROR_IO_PENDING)
 			{
-				PushDisconnect(rkSock,TDC_SEND_ERROR1,iSendError);
-				eRet = TSR_NET_ERROR;
+				PushDisconnect(rkSock,TeDisconnectCode::TDC_SEND_ERROR1,iSendError);
+				eRet = TeSendResult::TSR_NET_ERROR;
 			}
 		}
 	}
@@ -376,7 +352,7 @@ TeSendResult NeIOCPMgr::SendData(const NeHSock& rkSock,char* pcData,int iSize)
 
 void NeIOCPMgr::Disconnect(const NeHSock& rkSock)
 {
-	PushDisconnect(rkSock,TDC_SELF_DISC,0);
+	PushDisconnect(rkSock,TeDisconnectCode::TDC_SELF_DISC,0);
 }
 
 DWORD WINAPI NeIOCPMgr::NetProcThread(LPVOID pkParam)
@@ -389,44 +365,42 @@ DWORD NeIOCPMgr::NetProc(void)
 {
 	int	iLastError = 0;
 	DWORD dwIOSize = 0;
-	DWORD dwIOCPKey = NIK_ORIGIN_KEY;
-	OVERLAPPED* pkOV = NULL;
+    ULONG dwIOCPKey = static_cast<ULONG>(NeIOCPKey::NIK_ORIGIN_KEY);
+	OVERLAPPED* pkOV = nullptr;
 	while(true)
 	{
 		iLastError = 0;
 		dwIOSize = 0;
-		pkOV = NULL;
+		pkOV = nullptr;
 
-		ULONG_PTR ulIOKey = NIK_ORIGIN_KEY;
-		bool bRet = GetQueuedCompletionStatus(m_hIOCP,&dwIOSize,&ulIOKey,&pkOV,INFINITE);
+		ULONG ulIOKey = static_cast<ULONG>(NeIOCPKey::NIK_ORIGIN_KEY);
+		bool bRet = GetQueuedCompletionStatus(m_hIOCP,&dwIOSize,(PULONG_PTR)&ulIOKey,&pkOV,INFINITE);
 		if(!bRet)
 		{
 			iLastError = GetLastError();
 		}
-		dwIOCPKey = (DWORD)ulIOKey;
+		dwIOCPKey = ulIOKey;
 
-		if(dwIOCPKey == NIK_ALL_EXIT || (!bRet && dwIOCPKey == NIK_ORIGIN_KEY))
+		if(dwIOCPKey == static_cast<ULONG>(NeIOCPKey::NIK_ALL_EXIT) ||
+            (!bRet && dwIOCPKey == static_cast<ULONG>(NeIOCPKey::NIK_ORIGIN_KEY)))
 		{
 			NET_ERROR();
 			return 0;
 		}
 
-		// Connect相关操作
-		if(dwIOCPKey == NIK_CONNECT_KEY)
+		if(dwIOCPKey == static_cast<ULONG>(NeIOCPKey::NIK_CONNECT_KEY))
 		{
-			// 连接服务器
 			NeConnect* pkConnect = (NeConnect *)pkOV;
 			NeSock* pkSock = Connect(pkConnect);
 			if(!pkSock)
 			{
-				PushConnected(NULL,(BYTE*)pkConnect->acIP,pkConnect->iPort);
+				PushConnected(nullptr,(BYTE*)pkConnect->acIP,pkConnect->iPort);
 			}
 			delete pkConnect;
 			continue;
 		}
 
-		// AcceptEx相关的操作
-		if(dwIOCPKey == NIK_ACCEPT_KEY)
+		if(dwIOCPKey == static_cast<ULONG>(NeIOCPKey::NIK_ACCEPT_KEY))
 		{
 			NeAcceptOV* pkAcceptOV = (NeAcceptOV *)pkOV;
 			if(!bRet)
@@ -436,7 +410,7 @@ DWORD NeIOCPMgr::NetProc(void)
 				continue;
 			}
 
-			NeSock* pkSock = CreateSock(pkAcceptOV->hSocket,pkAcceptOV,NULL);
+			NeSock* pkSock = CreateSock(pkAcceptOV->hSocket,pkAcceptOV,nullptr);
 			if(!pkSock)
 			{
 				NET_ERROR();
@@ -449,26 +423,23 @@ DWORD NeIOCPMgr::NetProc(void)
 		}
 
 		NeOverlap* pkOverlap = (NeOverlap *)pkOV;
-		if(dwIOCPKey != pkOverlap->kSock.dwAllocID)
+		if(static_cast<unsigned int>(dwIOCPKey) != pkOverlap->kSock.dwAllocID)
 		{
-			// 该套接字逻辑层已经关闭了
 			continue;
 		}
 
-		// 关闭一个连接
 		NeSock* pkSock = pkOverlap->kSock.pkSock;
 		if(!bRet || dwIOSize == 0)
 		{
-			PushDisconnect(NeHSock(pkSock,dwIOCPKey),TDC_SYSTEM_ERROR,iLastError);
+			PushDisconnect(NeHSock(pkSock, static_cast<unsigned int>(dwIOCPKey)),TeDisconnectCode::TDC_SYSTEM_ERROR,iLastError);
 			continue;
 		}
 
-		if(pkOverlap->eType == NOV_RECV)
+		if(pkOverlap->eType == NeOVType::NOV_RECV)
 		{
 			SeLock& rkLock = pkSock->kRecvLock;
 			NeBuffer& rkRecvBuf = pkSock->kRecvBuf;
 
-			// 检查接收之后的数据是否构成了一个完整包
 			rkLock.Lock();
 			if(rkRecvBuf.Append(dwIOSize))
 			{
@@ -486,21 +457,20 @@ DWORD NeIOCPMgr::NetProc(void)
 			}
 			rkLock.UnLock();
 
-			// 进行下一次接收
 			DWORD dwFlag = 0;
 			memset(pkOverlap,0,sizeof(OVERLAPPED));
 			pkOverlap->kWSABuf.buf = rkRecvBuf.GetFreeBuffer();
 			pkOverlap->kWSABuf.len = rkRecvBuf.GetFreeSize();
-			if(WSARecv(pkSock->hSocket,&pkOverlap->kWSABuf,1,&dwIOSize,&dwFlag,pkOV,NULL) == SOCKET_ERROR)
+			if(WSARecv(pkSock->hSocket,&pkOverlap->kWSABuf,1,&dwIOSize,&dwFlag,pkOV,nullptr) == SOCKET_ERROR)
 			{
 				int iRecvError = WSAGetLastError();
 				if(iRecvError != ERROR_IO_PENDING)
 				{
-					PushDisconnect(NeHSock(pkSock,dwIOCPKey),TDC_RECV_ERROR2,iRecvError);
+					PushDisconnect(NeHSock(pkSock, static_cast<unsigned int>(dwIOCPKey)),TeDisconnectCode::TDC_RECV_ERROR2,iRecvError);
 				}
 			}
 		}
-		else if(pkOverlap->eType == NOV_SEND && pkSock->dwAllocID > 0)
+		else if(pkOverlap->eType == NeOVType::NOV_SEND && pkSock->dwAllocID > 0)
 		{
 			NeBuffer& rkSendBuf = pkSock->kSendBuf;
 			NeSendBuffer& rkExtraBuf = pkSock->kExtraBuf;
@@ -509,8 +479,6 @@ DWORD NeIOCPMgr::NetProc(void)
 			pkSock->kSendLock.Lock();
 			rkSendBuf.Retract(dwIOSize);
 
-			//////////////////////////////////////////////////////////////////////////
-			// 假如额外的发送缓冲里面也有数据的话就把它放入正式的发送缓冲
 			while(true)
 			{
 				NeSendPack* pkPack = rkExtraBuf.GetData();
@@ -525,7 +493,6 @@ DWORD NeIOCPMgr::NetProc(void)
 				rkExtraBuf.PopData();
 			}
 			rkExtraBuf.Retract();
-			//////////////////////////////////////////////////////////////////////////
 
 			if(rkSendBuf.GetSize() > 0)
 			{
@@ -538,12 +505,12 @@ DWORD NeIOCPMgr::NetProc(void)
 			if(bNeedSend)
 			{
 				memset(pkOverlap,0,sizeof(OVERLAPPED));
-				if(WSASend(pkSock->hSocket,&pkOverlap->kWSABuf,1,&dwIOSize,0,pkOV,NULL) == SOCKET_ERROR)
+				if(WSASend(pkSock->hSocket,&pkOverlap->kWSABuf,1,&dwIOSize,0,pkOV,nullptr) == SOCKET_ERROR)
 				{
 					int iSendError = WSAGetLastError();
 					if(iSendError != ERROR_IO_PENDING)
 					{
-						PushDisconnect(NeHSock(pkSock,dwIOCPKey),TDC_SEND_ERROR2,iSendError);
+						PushDisconnect(NeHSock(pkSock,dwIOCPKey),TeDisconnectCode::TDC_SEND_ERROR2,iSendError);
 					}
 				}
 			}
@@ -555,47 +522,41 @@ DWORD NeIOCPMgr::NetProc(void)
 
 NeSock* NeIOCPMgr::Connect(NeConnect* pkConnect)
 {
-	// 创建Socket
 	SOCKET hSocket = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
 	if(hSocket == INVALID_SOCKET)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	// 设置连接服务器
 	sockaddr_in kSockAddr;
 	memset(&kSockAddr,0,sizeof(kSockAddr));
 	kSockAddr.sin_addr.s_addr =  inet_addr(pkConnect->acIP);
 	kSockAddr.sin_family		= AF_INET;
 	kSockAddr.sin_port			= htons(pkConnect->iPort);
 
-	// 是否启用超时参数
 	if(pkConnect->iTimeOut > 0)
 	{
-		// 修改该socket为非阻塞模式
 		ULONG ulValue = 1;
 		int iRet = ioctlsocket(hSocket,FIONBIO,&ulValue);
 		if(iRet == SOCKET_ERROR)
 		{
 			closesocket(hSocket);
-			return NULL;
+			return nullptr;
 		}
 
-		// 连接服务器
 		if(connect(hSocket,(SOCKADDR*)&kSockAddr,sizeof(kSockAddr)) == -1)
 		{
-			// 设置连接超时时间
 			fd_set kSet;
 			FD_ZERO(&kSet);
 			FD_SET(hSocket,&kSet);
 			timeval kTimeOut;
 			kTimeOut.tv_sec  = pkConnect->iTimeOut / 1000;
 			kTimeOut.tv_usec = pkConnect->iTimeOut % 1000;
-			iRet = select((int)hSocket + 1,NULL,&kSet,NULL,&kTimeOut);
+			iRet = select((int)hSocket + 1,nullptr,&kSet,nullptr,&kTimeOut);
 			if(iRet <= 0)
 			{
 				closesocket(hSocket);
-				return NULL;
+				return nullptr;
 			}
 			else
 			{
@@ -605,36 +566,33 @@ NeSock* NeIOCPMgr::Connect(NeConnect* pkConnect)
 				if(iError != 0)
 				{
 					closesocket(hSocket);
-					return NULL;
+					return nullptr;
 				}
 			}
 		}
 
-		// 还原为阻塞模式
 		ulValue = 0;
 		iRet = ioctlsocket(hSocket,FIONBIO,&ulValue);
 		if(iRet == SOCKET_ERROR)
 		{
 			closesocket(hSocket);
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
 	{
-		// 连接服务器
 		if(connect(hSocket,(SOCKADDR*)&kSockAddr,sizeof(kSockAddr)) != 0)
 		{
 			closesocket(hSocket);
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	// 绑定该连接到完成端口
-	NeSock* pkSock = CreateSock(hSocket,NULL,pkConnect);
+	NeSock* pkSock = CreateSock(hSocket,nullptr,pkConnect);
 	if(!pkSock)
 	{
 		closesocket(hSocket);
-		return NULL;
+		return nullptr;
 	}
 
 	return pkSock;
@@ -642,7 +600,7 @@ NeSock* NeIOCPMgr::Connect(NeConnect* pkConnect)
 
 bool NeIOCPMgr::PostAccept(NeAcceptOV& rkOV)
 {
-	rkOV.hSocket = (int)WSASocket(AF_INET,SOCK_STREAM,0,NULL,0,WSA_FLAG_OVERLAPPED);
+	rkOV.hSocket = (int)WSASocket(AF_INET,SOCK_STREAM,0,nullptr,0,WSA_FLAG_OVERLAPPED);
 	if(rkOV.hSocket == INVALID_SOCKET)
 	{
 		NET_ERROR();
@@ -667,7 +625,7 @@ void NeIOCPMgr::PushConnected(const NeHSock& rkSock, BYTE abyIP[], int iPort)
 {
 	NePostData kPost;
 	kPost.kSock = rkSock;
-	kPost.eType = NPT_CONNECTED;
+	kPost.eType = NePostType::NPT_CONNECTED;
 	memcpy(kPost.acIP, abyIP, sizeof(kPost.acIP));
 	kPost.iPort = iPort;
 	PushPost(kPost);
@@ -677,7 +635,7 @@ void NeIOCPMgr::PushAccept(const NeHSock& rkSock,int iAcceptPort,BYTE abyIP[],in
 {
 	NePostData kPost;
 	kPost.kSock = rkSock;
-	kPost.eType = NPT_ACCEPTED;
+	kPost.eType = NePostType::NPT_ACCEPTED;
 	kPost.iAcceptPort = iAcceptPort;
 	sprintf(kPost.acIP, "%d.%d.%d.%d", abyIP[0], abyIP[1], abyIP[2], abyIP[3]);
 	kPost.iPort = iPort;
@@ -687,7 +645,7 @@ void NeIOCPMgr::PushAccept(const NeHSock& rkSock,int iAcceptPort,BYTE abyIP[],in
 void NeIOCPMgr::PushDisconnect(const NeHSock& rkSock,TeDisconnectCode eCode,int iParam)
 {
 	bool bFind = false;
-	NeSock* pkSock = NULL;
+	NeSock* pkSock = nullptr;
 
 	m_kSockLock.Lock();
 	MSock::iterator itr = m_kAllSock.find(rkSock.dwAllocID);
@@ -707,7 +665,7 @@ void NeIOCPMgr::PushDisconnect(const NeHSock& rkSock,TeDisconnectCode eCode,int 
 		FreeSock(rkSock.pkSock);
 
 		NePostData kPost;
-		kPost.eType = NPT_DISCONNECT;
+		kPost.eType = NePostType::NPT_DISCONNECT;
 		kPost.kSock = kSock;
 		kPost.iCode = eCode;
 		kPost.iParam = iParam;
@@ -726,7 +684,6 @@ void NeIOCPMgr::PushRecv(const NeHSock& rkSock,char* pcData,int iSize)
 {
 	m_kPostLock.Lock();
 
-	// 该连接已经断开丢弃接收到的数据
 	if(rkSock.dwAllocID == 0)
 	{
 		m_kPostLock.UnLock();
@@ -737,7 +694,7 @@ void NeIOCPMgr::PushRecv(const NeHSock& rkSock,char* pcData,int iSize)
 	if(iPushSize == iSize && iPushSize > 0)
 	{
 		NePostData kPost;
-		kPost.eType = NPT_RECV;
+		kPost.eType = NePostType::NPT_RECV;
 		kPost.kSock = rkSock;
 		kPost.iSize = iPushSize;
 		m_kPostData.push(kPost);
@@ -750,14 +707,13 @@ NeSock* NeIOCPMgr::CreateSock(SOCKET hSocket,NeAcceptOV* pkAcceptOV,NeConnect* p
 {
 	if(!pkAcceptOV && !pkConnect)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int iBufferSize = 0;
 	int iFlag = 0;
 	if(pkAcceptOV)
 	{
-		// 继承hListenSock属性
 		setsockopt(hSocket,SOL_SOCKET,SO_UPDATE_ACCEPT_CONTEXT,(char *)&pkAcceptOV->hListenSock,sizeof(SOCKET));
 		iBufferSize = pkAcceptOV->iBufferSize;
 		iFlag = pkAcceptOV->iFlag;
@@ -774,11 +730,11 @@ NeSock* NeIOCPMgr::CreateSock(SOCKET hSocket,NeAcceptOV* pkAcceptOV,NeConnect* p
 		setsockopt(hSocket,IPPROTO_TCP,TCP_NODELAY,(char*)&bNoDelay,sizeof(bNoDelay));
 	}
 
-	NeSock* pkSock = AllocSock(hSocket,iBufferSize,iFlag);
+    NeSock* pkSock = AllocSock(hSocket,iBufferSize,static_cast<TeSockFlag>(iFlag));
 	if(!pkSock)
 	{
 		NET_ERROR();
-		return NULL;
+		return nullptr;
 	}
 
 	m_kSockLock.Lock();
@@ -787,8 +743,8 @@ NeSock* NeIOCPMgr::CreateSock(SOCKET hSocket,NeAcceptOV* pkAcceptOV,NeConnect* p
 
 	if(pkAcceptOV)
 	{
-		SOCKADDR*	pkLocaladdr = NULL;
-		SOCKADDR*	pkRemoteSockaddr = NULL;
+		SOCKADDR*	pkLocaladdr = nullptr;
+		SOCKADDR*	pkRemoteSockaddr = nullptr;
 		int			iLocaladdrLen = 0;
 		int			iRemoteaddrLen = 0;
 
@@ -805,19 +761,18 @@ NeSock* NeIOCPMgr::CreateSock(SOCKET hSocket,NeAcceptOV* pkAcceptOV,NeConnect* p
 		PushConnected(kSock,(BYTE*)pkConnect->acIP,pkConnect->iPort);
 	}
 
-	// 准备接收数据
 	DWORD dwIOSize = 0,dwFlag = 0;
 	NeOverlap& rkOV = pkSock->kRecvOV;
 	memset(&rkOV,0,sizeof(OVERLAPPED));
-	rkOV.eType = NOV_RECV;
+	rkOV.eType = NeOVType::NOV_RECV;
 	rkOV.kWSABuf.buf = pkSock->kRecvBuf.GetFreeBuffer();
 	rkOV.kWSABuf.len = pkSock->kRecvBuf.GetFreeSize();
-	if(WSARecv(hSocket,&rkOV.kWSABuf,1,&dwIOSize,&dwFlag,&rkOV,NULL) == SOCKET_ERROR)
+	if(WSARecv(hSocket,&rkOV.kWSABuf,1,&dwIOSize,&dwFlag,&rkOV,nullptr) == SOCKET_ERROR)
 	{
 		int iRecvError = WSAGetLastError();
 		if(iRecvError != ERROR_IO_PENDING)
 		{
-			PushDisconnect(NeHSock(pkSock,pkSock->dwAllocID),TDC_RECV_ERROR1,iRecvError);
+			PushDisconnect(NeHSock(pkSock,pkSock->dwAllocID),TeDisconnectCode::TDC_RECV_ERROR1,iRecvError);
 		}
 	}
 
@@ -831,18 +786,16 @@ void NeIOCPMgr::ReleaseSocket(SOCKET hSocket)
 	closesocket(hSocket);
 }
 
-NeSock*	NeIOCPMgr::AllocSock(SOCKET hSocket,int iBufferSize,int iFlag)
+NeSock*	NeIOCPMgr::AllocSock(SOCKET hSocket,int iBufferSize, TeSockFlag iFlag)
 {
-	// 确定socket是否可以绑定到完成端口
 	DWORD dwAllocID = (DWORD)InterlockedIncrement(&m_lGenID);
 	if(m_hIOCP != CreateIoCompletionPort((HANDLE)hSocket,m_hIOCP,dwAllocID,0))
 	{
 		NET_ERROR();
-		return NULL;
+		return nullptr;
 	}
 
-	// 查看缓冲池里面是否有空闲的自定义sock
-	NeSock* pkSock = NULL;
+	NeSock* pkSock = nullptr;
 	m_kDelSockLock.Lock();
 	if(!m_kDelSocks.empty())
 	{
@@ -852,13 +805,11 @@ NeSock*	NeIOCPMgr::AllocSock(SOCKET hSocket,int iBufferSize,int iFlag)
 	}
 	m_kDelSockLock.UnLock();
 
-	// 假如没有空闲的就分配一个
 	if(!pkSock)
 	{
 		pkSock = new NeSock;
 	}
 
-	// 合法化发送和接受数据大小
 	if(iBufferSize < MIN_BUFFER_SIZE)
 	{
 		iBufferSize = MIN_BUFFER_SIZE;
