@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\NeNetDef.h" />
-    <ClInclude Include="..\Src\TeNetMgr.h" />
     <ClInclude Include="..\Src\NeEpollMgr.h">
       <Filter>NeEpollMgr</Filter>
     </ClInclude>
@@ -245,6 +244,7 @@
     <ClInclude Include="..\Src\Enet\include\enet\win32.h">
       <Filter>3rdParty\Enet</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\TeNetMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\TeNetMgr.cpp" />

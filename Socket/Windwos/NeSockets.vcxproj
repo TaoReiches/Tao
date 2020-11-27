@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4DED316B-3DF9-4D65-982F-5E488BF82D88}</ProjectGuid>
     <RootNamespace>NeSockets</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName)_$(Configuration)_$(PlatformShortName)</TargetName>
-    <OutDir>$(ProjectDir)../../../Share/lib/win/</OutDir>
+    <OutDir>$(ProjectDir)../../Game/lib/</OutDir>
     <IntDir>$(OutDir)Obj/$(ProjectName)\$(Configuration)_$(PlatformShortName)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -110,7 +111,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Src/Enet/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Src/Enet/include;../include/</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -174,6 +175,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\TeNetMgr.h" />
     <ClInclude Include="..\Src\C++Sockets\Base64.h" />
     <ClInclude Include="..\Src\C++Sockets\Debug.h" />
     <ClInclude Include="..\Src\C++Sockets\Event.h" />
@@ -252,7 +254,6 @@
     <ClInclude Include="..\Src\NeNetDef.h" />
     <ClInclude Include="..\Src\NeRecvBuffer.h" />
     <ClInclude Include="..\Src\NeSendBuffer.h" />
-    <ClInclude Include="..\Src\TeNetMgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\C++Sockets\Base64.cpp" />
