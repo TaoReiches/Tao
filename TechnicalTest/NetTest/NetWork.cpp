@@ -36,18 +36,15 @@ void	SeNetMgr::UpdateNet()
     m_kNetMgr.Update();
 }
 
-
 void SeNetMgr::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)
 {
-    m_kServerSock = rkSock;
+    m_kSock = rkSock;
 
+    // send connect command
+    auto connectCmd = GameCommand::Connect();
+    SendData(connectCmd.c_str(), connectCmd.size(), m_kSock);
 
-
-    //SendData(acSendBuffer, 16, m_kServerSock);
-
-    printf("Connect Ok!  Send MapInfo!!!  \n");
-
-    //Sleep(500);
+    printf("Connect Ok!  Send Connect Command!!!  \n");
 }
 void SeNetMgr::OnNetAccept(const HSock& rkSock, int iListenPort, const char* pcIP, int iPort)
 {
@@ -69,8 +66,4 @@ void	SeNetMgr::BeginGame()
     {
         printf("Send Connect Handle Ok!!!!  \n");
     }
-
-    // send connect command
-    auto connectCmd = GameCommand::Connect();
-    SendData(connectCmd.c_str(), connectCmd.size(), m_kServerSock);
 }

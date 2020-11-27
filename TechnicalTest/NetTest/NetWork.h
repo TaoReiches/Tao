@@ -24,7 +24,7 @@ public:
 private:
     TeNetMgr			m_kNetMgr;
 
-    HSock				m_kServerSock;
+    HSock				m_kSock;
 };
 
 extern SeNetMgr	kNet;
