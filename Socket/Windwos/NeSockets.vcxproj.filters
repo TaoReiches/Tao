@@ -4,9 +4,6 @@
     <Filter Include="NeIOCPMgr">
       <UniqueIdentifier>{95ec4d3e-b965-475c-8dfd-891e57d90942}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NeHttpMgr">
-      <UniqueIdentifier>{5e9e9632-5a3a-420f-a366-73782ea1c886}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NeEpollMgr">
       <UniqueIdentifier>{60529c6f-e731-43bd-909f-d963004dbe2f}</UniqueIdentifier>
     </Filter>
@@ -15,12 +12,6 @@
     </Filter>
     <Filter Include="3rdParty\C++Sockets">
       <UniqueIdentifier>{34755e50-1535-4f38-b825-f0961175d2db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NeMulitTcpMgr">
-      <UniqueIdentifier>{ed2a97af-72f3-433e-97aa-ea8f0d94a211}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NeUdpMgr">
-      <UniqueIdentifier>{0b56b5d4-b46c-4d13-916b-132485ffdda0}</UniqueIdentifier>
     </Filter>
     <Filter Include="3rdParty\Enet">
       <UniqueIdentifier>{8b38b211-5082-4e5b-9c9d-409357ca947b}</UniqueIdentifier>
@@ -38,13 +29,7 @@
     <ClInclude Include="..\Src\NeBuffer.h" />
     <ClInclude Include="..\Src\NeRecvBuffer.h" />
     <ClInclude Include="..\Src\NeSendBuffer.h" />
-    <ClInclude Include="..\Src\NeHttpMgr.h">
-      <Filter>NeHttpMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\TeInclude.h" />
-    <ClInclude Include="..\Src\NeMulitTcpMgr.h">
-      <Filter>NeMulitTcpMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\C++Sockets\Base64.h">
       <Filter>3rdParty\C++Sockets</Filter>
     </ClInclude>
@@ -234,9 +219,6 @@
     <ClInclude Include="..\Src\C++Sockets\Utility.h">
       <Filter>3rdParty\C++Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\NeUdpMgr.h">
-      <Filter>NeUdpMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\Src\Enet\include\enet\callbacks.h">
       <Filter>3rdParty\Enet</Filter>
     </ClInclude>
@@ -276,12 +258,6 @@
     <ClCompile Include="..\Src\NeBuffer.cpp" />
     <ClCompile Include="..\Src\NeRecvBuffer.cpp" />
     <ClCompile Include="..\Src\NeSendBuffer.cpp" />
-    <ClCompile Include="..\Src\NeHttpMgr.cpp">
-      <Filter>NeHttpMgr</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NeMulitTcpMgr.cpp">
-      <Filter>NeMulitTcpMgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\C++Sockets\Base64.cpp">
       <Filter>3rdParty\C++Sockets</Filter>
     </ClCompile>
@@ -431,9 +407,6 @@
     </ClCompile>
     <ClCompile Include="..\Src\C++Sockets\Utility.cpp">
       <Filter>3rdParty\C++Sockets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\NeUdpMgr.cpp">
-      <Filter>NeUdpMgr</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Enet\callbacks.c">
       <Filter>3rdParty\Enet</Filter>

@@ -248,13 +248,10 @@
     <ClInclude Include="..\Src\Enet\include\enet\win32.h" />
     <ClInclude Include="..\Src\NeBuffer.h" />
     <ClInclude Include="..\Src\NeEpollMgr.h" />
-    <ClInclude Include="..\Src\NeHttpMgr.h" />
     <ClInclude Include="..\Src\NeIOCPMgr.h" />
     <ClInclude Include="..\Src\NeNetDef.h" />
     <ClInclude Include="..\Src\NeRecvBuffer.h" />
     <ClInclude Include="..\Src\NeSendBuffer.h" />
-    <ClInclude Include="..\Src\NeMulitTcpMgr.h" />
-    <ClInclude Include="..\Src\NeUdpMgr.h" />
     <ClInclude Include="..\Src\TeInclude.h" />
     <ClInclude Include="..\Src\TeNetMgr.h" />
   </ItemGroup>
@@ -320,12 +317,9 @@
     <ClCompile Include="..\Src\Enet\win32.c" />
     <ClCompile Include="..\Src\NeBuffer.cpp" />
     <ClCompile Include="..\Src\NeEpollMgr.cpp" />
-    <ClCompile Include="..\Src\NeHttpMgr.cpp" />
     <ClCompile Include="..\Src\NeIOCPMgr.cpp" />
     <ClCompile Include="..\Src\NeRecvBuffer.cpp" />
     <ClCompile Include="..\Src\NeSendBuffer.cpp" />
-    <ClCompile Include="..\Src\NeMulitTcpMgr.cpp" />
-    <ClCompile Include="..\Src\NeUdpMgr.cpp" />
     <ClCompile Include="..\Src\TeNetMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
