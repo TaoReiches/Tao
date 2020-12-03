@@ -5,7 +5,10 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
 #include "Singleton.h"
+
+class BeMain;
 
 class BattleLogic : public Singleton<BattleLogic>
 {
@@ -14,4 +17,9 @@ public:
     ~BattleLogic();
 
     bool Initialize();
+    void Update();
+
+private:
+    std::unique_ptr<BeMain>     mpMain;
+    unsigned int                muiFrame;
 };

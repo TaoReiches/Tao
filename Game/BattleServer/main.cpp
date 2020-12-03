@@ -7,7 +7,6 @@
 #include <chrono>
 #include <thread>
 #include "TW_GameLog.h"
-#include "TW_Main.h"
 #include "TW_Network.h"
 #include "BattleLogic.h"
 
@@ -19,22 +18,14 @@ int main()
     TW_WARN("Test warning message.");
     TW_ERROR("Test error message.");
 
-    auto pkMain = std::unique_ptr<BeMain>(new BeMain());
-    pkMain->LoadRes(888);
-    pkMain->Initialize();
-
     BattleLogic::Get()->Initialize();
 
     unsigned int frame = 0;
     while (true)
     {
         kNet.UpdateNet();
-
-        ++frame;
-        pkMain->UpdateFrame(frame);
+        BattleLogic::Get()->Update();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-
-    getchar();
 }

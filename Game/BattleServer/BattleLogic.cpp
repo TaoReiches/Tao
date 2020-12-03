@@ -4,10 +4,12 @@
 **********************************************/
 
 #include "BattleLogic.h"
+#include "TW_Main.h"
 
 BattleLogic::BattleLogic()
 {
-
+    mpMain = nullptr;
+    muiFrame = 0;
 }
 
 BattleLogic::~BattleLogic()
@@ -17,5 +19,15 @@ BattleLogic::~BattleLogic()
 
 bool BattleLogic::Initialize()
 {
+    mpMain = std::unique_ptr<BeMain>(new BeMain());
+    mpMain->LoadRes(888);
+    mpMain->Initialize();
+
     return true;
+}
+
+void BattleLogic::Update()
+{
+    ++muiFrame;
+    mpMain->UpdateFrame(muiFrame);
 }
