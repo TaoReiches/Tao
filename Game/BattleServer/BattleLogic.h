@@ -6,6 +6,7 @@
 **********************************************/
 
 #include <memory>
+#include <string>
 #include "Singleton.h"
 
 class TwMain;
@@ -18,6 +19,10 @@ public:
 
     bool Initialize();
     void UpdateLogic();
+    void OnRecivedCommand(std::string command);
+
+private:
+    void OnPlayerConnect(std::string command);
 
 private:
     std::unique_ptr<TwMain>     mpMain;

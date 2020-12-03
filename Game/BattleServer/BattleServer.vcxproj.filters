@@ -8,6 +8,9 @@
     <ClCompile Include="BattleLogic.cpp">
       <Filter>BattleLogic</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
+      <Filter>protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Log">
@@ -22,6 +25,9 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{e3563cd9-04e4-46db-9698-bfa54304d89f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="protobuf">
+      <UniqueIdentifier>{74501d2f-7a93-425c-b577-d15df9a1a494}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_GameLog.h">
@@ -35,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
+      <Filter>protobuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

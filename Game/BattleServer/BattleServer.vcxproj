@@ -99,13 +99,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../ThirdParty/spdlog/include;../Table;../BattleLogic;../BattleHelper/include;../../Socket/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../ThirdParty/spdlog/include;../Table;../BattleLogic;../BattleHelper/include;../../Socket/include;../../Proto/build/c++;../../ThirdParty/protobuf/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Table.lib;BattleLogic.lib;BattleHelper.lib;NeSockets_Debug_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Table.lib;BattleLogic.lib;BattleHelper.lib;NeSockets_Debug_x64.lib;libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../lib;../../Proto/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,11 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc" />
     <ClCompile Include="BattleLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TW_Network.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
     <ClInclude Include="BattleLogic.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TW_GameLog.h" />

@@ -42,6 +42,13 @@ void SeNetMgr::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)
 
     // send connect command
     auto connectCmd = GameCommand::Connect();
+
+    Game::TwGameCommand cmd;
+    cmd.ParseFromString(connectCmd);
+
+    Game::TwGameConnectionCS cmd1;
+    cmd1.ParseFromString(connectCmd);
+
     SendData(connectCmd.c_str(), connectCmd.size(), m_kSock);
 
     printf("Connect Ok!  Send Connect Command!!!  \n");
