@@ -6,7 +6,7 @@
 **********************************************/
 
 template <typename T>
-class Singleton
+class TwSingleton
 {
 public:
     static T* Get()
@@ -19,10 +19,10 @@ public:
     }
 
 protected:
-    Singleton() { mpInstance = nullptr;}
+    TwSingleton() { mpInstance = nullptr;}
 private:
     static T* mpInstance;
 };
 
 template <typename T>
-T* Singleton<T>::mpInstance = nullptr;
+T* TwSingleton<T>::mpInstance = nullptr;

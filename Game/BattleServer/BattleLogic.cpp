@@ -6,18 +6,18 @@
 #include "BattleLogic.h"
 #include "TW_Main.h"
 
-BattleLogic::BattleLogic()
+TwBattleLogic::TwBattleLogic()
 {
     mpMain = nullptr;
     muiFrame = 0;
 }
 
-BattleLogic::~BattleLogic()
+TwBattleLogic::~TwBattleLogic()
 {
 
 }
 
-bool BattleLogic::Initialize()
+bool TwBattleLogic::Initialize()
 {
     mpMain = std::unique_ptr<TwMain>(new TwMain());
     mpMain->LoadRes(888);
@@ -26,7 +26,7 @@ bool BattleLogic::Initialize()
     return true;
 }
 
-void BattleLogic::Update()
+void TwBattleLogic::Update()
 {
     ++muiFrame;
     mpMain->UpdateFrame(muiFrame);

@@ -10,11 +10,11 @@
 
 class TwMain;
 
-class BattleLogic : public Singleton<BattleLogic>
+class TwBattleLogic : public TwSingleton<TwBattleLogic>
 {
 public:
-    BattleLogic();
-    ~BattleLogic();
+    TwBattleLogic();
+    ~TwBattleLogic();
 
     bool Initialize();
     void Update();

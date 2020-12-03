@@ -8,11 +8,11 @@
 #include "TeNetMgr.h"
 #include <map>
 
-class SeNetMgr : public TeNetCall
+class TwNetMgr : public TeNetCall
 {
 public:
-    SeNetMgr();
-    ~SeNetMgr();
+    TwNetMgr();
+    ~TwNetMgr();
     void	UpdateNet();
 
     virtual void OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort) override;
@@ -27,4 +27,4 @@ protected:
     TeNetMgr			m_kNetMgr;
 };
 
-extern SeNetMgr	kNet;
+extern TwNetMgr	kNet;

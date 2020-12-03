@@ -10,7 +10,7 @@
 #include "TW_Network.h"
 #include "BattleLogic.h"
 
-SeNetMgr	kNet;
+TwNetMgr	kNet;
 
 int main()
 {
@@ -18,13 +18,13 @@ int main()
     TW_WARN("Test warning message.");
     TW_ERROR("Test error message.");
 
-    BattleLogic::Get()->Initialize();
+    TwBattleLogic::Get()->Initialize();
 
     unsigned int frame = 0;
     while (true)
     {
         kNet.UpdateNet();
-        BattleLogic::Get()->Update();
+        TwBattleLogic::Get()->Update();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
