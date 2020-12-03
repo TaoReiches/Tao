@@ -12,8 +12,9 @@ public:
         cmd.set_token("fakeToken");
 
         Game::TwGameCommand send;
+        send.set_content(cmd.SerializeAsString());
 
-        out = cmd.SerializeAsString();
+        out = send.SerializeAsString();
         return out;
     }
 };
