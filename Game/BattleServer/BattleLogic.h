@@ -8,7 +8,7 @@
 #include <memory>
 #include "Singleton.h"
 
-class BeMain;
+class TwMain;
 
 class BattleLogic : public Singleton<BattleLogic>
 {
@@ -20,6 +20,6 @@ public:
     void Update();
 
 private:
-    std::unique_ptr<BeMain>     mpMain;
+    std::unique_ptr<TwMain>     mpMain;
     unsigned int                muiFrame;
 };

@@ -24,7 +24,7 @@
 #include "TW_EffectData.h"
 #include "TW_EffectBumpCount.h"
 
-class BeMain;
+class TwMain;
 class BeUnit;
 class BeAttackingAttr;
 class BeEntityMgr;

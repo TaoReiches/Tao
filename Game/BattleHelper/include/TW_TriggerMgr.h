@@ -50,9 +50,9 @@ public:
 
 #define PtTrgReturn				(gTrgMgr.Return())
 
-#define PT_CONDITION_MAIN()		BeMain* pkAttachMain = (BeMain*)(pkPama)
+#define PT_CONDITION_MAIN()		TwMain* pkAttachMain = (TwMain*)(pkPama)
 
-#define PT_ACTION_MAIN()		BeMain* pkAttachMain = (BeMain*)((pt*)(pkPama))->pkAttachMain;char PT_YIELD_FLAG=1;
+#define PT_ACTION_MAIN()		TwMain* pkAttachMain = (TwMain*)((pt*)(pkPama))->pkAttachMain;char PT_YIELD_FLAG=1;
 
 #define PT_BEGIN(name)			{switch(((pt*)(pkPama))->lc){ case 0:
 

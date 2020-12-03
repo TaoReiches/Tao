@@ -19,7 +19,7 @@ BattleLogic::~BattleLogic()
 
 bool BattleLogic::Initialize()
 {
-    mpMain = std::unique_ptr<BeMain>(new BeMain());
+    mpMain = std::unique_ptr<TwMain>(new TwMain());
     mpMain->LoadRes(888);
     mpMain->Initialize();
 

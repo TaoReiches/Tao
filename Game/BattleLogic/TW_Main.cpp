@@ -16,7 +16,7 @@
 #include "Skill_table.hpp"
 #include "TW_TriggerMgr.h"
 
-BeMain::BeMain(void)
+TwMain::TwMain(void)
 {
 	pkAttachMain = this;
 
@@ -34,13 +34,13 @@ BeMain::BeMain(void)
 	m_iCurMapID = 0;
 }
 
-BeMain::~BeMain(void)
+TwMain::~TwMain(void)
 {
 	Finialize();
 	ReleaseModule();
 }
 
-void BeMain::ResetData(void)
+void TwMain::ResetData(void)
 {
 	m_eState = BMS_NONE;
 	m_uiGameTime = 0;
@@ -53,7 +53,7 @@ void BeMain::ResetData(void)
 	FinializeServerMode();
 }
 
-void BeMain::ReleaseModule(void)
+void TwMain::ReleaseModule(void)
 {
 	SAFE_DELETE(m_pkMapItemMgr);
 	SAFE_DELETE(m_pkEffectMgr);
@@ -64,12 +64,12 @@ void BeMain::ReleaseModule(void)
 	SAFE_DELETE(m_pkFormulaInfo);
 }
 
-void BeMain::InitPlayerGroup()
+void TwMain::InitPlayerGroup()
 {
 	bool bMoreCamp = false;
 }
 
-bool BeMain::InitializeGame(void)
+bool TwMain::InitializeGame(void)
 {
 	if (!m_pkTriggerMgr)
 	{
@@ -79,7 +79,7 @@ bool BeMain::InitializeGame(void)
 	return true;
 }
 
-bool BeMain::Initialize(void)
+bool TwMain::Initialize(void)
 {
 	m_eState = BMS_NONE;
 	m_uiGameTime = 0;
@@ -116,7 +116,7 @@ bool BeMain::Initialize(void)
 	return true;
 }
 
-void BeMain::Finialize(void)
+void TwMain::Finialize(void)
 {
 	if (m_pkRandNum)
 	{
@@ -150,14 +150,14 @@ void BeMain::Finialize(void)
 	ResetData();
 }
 
-void	BeMain::UpdatePlayerLeave()
+void	TwMain::UpdatePlayerLeave()
 {
 
 }
 
-bool	BeMain::UpdateFrame(unsigned int dwFrame)
+bool	TwMain::UpdateFrame(unsigned int dwFrame)
 {
-	BeMain* pkAttachMain = this;
+	TwMain* pkAttachMain = this;
 
 	while (m_uiFrameCount < dwFrame)
 	{
@@ -175,7 +175,7 @@ bool	BeMain::UpdateFrame(unsigned int dwFrame)
 	return true;
 }
 
-bool BeMain::LoadRes(int iSeed)
+bool TwMain::LoadRes(int iSeed)
 {
 	ReleaseModule();
 
@@ -217,13 +217,13 @@ bool BeMain::LoadRes(int iSeed)
 	return true;
 }
 
-void BeMain::SetGameFrame(unsigned int dwFrame)
+void TwMain::SetGameFrame(unsigned int dwFrame)
 {
 	m_uiFrameCount = dwFrame;
 	m_uiGameTime = GAME_FRAME_TIME * m_uiFrameCount;
 }
 
-int BeMain::GetSkillOrgTypeID(int iSkillTypeID)
+int TwMain::GetSkillOrgTypeID(int iSkillTypeID)
 {
 	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes && pkSkillRes->uiOriginTypeID == (unsigned int)-1)
@@ -234,12 +234,12 @@ int BeMain::GetSkillOrgTypeID(int iSkillTypeID)
 	return pkSkillRes->uiOriginTypeID;
 }
 
-void BeMain::SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName)
+void TwMain::SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName)
 {
 
 }
 
-bool BeMain::CreateHero(int iPlayer)
+bool TwMain::CreateHero(int iPlayer)
 {
     return true;
 }

@@ -98,16 +98,16 @@
 
 #define CompareValue(St,Cur,Last,Flag) if(Cur != Last) {St.iChangeFlag |= Flag;} 
 
-void BeMain::FinializeServerMode()
+void TwMain::FinializeServerMode()
 {
 }
 
-void BeMain::InitServerMode()
+void TwMain::InitServerMode()
 {
 	FinializeServerMode();
 }
 
-void BeMain::UpdateRaceOut()
+void TwMain::UpdateRaceOut()
 {
 	std::vector<int>& rkDelEffectID = gEffectMgr.PureGetDelEffect();
 
@@ -179,7 +179,7 @@ void BeMain::UpdateRaceOut()
 	//ClrAllPureData();
 }
 
-int		BeMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize)
+int		TwMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize)
 {
 	//return m_akPureDataCmdRecord[iSeatIndex].GetRaceData(iOffset, pcData, iSize);
 	return 0;

@@ -31,13 +31,13 @@ class BeSkill;
 class BeCarry;
 class SkillTable;
 
-class   BeMain : public TwTriggerFunc, public TwCommandProc
+class   TwMain : public TwTriggerFunc, public TwCommandProc
 {
 public:
-	BeMain(void);
-	~BeMain(void);
+	TwMain(void);
+	~TwMain(void);
 private:
-	BeMain* pkAttachMain;
+	TwMain* pkAttachMain;
 
 public:
 	void SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName);
@@ -170,7 +170,7 @@ protected:
     int                     m_iGameBeginTime;
 };
 
-#define gMain           (*((BeMain *)pkAttachMain))
+#define gMain           (*((TwMain *)pkAttachMain))
 #define gUnit           (*((BeUnit *)pkAttachUnit))
 #define gTime           (gMain.m_uiGameTime)
 #define gRandNum        (*(gMain.m_pkRandNum))
