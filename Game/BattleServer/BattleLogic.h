@@ -17,7 +17,7 @@ public:
     ~TwBattleLogic();
 
     bool Initialize();
-    void Update();
+    void UpdateLogic();
 
 private:
     std::unique_ptr<TwMain>     mpMain;

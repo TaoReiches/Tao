@@ -26,7 +26,7 @@ bool TwBattleLogic::Initialize()
     return true;
 }
 
-void TwBattleLogic::Update()
+void TwBattleLogic::UpdateLogic()
 {
     ++muiFrame;
     mpMain->UpdateFrame(muiFrame);

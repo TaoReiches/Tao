@@ -10,8 +10,6 @@
 #include "TW_Network.h"
 #include "BattleLogic.h"
 
-TwNetMgr	kNet;
-
 int main()
 {
     TW_LOG("Battle server start!");
@@ -23,8 +21,8 @@ int main()
     unsigned int frame = 0;
     while (true)
     {
-        kNet.UpdateNet();
-        TwBattleLogic::Get()->Update();
+        TwNetwork::Get()->UpdateNet();
+        TwBattleLogic::Get()->UpdateLogic();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }

@@ -5,14 +5,15 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include "TeNetMgr.h"
 #include <map>
+#include "TeNetMgr.h"
+#include "Singleton.h"
 
-class TwNetMgr : public TeNetCall
+class TwNetwork : public TwSingleton<TwNetwork>, public TeNetCall
 {
 public:
-    TwNetMgr();
-    ~TwNetMgr();
+    TwNetwork();
+    ~TwNetwork();
     void	UpdateNet();
 
     virtual void OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort) override;
@@ -26,5 +27,3 @@ public:
 protected:
     TeNetMgr			m_kNetMgr;
 };
-
-extern TwNetMgr	kNet;
