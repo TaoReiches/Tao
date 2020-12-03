@@ -4,6 +4,7 @@
 **********************************************/
 
 #include "TW_Network.h"
+#include "BattleLogic.h"
 
 SeNetMgr::SeNetMgr()
 {
@@ -46,6 +47,7 @@ void SeNetMgr::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
     memcpy(acTemp, pkData, iSize);
     acTemp[iSize + 1] = '\0';
 
+    BattleLogic::Get()->Initialize();
 }
 void SeNetMgr::OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam)
 {

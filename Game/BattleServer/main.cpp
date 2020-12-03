@@ -9,6 +9,7 @@
 #include "TW_GameLog.h"
 #include "TW_Main.h"
 #include "TW_Network.h"
+#include "BattleLogic.h"
 
 SeNetMgr	kNet;
 
@@ -21,6 +22,8 @@ int main()
     auto pkMain = std::unique_ptr<BeMain>(new BeMain());
     pkMain->LoadRes(888);
     pkMain->Initialize();
+
+    BattleLogic::Get()->Initialize();
 
     unsigned int frame = 0;
     while (true)

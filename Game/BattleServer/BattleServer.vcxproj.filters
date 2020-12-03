@@ -5,6 +5,9 @@
     <ClCompile Include="TW_Network.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="BattleLogic.cpp">
+      <Filter>BattleLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Log">
@@ -13,6 +16,12 @@
     <Filter Include="Network">
       <UniqueIdentifier>{5922c20a-0529-451b-9fa8-da8c85f52d44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BattleLogic">
+      <UniqueIdentifier>{f0dd04ba-1407-4c77-957e-42a88fe1f87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{e3563cd9-04e4-46db-9698-bfa54304d89f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_GameLog.h">
@@ -20,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="TW_Network.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleLogic.h">
+      <Filter>BattleLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

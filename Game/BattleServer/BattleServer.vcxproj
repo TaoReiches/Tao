@@ -141,10 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TW_Network.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BattleLogic.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="TW_GameLog.h" />
     <ClInclude Include="TW_Network.h" />
   </ItemGroup>
