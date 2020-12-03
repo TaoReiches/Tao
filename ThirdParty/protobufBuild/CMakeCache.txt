@@ -285,7 +285,7 @@ protobuf_DEBUG_POSTFIX:STRING=d
 //Install the examples folder
 protobuf_INSTALL_EXAMPLES:BOOL=OFF
 
-//CMake built-in FindProtobuf.cmake module compatible
+//CMake build-in FindProtobuf.cmake module compatible
 protobuf_MODULE_COMPATIBLE:BOOL=OFF
 
 //Value Computed by CMake

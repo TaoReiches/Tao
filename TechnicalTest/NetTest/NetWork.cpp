@@ -47,7 +47,7 @@ void SeNetMgr::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)
     cmd.ParseFromString(connectCmd);
 
     Game::TwGameConnectionCS cmd1;
-    cmd1.ParseFromString(connectCmd);
+    cmd1.ParseFromString(cmd.content());
 
     SendData(connectCmd.c_str(), connectCmd.size(), m_kSock);
 

@@ -13,6 +13,9 @@
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\annotation_test_util.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\command_line_interface_unittest.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\cpp\cpp_bootstrap_unittest.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -208,10 +211,10 @@
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\wire_format_unittest.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\command_line_interface_unittest.cc">
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arena_test_util.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arena_test_util.cc">
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map_test_util.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\test_util.cc">
@@ -280,6 +283,12 @@
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_mset_wire_format.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_import.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_field_presence.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -305,9 +314,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_proto3_lite.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_proto3_optional.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_well_known_types.pb.cc">
@@ -365,6 +371,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -426,6 +435,12 @@
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_mset_wire_format.pb.cc.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_arena.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_arena_import.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_field_presence.pb.cc.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
@@ -451,9 +466,6 @@
       <Filter>CMake Rules</Filter>
     </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_proto3_lite.pb.cc.rule">
-      <Filter>CMake Rules</Filter>
-    </CustomBuild>
-    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_proto3_optional.pb.cc.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_well_known_types.pb.cc.rule">
@@ -513,13 +525,15 @@
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_lite.pb.cc.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_arena_lite.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\compiler\cpp\cpp_unittest.inc" />
     <None Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\message_unittest.inc" />
     <None Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\proto3_lite_unittest.inc" />
-    <None Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map_test_util.inc" />
     <None Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\test_util.inc" />
   </ItemGroup>
   <ItemGroup>

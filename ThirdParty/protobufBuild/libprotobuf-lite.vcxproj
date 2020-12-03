@@ -326,7 +326,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\any_lite.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arena.cc" />
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arenastring.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\extension_set.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\generated_enum_util.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\generated_message_table_driven_lite.cc" />
@@ -338,7 +337,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\io\zero_copy_stream.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\io\zero_copy_stream_impl.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\io\zero_copy_stream_impl_lite.cc" />
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\message_lite.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\parse_context.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\repeated_field.cc" />

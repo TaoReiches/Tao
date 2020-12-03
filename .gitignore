@@ -70,3 +70,10 @@ ThirdParty/protobufBuild/x64/
 Proto/protoc/libprotobufd.exp
 Proto/protoc/libprotobufd.ilk
 Proto/protoc/libprotobufd.lib
+ThirdParty/protobufBuild/gmock.dir/
+ThirdParty/protobufBuild/gmock_main.dir/
+ThirdParty/protobufBuild/libprotobuf-lite.dir/
+ThirdParty/protobufBuild/lite-arena-test.dir/
+ThirdParty/protobufBuild/lite-test.dir/
+ThirdParty/protobufBuild/test_plugin.dir/
+ThirdParty/protobufBuild/tests.dir/

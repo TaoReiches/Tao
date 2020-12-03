@@ -12,7 +12,9 @@ public:
         cmd.set_token("fakeToken");
 
         Game::TwGameCommand send;
-        send.set_content(cmd.SerializeAsString());
+        const auto sendBytes = cmd.SerializeAsString();
+        send.set_content(sendBytes);
+        send.set_commandtype(Game::TwGameCommandType::CS_CONNECT);
 
         out = send.SerializeAsString();
         return out;

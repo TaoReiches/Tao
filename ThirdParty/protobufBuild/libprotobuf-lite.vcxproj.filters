@@ -7,9 +7,6 @@
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arena.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\arenastring.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\extension_set.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,9 +38,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\io\zero_copy_stream_impl_lite.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\map.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\message_lite.cc">

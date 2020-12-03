@@ -271,7 +271,7 @@
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\map_lite_unittest.pb.cc.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -284,7 +284,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -297,7 +297,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -310,7 +310,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/map_lite_unittest.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -327,7 +327,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_import_lite.pb.cc.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -340,7 +340,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -353,7 +353,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -366,7 +366,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -383,7 +383,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_import_public_lite.pb.cc.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -396,7 +396,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -409,7 +409,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -422,7 +422,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_import_public_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -439,7 +439,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_lite.pb.cc.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -452,7 +452,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -465,7 +465,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -478,7 +478,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.pb.cc</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src --experimental_allow_proto3_optional
+RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -488,6 +488,62 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\RelWithDebInfo\protoc.exe;D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.proto;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.pb.cc</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_arena_lite.pb.cc.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.pb.cc</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+Debug\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobufBuild\Debug\protoc.exe;D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.proto;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.pb.cc</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+Release\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobufBuild\Release\protoc.exe;D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.proto;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.pb.cc</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+MinSizeRel\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobufBuild\MinSizeRel\protoc.exe;D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.proto;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.pb.cc</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+RelWithDebInfo\protoc.exe D:/TaoReiches/ThirdParty/protobuf/src/google/protobuf/unittest_no_arena_lite.proto --proto_path=D:/TaoReiches/ThirdParty/protobuf/src --cpp_out=D:/TaoReiches/ThirdParty/protobuf/src
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobufBuild\RelWithDebInfo\protoc.exe;D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.proto;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
@@ -556,6 +612,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_import_lite.pb.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_import_public_lite.pb.cc" />
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.pb.cc" />
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\TaoReiches\ThirdParty\protobufBuild\ZERO_CHECK.vcxproj">

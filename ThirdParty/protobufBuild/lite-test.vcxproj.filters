@@ -25,6 +25,9 @@
     <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_lite.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\TaoReiches\ThirdParty\protobuf\src\google\protobuf\unittest_no_arena_lite.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\map_lite_unittest.pb.cc.rule">
@@ -37,6 +40,9 @@
       <Filter>CMake Rules</Filter>
     </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_lite.pb.cc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\TaoReiches\ThirdParty\protobufBuild\CMakeFiles\654c69c66c8a7c8dc9c474cd9fbdad14\unittest_no_arena_lite.pb.cc.rule">
       <Filter>CMake Rules</Filter>
     </CustomBuild>
     <CustomBuild Include="D:\TaoReiches\ThirdParty\protobuf\cmake\CMakeLists.txt" />
