@@ -22,6 +22,7 @@
 #include "TW_CommandDropItem.h"
 #include "TW_CommandPickItem.h"
 #include "TW_TriggerMgr.h"
+#include <iterator>
 
 BeCommander::BeCommander()
 {
