@@ -8,6 +8,7 @@
 #include "classUnit.h"
 
 #include "TW_MemoryPool.h"
+#include <functional>
 
 #pragma pack(push, 1)
 class EmptyClass
@@ -39,27 +40,30 @@ int main()
 
     TeMemoryPool<Unit> mpUnit(10);
 
-    std::vector<std::unique_ptr<Unit>> testUnits;
-    testUnits.resize(50);
+    std::vector<std::unique_ptr<Unit, std::function<void(Unit*)>>> testUnits;
+    // testUnits.resize(50);
 
     for (int i = 0; i < 20; ++i)
     {
-        testUnits[i].reset(mpUnit.alloc(100 + i));
+        auto tempUnit = std::unique_ptr<Unit, std::function<void(Unit*)>>(mpUnit.alloc(100+i),[&mpUnit](Unit* p){mpUnit.free(p);});
+        testUnits.push_back(std::move(tempUnit));
+        //testUnits[i].reset(tempUnit);
     }
+    //std::remove(testUnits.begin(), testUnits.end());
     for (int i = 0; i < 20; ++i)
     {
         //mpUnit.free(testUnits[i].get());
         //testUnits[i].release();
         auto ss = testUnits.begin();
-        mpUnit.free((*ss).get());
-        (*ss).release();
+        //mpUnit.free((*ss).get());
+        //(*ss).release();
         testUnits.erase(ss);
     }
     for (int i = 0; i < 25; ++i)
     {
-        testUnits[i].reset(mpUnit.alloc(200 + i));
+        auto tempUnit = std::unique_ptr<Unit, std::function<void(Unit*)>>(mpUnit.alloc(200 + i), [&mpUnit](Unit* p) {mpUnit.free(p); });
+        testUnits.push_back(std::move(tempUnit));
     }
-
 
     auto a = new BeMain();
     a->test();
