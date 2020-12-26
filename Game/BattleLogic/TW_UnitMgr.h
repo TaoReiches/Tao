@@ -50,10 +50,10 @@ public:
 
 	void  GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, int iPlayerIdx, int iFlag, bool bDead) const;
 
-	void		GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData = 0) const;
-	void		GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const;
+	void		GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData = 0) const;
+	void		GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const;
 
-	void		GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData = 0) const;
+	void		GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData = 0) const;
 
 	BeUnit* GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, float fPosY, float fDistance = 0, float fRefX = 0, float fRefY = 0) const;
 	int			GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, float fPosY) const;
@@ -63,7 +63,7 @@ public:
 
 	void		GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx = -1, int iFlag = BSF_NORMAL);
 
-	void		GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData = 0);
+	void		GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData = 0);
 
 	const UnitGroup& GetAllHeroPtr();
 	const UnitGroupID& GetAllHeroID();

@@ -12,7 +12,7 @@
 
 BeDropItemCommand::BeDropItemCommand()
 {
-	m_eCmdType = BeCommandType::BCT_DROP_ITEM;
+	m_eCmdType = TwCommandType::BCT_DROP_ITEM;
 	m_iTargetID = 0;
 	m_iItemID = 0;
 }
@@ -50,7 +50,7 @@ BeExeResult BeDropItemCommand::Execute(int& iDeltaTime)
 	return BeExeResult::BER_EXE_END;
 }
 
-bool BeDropItemCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BeDropItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	if (!m_pkCurTask)
 	{

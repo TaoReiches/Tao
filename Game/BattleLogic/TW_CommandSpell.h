@@ -18,7 +18,7 @@ public:
 	void SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const TwPos2& kDirPos, int iSkillLevel = 1, int iItemID = 0, bool bExpendMP = true, int iUsePlayer = -1);
 
 	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
+	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
 	virtual bool CanCancel() const;
 	virtual bool CanInterrupt() const;
 	virtual bool CanSkip(void) const;

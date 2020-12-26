@@ -516,7 +516,7 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 	}
 }
 
-void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData)
+void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData)
 {
 	if (!pkSrcUnit)
 	{
@@ -528,11 +528,11 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCom
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 
 	std::shared_ptr<const SkillTable> pkRes = nullptr;
-	if (eCommand == BeCommandType::BCT_SPELL)
+	if (eCommand == TwCommandType::BCT_SPELL)
 	{
 		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
-	else if (eCommand == BeCommandType::BCT_USE_ITEM)
+	else if (eCommand == TwCommandType::BCT_USE_ITEM)
 	{
 	}
 	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
@@ -546,17 +546,17 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, BeCom
 		bool bPass = false;
 		switch (eCommand)
 		{
-		case BeCommandType::BCT_STOP:
-		case BeCommandType::BCT_HOLD:
-		case BeCommandType::BCT_PATROL:
-		case BeCommandType::BCT_ATTACK:
+		case TwCommandType::BCT_STOP:
+		case TwCommandType::BCT_HOLD:
+		case TwCommandType::BCT_PATROL:
+		case TwCommandType::BCT_ATTACK:
 
 				bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
 			break;
-		case BeCommandType::BCT_SPELL:
+		case TwCommandType::BCT_SPELL:
 			bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 			break;
-		case BeCommandType::BCT_USE_ITEM:
+		case TwCommandType::BCT_USE_ITEM:
 			bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 			break;
 		default:
@@ -748,7 +748,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const
+void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	if (!pkSrcUnit)
@@ -763,11 +763,11 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 
 	std::shared_ptr<const SkillTable> pkRes;
 
-	if (eCommand == BeCommandType::BCT_SPELL)
+	if (eCommand == TwCommandType::BCT_SPELL)
 	{
 		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
-	else if (eCommand == BeCommandType::BCT_USE_ITEM)
+	else if (eCommand == TwCommandType::BCT_USE_ITEM)
 	{
 		auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
@@ -798,17 +798,17 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 					bool bPass = false;
 					switch (eCommand)
 					{
-					case BeCommandType::BCT_STOP:
-					case BeCommandType::BCT_HOLD:
+					case TwCommandType::BCT_STOP:
+					case TwCommandType::BCT_HOLD:
 						// case BCT_MOVE:
-					case BeCommandType::BCT_PATROL:
-					case BeCommandType::BCT_ATTACK:
+					case TwCommandType::BCT_PATROL:
+					case TwCommandType::BCT_ATTACK:
 							bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
 						break;
-					case BeCommandType::BCT_SPELL:
+					case TwCommandType::BCT_SPELL:
 						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 						break;
-					case BeCommandType::BCT_USE_ITEM:
+					case TwCommandType::BCT_USE_ITEM:
 						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 						break;
 					default:
@@ -825,7 +825,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	}
 }
 
-void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const
+void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	UnitGroup kFirstGroup;
@@ -856,7 +856,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 	}
 }
 
-void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, BeCommandType eCommand, int iData) const
+void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	rkGroupID.clear();
 	if (!pkSrcUnit)
@@ -871,11 +871,11 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	std::shared_ptr<const SkillTable> pkRes;
-	if (eCommand == BeCommandType::BCT_SPELL)
+	if (eCommand == TwCommandType::BCT_SPELL)
 	{
 		pkRes = SkillTableMgr::Get()->GetSkillTable(iData);
 	}
-	else if (eCommand == BeCommandType::BCT_USE_ITEM)
+	else if (eCommand == TwCommandType::BCT_USE_ITEM)
 	{
 		auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iData);
 		if (!pkItemRes)
@@ -905,17 +905,17 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 					bool bPass = false;
 					switch (eCommand)
 					{
-					case BeCommandType::BCT_STOP:
-					case BeCommandType::BCT_HOLD:
+					case TwCommandType::BCT_STOP:
+					case TwCommandType::BCT_HOLD:
 						// case BCT_MOVE:
-					case BeCommandType::BCT_PATROL:
-					case BeCommandType::BCT_ATTACK:
+					case TwCommandType::BCT_PATROL:
+					case TwCommandType::BCT_ATTACK:
 						bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
 						break;
-					case BeCommandType::BCT_SPELL:
+					case TwCommandType::BCT_SPELL:
 						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 						break;
-					case BeCommandType::BCT_USE_ITEM:
+					case TwCommandType::BCT_USE_ITEM:
 						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
 						break;
 					default:

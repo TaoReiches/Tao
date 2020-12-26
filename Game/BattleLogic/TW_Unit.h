@@ -203,7 +203,7 @@ public:
 		return HasFlag(BUF_DEAD);
 	}
 
-	inline std::list<BeCommand>& GetUnitCommands(void)
+	inline std::list<TwCommand>& GetUnitCommands(void)
 	{
 		return m_kCommander.GetCommands();
 	}
@@ -218,7 +218,7 @@ public:
 		m_kCommander.ClearAllCommands();
 	}
 
-	inline BeCommand& GetUnitCurCommand(void)
+	inline TwCommand& GetUnitCurCommand(void)
 	{
 		return m_kCommander.GetCurCommand();
 	}
@@ -228,7 +228,7 @@ public:
 		return m_kCommander.GetCurCmd();
 	}
 
-	inline const BeCommandType GetUnitCurCmdType(void)
+	inline const TwCommandType GetUnitCurCmdType(void)
 	{
 		BeExeCommand* pkECmd = m_kCommander.GetCurCmd();
 		if (pkECmd)
@@ -236,7 +236,7 @@ public:
 			return pkECmd->GetType();
 		}
 
-		return BeCommandType::BCT_NUMS;
+		return TwCommandType::BCT_NUMS;
 	}
 
 	inline void CopyUnitCurCommand(BeUnit* pkUnit)
@@ -370,7 +370,7 @@ public:
 	void			ClrCastMove(void);
 
 	bool			IsIdle(void) const;
-	bool			GiveCommand(BeCommand& kCmd, BeGiveCmdType eType = BeGiveCmdType::BCT_IMMEDIATE, bool bPlayerControl = false, bool bNeedHangCurrent = true, bool bCheckChaoFeng = true);
+	bool			GiveCommand(TwCommand& kCmd, TwGiveCmdType eType = TwGiveCmdType::BCT_IMMEDIATE, bool bPlayerControl = false, bool bNeedHangCurrent = true, bool bCheckChaoFeng = true);
 	int				GetCommandCount() const;
 
 	void			SetPosition(float fX, float fY, float fZ = 0.0f, bool bNoRecordChange = false);
@@ -530,7 +530,7 @@ public:
 
 
 protected:
-	BeCommander									m_kCommander;
+	TwCommander									m_kCommander;
 
 	bool										m_bChangeSkill;
 
@@ -554,7 +554,7 @@ protected:
 	BeActionName		m_eActionName;
 	int					m_iActionStartTime;	
 
-	BeCommand			m_kLastCommand;
+	TwCommand			m_kLastCommand;
 
 protected:
 	void	UpdateMP(int iDeltaTime);

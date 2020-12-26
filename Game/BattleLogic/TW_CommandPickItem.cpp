@@ -13,7 +13,7 @@
 
 BePickItemCommand::BePickItemCommand()
 {
-	m_eCmdType = BeCommandType::BCT_PICK_ITEM;
+	m_eCmdType = TwCommandType::BCT_PICK_ITEM;
 	m_iItemID = 0;
 }
 
@@ -63,7 +63,7 @@ BeExeResult BePickItemCommand::Execute(int& iDeltaTime)
 	return BeExeResult::BER_TIME_OUT;
 }
 
-bool BePickItemCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BePickItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	if (!m_pkCurTask)
 	{

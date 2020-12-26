@@ -9,7 +9,7 @@
 
 BeMoveCommand::BeMoveCommand()
 {
-	m_eCmdType = BeCommandType::BCT_MOVE;
+	m_eCmdType = TwCommandType::BCT_MOVE;
 }
 
 TwPos2 BeMoveCommand::GetTargetPos() const
@@ -36,7 +36,7 @@ BeExeResult BeMoveCommand::Execute(int& iDeltaTime)
 	return m_pkCurTask->Execute(iDeltaTime);
 }
 
-bool BeMoveCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BeMoveCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	return true;
 }

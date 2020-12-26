@@ -18,7 +18,7 @@
 
 BeExeCommand::BeExeCommand()
 {
-	m_eCmdType = BeCommandType::BCT_STOP;
+	m_eCmdType = TwCommandType::BCT_STOP;
 }
 
 BeExeCommand::~BeExeCommand()
@@ -26,7 +26,7 @@ BeExeCommand::~BeExeCommand()
 	SafeDeleteTask(m_pkCurTask);
 }
 
-BeCommandType BeExeCommand::GetType() const
+TwCommandType BeExeCommand::GetType() const
 {
 	return m_eCmdType;
 }

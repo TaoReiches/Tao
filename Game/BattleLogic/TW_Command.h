@@ -8,7 +8,7 @@
 #include <cstring>
 #include "TW_Pos2.h"
 
-enum class BeGiveCmdType
+enum class TwGiveCmdType
 {
 	BCT_NONE = 0,
 
@@ -31,7 +31,7 @@ enum class BeGiveCmdType
 	BCT_PUSH_BACK = BCT_PLAYER_SHIFT,
 };
 
-enum class BeCommandType
+enum class TwCommandType
 {
 	BCT_STOP = 0,
 	BCT_HOLD,
@@ -59,10 +59,10 @@ enum class BeCommandTargetType
 	BCTT_CMD,
 };
 
-class BeCommand
+class TwCommand
 {
 public:
-	BeCommand(BeCommandType cmd = BeCommandType::BCT_STOP, int unit = 0,
+	TwCommand(TwCommandType cmd = TwCommandType::BCT_STOP, int unit = 0,
 		float x = 0.0f, float y = 0.0f, int data = 0,
 		bool bShiftDelete = false, int data2 = 0,
 		BeCommandTargetType eTType = BeCommandTargetType::BCTT_UNIT,
@@ -78,13 +78,13 @@ public:
 		bForceAttackOnce = bForceAttackOnceIn;
 		bShiftCanDelete = bShiftDelete;
 		eTargetType = eTType;
-		eGiveType = BeGiveCmdType::BCT_NONE;
+		eGiveType = TwGiveCmdType::BCT_NONE;
 		bForceExecute = false;
 		kDirPos.fX = fDirX;
 		kDirPos.fY = fDirY;
 	}
 
-	BeCommandType	eCmdType;
+	TwCommandType	eCmdType;
 	int				iUnitID;
 	TwPos2			kPos;
 	TwPos2			kDirPos;
@@ -93,6 +93,6 @@ public:
 	bool			bForceAttackOnce;
 	bool			bShiftCanDelete;
 	BeCommandTargetType		eTargetType;
-	BeGiveCmdType			eGiveType;
+	TwGiveCmdType			eGiveType;
 	bool			bForceExecute;
 };

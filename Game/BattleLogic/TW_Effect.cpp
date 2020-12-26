@@ -981,7 +981,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 		int iDynaPropFlag = 0;
 		pkAttacker->TranslateSkillTargetType(iSkillTargetFlag, iStaticProcFlag, iDynaPropFlag);
 
-		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, BeCommandType::BCT_SPELL, m_kEffectData.iSkillTypeID);
+		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, TwCommandType::BCT_SPELL, m_kEffectData.iSkillTypeID);
 	}
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
@@ -1092,7 +1092,7 @@ void BeEffect::ParseAttack(void)
 				if (pkAttacker && !pkAttacker->IsDead())
 				{
 					UnitGroup kGroup;
-					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, BeCommandType::BCT_ATTACK, 0);
+					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, TwCommandType::BCT_ATTACK, 0);
 					if (kGroup.empty())
 					{
 						bNeedRemove = true;

@@ -11,7 +11,7 @@
 
 BeAttackCommand::BeAttackCommand()
 {
-	m_eCmdType = BeCommandType::BCT_ATTACK;
+	m_eCmdType = TwCommandType::BCT_ATTACK;
 }
 
 void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSkillTypeID, int iSkillLevel, int iAttackCountLimit)
@@ -65,7 +65,7 @@ BeExeResult BeAttackCommand::Execute(int& iDeltaTime)
 	return BeExeResult::BER_EXE_END;
 }
 
-bool BeAttackCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BeAttackCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	return CanCancel();
 }

@@ -11,34 +11,34 @@
 
 class BeExeCommand;
 
-class BeCommander : public BeMainPtr, public BeUnitPtr
+class TwCommander : public BeMainPtr, public BeUnitPtr
 {
 public:
-	BeCommander();
-	~BeCommander();
+	TwCommander();
+	~TwCommander();
 
 	BeExeCommand* GetCurCmd(void);
 	bool	IsIdle(void) const;
 
-	void	GiveCommand(BeCommand kCmd, BeGiveCmdType eType = BeGiveCmdType::BCT_IMMEDIATE, int iUnitID = 0, bool bNeedHangCurrent = true);
+	void	GiveCommand(TwCommand kCmd, TwGiveCmdType eType = TwGiveCmdType::BCT_IMMEDIATE, int iUnitID = 0, bool bNeedHangCurrent = true);
 	void	ExecuteCmd(int iDeltaTime);
 	int		GetCommandCount() const;
-	BeCommand& GetCurCommand(void);
-	std::list<BeCommand>& GetCommands(void);
+	TwCommand& GetCurCommand(void);
+	std::list<TwCommand>& GetCommands(void);
 
-	void    SetCommands(const std::list<BeCommand>& rkCommands);
+	void    SetCommands(const std::list<TwCommand>& rkCommands);
 
 	void	OnDelete(void);
 	void    ClearAllCommands();
 
 protected:
-	bool	SwitchCmd(const BeCommand& kCmd, bool bConnect = true);
+	bool	SwitchCmd(const TwCommand& kCmd, bool bConnect = true);
 	bool	GoNextCmd(bool bSkipCurrent = false);
 	void	SafeDeleteCommand(BeExeCommand*& pkCommand);
 
 protected:
 	BeExeCommand* m_pkCurCmd;
-	BeCommand				m_kCurCmd;
-	std::list<BeCommand>	m_kCommands;
+	TwCommand				m_kCurCmd;
+	std::list<TwCommand>	m_kCommands;
 	bool					m_bForceNexeCmd;
 };

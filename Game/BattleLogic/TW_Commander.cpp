@@ -24,7 +24,7 @@
 #include "TW_TriggerMgr.h"
 #include <iterator>
 
-BeCommander::BeCommander()
+TwCommander::TwCommander()
 {
     m_pkCurCmd = nullptr;
     m_bForceNexeCmd = false;
@@ -32,72 +32,72 @@ BeCommander::BeCommander()
     pkAttachUnit = nullptr;
 }
 
-BeCommander::~BeCommander()
+TwCommander::~TwCommander()
 {
 	SafeDeleteCommand(m_pkCurCmd);
 }
 
-void BeCommander::OnDelete(void)
+void TwCommander::OnDelete(void)
 {
 	SafeDeleteCommand(m_pkCurCmd);
 }
 
-BeExeCommand* BeCommander::GetCurCmd(void)
+BeExeCommand* TwCommander::GetCurCmd(void)
 {
 	return m_pkCurCmd;
 }
 
-int	BeCommander::GetCommandCount() const
+int	TwCommander::GetCommandCount() const
 {
 	return (int)m_kCommands.size();
 }
 
-BeCommand& BeCommander::GetCurCommand(void)
+TwCommand& TwCommander::GetCurCommand(void)
 {
 	return m_kCurCmd;
 }
 
-std::list<BeCommand>& BeCommander::GetCommands(void)
+std::list<TwCommand>& TwCommander::GetCommands(void)
 {
 	return m_kCommands;
 }
 
-void BeCommander::SetCommands(const std::list<BeCommand>& rkCommands)
+void TwCommander::SetCommands(const std::list<TwCommand>& rkCommands)
 {
 	m_kCommands.clear();
 	std::copy(rkCommands.begin(), rkCommands.end(), std::back_inserter(m_kCommands));
 }
 
-bool BeCommander::IsIdle(void) const
+bool TwCommander::IsIdle(void) const
 {
-	if (m_kCommands.empty() && ((m_pkCurCmd && m_pkCurCmd->GetType() == BeCommandType::BCT_STOP) || !m_pkCurCmd))
+	if (m_kCommands.empty() && ((m_pkCurCmd && m_pkCurCmd->GetType() == TwCommandType::BCT_STOP) || !m_pkCurCmd))
 	{
 		return true;
 	}
 	return false;
 }
 
-void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, bool bNeedHangCurrent)
+void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, bool bNeedHangCurrent)
 {
 	kCmd.eGiveType = eType;
 
-	BeGiveCmdType& reType = kCmd.eGiveType;
+	TwGiveCmdType& reType = kCmd.eGiveType;
 	switch (reType)
 	{
-	case BeGiveCmdType::BCT_PLAYER_SHIFT:
-	case BeGiveCmdType::BCT_SYSTEM_SHIFT:
+	case TwGiveCmdType::BCT_PLAYER_SHIFT:
+	case TwGiveCmdType::BCT_SYSTEM_SHIFT:
 	{
 		m_kCommands.push_back(kCmd);
 		break;
 	}
-	case BeGiveCmdType::BCT_SYSTEM_CLEAR:
+	case TwGiveCmdType::BCT_SYSTEM_CLEAR:
 	{
-		for (std::list<BeCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
+		for (std::list<TwCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
 		{
-			std::list<BeCommand>::iterator itDel = it;
+			std::list<TwCommand>::iterator itDel = it;
 			++it;
 
-			if (itDel->eGiveType == BeGiveCmdType::BCT_SYSTEM_SHIFT)
+			if (itDel->eGiveType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
 			{
 				continue;
 			}
@@ -109,15 +109,15 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		m_bForceNexeCmd = true;
 		break;
 	}
-	case BeGiveCmdType::BCT_PLAYER_CMD:
+	case TwGiveCmdType::BCT_PLAYER_CMD:
 	{
-		for (std::list<BeCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
+		for (std::list<TwCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
 		{
-			std::list<BeCommand>::iterator itDel = it;
+			std::list<TwCommand>::iterator itDel = it;
 			++it;
 			if ((int)itDel->eCmdType < (int)reType)
 			{
-				if (itDel->eGiveType == BeGiveCmdType::BCT_SYSTEM_SHIFT)
+				if (itDel->eGiveType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
 				{
 					continue;
 				}
@@ -128,7 +128,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		m_kCommands.push_back(kCmd);
 		break;
 	}
-	case BeGiveCmdType::BCT_PLAYER_ACTION:
+	case TwGiveCmdType::BCT_PLAYER_ACTION:
 	{
 		if (!m_pkCurCmd)
 		{
@@ -139,26 +139,26 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		{
 			m_bForceNexeCmd = false;
 		}
-		else if (m_pkCurCmd->CanInterrupt() && kCmd.eCmdType == BeCommandType::BCT_STOP)
+		else if (m_pkCurCmd->CanInterrupt() && kCmd.eCmdType == TwCommandType::BCT_STOP)
 		{
 			m_bForceNexeCmd = true;
 		}
-		else if (kCmd.eCmdType == BeCommandType::BCT_STOP)
+		else if (kCmd.eCmdType == TwCommandType::BCT_STOP)
 		{
 			m_bForceNexeCmd = true;
-			reType = BeGiveCmdType::BCT_PLAYER_CMD;
+			reType = TwGiveCmdType::BCT_PLAYER_CMD;
 
 			if (!m_pkCurCmd->CanCancel())
 			{
 				m_bForceNexeCmd = false;
 			}
 		}
-		else if (kCmd.eCmdType == BeCommandType::BCT_MOVE || kCmd.eCmdType == BeCommandType::BCT_MOVE_DIRECT)
+		else if (kCmd.eCmdType == TwCommandType::BCT_MOVE || kCmd.eCmdType == TwCommandType::BCT_MOVE_DIRECT)
 		{
-			if (m_pkCurCmd->GetType() == BeCommandType::BCT_MOVE || m_pkCurCmd->GetType() == BeCommandType::BCT_MOVE_DIRECT)
+			if (m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE || m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE_DIRECT)
 			{
 				m_bForceNexeCmd = true;
-				reType = BeGiveCmdType::BCT_PLAYER_CMD;
+				reType = TwGiveCmdType::BCT_PLAYER_CMD;
 			}
 			else if (!m_pkCurCmd->CanCancel())
 			{
@@ -174,34 +174,34 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 			m_bForceNexeCmd = true;
 		}
 
-		if (reType != BeGiveCmdType::BCT_PLAYER_INSERT || !m_bForceNexeCmd)
+		if (reType != TwGiveCmdType::BCT_PLAYER_INSERT || !m_bForceNexeCmd)
 		{
-			for (std::list<BeCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
+			for (std::list<TwCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
 			{
-				std::list<BeCommand >::iterator itDel = it;
+				std::list<TwCommand >::iterator itDel = it;
 				++it;
-				BeGiveCmdType eCmpType = reType;
-				if (reType == BeGiveCmdType::BCT_PLAYER_ACTION)
+				TwGiveCmdType eCmpType = reType;
+				if (reType == TwGiveCmdType::BCT_PLAYER_ACTION)
 				{
-					eCmpType = BeGiveCmdType::BCT_PLAYER_CMD;
+					eCmpType = TwGiveCmdType::BCT_PLAYER_CMD;
 				}
-				if (kCmd.eCmdType == BeCommandType::BCT_STOP)
+				if (kCmd.eCmdType == TwCommandType::BCT_STOP)
 				{
-					eCmpType = BeGiveCmdType::BCT_SKILL_ADDON;
+					eCmpType = TwGiveCmdType::BCT_SKILL_ADDON;
 				}
 
 				if (m_pkCurCmd && !m_pkCurCmd->CanInterrupt())
 				{
-					eCmpType = BeGiveCmdType::BCT_SKILL_ADDON;
+					eCmpType = TwGiveCmdType::BCT_SKILL_ADDON;
 				}
 				if (itDel->eGiveType < eCmpType)
 				{
-					if (itDel->eGiveType == BeGiveCmdType::BCT_SYSTEM_SHIFT)
+					if (itDel->eGiveType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
 					{
 						continue;
 					}
 
-					if (itDel->eCmdType == BeCommandType::BCT_MOVE_DIRECT && (kCmd.eCmdType != BeCommandType::BCT_MOVE_DIRECT && kCmd.eCmdType != BeCommandType::BCT_STOP))
+					if (itDel->eCmdType == TwCommandType::BCT_MOVE_DIRECT && (kCmd.eCmdType != TwCommandType::BCT_MOVE_DIRECT && kCmd.eCmdType != TwCommandType::BCT_STOP))
 					{
 						continue;
 					}
@@ -209,14 +209,14 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 				}
 			}
 
-			if (kCmd.eCmdType != BeCommandType::BCT_SPELL && kCmd.eCmdType != BeCommandType::BCT_USE_ITEM)
+			if (kCmd.eCmdType != TwCommandType::BCT_SPELL && kCmd.eCmdType != TwCommandType::BCT_USE_ITEM)
 			{
-				reType = BeGiveCmdType::BCT_PLAYER_REDUCE;
+				reType = TwGiveCmdType::BCT_PLAYER_REDUCE;
 			}
 
 			m_kCommands.push_back(kCmd);
 
-			if (kCmd.eCmdType == BeCommandType::BCT_SPELL)
+			if (kCmd.eCmdType == TwCommandType::BCT_SPELL)
 			{
 				BeSkill* pkSkill = gUnit.GetSkill(kCmd.iData);
 				if (pkSkill)
@@ -229,17 +229,17 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 							BeUnit* pkTarget = gUnitMgr.GetUnitByID(kCmd.iUnitID);
 							if (pkTarget)
 							{
-								BeCommand	kComm(BeCommandType::BCT_ATTACK, pkTarget->GetID());
+								TwCommand	kComm(TwCommandType::BCT_ATTACK, pkTarget->GetID());
 								m_kCommands.push_back(kComm);
 							}
 						}
 						else if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_DOLAST)
 						{
-							if (m_kCurCmd.eCmdType == BeCommandType::BCT_MOVE)
+							if (m_kCurCmd.eCmdType == TwCommandType::BCT_MOVE)
 							{
 								m_kCommands.push_back(m_kCurCmd);
 							}
-							else if (m_kCurCmd.eCmdType == BeCommandType::BCT_ATTACK) 
+							else if (m_kCurCmd.eCmdType == TwCommandType::BCT_ATTACK) 
                             {
 								BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_kCurCmd.iUnitID);
 
@@ -251,7 +251,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 					}
 				}
 			}
-			if (kCmd.eCmdType == BeCommandType::BCT_USE_ITEM)
+			if (kCmd.eCmdType == TwCommandType::BCT_USE_ITEM)
 			{
 				//do
 				//{
@@ -291,7 +291,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 			break;
 		}
 	}
-	case BeGiveCmdType::BCT_PLAYER_INSERT:
+	case TwGiveCmdType::BCT_PLAYER_INSERT:
 	{
 		if (!m_pkCurCmd)
 		{
@@ -301,8 +301,8 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		}
 		else if (m_pkCurCmd->CanHungUp(reType, bNeedHangCurrent))
 		{
-			m_kCurCmd.eGiveType = BeGiveCmdType::BCT_PLAYER_SHIFT;
-			std::list<BeCommand>::iterator it = m_kCommands.begin();
+			m_kCurCmd.eGiveType = TwGiveCmdType::BCT_PLAYER_SHIFT;
+			std::list<TwCommand>::iterator it = m_kCommands.begin();
 			for (; it != m_kCommands.end(); ++it)
 			{
 				if (it->eGiveType < reType)
@@ -320,7 +320,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		{
 			if (m_pkCurCmd->CanCancel())
 			{
-				std::list<BeCommand>::iterator it = m_kCommands.begin();
+				std::list<TwCommand>::iterator it = m_kCommands.begin();
 				for (; it != m_kCommands.end(); ++it)
 				{
 					if (it->eGiveType < reType)
@@ -335,9 +335,9 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		}
 		break;
 	}
-	case BeGiveCmdType::BCT_PLAYER_HUNG:
+	case TwGiveCmdType::BCT_PLAYER_HUNG:
 	{
-		std::list<BeCommand>::iterator it = m_kCommands.begin();
+		std::list<TwCommand>::iterator it = m_kCommands.begin();
 		for (; it != m_kCommands.end(); ++it)
 		{
 			if (it->eGiveType < reType)
@@ -348,32 +348,32 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		m_kCommands.insert(it, kCmd);
 		break;
 	}
-	case BeGiveCmdType::BCT_DEATH:
+	case TwGiveCmdType::BCT_DEATH:
 	{
 		m_kCommands.clear();
 		m_kCommands.insert(m_kCommands.begin(), kCmd);
 		m_bForceNexeCmd = true;
 		break;
 	}
-	case BeGiveCmdType::BCT_DIZZY_INTERRUPT:
+	case TwGiveCmdType::BCT_DIZZY_INTERRUPT:
 	{
 		m_bForceNexeCmd = true;
 	}
-	case BeGiveCmdType::BCT_SKILL_ADDON:
+	case TwGiveCmdType::BCT_SKILL_ADDON:
 	{
 		if (m_pkCurCmd && m_pkCurCmd->CanHungUp(reType, bNeedHangCurrent))
 		{
-			m_kCurCmd.eGiveType = BeGiveCmdType::BCT_PLAYER_SHIFT;
+			m_kCurCmd.eGiveType = TwGiveCmdType::BCT_PLAYER_SHIFT;
 			m_kCommands.insert(m_kCommands.begin(), m_kCurCmd);
 			m_kCommands.insert(m_kCommands.begin(), kCmd);
 
 			if (gUnit.HasProperty(1 << 15))
 			{
-				for (std::list<BeCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
+				for (std::list<TwCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
 				{
-					std::list<BeCommand>::iterator itDel = it;
+					std::list<TwCommand>::iterator itDel = it;
 					++it;
-					if (itDel->eCmdType == BeCommandType::BCT_SPELL)
+					if (itDel->eCmdType == TwCommandType::BCT_SPELL)
 					{
 						m_kCommands.erase(itDel);
 					}
@@ -382,7 +382,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 		}
 		else
 		{
-			std::list<BeCommand>::iterator it = m_kCommands.begin();
+			std::list<TwCommand>::iterator it = m_kCommands.begin();
 			for (; it != m_kCommands.end(); ++it)
 			{
 				if (it->eGiveType < reType)
@@ -402,7 +402,7 @@ void BeCommander::GiveCommand(BeCommand kCmd, BeGiveCmdType eType, int iUnitID, 
 	}
 }
 
-void BeCommander::ExecuteCmd(int iDeltaTime)
+void TwCommander::ExecuteCmd(int iDeltaTime)
 {
 	if (m_kCommands.size() && m_kCommands.front().bForceExecute)
 	{
@@ -427,7 +427,7 @@ void BeCommander::ExecuteCmd(int iDeltaTime)
 		}
 		bool bSkip = (m_pkCurCmd ? m_pkCurCmd->CanSkip() : true) && m_kCommands.size();
 
-		if (gUnit.HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != BeCommandType::BCT_STOP)
+		if (gUnit.HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
 		{
 			eResult = BeExeResult::BER_EXE_END;
 		}
@@ -456,15 +456,15 @@ void BeCommander::ExecuteCmd(int iDeltaTime)
 	}
 }
 
-bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
+bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 {
 	switch (kCmd.eCmdType)
 	{
-	case BeCommandType::BCT_STOP:
+	case TwCommandType::BCT_STOP:
 	{
 		gUnit.SetAttackingUnitID(0);
 		BeStopCommand* pkCmd = NULL;
-		if (m_pkCurCmd && m_pkCurCmd->GetType() == BeCommandType::BCT_STOP)
+		if (m_pkCurCmd && m_pkCurCmd->GetType() == TwCommandType::BCT_STOP)
 		{
 			BeStopCommand* pkStop = (BeStopCommand*)m_pkCurCmd;
 			if (!pkStop->IsDead() || gUnit.IsDead())
@@ -495,11 +495,11 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		}
 		break;
 	}
-	case BeCommandType::BCT_MOVE:
+	case TwCommandType::BCT_MOVE:
 	{
 		gUnit.SetAttackingUnitID(0);
 		BeMoveCommand* pkCmd = NULL;
-		if (m_pkCurCmd && m_pkCurCmd->GetType() == BeCommandType::BCT_MOVE)
+		if (m_pkCurCmd && m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE)
 		{
 			pkCmd = (BeMoveCommand*)m_pkCurCmd;
 		}
@@ -518,10 +518,10 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		m_pkCurCmd = pkCmd;
 		break;
 	}
-	case BeCommandType::BCT_ATTACK:
+	case TwCommandType::BCT_ATTACK:
 	{
-		BeAttackCommand* pkCmd = NULL;
-		if (m_pkCurCmd && (m_pkCurCmd->GetType() == BeCommandType::BCT_ATTACK && kCmd.bForceAttackOnce == false))
+		BeAttackCommand* pkCmd = nullptr;
+		if (m_pkCurCmd && (m_pkCurCmd->GetType() == TwCommandType::BCT_ATTACK && kCmd.bForceAttackOnce == false))
 		{
 			pkCmd = (BeAttackCommand*)m_pkCurCmd;
 		}
@@ -546,7 +546,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		m_pkCurCmd = pkCmd;
 		break;
 	}
-	case BeCommandType::BCT_SPELL:
+	case TwCommandType::BCT_SPELL:
 	{
 		SeCalSkillLvlData kData;
 		BeSkill* pkSkill = nullptr;
@@ -624,7 +624,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		break;
 
 	}
-	case BeCommandType::BCT_USE_ITEM:
+	case TwCommandType::BCT_USE_ITEM:
 	{
 		gUnit.SetAttackingUnitID(0);
 		SafeDeleteCommand(m_pkCurCmd);
@@ -685,7 +685,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		m_pkCurCmd = pkCmd;
 		break;
 	}
-	case BeCommandType::BCT_DROP_ITEM:
+	case TwCommandType::BCT_DROP_ITEM:
 	{
 		gUnit.SetAttackingUnitID(0);
 		SafeDeleteCommand(m_pkCurCmd);
@@ -704,7 +704,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 		m_pkCurCmd = pkCmd;
 		break;
 	}
-	case BeCommandType::BCT_PICK_ITEM:
+	case TwCommandType::BCT_PICK_ITEM:
 	{
 		gUnit.SetAttackingUnitID(0);
 		BePickItemCommand* pkCmd = mpPickItemCommand.alloc();
@@ -734,7 +734,7 @@ bool BeCommander::SwitchCmd(const BeCommand& kCmd, bool bConnect)
 	return true;
 }
 
-bool BeCommander::GoNextCmd(bool bSkipCurrent)
+bool TwCommander::GoNextCmd(bool bSkipCurrent)
 {
 	if (!gUnit.IsDead() && (gUnit.HasUnitCarryFlag(BUCF_DIZZY)))
 	{
@@ -744,23 +744,23 @@ bool BeCommander::GoNextCmd(bool bSkipCurrent)
 		{
 			if (m_pkCurCmd)
 			{
-				if (m_pkCurCmd->GetType() != BeCommandType::BCT_STOP)
+				if (m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
 				{
 					if (!m_kCommands.empty())
 					{
-						BeCommand& kCmd = m_kCommands.front();
-						if (kCmd.eCmdType == BeCommandType::BCT_STOP)
+						TwCommand& kCmd = m_kCommands.front();
+						if (kCmd.eCmdType == TwCommandType::BCT_STOP)
 						{
 							m_kCommands.pop_front();
 						}
 					}
-					BeCommand kStop(BeCommandType::BCT_STOP);
+					TwCommand kStop(TwCommandType::BCT_STOP);
 					SwitchCmd(kStop, false);
 				}
 			}
 			else
 			{
-				BeCommand kStop(BeCommandType::BCT_STOP);
+				TwCommand kStop(TwCommandType::BCT_STOP);
 				SwitchCmd(kStop, false);
 			}
 
@@ -770,14 +770,14 @@ bool BeCommander::GoNextCmd(bool bSkipCurrent)
 
 	while (!m_kCommands.empty())
 	{
-		BeCommand kCmd = m_kCommands.front();
+		TwCommand kCmd = m_kCommands.front();
 		m_kCommands.pop_front();
 
 		bool bDelay = false;
-		if (kCmd.eGiveType == BeGiveCmdType::BCT_PLAYER_SHIFT)
+		if (kCmd.eGiveType == TwGiveCmdType::BCT_PLAYER_SHIFT)
 		{
-			if ((kCmd.eCmdType == BeCommandType::BCT_SPELL && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDSKILL))
-				|| (kCmd.eCmdType == BeCommandType::BCT_USE_ITEM && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDITEM))
+			if ((kCmd.eCmdType == TwCommandType::BCT_SPELL && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDSKILL))
+				|| (kCmd.eCmdType == TwCommandType::BCT_USE_ITEM && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDITEM))
 				|| gUnit.HasUnitCarryFlag(BUCF_CANNOTCONTROL)
 				|| gUnit.HasUnitCarryFlag(BUCF_DIZZY)
 				|| gUnit.HasUnitCarryFlag(BUF_SPELL_SHARK)
@@ -796,7 +796,7 @@ bool BeCommander::GoNextCmd(bool bSkipCurrent)
 			}
 			else
 			{
-				kCmd = BeCommand(BeCommandType::BCT_STOP, 0, 0.0f, 0.0f, 100);
+				kCmd = TwCommand(TwCommandType::BCT_STOP, 0, 0.0f, 0.0f, 100);
 			}
 		}
 
@@ -806,31 +806,31 @@ bool BeCommander::GoNextCmd(bool bSkipCurrent)
 		}
 	}
 
-	if (m_pkCurCmd && (m_pkCurCmd->GetType() == BeCommandType::BCT_MOVE || m_pkCurCmd->GetType() == BeCommandType::BCT_MOVE_DIRECT))
+	if (m_pkCurCmd && (m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE || m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE_DIRECT))
 	{
-		BeCommand kStop(BeCommandType::BCT_STOP, 0, 0.0f, 0.0f, 250);
+		TwCommand kStop(TwCommandType::BCT_STOP, 0, 0.0f, 0.0f, 250);
 		SwitchCmd(kStop, false);
 	}
 	else
 	{
-		BeCommand kStop(BeCommandType::BCT_STOP);
+		TwCommand kStop(TwCommandType::BCT_STOP);
 		SwitchCmd(kStop, false);
 	}
 	return true;
 }
 
-void BeCommander::SafeDeleteCommand(BeExeCommand*& pkCommand)
+void TwCommander::SafeDeleteCommand(BeExeCommand*& pkCommand)
 {
 	if (pkCommand)
 	{
 		switch (pkCommand->GetType())
 		{
-		    case BeCommandType::BCT_STOP:           mpStopCommand.free((BeStopCommand*)pkCommand);				break;
-		    case BeCommandType::BCT_MOVE:           mpMoveCommand.free((BeMoveCommand*)pkCommand);				break;
-		    case BeCommandType::BCT_ATTACK:         mpAttackCommand.free((BeAttackCommand*)pkCommand);			break;
-		    case BeCommandType::BCT_SPELL:          mpSpellCommand.free((BeSpellCommand*)pkCommand);			break;
-		    case BeCommandType::BCT_DROP_ITEM:      mpDropItemCommand.free((BeDropItemCommand*)pkCommand);		break;
-		    case BeCommandType::BCT_PICK_ITEM:      mpPickItemCommand.free((BePickItemCommand*)pkCommand);		break;
+		    case TwCommandType::BCT_STOP:           mpStopCommand.free((BeStopCommand*)pkCommand);				break;
+		    case TwCommandType::BCT_MOVE:           mpMoveCommand.free((BeMoveCommand*)pkCommand);				break;
+		    case TwCommandType::BCT_ATTACK:         mpAttackCommand.free((BeAttackCommand*)pkCommand);			break;
+		    case TwCommandType::BCT_SPELL:          mpSpellCommand.free((BeSpellCommand*)pkCommand);			break;
+		    case TwCommandType::BCT_DROP_ITEM:      mpDropItemCommand.free((BeDropItemCommand*)pkCommand);		break;
+		    case TwCommandType::BCT_PICK_ITEM:      mpPickItemCommand.free((BePickItemCommand*)pkCommand);		break;
 		    default:
 		    break;
 		}
@@ -838,7 +838,7 @@ void BeCommander::SafeDeleteCommand(BeExeCommand*& pkCommand)
 	}
 }
 
-void BeCommander::ClearAllCommands()
+void TwCommander::ClearAllCommands()
 {
 	m_kCommands.clear();
 }

@@ -18,7 +18,7 @@
 
 BeSpellCommand::BeSpellCommand()
 {
-	m_eCmdType = BeCommandType::BCT_SPELL;
+	m_eCmdType = TwCommandType::BCT_SPELL;
 
 	m_iSkillTypeID = 0;
 	m_iSkillLevel = 1;
@@ -232,7 +232,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 	return m_pkCurTask->Execute(iDeltaTime);
 }
 
-bool BeSpellCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BeSpellCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	if (!m_pkCurTask)
 	{
@@ -243,15 +243,15 @@ bool BeSpellCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) co
 		return true;
 	}
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_PREPARE &&
-		(eCmdType != BeGiveCmdType::BCT_HUNG_CURRENT || bNeedHangCurrent))
+		(eCmdType != TwGiveCmdType::BCT_HUNG_CURRENT || bNeedHangCurrent))
 	{
 		return true;
 	}
 	else if (((BeTaskActionSpell*)m_pkCurTask.get())->GetPhase() == BeSpellPhase::BSP_CAST &&
-		(eCmdType != BeGiveCmdType::BCT_HUNG_CURRENT || bNeedHangCurrent))
+		(eCmdType != TwGiveCmdType::BCT_HUNG_CURRENT || bNeedHangCurrent))
 	{
 		{
-			if (BeGiveCmdType::BCT_DIZZY_INTERRUPT == eCmdType)
+			if (TwGiveCmdType::BCT_DIZZY_INTERRUPT == eCmdType)
 			{
 				return true;
 			}

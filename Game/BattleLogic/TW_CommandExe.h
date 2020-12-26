@@ -16,13 +16,13 @@ public:
 	BeExeCommand();
 	virtual ~BeExeCommand();
 
-	BeCommandType		GetType() const;
+	TwCommandType		GetType() const;
 	BeTaskType			GetTaskType() const;
 
 	virtual BeExeResult Execute(int& iDeltaTime) = 0;
 	virtual bool CanInterrupt() const = 0;
 	virtual bool CanCancel() const = 0;
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const = 0;
+	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const = 0;
 	virtual bool CanSkip(void) const;
 	void SafeDeleteTask(std::unique_ptr<BeTask>& pkTask);
 
@@ -45,6 +45,6 @@ public:
 	}
 
 protected:
-	BeCommandType				m_eCmdType;
+	TwCommandType				m_eCmdType;
 	std::unique_ptr<BeTask>		m_pkCurTask;
 };

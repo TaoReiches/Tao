@@ -227,7 +227,7 @@ bool BeUnit::Initialize(int iTypeID)
 
 	mpLearnSkillData.free(m_pkBackData->akLearnSkill.get());
 
-	BeCommand	kComm(BeCommandType::BCT_STOP);
+	TwCommand	kComm(TwCommandType::BCT_STOP);
 	m_kCommander.GiveCommand(kComm);
 	OnPlayerChanged();
 
@@ -547,8 +547,8 @@ void BeUnit::OnResume(void)
 {
 	ClrFlag(BUF_RELIVE | BUF_BUYLIVE | BUF_REMOVE | BUF_DEAD);
 	ClrOtherFlag(BUOF_SPECIAL_RELIVE);
-	BeCommand beCommand(BeCommandType::BCT_STOP);
-	GiveCommand(beCommand, BeGiveCmdType::BCT_DEATH);
+	TwCommand beCommand(TwCommandType::BCT_STOP);
+	GiveCommand(beCommand, TwGiveCmdType::BCT_DEATH);
 	SetUnitvisible(true);
 	ClrOtherFlag(BUOF_WEIYI);
 	m_iMoveAllTime = 0;
@@ -571,16 +571,16 @@ bool BeUnit::IsIdle(void) const
 	return m_kCommander.IsIdle();
 }
 
-bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerControl, bool bNeedHangCurrent, bool bCheckChaoFeng)
+bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerControl, bool bNeedHangCurrent, bool bCheckChaoFeng)
 {
-	if (HasUnitImmunityFlag(BUIF_BATI) && kCmd.eCmdType == BeCommandType::BCT_STOP)
+	if (HasUnitImmunityFlag(BUIF_BATI) && kCmd.eCmdType == TwCommandType::BCT_STOP)
 	{
 		return false;
 	}
 
 	switch (kCmd.eCmdType)
 	{
-	case BeCommandType::BCT_ATTACK:
+	case TwCommandType::BCT_ATTACK:
 	{
 		if (kCmd.iUnitID && kCmd.iUnitID == GetID())
 		{
@@ -594,7 +594,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		BeUnit* pkUnit = gUnitMgr.GetUnitByID(kCmd.iUnitID);
 		if (pkUnit)
 		{
-			if (eType == BeGiveCmdType::BCT_SYSTEM_SHIFT)
+			if (eType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
 			{
 				break;
 			}
@@ -613,16 +613,16 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		m_iGiveAttackCmdTime = gTime;
 		break;
 	}
-	case BeCommandType::BCT_STOP:
+	case TwCommandType::BCT_STOP:
 	{
-		if (HasFlag(BUF_ISPERSISTSKILL) && eType != BeGiveCmdType::BCT_DEATH)
+		if (HasFlag(BUF_ISPERSISTSKILL) && eType != TwGiveCmdType::BCT_DEATH)
 		{
 			return false;
 		}
 		break;
 	}
-	case BeCommandType::BCT_MOVE:
-	case BeCommandType::BCT_MOVE_DIRECT:
+	case TwCommandType::BCT_MOVE:
+	case TwCommandType::BCT_MOVE_DIRECT:
 	{
 		if (m_iGiveAttackCmdTime == gTime)
 		{
@@ -638,7 +638,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		}
 		break;
 	}
-	case BeCommandType::BCT_SPELL:
+	case TwCommandType::BCT_SPELL:
 	{
 		BeSkill* pkSkill = GetSkill(kCmd.iData);
 
@@ -694,7 +694,7 @@ bool BeUnit::GiveCommand(BeCommand& kCmd, BeGiveCmdType eType, bool bPlayerContr
 		}
 		break;
 	}
-	case BeCommandType::BCT_USE_ITEM:
+	case TwCommandType::BCT_USE_ITEM:
 	{
 		BeItem* pkItem = GetItemByID(kCmd.iData);
 		if (!pkItem)
@@ -1191,8 +1191,8 @@ float BeUnit::GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAtt
 }
 void BeUnit::SetDead(void)
 {
-	BeCommand	kComm(BeCommandType::BCT_STOP);
-	GiveCommand(kComm, BeGiveCmdType::BCT_DEATH);
+	TwCommand	kComm(TwCommandType::BCT_STOP);
+	GiveCommand(kComm, TwGiveCmdType::BCT_DEATH);
 
 	SetFlag(BUF_DEAD);
 	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true);

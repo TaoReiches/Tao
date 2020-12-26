@@ -13,7 +13,7 @@
 
 BeStopCommand::BeStopCommand()
 {
-	m_eCmdType = BeCommandType::BCT_STOP;
+	m_eCmdType = TwCommandType::BCT_STOP;
 
 	m_iStopTime = 0;
 	m_bDead = false;
@@ -51,7 +51,7 @@ BeExeResult BeStopCommand::Execute(int& iDeltaTime)
 	return m_pkCurTask->Execute(iDeltaTime);
 }
 
-bool BeStopCommand::CanHungUp(BeGiveCmdType eCmdType, bool bNeedHangCurrent) const
+bool BeStopCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
 {
 	return false;
 }

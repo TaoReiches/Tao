@@ -17,7 +17,7 @@ public:
 	TwPos2 GetTargetPos() const;
 
 	virtual BeExeResult Execute(int& iDeltaTime);
-	virtual bool CanHungUp(BeGiveCmdType eCmdType = BeGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
+	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
 	virtual bool CanCancel() const;
 	virtual bool CanInterrupt() const;
 };
