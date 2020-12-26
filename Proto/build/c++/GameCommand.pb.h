@@ -48,7 +48,7 @@ struct TableStruct_GameCommand_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,25 +65,35 @@ extern TwGameConnectionCSDefaultTypeInternal _TwGameConnectionCS_default_instanc
 class TwGameConnectionSC;
 class TwGameConnectionSCDefaultTypeInternal;
 extern TwGameConnectionSCDefaultTypeInternal _TwGameConnectionSC_default_instance_;
-class TwGameHeroMoveCS;
-class TwGameHeroMoveCSDefaultTypeInternal;
-extern TwGameHeroMoveCSDefaultTypeInternal _TwGameHeroMoveCS_default_instance_;
+class TwGameFirstEnterMapSC;
+class TwGameFirstEnterMapSCDefaultTypeInternal;
+extern TwGameFirstEnterMapSCDefaultTypeInternal _TwGameFirstEnterMapSC_default_instance_;
+class TwGameUnitData;
+class TwGameUnitDataDefaultTypeInternal;
+extern TwGameUnitDataDefaultTypeInternal _TwGameUnitData_default_instance_;
+class TwGameUnitMoveCS;
+class TwGameUnitMoveCSDefaultTypeInternal;
+extern TwGameUnitMoveCSDefaultTypeInternal _TwGameUnitMoveCS_default_instance_;
 }  // namespace Game
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Game::TwGameCommand* Arena::CreateMaybeMessage<::Game::TwGameCommand>(Arena*);
 template<> ::Game::TwGameConnectionCS* Arena::CreateMaybeMessage<::Game::TwGameConnectionCS>(Arena*);
 template<> ::Game::TwGameConnectionSC* Arena::CreateMaybeMessage<::Game::TwGameConnectionSC>(Arena*);
-template<> ::Game::TwGameHeroMoveCS* Arena::CreateMaybeMessage<::Game::TwGameHeroMoveCS>(Arena*);
+template<> ::Game::TwGameFirstEnterMapSC* Arena::CreateMaybeMessage<::Game::TwGameFirstEnterMapSC>(Arena*);
+template<> ::Game::TwGameUnitData* Arena::CreateMaybeMessage<::Game::TwGameUnitData>(Arena*);
+template<> ::Game::TwGameUnitMoveCS* Arena::CreateMaybeMessage<::Game::TwGameUnitMoveCS>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace Game {
 
 enum TwGameCommandType : int {
   SC_CONNECT = 1,
-  CS_CONNECT = 2
+  CS_CONNECT = 2,
+  CS_LOADING_END = 3,
+  SC_FIRST_ENTER_MAP = 4
 };
 bool TwGameCommandType_IsValid(int value);
 constexpr TwGameCommandType TwGameCommandType_MIN = SC_CONNECT;
-constexpr TwGameCommandType TwGameCommandType_MAX = CS_CONNECT;
+constexpr TwGameCommandType TwGameCommandType_MAX = SC_FIRST_ENTER_MAP;
 constexpr int TwGameCommandType_ARRAYSIZE = TwGameCommandType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TwGameCommandType_descriptor();
@@ -225,7 +235,7 @@ class TwGameCommand :
     kContentFieldNumber = 2,
     kCommandTypeFieldNumber = 1,
   };
-  // required bytes Content = 2;
+  // optional bytes Content = 2;
   bool has_content() const;
   void clear_content();
   const std::string& content() const;
@@ -247,14 +257,191 @@ class TwGameCommand :
  private:
   class _Internal;
 
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr content_;
   int commandtype_;
+  friend struct ::TableStruct_GameCommand_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TwGameUnitData :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Game.TwGameUnitData) */ {
+ public:
+  TwGameUnitData();
+  virtual ~TwGameUnitData();
+
+  TwGameUnitData(const TwGameUnitData& from);
+  TwGameUnitData(TwGameUnitData&& from) noexcept
+    : TwGameUnitData() {
+    *this = ::std::move(from);
+  }
+
+  inline TwGameUnitData& operator=(const TwGameUnitData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TwGameUnitData& operator=(TwGameUnitData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TwGameUnitData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TwGameUnitData* internal_default_instance() {
+    return reinterpret_cast<const TwGameUnitData*>(
+               &_TwGameUnitData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(TwGameUnitData& a, TwGameUnitData& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TwGameUnitData* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TwGameUnitData* New() const final {
+    return CreateMaybeMessage<TwGameUnitData>(nullptr);
+  }
+
+  TwGameUnitData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TwGameUnitData>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TwGameUnitData& from);
+  void MergeFrom(const TwGameUnitData& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  #else
+  bool MergePartialFromCodedStream(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TwGameUnitData* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Game.TwGameUnitData";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_GameCommand_2eproto);
+    return ::descriptor_table_GameCommand_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPosXFieldNumber = 1,
+    kPosYFieldNumber = 2,
+    kUserIdFieldNumber = 4,
+    kUnitTypeIdFieldNumber = 3,
+    kHPFieldNumber = 5,
+    kMPFieldNumber = 6,
+  };
+  // optional uint32 PosX = 1;
+  bool has_posx() const;
+  void clear_posx();
+  ::PROTOBUF_NAMESPACE_ID::uint32 posx() const;
+  void set_posx(::PROTOBUF_NAMESPACE_ID::uint32 value);
+
+  // optional uint32 PosY = 2;
+  bool has_posy() const;
+  void clear_posy();
+  ::PROTOBUF_NAMESPACE_ID::uint32 posy() const;
+  void set_posy(::PROTOBUF_NAMESPACE_ID::uint32 value);
+
+  // optional uint64 UserId = 4;
+  bool has_userid() const;
+  void clear_userid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 userid() const;
+  void set_userid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+
+  // optional uint32 UnitTypeId = 3;
+  bool has_unittypeid() const;
+  void clear_unittypeid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 unittypeid() const;
+  void set_unittypeid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+
+  // optional uint32 HP = 5;
+  bool has_hp() const;
+  void clear_hp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 hp() const;
+  void set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+
+  // optional uint32 MP = 6;
+  bool has_mp() const;
+  void clear_mp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 mp() const;
+  void set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Game.TwGameUnitData)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 posx_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 posy_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 userid_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 unittypeid_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 hp_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 mp_;
   friend struct ::TableStruct_GameCommand_2eproto;
 };
 // -------------------------------------------------------------------
@@ -308,7 +495,7 @@ class TwGameConnectionCS :
                &_TwGameConnectionCS_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(TwGameConnectionCS& a, TwGameConnectionCS& b) {
     a.Swap(&b);
@@ -454,7 +641,7 @@ class TwGameConnectionSC :
                &_TwGameConnectionSC_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(TwGameConnectionSC& a, TwGameConnectionSC& b) {
     a.Swap(&b);
@@ -564,23 +751,23 @@ class TwGameConnectionSC :
 };
 // -------------------------------------------------------------------
 
-class TwGameHeroMoveCS :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Game.TwGameHeroMoveCS) */ {
+class TwGameFirstEnterMapSC :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Game.TwGameFirstEnterMapSC) */ {
  public:
-  TwGameHeroMoveCS();
-  virtual ~TwGameHeroMoveCS();
+  TwGameFirstEnterMapSC();
+  virtual ~TwGameFirstEnterMapSC();
 
-  TwGameHeroMoveCS(const TwGameHeroMoveCS& from);
-  TwGameHeroMoveCS(TwGameHeroMoveCS&& from) noexcept
-    : TwGameHeroMoveCS() {
+  TwGameFirstEnterMapSC(const TwGameFirstEnterMapSC& from);
+  TwGameFirstEnterMapSC(TwGameFirstEnterMapSC&& from) noexcept
+    : TwGameFirstEnterMapSC() {
     *this = ::std::move(from);
   }
 
-  inline TwGameHeroMoveCS& operator=(const TwGameHeroMoveCS& from) {
+  inline TwGameFirstEnterMapSC& operator=(const TwGameFirstEnterMapSC& from) {
     CopyFrom(from);
     return *this;
   }
-  inline TwGameHeroMoveCS& operator=(TwGameHeroMoveCS&& from) noexcept {
+  inline TwGameFirstEnterMapSC& operator=(TwGameFirstEnterMapSC&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -605,37 +792,37 @@ class TwGameHeroMoveCS :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const TwGameHeroMoveCS& default_instance();
+  static const TwGameFirstEnterMapSC& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TwGameHeroMoveCS* internal_default_instance() {
-    return reinterpret_cast<const TwGameHeroMoveCS*>(
-               &_TwGameHeroMoveCS_default_instance_);
+  static inline const TwGameFirstEnterMapSC* internal_default_instance() {
+    return reinterpret_cast<const TwGameFirstEnterMapSC*>(
+               &_TwGameFirstEnterMapSC_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
-  friend void swap(TwGameHeroMoveCS& a, TwGameHeroMoveCS& b) {
+  friend void swap(TwGameFirstEnterMapSC& a, TwGameFirstEnterMapSC& b) {
     a.Swap(&b);
   }
-  inline void Swap(TwGameHeroMoveCS* other) {
+  inline void Swap(TwGameFirstEnterMapSC* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TwGameHeroMoveCS* New() const final {
-    return CreateMaybeMessage<TwGameHeroMoveCS>(nullptr);
+  inline TwGameFirstEnterMapSC* New() const final {
+    return CreateMaybeMessage<TwGameFirstEnterMapSC>(nullptr);
   }
 
-  TwGameHeroMoveCS* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<TwGameHeroMoveCS>(arena);
+  TwGameFirstEnterMapSC* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TwGameFirstEnterMapSC>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const TwGameHeroMoveCS& from);
-  void MergeFrom(const TwGameHeroMoveCS& from);
+  void CopyFrom(const TwGameFirstEnterMapSC& from);
+  void MergeFrom(const TwGameFirstEnterMapSC& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -656,10 +843,155 @@ class TwGameHeroMoveCS :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TwGameHeroMoveCS* other);
+  void InternalSwap(TwGameFirstEnterMapSC* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Game.TwGameHeroMoveCS";
+    return "Game.TwGameFirstEnterMapSC";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_GameCommand_2eproto);
+    return ::descriptor_table_GameCommand_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUnitDatasFieldNumber = 1,
+  };
+  // repeated .Game.TwGameUnitData UnitDatas = 1;
+  int unitdatas_size() const;
+  void clear_unitdatas();
+  ::Game::TwGameUnitData* mutable_unitdatas(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Game::TwGameUnitData >*
+      mutable_unitdatas();
+  const ::Game::TwGameUnitData& unitdatas(int index) const;
+  ::Game::TwGameUnitData* add_unitdatas();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Game::TwGameUnitData >&
+      unitdatas() const;
+
+  // @@protoc_insertion_point(class_scope:Game.TwGameFirstEnterMapSC)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Game::TwGameUnitData > unitdatas_;
+  friend struct ::TableStruct_GameCommand_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TwGameUnitMoveCS :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Game.TwGameUnitMoveCS) */ {
+ public:
+  TwGameUnitMoveCS();
+  virtual ~TwGameUnitMoveCS();
+
+  TwGameUnitMoveCS(const TwGameUnitMoveCS& from);
+  TwGameUnitMoveCS(TwGameUnitMoveCS&& from) noexcept
+    : TwGameUnitMoveCS() {
+    *this = ::std::move(from);
+  }
+
+  inline TwGameUnitMoveCS& operator=(const TwGameUnitMoveCS& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TwGameUnitMoveCS& operator=(TwGameUnitMoveCS&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const TwGameUnitMoveCS& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TwGameUnitMoveCS* internal_default_instance() {
+    return reinterpret_cast<const TwGameUnitMoveCS*>(
+               &_TwGameUnitMoveCS_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(TwGameUnitMoveCS& a, TwGameUnitMoveCS& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TwGameUnitMoveCS* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TwGameUnitMoveCS* New() const final {
+    return CreateMaybeMessage<TwGameUnitMoveCS>(nullptr);
+  }
+
+  TwGameUnitMoveCS* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TwGameUnitMoveCS>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const TwGameUnitMoveCS& from);
+  void MergeFrom(const TwGameUnitMoveCS& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  #if GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  #else
+  bool MergePartialFromCodedStream(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedInputStream* input) final;
+  #endif  // GOOGLE_PROTOBUF_ENABLE_EXPERIMENTAL_PARSER
+  void SerializeWithCachedSizes(
+      ::PROTOBUF_NAMESPACE_ID::io::CodedOutputStream* output) const final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* InternalSerializeWithCachedSizesToArray(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(TwGameUnitMoveCS* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Game.TwGameUnitMoveCS";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -706,7 +1038,7 @@ class TwGameHeroMoveCS :
   float direction() const;
   void set_direction(float value);
 
-  // @@protoc_insertion_point(class_scope:Game.TwGameHeroMoveCS)
+  // @@protoc_insertion_point(class_scope:Game.TwGameUnitMoveCS)
  private:
   class _Internal;
 
@@ -748,7 +1080,7 @@ inline void TwGameCommand::set_commandtype(::Game::TwGameCommandType value) {
   // @@protoc_insertion_point(field_set:Game.TwGameCommand.CommandType)
 }
 
-// required bytes Content = 2;
+// optional bytes Content = 2;
 inline bool TwGameCommand::has_content() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -804,6 +1136,118 @@ inline void TwGameCommand::set_allocated_content(std::string* content) {
   }
   content_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), content);
   // @@protoc_insertion_point(field_set_allocated:Game.TwGameCommand.Content)
+}
+
+// -------------------------------------------------------------------
+
+// TwGameUnitData
+
+// optional uint32 PosX = 1;
+inline bool TwGameUnitData::has_posx() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void TwGameUnitData::clear_posx() {
+  posx_ = 0u;
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitData::posx() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.PosX)
+  return posx_;
+}
+inline void TwGameUnitData::set_posx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _has_bits_[0] |= 0x00000001u;
+  posx_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.PosX)
+}
+
+// optional uint32 PosY = 2;
+inline bool TwGameUnitData::has_posy() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void TwGameUnitData::clear_posy() {
+  posy_ = 0u;
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitData::posy() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.PosY)
+  return posy_;
+}
+inline void TwGameUnitData::set_posy(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _has_bits_[0] |= 0x00000002u;
+  posy_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.PosY)
+}
+
+// optional uint32 UnitTypeId = 3;
+inline bool TwGameUnitData::has_unittypeid() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void TwGameUnitData::clear_unittypeid() {
+  unittypeid_ = 0u;
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitData::unittypeid() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.UnitTypeId)
+  return unittypeid_;
+}
+inline void TwGameUnitData::set_unittypeid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _has_bits_[0] |= 0x00000008u;
+  unittypeid_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.UnitTypeId)
+}
+
+// optional uint64 UserId = 4;
+inline bool TwGameUnitData::has_userid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void TwGameUnitData::clear_userid() {
+  userid_ = PROTOBUF_ULONGLONG(0);
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 TwGameUnitData::userid() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.UserId)
+  return userid_;
+}
+inline void TwGameUnitData::set_userid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _has_bits_[0] |= 0x00000004u;
+  userid_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.UserId)
+}
+
+// optional uint32 HP = 5;
+inline bool TwGameUnitData::has_hp() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void TwGameUnitData::clear_hp() {
+  hp_ = 0u;
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitData::hp() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.HP)
+  return hp_;
+}
+inline void TwGameUnitData::set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _has_bits_[0] |= 0x00000010u;
+  hp_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.HP)
+}
+
+// optional uint32 MP = 6;
+inline bool TwGameUnitData::has_mp() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void TwGameUnitData::clear_mp() {
+  mp_ = 0u;
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitData::mp() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitData.MP)
+  return mp_;
+}
+inline void TwGameUnitData::set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _has_bits_[0] |= 0x00000020u;
+  mp_ = value;
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitData.MP)
 }
 
 // -------------------------------------------------------------------
@@ -928,65 +1372,103 @@ inline void TwGameConnectionSC::set_herotypeid(::PROTOBUF_NAMESPACE_ID::uint32 v
 
 // -------------------------------------------------------------------
 
-// TwGameHeroMoveCS
+// TwGameFirstEnterMapSC
+
+// repeated .Game.TwGameUnitData UnitDatas = 1;
+inline int TwGameFirstEnterMapSC::unitdatas_size() const {
+  return unitdatas_.size();
+}
+inline void TwGameFirstEnterMapSC::clear_unitdatas() {
+  unitdatas_.Clear();
+}
+inline ::Game::TwGameUnitData* TwGameFirstEnterMapSC::mutable_unitdatas(int index) {
+  // @@protoc_insertion_point(field_mutable:Game.TwGameFirstEnterMapSC.UnitDatas)
+  return unitdatas_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Game::TwGameUnitData >*
+TwGameFirstEnterMapSC::mutable_unitdatas() {
+  // @@protoc_insertion_point(field_mutable_list:Game.TwGameFirstEnterMapSC.UnitDatas)
+  return &unitdatas_;
+}
+inline const ::Game::TwGameUnitData& TwGameFirstEnterMapSC::unitdatas(int index) const {
+  // @@protoc_insertion_point(field_get:Game.TwGameFirstEnterMapSC.UnitDatas)
+  return unitdatas_.Get(index);
+}
+inline ::Game::TwGameUnitData* TwGameFirstEnterMapSC::add_unitdatas() {
+  // @@protoc_insertion_point(field_add:Game.TwGameFirstEnterMapSC.UnitDatas)
+  return unitdatas_.Add();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Game::TwGameUnitData >&
+TwGameFirstEnterMapSC::unitdatas() const {
+  // @@protoc_insertion_point(field_list:Game.TwGameFirstEnterMapSC.UnitDatas)
+  return unitdatas_;
+}
+
+// -------------------------------------------------------------------
+
+// TwGameUnitMoveCS
 
 // optional uint32 PosX = 1;
-inline bool TwGameHeroMoveCS::has_posx() const {
+inline bool TwGameUnitMoveCS::has_posx() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void TwGameHeroMoveCS::clear_posx() {
+inline void TwGameUnitMoveCS::clear_posx() {
   posx_ = 0u;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameHeroMoveCS::posx() const {
-  // @@protoc_insertion_point(field_get:Game.TwGameHeroMoveCS.PosX)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitMoveCS::posx() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitMoveCS.PosX)
   return posx_;
 }
-inline void TwGameHeroMoveCS::set_posx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void TwGameUnitMoveCS::set_posx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _has_bits_[0] |= 0x00000001u;
   posx_ = value;
-  // @@protoc_insertion_point(field_set:Game.TwGameHeroMoveCS.PosX)
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitMoveCS.PosX)
 }
 
 // optional uint32 PosY = 2;
-inline bool TwGameHeroMoveCS::has_posy() const {
+inline bool TwGameUnitMoveCS::has_posy() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void TwGameHeroMoveCS::clear_posy() {
+inline void TwGameUnitMoveCS::clear_posy() {
   posy_ = 0u;
   _has_bits_[0] &= ~0x00000002u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameHeroMoveCS::posy() const {
-  // @@protoc_insertion_point(field_get:Game.TwGameHeroMoveCS.PosY)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 TwGameUnitMoveCS::posy() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitMoveCS.PosY)
   return posy_;
 }
-inline void TwGameHeroMoveCS::set_posy(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void TwGameUnitMoveCS::set_posy(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _has_bits_[0] |= 0x00000002u;
   posy_ = value;
-  // @@protoc_insertion_point(field_set:Game.TwGameHeroMoveCS.PosY)
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitMoveCS.PosY)
 }
 
 // optional float Direction = 3;
-inline bool TwGameHeroMoveCS::has_direction() const {
+inline bool TwGameUnitMoveCS::has_direction() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void TwGameHeroMoveCS::clear_direction() {
+inline void TwGameUnitMoveCS::clear_direction() {
   direction_ = 0;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline float TwGameHeroMoveCS::direction() const {
-  // @@protoc_insertion_point(field_get:Game.TwGameHeroMoveCS.Direction)
+inline float TwGameUnitMoveCS::direction() const {
+  // @@protoc_insertion_point(field_get:Game.TwGameUnitMoveCS.Direction)
   return direction_;
 }
-inline void TwGameHeroMoveCS::set_direction(float value) {
+inline void TwGameUnitMoveCS::set_direction(float value) {
   _has_bits_[0] |= 0x00000004u;
   direction_ = value;
-  // @@protoc_insertion_point(field_set:Game.TwGameHeroMoveCS.Direction)
+  // @@protoc_insertion_point(field_set:Game.TwGameUnitMoveCS.Direction)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

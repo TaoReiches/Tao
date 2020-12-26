@@ -145,6 +145,7 @@
     <ClCompile Include="BattleLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TW_Network.cpp" />
+    <ClCompile Include="Tw_Users.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TW_GameLog.h" />
     <ClInclude Include="TW_Network.h" />
+    <ClInclude Include="Tw_Users.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

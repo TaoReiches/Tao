@@ -6,12 +6,24 @@ enum TwGameCommandType
 {
 	SC_CONNECT = 1;
 	CS_CONNECT = 2;
+    CS_LOADING_END = 3;
+    SC_FIRST_ENTER_MAP = 4;
 }
 
 message TwGameCommand
 {
 	required TwGameCommandType CommandType = 1;
-	required bytes Content = 2;
+	optional bytes Content = 2;
+}
+
+message TwGameUnitData
+{
+    optional uint32 PosX = 1;
+    optional uint32 PosY = 2;
+    optional uint32 UnitTypeId = 3;
+    optional uint64 UserId = 4;
+    optional uint32 HP = 5;
+    optional uint32 MP = 6;
 }
 
 message TwGameConnectionCS
@@ -26,7 +38,12 @@ message TwGameConnectionSC
     required uint32 HeroTypeId = 3;
 }
 
-message TwGameHeroMoveCS
+message TwGameFirstEnterMapSC
+{
+    repeated TwGameUnitData UnitDatas = 1;
+}
+
+message TwGameUnitMoveCS
 {
     optional uint32 PosX = 1;
     optional uint32 PosY = 2;

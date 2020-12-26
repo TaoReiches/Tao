@@ -11,6 +11,9 @@
     <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
       <Filter>protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="Tw_Users.cpp">
+      <Filter>Users</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Log">
@@ -28,6 +31,9 @@
     <Filter Include="protobuf">
       <UniqueIdentifier>{74501d2f-7a93-425c-b577-d15df9a1a494}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Users">
+      <UniqueIdentifier>{522b0c86-9788-4162-95c1-ed27fa55c5e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TW_GameLog.h">
@@ -44,6 +50,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
       <Filter>protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Tw_Users.h">
+      <Filter>Users</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

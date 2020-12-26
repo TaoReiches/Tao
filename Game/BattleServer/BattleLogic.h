@@ -8,10 +8,11 @@
 #include <memory>
 #include <string>
 #include "Singleton.h"
+#include <TeNetMgr.h>
 
 class TwMain;
 
-class TwBattleLogic : public TwSingleton<TwBattleLogic>
+class TwBattleLogic final : public TwSingleton<TwBattleLogic>
 {
 public:
     TwBattleLogic();
@@ -19,10 +20,10 @@ public:
 
     bool Initialize();
     void UpdateLogic();
-    void OnRecivedCommand(std::string command);
+    void OnRecivedCommand(std::string command, const HSock& sock);
 
 private:
-    void OnPlayerConnect(std::string command);
+    void OnPlayerConnect(std::string command, const HSock& sock);
 
 private:
     std::unique_ptr<TwMain>     mpMain;
