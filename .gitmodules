@@ -4,6 +4,3 @@
 [submodule "ThirdParty/protobuf"]
 	path = ThirdParty/protobuf
 	url = https://github.com/protocolbuffers/protobuf.git
-[submodule "ThirdParty/kcp"]
-	path = ThirdParty/kcp
-	url = https://github.com/skywind3000/kcp
