@@ -25,5 +25,8 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
+    <ClInclude Include="GameCommandExecute.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

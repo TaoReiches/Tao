@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
     <ClInclude Include="GameCommand.h" />
+    <ClInclude Include="GameCommandExecute.h" />
     <ClInclude Include="NetWork.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

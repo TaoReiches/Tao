@@ -5,7 +5,7 @@
 
 #include "TW_Network.h"
 #include "BattleLogic.h"
-#include "Tw_Users.h"
+#include "TW_Users.h"
 
 TwNetwork::TwNetwork()
 {
@@ -36,12 +36,14 @@ void	TwNetwork::UpdateNet()
 
 void TwNetwork::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)
 {
-    int a = 0;
+
 }
+
 void TwNetwork::OnNetAccept(const HSock& rkSock, int iListenPort, const char* pcIP, int iPort)
 {
 
 }
+
 void TwNetwork::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
 {
     char	acTemp[1024];
@@ -50,6 +52,7 @@ void TwNetwork::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
 
     TwBattleLogic::Get()->OnRecivedCommand(acTemp, rkSock);
 }
+
 void TwNetwork::OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam)
 {
     auto userId = TwUsers::Get()->GetUserId(rkSock);

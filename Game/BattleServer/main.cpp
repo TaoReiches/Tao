@@ -6,15 +6,15 @@
 #include <memory>
 #include <chrono>
 #include <thread>
-#include "TW_GameLog.h"
 #include "TW_Network.h"
 #include "BattleLogic.h"
+#include "spdlog/spdlog.h"
 
 int main()
 {
-    TW_LOG("Battle server start!");
-    TW_WARN("Test warning message.");
-    TW_ERROR("Test error message.");
+    spdlog::info("Battle server start! int value: {0:d}; hex: {0:x}; oct: {0:o}; bin: {0:b}", 36);
+    spdlog::warn("Test warning message. {1} {0}", "World", "Hello");
+    spdlog::critical("Test error message. {:08.2f}", 1.23456789);
 
     TwBattleLogic::Get()->Initialize();
 

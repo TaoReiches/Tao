@@ -11,14 +11,11 @@
     <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
       <Filter>protobuf</Filter>
     </ClCompile>
-    <ClCompile Include="Tw_Users.cpp">
+    <ClCompile Include="TW_Users.cpp">
       <Filter>Users</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Log">
-      <UniqueIdentifier>{4857ce8c-263d-49fc-bee8-9a89eb69e0ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{5922c20a-0529-451b-9fa8-da8c85f52d44}</UniqueIdentifier>
     </Filter>
@@ -36,12 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TW_GameLog.h">
-      <Filter>Log</Filter>
-    </ClInclude>
-    <ClInclude Include="TW_Network.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="BattleLogic.h">
       <Filter>BattleLogic</Filter>
     </ClInclude>
@@ -51,7 +42,10 @@
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
       <Filter>protobuf</Filter>
     </ClInclude>
-    <ClInclude Include="Tw_Users.h">
+    <ClInclude Include="TW_Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_Users.h">
       <Filter>Users</Filter>
     </ClInclude>
   </ItemGroup>

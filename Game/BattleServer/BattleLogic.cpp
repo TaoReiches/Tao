@@ -9,7 +9,8 @@
 #include "TW_Main.h"
 #include "GameCommand.pb.h"
 #include "TW_Network.h"
-#include "Tw_Users.h"
+#include "TW_Users.h"
+#include "spdlog/spdlog.h"
 
 TwBattleLogic::TwBattleLogic()
 {
@@ -47,6 +48,7 @@ void TwBattleLogic::OnRecivedCommand(std::string command, const HSock& sock)
 {
     Game::TwGameCommand cmd;
     cmd.ParseFromString(command);
+    spdlog::info("Received command: {}", cmd.commandtype());
 
     switch (cmd.commandtype())
     {
@@ -62,6 +64,7 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     cmd.ParseFromString(command);
 
     auto token = cmd.token();
+    spdlog::info("Received token: {}", token);
 
     // http request to the world server to get user info
     auto userId = 9999999;
