@@ -21,6 +21,7 @@ public:
     bool Initialize();
     void UpdateLogic();
     void OnRecivedCommand(std::string command, const HSock& sock);
+    void OnPlayerDisconnect(std::uint64_t userId);
 
 private:
     void OnPlayerConnect(std::string command, const HSock& sock);

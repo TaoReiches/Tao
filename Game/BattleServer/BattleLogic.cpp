@@ -83,3 +83,8 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     std::memcpy(sendBuffer, sendString.c_str(), sendString.size());
     TwNetwork::Get()->SendData(sendBuffer, sendString.size(), TwUsers::Get()->GetSock(userId));
 }
+
+void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)
+{
+
+}

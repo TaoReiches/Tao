@@ -5,6 +5,7 @@
 
 #include "TW_Network.h"
 #include "BattleLogic.h"
+#include "Tw_Users.h"
 
 TwNetwork::TwNetwork()
 {
@@ -51,5 +52,8 @@ void TwNetwork::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
 }
 void TwNetwork::OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam)
 {
+    auto userId = TwUsers::Get()->GetUserId(rkSock);
 
+    TwBattleLogic::Get()->OnPlayerDisconnect(userId);
+    TwUsers::Get()->OnUserDisconnect(userId);
 }
