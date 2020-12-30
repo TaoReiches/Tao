@@ -10,7 +10,7 @@
 #include "Singleton.h"
 #include <TeNetMgr.h>
 
-class TwMain;
+class TwBattleInterface;
 
 class TwBattleLogic final : public TwSingleton<TwBattleLogic>
 {
@@ -28,6 +28,6 @@ private:
     void OnPlayerLoadend(const HSock& sock);
 
 private:
-    std::unique_ptr<TwMain>     mpMain;
+    std::unique_ptr<TwBattleInterface>     mpMain;
     unsigned int                muiFrame;
 };

@@ -6,7 +6,7 @@
 #pragma warning( disable: 4244)
 
 #include "BattleLogic.h"
-#include "TW_Main.h"
+#include "TW_BattleInterface.h"
 #include "GameCommand.pb.h"
 #include "TW_Network.h"
 #include "TW_Users.h"
@@ -25,8 +25,7 @@ TwBattleLogic::~TwBattleLogic()
 
 bool TwBattleLogic::Initialize()
 {
-    mpMain = std::unique_ptr<TwMain>(new TwMain());
-    mpMain->LoadRes(888);
+    mpMain = std::unique_ptr<TwBattleInterface>(new TwBattleInterface());
     mpMain->Initialize();
 
     return true;
@@ -35,7 +34,7 @@ bool TwBattleLogic::Initialize()
 void TwBattleLogic::UpdateLogic()
 {
     ++muiFrame;
-    mpMain->UpdateFrame(muiFrame);
+    mpMain->Update();
 }
 
 // Player connect process:
@@ -99,7 +98,7 @@ void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
     }
 
     spdlog::info("Player loading end, player id: {}", playerId);
-    mpMain->CreateHero();
+    mpMain->OnPlayerJion();
 }
 
 void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)

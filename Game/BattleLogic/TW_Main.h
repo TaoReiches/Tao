@@ -13,23 +13,13 @@
 
 #define GAME_FRAME_TIME	20
 
-class BeUnit;
-class BePlayerInfo;
-class BeFormulaInfo;
-class BeBuffer;
-class BeEffect;
-class BeItem;
-class BeMapItem;
-class BeAttackingAttr;
-class SeRaceCmd;
 class BeMapItemMgr;
 class TeMap;
 class BeUnitMgr;
 class BeEffectMgr;
 class ITwRandom;
-class BeSkill;
-class BeCarry;
-class SkillTable;
+class BeFormulaInfo;
+class BePlayerInfo;
 
 class   TwMain : public TwTriggerFunc, public TwCommandProc
 {
@@ -124,7 +114,6 @@ private:
 	bool	m_bReLink;
 
 public:
-
 	bool Initialize(void);
 	void Finialize(void);
 	bool UpdateFrame(unsigned int dwFrame);

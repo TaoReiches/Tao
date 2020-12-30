@@ -144,6 +144,7 @@
     <ClInclude Include="TW_AttackAttr.h" />
     <ClInclude Include="TW_AttackedAttr.h" />
     <ClInclude Include="TW_BattleCmd.h" />
+    <ClInclude Include="TW_BattleInterface.h" />
     <ClInclude Include="TW_Buff.h" />
     <ClInclude Include="TW_BuffDefine.h" />
     <ClInclude Include="TW_Carry.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="TW_BattleInterface.cpp" />
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
     <ClCompile Include="TW_CarrySkill.cpp" />
