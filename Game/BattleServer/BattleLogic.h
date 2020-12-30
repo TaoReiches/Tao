@@ -29,5 +29,4 @@ private:
 
 private:
     std::unique_ptr<TwBattleInterface>     mpMain;
-    unsigned int                muiFrame;
 };

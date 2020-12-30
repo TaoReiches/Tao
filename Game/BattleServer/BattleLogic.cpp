@@ -15,7 +15,6 @@
 TwBattleLogic::TwBattleLogic()
 {
     mpMain = nullptr;
-    muiFrame = 0;
 }
 
 TwBattleLogic::~TwBattleLogic()
@@ -33,7 +32,6 @@ bool TwBattleLogic::Initialize()
 
 void TwBattleLogic::UpdateLogic()
 {
-    ++muiFrame;
     mpMain->Update();
 }
 
@@ -103,5 +101,5 @@ void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
 
 void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)
 {
-
+    mpMain->OnPlayerLeave();
 }
