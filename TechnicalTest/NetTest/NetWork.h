@@ -16,7 +16,7 @@ public:
     virtual void OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam) override;
 
     void	UpdateNet();
-    void	SendData(std::string Data, int iSize, const	HSock& rkSock);
+    void	SendData(std::string Data);
     void	DisConnect(const	HSock& rkSock);
 
     void	BeginGame();

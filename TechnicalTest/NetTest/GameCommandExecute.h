@@ -35,5 +35,8 @@ private:
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         // send load end
         std::cout << "After 3 seconds, send load end!" << std::endl;
+        Game::TwGameCommand loadendCmd;
+        loadendCmd.set_commandtype(Game::TwGameCommandType::CS_LOADING_END);
+        kNet.SendData(loadendCmd.SerializeAsString());
     }
 };

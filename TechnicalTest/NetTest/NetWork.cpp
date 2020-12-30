@@ -12,14 +12,14 @@ SeNetMgr::~SeNetMgr()
 
 }
 
-void	SeNetMgr::SendData(std::string Data, int iSize, const	HSock& rkSock)
+void	SeNetMgr::SendData(std::string Data)
 {
     static void* sendBuffer = new char[1024];
     static	int	dwLastTime = 0;
 
     std::memset(sendBuffer, 0, 1024);
-    std::memcpy(sendBuffer, Data.c_str(), iSize);
-    m_kNetMgr.SendData(rkSock, sendBuffer, iSize);
+    std::memcpy(sendBuffer, Data.c_str(), Data.size());
+    m_kNetMgr.SendData(m_kSock, sendBuffer, Data.size());
 }
 
 void	SeNetMgr::DisConnect(const	HSock& rkSock)
@@ -45,7 +45,7 @@ void SeNetMgr::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)
     Game::TwGameConnectionCS cmd1;
     cmd1.ParseFromString(cmd.content());
 
-    SendData(connectCmd.c_str(), connectCmd.size(), m_kSock);
+    SendData(connectCmd);
 
     printf("Connect Ok!  Send Connect Command!!!  \n");
 }

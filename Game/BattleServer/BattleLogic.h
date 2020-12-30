@@ -25,6 +25,7 @@ public:
 
 private:
     void OnPlayerConnect(std::string command, const HSock& sock);
+    void OnPlayerLoadend(const HSock& sock);
 
 private:
     std::unique_ptr<TwMain>     mpMain;

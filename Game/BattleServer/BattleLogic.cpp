@@ -53,6 +53,7 @@ void TwBattleLogic::OnRecivedCommand(std::string command, const HSock& sock)
     switch (cmd.commandtype())
     {
     case Game::TwGameCommandType::CS_CONNECT: OnPlayerConnect(cmd.content(), sock); break;
+    case Game::TwGameCommandType::CS_LOADING_END: OnPlayerLoadend(sock); break;
     default:
         break;
     }
@@ -85,6 +86,20 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     std::memset(sendBuffer, 0, 1024);
     std::memcpy(sendBuffer, sendString.c_str(), sendString.size());
     TwNetwork::Get()->SendData(sendBuffer, sendString.size(), TwUsers::Get()->GetSock(userId));
+}
+
+void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
+{
+    // add the player into the battle
+    auto playerId = TwUsers::Get()->GetUserId(sock);
+    if (playerId == 0)
+    {
+        spdlog::critical("Can not find user id, sock id: {}", sock.uiAllocID);
+        return;
+    }
+
+    spdlog::info("Player loading end, player id: {}", playerId);
+    mpMain->CreateHero();
 }
 
 void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)
