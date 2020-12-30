@@ -547,7 +547,7 @@ void BeCarry::InitNormalAttr(const std::shared_ptr<const SkillTable>& pkSkillRes
 		return;
 	}
 	iSkillLevel -= 1;
-	for (int j = 0; j < MAX_CONTENT_DATA; j++)
+	for (int j = 0; j < 7; j++)
 	{
 		int eType = 0;
 		float fValue = 0.0f;

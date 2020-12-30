@@ -51,32 +51,32 @@ public:
 
 	inline void BeginRace(void)
 	{
-		m_eState = BMS_RACING;
+		m_eState = BeMainState::BMS_RACING;
 	}
 
 	inline int GenerateID(BeGenIDType eType)
 	{
-		if (eType < GIT_ENTITY || eType >= GIT_MAX)
+		if (eType < BeGenIDType::GIT_ENTITY || eType >= BeGenIDType::GIT_MAX)
 		{
-			eType = GIT_ENTITY;
+			eType = BeGenIDType::GIT_ENTITY;
 		}
 
-		return ++m_aiGenID[eType];
+		return ++m_aiGenID[static_cast<int>(eType)];
 	}
 
 	inline int SetGenerateID(BeGenIDType eType, int iID)
 	{
-		if (eType < GIT_ENTITY || eType >= GIT_MAX)
+		if (eType < BeGenIDType::GIT_ENTITY || eType >= BeGenIDType::GIT_MAX)
 		{
 			return 0;
 		}
 
-		return m_aiGenID[eType] = iID;
+		return m_aiGenID[static_cast<int>(eType)] = iID;
 	}
 
 	inline void SetState(BeMainState eState)
 	{
-		if (eState == BMS_OVER)
+		if (eState == BeMainState::BMS_OVER)
 		{
 		}
 		m_eState = eState;
@@ -163,7 +163,7 @@ protected:
     BeMainState             m_eState;
     unsigned int            m_uiFrameCount;
     unsigned int            m_uiRealTimeNow;
-    int                     m_aiGenID[GIT_MAX];
+    int                     m_aiGenID[static_cast<int>(BeGenIDType::GIT_MAX)];
     std::vector<int>        m_aiVecHeroTypeID;
     unsigned int            m_iCurMapID;
     BeRaceGameModel         m_eRaceGameModel;

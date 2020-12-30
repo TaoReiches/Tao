@@ -42,7 +42,7 @@ TwMain::~TwMain(void)
 
 void TwMain::ResetData(void)
 {
-	m_eState = BMS_NONE;
+	m_eState = BeMainState::BMS_NONE;
 	m_uiGameTime = 0;
 	m_uiFrameCount = 0;
 	m_uiRealTimeNow = 0;
@@ -81,7 +81,7 @@ bool TwMain::InitializeGame(void)
 
 bool TwMain::Initialize(void)
 {
-	m_eState = BMS_NONE;
+	m_eState = BeMainState::BMS_NONE;
 	m_uiGameTime = 0;
 
 	m_uiFrameCount = 0;
@@ -110,8 +110,8 @@ bool TwMain::Initialize(void)
 	InitPlayerGroup();
 
 
-	m_eState = BMS_INITED;
-	m_eRaceGameModel = BRGM_NORMAL;
+	m_eState = BeMainState::BMS_INITED;
+	m_eRaceGameModel = BeRaceGameModel::BRGM_NORMAL;
 
 	return true;
 }

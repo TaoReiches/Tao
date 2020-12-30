@@ -185,6 +185,7 @@
     <ClInclude Include="TW_MapItemMgr.h" />
     <ClInclude Include="TW_MemoryObject.h" />
     <ClInclude Include="TW_PlayerInfo.h" />
+    <ClInclude Include="TW_Quest.h" />
     <ClInclude Include="TW_ShareUnitData.h" />
     <ClInclude Include="TW_Skill.h" />
     <ClInclude Include="TW_SkillDefine.h" />

@@ -2261,7 +2261,7 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 	auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (pkItemRes)
 	{
-		for (int i = 0; i < ITEM_MAX_SKILL; ++i)
+		for (int i = 0; i < 7; ++i)
 		{
 			int iID = pkItemRes->iItemSkill[i];
 			auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iID);

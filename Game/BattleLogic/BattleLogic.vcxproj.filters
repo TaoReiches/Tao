@@ -264,6 +264,9 @@
     <ClInclude Include="TW_CommandProc.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
+    <ClInclude Include="TW_Quest.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">

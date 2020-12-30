@@ -57,11 +57,11 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		int iID = iForceID;
 		if (iID == 0)
 		{
-			iID = gMain.GenerateID(GIT_CARRY);
+			iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
 		}
 		else
 		{
-			gMain.SetGenerateID(GIT_CARRY, iID);
+			gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 		}
 		auto pkItem = std::shared_ptr<BeItem>(mpItem.alloc(iID));
 		pkItem->AttachMain(pkAttachMain);
@@ -75,7 +75,7 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		UpdateAttribute(true);
 
 		int		iLastRegSkill = 0;
-		for (int i = 0; i < ITEM_MAX_SKILL; ++i)
+		for (int i = 0; i < 7; ++i)
 		{
 			int iSkillID = pkRes->iItemSkill[i];
 			if (iSkillID == 0)
@@ -470,11 +470,11 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	int iID = iForceID;
 	if (iID == 0)
 	{
-		iID = gMain.GenerateID(GIT_CARRY);
+		iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
 	}
 	else
 	{
-		gMain.SetGenerateID(GIT_CARRY, iID);
+		gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 	}
 	pkSkill.reset(mpSkill.alloc(iID));
 	pkSkill->AttachMain(pkAttachMain);
@@ -833,7 +833,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 	}
 
 	int iSkillTypeID = 0;
-	for (int i = 0; i < ITEM_MAX_SKILL; ++i)
+	for (int i = 0; i < 7; ++i)
 	{
 		int iTypeID = 0;
 		if (pkItemRes)
@@ -937,11 +937,11 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 		int iID = iForceID;
 		if (iID == 0)
 		{
-			iID = gMain.GenerateID(GIT_CARRY);
+			iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
 		}
 		else
 		{
-			gMain.SetGenerateID(GIT_CARRY, iID);
+			gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 		}
 		pkRet = mpBuffer.alloc(iID);
 		if (!pkRet)

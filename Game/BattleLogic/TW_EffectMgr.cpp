@@ -140,7 +140,7 @@ void BeEffectMgr::SafeDeleteEffect(std::shared_ptr<BeEffect>& pkEffect)
 }
 std::shared_ptr<BeEffect> BeEffectMgr::AddEffect(BeEffectRace iTypeID)
 {
-	int iID = gMain.GenerateID(GIT_EFFECT);
+	int iID = gMain.GenerateID(BeGenIDType::GIT_EFFECT);
 	auto pkEffect = NewEffect(iID);
 	if (pkEffect->Initialize(iTypeID))
 	{

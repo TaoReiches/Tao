@@ -75,7 +75,7 @@ void	BeItem::InitItemSkill(void)
 		}
 		iLastAddSkill = iTypeID;
 
-		auto pkSkill = std::unique_ptr<BeSkill>(mpSkill.alloc(gMain.GenerateID(GIT_CARRY)));
+		auto pkSkill = std::unique_ptr<BeSkill>(mpSkill.alloc(gMain.GenerateID(BeGenIDType::GIT_CARRY)));
 		pkSkill->AttachMain(pkAttachMain);
 		pkSkill->AttachUnit(pkAttachUnit);
 		if (pkSkill->Initialize(iTypeID))
