@@ -11,6 +11,7 @@
 #include "TW_Network.h"
 #include "TW_Users.h"
 #include "spdlog/spdlog.h"
+#include "TW_PlayerInfo.h"
 
 TwBattleLogic::TwBattleLogic()
 {
@@ -65,14 +66,22 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     spdlog::info("Received token: {}", token);
 
     // http request to the world server to get user info
-    auto userId = 9999999;
-    TwUsers::Get()->OnUserConnect(userId, sock);
+    TwPlayerInfo playerInfo;
+    playerInfo.Level = 3;
+    playerInfo.UserID = 9999999;
+    playerInfo.TypeID = 'U001';
+    playerInfo.Name = "FirstPlayer";
+    playerInfo.PosX = 888;
+    playerInfo.PosY = 888;
+
+    TwUsers::Get()->OnUserConnect(playerInfo.UserID, sock);
+    mpMain->SetPlayerInfo(std::make_shared<TwPlayerInfo>(playerInfo));
 
     // send back connect success and let client to start loading
     Game::TwGameConnectionSC gameConnectionSC;
-    gameConnectionSC.set_herotypeid('U001');
+    gameConnectionSC.set_herotypeid(playerInfo.TypeID);
     gameConnectionSC.set_mapid('M001');
-    gameConnectionSC.set_userid(userId);
+    gameConnectionSC.set_userid(playerInfo.UserID);
 
     Game::TwGameCommand sendCmd;
     sendCmd.set_commandtype(Game::TwGameCommandType::SC_CONNECT);
@@ -82,7 +91,7 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     static void* sendBuffer = new char[1024];
     std::memset(sendBuffer, 0, 1024);
     std::memcpy(sendBuffer, sendString.c_str(), sendString.size());
-    TwNetwork::Get()->SendData(sendBuffer, sendString.size(), TwUsers::Get()->GetSock(userId));
+    TwNetwork::Get()->SendData(sendBuffer, sendString.size(), TwUsers::Get()->GetSock(playerInfo.UserID));
 }
 
 void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
