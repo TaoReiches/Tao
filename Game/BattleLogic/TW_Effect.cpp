@@ -175,7 +175,7 @@ void BeEffect::OnRemove(void)
 		return;
 	}
 
-	BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+	BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 	if (GetDamageScope() > 10.0f)
 	{
 		if (m_kEffectData.iSkillTypeID)
@@ -205,7 +205,7 @@ void BeEffect::OnRemove(void)
 	{
 		if (m_kEffectData.eTargetType == BET_UNIT)
 		{
-			BeUnit* pkUnit = gUnitMgr.GetUnitByID(GetTargetID());
+			BeUnit* pkUnit = gUnitMgr->GetUnitByID(GetTargetID());
 			if (pkUnit && !pkUnit->IsDead())
 			{
 				if (m_kEffectData.iSkillTypeID)
@@ -272,7 +272,7 @@ void BeEffect::SetOwnerID(int iOwnerID)
 		m_kEffectData.iSourceID = iOwnerID;
 	}
 
-	BeUnit* pkOwner = gUnitMgr.GetUnitByID(iOwnerID);
+	BeUnit* pkOwner = gUnitMgr->GetUnitByID(iOwnerID);
 	if (pkOwner)
 	{
 		m_kEffectData.iPlayer = pkOwner->GetPlayer();
@@ -299,7 +299,7 @@ void  BeEffect::SetEffectPosition(int iTargetID, float fOrgPosX, float fOrgPosY,
 	m_kEffectData.fTarPosX = fTarPosX;
 	m_kEffectData.fTarPosY = fTarPosY;
 	m_kEffectData.iTargetID = iTargetID;
-	BeUnit* pkTarget = gUnitMgr.GetUnitByID(iTargetID, true);
+	BeUnit* pkTarget = gUnitMgr->GetUnitByID(iTargetID, true);
 	if (pkTarget)
 	{
 		m_kEffectData.fTarPosX = pkTarget->GetPosX();
@@ -358,7 +358,7 @@ void* BeEffect::UpdateTargetPos(void)
 			return nullptr;
 		}
 
-		BeUnit* pkTarget = gUnitMgr.GetUnitByID(GetTargetID());
+		BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 		if (!pkTarget)
 		{
 			return nullptr;
@@ -372,7 +372,7 @@ void* BeEffect::UpdateTargetPos(void)
 			return pkTarget;
 		}
 
-		BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+		BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 
 		if (pkTarget->HasUnitCarryFlag(BUCF_ISMAGICIMMUNITY) && !HasFlag(BEF_IGNORE_MAGIC_IMMUNE))
 		{
@@ -383,7 +383,7 @@ void* BeEffect::UpdateTargetPos(void)
 		}
 		else if (pkTarget->HasFlag(BUF_HASINVISIBLE) && !HasFlag(BEF_IGNORE_INVISIBLE))
 		{
-			BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (m_kEffectData.iSkillTypeID)
@@ -411,7 +411,7 @@ void* BeEffect::UpdateTargetPos(void)
 		}
 		else if (pkTarget->HasUnitCarryFlag(BUCF_ISPHYSICIMMUNITY) && !HasFlag(BEF_IGNORE_PHYSIC_IMMUNE))
 		{
-			BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (!pkAttacker || (pkAttacker && !pkAttacker->HasUnitCarryFlag(BUCF_IGNORE_PHYSICIMMUNITY)))
 			{
 				if (!m_kEffectData.iSkillTypeID)
@@ -532,7 +532,7 @@ void BeEffect::UpdateLineFollowEarth(int iDeltaTime)
 		{
 			if (!m_bPureShow)
 			{
-				BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+				BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 				if (pkAttacker)
 				{
 					TwPtParam kParam;
@@ -575,7 +575,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f)
 	{
-		BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+		BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 		if (m_kEffectData.iSkillTypeID)
 		{
 			if (!m_bPureShow)
@@ -639,7 +639,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 //	BeUnit* pkAttacker = nullptr;
 //
 //	SeCalSkillLvlData rkData;
-//	pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+//	pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 //
 //	if (!pkAttacker)
 //	{
@@ -706,7 +706,7 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
-		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 		if (!pkAttacker)
 		{
 			return;
@@ -721,12 +721,12 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
 				{
-					pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+					pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 				}
 
 				if (!pkAttacker)
@@ -781,7 +781,7 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID)
 		{
-			BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (!m_bPureShow)
@@ -832,7 +832,7 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
-		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 		if (!pkAttacker)
 		{
 			return;
@@ -842,19 +842,19 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 		int iDynaPropFlag = 0;
 		pkAttacker->TranslateSkillTargetType(iSkillTargetFlag, iStaticProcFlag, iDynaPropFlag);
 
-		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, iDynaPropFlag, iStaticProcFlag);
+		gUnitMgr->GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, iDynaPropFlag, iStaticProcFlag);
 	}
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
 				{
-					pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+					pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 				}
 
 				if (!pkAttacker)
@@ -920,7 +920,7 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID)
 		{
-			BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (!m_bPureShow)
@@ -971,7 +971,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 	BeUnit* pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
-		pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 		if (!pkAttacker)
 		{
 			return;
@@ -981,19 +981,19 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 		int iDynaPropFlag = 0;
 		pkAttacker->TranslateSkillTargetType(iSkillTargetFlag, iStaticProcFlag, iDynaPropFlag);
 
-		gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, TwCommandType::BCT_SPELL, m_kEffectData.iSkillTypeID);
+		gUnitMgr->GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_kEffectData.fCollisionScope, pkAttacker, TwCommandType::BCT_SPELL, m_kEffectData.iSkillTypeID);
 	}
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f || !kGroup.empty())
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
 				{
-					pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID(), true);
+					pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 				}
 
 				if (!pkAttacker)
@@ -1066,7 +1066,7 @@ void BeEffect::ParseAttack(void)
 			break;
 		}
 
-		BeUnit* pkTarget = gUnitMgr.GetUnitByID(GetTargetID());
+		BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 
 		if (m_pkAttr && m_pkAttr->iBumpCount > 0 && pkTarget /*&& !pkTarget->IsDead()*/)
 		{
@@ -1088,11 +1088,11 @@ void BeEffect::ParseAttack(void)
 
 			if (m_kEffectData.iBumpCount < m_pkAttr->iBumpCount)
 			{
-				BeUnit* pkAttacker = gUnitMgr.GetUnitByID(GetOwnerID());
+				BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID());
 				if (pkAttacker && !pkAttacker->IsDead())
 				{
 					UnitGroup kGroup;
-					gUnitMgr.GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, TwCommandType::BCT_ATTACK, 0);
+					gUnitMgr->GetAreaGroup(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY, m_pkAttr->fBumpRadius, pkAttacker, TwCommandType::BCT_ATTACK, 0);
 					if (kGroup.empty())
 					{
 						bNeedRemove = true;
@@ -1133,7 +1133,7 @@ void BeEffect::ParseAttack(void)
 
 						if (!akAttacked.empty())
 						{
-							BeUnit* pkNewAttacked = gUnitMgr.GetGroupNearestUnit(akAttacked, m_kEffectData.fPosX, m_kEffectData.fPosY);
+							BeUnit* pkNewAttacked = gUnitMgr->GetGroupNearestUnit(akAttacked, m_kEffectData.fPosX, m_kEffectData.fPosY);
 
 							if (pkNewAttacked && pkNewAttacked->GetID() != m_kEffectData.iTargetID)
 							{
@@ -1146,7 +1146,7 @@ void BeEffect::ParseAttack(void)
 						}
 						else
 						{
-							BeUnit* pkNewAttacked = gUnitMgr.GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+							BeUnit* pkNewAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 							if (pkNewAttacked && !pkNewAttacked->IsDead() && pkNewAttacked->GetID() != m_kEffectData.iTargetID && !pkNewAttacked->HasUserData(UserDataKey::UDK_NONE))
 							{
 								SetEffectPosition(pkNewAttacked->GetID(), m_kEffectData.fPosX, m_kEffectData.fPosY, 0.0f, 0.0f, m_kEffectData.fMissileArc, m_kEffectData.fPosZ);

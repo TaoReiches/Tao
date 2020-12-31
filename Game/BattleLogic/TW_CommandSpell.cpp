@@ -153,7 +153,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		{
 			if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_UNIT)
 			{
-				BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+				BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 				if (pkTarget)
 				{
 					m_kTargetPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -192,7 +192,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		{
 			if (m_iTargetType == BeCommandTargetType::BCTT_UNIT)
 			{
-				BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+				BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 				if (pkTarget)
 				{
 					bSucSet = pkTask->SpellTargetID(m_iSkillTypeID, m_iSkillLevel, m_bExpendMP, m_iTargetID, m_kTargetPos, m_iItemID, m_iUsePlayer, static_cast<int>(m_iTargetType));

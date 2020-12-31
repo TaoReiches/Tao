@@ -126,15 +126,11 @@ public:
 		return m_iGameBeginTime;
 	}
 
-protected:
-	void			ReleaseModule(void);
-	void			UpdatePlayerLeave();
-
 public:
     unsigned int            m_uiGameTime;
     ITwRandom*              m_pkRandNum;
     TeMap*                  m_pkMap;
-    BeUnitMgr*              m_pkUnitMgr;
+    std::unique_ptr<BeUnitMgr>              m_pkUnitMgr;
     BeEffectMgr*            m_pkEffectMgr;
     BeMapItemMgr*           m_pkMapItemMgr;
     BeFormulaInfo*          m_pkFormulaInfo;
@@ -157,7 +153,7 @@ protected:
 #define gRandNum        (*(gMain.m_pkRandNum))
 #define gMap            (*(gMain.m_pkMap))
 #define gData           (*(gMain.m_pkDataMgr))
-#define gUnitMgr        (*(gMain.m_pkUnitMgr))
+#define gUnitMgr        (gMain.m_pkUnitMgr)
 #define gEffectMgr      (*(gMain.m_pkEffectMgr))
 #define gMapItemMgr     (*(gMain.m_pkMapItemMgr))
 #define gTrgMgr         (*(gMain.m_pkTriggerMgr))

@@ -250,14 +250,14 @@ void BeSkill::DefaultAutoUse(void)
 	}
 
 	UnitGroup kGroup;
-	gUnitMgr.GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_NORMAL);
+	gUnitMgr->GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_NORMAL);
 	if (kGroup.empty())
 	{
 		return;
 	}
 
 	kGroup.clear();
-	gUnitMgr.GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_HERO);
+	gUnitMgr->GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_HERO);
 	if (kGroup.empty())
 	{
 		if (gRandNum.RandFloat(0.0f, 1.0f) > 0.20f)

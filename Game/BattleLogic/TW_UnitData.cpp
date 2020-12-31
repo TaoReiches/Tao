@@ -356,7 +356,7 @@ bool TwUnitData::LearnSkill(int iSkillPos)
 //		return;
 //	}
 //
-//	TwUnitData* pkAttacker = gUnitMgr.GetUnitByID(iAttackUnitID);
+//	TwUnitData* pkAttacker = gUnitMgr->GetUnitByID(iAttackUnitID);
 //
 //	BeBuffer* pkLiLiSiBuffer = GetLilithBuffer();
 //

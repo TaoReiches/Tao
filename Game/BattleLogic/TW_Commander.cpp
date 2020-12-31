@@ -226,7 +226,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 					{
 						if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_ATTACKTARGET)
 						{
-							BeUnit* pkTarget = gUnitMgr.GetUnitByID(kCmd.iUnitID);
+							BeUnit* pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 							if (pkTarget)
 							{
 								TwCommand	kComm(TwCommandType::BCT_ATTACK, pkTarget->GetID());
@@ -241,7 +241,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 							}
 							else if (m_kCurCmd.eCmdType == TwCommandType::BCT_ATTACK) 
                             {
-								BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_kCurCmd.iUnitID);
+								BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_kCurCmd.iUnitID);
 
 								if (pkTarget && !pkTarget->IsDead()) {
 									m_kCommands.push_back(m_kCurCmd);
@@ -271,7 +271,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 				//	{
 				//		if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_ATTACKTARGET)
 				//		{
-				//			BeUnit* pkTarget = gUnitMgr.GetUnitByID(kCmd.iUnitID);
+				//			BeUnit* pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 				//			if (pkTarget)
 				//			{
 				//				BeCommand	kComm(BeCommandType::BCT_ATTACK, pkTarget->GetID());
@@ -663,7 +663,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		}
 		else
 		{
-			BeUnit* pkCmdUnit = gUnitMgr.GetUnitByID(kCmd.iUnitID);
+			BeUnit* pkCmdUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 			if (pkCmdUnit)
 			{
 				pkCmd->SpellTargetID(iSkillTypeID, kCmd.iUnitID, kCmd.kPos, 1, kCmd.iData);

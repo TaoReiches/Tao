@@ -26,5 +26,6 @@ public:
     bool OnReceiveCommand(std::uint64_t playerId, std::string command);
 
 private:
-    std::unique_ptr<TwMain>         mpMain;
+    std::unique_ptr<TwMain>         Main;
+    unsigned int                    Frame;
 };

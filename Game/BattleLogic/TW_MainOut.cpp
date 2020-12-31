@@ -111,8 +111,8 @@ void TwMain::UpdateRaceOut()
 {
 	std::vector<int>& rkDelEffectID = gEffectMgr.PureGetDelEffect();
 
-	const	std::unordered_map<int, BeUnit*>& kAllLiveUnit = gUnitMgr.GetID2Unit();
-	const	std::unordered_map<int, BeUnit*>& kAllSuspendUnit = gUnitMgr.GetID2SuspendUnit();
+	const	std::unordered_map<int, BeUnit*>& kAllLiveUnit = gUnitMgr->GetID2Unit();
+	const	std::unordered_map<int, BeUnit*>& kAllSuspendUnit = gUnitMgr->GetID2SuspendUnit();
 	std::vector<BeShareUnitData>	akShareData;
 
 	for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
@@ -187,11 +187,11 @@ int		TwMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize
 
 //void BeMain::ClrAllPureData()
 //{
-//	gUnitMgr.ClrPureData();
+//	gUnitMgr->ClrPureData();
 //	gEffectMgr.ClrAllPureEffectData();
 //
-//	const std::unordered_map<int, BeUnit*>& kAllUnit1 = gUnitMgr.GetID2Unit();
-//	const std::unordered_map<int, BeUnit*>& kAllUnit2 = gUnitMgr.GetID2SuspendUnit();
+//	const std::unordered_map<int, BeUnit*>& kAllUnit1 = gUnitMgr->GetID2Unit();
+//	const std::unordered_map<int, BeUnit*>& kAllUnit2 = gUnitMgr->GetID2SuspendUnit();
 //	std::unordered_map<int, BeUnit*>::const_iterator itr = kAllUnit1.begin();
 //	for (; itr != kAllUnit1.end();)
 //	{

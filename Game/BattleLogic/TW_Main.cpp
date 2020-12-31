@@ -35,24 +35,10 @@ TwMain::TwMain(void)
 TwMain::~TwMain(void)
 {
 	Finialize();
-	ReleaseModule();
-}
-
-void TwMain::ReleaseModule(void)
-{
-	SAFE_DELETE(m_pkMapItemMgr);
-	SAFE_DELETE(m_pkEffectMgr);
-	SAFE_DELETE(m_pkUnitMgr);
-	SAFE_DELETE(m_pkMap);
-	SAFE_DELETE(m_pkTriggerMgr);
-	SAFE_DELETE(m_pkRandNum);
-	SAFE_DELETE(m_pkFormulaInfo);
 }
 
 bool TwMain::Initialize(int iSeed)
 {
-    ReleaseModule();
-
     m_pkRandNum = NewRandom();
     m_pkRandNum->Initialize(iSeed);
 
@@ -63,7 +49,7 @@ bool TwMain::Initialize(int iSeed)
     m_pkMapItemMgr = new BeMapItemMgr;
     m_pkMapItemMgr->AttachMain(this);
 
-    m_pkUnitMgr = new BeUnitMgr;
+    m_pkUnitMgr = std::unique_ptr<BeUnitMgr>(new BeUnitMgr());
     m_pkUnitMgr->AttachMain(this);
 
     m_pkFormulaInfo = new BeFormulaInfo;
@@ -140,11 +126,6 @@ void TwMain::Finialize(void)
 	}
 }
 
-void	TwMain::UpdatePlayerLeave()
-{
-
-}
-
 bool	TwMain::UpdateFrame(unsigned int dwFrame)
 {
 	TwMain* pkAttachMain = this;
@@ -156,8 +137,6 @@ bool	TwMain::UpdateFrame(unsigned int dwFrame)
 		m_pkUnitMgr->Update(GAME_FRAME_TIME);
 		m_pkMapItemMgr->Update(GAME_FRAME_TIME);
 		m_pkMap->Update(GAME_FRAME_TIME);
-
-		UpdatePlayerLeave();
 
 		m_uiGameTime += GAME_FRAME_TIME;
 		m_uiFrameCount++;

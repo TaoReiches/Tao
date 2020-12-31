@@ -11,7 +11,8 @@
 
 TwBattleInterface::TwBattleInterface()
 {
-    mpMain = nullptr;
+    Main = nullptr;
+    Frame = 0;
 }
 
 TwBattleInterface::~TwBattleInterface()
@@ -26,25 +27,25 @@ bool TwBattleInterface::Initialize()
 
 void TwBattleInterface::Update()
 {
-
+    Main->UpdateFrame(Frame);
 }
 
 void TwBattleInterface::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> playerInfo)
 {
-    mpMain->SetPlayerInfo(playerInfo);
+    Main->SetPlayerInfo(playerInfo);
 }
 
 bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
 {
     // get player info
-    const auto& playerInfo = mpMain->GetPlayerInfo(playerId);
+    const auto& playerInfo = Main->GetPlayerInfo(playerId);
     if (playerInfo == nullptr)
     {
         return false;
     }
 
     // add unit
-    auto unit = mpMain->m_pkUnitMgr->AddUnit(playerInfo->TypeID, playerInfo->Level, playerInfo->UserID);
+    auto unit = Main->m_pkUnitMgr->AddUnit(playerInfo->TypeID, playerInfo->Level, playerInfo->UserID);
     if (unit == nullptr)
     {
         return false;

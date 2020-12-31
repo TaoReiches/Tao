@@ -43,7 +43,7 @@ void BeTaskMoveToUnit::SetTargetID(int iID, float fDistance)
 		m_pkMoveToPos->SetTargetPos(kTarPos);
 	}
 
-	BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+	BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 	if (pkTarget)
 	{
 		TwPos2 kTarPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -69,7 +69,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		return BeExeResult::BER_EXE_END;
 	}
 
-	BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+	BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 	if (pkTarget
 		&& !pkTarget->IsDead()
 		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE))))
@@ -102,7 +102,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 	{
 		TwPos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		m_pkMoveToPos->SetTargetPos(kTarPos);
-		BeUnit* pkT = gUnitMgr.GetUnitByID(m_iTargetID, true);
+		BeUnit* pkT = gUnitMgr->GetUnitByID(m_iTargetID, true);
 		if (pkT && pkT->GetPlayer() == gUnit.GetPlayer())
 		{
 			return BeExeResult::BER_EXE_END;

@@ -100,7 +100,7 @@ bool BeTaskAttackUnit::CanSkip(void) const
 BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
-	const BeUnit* pkTarget = gUnitMgr.GetUnitByID(GetTargetID());
+	const BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 
 	if (!m_pkActionAttack || !m_pkMoveToUnit)
 	{

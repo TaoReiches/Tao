@@ -135,7 +135,7 @@ bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bE
 		}
 		if (m_iTargetType == (int)BeCommandTargetType::BCTT_UNIT)
 		{
-			BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+			BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 			if (pkTarget)
 			{
 				if (m_iTargetID != gUnit.GetID() && gUnit.GetClass() != UNIT_CLASSTYPE_BUILDING)
@@ -290,7 +290,7 @@ void BeTaskActionSpell::OnSpellEffect(void)
 
 	if (m_iTargetType == (int)BeCommandTargetType::BCTT_UNIT && m_iTargetID)
 	{
-		BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+		BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 		if (pkTarget)
 		{
 			m_kTargetPos.fX = pkTarget->GetPosX();
@@ -446,7 +446,7 @@ bool BeTaskActionSpell::CanUseSpell(void)
 
 		if (m_iTargetID)
 		{
-			BeUnit* pkTarget = gUnitMgr.GetUnitByID(m_iTargetID);
+			BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 			if (!pkTarget)
 			{
 				return false;

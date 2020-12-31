@@ -35,7 +35,7 @@ void BeTaskActionAttack::SetTargetID(int iID, bool bIsOrb, int iSkillTypeID, int
 	{
 		gUnit.SetAttackingUnitID(iID, bIsOrb, bAttackPos);
 
-		BeUnit* pkTarget = gUnitMgr.GetUnitByID(iID);
+		BeUnit* pkTarget = gUnitMgr->GetUnitByID(iID);
 		if (pkTarget && (gUnit.GetClass() != UNIT_CLASSTYPE_BUILDING || gUnit.HasOtherFlag(BUOF_BUILDING_TURN)))
 		{
 			float fTarFace = atan2f(pkTarget->GetPosY() - gUnit.GetPosY(), pkTarget->GetPosX() - gUnit.GetPosX());
@@ -96,7 +96,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 	float fPosX = gUnit.GetPosX();
 	float fPosY = gUnit.GetPosY();
 
-	pkTarget = gUnitMgr.GetUnitByID(GetTargetID());
+	pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 	if (pkTarget)
 	{
 		fPosX = pkTarget->GetPosX();

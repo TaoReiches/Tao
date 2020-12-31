@@ -185,7 +185,7 @@ void BeUnit::OnDelete(void)
 	DelAllBuffer();
 
 	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true, true);
-	gUnitMgr.Unlink(this);
+	gUnitMgr->Unlink(this);
 
 	m_apkNormalSkill.clear();
 
@@ -292,7 +292,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		int iMoveAllTime = ((m_iMoveAllTime > 0) ? m_iMoveAllTime : 1);
 		if (m_iMoveToUnitID > 0)
 		{
-			BeUnit* pkMUnit = gUnitMgr.GetUnitByID(m_iMoveToUnitID);
+			BeUnit* pkMUnit = gUnitMgr->GetUnitByID(m_iMoveToUnitID);
 			if (pkMUnit)
 			{
 				m_fMoveTarPosX = pkMUnit->GetPosX();
@@ -389,7 +389,7 @@ void BeUnit::Update(int iDeltaTime)
 
 	UpdateLiveTime(iDeltaTime);
 
-	gUnitMgr.Link(GetPosX(), GetPosY(), this);
+	gUnitMgr->Link(GetPosX(), GetPosY(), this);
 
 	UpdateTransrate(iDeltaTime);
 
@@ -483,7 +483,7 @@ void BeUnit::Update(int iDeltaTime)
 	//		}
 	//		else if (m_bVisionForCampLast[iIndex] && !m_bVisionForCamp[iIndex])
 	//		{
-	//			gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
+	//			gUnitMgr->PushNeedDelNormalUnit(iIndex, m_iID);
 	//		}
 	//		m_bVisionForCampLast[iIndex] = m_bVisionForCamp[iIndex];
 
@@ -491,7 +491,7 @@ void BeUnit::Update(int iDeltaTime)
 	//		{
 	//			if (m_bGrassVisionForCampLast[iIndex] && !m_bGrassVisionForCamp[iIndex])
 	//			{
-	//				gUnitMgr.PushNeedDelNormalUnit(iIndex, m_iID);
+	//				gUnitMgr->PushNeedDelNormalUnit(iIndex, m_iID);
 	//			}
 
 	//			if (!m_bGrassVisionForCampLast[iIndex] && m_bGrassVisionForCamp[iIndex])
@@ -591,7 +591,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		BeUnit* pkUnit = gUnitMgr.GetUnitByID(kCmd.iUnitID);
+		BeUnit* pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 		if (pkUnit)
 		{
 			if (eType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
@@ -661,14 +661,14 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 		{
 			return false;
 		}
-		if (UnitCanUseSkill(kCmd.iData, gUnitMgr.GetUnitByID(kCmd.iUnitID), false, false, kCmd.kPos.fX, kCmd.kPos.fY) != UUSRT_OK)
+		if (UnitCanUseSkill(kCmd.iData, gUnitMgr->GetUnitByID(kCmd.iUnitID), false, false, kCmd.kPos.fX, kCmd.kPos.fY) != UUSRT_OK)
 		{
 			return false;
 		}
 
 		if (kCmd.eTargetType == BeCommandTargetType::BCTT_UNIT)
 		{
-			BeUnit* pkUnit = gUnitMgr.GetUnitByID(kCmd.iUnitID);
+			BeUnit* pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 			if (pkUnit)
 			{
 				UnitUseSkillResultType eResult = UnitCanUseSkill(pkSkill->GetTypeID(), pkUnit, true);
@@ -1196,7 +1196,7 @@ void BeUnit::SetDead(void)
 
 	SetFlag(BUF_DEAD);
 	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true);
-	gUnitMgr.OnUnitDead(this);
+	gUnitMgr->OnUnitDead(this);
 }
 
 void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool bIgnoreInvincible, float fMaxHeroAbsDamage)
@@ -1297,7 +1297,7 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 
 bool BeUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel)
 {
-	BeUnit* pkAttacked = gUnitMgr.GetUnitByID(iAttackedID);
+	BeUnit* pkAttacked = gUnitMgr->GetUnitByID(iAttackedID);
 	if (!pkAttacked)
 	{
 		return false;
@@ -1884,7 +1884,7 @@ void BeUnit::TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr)
 
 void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 {
-	BeUnit* pkTarget = gUnitMgr.GetUnitByID(iTargetID);
+	BeUnit* pkTarget = gUnitMgr->GetUnitByID(iTargetID);
 
 	{
 		TrgOnAttack_T(m_pkCurData->apkUISkill, iMaxHeroSkillNum, pkTarget, pkAttackAttr);

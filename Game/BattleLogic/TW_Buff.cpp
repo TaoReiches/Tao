@@ -122,7 +122,7 @@ bool BeBuffer::HasProperty(int iProperty) const
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
-	BeUnit* pkUnit = gUnitMgr.GetUnitByID(iUnitID, true);
+	BeUnit* pkUnit = gUnitMgr->GetUnitByID(iUnitID, true);
 	if (pkUnit)
 	{
 		m_kData.kUnit.reset(pkUnit);

@@ -1015,7 +1015,7 @@ int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, flo
 	{
 		for (int i = 0; i < (int)kGroupID.size(); ++i)
 		{
-			BeUnit* pkNearUnit = gUnitMgr.GetUnitByID(kGroupID[i]);
+			BeUnit* pkNearUnit = gUnitMgr->GetUnitByID(kGroupID[i]);
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				float fDis = GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fPosX, fPosY);
