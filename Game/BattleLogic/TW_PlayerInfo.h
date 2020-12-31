@@ -7,40 +7,32 @@
 
 #include <string>
 
-enum class BePlayerType
+enum class TwPlayerType
 {
-	BPT_NULL = 0,
-	BPT_DIS_PLAYER,
-	BPT_ROBOT,
-	BPT_PLAYER,
+    PT_NULL = 0,
+    PT_OFFLINE_PLAYER,
+    PT_ROBOT,
+    PT_ONLINE_PLAYER,
 };
 
-class BePlayerInfo
+class TwPlayerInfo
 {
 public:
-	BePlayerInfo()
-	{
-		Clear();
-	}
+    TwPlayerInfo()
+    {
+        Clear();
+    }
 
-	void Clear()
-	{
-		eType = BePlayerType::BPT_NULL;
-		iID = 0;
-		acName = "";
-		iTypeID = 0;
-		iCamp = 0;
-		iGold = 0;
-		iAllGold = 0;
-		iGameTime = 0;
-	}
+    void Clear()
+    {
+        eType = TwPlayerType::PT_NULL;
+        iUserID = 0;
+        Name = "";
+        iTypeID = 0;
+    }
 
-	BePlayerType	eType;
-	int				iID;
-	std::string		acName;
-	int				iTypeID;
-	int				iCamp;
-	int				iGold;
-	int				iAllGold;
-	int				iGameTime;
+    TwPlayerType    eType;
+    std::uint64_t   iUserID;
+    std::string     Name;
+    unsigned int    iTypeID;
 };

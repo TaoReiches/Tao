@@ -96,6 +96,7 @@ void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
     }
 
     spdlog::info("Player loading end, player id: {}", playerId);
+
     mpMain->OnPlayerJion(playerId);
 }
 

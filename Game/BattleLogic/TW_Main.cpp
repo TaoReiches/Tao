@@ -15,6 +15,7 @@
 #include "TW_FormulaInfo.h"
 #include "Skill_table.hpp"
 #include "TW_TriggerMgr.h"
+#include "TW_PlayerInfo.h"
 
 TwMain::TwMain(void)
 {
@@ -175,7 +176,9 @@ int TwMain::GetSkillOrgTypeID(int iSkillTypeID)
 	return pkSkillRes->uiOriginTypeID;
 }
 
-void TwMain::SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName)
+bool TwMain::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo>& playerInfo)
 {
+    m_akPlayer.emplace(playerInfo->iUserID, playerInfo);
 
+    return true;
 }

@@ -26,8 +26,15 @@ void TwBattleInterface::Update()
 
 }
 
+void TwBattleInterface::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> playerInfo)
+{
+    mpMain->SetPlayerInfo(playerInfo);
+}
+
 bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
 {
+
+
     return true;
 }
 

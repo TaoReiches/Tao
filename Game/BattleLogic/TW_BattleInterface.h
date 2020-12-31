@@ -10,6 +10,7 @@
 #include <memory>
 
 class TwMain;
+class TwPlayerInfo;
 
 class TwBattleInterface final
 {
@@ -19,6 +20,7 @@ public:
 
     bool Initialize();
     void Update();
+    void SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> playerInfo);
     bool OnPlayerJion(std::uint64_t playerId);
     bool OnPlayerLeave(std::uint64_t playerId);
     bool OnReceiveCommand(std::uint64_t playerId, std::string command);

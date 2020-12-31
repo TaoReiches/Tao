@@ -7,6 +7,7 @@
 
 #include <map>
 #include <vector>
+#include <memory>
 #include "TW_MainDefine.h"
 #include "TW_TriggerFunc.h"
 #include "TW_CommandProc.h"
@@ -19,7 +20,7 @@ class BeUnitMgr;
 class BeEffectMgr;
 class ITwRandom;
 class BeFormulaInfo;
-class BePlayerInfo;
+class TwPlayerInfo;
 
 class TwMain final : public TwTriggerFunc, public TwCommandProc
 {
@@ -30,8 +31,6 @@ private:
 	TwMain* pkAttachMain;
 
 public:
-	void SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName);
-
 	inline unsigned int GetFrameCount(void)
 	{
 		return m_uiFrameCount;
@@ -101,7 +100,8 @@ public:
 	void	InitServerMode();
 	void	FinializeServerMode();
 
-public:
+    bool SetPlayerInfo(const std::shared_ptr<TwPlayerInfo>& playerInfo);
+
     bool Initialize(int iSeed);
     void Finialize(void);
     bool UpdateFrame(unsigned int dwFrame);
@@ -131,7 +131,7 @@ public:
     BeFormulaInfo*          m_pkFormulaInfo;
 
 protected:
-    std::map<unsigned int, BePlayerInfo*>   m_akPlayer;
+    std::map<std::uint64_t, const std::shared_ptr<TwPlayerInfo>>   m_akPlayer;
     BeMainState             m_eState;
     unsigned int            m_uiFrameCount;
     unsigned int            m_uiRealTimeNow;
