@@ -231,11 +231,11 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 	int iID = iUnitID;
 	if (iID == -1)
 	{
-		iID = gMain.GenerateID(GIT_ENTITY);
+		iID = gMain.GenerateID(BeGenIDType::GIT_ENTITY);
 	}
 	else
 	{
-		gMain.SetGenerateID(GIT_ENTITY, iID);
+		gMain.SetGenerateID(BeGenIDType::GIT_ENTITY, iID);
 	}
 
 	BeUnit* pkUnit = NewUnit(iID);

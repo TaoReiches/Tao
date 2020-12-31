@@ -178,7 +178,7 @@ int TwMain::GetSkillOrgTypeID(int iSkillTypeID)
 
 bool TwMain::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo>& playerInfo)
 {
-    m_akPlayer.emplace(playerInfo->iUserID, playerInfo);
+    m_akPlayer.emplace(playerInfo->UserID, playerInfo);
 
     return true;
 }

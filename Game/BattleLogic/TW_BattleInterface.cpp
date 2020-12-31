@@ -5,6 +5,9 @@
 
 #include "TW_BattleInterface.h"
 #include "TW_Main.h"
+#include "TW_UnitMgr.h"
+#include "TW_PlayerInfo.h"
+#include "TW_Unit.h"
 
 TwBattleInterface::TwBattleInterface()
 {
@@ -33,7 +36,20 @@ void TwBattleInterface::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> player
 
 bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
 {
+    // get player info
+    const auto& playerInfo = mpMain->GetPlayerInfo(playerId);
+    if (playerInfo == nullptr)
+    {
+        return false;
+    }
 
+    // add unit
+    auto unit = mpMain->m_pkUnitMgr->AddUnit(playerInfo->TypeID, playerInfo->Level, playerInfo->UserID);
+    if (unit == nullptr)
+    {
+        return false;
+    }
+    unit->SetPosition(playerInfo->PosX, playerInfo->PosY);
 
     return true;
 }
