@@ -28,9 +28,6 @@ TwMain::TwMain(void)
 	m_pkTriggerMgr = nullptr;
 	m_pkFormulaInfo = nullptr;
 	m_iGameBeginTime = 0;
-
-	ResetData();
-
 	m_iCurMapID = 0;
 }
 
@@ -38,19 +35,6 @@ TwMain::~TwMain(void)
 {
 	Finialize();
 	ReleaseModule();
-}
-
-void TwMain::ResetData(void)
-{
-	m_eState = BeMainState::BMS_NONE;
-	m_uiGameTime = 0;
-	m_uiFrameCount = 0;
-	m_uiRealTimeNow = 0;
-	memset(m_aiGenID, 0, sizeof(m_aiGenID));
-	m_iChangeFlag = 0;
-	m_iMaxPerLoadID = 0;
-	m_bReLink = false;
-	FinializeServerMode();
 }
 
 void TwMain::ReleaseModule(void)
@@ -64,23 +48,33 @@ void TwMain::ReleaseModule(void)
 	SAFE_DELETE(m_pkFormulaInfo);
 }
 
-void TwMain::InitPlayerGroup()
+bool TwMain::Initialize(int iSeed)
 {
-	bool bMoreCamp = false;
-}
+    ReleaseModule();
 
-bool TwMain::InitializeGame(void)
-{
-	if (!m_pkTriggerMgr)
-	{
-		return false;
-	}
+    m_pkRandNum = NewRandom();
+    m_pkRandNum->Initialize(iSeed);
 
-	return true;
-}
+    m_pkTriggerMgr = new TwPtTriggerMgr(this);
+    m_pkEffectMgr = new BeEffectMgr;
+    m_pkEffectMgr->AttachMain(this);
 
-bool TwMain::Initialize(void)
-{
+    m_pkMapItemMgr = new BeMapItemMgr;
+    m_pkMapItemMgr->AttachMain(this);
+
+    m_pkUnitMgr = new BeUnitMgr;
+    m_pkUnitMgr->AttachMain(this);
+
+    m_pkFormulaInfo = new BeFormulaInfo;
+    m_pkFormulaInfo->AttachMain(this);
+
+    m_pkMap = new TeMap;
+    m_pkMap->AttachMain(this);
+    if (!m_pkMap->Initialize())
+    {
+        return false;
+    }
+
 	m_eState = BeMainState::BMS_NONE;
 	m_uiGameTime = 0;
 
@@ -106,9 +100,6 @@ bool TwMain::Initialize(void)
 	{
 		return false;
 	}
-
-	InitPlayerGroup();
-
 
 	m_eState = BeMainState::BMS_INITED;
 	m_eRaceGameModel = BeRaceGameModel::BRGM_NORMAL;
@@ -146,8 +137,6 @@ void TwMain::Finialize(void)
 	{
 		m_pkMap->Finialize();
 	}
-
-	ResetData();
 }
 
 void	TwMain::UpdatePlayerLeave()
@@ -175,54 +164,6 @@ bool	TwMain::UpdateFrame(unsigned int dwFrame)
 	return true;
 }
 
-bool TwMain::LoadRes(int iSeed)
-{
-	ReleaseModule();
-
-	m_pkRandNum = NewRandom();
-	m_pkRandNum->Initialize(iSeed);
-
-	m_pkTriggerMgr = new TwPtTriggerMgr(this);
-	m_pkEffectMgr = new BeEffectMgr;
-	m_pkEffectMgr->AttachMain(this);
-
-	m_pkMapItemMgr = new BeMapItemMgr;
-	m_pkMapItemMgr->AttachMain(this);
-
-	m_pkUnitMgr = new BeUnitMgr;
-	m_pkUnitMgr->AttachMain(this);
-
-	m_pkFormulaInfo = new BeFormulaInfo;
-	m_pkFormulaInfo->AttachMain(this);
-
-	m_pkMap = new TeMap;
-	m_pkMap->AttachMain(this);
-	if (!m_pkMap->Initialize())
-	{
-		return false;
-	}
-	if (!Initialize())
-	{
-		return false;
-	}
-	if (!InitializeGame())
-	{
-		return false;
-	}
-	if (!CreateHero())
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void TwMain::SetGameFrame(unsigned int dwFrame)
-{
-	m_uiFrameCount = dwFrame;
-	m_uiGameTime = GAME_FRAME_TIME * m_uiFrameCount;
-}
-
 int TwMain::GetSkillOrgTypeID(int iSkillTypeID)
 {
 	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
@@ -237,9 +178,4 @@ int TwMain::GetSkillOrgTypeID(int iSkillTypeID)
 void TwMain::SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName)
 {
 
-}
-
-bool TwMain::CreateHero(int iPlayer)
-{
-    return true;
 }

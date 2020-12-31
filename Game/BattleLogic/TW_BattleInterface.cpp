@@ -4,10 +4,11 @@
 **********************************************/
 
 #include "TW_BattleInterface.h"
+#include "TW_Main.h"
 
 TwBattleInterface::TwBattleInterface()
 {
-
+    mpMain = nullptr;
 }
 
 TwBattleInterface::~TwBattleInterface()
@@ -25,17 +26,17 @@ void TwBattleInterface::Update()
 
 }
 
-bool TwBattleInterface::OnPlayerJion()
+bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
 {
     return true;
 }
 
-bool TwBattleInterface::OnPlayerLeave()
+bool TwBattleInterface::OnPlayerLeave(std::uint64_t playerId)
 {
     return true;
 }
 
-bool TwBattleInterface::OnReceiveCommand()
+bool TwBattleInterface::OnReceiveCommand(std::uint64_t playerId, std::string command)
 {
     return true;
 }

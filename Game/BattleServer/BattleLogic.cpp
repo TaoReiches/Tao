@@ -96,10 +96,10 @@ void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
     }
 
     spdlog::info("Player loading end, player id: {}", playerId);
-    mpMain->OnPlayerJion();
+    mpMain->OnPlayerJion(playerId);
 }
 
 void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)
 {
-    mpMain->OnPlayerLeave();
+    mpMain->OnPlayerLeave(userId);
 }

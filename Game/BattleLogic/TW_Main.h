@@ -21,7 +21,7 @@ class ITwRandom;
 class BeFormulaInfo;
 class BePlayerInfo;
 
-class   TwMain : public TwTriggerFunc, public TwCommandProc
+class TwMain final : public TwTriggerFunc, public TwCommandProc
 {
 public:
 	TwMain(void);
@@ -31,8 +31,6 @@ private:
 
 public:
 	void SetPlayerInfo(int iIdx, int iID, int iHeroID, const char* acName);
-
-	bool LoadRes(int iSeed);
 
 	inline unsigned int GetFrameCount(void)
 	{
@@ -96,9 +94,6 @@ protected:
 	bool PlayerSendCommand(BeUnit* pkUnit, int iSendIdx);
 
 public:
-	bool CreateHero(int iPlayer = -1);
-
-public:
 	void	UpdateRaceOut();
 	int		GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize);
 	int		GetSvrModelRaceOut(int iOffset, char* pcData, int iSize);
@@ -106,22 +101,10 @@ public:
 	void	InitServerMode();
 	void	FinializeServerMode();
 
-protected:
-	int								m_iChangeFlag;
-
-private:
-	int		m_iMaxPerLoadID;
-	bool	m_bReLink;
-
 public:
-	bool Initialize(void);
-	void Finialize(void);
-	bool UpdateFrame(unsigned int dwFrame);
-
-	bool	InitializeGame(void);
-	void	InitPlayerGroup(void);
-	void	ResetData(void);
-	void	SetGameFrame(unsigned int dwFrame);
+    bool Initialize(int iSeed);
+    void Finialize(void);
+    bool UpdateFrame(unsigned int dwFrame);
 
 	int GetSkillOrgTypeID(int iSkillTypeID);
 

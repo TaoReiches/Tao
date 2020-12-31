@@ -5,6 +5,12 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <cstdint>
+#include <string>
+#include <memory>
+
+class TwMain;
+
 class TwBattleInterface final
 {
 public:
@@ -13,7 +19,10 @@ public:
 
     bool Initialize();
     void Update();
-    bool OnPlayerJion();
-    bool OnPlayerLeave();
-    bool OnReceiveCommand();
+    bool OnPlayerJion(std::uint64_t playerId);
+    bool OnPlayerLeave(std::uint64_t playerId);
+    bool OnReceiveCommand(std::uint64_t playerId, std::string command);
+
+private:
+    std::unique_ptr<TwMain>         mpMain;
 };
