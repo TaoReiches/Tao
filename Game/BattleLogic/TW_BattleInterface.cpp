@@ -22,6 +22,12 @@ TwBattleInterface::~TwBattleInterface()
 
 bool TwBattleInterface::Initialize()
 {
+    Main = std::unique_ptr<TwMain>(new TwMain());
+    if (!Main->Initialize(888))
+    {
+        return false;
+    }
+
     return true;
 }
 
