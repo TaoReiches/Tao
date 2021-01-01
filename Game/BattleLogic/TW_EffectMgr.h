@@ -15,7 +15,7 @@
 
 class BeEffect;
 
-class BeEffectMgr : public BeEntityMgr
+class BeEffectMgr : public TwEntityMgr
 {
 public:
 	BeEffectMgr(void);

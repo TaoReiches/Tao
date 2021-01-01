@@ -19,7 +19,7 @@ public:
     virtual bool Initialize(int iTypeID) override;
     bool	CDComplete(int iCoolTime)const;
     bool	GetCanSell(void) const;
-    void	Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime);
+    void	Update(std::shared_ptr<TwUnit> pkUnit, int iDeltaTime);
     bool	GetValid(void);
     bool    GetIsUsableJudge(void);
 

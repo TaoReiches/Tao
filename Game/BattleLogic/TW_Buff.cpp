@@ -82,7 +82,7 @@ void BeBuffer::SetRemoveTime(unsigned int uiTime, bool bForceChange, bool bNeedR
 	}
 }
 
-void BeBuffer::Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime)
+void BeBuffer::Update(std::shared_ptr<TwUnit> pkUnit, int iDeltaTime)
 {
 	if (pkUnit == nullptr)
 	{
@@ -122,7 +122,7 @@ bool BeBuffer::HasProperty(int iProperty) const
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
-	std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(iUnitID, true);
+	std::shared_ptr<TwUnit> pkUnit = gUnitMgr->GetUnitByID(iUnitID, true);
 	if (pkUnit)
 	{
 		m_kData.kUnit = pkUnit;

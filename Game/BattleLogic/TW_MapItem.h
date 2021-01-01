@@ -18,7 +18,7 @@ public:
     BeMapItem(int iID);
     ~BeMapItem(void);
 
-    void Link(float fX, float fY, BeEntityMgr* pkMgr) override {};
+    void Link(float fX, float fY, TwEntityMgr* pkMgr) override {};
     void Unlink(void) override {};
     bool Initialize(int iTypeID);
     void Update(int iDeltaTime);

@@ -48,7 +48,7 @@ bool BeSkill::Initialize(int iTypeID)
 	return true;
 }
 
-int	BeSkill::GetCDTime(std::shared_ptr<BeUnit> pkUnit)
+int	BeSkill::GetCDTime(std::shared_ptr<TwUnit> pkUnit)
 {
 	SeCalSkillLvlData kData;
 	if (!pkUnit->GetSkillLvlData(kData, GetTypeID()))
@@ -95,7 +95,7 @@ void BeSkill::ReInitAttr(void)
 	InitAttrFromSkill(m_iTypeID, m_kData.iCurLevel);
 }
 
-void BeSkill::SetLastUseTime(std::shared_ptr<BeUnit> pkUnit, int iTime, bool bLearnSkill)
+void BeSkill::SetLastUseTime(std::shared_ptr<TwUnit> pkUnit, int iTime, bool bLearnSkill)
 {
 	int iID = m_iTypeID;
 
@@ -142,7 +142,7 @@ void BeSkill::SetLastUseTime(std::shared_ptr<BeUnit> pkUnit, int iTime, bool bLe
 	//}
 }
 
-bool BeSkill::CDComplete(std::shared_ptr<BeUnit> pkUnit)
+bool BeSkill::CDComplete(std::shared_ptr<TwUnit> pkUnit)
 {
 	if (IsSwitch() && IsActive())
 	{
@@ -163,7 +163,7 @@ bool BeSkill::CDComplete(std::shared_ptr<BeUnit> pkUnit)
 	// return pkUnit->CommonCDComplete(m_iTypeID, gData.GetCoolDown(kData));
 }
 
-void BeSkill::Update(std::shared_ptr<BeUnit> pkUnit, int iItemPos)
+void BeSkill::Update(std::shared_ptr<TwUnit> pkUnit, int iItemPos)
 {
 	SeCalSkillLvlData kData;
 	if (!pkUnit->GetSkillLvlData(kData, GetTypeID()))
@@ -201,7 +201,7 @@ void BeSkill::Update(std::shared_ptr<BeUnit> pkUnit, int iItemPos)
 	}
 }
 
-int BeSkill::GetLastUseTime(const std::shared_ptr<BeUnit> pkUnit) const
+int BeSkill::GetLastUseTime(const std::shared_ptr<TwUnit> pkUnit) const
 {
 	//return pkUnit->GetCommonCDLastUseTime(GetShareCDSkill());
     return 0;

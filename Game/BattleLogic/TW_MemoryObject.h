@@ -46,8 +46,8 @@ extern TwMemoryPool<BeCarry>                    mpCarry;
 class BeUnitData;
 extern TwMemoryPool<BeUnitData>                 mpUnitData;
 
-class BeUnit;
-extern TwMemoryPool<BeUnit>                     mpUnit;
+class TwUnit;
+extern TwMemoryPool<TwUnit>                     mpUnit;
 
 class BeSkill;
 extern TwMemoryPool<BeSkill>                    mpSkill;

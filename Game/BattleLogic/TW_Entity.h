@@ -25,7 +25,7 @@ public:
     std::shared_ptr<BeElement>  pkBlock;
 };
 
-class BeEntityMgr;
+class TwEntityMgr;
 class BeEntity : public BeFlagObj, public BeMainPtr
 {
 public:
@@ -51,7 +51,7 @@ public:
 	virtual bool Initialize(int iTypeID) = 0;
 	virtual void Update(int iDeltaTime) = 0;
 
-	virtual void Link(float fX, float fY, BeEntityMgr* pkMgr) = 0;
+	virtual void Link(float fX, float fY, TwEntityMgr* pkMgr) = 0;
 	virtual void Unlink() = 0;
 protected:
 	int		m_iID;
@@ -64,6 +64,6 @@ public:
     BeSingleLinkEntity(){};
 	BeSingleLinkEntity(int iID);
 	virtual ~BeSingleLinkEntity(void);
-	virtual void Link(float fX, float fY, BeEntityMgr* pkMgr);
+	virtual void Link(float fX, float fY, TwEntityMgr* pkMgr);
 	virtual void Unlink(void);
 };

@@ -226,7 +226,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 					{
 						if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_ATTACKTARGET)
 						{
-							std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+							std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 							if (pkTarget)
 							{
 								TwCommand	kComm(TwCommandType::BCT_ATTACK, pkTarget->GetID());
@@ -241,7 +241,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 							}
 							else if (m_kCurCmd.eCmdType == TwCommandType::BCT_ATTACK) 
                             {
-								std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(m_kCurCmd.iUnitID);
+								std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(m_kCurCmd.iUnitID);
 
 								if (pkTarget && !pkTarget->IsDead()) {
 									m_kCommands.push_back(m_kCurCmd);
@@ -663,7 +663,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		}
 		else
 		{
-			std::shared_ptr<BeUnit> pkCmdUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+			std::shared_ptr<TwUnit> pkCmdUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 			if (pkCmdUnit)
 			{
 				pkCmd->SpellTargetID(iSkillTypeID, kCmd.iUnitID, kCmd.kPos, 1, kCmd.iData);

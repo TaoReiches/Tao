@@ -25,13 +25,13 @@
 
 #include "TW_UnitCarry.h"
 
-class BeUnit : public TwUnitCarry
+class TwUnit : public TwUnitCarry
 {
 public:
-	BeUnit(int iID);
-	~BeUnit(void);
+	TwUnit(int iID);
+	~TwUnit(void);
 
-    void Link(float fX, float fY, BeEntityMgr* pkMgr) override;
+    void Link(float fX, float fY, TwEntityMgr* pkMgr) override;
     void Unlink() override;
 
 public:
@@ -208,7 +208,7 @@ public:
 		return m_kCommander.GetCommands();
 	}
 
-	inline void CopyUnitCommands(std::shared_ptr<BeUnit> pkUnit)
+	inline void CopyUnitCommands(std::shared_ptr<TwUnit> pkUnit)
 	{
 		m_kCommander.SetCommands(pkUnit->GetUnitCommands());
 	}
@@ -239,7 +239,7 @@ public:
 		return TwCommandType::BCT_NUMS;
 	}
 
-	inline void CopyUnitCurCommand(std::shared_ptr<BeUnit> pkUnit)
+	inline void CopyUnitCurCommand(std::shared_ptr<TwUnit> pkUnit)
 	{
 		GiveCommand(pkUnit->GetUnitCurCommand());
 	}
@@ -379,10 +379,10 @@ public:
 
 	void			UpdateAttribute(bool bUpdateNormal = true);
 
-	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<BeUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
-	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, std::shared_ptr<BeUnit> pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
+	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<TwUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
+	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, std::shared_ptr<TwUnit> pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
 	void			OperateUnitRemove();
-	float			GetDamagedByFormula(const std::shared_ptr<BeUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
+	float			GetDamagedByFormula(const std::shared_ptr<TwUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
 	void			OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead = true, bool bIgnoreInvincible = false, float fMaxHeroAbsDamage = 0.0f);
 
 	BeCarry* AddSuiting(int iTypeID, int iNumber);
@@ -446,32 +446,32 @@ public:
 	void			RemoveBufferAttr(BeNormalAttType eType);
 
 	template<class T>
-	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
+	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
 	template<class T>
-	void TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1);
+	void TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1);
 	template<class T>
-	void TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1, int iItemID = 0);
+	void TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1, int iItemID = 0);
 	template<class T>
-	void TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos = -1);
+	void TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos = -1);
 
-	void			TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr);
-	void			TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
-	void			TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr);
-	void			TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
-	void			TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, int iSkillTypeID);
+	void			TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr);
+	void			TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
+	void			TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr);
+	void			TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
+	void			TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, int iSkillTypeID);
 
-	void			TrgOnPreAttack(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr);
+	void			TrgOnPreAttack(std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr* pkAttackAttr);
 	void			TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr);
 	void			TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY);
 	void			TrgOnUpdate(int iDeltaTime);
-	void			TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
+	void			TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
 
-	void			GetAttackingAttr(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr);
+	void			GetAttackingAttr(std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr);
 	bool			GetAttackingMiss(void) const;
 	bool			GetAttackedAvoid(void) const;
 	float			GetAttackedAntiLeech(void) const;
-	void			GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<BeUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const;
-	void			GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<BeUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
+	void			GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<TwUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const;
+	void			GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<TwUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
 	float			GetAttackedAttackCDAttr(void) const;
 	float			GetAttackedBaoJiAttr(void) const;
 
@@ -483,22 +483,22 @@ public:
 
 	bool UnitCanBeControl(int iPlayer) const;
 	bool UnitCanMove(bool bTemp = false) const;
-	bool UnitCanAttack(const std::shared_ptr<BeUnit> pkTarget = 0, bool bTemp = false, bool bForceAttackSameGroup = false) const;
+	bool UnitCanAttack(const std::shared_ptr<TwUnit> pkTarget = 0, bool bTemp = false, bool bForceAttackSameGroup = false) const;
 
-	UnitUseSkillResultType UnitCanUseSkill(int iSkillTypeID, const std::shared_ptr<BeUnit> pkTarget = NULL, bool bTemp = false, bool bCheckPos = false, float fTargetPosX = 0.0f, float fTargetPosY = 0.0f, bool bArea = false, std::shared_ptr<BeUnit>* ppkTarget = NULL);
+	UnitUseSkillResultType UnitCanUseSkill(int iSkillTypeID, const std::shared_ptr<TwUnit> pkTarget = NULL, bool bTemp = false, bool bCheckPos = false, float fTargetPosX = 0.0f, float fTargetPosY = 0.0f, bool bArea = false, std::shared_ptr<TwUnit>* ppkTarget = NULL);
 
 	bool UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel);
 
 	void TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag, int& iDynaPropFlag) const;
-	bool IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const std::shared_ptr<BeUnit> pkTarget = 0) const;
-	bool IsTargetUnit(const std::shared_ptr<BeUnit> pkUnit, int iStaticProcFlag, int iDynaPropFlag) const;
+	bool IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const std::shared_ptr<TwUnit> pkTarget = 0) const;
+	bool IsTargetUnit(const std::shared_ptr<TwUnit> pkUnit, int iStaticProcFlag, int iDynaPropFlag) const;
 
 	bool PickMapItem(BeMapItem* pkMapItem);
 
 	void				AddIgnoreUnit(int iUnitID, int iTime = 5000);
 	bool				IsIgnoreUnit(int iUnitID) const;
 
-	void				CopyAttribute(std::shared_ptr<BeUnit> pkUnit);
+	void				CopyAttribute(std::shared_ptr<TwUnit> pkUnit);
 
 	bool			IsChangeSkill()
 	{
@@ -588,7 +588,7 @@ private:
 	int						m_iGiveAttackCmdTime;
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;
-	std::shared_ptr<BeUnit>		m_spSharePtr;
+	std::shared_ptr<TwUnit>		m_spSharePtr;
 	
 	bool					m_bGrassVisionForCamp[iPureCampNum];
 	bool					m_bGrassVisionForCampLast[iPureCampNum];
@@ -611,7 +611,7 @@ public:
 	inline		void					SetHaveSetObstacle(bool bSet);
 	inline		bool					GetHaveSetObstacle() const;
 	inline		bool					GetNeedUpdateObstacle() const;
-	inline		const std::shared_ptr<BeUnit> GetSharePtr() const;
+	inline		const std::shared_ptr<TwUnit> GetSharePtr() const;
 	inline		float						GetDamageNum();
 
 	inline		unsigned	int			GetSkillTypeIDByPos(int iPos);
@@ -628,7 +628,7 @@ public:
 	inline	std::vector<int>&			GetSkillUnit();
 };
 
-inline unsigned int BeUnit::GetClass(void) const
+inline unsigned int TwUnit::GetClass(void) const
 {
 	if (!m_pkBackData || !m_pkBackData->pkRes)
 	{
@@ -638,30 +638,30 @@ inline unsigned int BeUnit::GetClass(void) const
 	return m_pkBackData->pkRes->uiClassType;
 }
 
-inline int			BeUnit::GetEffectID()
+inline int			TwUnit::GetEffectID()
 {
 	return m_iEffectID;
 }
-inline void			BeUnit::SetEffectID(int iValue)
+inline void			TwUnit::SetEffectID(int iValue)
 {
 	m_iEffectID = iValue;
 }
-inline void			BeUnit::SetActionStayTime(int iValue)
+inline void			TwUnit::SetActionStayTime(int iValue)
 {
 	if (iValue > m_iActionStayTime)
 	{
 		m_iActionStayTime = iValue;
 	}
 }
-inline		void	BeUnit::ClearActionStayTime()
+inline		void	TwUnit::ClearActionStayTime()
 {
 	m_iActionStayTime = 0;
 }
-inline const int	BeUnit::GetGrassIndex()  const
+inline const int	TwUnit::GetGrassIndex()  const
 {
 	return m_iGrassIndex;
 }
-inline bool			BeUnit::IsNewUnit(int iCamp)
+inline bool			TwUnit::IsNewUnit(int iCamp)
 {
 	if (iCamp < 0 || iCamp > 1)
 	{
@@ -669,45 +669,45 @@ inline bool			BeUnit::IsNewUnit(int iCamp)
 	}
 	return m_bNewUnit[iCamp];
 }
-inline void			BeUnit::SetNewUnit(bool bNew)
+inline void			TwUnit::SetNewUnit(bool bNew)
 {
 }
-inline BeShareSelfData& BeUnit::GetCurShareSelfData()
+inline BeShareSelfData& TwUnit::GetCurShareSelfData()
 {
 	return m_kShareSelfDataCur;
 }
-inline const BeShareSelfData& BeUnit::GetLastShareSelfData()
+inline const BeShareSelfData& TwUnit::GetLastShareSelfData()
 {
 	return m_kShareSelfDataLast;
 }
 
-inline int			BeUnit::GetOrgAttackCD()
+inline int			TwUnit::GetOrgAttackCD()
 {
 	return m_pkCurData->iOrgAttackCD;
 }
 
-inline void			BeUnit::SetHaveSetObstacle(bool bSet)
+inline void			TwUnit::SetHaveSetObstacle(bool bSet)
 {
 	m_bSetObstacle = bSet;
 }
-inline bool			BeUnit::GetHaveSetObstacle() const
+inline bool			TwUnit::GetHaveSetObstacle() const
 {
 	return m_bSetObstacle;
 }
-inline bool			BeUnit::GetNeedUpdateObstacle() const
+inline bool			TwUnit::GetNeedUpdateObstacle() const
 {
 	return m_bNeedUpdateObstacle;
 }
-inline const std::shared_ptr<BeUnit> BeUnit::GetSharePtr() const
+inline const std::shared_ptr<TwUnit> TwUnit::GetSharePtr() const
 {
 	return m_spSharePtr;
 }
-inline float			BeUnit::GetDamageNum()
+inline float			TwUnit::GetDamageNum()
 {
 	return m_pkCurData->fBaseDamage + m_pkCurData->fAddDamage;
 }
 
-inline		unsigned	int			BeUnit::GetSkillTypeIDByPos(int iPos)
+inline		unsigned	int			TwUnit::GetSkillTypeIDByPos(int iPos)
 {
 	unsigned	int		iSkillTypeID = 0;
 	if (m_pkCurData->pkRes && iPos <= 4 && iPos >= 0)
@@ -718,15 +718,15 @@ inline		unsigned	int			BeUnit::GetSkillTypeIDByPos(int iPos)
 	return iSkillTypeID;
 }
 
-inline		void					BeUnit::AddItemPassiveSkill(int iSkillTypeID)
+inline		void					TwUnit::AddItemPassiveSkill(int iSkillTypeID)
 {
 	m_kItemPassiveSkill.push_back(iSkillTypeID);
 }
-inline		void					BeUnit::ClearItemPassiveSkill()
+inline		void					TwUnit::ClearItemPassiveSkill()
 {
 	m_kItemPassiveSkill.clear();
 }
-inline		bool					BeUnit::CanAddItemPassiveSkill(int iSkillTypeID)
+inline		bool					TwUnit::CanAddItemPassiveSkill(int iSkillTypeID)
 {
 	if (!m_kItemPassiveSkill.empty())
 	{
@@ -740,30 +740,30 @@ inline		bool					BeUnit::CanAddItemPassiveSkill(int iSkillTypeID)
 	}
 	return true;
 }
-inline		void					BeUnit::SetLastAttackTime(int iTime)
+inline		void					TwUnit::SetLastAttackTime(int iTime)
 {
 	m_iLastAttackTime = iTime;
 }
-inline		int						BeUnit::GetLastAttackTime()
+inline		int						TwUnit::GetLastAttackTime()
 {
 	return m_iLastAttackTime;
 }
 
-inline		int						BeUnit::GetLastGiveAttackCmdTime()
+inline		int						TwUnit::GetLastGiveAttackCmdTime()
 {
 	return m_iGiveAttackCmdTime;
 }
 
-inline		void					BeUnit::SetLastAttackHeroTime(int iTime)
+inline		void					TwUnit::SetLastAttackHeroTime(int iTime)
 {
 	m_iLastAttackHeroTime = iTime;
 }
-inline		int						BeUnit::GetLastAttackHeroTime()
+inline		int						TwUnit::GetLastAttackHeroTime()
 {
 	return m_iLastAttackHeroTime;
 }
 
-inline bool BeUnit::IsInvincible(void) const
+inline bool TwUnit::IsInvincible(void) const
 {
 	return (HasUnitCarryFlag(BUCF_ISINVINCIBLE) || HasFlag(BUF_ISINVINCIBLE));
 }

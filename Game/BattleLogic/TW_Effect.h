@@ -25,9 +25,9 @@
 #include "TW_EffectBumpCount.h"
 
 class TwMain;
-class BeUnit;
+class TwUnit;
 class BeAttackingAttr;
-class BeEntityMgr;
+class TwEntityMgr;
 
 class BeEffect : public BeChangeFlagObj, public BeEntity
 {
@@ -41,7 +41,7 @@ public:
     void SetModelFile(int iModelID, BeAttachPos eAttachPos = BAP_ChestRef);
     int  GetModelFile();
 
-    virtual void Link(float fX, float fY, BeEntityMgr* pkMgr) override {};
+    virtual void Link(float fX, float fY, TwEntityMgr* pkMgr) override {};
     virtual void Unlink() override {};
 
     virtual void OnRemove(void);

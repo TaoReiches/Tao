@@ -14,7 +14,7 @@
 #include "TW_CarryDefine.h"
 #include "TW_AttackedAttr.h"
 
-class BeUnit;
+class TwUnit;
 class SkillTable;
 
 class BeCarry : public BeFlagObj, public BeMainPtr, public BeUnitPtr, public BeChangeFlagObj

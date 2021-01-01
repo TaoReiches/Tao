@@ -25,7 +25,7 @@ bool BeMapItemMgr::Initialize(void)
 {
 	Clear();
 
-	return BeEntityMgr::Initialize();
+	return TwEntityMgr::Initialize();
 }
 
 void BeMapItemMgr::Update(int iDeltaTime)
@@ -58,7 +58,7 @@ void BeMapItemMgr::Finialize(void)
 {
 	Clear();
 
-	BeEntityMgr::Finialize();
+	TwEntityMgr::Finialize();
 }
 
 void BeMapItemMgr::Clear()

@@ -35,7 +35,7 @@ void BeTaskActionAttack::SetTargetID(int iID, bool bIsOrb, int iSkillTypeID, int
 	{
 		gUnit->SetAttackingUnitID(iID, bIsOrb, bAttackPos);
 
-		std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
+		std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
 		if (pkTarget && (gUnit->GetClass() != UNIT_CLASSTYPE_BUILDING || gUnit->HasOtherFlag(BUOF_BUILDING_TURN)))
 		{
 			float fTarFace = atan2f(pkTarget->GetPosY() - gUnit->GetPosY(), pkTarget->GetPosX() - gUnit->GetPosX());
@@ -92,7 +92,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 	gUnit->ClrFlag(BUF_MOVING);
 
-	std::shared_ptr<BeUnit> pkTarget = nullptr;
+	std::shared_ptr<TwUnit> pkTarget = nullptr;
 	float fPosX = gUnit->GetPosX();
 	float fPosY = gUnit->GetPosY();
 

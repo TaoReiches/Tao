@@ -7,7 +7,7 @@
 
 #include "TW_LogicBase.h"
 
-class BeUnit;
+class TwUnit;
 
 class BeFormulaInfo : public BeMainPtr
 {
@@ -18,7 +18,7 @@ public:
 	float	GetAttackArmorScale(int eAttack, int eArmor);
 
 	int		GetHeroDeadPersistTime(int iHeroLevel);
-	int		GetReliveHeroMoney(std::shared_ptr<BeUnit> pkUnitRelive);
+	int		GetReliveHeroMoney(std::shared_ptr<TwUnit> pkUnitRelive);
 
 	int		GetAssistMoney(int iHeroLevel, int iAssistNum);
 	int		GetAssistExp(int iHeroLevel, int iAssistNum);

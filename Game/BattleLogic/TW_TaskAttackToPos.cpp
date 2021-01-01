@@ -128,7 +128,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			m_dwMoveTime = 0;
 			if (gUnit->GetAttackingUnitID())
 			{
-				std::shared_ptr<BeUnit> pkOrgTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
+				std::shared_ptr<TwUnit> pkOrgTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE)))
 				{
 					TwPos2 kPos;
@@ -156,7 +156,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_TRACE:
 		{
 			{
-				std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
+				std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 
 				if (pkTarget && !pkTarget->IsDead())
 				{
@@ -211,7 +211,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			BeExeResult eRet = m_pkAttack->Execute(iDeltaTime);
 			if (eRet == BeExeResult::BER_EXE_END)
 			{
-				std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
+				std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkTarget && pkTarget->GetClass() == UNIT_CLASSTYPE_BUILDING)
 				{
 					m_eState = BeAttackToPosState::BAP_REFRESH;

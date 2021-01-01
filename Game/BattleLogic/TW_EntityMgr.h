@@ -11,11 +11,11 @@
 class BeEntity;
 class BeElement;
 
-class BeEntityMgr : public BeMainPtr
+class TwEntityMgr : public BeMainPtr
 {
 public:
-	BeEntityMgr(void);
-	virtual ~BeEntityMgr(void);
+	TwEntityMgr(void);
+	virtual ~TwEntityMgr(void);
 
 	virtual bool Initialize(void);
 	virtual void Update(int iDeltaTime) = 0;

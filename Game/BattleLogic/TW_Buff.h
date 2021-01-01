@@ -29,7 +29,7 @@ public:
     bool HasProperty(int iProperty) const;
     void SetSkillRes(const SkillTable* pkRes);
     const SkillTable* GetSkillRes(void) const;
-    std::shared_ptr<BeUnit> GetUnit(void) const;
+    std::shared_ptr<TwUnit> GetUnit(void) const;
     void SetNeedUpdate(bool bNeedUpdate);
     bool GetNeedUpdate() const;
     void SetSkillTypeID(int iTypeID);
@@ -61,7 +61,7 @@ public:
 
     bool IsClientNeed() const;
     void SetRemoveTime(unsigned int uiTime, bool bForceChange = false, bool bNeedRecordChange = true);
-    void Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime);
+    void Update(std::shared_ptr<TwUnit> pkUnit, int iDeltaTime);
 
     bool Initialize(int iTypeID);
     void	SetUnitID(int iUnitID);
@@ -180,7 +180,7 @@ inline const SkillTable* BeBuffer::GetSkillRes() const
 {
     return m_kData.pkSkillRes;
 }
-inline std::shared_ptr<BeUnit> BeBuffer::GetUnit() const
+inline std::shared_ptr<TwUnit> BeBuffer::GetUnit() const
 {
     return m_kData.kUnit;
 }

@@ -9,13 +9,13 @@
 #include <vector>
 #include "TW_Pos2.h"
 
-class BeUnit;
+class TwUnit;
 class SkillTable;
 
 class BeBufferData
 {
 public:
-	std::shared_ptr<BeUnit>	kUnit;
+	std::shared_ptr<TwUnit>	kUnit;
 	int						iUnitID;
 	int						iLevel;
 	int						iOrgUnitID;

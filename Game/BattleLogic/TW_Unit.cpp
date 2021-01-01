@@ -22,18 +22,18 @@
 #include "TW_UnitLearnSkillData.h"
 #include "TW_TriggerMgr.h"
 
-void BeUnit::Link(float fX, float fY, BeEntityMgr* pkMgr)
+void TwUnit::Link(float fX, float fY, TwEntityMgr* pkMgr)
 {
 
 }
 
-void BeUnit::Unlink()
+void TwUnit::Unlink()
 {
 
 }
 
 template<class T>
-void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
+void TwUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
 {
 	for (int i = 0; i < iCount; ++i)
 	{
@@ -57,7 +57,7 @@ void BeUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDa
 }
 
 template<class T>
-void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos)
+void TwUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos)
 {
 	for (int i = 0; i < iCount; ++i)
 	{
@@ -82,7 +82,7 @@ void BeUnit::TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDa
 }
 
 template<class T>
-void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos, int iItemID)
+void TwUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos, int iItemID)
 {
 	for (int i = 0; i < iCount; ++i)
 	{
@@ -108,7 +108,7 @@ void BeUnit::TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamag
 }
 
 template<class T>
-void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos)
+void TwUnit::TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos)
 {
 	for (int i = 0; i < iCount; ++i)
 	{
@@ -130,7 +130,7 @@ void BeUnit::TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<BeUnit> pkTarg
 	}
 }
 
-BeUnit::BeUnit(int iID) : TwUnitCarry(iID)
+TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 {
 	m_iOtherFlag = 0;
 	m_iCarryFlag = 0;
@@ -153,7 +153,7 @@ BeUnit::BeUnit(int iID) : TwUnitCarry(iID)
 	m_pkBackData = pkData;
 	m_pkCurData = pkData;
 	m_iActionStayTime = 0;
-	m_kCommander.AttachUnit(std::shared_ptr<BeUnit>(this));
+	m_kCommander.AttachUnit(std::shared_ptr<TwUnit>(this));
 	m_eActorTransType = UATT_NONE_TRANS;
 	m_iTransTime = 0;
 	m_bNeedTrans = false;
@@ -179,12 +179,12 @@ BeUnit::BeUnit(int iID) : TwUnitCarry(iID)
 	m_bNewUnit[1] = true;
 }
 
-void BeUnit::OnDelete(void)
+void TwUnit::OnDelete(void)
 {
 	m_kCommander.OnDelete();
 	DelAllBuffer();
 
-	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true, true);
+	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), true, true);
 	gUnitMgr->Unlink(this);
 
 	m_apkNormalSkill.clear();
@@ -195,7 +195,7 @@ void BeUnit::OnDelete(void)
 	m_pkCurData = nullptr;
 }
 
-BeUnit::~BeUnit(void)
+TwUnit::~TwUnit(void)
 {
 	gTrgMgr.OnUnitDelete(this);
 
@@ -203,7 +203,7 @@ BeUnit::~BeUnit(void)
 	//gMain->DelEntityPointer(GIT_ENTITY, m_iID);
 }
 
-bool BeUnit::Initialize(int iTypeID)
+bool TwUnit::Initialize(int iTypeID)
 {
 	m_iTypeID = iTypeID;
 	auto& pkRes = UnitTableMgr::Get()->GetUnitTable(iTypeID);
@@ -237,7 +237,7 @@ bool BeUnit::Initialize(int iTypeID)
 	return true;
 }
 
-void BeUnit::AppyUnitSkill(void)
+void TwUnit::AppyUnitSkill(void)
 {
 	if (GetClass() == UNIT_CLASSTYPE_HERO)
 	{
@@ -277,7 +277,7 @@ void BeUnit::AppyUnitSkill(void)
 	}
 }
 
-void BeUnit::UpdateState(int iDeltaTime)
+void TwUnit::UpdateState(int iDeltaTime)
 {
 	if (!IsDead())
 	{
@@ -292,7 +292,7 @@ void BeUnit::UpdateState(int iDeltaTime)
 		int iMoveAllTime = ((m_iMoveAllTime > 0) ? m_iMoveAllTime : 1);
 		if (m_iMoveToUnitID > 0)
 		{
-			std::shared_ptr<BeUnit> pkMUnit = gUnitMgr->GetUnitByID(m_iMoveToUnitID);
+			std::shared_ptr<TwUnit> pkMUnit = gUnitMgr->GetUnitByID(m_iMoveToUnitID);
 			if (pkMUnit)
 			{
 				m_fMoveTarPosX = pkMUnit->GetPosX();
@@ -340,19 +340,19 @@ void BeUnit::UpdateState(int iDeltaTime)
 			ClrFlag(BUF_IGNOREUNITOBS);
 			ClrOtherFlag(BUOF_WEIYI);
 
-			gMap.SetUnitPosition(std::shared_ptr<BeUnit>(this), GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
+			gMap.SetUnitPosition(std::shared_ptr<TwUnit>(this), GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			SetShareUnitChangeFlag(BSUDCF_RESET_POX);
 		}
 	}
 }
 
-void BeUnit::Update(int iDeltaTime)
+void TwUnit::Update(int iDeltaTime)
 {
 	BeEntity::Update(iDeltaTime);
 
 	TrgOnUpdate(iDeltaTime);
 
-	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), false, false);
+	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), false, false);
 
 	m_kCommander.ExecuteCmd(iDeltaTime);
 
@@ -363,7 +363,7 @@ void BeUnit::Update(int iDeltaTime)
 	}
 	else
 	{
-		gMap.AddUnitObstacle(std::shared_ptr<BeUnit>(this), false, false);
+		gMap.AddUnitObstacle(std::shared_ptr<TwUnit>(this), false, false);
 	}
 
 	float fPerCDTime = GetPerCDTime();
@@ -376,10 +376,10 @@ void BeUnit::Update(int iDeltaTime)
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (pkSkill)
 			{
-				if (!pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+				if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 				{
-					int iLastTime = pkSkill->GetLastUseTime(std::shared_ptr<BeUnit>(this));
-					pkSkill->SetLastUseTime(std::shared_ptr<BeUnit>(this), iLastTime - iDecTime);
+					int iLastTime = pkSkill->GetLastUseTime(std::shared_ptr<TwUnit>(this));
+					pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), iLastTime - iDecTime);
 				}
 			}
 		}
@@ -505,7 +505,7 @@ void BeUnit::Update(int iDeltaTime)
 	//}
 }
 
-void BeUnit::SetPlayer(int iPlayerIdx)
+void TwUnit::SetPlayer(int iPlayerIdx)
 {
 	if (iPlayerIdx < 0)
 	{
@@ -531,11 +531,11 @@ void BeUnit::SetPlayer(int iPlayerIdx)
 	OnPlayerChanged();
 }
 
-void BeUnit::OnPlayerChanged(void)
+void TwUnit::OnPlayerChanged(void)
 {
 }
 
-void BeUnit::OnSuspend(void)
+void TwUnit::OnSuspend(void)
 {
 	ClrFlag(BUF_REMOVE);
 	SetDead();
@@ -543,7 +543,7 @@ void BeUnit::OnSuspend(void)
 	SetUnitvisible(false);
 }
 
-void BeUnit::OnResume(void)
+void TwUnit::OnResume(void)
 {
 	ClrFlag(BUF_RELIVE | BUF_BUYLIVE | BUF_REMOVE | BUF_DEAD);
 	ClrOtherFlag(BUOF_SPECIAL_RELIVE);
@@ -554,7 +554,7 @@ void BeUnit::OnResume(void)
 	m_iMoveAllTime = 0;
 }
 
-void BeUnit::SetUnitReliveTime(unsigned int uiUnitReliveTime)
+void TwUnit::SetUnitReliveTime(unsigned int uiUnitReliveTime)
 {
 	if (m_pkBackData->uiUnitReliveTime < gTime)
 	{
@@ -566,12 +566,12 @@ void BeUnit::SetUnitReliveTime(unsigned int uiUnitReliveTime)
 	}
 }
 
-bool BeUnit::IsIdle(void) const
+bool TwUnit::IsIdle(void) const
 {
 	return m_kCommander.IsIdle();
 }
 
-bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerControl, bool bNeedHangCurrent, bool bCheckChaoFeng)
+bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerControl, bool bNeedHangCurrent, bool bCheckChaoFeng)
 {
 	if (HasUnitImmunityFlag(BUIF_BATI) && kCmd.eCmdType == TwCommandType::BCT_STOP)
 	{
@@ -591,7 +591,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+		std::shared_ptr<TwUnit> pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 		if (pkUnit)
 		{
 			if (eType == TwGiveCmdType::BCT_SYSTEM_SHIFT)
@@ -652,7 +652,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		if (!pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+		if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 		{
 			return false;
 		}
@@ -668,7 +668,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 
 		if (kCmd.eTargetType == BeCommandTargetType::BCTT_UNIT)
 		{
-			std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+			std::shared_ptr<TwUnit> pkUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 			if (pkUnit)
 			{
 				UnitUseSkillResultType eResult = UnitCanUseSkill(pkSkill->GetTypeID(), pkUnit, true);
@@ -709,7 +709,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		if (!pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+		if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 		{
 			return false;
 		}
@@ -719,7 +719,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 		{
 			//if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_TAKEDRUGS)
 			{
-				if (!pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+				if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 				{
 					return false;
 				}
@@ -736,7 +736,7 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONSPELL, kParam);
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECT, kParam);
 
-				pkSkill->SetLastUseTime(std::shared_ptr<BeUnit>(this), gTime);
+				pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), gTime);
 				return true;
 			}
 		}
@@ -750,12 +750,12 @@ bool BeUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 	return true;
 }
 
-int	BeUnit::GetCommandCount() const
+int	TwUnit::GetCommandCount() const
 {
 	return m_kCommander.GetCommandCount();
 }
 
-void BeUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
+void TwUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
 {
 	if (HasOtherFlag(BUOF_CANNOT_WEIYI))
 	{
@@ -778,7 +778,7 @@ void BeUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
 	m_pkCurData->fPosY = fY;
 }
 
-void BeUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, bool bSetShow, bool bForceRefresh)
+void TwUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, bool bSetShow, bool bForceRefresh)
 {
 	if (HasFlag(BUF_ISPERSIST))
 	{
@@ -885,7 +885,7 @@ void BeUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, 
 	}
 }
 
-void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<BeUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead, bool bFirstAttack, int iSkillTypeID, int iSkillLevel, float fLeech, float fMultiDamage, int iBeDamagedEffect)
+void TwUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<TwUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead, bool bFirstAttack, int iSkillTypeID, int iSkillLevel, float fLeech, float fMultiDamage, int iBeDamagedEffect)
 {
 	if (IsDead())
 	{
@@ -894,7 +894,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 
 	fDamage *= 1.0f - GetPerDamageReduce();
 
-	std::shared_ptr<BeUnit> pkAttacker = kAttacker;
+	std::shared_ptr<TwUnit> pkAttacker = kAttacker;
 	int iAttacker = 0;
 	if (!kAttacker)
 	{
@@ -1015,7 +1015,7 @@ void BeUnit::DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRaw
 	}
 }
 
-void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bIsTimeOver, int iSkillTypeID)
+void TwUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bIsTimeOver, int iSkillTypeID)
 {
 	if (IsDead())
 	{
@@ -1075,7 +1075,7 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 		for (int i = 0; i < 4; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 			{
 				TwPtParam kParam;
 				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
@@ -1093,7 +1093,7 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_SKIP_DEATH, kParam);
 
-				pkSkill->SetLastUseTime(std::shared_ptr<BeUnit>(this), (int)gTime);
+				pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), (int)gTime);
 				return;
 			}
 		}
@@ -1113,7 +1113,7 @@ void BeUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 	SetFlag(BUF_REMOVE);
 }
 
-void BeUnit::OperateUnitRemove()
+void TwUnit::OperateUnitRemove()
 {
 	if (IsDead())
 	{
@@ -1126,7 +1126,7 @@ void BeUnit::OperateUnitRemove()
 	SetFlag(BUF_REMOVE);
 }
 
-float BeUnit::GetDamagedByFormula(const std::shared_ptr<BeUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const
+float TwUnit::GetDamagedByFormula(const std::shared_ptr<TwUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const
 {
 	fDamage -= m_pkCurData->fDecDamage;
 	if (fDamage < 0.0f)
@@ -1189,17 +1189,17 @@ float BeUnit::GetDamagedByFormula(const std::shared_ptr<BeUnit> pkAttacker, cons
 	}
 	return fDamage;
 }
-void BeUnit::SetDead(void)
+void TwUnit::SetDead(void)
 {
 	TwCommand	kComm(TwCommandType::BCT_STOP);
 	GiveCommand(kComm, TwGiveCmdType::BCT_DEATH);
 
 	SetFlag(BUF_DEAD);
-	gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(this), true);
-	gUnitMgr->OnUnitDead(std::shared_ptr<BeUnit>(this));
+	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), true);
+	gUnitMgr->OnUnitDead(std::shared_ptr<TwUnit>(this));
 }
 
-void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool bIgnoreInvincible, float fMaxHeroAbsDamage)
+void	TwUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool bIgnoreInvincible, float fMaxHeroAbsDamage)
 {
 	//	gRandNum.RandInteger(RANDINFO);
 	if (IsDead())
@@ -1212,7 +1212,7 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 		return;
 	}
 
-	std::shared_ptr<BeUnit> pkAttacker = rkAttackingAttr.kAttacker;
+	std::shared_ptr<TwUnit> pkAttacker = rkAttackingAttr.kAttacker;
 	if (!pkAttacker)
 	{
 		return;
@@ -1295,9 +1295,9 @@ void	BeUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool b
 	DamagedByAbsNum(rkAttackingAttr.eAttackType, fDamage, 1, rkAttackingAttr.kAttacker, rkAttackingAttr.iPlayer, rkAttackingAttr.GetFlag(), bCanDead, rkAttackingAttr.bFirstAttack, rkAttackingAttr.iSkillTypeID, rkAttackingAttr.iSkillLevel, rkAttackingAttr.fLeech, fMultiDamage, rkAttackingAttr.iBeDamagedEffect);
 }
 
-bool BeUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel)
+bool TwUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel)
 {
-	std::shared_ptr<BeUnit> pkAttacked = gUnitMgr->GetUnitByID(iAttackedID);
+	std::shared_ptr<TwUnit> pkAttacked = gUnitMgr->GetUnitByID(iAttackedID);
 	if (!pkAttacked)
 	{
 		return false;
@@ -1306,14 +1306,14 @@ bool BeUnit::UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSki
 	return false;
 }
 
-void BeUnit::ResetSkill(void)
+void TwUnit::ResetSkill(void)
 {
 	for (int iPos = 0; iPos < iMaxHeroSkillNum; iPos++)
 	{
 		BeSkill* pkSkill = GetSkillByPos(iPos, true);
 		if (pkSkill)
 		{
-			pkSkill->SetLastUseTime(std::shared_ptr<BeUnit>(this), 0);
+			pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), 0);
 		}
 	}
 	DelBufferByClean();
@@ -1321,7 +1321,7 @@ void BeUnit::ResetSkill(void)
     mpLearnSkillData.free(m_pkBackData->akLearnSkill.get());
 }
 
-bool BeUnit::UnitCanBeControl(int iPlayer) const
+bool TwUnit::UnitCanBeControl(int iPlayer) const
 {
 	if (GetControl(iPlayer))
 	{
@@ -1330,7 +1330,7 @@ bool BeUnit::UnitCanBeControl(int iPlayer) const
 	return false;
 }
 
-bool BeUnit::UnitCanMove(bool bTemp) const
+bool TwUnit::UnitCanMove(bool bTemp) const
 {
 	if (bTemp && HasUnitCarryFlag(BUCF_CANNOTMOVE))
 	{
@@ -1340,7 +1340,7 @@ bool BeUnit::UnitCanMove(bool bTemp) const
 	return true;
 }
 
-bool BeUnit::UnitCanAttack(const std::shared_ptr<BeUnit> pkTarget, bool bTemp, bool bForceAttackSameGroup) const
+bool TwUnit::UnitCanAttack(const std::shared_ptr<TwUnit> pkTarget, bool bTemp, bool bForceAttackSameGroup) const
 {
 	if (bTemp && HasUnitCarryFlag(BUCF_CANNOTATTACK))
 	{
@@ -1377,7 +1377,7 @@ bool BeUnit::UnitCanAttack(const std::shared_ptr<BeUnit> pkTarget, bool bTemp, b
 	return true;
 }
 
-UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const std::shared_ptr<BeUnit> pkTarget, bool bTemp, bool bCheckPos, float fTargetPosX, float fTargetPosY, bool bArea, std::shared_ptr<BeUnit>* ppkTarget)
+UnitUseSkillResultType TwUnit::UnitCanUseSkill(int iSkillTypeID, const std::shared_ptr<TwUnit> pkTarget, bool bTemp, bool bCheckPos, float fTargetPosX, float fTargetPosY, bool bArea, std::shared_ptr<TwUnit>* ppkTarget)
 {
 	BeSkill* pkSkill = GetSkill(iSkillTypeID);
 	if (!pkSkill)
@@ -1419,7 +1419,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const std::shar
 		return UUSRT_EER_MANA_NOT_ENOUGH;
 	}
 
-	if (!pkSkill->CDComplete(std::shared_ptr<BeUnit>(this)))
+	if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
 	{
 		return UUSRT_EER_CD;
 	}
@@ -1437,7 +1437,7 @@ UnitUseSkillResultType BeUnit::UnitCanUseSkill(int iSkillTypeID, const std::shar
 	return UUSRT_OK;
 }
 
-bool BeUnit::IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const std::shared_ptr<BeUnit> pkTarget) const
+bool TwUnit::IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const std::shared_ptr<TwUnit> pkTarget) const
 {
 	if (!pkRes)
 	{
@@ -1457,7 +1457,7 @@ bool BeUnit::IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, co
 	return IsTargetUnit(pkTarget, iStaticProcFlag, iDynaPropFlag);
 }
 
-void BeUnit::TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag, int& iDynaPropFlag) const
+void TwUnit::TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag, int& iDynaPropFlag) const
 {
 	iStaticProcFlag = 0;
 
@@ -1473,12 +1473,12 @@ void BeUnit::TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag
 	iDynaPropFlag |= iSkillTargetFlag & SKILL_TARGETTYPE_FRIEND ? BUDP_CAMP_ALLY : 0;
 }
 
-int BeUnit::GetAttackCD(void) const
+int TwUnit::GetAttackCD(void) const
 {
 	return m_pkCurData->iAttackCD;
 }
 
-bool BeUnit::IsTargetUnit(const std::shared_ptr<BeUnit> pkUnit, int iStaticProcFlag, int iDynaPropFlag) const
+bool TwUnit::IsTargetUnit(const std::shared_ptr<TwUnit> pkUnit, int iStaticProcFlag, int iDynaPropFlag) const
 {
 	if (!pkUnit)
 	{
@@ -1546,15 +1546,15 @@ bool BeUnit::IsTargetUnit(const std::shared_ptr<BeUnit> pkUnit, int iStaticProcF
 	return true;
 }
 
-void BeUnit::TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr)
+void TwUnit::TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr)
 {
 	if (pkAttacker && pkAttacker->m_pkCurData)
 	{
-		pkAttacker->TrgOnPreDamage(eAttackType, fDamage, std::shared_ptr<BeUnit>(this), iPlayer, iFlag, bCanDead, kAttr);
+		pkAttacker->TrgOnPreDamage(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), iPlayer, iFlag, bCanDead, kAttr);
 	}
 }
 
-void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr)
+void TwUnit::TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr)
 {
 	{
 		TrgOnPreDamage_T(m_pkCurData->apkUISkill, iMaxHeroSkillNum, eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, kAttr);
@@ -1594,7 +1594,7 @@ void BeUnit::TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<BeU
 	}
 }
 
-void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID)
+void TwUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID)
 {
 	{
 		TrgOnBeDamaged_T(m_pkCurData->apkUISkill, iMaxHeroSkillNum, eAttackType, fDamage, fRawDamage, pkAttacker, iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
@@ -1640,11 +1640,11 @@ void BeUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, s
 	}
 	if (pkAttacker)
 	{
-		pkAttacker->TrgOnDamage(eAttackType, fDamage, std::shared_ptr<BeUnit>(this), iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
+		pkAttacker->TrgOnDamage(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
 	}
 }
 
-void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID)
+void TwUnit::TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID)
 {
 	{
 		TrgOnDamage_T(m_pkCurData->apkUISkill, iMaxHeroSkillNum, eAttackType, fDamage, pkTarget, iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
@@ -1675,7 +1675,7 @@ void BeUnit::TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit
 	}
 }
 
-void BeUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, int iSkillTypeID)
+void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> pkAttacker, int iPlayer, int iFlag, int iSkillTypeID)
 {
 	if (m_pkBackData->akLearnSkill)
 	{
@@ -1773,7 +1773,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<BeUnit> p
 
 		if (pkAttacker)
 		{
-			pkAttacker->TrgOnKill(eAttackType, fDamage, std::shared_ptr<BeUnit>(this), GetPlayer(), iFlag, iSkillTypeID);
+			pkAttacker->TrgOnKill(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), GetPlayer(), iFlag, iSkillTypeID);
 		}
 		if (!m_apkBuffer.empty())
 		{
@@ -1842,7 +1842,7 @@ void BeUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<BeUnit> p
 }
 
 
-void BeUnit::TrgOnPreAttack(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr)
+void TwUnit::TrgOnPreAttack(std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr* pkAttackAttr)
 {
 	{
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
@@ -1882,9 +1882,9 @@ void BeUnit::TrgOnPreAttack(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* p
 	}
 }
 
-void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
+void TwUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 {
-	std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(iTargetID);
+	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(iTargetID);
 
 	{
 		TrgOnAttack_T(m_pkCurData->apkUISkill, iMaxHeroSkillNum, pkTarget, pkAttackAttr);
@@ -1940,7 +1940,7 @@ void BeUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 	}
 }
 
-void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY)
+void TwUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY)
 {
 	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 	if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_PASSIVE)
@@ -2081,7 +2081,7 @@ void BeUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 	}
 }
 
-void BeUnit::TrgOnUpdate(int iDeltaTime)
+void TwUnit::TrgOnUpdate(int iDeltaTime)
 {
 	if (HasFlag(BUF_NEEDUPDATESKILL) && (gTime % 100 == 0))
 	{
@@ -2092,7 +2092,7 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 				auto pkSkill = (m_pkCurData->apkUISkill)[i];
 				if (pkSkill)
 				{
-					pkSkill->Update(std::shared_ptr<BeUnit>(this));
+					pkSkill->Update(std::shared_ptr<TwUnit>(this));
 				}
 			}
 		}
@@ -2104,7 +2104,7 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 				auto pkSkill = m_apkNormalSkill[i];
 				if (pkSkill)
 				{
-					pkSkill->Update(std::shared_ptr<BeUnit>(this));
+					pkSkill->Update(std::shared_ptr<TwUnit>(this));
 				}
 			}
 		}
@@ -2130,7 +2130,7 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 			int iBufferCount = (int)m_apkBuffer.size();
 			if (pkBuffer)
 			{
-				pkBuffer->Update(std::shared_ptr<BeUnit>(this), iDeltaTime);
+				pkBuffer->Update(std::shared_ptr<TwUnit>(this), iDeltaTime);
 				if (iBufferCount != m_apkBuffer.size())
 				{
 					break;
@@ -2140,7 +2140,7 @@ void BeUnit::TrgOnUpdate(int iDeltaTime)
 	}
 }
 
-void BeUnit::TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, int iSkillTypeID)
+void TwUnit::TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, int iSkillTypeID)
 {
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
@@ -2244,7 +2244,7 @@ void BeUnit::TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<BeUnit> p
 	//}
 }
 
-bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
+bool TwUnit::PickMapItem(BeMapItem* pkMapItem)
 {
 	if (!pkMapItem)
 	{
@@ -2314,22 +2314,22 @@ bool BeUnit::PickMapItem(BeMapItem* pkMapItem)
 	return true;
 }
 
-void BeUnit::GuanQiaAddExp(int iExp)
+void TwUnit::GuanQiaAddExp(int iExp)
 {
 	SetCurExp(GetCurExp() + iExp);
 }
 
-void BeUnit::AddIgnoreUnit(int iUnitID, int iTime)
+void TwUnit::AddIgnoreUnit(int iUnitID, int iTime)
 {
 
 }
 
-bool BeUnit::IsIgnoreUnit(int iUnitID) const
+bool TwUnit::IsIgnoreUnit(int iUnitID) const
 {
 	return false;
 }
 
-void BeUnit::SetCheatAttr(void)
+void TwUnit::SetCheatAttr(void)
 {
 	BeBuffer* pkBuffer = this->AddBufferBegin('BG02', -1);
 	if (pkBuffer)
@@ -2341,14 +2341,14 @@ void BeUnit::SetCheatAttr(void)
 	UpdateAttribute(true);
 }
 
-void BeUnit::SetAllLiveTime(int iAllTime)
+void TwUnit::SetAllLiveTime(int iAllTime)
 {
 	SetUnitAllLiveTime(iAllTime);
 	SetUnitCurLiveTime(iAllTime);
 	SetUnitCreateTime(gTime);
 }
 
-void BeUnit::SetChangeScale(int iBufferID, float fChangeScale, int iChangeTime /*= 0*/)
+void TwUnit::SetChangeScale(int iBufferID, float fChangeScale, int iChangeTime /*= 0*/)
 {
 	//BufChangeScaleData kData;
 	//kData.fScale = fChangeScale;
@@ -2358,12 +2358,12 @@ void BeUnit::SetChangeScale(int iBufferID, float fChangeScale, int iChangeTime /
 	//	m_kMapChangeScale[iBufferID] = kData;
 }
 
-void BeUnit::SetColorWithBuf(int iBufferID, unsigned int dwColor)
+void TwUnit::SetColorWithBuf(int iBufferID, unsigned int dwColor)
 {
 
 }
 
-void BeUnit::UpdateTransrate(int iDeltaTime)
+void TwUnit::UpdateTransrate(int iDeltaTime)
 {
 	if (HasUnitCarryFlag(BUCF_ISINVISIBLE))
 	{
@@ -2423,7 +2423,7 @@ void BeUnit::UpdateTransrate(int iDeltaTime)
 	}
 }
 
-void BeUnit::SetUnitvisible(bool bVisible)
+void TwUnit::SetUnitvisible(bool bVisible)
 {
 	if (!bVisible)
 	{
@@ -2435,7 +2435,7 @@ void BeUnit::SetUnitvisible(bool bVisible)
 	}
 }
 
-void	BeUnit::AddAttach(int pcMdlFile, int iRemoveTime, int iAttackerID, bool bChangeFace)
+void	TwUnit::AddAttach(int pcMdlFile, int iRemoveTime, int iAttackerID, bool bChangeFace)
 {
 	BeShareAttachData kData;
 	kData.iRemoveTime = gTime + iRemoveTime;
@@ -2447,7 +2447,7 @@ void	BeUnit::AddAttach(int pcMdlFile, int iRemoveTime, int iAttackerID, bool bCh
 	//gMain->AddAttachData(kData);
 }
 
-bool BeUnit::DelAttachByName(int iModelID)
+bool TwUnit::DelAttachByName(int iModelID)
 {
 	BeShareAttachData kData;
 	kData.iRemoveTime = gTime;
@@ -2460,12 +2460,12 @@ bool BeUnit::DelAttachByName(int iModelID)
 	return true;
 }
 
-void BeUnit::AddControlSummonUnitID(int iUnitID)
+void TwUnit::AddControlSummonUnitID(int iUnitID)
 {
 	//	m_akControlSummonID.PushBack(iUnitID);
 }
 
-void BeUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
+void TwUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
 {
 	if (!pkBuffer)
 	{
@@ -2476,7 +2476,7 @@ void BeUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
 	mpBuffer.free(pkBuffer);
 }
 
-void BeUnit::ClrAllPureData()
+void TwUnit::ClrAllPureData()
 {
 	//for (int i = 0; i < MAX_ACTIVEPLAYERS; i++)
 	//{
@@ -2493,7 +2493,7 @@ void BeUnit::ClrAllPureData()
 
 #define CLIENTNONEEDFLAG (BUF_IGNOREDOODADOBS|BUF_NOOBSTACLE|BUF_IGNOREUNITOBS|BUF_IGNOREFIXEDOBS|BUF_HASHALOSKILL|BUF_OBSTACLESET|BUF_MOVING|BUF_ISBLOCKED |BUF_ISPERSISTSKILL)
 
-void BeUnit::SetFlag(int iFlag, bool bNeedRecordChange)
+void TwUnit::SetFlag(int iFlag, bool bNeedRecordChange)
 {
 	int iTempFlag = iFlag;
 	iTempFlag &= ~CLIENTNONEEDFLAG;
@@ -2505,7 +2505,7 @@ void BeUnit::SetFlag(int iFlag, bool bNeedRecordChange)
 	m_iFlag |= iFlag;
 }
 
-void BeUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
+void TwUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
 {
 	if (/*gMain->IsServerMode() && */bNeedRecordChange)
 	{
@@ -2519,7 +2519,7 @@ void BeUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
 	m_iFlag &= ~iFlag;
 }
 
-void BeUnit::UpdateLiveTime(int iDeltaTime)
+void TwUnit::UpdateLiveTime(int iDeltaTime)
 {
 	if (GetUnitAllLiveTime() != 0 && GetUnitCurLiveTime() > 0)
 	{
@@ -2535,7 +2535,7 @@ void BeUnit::UpdateLiveTime(int iDeltaTime)
 	}
 }
 
-void BeUnit::UpdateHP(int iDeltaTime)
+void TwUnit::UpdateHP(int iDeltaTime)
 {
 	if (IsDead())
 	{
@@ -2554,7 +2554,7 @@ void BeUnit::UpdateHP(int iDeltaTime)
 	}
 }
 
-void BeUnit::UpdateMP(int iDeltaTime)
+void TwUnit::UpdateMP(int iDeltaTime)
 {
 	if (IsDead())
 	{
@@ -2578,7 +2578,7 @@ void BeUnit::UpdateMP(int iDeltaTime)
 	}
 }
 
-void BeUnit::UpdateBuffer(int iDeltaTime)
+void TwUnit::UpdateBuffer(int iDeltaTime)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -2646,7 +2646,7 @@ void BeUnit::UpdateBuffer(int iDeltaTime)
 	}
 }
 
-void BeUnit::UpdateAttribute(bool bUpdateNormal)
+void TwUnit::UpdateAttribute(bool bUpdateNormal)
 {
 	auto pkOrgData = m_pkBackData;
 	auto pkCurData = m_pkCurData;
@@ -2676,7 +2676,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 
 	iOldCarryFlag = m_iCarryFlag;
 	m_iCarryFlag = 0;
-	iOldImmunityFlag = BeUnit::m_iImmunityFlag;
+	iOldImmunityFlag = TwUnit::m_iImmunityFlag;
 	m_iImmunityFlag = 0;
 
 	UpdateValidItem();
@@ -2946,7 +2946,7 @@ void BeUnit::UpdateAttribute(bool bUpdateNormal)
 	}
 }
 
-void BeUnit::CopyAttribute(std::shared_ptr<BeUnit> pkUnit)
+void TwUnit::CopyAttribute(std::shared_ptr<TwUnit> pkUnit)
 {
 	SetPlayer(pkUnit->GetPlayer());
 	SetLevel(pkUnit->GetLevel());
@@ -2969,7 +2969,7 @@ void BeUnit::CopyAttribute(std::shared_ptr<BeUnit> pkUnit)
 
 
 
-bool BeUnit::IsDamageTime(int iDeltaTime)
+bool TwUnit::IsDamageTime(int iDeltaTime)
 {
 	int iRealTime = GetRealDamagePt();
 	int iTime = m_pkCurData->iActionCurTime + iDeltaTime;
@@ -2977,7 +2977,7 @@ bool BeUnit::IsDamageTime(int iDeltaTime)
 	return iTime > iRealTime;
 }
 
-void	BeUnit::SellItem(int iPos)
+void	TwUnit::SellItem(int iPos)
 {
 	BeItem* pkItem = GetItemByPos(iPos);
 	if (!pkItem)
@@ -3010,7 +3010,7 @@ void	BeUnit::SellItem(int iPos)
 	UpdateItemPassiveSkill();
 }
 
-void	BeUnit::BuyItem(int iItemTypeID)
+void	TwUnit::BuyItem(int iItemTypeID)
 {
 	//const ItemTable* pkItemRes = gMain->GetResItem(iItemTypeID);
 	//if (!pkItemRes)
@@ -3212,7 +3212,7 @@ void	BeUnit::BuyItem(int iItemTypeID)
 	//SetTabInfoFlag(BTCF_BIGSKILL);
 }
 
-void	BeUnit::UpdateItemPassiveSkill()
+void	TwUnit::UpdateItemPassiveSkill()
 {
 	//ClearItemPassiveSkill();
 
@@ -3343,7 +3343,7 @@ void	BeUnit::UpdateItemPassiveSkill()
 	//UpdateAttribute(true);
 }
 
-void BeUnit::SetFace(float fFace, bool bChange/* = true*/)
+void TwUnit::SetFace(float fFace, bool bChange/* = true*/)
 {
 	AdjustRadian(fFace);
 
@@ -3354,13 +3354,13 @@ void BeUnit::SetFace(float fFace, bool bChange/* = true*/)
 	m_pkCurData->fFace = fFace;
 }
 
-void BeUnit::SetPreTurnFace(float fFace)
+void TwUnit::SetPreTurnFace(float fFace)
 {
 	AdjustRadian(fFace);
 	m_pkCurData->fFace = fFace;
 }
 
-void BeUnit::SetCurAttackCD(int iCurAttackCD)
+void TwUnit::SetCurAttackCD(int iCurAttackCD)
 {
 	if (iCurAttackCD != m_pkCurData->iAttackCD)
 	{

@@ -82,7 +82,7 @@ int BeFormulaInfo::GetComboKillDecMoney(int iKills)
 	return (iKills - 2) * 50;
 }
 
-int	BeFormulaInfo::GetReliveHeroMoney(std::shared_ptr<BeUnit> pkUnitRelive)
+int	BeFormulaInfo::GetReliveHeroMoney(std::shared_ptr<TwUnit> pkUnitRelive)
 {
 	return 100;
 }

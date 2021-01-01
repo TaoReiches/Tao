@@ -83,7 +83,7 @@ void TeMap::Update(int iDeltaTime)
 {
 }
 
-void TeMap::AddUnitObstacle(std::shared_ptr<BeUnit> pkUnit, bool bAddFixed, bool bForce)
+void TeMap::AddUnitObstacle(std::shared_ptr<TwUnit> pkUnit, bool bAddFixed, bool bForce)
 {
 	if (!m_pkPathFinder)
 	{
@@ -149,7 +149,7 @@ void TeMap::AddUnitObstacle(std::shared_ptr<BeUnit> pkUnit, bool bAddFixed, bool
 	}
 }
 
-void TeMap::DelUnitObstacle(std::shared_ptr<BeUnit> pkUnit, bool bDelFixed, bool bForce)
+void TeMap::DelUnitObstacle(std::shared_ptr<TwUnit> pkUnit, bool bDelFixed, bool bForce)
 {
 	if (!m_pkPathFinder)
 	{
@@ -222,7 +222,7 @@ void TeMap::DelObstacle(float fX, float fY, TwGridFlag iObs, int iSize)
 	m_pkPathFinder->ClrObstacle(fX, fY, iObs, iSize);
 }
 
-TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
+TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, std::shared_ptr<TwUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{
@@ -308,7 +308,7 @@ TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, std::shared_ptr<BeUnit> 
 	return eRet;
 }
 
-int TeMap::GetFirstCanStay(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, TwGridFlag iObs)
+int TeMap::GetFirstCanStay(std::shared_ptr<TwUnit> pkUnit, float fTargetX, float fTargetY, float& fWalkX, float& fWalkY, float fDistance, TwGridFlag iObs)
 {
 	if (pkUnit->HasFlag(BUF_IGNOREUNITOBS))
 	{
@@ -373,7 +373,7 @@ bool TeMap::GetNearestCanStay(float fSrcX, float fSrcY, int iSrcSize, float fDst
 	return false;
 }
 
-bool TeMap::SetUnitPosition(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, TwGridFlag iObs, TwGridFlag iReachableObs, bool bNeedRecordChange)
+bool TeMap::SetUnitPosition(std::shared_ptr<TwUnit> pkUnit, float fTargetX, float fTargetY, float fTargetZ, float fDistance, bool bCanStayOnObstacle, TwGridFlag iObs, TwGridFlag iReachableObs, bool bNeedRecordChange)
 {
 	if (!pkUnit)
 	{
@@ -460,7 +460,7 @@ bool TeMap::SetUnitPosition(std::shared_ptr<BeUnit> pkUnit, float fTargetX, floa
 	return bRet;
 }
 
-bool TeMap::GetUnitCanReach(std::shared_ptr<BeUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
+bool TeMap::GetUnitCanReach(std::shared_ptr<TwUnit> pkUnit, float fTargetX, float fTargetY, float fDistance, TwGridFlag iObs)
 {
 	if (!m_pkPathFinder)
 	{

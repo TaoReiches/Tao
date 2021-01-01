@@ -251,7 +251,7 @@ void TwUnitData::SetHP(float fHP, bool bChange)
 	}
 }
 
-float TwUnitData::GetAttackRange(const std::shared_ptr<BeUnit> pkTarget) const
+float TwUnitData::GetAttackRange(const std::shared_ptr<TwUnit> pkTarget) const
 {
 	return m_pkCurData->fAttackRange + pkTarget->GetCollision();
 }

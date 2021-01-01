@@ -26,7 +26,7 @@ void BeDropItemCommand::SetTargetIDDropItem(int iID, int iItemID)
 	m_pkCurTask->AttachMain(pkAttachMain);
 	m_pkCurTask->AttachUnit(pkAttachUnit);
 
-	std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
+	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
 
 	((BeTaskMoveToUnit*)m_pkCurTask.get())->SetTargetID(iID, 1000.0f);
 }

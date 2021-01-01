@@ -49,7 +49,7 @@ bool TwMain::Initialize(int iSeed)
     m_pkMapItemMgr = new BeMapItemMgr;
     m_pkMapItemMgr->AttachMain(std::shared_ptr<TwMain>(this));
 
-    m_pkUnitMgr = std::unique_ptr<BeUnitMgr>(new BeUnitMgr());
+    m_pkUnitMgr = std::unique_ptr<TwUnitMgr>(new TwUnitMgr());
     m_pkUnitMgr->AttachMain(std::shared_ptr<TwMain>(this));
 
     m_pkFormulaInfo = new BeFormulaInfo;

@@ -8,7 +8,7 @@
 #include <memory>
 
 class TwMain;
-class BeUnit;
+class TwUnit;
 
 class BeMainPtr
 {
@@ -32,10 +32,10 @@ public:
 	{
 	}
 
-	void AttachUnit(std::shared_ptr<BeUnit> pkUnit)
+	void AttachUnit(std::shared_ptr<TwUnit> pkUnit)
 	{
 		pkAttachUnit = pkUnit;
 	}
 
-	std::shared_ptr<BeUnit> pkAttachUnit;
+	std::shared_ptr<TwUnit> pkAttachUnit;
 };

@@ -41,7 +41,7 @@ enum BeAttackType
 	BAT_ABS,
 };
 
-class BeUnit;
+class TwUnit;
 
 class BeAttackingAttr : public BeFlagObj
 {
@@ -95,7 +95,7 @@ public:
 
 	BeAttackType				eAttackType;
 	float						fDamage;
-	std::shared_ptr<BeUnit>		kAttacker;
+	std::shared_ptr<TwUnit>		kAttacker;
 	int							iPlayer;
 	int							iBumpCount;
 	float						fDamageDecPer;

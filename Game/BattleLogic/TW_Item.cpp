@@ -130,7 +130,7 @@ std::unique_ptr<BeSkill>& BeItem::GetSkillByTypeID(int iSkillTypeID)
 	return errorSkill;
 }
 
-void BeItem::Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime)
+void BeItem::Update(std::shared_ptr<TwUnit> pkUnit, int iDeltaTime)
 {
 	if (!pkUnit)
 	{

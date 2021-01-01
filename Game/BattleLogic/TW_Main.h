@@ -16,7 +16,7 @@
 
 class BeMapItemMgr;
 class TeMap;
-class BeUnitMgr;
+class TwUnitMgr;
 class BeEffectMgr;
 class ITwRandom;
 class BeFormulaInfo;
@@ -90,7 +90,7 @@ public:
 	}
 
 protected:
-	bool PlayerSendCommand(std::shared_ptr<BeUnit> pkUnit, int iSendIdx);
+	bool PlayerSendCommand(std::shared_ptr<TwUnit> pkUnit, int iSendIdx);
 
 public:
 	void	UpdateRaceOut();
@@ -130,7 +130,7 @@ public:
     unsigned int            m_uiGameTime;
     ITwRandom*              m_pkRandNum;
     TeMap*                  m_pkMap;
-    std::unique_ptr<BeUnitMgr>              m_pkUnitMgr;
+    std::unique_ptr<TwUnitMgr>              m_pkUnitMgr;
     BeEffectMgr*            m_pkEffectMgr;
     BeMapItemMgr*           m_pkMapItemMgr;
     BeFormulaInfo*          m_pkFormulaInfo;

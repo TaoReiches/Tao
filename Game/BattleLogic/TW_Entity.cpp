@@ -36,12 +36,12 @@ BeSingleLinkEntity::~BeSingleLinkEntity(void)
 {
 }
 
-void BeSingleLinkEntity::Link(float fX, float fY, BeEntityMgr* pkMgr)
+void BeSingleLinkEntity::Link(float fX, float fY, TwEntityMgr* pkMgr)
 {
 	auto pkEle = std::shared_ptr<BeElement>(this);
 
-	int iBX = TruncToInt(fX) / BeEntityMgr::BLOCK_ELE_SIZE;
-	int iBY = TruncToInt(fY) / BeEntityMgr::BLOCK_ELE_SIZE;
+	int iBX = TruncToInt(fX) / TwEntityMgr::BLOCK_ELE_SIZE;
+	int iBY = TruncToInt(fY) / TwEntityMgr::BLOCK_ELE_SIZE;
 
 	if (iBX < 0)
 	{

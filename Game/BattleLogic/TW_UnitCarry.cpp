@@ -27,7 +27,7 @@ TwUnitCarry::~TwUnitCarry()
 
 }
 
-BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
+BeItem* TwUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 {
 	auto& pkRes = ItemTableMgr::Get()->GetItemTable(iTypeID);
 	if (!pkRes)
@@ -116,13 +116,13 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 	return nullptr;
 }
 
-void BeUnit::OnItemUpDate(int iID)
+void TwUnit::OnItemUpDate(int iID)
 {
 	int iTypeID = 0;
 	BeItem* pkItem = GetItemByID(iID);
 	if (pkItem)
 	{
-		pkItem->AttachUnit(std::shared_ptr<BeUnit>(this));
+		pkItem->AttachUnit(std::shared_ptr<TwUnit>(this));
 	}
 
 	TwPtParam kParamPre;
@@ -145,7 +145,7 @@ void BeUnit::OnItemUpDate(int iID)
 	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADD_ITEM, kParam);
 }
 
-BeItem* BeUnit::GetItemByID(int iID) const
+BeItem* TwUnit::GetItemByID(int iID) const
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -158,7 +158,7 @@ BeItem* BeUnit::GetItemByID(int iID) const
 	return nullptr;
 }
 
-BeItem* BeUnit::GetItemByPos(int iPos)
+BeItem* TwUnit::GetItemByPos(int iPos)
 {
 	//if (iPos >= 0 && iPos < UNIT_MAX_ITEM)
 	//{
@@ -170,7 +170,7 @@ BeItem* BeUnit::GetItemByPos(int iPos)
 	return nullptr;
 }
 
-BeItem* BeUnit::GetItemByTypeID(int iTypeID, int iOwnPlayer)
+BeItem* TwUnit::GetItemByTypeID(int iTypeID, int iOwnPlayer)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
 	//{
@@ -192,7 +192,7 @@ BeItem* BeUnit::GetItemByTypeID(int iTypeID, int iOwnPlayer)
 	return nullptr;
 }
 
-BeItem* BeUnit::GetComposeItemByTypeID(int iTypeID)
+BeItem* TwUnit::GetComposeItemByTypeID(int iTypeID)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
 	//{
@@ -207,7 +207,7 @@ BeItem* BeUnit::GetComposeItemByTypeID(int iTypeID)
 	return nullptr;
 }
 
-void BeUnit::GetItemGroupByTypeID(std::vector<BeItem*>& rkItems, int iTypeID, int iOwnPlayer)
+void TwUnit::GetItemGroupByTypeID(std::vector<BeItem*>& rkItems, int iTypeID, int iOwnPlayer)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
 	//{
@@ -228,7 +228,7 @@ void BeUnit::GetItemGroupByTypeID(std::vector<BeItem*>& rkItems, int iTypeID, in
 	//}
 }
 
-int BeUnit::GetItemNumsByID(int iTypeID) const
+int TwUnit::GetItemNumsByID(int iTypeID) const
 {
 	int iNums = 0;
 	//for (int i = 0; i < UNIT_MAX_ITEM; ++i)
@@ -241,7 +241,7 @@ int BeUnit::GetItemNumsByID(int iTypeID) const
 	return iNums;
 }
 
-void BeUnit::DropItemByPos(int iPos, float iX, float iY, bool bForce)
+void TwUnit::DropItemByPos(int iPos, float iX, float iY, bool bForce)
 {
 	if (HasUnitCarryFlag(BUCF_ONLYCANUSEITEM))
 	{
@@ -249,7 +249,7 @@ void BeUnit::DropItemByPos(int iPos, float iX, float iY, bool bForce)
 	}
 }
 
-void BeUnit::DelItemByPos(int iPos)
+void TwUnit::DelItemByPos(int iPos)
 {
 	//if (iPos >= 0 && iPos < UNIT_MAX_ITEM && m_apkItem[iPos])
 	//{
@@ -268,7 +268,7 @@ void BeUnit::DelItemByPos(int iPos)
 	//}
 }
 
-void BeUnit::DelAllItem(void)
+void TwUnit::DelAllItem(void)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -280,7 +280,7 @@ void BeUnit::DelAllItem(void)
 	//}
 }
 
-void BeUnit::DelItemByTypeID(int iTypeID, bool bFirstOnly)
+void TwUnit::DelItemByTypeID(int iTypeID, bool bFirstOnly)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -296,7 +296,7 @@ void BeUnit::DelItemByTypeID(int iTypeID, bool bFirstOnly)
 	//}
 }
 
-bool BeUnit::HasItem(int iTypeID, bool bOwner)
+bool TwUnit::HasItem(int iTypeID, bool bOwner)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -319,7 +319,7 @@ bool BeUnit::HasItem(int iTypeID, bool bOwner)
 	return false;
 }
 
-int BeUnit::HasItemNum(int iTypeID, bool bOwner)
+int TwUnit::HasItemNum(int iTypeID, bool bOwner)
 {
 	int iTotal = 0;
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
@@ -359,7 +359,7 @@ int BeUnit::HasItemNum(int iTypeID, bool bOwner)
 	return iTotal;
 }
 
-bool BeUnit::HasItemSkill(int iTypeID)
+bool TwUnit::HasItemSkill(int iTypeID)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -385,7 +385,7 @@ bool BeUnit::HasItemSkill(int iTypeID)
 	return false;
 }
 
-int BeUnit::GetFreeItemPos()
+int TwUnit::GetFreeItemPos()
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -398,7 +398,7 @@ int BeUnit::GetFreeItemPos()
 	return -1;
 }
 
-bool BeUnit::IsPackageFull(void) const
+bool TwUnit::IsPackageFull(void) const
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -410,7 +410,7 @@ bool BeUnit::IsPackageFull(void) const
 	return true;
 }
 
-bool BeUnit::IsPackageEmpty(void) const
+bool TwUnit::IsPackageEmpty(void) const
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -423,7 +423,7 @@ bool BeUnit::IsPackageEmpty(void) const
 	return true;
 }
 
-bool BeUnit::PickAroundItem(void)
+bool TwUnit::PickAroundItem(void)
 {
 	if (IsDead())
 	{
@@ -447,7 +447,7 @@ bool BeUnit::PickAroundItem(void)
 	return true;
 }
 
-BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, bool bGenusSkill, int iForceID)
+BeSkill* TwUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, bool bGenusSkill, int iForceID)
 {
 	auto& pkRes = SkillTableMgr::Get()->GetSkillTable(iTypeID);
 	if (!pkRes)
@@ -478,7 +478,7 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	}
 	pkSkill.reset(mpSkill.alloc(iID));
 	pkSkill->AttachMain(pkAttachMain);
-	pkSkill->AttachUnit(std::shared_ptr<BeUnit>(this));
+	pkSkill->AttachUnit(std::shared_ptr<TwUnit>(this));
 	pkSkill->Initialize(iTypeID);
 	pkRet = pkSkill;
 
@@ -572,17 +572,17 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	return pkSkill.get();
 }
 
-int BeUnit::GetCanLearnSkillByIdx(int iPos) const
+int TwUnit::GetCanLearnSkillByIdx(int iPos) const
 {
 	return 0;
 }
 
-int BeUnit::GetCanLearnSkillIDByPos(int iPos) const
+int TwUnit::GetCanLearnSkillIDByPos(int iPos) const
 {
 	return 0;
 }
 
-BeSkill* BeUnit::GetSkill(int iTypeID, bool bCurrent) const
+BeSkill* TwUnit::GetSkill(int iTypeID, bool bCurrent) const
 {
     std::shared_ptr<BeUnitData> pkUnitData;
 	if (bCurrent)
@@ -620,7 +620,7 @@ BeSkill* BeUnit::GetSkill(int iTypeID, bool bCurrent) const
 	return nullptr;
 }
 
-BeSkill* BeUnit::GetSkillByPos(int iPos, bool bOrg)
+BeSkill* TwUnit::GetSkillByPos(int iPos, bool bOrg)
 {
 	if (m_pkCurData && iPos >= 0 && iPos < iMaxHeroSkillNum)
 	{
@@ -634,7 +634,7 @@ BeSkill* BeUnit::GetSkillByPos(int iPos, bool bOrg)
 	return nullptr;
 }
 
-BeSkill* BeUnit::GetSkillByUIPos(int iPos) const
+BeSkill* TwUnit::GetSkillByUIPos(int iPos) const
 {
 	if (m_pkCurData)
 	{
@@ -650,7 +650,7 @@ BeSkill* BeUnit::GetSkillByUIPos(int iPos) const
 	return nullptr;
 }
 
-void BeUnit::DelSkill(int iTypeID)
+void TwUnit::DelSkill(int iTypeID)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
@@ -702,7 +702,7 @@ void BeUnit::DelSkill(int iTypeID)
 	}
 }
 
-void BeUnit::DelAllSkill(bool bHeroSkillOnly)
+void TwUnit::DelAllSkill(bool bHeroSkillOnly)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
@@ -771,7 +771,7 @@ void BeUnit::DelAllSkill(bool bHeroSkillOnly)
 	SetUsedSkillPoint(0);
 }
 
-void BeUnit::SetSkillLevel(int iTypeID, int iLevel)
+void TwUnit::SetSkillLevel(int iTypeID, int iLevel)
 {
 	auto pkSkill = GetSkill(iTypeID);
 	if (pkSkill)
@@ -781,7 +781,7 @@ void BeUnit::SetSkillLevel(int iTypeID, int iLevel)
 	}
 }
 
-int BeUnit::GetSkillLevel(int iTypeID)
+int TwUnit::GetSkillLevel(int iTypeID)
 {
 	auto pkSkill = GetSkill(iTypeID);
 	if (pkSkill)
@@ -791,12 +791,12 @@ int BeUnit::GetSkillLevel(int iTypeID)
 	return 0;
 }
 
-const std::vector<std::shared_ptr<BeSkill>>& BeUnit::GetNormalSkill(void)
+const std::vector<std::shared_ptr<BeSkill>>& TwUnit::GetNormalSkill(void)
 {
 	return m_apkNormalSkill;
 }
 
-int	BeUnit::GetItemUseSkill(int iItemTypeID)
+int	TwUnit::GetItemUseSkill(int iItemTypeID)
 {
 	auto& pkItemRes = ItemTableMgr::Get()->GetItemTable(iItemTypeID);
 	if (!pkItemRes)
@@ -819,7 +819,7 @@ int	BeUnit::GetItemUseSkill(int iItemTypeID)
 	return 0;
 }
 
-int BeUnit::GetItemSkillTypeID(int iItemID)
+int TwUnit::GetItemSkillTypeID(int iItemID)
 {
 	BeItem* pkItem = GetItemByID(iItemID);
 	if (!pkItem)
@@ -858,7 +858,7 @@ int BeUnit::GetItemSkillTypeID(int iItemID)
 	return iSkillTypeID;
 }
 
-bool BeUnit::IsForbidSkill(BeSkill* pkSkill) const
+bool TwUnit::IsForbidSkill(BeSkill* pkSkill) const
 {
 	if (!pkSkill)
 	{
@@ -882,7 +882,7 @@ bool BeUnit::IsForbidSkill(BeSkill* pkSkill) const
 	return bForbid;
 }
 
-BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iUnitID, bool bAddDead, int iForceID)
+BeBuffer* TwUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iUnitID, bool bAddDead, int iForceID)
 {
 	auto& pkRes = BufferTableMgr::Get()->GetBufferTable(iTypeID);
 	if (!pkRes)
@@ -949,7 +949,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 			return pkRet;
 		}
 		pkRet->AttachMain(pkAttachMain);
-		pkRet->AttachUnit(std::shared_ptr<BeUnit>(this));
+		pkRet->AttachUnit(std::shared_ptr<TwUnit>(this));
 
 		pkRet->SetUnitID(iUnitID);
 		pkRet->SetOrgUnitID(iOrgUnitID);
@@ -966,7 +966,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 	return pkRet;
 }
 
-void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
+void TwUnit::AddBufferEnd(BeBuffer* pkBuffer)
 {
 	if (!pkBuffer || HasUnitCarryFlag(BUCF_NO_BUFFER_EFFECT))
 	{
@@ -994,7 +994,7 @@ void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
 	//gMain->AddBufferShowData(kData);
 }
 
-BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
+BeBuffer* TwUnit::GetBuffer(int iTypeID, int iUnitID)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1011,7 +1011,7 @@ BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
 	return nullptr;
 }
 
-void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
+void	TwUnit::RemoveBufferAttr(BeNormalAttType eType)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1030,7 +1030,7 @@ void	BeUnit::RemoveBufferAttr(BeNormalAttType eType)
 	}
 }
 
-const BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID) const
+const BeBuffer* TwUnit::GetBuffer(int iTypeID, int iUnitID) const
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1047,7 +1047,7 @@ const BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID) const
 	return nullptr;
 }
 
-bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
+bool TwUnit::DelBuffer(int iTypeID, int iUnitID)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1067,7 +1067,7 @@ bool BeUnit::DelBuffer(int iTypeID, int iUnitID)
 	return false;
 }
 
-bool BeUnit::DelBufferByID(int iBufferID)
+bool TwUnit::DelBufferByID(int iBufferID)
 {
 	if (m_apkBuffer.empty())
 	{
@@ -1097,7 +1097,7 @@ bool BeUnit::DelBufferByID(int iBufferID)
 	return false;
 }
 
-void BeUnit::DelAllBuffer(bool bRelive)
+void TwUnit::DelAllBuffer(bool bRelive)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1116,7 +1116,7 @@ void BeUnit::DelAllBuffer(bool bRelive)
 	}
 }
 
-void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
+void TwUnit::DelBufferByClean(bool bNegative, bool bGood)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1146,7 +1146,7 @@ void BeUnit::DelBufferByClean(bool bNegative, bool bGood)
 	}
 }
 
-void BeUnit::DelBufferByAutoClean(void)
+void TwUnit::DelBufferByAutoClean(void)
 {
 	//if (!m_apkBuffer.empty())
 	//{
@@ -1162,7 +1162,7 @@ void BeUnit::DelBufferByAutoClean(void)
 	//}
 }
 
-void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
+void TwUnit::OnAddBuffer(BeBuffer* pkBuffer)
 {
 	if (!pkBuffer)
 	{
@@ -1188,7 +1188,7 @@ void BeUnit::OnAddBuffer(BeBuffer* pkBuffer)
 	}
 }
 
-void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool bDelEffect)
+void TwUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool bDelEffect)
 {
 	if (!pkBuffer || pkBuffer->GetHasDel())
 	{
@@ -1223,7 +1223,7 @@ void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool 
 	//gMain->AddBufferShowData(kData);
 }
 
-void BeUnit::UpdateValidItem(void)
+void TwUnit::UpdateValidItem(void)
 {
 	//for (int i = 0; i < UNIT_MAX_ITEM; i++)
 	//{
@@ -1236,7 +1236,7 @@ void BeUnit::UpdateValidItem(void)
 	//}
 }
 
-void BeUnit::UpdateValidBuffer(void)
+void TwUnit::UpdateValidBuffer(void)
 {
 	if (!m_apkBuffer.empty())
 	{
@@ -1262,7 +1262,7 @@ void BeUnit::UpdateValidBuffer(void)
 	}
 }
 
-void BeUnit::UpdateValidSkill(bool bReset)
+void TwUnit::UpdateValidSkill(bool bReset)
 {
 	for (int i = 0; i < iMaxHeroSkillNum; i++)
 	{
@@ -1329,7 +1329,7 @@ void BeUnit::UpdateValidSkill(bool bReset)
 	}
 }
 
-void BeUnit::GetAttackingAttr(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr)
+void TwUnit::GetAttackingAttr(std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr)
 {
 	rkAttackingAttr->eAttackType = GetAttackType();
 	rkAttackingAttr->fDamage = GetDamageNum();
@@ -1346,7 +1346,7 @@ void BeUnit::GetAttackingAttr(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr*
 	}
 }
 
-bool BeUnit::GetAttackingMiss(void) const
+bool TwUnit::GetAttackingMiss(void) const
 {
 	if (!m_apkCarry.empty())
 	{
@@ -1363,7 +1363,7 @@ bool BeUnit::GetAttackingMiss(void) const
 	return false;
 }
 
-bool BeUnit::GetAttackedAvoid(void) const
+bool TwUnit::GetAttackedAvoid(void) const
 {
 	if (!m_apkCarry.empty())
 	{
@@ -1387,20 +1387,20 @@ bool BeUnit::GetAttackedAvoid(void) const
 	return false;
 }
 
-void BeUnit::GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<BeUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const
+void TwUnit::GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<TwUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const
 {
 	float fFinalAntiArmor = GetArmor() * (1.0f - fDecArmorPer) - fDecArmorValue;
 	fAntiPhysic = BeFormula::GetAmorForDamage(fFinalAntiArmor);
 }
 
-void BeUnit::GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<BeUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const
+void TwUnit::GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<TwUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const
 {
 	float fFinalAntiArmor = GetMagicArmor() * (1.0f - fDecMagicArmorPer) - fDecEnemyAntiMagic;
 
 	fAntiMagic = BeFormula::GetAmorForDamage(fFinalAntiArmor);
 }
 
-float BeUnit::GetAttackedAntiLeech(void) const
+float TwUnit::GetAttackedAntiLeech(void) const
 {
 	float fPercent = 0.0f;
 	if (!m_apkCarry.empty())
@@ -1416,7 +1416,7 @@ float BeUnit::GetAttackedAntiLeech(void) const
 	return fPercent;
 }
 
-float BeUnit::GetAttackedAttackCDAttr(void) const
+float TwUnit::GetAttackedAttackCDAttr(void) const
 {
 	float fTotalACD = 0.0f;
 	if (!m_apkCarry.empty())
@@ -1432,7 +1432,7 @@ float BeUnit::GetAttackedAttackCDAttr(void) const
 	return fTotalACD;
 }
 
-float BeUnit::GetAttackedBaoJiAttr(void) const
+float TwUnit::GetAttackedBaoJiAttr(void) const
 {
 	float fTotalBaoji = 0.0f;
 	if (!m_apkCarry.empty())

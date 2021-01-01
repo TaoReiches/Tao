@@ -13,27 +13,27 @@
 #include "TW_MemoryObject.h"
 #include <TW_TriggerMgr.h>
 
-BeUnitMgr::BeUnitMgr(void)
+TwUnitMgr::TwUnitMgr(void)
 {
 }
 
-BeUnitMgr::~BeUnitMgr(void)
+TwUnitMgr::~TwUnitMgr(void)
 {
 	Clear();
 }
 
-bool BeUnitMgr::Initialize(void)
+bool TwUnitMgr::Initialize(void)
 {
 	Clear();
 
-	return BeEntityMgr::Initialize();
+	return TwEntityMgr::Initialize();
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByTypeID(int iTypeID)
+std::shared_ptr<TwUnit> TwUnitMgr::GetUnitByTypeID(int iTypeID)
 {
-	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	for (std::unordered_map<int, std::shared_ptr<TwUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			if (iTypeID == pkUnit->GetTypeID())
@@ -45,16 +45,16 @@ std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByTypeID(int iTypeID)
 	return nullptr;
 }
 
-void BeUnitMgr::Update(int iDeltaTime)
+void TwUnitMgr::Update(int iDeltaTime)
 {
 	//BeEntityMgr::Update(iDeltaTime);
 
 	if (!m_kID2SuspendUnit.empty())
 	{
-		for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
+		for (std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
 		{
-			std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr1 = itr;
-			std::shared_ptr<BeUnit> pkUnit = itr->second;
+			std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr1 = itr;
+			std::shared_ptr<TwUnit> pkUnit = itr->second;
 			++itr;
 			if (pkUnit)
 			{
@@ -140,10 +140,10 @@ void BeUnitMgr::Update(int iDeltaTime)
 		}
 	}
 	m_aiVecRandomHeroID.clear();
-	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
+	for (std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
-		std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr1 = itr;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
+		std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr1 = itr;
 		++itr;
 		if (pkUnit->HasFlag(BUF_REMOVE))
 		{
@@ -174,14 +174,14 @@ void BeUnitMgr::Update(int iDeltaTime)
 	}
 }
 
-void BeUnitMgr::Finialize(void)
+void TwUnitMgr::Finialize(void)
 {
 	Clear();
 
-	BeEntityMgr::Finialize();
+	TwEntityMgr::Finialize();
 }
 
-void BeUnitMgr::Clear()
+void TwUnitMgr::Clear()
 {
 	if (!m_kID2Unit.empty())
 	{
@@ -197,7 +197,7 @@ void BeUnitMgr::Clear()
 
 	if (!m_kID2SuspendUnit.empty())
 	{
-		for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
+		for (std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
 		{
 			SafeDeleteUnit(itr->second);
 			mpUnit.free(itr->second.get());
@@ -214,14 +214,14 @@ void BeUnitMgr::Clear()
 	m_kLoseVisionUnitGroup.clear();
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::NewUnit(int iID)
+std::shared_ptr<TwUnit> TwUnitMgr::NewUnit(int iID)
 {
-	std::shared_ptr<BeUnit> pkUnit = std::shared_ptr<BeUnit>(mpUnit.alloc(iID));
+	std::shared_ptr<TwUnit> pkUnit = std::shared_ptr<TwUnit>(mpUnit.alloc(iID));
 	pkUnit->AttachMain(pkAttachMain);
 	return pkUnit;
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitID, int iESLabel, int iSkinIdx)
+std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitID, int iESLabel, int iSkinIdx)
 {
 	if (!iTypeID)
 	{
@@ -238,7 +238,7 @@ std::shared_ptr<BeUnit> BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPl
 		gMain->SetGenerateID(BeGenIDType::GIT_ENTITY, iID);
 	}
 
-	std::shared_ptr<BeUnit> pkUnit = NewUnit(iID);
+	std::shared_ptr<TwUnit> pkUnit = NewUnit(iID);
 
 	//gMain->AddEntityPointer(GIT_ENTITY, iID, pkUnit);
 
@@ -273,7 +273,7 @@ std::shared_ptr<BeUnit> BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPl
 	}
 	else
 	{
-		std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator it = m_kID2Unit.find(iID);
+		std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator it = m_kID2Unit.find(iID);
 		if (it != m_kID2Unit.end())
 		{
 			m_kID2Unit.erase(it);
@@ -288,20 +288,20 @@ std::shared_ptr<BeUnit> BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPl
 	return pkUnit;
 }
 
-void BeUnitMgr::OnDelUnit(std::shared_ptr<BeUnit> pkUnit)
+void TwUnitMgr::OnDelUnit(std::shared_ptr<TwUnit> pkUnit)
 {
 }
 
-void BeUnitMgr::OnUnitDead(std::shared_ptr<BeUnit> pkUnit)
+void TwUnitMgr::OnUnitDead(std::shared_ptr<TwUnit> pkUnit)
 {
 }
 
-void BeUnitMgr::DelUnit(int iID)
+void TwUnitMgr::DelUnit(int iID)
 {
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.find(iID);
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.find(iID);
 	if (itr != m_kID2Unit.end())
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		if (pkUnit)
 		{
 			TwPtParam kParamDel;
@@ -322,7 +322,7 @@ void BeUnitMgr::DelUnit(int iID)
 		itr = m_kID2SuspendUnit.find(iID);
 		if (itr != m_kID2SuspendUnit.end())
 		{
-			std::shared_ptr<BeUnit> pkUnit = itr->second;
+			std::shared_ptr<TwUnit> pkUnit = itr->second;
 			if (pkUnit)
 			{
 				OnDelUnit(pkUnit);
@@ -336,7 +336,7 @@ void BeUnitMgr::DelUnit(int iID)
 	}
 }
 
-void BeUnitMgr::SafeDeleteUnit(std::shared_ptr<BeUnit>& pkUnit)
+void TwUnitMgr::SafeDeleteUnit(std::shared_ptr<TwUnit>& pkUnit)
 {
 	if (!pkUnit)
 	{
@@ -348,7 +348,7 @@ void BeUnitMgr::SafeDeleteUnit(std::shared_ptr<BeUnit>& pkUnit)
 	pkUnit->OnDelete();
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
+std::shared_ptr<TwUnit> TwUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
 {
 	if (iID == 0)
 	{
@@ -357,12 +357,12 @@ std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSou
 
 	//return (std::shared_ptr<BeUnit>)(gMain->GetEntityPointer(GIT_ENTITY, iID));
 
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.find(iID);
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.find(iID);
 	if (itr == m_kID2Unit.end())
 	{
 		if (bSuspend)
 		{
-			std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr2 = m_kID2SuspendUnit.find(iID);
+			std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr2 = m_kID2SuspendUnit.find(iID);
 			if (itr2 == m_kID2SuspendUnit.end())
 			{
 				return nullptr;
@@ -378,12 +378,12 @@ std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSou
 	}
 	else
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		return pkUnit;
 	}
 }
 
-void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float fX2, float fY2, int iPlayerIdx, int iFlag)
+void TwUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float fX2, float fY2, int iPlayerIdx, int iFlag)
 {
 	kGroup.clear();
 
@@ -431,7 +431,7 @@ void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 	//}
 }
 
-void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fB, float fE, int iPlayerIdx, int iFlag)
+void TwUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fB, float fE, int iPlayerIdx, int iFlag)
 {
 	kGroup.clear();
 
@@ -492,21 +492,21 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 	//}
 }
 
-int	BeUnitMgr::GetUnitNums()
+int	TwUnitMgr::GetUnitNums()
 {
 	return (int)m_kID2Unit.size();
 }
 
-void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
+void TwUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 {
 	kGroup.clear();
 
 	int iPlayerGroup = -1;
 
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.begin();
 	for (; itr != m_kID2Unit.end(); ++itr)
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		if (!pkUnit || !IsPassUnit(pkUnit, iPlayerGroup, iFlag))
 		{
 			continue;
@@ -516,7 +516,7 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 	}
 }
 
-void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData)
+void TwUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData)
 {
 	if (!pkSrcUnit)
 	{
@@ -535,7 +535,7 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const std::shared_ptr<BeUnit> 
 	else if (eCommand == TwCommandType::BCT_USE_ITEM)
 	{
 	}
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.begin();
 	//for (; itr != m_kID2Unit.end(); ++itr)
 	//{
 	//	std::shared_ptr<BeUnit> pkUnit = itr->second;
@@ -569,22 +569,22 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const std::shared_ptr<BeUnit> 
 	//}
 }
 
-const UnitGroup& BeUnitMgr::GetAllHeroPtr()
+const UnitGroup& TwUnitMgr::GetAllHeroPtr()
 {
 	return m_kVHeroPtr;
 }
 
-const UnitGroupID& BeUnitMgr::GetAllHeroID()
+const UnitGroupID& TwUnitMgr::GetAllHeroID()
 {
 	return m_kVAllHeroID;
 }
 
-void BeUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
+void TwUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
 {
 	kGroup.clear();
 
-	std::shared_ptr<BeUnit> pkUnit = nullptr;
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
+	std::shared_ptr<TwUnit> pkUnit = nullptr;
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2Unit.begin();
 	for (; itr != m_kID2Unit.end(); ++itr)
 	{
 		pkUnit = itr->second;
@@ -605,7 +605,7 @@ void BeUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
 	}
 }
 
-bool BeUnitMgr::IsPassUnit(std::shared_ptr<BeUnit> pkUnit, int iPlayerGroup, int iFlag, bool bDead) const
+bool TwUnitMgr::IsPassUnit(std::shared_ptr<TwUnit> pkUnit, int iPlayerGroup, int iFlag, bool bDead) const
 {
 	if (!pkUnit || (pkUnit->IsDead() && !bDead))
 	{
@@ -624,7 +624,7 @@ bool BeUnitMgr::IsPassUnit(std::shared_ptr<BeUnit> pkUnit, int iPlayerGroup, int
 	}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, int iPlayerIdx, int iFlag, bool bDead) const
+void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, int iPlayerIdx, int iFlag, bool bDead) const
 {
 	kGroup.clear();
 
@@ -660,7 +660,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	//}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
+void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
 {
 	kGroup.clear();
 
@@ -698,7 +698,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	//}
 }
 
-void BeUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iAttackedType) const
+void TwUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iAttackedType) const
 {
 	kGroup.clear();
 
@@ -710,7 +710,7 @@ void BeUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY
 	GetAreaGroup(kGroup, fX, fY, fRadius, pkSrcUnit, iDynaPropFlag, iStaticProcFlag);
 }
 
-void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
+void TwUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
 {
 	rkGroupID.clear();
 
@@ -748,7 +748,7 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	//}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
+void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	if (!pkSrcUnit)
@@ -825,7 +825,7 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	//}
 }
 
-void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
+void	TwUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	UnitGroup kFirstGroup;
@@ -845,7 +845,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 
 	for (int i = 0; i < kFirstGroup.size(); i++)
 	{
-		std::shared_ptr<BeUnit> pkTarget = kFirstGroup[i];
+		std::shared_ptr<TwUnit> pkTarget = kFirstGroup[i];
 		if (pkTarget)
 		{
 			if (IsInQuadrangle(fX0, fY0, fX1, fY1, fX2, fY2, fX3, fY3, pkTarget->GetPosX(), pkTarget->GetPosY()))
@@ -856,7 +856,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 	}
 }
 
-void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
+void TwUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	rkGroupID.clear();
 	if (!pkSrcUnit)
@@ -932,15 +932,15 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	//}
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, float fPosY) const
+std::shared_ptr<TwUnit> TwUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, float fPosY) const
 {
-	std::shared_ptr<BeUnit> pkFarest = nullptr;
+	std::shared_ptr<TwUnit> pkFarest = nullptr;
 	float fFarestDis = 0.0f;
 	if (!kGroup.empty())
 	{
 		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
-			std::shared_ptr<BeUnit> pkNearUnit = kGroup[i];
+			std::shared_ptr<TwUnit> pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				float fDis = GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fPosX, fPosY);
@@ -967,15 +967,15 @@ std::shared_ptr<BeUnit> BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, f
 	}
 }
 
-std::shared_ptr<BeUnit> BeUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, float fPosY, float fDistance, float fRefX, float fRefY) const
+std::shared_ptr<TwUnit> TwUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, float fPosY, float fDistance, float fRefX, float fRefY) const
 {
-	std::shared_ptr<BeUnit> pkNearestUnit = nullptr;
+	std::shared_ptr<TwUnit> pkNearestUnit = nullptr;
 	float fNearestDis = 0.0f;
 	if (!kGroup.empty())
 	{
 		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
-			std::shared_ptr<BeUnit> pkNearUnit = kGroup[i];
+			std::shared_ptr<TwUnit> pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				if (fDistance > 0 && GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fRefX, fRefY) > fDistance * fDistance)
@@ -1007,7 +1007,7 @@ std::shared_ptr<BeUnit> BeUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, 
 	}
 }
 
-int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, float fPosY) const
+int TwUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, float fPosY) const
 {
 	int iNearestUnitID = 0;
 	float fNearestDis = 0.0f;
@@ -1015,7 +1015,7 @@ int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, flo
 	{
 		for (int i = 0; i < (int)kGroupID.size(); ++i)
 		{
-			std::shared_ptr<BeUnit> pkNearUnit = gUnitMgr->GetUnitByID(kGroupID[i]);
+			std::shared_ptr<TwUnit> pkNearUnit = gUnitMgr->GetUnitByID(kGroupID[i]);
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				float fDis = GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fPosX, fPosY);
@@ -1042,17 +1042,17 @@ int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, flo
 	}
 }
 
-int	BeUnitMgr::GetUnitIDFromSuspend(int ITypeID)
+int	TwUnitMgr::GetUnitIDFromSuspend(int ITypeID)
 {
 	if (m_kID2SuspendUnit.empty())
 	{
 		return 0;
 	}
 
-	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin();
+	std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator itr = m_kID2SuspendUnit.begin();
 	for (; itr != m_kID2SuspendUnit.end(); ++itr)
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		if (pkUnit && pkUnit->GetTypeID() == ITypeID)
 		{
 			return pkUnit->GetID();
@@ -1062,21 +1062,21 @@ int	BeUnitMgr::GetUnitIDFromSuspend(int ITypeID)
 	return 0;
 }
 
-const std::unordered_map<int, std::shared_ptr<BeUnit>>& BeUnitMgr::GetID2Unit() const
+const std::unordered_map<int, std::shared_ptr<TwUnit>>& TwUnitMgr::GetID2Unit() const
 {
 	return m_kID2Unit;
 }
 
-const std::unordered_map<int, std::shared_ptr<BeUnit>>& BeUnitMgr::GetID2SuspendUnit() const
+const std::unordered_map<int, std::shared_ptr<TwUnit>>& TwUnitMgr::GetID2SuspendUnit() const
 {
 	return m_kID2SuspendUnit;
 }
 
-bool BeUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
+bool TwUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
 {
-	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	for (std::unordered_map<int, std::shared_ptr<TwUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
 	{
-		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::shared_ptr<TwUnit> pkUnit = itr->second;
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			if (iTypeID == pkUnit->GetTypeID())
@@ -1087,16 +1087,16 @@ bool BeUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
 	}
 	return true;
 }
-bool BeUnitMgr::GetUnitByPlayer(UnitGroup& kGroup, const std::string& kPlayerName) const
+bool TwUnitMgr::GetUnitByPlayer(UnitGroup& kGroup, const std::string& kPlayerName) const
 {
 	return true;
 }
 
-void BeUnitMgr::PushNeedUpdateUnitID(int iID)
+void TwUnitMgr::PushNeedUpdateUnitID(int iID)
 {
 }
 
-void BeUnitMgr::ClrPureData()
+void TwUnitMgr::ClrPureData()
 {
 	m_kVPureNeedUpdateID.clear();
 	m_kPureDelID.clear();
@@ -1105,39 +1105,39 @@ void BeUnitMgr::ClrPureData()
 	m_kLoseVisionUnitGroup.clear();
 }
 
-const UnitGroupID& BeUnitMgr::PureGetAllNeedUpdateUnitID()
+const UnitGroupID& TwUnitMgr::PureGetAllNeedUpdateUnitID()
 {
 	return m_kVPureNeedUpdateID;
 }
 
-const UnitGroupID& BeUnitMgr::PureGetDelUnitID(int iCamp)
+const UnitGroupID& TwUnitMgr::PureGetDelUnitID(int iCamp)
 {
 	return m_kLoseVisionUnitGroup[iCamp];
 }
 
-void BeUnitMgr::PushNeedDelNormalUnit(int iCamp, int iID)
+void TwUnitMgr::PushNeedDelNormalUnit(int iCamp, int iID)
 {
 	m_kLoseVisionUnitGroup[iCamp].push_back(iID);
 }
 
-void BeUnitMgr::PushNeedDelHeroBossBuilding(int iID)
+void TwUnitMgr::PushNeedDelHeroBossBuilding(int iID)
 {
 	{
 		m_kPureDelHeroBossBuildID.push_back(iID);
 	}
 }
 
-const UnitGroupID& BeUnitMgr::PureGetDelBoosBuildingID()
+const UnitGroupID& TwUnitMgr::PureGetDelBoosBuildingID()
 {
 	return m_kPureDelHeroBossBuildID;
 }
 
-const UnitGroupID& BeUnitMgr::PureGetNewBossID()
+const UnitGroupID& TwUnitMgr::PureGetNewBossID()
 {
 	return m_kPureNewBossID;
 }
 
-void BeUnitMgr::PushNewBossID(int iID)
+void TwUnitMgr::PushNewBossID(int iID)
 {
 	{
 		m_kPureNewBossID.push_back(iID);

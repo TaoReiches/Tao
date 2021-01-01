@@ -9,13 +9,13 @@
 #include "TW_Main.h"
 #include "TW_Map.h"
 
-BeEntityMgr::BeEntityMgr(void)
+TwEntityMgr::TwEntityMgr(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
 }
 
-BeEntityMgr::~BeEntityMgr(void)
+TwEntityMgr::~TwEntityMgr(void)
 {
 	//if (m_akBlock.get() != nullptr)
 	//{
@@ -24,7 +24,7 @@ BeEntityMgr::~BeEntityMgr(void)
 	m_akBlock.clear();
 }
 
-bool BeEntityMgr::Initialize(void)
+bool TwEntityMgr::Initialize(void)
 {
 	Finialize();
 
@@ -52,7 +52,7 @@ bool BeEntityMgr::Initialize(void)
 	return true;
 }
 
-void BeEntityMgr::Finialize(void)
+void TwEntityMgr::Finialize(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
@@ -63,17 +63,17 @@ void BeEntityMgr::Finialize(void)
 	m_akBlock.clear();
 }
 
-void BeEntityMgr::Link(float fX, float fY, BeEntity* pkEnt)
+void TwEntityMgr::Link(float fX, float fY, BeEntity* pkEnt)
 {
 	pkEnt->Link(fX, fY, this);
 }
 
-void BeEntityMgr::Unlink(BeEntity* pkEnt)
+void TwEntityMgr::Unlink(BeEntity* pkEnt)
 {
 	pkEnt->Unlink();
 }
 
-void BeEntityMgr::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
+void TwEntityMgr::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
 {
 	int iPosX = (int)(fX);
 	int iPosY = (int)(fY);

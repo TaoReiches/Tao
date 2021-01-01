@@ -12,7 +12,7 @@
 #include "Skill_table.hpp"
 #include "TW_ShareUnitData.h"
 
-class BeUnit;
+class TwUnit;
 class TwPtParam;
 
 class BeSkill : public BeCarry
@@ -45,12 +45,12 @@ public:
     float		GetAddOnSkillLiveTime();
     int GetUnitSkillType(void);
     void SetUnitSkillType(BeSkillType eSkillType);
-    int	GetCDTime(std::shared_ptr<BeUnit> pkUnit);
+    int	GetCDTime(std::shared_ptr<TwUnit> pkUnit);
     void SetLevel(int iLevel);
-    void SetLastUseTime(std::shared_ptr<BeUnit> pkUnit, int iTime, bool bLearnSkill = false);
-    bool CDComplete(std::shared_ptr<BeUnit> pkUnit);
-    void Update(std::shared_ptr<BeUnit> pkUnit, int iItemPos = -1);
-    int GetLastUseTime(const std::shared_ptr<BeUnit> pkUnit) const;
+    void SetLastUseTime(std::shared_ptr<TwUnit> pkUnit, int iTime, bool bLearnSkill = false);
+    bool CDComplete(std::shared_ptr<TwUnit> pkUnit);
+    void Update(std::shared_ptr<TwUnit> pkUnit, int iItemPos = -1);
+    int GetLastUseTime(const std::shared_ptr<TwUnit> pkUnit) const;
     int GetCurPileNums(void) const;
     void SetCurPileNums(int iPileNums);
     void SetActive(bool bActive);

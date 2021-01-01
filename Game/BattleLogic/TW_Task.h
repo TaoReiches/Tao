@@ -34,7 +34,7 @@ enum class BeTaskType
 	STT_ATTACK_ITEM,
 };
 
-class BeUnit;
+class TwUnit;
 
 class BeTask : public BeMainPtr, public BeUnitPtr
 {

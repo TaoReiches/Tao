@@ -98,17 +98,17 @@ float TwTriggerFunc::GetTrgSpellDirectPosY(void)
 	return m_pkTriggerMgr->GetParamFloat(TwTrgParamID::BTP_fSpellDirectPosY);
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::GetTrgUnit(bool bIncSuspend)
+std::shared_ptr<TwUnit> TwTriggerFunc::GetTrgUnit(bool bIncSuspend)
 {
 	return TrgGetPtr_Unit();
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::GetTrgAttacker(void)
+std::shared_ptr<TwUnit> TwTriggerFunc::GetTrgAttacker(void)
 {
 	return TrgGetPtr_Attacker();
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::GetTrgTarget(void)
+std::shared_ptr<TwUnit> TwTriggerFunc::GetTrgTarget(void)
 {
 	return TrgGetPtr_Target();
 }
@@ -175,9 +175,9 @@ bool TwTriggerFunc::GetTrgIsLearnSkill(void)
 	return m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iIsLearnSkill) == 1 ? true : false;
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::TrgGetPtr_Unit(void)
+std::shared_ptr<TwUnit> TwTriggerFunc::TrgGetPtr_Unit(void)
 {
-	return std::shared_ptr<BeUnit>((BeUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTrgUnit));
+	return std::shared_ptr<TwUnit>((TwUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTrgUnit));
 }
 
 BeMapItem* TwTriggerFunc::TrgGetPtr_MapItem(void)
@@ -185,14 +185,14 @@ BeMapItem* TwTriggerFunc::TrgGetPtr_MapItem(void)
 	return (BeMapItem*)(m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkMapItem));
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::TrgGetPtr_Attacker(void)
+std::shared_ptr<TwUnit> TwTriggerFunc::TrgGetPtr_Attacker(void)
 {
-	return std::shared_ptr<BeUnit>((BeUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttacker));
+	return std::shared_ptr<TwUnit>((TwUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkAttacker));
 }
 
-std::shared_ptr<BeUnit> TwTriggerFunc::TrgGetPtr_Target(void)
+std::shared_ptr<TwUnit> TwTriggerFunc::TrgGetPtr_Target(void)
 {
-	return std::shared_ptr<BeUnit>((BeUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTarget));
+	return std::shared_ptr<TwUnit>((TwUnit*)m_pkTriggerMgr->GetParamVoid(TwTrgParamID::BTP_pkTarget));
 }
 
 BeSkill* TwTriggerFunc::TrgGetPtr_Skill(void)
@@ -243,7 +243,7 @@ BeItem* TwTriggerFunc::TrgGetPtr_Item(void)
 {
 	BeItem* pkItem = NULL;
 	int iItemPos = m_pkTriggerMgr->GetParamInt(TwTrgParamID::BTP_iItemPos);
-	std::shared_ptr<BeUnit> pkUnit = TrgGetPtr_Unit();
+	std::shared_ptr<TwUnit> pkUnit = TrgGetPtr_Unit();
 	if (pkUnit)
 	{
 		pkItem = pkUnit->GetItemByPos(iItemPos - 1);
@@ -292,7 +292,7 @@ TwPtCondResult TwTriggerFunc::DefaultBuffer_Condition(int iOriginTypeID)
     return TwPtCondResult::PTCR_OK;
 }
 
-bool TwTriggerFunc::DefaultSkill_ActionParam(std::shared_ptr<BeUnit>& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes)
+bool TwTriggerFunc::DefaultSkill_ActionParam(std::shared_ptr<TwUnit>& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes)
 {
     return true;
 }

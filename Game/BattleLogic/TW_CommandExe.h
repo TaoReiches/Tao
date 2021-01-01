@@ -35,7 +35,7 @@ public:
 		}
 	}
 
-	void AttachUnit(std::shared_ptr<BeUnit> pkUnit)
+	void AttachUnit(std::shared_ptr<TwUnit> pkUnit)
 	{
 		pkAttachUnit = pkUnit;
 		if (m_pkCurTask)

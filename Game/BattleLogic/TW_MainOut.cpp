@@ -111,8 +111,8 @@ void TwMain::UpdateRaceOut()
 {
 	std::vector<int>& rkDelEffectID = gEffectMgr.PureGetDelEffect();
 
-	const	std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllLiveUnit = gUnitMgr->GetID2Unit();
-	const	std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllSuspendUnit = gUnitMgr->GetID2SuspendUnit();
+	const	std::unordered_map<int, std::shared_ptr<TwUnit>>& kAllLiveUnit = gUnitMgr->GetID2Unit();
+	const	std::unordered_map<int, std::shared_ptr<TwUnit>>& kAllSuspendUnit = gUnitMgr->GetID2SuspendUnit();
 	std::vector<BeShareUnitData>	akShareData;
 
 	for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
@@ -159,7 +159,7 @@ void TwMain::UpdateRaceOut()
 		auto	IterEnd = kAllLiveUnit.end();
 		while (Iter != IterEnd)
 		{
-			std::shared_ptr<BeUnit> pkTempUnit = Iter->second;
+			std::shared_ptr<TwUnit> pkTempUnit = Iter->second;
 			if (pkTempUnit)
 			{
 				if (!pkTempUnit->HasProperty(UNIT_PROPERTY_HIDEEVER))
