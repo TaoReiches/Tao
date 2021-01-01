@@ -5,30 +5,37 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-struct BeMainPtr
+#include <memory>
+
+class TwMain;
+class BeUnit;
+
+class BeMainPtr
 {
-	BeMainPtr(void) :pkAttachMain(nullptr)
-	{
-	}
-
-	void AttachMain(void* pkMain)
-	{
-		pkAttachMain = pkMain;
-	}
-
-	void* pkAttachMain;
+public:
+    BeMainPtr(void) :pkAttachMain(nullptr)
+    {
+    }
+    
+    void AttachMain(std::shared_ptr<TwMain> pkMain)
+    {
+    	pkAttachMain = pkMain;
+    }
+    
+    std::shared_ptr<TwMain> pkAttachMain;
 };
 
-struct BeUnitPtr
+class BeUnitPtr
 {
+public:
 	BeUnitPtr(void) :pkAttachUnit(nullptr)
 	{
 	}
 
-	void AttachUnit(void* pkUnit)
+	void AttachUnit(std::shared_ptr<BeUnit> pkUnit)
 	{
 		pkAttachUnit = pkUnit;
 	}
 
-	void* pkAttachUnit;
+	std::shared_ptr<BeUnit> pkAttachUnit;
 };

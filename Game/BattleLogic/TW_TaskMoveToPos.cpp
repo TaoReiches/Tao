@@ -72,19 +72,19 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 	{
 		return BeExeResult::BER_TIME_OUT;
 	}
-	if (GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), m_kTarPos.fX, m_kTarPos.fY) <= (m_fDistance * m_fDistance))
+	if (GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), m_kTarPos.fX, m_kTarPos.fY) <= (m_fDistance * m_fDistance))
 	{
 		m_eState = BeMoveResult::BMR_SUCCESS;
 		m_eMoveState = BeMoveState::BMS_INIT;
-		gUnit.SetActionState(0);
+		gUnit->SetActionState(0);
 		return BeExeResult::BER_EXE_END;
 	}
 
-	if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
+	if (gUnit->GetClass() == UNIT_CLASSTYPE_BUILDING)
 	{
 		return BeExeResult::BER_EXE_END;
 	}
-	if (gUnit.HasUnitCarryFlag(BUCF_CANNOTMOVE)) {
+	if (gUnit->HasUnitCarryFlag(BUCF_CANNOTMOVE)) {
 		return BeExeResult::BER_EXE_END;
 	}
 	if (m_eState == BeMoveResult::BMR_NONE)
@@ -106,23 +106,23 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		{
 		case BeMoveState::BMS_INIT:
 		{
-			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+			if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
+				gMap.SetUnitPosition(gUnit, gUnit->GetPosX(), gUnit->GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
+				gMap.SetUnitPosition(gUnit, gUnit->GetPosX(), gUnit->GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			}
 
-			gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(&gUnit), false);
+			gMap.DelUnitObstacle(gUnit, false);
 			m_iStandTime = 0;
 			m_iRetryTime = 0;
 			std::list<TwPos2> akPath;
 
 			{
-				auto iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
-				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+				auto iObs = gUnit->HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
+				if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
 					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION;
 				}
@@ -131,10 +131,10 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SOLIDER;
 				}
 
-				m_eFindPathRet = gMap.FindPath(akPath, std::shared_ptr<BeUnit>(&gUnit), m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
+				m_eFindPathRet = gMap.FindPath(akPath, gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 			}
 
-			if (m_eFindPathRet == TwFindResult::TFR_NONE || !gUnit.CanMove())
+			if (m_eFindPathRet == TwFindResult::TFR_NONE || !gUnit->CanMove())
 			{
 				m_pkWalk->SetTargetPos(m_kTarPos, true);
 				m_eMoveState = BeMoveState::BMS_WALK;
@@ -168,7 +168,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		}
 		case BeMoveState::BMS_RETRY:
 		{
-			if (!gUnit.CanMove())
+			if (!gUnit->CanMove())
 			{
 				m_iWalkBlockTime = 200;
 				m_eMoveState = BeMoveState::BMS_STAND;
@@ -178,16 +178,16 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			}
 
 			++m_iRetryTime;
-			if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+			if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
-				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
+				gMap.SetUnitPosition(gUnit, gUnit->GetPosX(), gUnit->GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER, TwGridFlag::TGF_NONE, true);
 			}
 			else
 			{
-				gMap.SetUnitPosition(std::shared_ptr<BeUnit>(&gUnit), gUnit.GetPosX(), gUnit.GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
+				gMap.SetUnitPosition(gUnit, gUnit->GetPosX(), gUnit->GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			}
 
-			gMap.DelUnitObstacle(std::shared_ptr<BeUnit>(&gUnit), false);
+			gMap.DelUnitObstacle(gUnit, false);
 			if (m_iRetryTime > WALK_BLOCK_COUNT)
 			{
 				if (m_eRetryState == BeMoveRetryState::BMRS_DITECT)
@@ -217,21 +217,21 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			{
 			case BeMoveRetryState::BMRS_DITECT:
 			{
-				float fCanMoveDistance = gUnit.GetMoveSpeed() * iDeltaTime / 1000.0f;
+				float fCanMoveDistance = gUnit->GetMoveSpeed() * iDeltaTime / 1000.0f;
 				float fMaxMoveDistance = 128.0f;
 
 				float fWalkX = 0.0f;
 				float fWalkY = 0.0f;
-				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+				if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
-					gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION | TwGridFlag::TGF_TEMP);
+					gMap.GetFirstCanStay(gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION | TwGridFlag::TGF_TEMP);
 				}
 				else
 				{
-					gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT_OTS | TwGridFlag::TGF_SOLIDER);
+					gMap.GetFirstCanStay(gUnit, m_kDirectPos.fX, m_kDirectPos.fY, fWalkX, fWalkY, fMaxMoveDistance, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT_OTS | TwGridFlag::TGF_SOLIDER);
 				}
 
-				float fNeedMoveDistance = GetDistance(gUnit.GetPosX(), gUnit.GetPosY(), fWalkX, fWalkY);
+				float fNeedMoveDistance = GetDistance(gUnit->GetPosX(), gUnit->GetPosY(), fWalkX, fWalkY);
 				if (fNeedMoveDistance > fCanMoveDistance)
 				{
 					m_pkWalk->SetTargetPos(m_kDirectPos);
@@ -249,9 +249,9 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			default:
 			{
 				std::list<TwPos2> akPath;
-				auto iObs = gUnit.HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
+				auto iObs = gUnit->HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
 
-				if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+				if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
 					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION;
 				}
@@ -260,7 +260,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT | TwGridFlag::TGF_SOLIDER;
 				}
 
-				m_eFindPathRet = gMap.FindPath(akPath, std::shared_ptr<BeUnit>(&gUnit), m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
+				m_eFindPathRet = gMap.FindPath(akPath, gUnit, m_kTarPos.fX, m_kTarPos.fY, m_fDistance, iObs);
 
 				if (m_eFindPathRet == TwFindResult::TFR_NONE)
 				{
@@ -303,14 +303,14 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		{
 			if ((m_iStandTime + iDeltaTime) < m_iWalkBlockTime)
 			{
-				gUnit.IncActionCurTime(iDeltaTime);
+				gUnit->IncActionCurTime(iDeltaTime);
 				m_iStandTime += iDeltaTime;
 				iDeltaTime = 0;
 			}
 			else
 			{
 				int iStandTime = (m_iWalkBlockTime - m_iStandTime);
-				gUnit.IncActionCurTime(iStandTime);
+				gUnit->IncActionCurTime(iStandTime);
 				iDeltaTime -= iStandTime;
 				m_eMoveState = BeMoveState::BMS_RETRY;
 			}
@@ -323,7 +323,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			{
 				if (m_pkWalk->IsBlocked())
 				{
-					gUnit.SetFlag(BUF_ISBLOCKED);
+					gUnit->SetFlag(BUF_ISBLOCKED);
 					m_eMoveState = BeMoveState::BMS_STAND;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 					if (m_iRetryTime == 0)
@@ -334,11 +334,11 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				}
 				else
 				{
-					gUnit.ClrFlag(BUF_ISBLOCKED);
+					gUnit->ClrFlag(BUF_ISBLOCKED);
 					m_eState = BeMoveResult::BMR_SUCCESS;
 					m_eMoveState = BeMoveState::BMS_RETRY;
-					gUnit.SetActionState(0);
-					gUnit.SetPathFindSucessTime(GAME_FRAME_TIME - iDeltaTime);
+					gUnit->SetActionState(0);
+					gUnit->SetPathFindSucessTime(GAME_FRAME_TIME - iDeltaTime);
 				}
 			}
 			else

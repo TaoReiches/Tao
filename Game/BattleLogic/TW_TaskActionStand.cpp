@@ -18,15 +18,15 @@ BeExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 
 	if (m_iTaskTime > 200)
 	{
-		gUnit.ClrFlag(BUF_MOVING);
+		gUnit->ClrFlag(BUF_MOVING);
 	}
 
-	if (!gUnit.IsActionNow(BUA_STAND))
+	if (!gUnit->IsActionNow(BUA_STAND))
 	{
-		gUnit.SetUnitAction(BUA_STAND, BAN_stand);
+		gUnit->SetUnitAction(BUA_STAND, BAN_stand);
 	}
 
-	gUnit.IncActionCurTime(iDeltaTime);
+	gUnit->IncActionCurTime(iDeltaTime);
 	iDeltaTime = 0;
 
 	return BeExeResult::BER_TIME_OUT;

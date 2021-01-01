@@ -615,7 +615,7 @@ void BeCarry::InitAttrFromSkill(int iSkillTypeID, int iSkillLevel)
 	kParam.SetParam(TwTrgParamID::BTP_pkCarray, this);
 	kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, iSkillTypeID);
 	kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, iSkillLevel);
-	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttachUnit);
+	kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttachUnit.get());
 
 	gTrgMgr.FireTrigger(TwTriggerEvent::BTE_INIT_SKILL_ATTR, kParam);
 }

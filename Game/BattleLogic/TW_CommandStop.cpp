@@ -37,11 +37,11 @@ void BeStopCommand::SetDead()
 BeExeResult BeStopCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
-	gUnit.SetAttackingUnitID(0);
+	gUnit->SetAttackingUnitID(0);
 
-	if (!gUnit.IsDead() && !gUnit.HasUnitCarryFlag(BUCF_DIZZY) && !gUnit.HasUnitCarryFlag(BUCF_ISALLFORBID) && !gUnit.HasFlag(BUF_ISPERSIST) && (m_iStopTime <= 0))
+	if (!gUnit->IsDead() && !gUnit->HasUnitCarryFlag(BUCF_DIZZY) && !gUnit->HasUnitCarryFlag(BUCF_ISALLFORBID) && !gUnit->HasFlag(BUF_ISPERSIST) && (m_iStopTime <= 0))
 	{
-		if (gUnit.GetCommandCount() > 0)
+		if (gUnit->GetCommandCount() > 0)
 		{
 			return BeExeResult::BER_EXE_END;
 		}
@@ -63,7 +63,7 @@ bool BeStopCommand::CanCancel() const
 
 bool BeStopCommand::CanInterrupt() const
 {
-	if (!gUnit.HasUnitCarryFlag(BUCF_DIZZY))
+	if (!gUnit->HasUnitCarryFlag(BUCF_DIZZY))
 	{
 		return true;
 	}

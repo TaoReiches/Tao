@@ -57,11 +57,11 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 		int iID = iForceID;
 		if (iID == 0)
 		{
-			iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
+			iID = gMain->GenerateID(BeGenIDType::GIT_CARRY);
 		}
 		else
 		{
-			gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
+			gMain->SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 		}
 		auto pkItem = std::shared_ptr<BeItem>(mpItem.alloc(iID));
 		pkItem->AttachMain(pkAttachMain);
@@ -104,8 +104,8 @@ BeItem* BeUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 				SetFlag(BUF_NEEDUPDATEITEMSKILL);
 			}
 
-			//gMain.InitItemEventTriggerT(gMain.GetSkillOrgTypeID(iSkillID));
-			//gMain.InitItemEventTriggerT(iSkillID);
+			//gMain->InitItemEventTriggerT(gMain->GetSkillOrgTypeID(iSkillID));
+			//gMain->InitItemEventTriggerT(iSkillID);
 		}
 
 		OnItemUpDate(pkItem->GetID());
@@ -122,7 +122,7 @@ void BeUnit::OnItemUpDate(int iID)
 	BeItem* pkItem = GetItemByID(iID);
 	if (pkItem)
 	{
-		pkItem->AttachUnit(this);
+		pkItem->AttachUnit(std::shared_ptr<BeUnit>(this));
 	}
 
 	TwPtParam kParamPre;
@@ -461,8 +461,8 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 		return pkOldSkill;
 	}
 
-	//gMain.InitSkillEventTrigger(gMain.GetSkillOrgTypeID(iTypeID));
-	//gMain.InitSkillEventTrigger(iTypeID);
+	//gMain->InitSkillEventTrigger(gMain->GetSkillOrgTypeID(iTypeID));
+	//gMain->InitSkillEventTrigger(iTypeID);
 
 	std::shared_ptr<BeSkill> pkSkill;
 	std::shared_ptr<BeSkill> pkRet;
@@ -470,15 +470,15 @@ BeSkill* BeUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	int iID = iForceID;
 	if (iID == 0)
 	{
-		iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
+		iID = gMain->GenerateID(BeGenIDType::GIT_CARRY);
 	}
 	else
 	{
-		gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
+		gMain->SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 	}
 	pkSkill.reset(mpSkill.alloc(iID));
 	pkSkill->AttachMain(pkAttachMain);
-	pkSkill->AttachUnit(this);
+	pkSkill->AttachUnit(std::shared_ptr<BeUnit>(this));
 	pkSkill->Initialize(iTypeID);
 	pkRet = pkSkill;
 
@@ -937,11 +937,11 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 		int iID = iForceID;
 		if (iID == 0)
 		{
-			iID = gMain.GenerateID(BeGenIDType::GIT_CARRY);
+			iID = gMain->GenerateID(BeGenIDType::GIT_CARRY);
 		}
 		else
 		{
-			gMain.SetGenerateID(BeGenIDType::GIT_CARRY, iID);
+			gMain->SetGenerateID(BeGenIDType::GIT_CARRY, iID);
 		}
 		pkRet = mpBuffer.alloc(iID);
 		if (!pkRet)
@@ -949,7 +949,7 @@ BeBuffer* BeUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 			return pkRet;
 		}
 		pkRet->AttachMain(pkAttachMain);
-		pkRet->AttachUnit(this);
+		pkRet->AttachUnit(std::shared_ptr<BeUnit>(this));
 
 		pkRet->SetUnitID(iUnitID);
 		pkRet->SetOrgUnitID(iOrgUnitID);
@@ -991,7 +991,7 @@ void BeUnit::AddBufferEnd(BeBuffer* pkBuffer)
 	kData.byNum = pkBuffer->GetLevel();
 	kData.iAttackUnitID = pkBuffer->GetOrgUnitID();
 
-	//gMain.AddBufferShowData(kData);
+	//gMain->AddBufferShowData(kData);
 }
 
 BeBuffer* BeUnit::GetBuffer(int iTypeID, int iUnitID)
@@ -1220,7 +1220,7 @@ void BeUnit::OnDelBuffer(std::shared_ptr<BeBuffer> pkBuffer, bool bUpdate, bool 
 	kData.iUnitID = GetID();
 	kData.iAttackUnitID = pkBuffer->GetOrgUnitID();
 
-	//gMain.AddBufferShowData(kData);
+	//gMain->AddBufferShowData(kData);
 }
 
 void BeUnit::UpdateValidItem(void)
@@ -1329,7 +1329,7 @@ void BeUnit::UpdateValidSkill(bool bReset)
 	}
 }
 
-void BeUnit::GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr*& rkAttackingAttr)
+void BeUnit::GetAttackingAttr(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr)
 {
 	rkAttackingAttr->eAttackType = GetAttackType();
 	rkAttackingAttr->fDamage = GetDamageNum();
@@ -1378,7 +1378,7 @@ bool BeUnit::GetAttackedAvoid(void) const
 			}
 		}
 
-		//if (gMain.RandFloatInRate(fMaxAvoidRate, m_iID + (int)fMaxAvoidRate))
+		//if (gMain->RandFloatInRate(fMaxAvoidRate, m_iID + (int)fMaxAvoidRate))
 		//{
 		//	return true;
 		//}
@@ -1387,13 +1387,13 @@ bool BeUnit::GetAttackedAvoid(void) const
 	return false;
 }
 
-void BeUnit::GetAttackedPhysicAttr(float& fAntiPhysic, const BeUnit* pkAttacker, float fDecArmorValue, float fDecArmorPer) const
+void BeUnit::GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<BeUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const
 {
 	float fFinalAntiArmor = GetArmor() * (1.0f - fDecArmorPer) - fDecArmorValue;
 	fAntiPhysic = BeFormula::GetAmorForDamage(fFinalAntiArmor);
 }
 
-void BeUnit::GetAttackedMagicAttr(float& fAntiMagic, const BeUnit* pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const
+void BeUnit::GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<BeUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const
 {
 	float fFinalAntiArmor = GetMagicArmor() * (1.0f - fDecMagicArmorPer) - fDecEnemyAntiMagic;
 

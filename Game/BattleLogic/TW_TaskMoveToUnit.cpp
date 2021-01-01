@@ -39,11 +39,11 @@ void BeTaskMoveToUnit::SetTargetID(int iID, float fDistance)
 
 	if (!iID)
 	{
-		TwPos2 kTarPos = TwPos2(gUnit.GetPosX(), gUnit.GetPosY());
+		TwPos2 kTarPos = TwPos2(gUnit->GetPosX(), gUnit->GetPosY());
 		m_pkMoveToPos->SetTargetPos(kTarPos);
 	}
 
-	BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
+	std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 	if (pkTarget)
 	{
 		TwPos2 kTarPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -64,12 +64,12 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 
-	if (!gUnit.CanSpell())
+	if (!gUnit->CanSpell())
 	{
 		return BeExeResult::BER_EXE_END;
 	}
 
-	BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
+	std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 	if (pkTarget
 		&& !pkTarget->IsDead()
 		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE))))
@@ -82,7 +82,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		}
 		else if (fDistance2 > 32.0f * 32.0f)
 		{
-			float fAllDistance = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+			float fAllDistance = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
 			if (fAllDistance > 500.0f * 500.0f)
 			{
 				if (fDistance2 > 64.0f * 64.0f)
@@ -102,8 +102,8 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 	{
 		TwPos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		m_pkMoveToPos->SetTargetPos(kTarPos);
-		BeUnit* pkT = gUnitMgr->GetUnitByID(m_iTargetID, true);
-		if (pkT && pkT->GetPlayer() == gUnit.GetPlayer())
+		std::shared_ptr<BeUnit> pkT = gUnitMgr->GetUnitByID(m_iTargetID, true);
+		if (pkT && pkT->GetPlayer() == gUnit->GetPlayer())
 		{
 			return BeExeResult::BER_EXE_END;
 		}

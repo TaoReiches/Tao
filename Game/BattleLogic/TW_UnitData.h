@@ -71,7 +71,7 @@ public:
 	float GetAddArmor(void) const;
 	float GetArmor(void) const;
 	float GetRegenMP(void) const;
-	float GetAttackRange(const BeUnit* pkTarget) const;
+	float GetAttackRange(const std::shared_ptr<BeUnit> pkTarget) const;
 	void SetAttackRange(float fRange);
 	int GetAttackBackPt(void) const;
 	int GetAttackDamagePt(void) const;

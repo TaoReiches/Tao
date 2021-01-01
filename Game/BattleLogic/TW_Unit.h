@@ -208,7 +208,7 @@ public:
 		return m_kCommander.GetCommands();
 	}
 
-	inline void CopyUnitCommands(BeUnit* pkUnit)
+	inline void CopyUnitCommands(std::shared_ptr<BeUnit> pkUnit)
 	{
 		m_kCommander.SetCommands(pkUnit->GetUnitCommands());
 	}
@@ -239,7 +239,7 @@ public:
 		return TwCommandType::BCT_NUMS;
 	}
 
-	inline void CopyUnitCurCommand(BeUnit* pkUnit)
+	inline void CopyUnitCurCommand(std::shared_ptr<BeUnit> pkUnit)
 	{
 		GiveCommand(pkUnit->GetUnitCurCommand());
 	}
@@ -380,9 +380,9 @@ public:
 	void			UpdateAttribute(bool bUpdateNormal = true);
 
 	void			DamagedByAbsNum(BeAttackType eAttackType, float fDamage, float fRawDamage, const std::shared_ptr<BeUnit> kAttacker, int iPlayer, int iFlag, bool bCanDead = true, bool bFirstAttack = true, int iSkillTypeID = 0, int iSkillLevel = 0, float fLeech = 0.0f, float fMultiDamage = 0.f, int iBeDamagedEffect = 0);
-	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, BeUnit* pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
+	void			OperateUnitDead(BeAttackType eAttackType = BAT_NONE, float fDamage = 0.0f, std::shared_ptr<BeUnit> pkAttacker = NULL, int iPlayer = -1, int iFlag = 0, bool bIsTimeOver = false, int iSkillTypeID = 0);
 	void			OperateUnitRemove();
-	float			GetDamagedByFormula(const BeUnit* pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
+	float			GetDamagedByFormula(const std::shared_ptr<BeUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const;
 	void			OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead = true, bool bIgnoreInvincible = false, float fMaxHeroAbsDamage = 0.0f);
 
 	BeCarry* AddSuiting(int iTypeID, int iNumber);
@@ -446,32 +446,32 @@ public:
 	void			RemoveBufferAttr(BeNormalAttType eType);
 
 	template<class T>
-	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
+	void TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos = -1);
 	template<class T>
-	void TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, BeUnit* pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1);
+	void TrgOnBeDamaged_T(T& kSkill, int iCount, int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1);
 	template<class T>
-	void TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1, int iItemID = 0);
+	void TrgOnDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, int iItemPos = -1, int iItemID = 0);
 	template<class T>
-	void TrgOnAttack_T(T& kSkill, int iCount, BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos = -1);
+	void TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr, int iItemPos = -1);
 
-	void			TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, BeUnit* pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr);
-	void			TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, BeUnit* pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
-	void			TrgOnPreDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr);
-	void			TrgOnDamage(int eAttackType, float& fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
-	void			TrgOnDead(int eAttackType, float fDamage, BeUnit* pkAttacker, int iPlayer, int iFlag, int iSkillTypeID);
+	void			TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID, BeAttackingAttr& kAttr);
+	void			TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
+	void			TrgOnPreDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr);
+	void			TrgOnDamage(int eAttackType, float& fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, int iAttackSkillTypeID);
+	void			TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkAttacker, int iPlayer, int iFlag, int iSkillTypeID);
 
-	void			TrgOnPreAttack(BeUnit* pkTarget, BeAttackingAttr* pkAttackAttr);
+	void			TrgOnPreAttack(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr* pkAttackAttr);
 	void			TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr);
 	void			TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTargetID, float fTargetPosX, float fTargetPosY);
 	void			TrgOnUpdate(int iDeltaTime);
-	void			TrgOnKill(int eAttackType, float fDamage, BeUnit* pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
+	void			TrgOnKill(int eAttackType, float fDamage, std::shared_ptr<BeUnit> pkTarget, int iPlayer, int iFlag, int iSkillTypeID);
 
-	void			GetAttackingAttr(BeUnit* pkTarget, BeAttackingAttr*& rkAttackingAttr);
+	void			GetAttackingAttr(std::shared_ptr<BeUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr);
 	bool			GetAttackingMiss(void) const;
 	bool			GetAttackedAvoid(void) const;
 	float			GetAttackedAntiLeech(void) const;
-	void			GetAttackedPhysicAttr(float& fAntiPhysic, const BeUnit* pkAttacker, float fDecArmorValue, float fDecArmorPer) const;
-	void			GetAttackedMagicAttr(float& fAntiMagic, const BeUnit* pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
+	void			GetAttackedPhysicAttr(float& fAntiPhysic, const std::shared_ptr<BeUnit> pkAttacker, float fDecArmorValue, float fDecArmorPer) const;
+	void			GetAttackedMagicAttr(float& fAntiMagic, const std::shared_ptr<BeUnit> pkAttacker, float fDecEnemyAntiMagic, float fDecMagicArmorPer) const;
 	float			GetAttackedAttackCDAttr(void) const;
 	float			GetAttackedBaoJiAttr(void) const;
 
@@ -483,22 +483,22 @@ public:
 
 	bool UnitCanBeControl(int iPlayer) const;
 	bool UnitCanMove(bool bTemp = false) const;
-	bool UnitCanAttack(const BeUnit* pkTarget = 0, bool bTemp = false, bool bForceAttackSameGroup = false) const;
+	bool UnitCanAttack(const std::shared_ptr<BeUnit> pkTarget = 0, bool bTemp = false, bool bForceAttackSameGroup = false) const;
 
-	UnitUseSkillResultType UnitCanUseSkill(int iSkillTypeID, const BeUnit* pkTarget = NULL, bool bTemp = false, bool bCheckPos = false, float fTargetPosX = 0.0f, float fTargetPosY = 0.0f, bool bArea = false, BeUnit** ppkTarget = NULL);
+	UnitUseSkillResultType UnitCanUseSkill(int iSkillTypeID, const std::shared_ptr<BeUnit> pkTarget = NULL, bool bTemp = false, bool bCheckPos = false, float fTargetPosX = 0.0f, float fTargetPosY = 0.0f, bool bArea = false, std::shared_ptr<BeUnit>* ppkTarget = NULL);
 
 	bool UnitCanUseActiveSkill(int iAttackedID, int& iSkillTypeID, int& iSkillLevel);
 
 	void TranslateSkillTargetType(int iSkillTargetFlag, int& iStaticProcFlag, int& iDynaPropFlag) const;
-	bool IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const BeUnit* pkTarget = 0) const;
-	bool IsTargetUnit(const BeUnit* pkUnit, int iStaticProcFlag, int iDynaPropFlag) const;
+	bool IsSkillTargetType(const std::shared_ptr<const SkillTable> pkRes, const std::shared_ptr<BeUnit> pkTarget = 0) const;
+	bool IsTargetUnit(const std::shared_ptr<BeUnit> pkUnit, int iStaticProcFlag, int iDynaPropFlag) const;
 
 	bool PickMapItem(BeMapItem* pkMapItem);
 
 	void				AddIgnoreUnit(int iUnitID, int iTime = 5000);
 	bool				IsIgnoreUnit(int iUnitID) const;
 
-	void				CopyAttribute(BeUnit* pkUnit);
+	void				CopyAttribute(std::shared_ptr<BeUnit> pkUnit);
 
 	bool			IsChangeSkill()
 	{

@@ -55,7 +55,7 @@ BeExeResult BePickItemCommand::Execute(int& iDeltaTime)
 					return BeExeResult::BER_EXE_END;
 				}
 
-				gUnit.PickMapItem(pkMapItem.get());
+				gUnit->PickMapItem(pkMapItem.get());
 				return BeExeResult::BER_EXE_END;
 			}
 		}

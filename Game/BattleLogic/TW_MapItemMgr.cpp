@@ -84,7 +84,7 @@ std::shared_ptr<BeMapItem> BeMapItemMgr::NewMapItem(int iID)
 
 std::shared_ptr<BeMapItem> BeMapItemMgr::AddMapItem(int iTypeID, bool bDrop, int iGroup, int iPlayer)
 {
-	int iID = gMain.GenerateID(BeGenIDType::GIT_MAPITEM);
+	int iID = gMain->GenerateID(BeGenIDType::GIT_MAPITEM);
 
 	auto pkMapItem = NewMapItem(iID);
 	pkMapItem->AttachMain(pkAttachMain);
@@ -120,7 +120,7 @@ void BeMapItemMgr::DelMapItem(int iID)
 		BeShareMapItemData kData;
 		kData.bRemove = true;
 		kData.iLogicID = iID;
-		//gMain.AddMapItemData(kData);
+		//gMain->AddMapItemData(kData);
 	}
 }
 

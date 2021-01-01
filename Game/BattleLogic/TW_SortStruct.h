@@ -11,7 +11,7 @@
 
 struct UnitEnmityPoint_MoreThan
 {
-	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
+	bool operator()(const std::shared_ptr<BeUnit> pkLeft, const std::shared_ptr<BeUnit> pkRight)
 	{
 		int iLeft = pkLeft->GetUD_Int(UserDataKey::UDK_MonsterAI);
 		int iRight = pkRight->GetUD_Int(UserDataKey::UDK_MonsterAI);
@@ -37,13 +37,13 @@ struct MapItem2Pos_LessThan
 
 struct Unit2UnitDistance_LessThan
 {
-	BeUnit* m_pkUnit;
-	Unit2UnitDistance_LessThan(BeUnit* pkUnit)
+	std::shared_ptr<BeUnit> m_pkUnit;
+	Unit2UnitDistance_LessThan(std::shared_ptr<BeUnit> pkUnit)
 	{
 		m_pkUnit = pkUnit;
 	}
 
-	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
+	bool operator()(const std::shared_ptr<BeUnit> pkLeft, const std::shared_ptr<BeUnit> pkRight)
 	{
 		if (!pkLeft || !pkRight || !m_pkUnit)
 		{
@@ -57,7 +57,7 @@ struct Unit2UnitDistance_LessThan
 
 struct UnitBufferScore
 {
-	int operator()(const BeUnit* pkUnit, const BeUnit* pkTarget, int iBufferID)
+	int operator()(const std::shared_ptr<BeUnit> pkUnit, const std::shared_ptr<BeUnit> pkTarget, int iBufferID)
 	{
 		int iScore = 0;
 		if (pkUnit == pkTarget)
@@ -69,40 +69,40 @@ struct UnitBufferScore
 			iScore = 2000;
 		}
 
-		const BeBuffer* pkBuffer = pkUnit->GetBuffer(iBufferID);
-		if (pkBuffer)
-		{
-			void* pkAttachMain = pkUnit->pkAttachMain;
-			int iRemainTime = pkBuffer->GetRemoveTime() - gTime;
-			iScore += iRemainTime / (-20);
-		}
-		else
-		{
-			iScore += 2000;
-		}
+		//const BeBuffer* pkBuffer = pkUnit->GetBuffer(iBufferID);
+		//if (pkBuffer)
+		//{
+		//	void* pkAttachMain = pkUnit->pkAttachMain;
+		//	int iRemainTime = pkBuffer->GetRemoveTime() - gTime;
+		//	iScore += iRemainTime / (-20);
+		//}
+		//else
+		//{
+		//	iScore += 2000;
+		//}
 		return iScore;
 	}
 };
 
 struct UnitBufferScore_MoreThan
 {
-	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
+	bool operator()(const std::shared_ptr<BeUnit> pkLeft, const std::shared_ptr<BeUnit> pkRight)
 	{
 		int iLeft = UnitBufferScore()(pkLeft, pkTarget, iBufferID);
 		int iRight = UnitBufferScore()(pkRight, pkTarget, iBufferID);
 		return (iLeft > iRight);
 	}
 
-	UnitBufferScore_MoreThan(BeUnit* pkTar, int iID) : pkTarget(pkTar), iBufferID(iID)
+	UnitBufferScore_MoreThan(std::shared_ptr<BeUnit> pkTar, int iID) : pkTarget(pkTar), iBufferID(iID)
 	{
 	}
-	BeUnit* pkTarget;
+	std::shared_ptr<BeUnit> pkTarget;
 	int iBufferID;
 };
 
 struct UnitHPPer_LessThan
 {
-	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
+	bool operator()(const std::shared_ptr<BeUnit> pkLeft, const std::shared_ptr<BeUnit> pkRight)
 	{
 		float fHPPercent1 = pkLeft->GetHP() / pkLeft->GetMaxHP();
 		float fHPPercent2 = pkRight->GetHP() / pkRight->GetMaxHP();
@@ -112,7 +112,7 @@ struct UnitHPPer_LessThan
 
 struct UnitHPAbs_LessThan
 {
-	bool operator()(const BeUnit* pkLeft, const BeUnit* pkRight)
+	bool operator()(const std::shared_ptr<BeUnit> pkLeft, const std::shared_ptr<BeUnit> pkRight)
 	{
 		return pkLeft->GetHP() < pkRight->GetHP();
 	}

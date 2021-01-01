@@ -45,12 +45,12 @@ public:
     float		GetAddOnSkillLiveTime();
     int GetUnitSkillType(void);
     void SetUnitSkillType(BeSkillType eSkillType);
-    int	GetCDTime(BeUnit* pkUnit);
+    int	GetCDTime(std::shared_ptr<BeUnit> pkUnit);
     void SetLevel(int iLevel);
-    void SetLastUseTime(BeUnit* pkUnit, int iTime, bool bLearnSkill = false);
-    bool CDComplete(BeUnit* pkUnit);
-    void Update(BeUnit* pkUnit, int iItemPos = -1);
-    int GetLastUseTime(const BeUnit* pkUnit) const;
+    void SetLastUseTime(std::shared_ptr<BeUnit> pkUnit, int iTime, bool bLearnSkill = false);
+    bool CDComplete(std::shared_ptr<BeUnit> pkUnit);
+    void Update(std::shared_ptr<BeUnit> pkUnit, int iItemPos = -1);
+    int GetLastUseTime(const std::shared_ptr<BeUnit> pkUnit) const;
     int GetCurPileNums(void) const;
     void SetCurPileNums(int iPileNums);
     void SetActive(bool bActive);

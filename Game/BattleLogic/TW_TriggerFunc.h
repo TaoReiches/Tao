@@ -5,6 +5,8 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
+#include <memory>
+
 class BeCarry;
 class BeEffect;
 class BeUnit;
@@ -36,11 +38,11 @@ public:
     float		GetTrgSpellTargetPosY(void);
     float		GetTrgSpellDirectPosX(void);
     float		GetTrgSpellDirectPosY(void);
-    BeUnit* GetTrgUnit(bool bIncSuspend = false);
-    BeUnit* GetTrgAttacker(void);
+    std::shared_ptr<BeUnit> GetTrgUnit(bool bIncSuspend = false);
+    std::shared_ptr<BeUnit> GetTrgAttacker(void);
     float		GetTrgAttackedDamge(void);
     int			GetTrgAttackerPlayer(void);
-    BeUnit* GetTrgTarget(void);
+    std::shared_ptr<BeUnit> GetTrgTarget(void);
     int			GetTrgAttackedType(void);
     int			GetTrgAttackedIsFirst(void);
     int			GetTrgAttackedFlag(void);
@@ -54,9 +56,9 @@ public:
     float		GetTrgFloatData(void);
     bool		GetTrgIsLearnSkill(void);
 
-    BeUnit* TrgGetPtr_Unit(void);
-    BeUnit* TrgGetPtr_Attacker(void);
-    BeUnit* TrgGetPtr_Target(void);
+    std::shared_ptr<BeUnit> TrgGetPtr_Unit(void);
+    std::shared_ptr<BeUnit> TrgGetPtr_Attacker(void);
+    std::shared_ptr<BeUnit> TrgGetPtr_Target(void);
     BeSkill* TrgGetPtr_Skill(void);
     BeBuffer* TrgGetPtr_Buffer(void);
     BeEffect* TrgGetPtr_Effect(void);
@@ -76,7 +78,7 @@ public:
     int TrgGetTargetType(void);
 
     TwPtCondResult DefaultBuffer_Condition(int iOriginTypeID);
-    bool DefaultSkill_ActionParam(BeUnit*& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes);
+    bool DefaultSkill_ActionParam(std::shared_ptr<BeUnit>& pkTrgUnit, unsigned int& uiSkillTypeID, int& iSkillLevel, const SkillTable* pkSkillRes);
     void InitSkillEventTrigger(int iTypeID);
     void InitItemEventTrigger(int iTypeID);
 

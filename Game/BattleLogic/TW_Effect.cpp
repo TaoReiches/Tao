@@ -175,7 +175,7 @@ void BeEffect::OnRemove(void)
 		return;
 	}
 
-	BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+	std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 	if (GetDamageScope() > 10.0f)
 	{
 		if (m_kEffectData.iSkillTypeID)
@@ -186,7 +186,7 @@ void BeEffect::OnRemove(void)
 			kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 			if (pkAttacker)
 			{
-				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+				kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 			}
 
 			kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
@@ -205,7 +205,7 @@ void BeEffect::OnRemove(void)
 	{
 		if (m_kEffectData.eTargetType == BET_UNIT)
 		{
-			BeUnit* pkUnit = gUnitMgr->GetUnitByID(GetTargetID());
+			std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(GetTargetID());
 			if (pkUnit && !pkUnit->IsDead())
 			{
 				if (m_kEffectData.iSkillTypeID)
@@ -217,10 +217,10 @@ void BeEffect::OnRemove(void)
 						TwPtParam kParam;
 						kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 						kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 						if (pkAttacker)
 						{
-							kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+							kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 						}
 
 						kParam.SetParam(TwTrgParamID::BTP_fSpellOrgPosX, m_kEffectData.fOrgPosX);
@@ -272,7 +272,7 @@ void BeEffect::SetOwnerID(int iOwnerID)
 		m_kEffectData.iSourceID = iOwnerID;
 	}
 
-	BeUnit* pkOwner = gUnitMgr->GetUnitByID(iOwnerID);
+	std::shared_ptr<BeUnit> pkOwner = gUnitMgr->GetUnitByID(iOwnerID);
 	if (pkOwner)
 	{
 		m_kEffectData.iPlayer = pkOwner->GetPlayer();
@@ -299,7 +299,7 @@ void  BeEffect::SetEffectPosition(int iTargetID, float fOrgPosX, float fOrgPosY,
 	m_kEffectData.fTarPosX = fTarPosX;
 	m_kEffectData.fTarPosY = fTarPosY;
 	m_kEffectData.iTargetID = iTargetID;
-	BeUnit* pkTarget = gUnitMgr->GetUnitByID(iTargetID, true);
+	std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(iTargetID, true);
 	if (pkTarget)
 	{
 		m_kEffectData.fTarPosX = pkTarget->GetPosX();
@@ -358,7 +358,7 @@ void* BeEffect::UpdateTargetPos(void)
 			return nullptr;
 		}
 
-		BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
+		std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 		if (!pkTarget)
 		{
 			return nullptr;
@@ -369,10 +369,10 @@ void* BeEffect::UpdateTargetPos(void)
 			OnRemove();
 
 			SetFlag(BEF_REMOVE);
-			return pkTarget;
+			return pkTarget.get();
 		}
 
-		BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+		std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 
 		if (pkTarget->HasUnitCarryFlag(BUCF_ISMAGICIMMUNITY) && !HasFlag(BEF_IGNORE_MAGIC_IMMUNE))
 		{
@@ -383,7 +383,7 @@ void* BeEffect::UpdateTargetPos(void)
 		}
 		else if (pkTarget->HasFlag(BUF_HASINVISIBLE) && !HasFlag(BEF_IGNORE_INVISIBLE))
 		{
-			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+			std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (m_kEffectData.iSkillTypeID)
@@ -407,11 +407,11 @@ void* BeEffect::UpdateTargetPos(void)
 
 			OnRemove();
 			SetFlag(BEF_REMOVE);
-			return pkTarget;
+			return pkTarget.get();
 		}
 		else if (pkTarget->HasUnitCarryFlag(BUCF_ISPHYSICIMMUNITY) && !HasFlag(BEF_IGNORE_PHYSIC_IMMUNE))
 		{
-			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+			std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (!pkAttacker || (pkAttacker && !pkAttacker->HasUnitCarryFlag(BUCF_IGNORE_PHYSICIMMUNITY)))
 			{
 				if (!m_kEffectData.iSkillTypeID)
@@ -430,7 +430,7 @@ void* BeEffect::UpdateTargetPos(void)
 			m_kEffectData.fTarPosY = pkTarget->GetPosY();
 		}
 
-		return pkTarget;
+		return pkTarget.get();
 	}
 	case BET_ITEM:
 	{
@@ -490,7 +490,7 @@ void BeEffect::UpdateAttach(int iDeltaTime)
 	{
 	case BET_UNIT:
 	{
-		BeUnit* pkUnit = gMain.m_pkUnitMgr->GetUnitByID(GetTargetID());
+		std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(GetTargetID());
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			{
@@ -532,14 +532,14 @@ void BeEffect::UpdateLineFollowEarth(int iDeltaTime)
 		{
 			if (!m_bPureShow)
 			{
-				BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+				std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 				if (pkAttacker)
 				{
 					TwPtParam kParam;
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -575,7 +575,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 
 	if (m_fCanMoveDistance >= m_fNeedMoveDistance || m_fNeedMoveDistance <= 16.0f)
 	{
-		BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+		std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 		if (m_kEffectData.iSkillTypeID)
 		{
 			if (!m_bPureShow)
@@ -586,7 +586,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -636,7 +636,7 @@ void BeEffect::UpdateLineTrace(int iDeltaTime)
 //	fOrgPosY = m_kEffectData.fOrgPosY;
 //	fTarPosX = m_kEffectData.fTarPosX;
 //	fTarPosY = m_kEffectData.fTarPosY;
-//	BeUnit* pkAttacker = nullptr;
+//	std::shared_ptr<BeUnit> pkAttacker = nullptr;
 //
 //	SeCalSkillLvlData rkData;
 //	pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
@@ -703,7 +703,7 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = nullptr;
+	std::shared_ptr<BeUnit> pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
@@ -721,7 +721,7 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			std::shared_ptr<BeUnit> pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
@@ -741,8 +741,8 @@ void BeEffect::UpdateLineTraceCollision(int iDeltaTime)
 					TwPtParam kParam;
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked.get());
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -781,7 +781,7 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID)
 		{
-			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+			std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (!m_bPureShow)
@@ -790,7 +790,7 @@ void BeEffect::UpdateCastTrace(int iDeltaTime)
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -829,7 +829,7 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = nullptr;
+	std::shared_ptr<BeUnit> pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
@@ -849,7 +849,7 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			std::shared_ptr<BeUnit> pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
@@ -869,8 +869,8 @@ void BeEffect::UpdateCastTraceCollision(int iDeltaTime)
 					TwPtParam kParam;
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
-					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked.get());
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -920,7 +920,7 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID)
 		{
-			BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
+			std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
 			{
 				if (!m_bPureShow)
@@ -929,7 +929,7 @@ void BeEffect::UpdateCurveTrace(int iDeltaTime)
 					kParam.SetParam(TwTrgParamID::BTP_iSkillTypeID, m_kEffectData.iSkillTypeID);
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fTarPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fTarPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -968,7 +968,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 	m_fCanMoveDistance = GetMoveSpeed() * iDeltaTime / 1000.0f;
 
 	UnitGroup kGroup;
-	BeUnit* pkAttacker = nullptr;
+	std::shared_ptr<BeUnit> pkAttacker = nullptr;
 	if (gTime % 100 == 0)
 	{
 		pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
@@ -988,7 +988,7 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 	{
 		if (m_kEffectData.iSkillTypeID && !kGroup.empty())
 		{
-			BeUnit* pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+			std::shared_ptr<BeUnit> pkAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 			if (pkAttacked)
 			{
 				if (!pkAttacker)
@@ -1013,13 +1013,13 @@ void BeEffect::UpdateCurveTraceCollision(int iDeltaTime)
 					kParam.SetParam(TwTrgParamID::BTP_iSkillLevel, m_kEffectData.iSkillLevel);
 					if (pkAttacked)
 					{
-						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked);
+						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkAttacked.get());
 					}
 					else
 					{
 						kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkTarget);
 					}
-					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker);
+					kParam.SetParam(TwTrgParamID::BTP_pkAttacker, pkAttacker.get());
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosX, m_kEffectData.fPosX);
 					kParam.SetParam(TwTrgParamID::BTP_fSpellTargetPosY, m_kEffectData.fPosY);
 					kParam.SetParam(TwTrgParamID::BTP_pkEffect, this);
@@ -1066,7 +1066,7 @@ void BeEffect::ParseAttack(void)
 			break;
 		}
 
-		BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
+		std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 
 		if (m_pkAttr && m_pkAttr->iBumpCount > 0 && pkTarget /*&& !pkTarget->IsDead()*/)
 		{
@@ -1088,7 +1088,7 @@ void BeEffect::ParseAttack(void)
 
 			if (m_kEffectData.iBumpCount < m_pkAttr->iBumpCount)
 			{
-				BeUnit* pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID());
+				std::shared_ptr<BeUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID());
 				if (pkAttacker && !pkAttacker->IsDead())
 				{
 					UnitGroup kGroup;
@@ -1101,11 +1101,11 @@ void BeEffect::ParseAttack(void)
 					{
 						float fOrgFace = m_kEffectData.fData;
 
-						std::vector<BeUnit*> akAttacked;
+						std::vector<std::shared_ptr<BeUnit>> akAttacked;
 						m_akBumpAttackedID.push_back(m_kEffectData.iTargetID);
 						for (int i = 0; i < (int)kGroup.empty(); ++i)
 						{
-							BeUnit* pkAttacked = kGroup[i];
+							std::shared_ptr<BeUnit> pkAttacked = kGroup[i];
 							if (pkAttacked && !pkAttacked->IsDead() && !pkAttacked->HasUserData(UserDataKey::UDK_NONE))
 							{
 								float fTarFace = atan2f(pkAttacked->GetPosY() - pkTarget->GetPosY(), pkAttacked->GetPosX() - pkTarget->GetPosX());
@@ -1133,7 +1133,7 @@ void BeEffect::ParseAttack(void)
 
 						if (!akAttacked.empty())
 						{
-							BeUnit* pkNewAttacked = gUnitMgr->GetGroupNearestUnit(akAttacked, m_kEffectData.fPosX, m_kEffectData.fPosY);
+							std::shared_ptr<BeUnit> pkNewAttacked = gUnitMgr->GetGroupNearestUnit(akAttacked, m_kEffectData.fPosX, m_kEffectData.fPosY);
 
 							if (pkNewAttacked && pkNewAttacked->GetID() != m_kEffectData.iTargetID)
 							{
@@ -1146,7 +1146,7 @@ void BeEffect::ParseAttack(void)
 						}
 						else
 						{
-							BeUnit* pkNewAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
+							std::shared_ptr<BeUnit> pkNewAttacked = gUnitMgr->GetGroupNearestUnit(kGroup, m_kEffectData.fPosX, m_kEffectData.fPosY);
 							if (pkNewAttacked && !pkNewAttacked->IsDead() && pkNewAttacked->GetID() != m_kEffectData.iTargetID && !pkNewAttacked->HasUserData(UserDataKey::UDK_NONE))
 							{
 								SetEffectPosition(pkNewAttacked->GetID(), m_kEffectData.fPosX, m_kEffectData.fPosY, 0.0f, 0.0f, m_kEffectData.fMissileArc, m_kEffectData.fPosZ);
@@ -1470,7 +1470,7 @@ void BeEffect::ParseCurveTrace(void)
 	else
 	{
 		float fAllDistance = 0.0f;
-		BeUnit* pkUnit = gMain.m_pkUnitMgr->GetUnitByID(m_kEffectData.iTargetID);
+		std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(m_kEffectData.iTargetID);
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			fAllDistance = GetDistance(m_kEffectData.fOrgPosX, m_kEffectData.fOrgPosY, pkUnit->GetPosX(), pkUnit->GetPosY());

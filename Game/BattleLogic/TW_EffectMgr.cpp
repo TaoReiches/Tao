@@ -140,13 +140,13 @@ void BeEffectMgr::SafeDeleteEffect(std::shared_ptr<BeEffect>& pkEffect)
 }
 std::shared_ptr<BeEffect> BeEffectMgr::AddEffect(BeEffectRace iTypeID)
 {
-	int iID = gMain.GenerateID(BeGenIDType::GIT_EFFECT);
+	int iID = gMain->GenerateID(BeGenIDType::GIT_EFFECT);
 	auto pkEffect = NewEffect(iID);
 	if (pkEffect->Initialize(iTypeID))
 	{
 		m_kID2Effect[iID] = pkEffect;
 
-		//gMain.AddEntityPointer(GIT_EFFECT, iID, pkEffect.get());
+		//gMain->AddEntityPointer(GIT_EFFECT, iID, pkEffect.get());
 
 		return pkEffect;
 	}

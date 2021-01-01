@@ -111,8 +111,8 @@ void TwMain::UpdateRaceOut()
 {
 	std::vector<int>& rkDelEffectID = gEffectMgr.PureGetDelEffect();
 
-	const	std::unordered_map<int, BeUnit*>& kAllLiveUnit = gUnitMgr->GetID2Unit();
-	const	std::unordered_map<int, BeUnit*>& kAllSuspendUnit = gUnitMgr->GetID2SuspendUnit();
+	const	std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllLiveUnit = gUnitMgr->GetID2Unit();
+	const	std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllSuspendUnit = gUnitMgr->GetID2SuspendUnit();
 	std::vector<BeShareUnitData>	akShareData;
 
 	for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
@@ -122,7 +122,7 @@ void TwMain::UpdateRaceOut()
 		auto	IterEnd = kAllLiveUnit.end();
 		//while (Iter != IterEnd)
 		//{
-		//	BeUnit* pkTempUnit = Iter->second;
+		//	std::shared_ptr<BeUnit> pkTempUnit = Iter->second;
 		//	if (pkTempUnit)
 		//	{
 		//		if (pkTempUnit->GetUnitVisionForCamp(iIndex) || pkTempUnit->HasFlag(BUF_DEAD))
@@ -136,7 +136,7 @@ void TwMain::UpdateRaceOut()
 		auto	IterSuspendEnd = kAllSuspendUnit.end();
 		//while (IterSuspend != IterSuspendEnd)
 		//{
-		//	BeUnit* pkTempUnit = IterSuspend->second;
+		//	std::shared_ptr<BeUnit> pkTempUnit = IterSuspend->second;
 		//	if (pkTempUnit)
 		//	{
 		//		if (pkTempUnit->GetUnitVisionForCamp(iIndex))
@@ -159,7 +159,7 @@ void TwMain::UpdateRaceOut()
 		auto	IterEnd = kAllLiveUnit.end();
 		while (Iter != IterEnd)
 		{
-			BeUnit* pkTempUnit = Iter->second;
+			std::shared_ptr<BeUnit> pkTempUnit = Iter->second;
 			if (pkTempUnit)
 			{
 				if (!pkTempUnit->HasProperty(UNIT_PROPERTY_HIDEEVER))
@@ -190,13 +190,13 @@ int		TwMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize
 //	gUnitMgr->ClrPureData();
 //	gEffectMgr.ClrAllPureEffectData();
 //
-//	const std::unordered_map<int, BeUnit*>& kAllUnit1 = gUnitMgr->GetID2Unit();
-//	const std::unordered_map<int, BeUnit*>& kAllUnit2 = gUnitMgr->GetID2SuspendUnit();
-//	std::unordered_map<int, BeUnit*>::const_iterator itr = kAllUnit1.begin();
+//	const std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllUnit1 = gUnitMgr->GetID2Unit();
+//	const std::unordered_map<int, std::shared_ptr<BeUnit>>& kAllUnit2 = gUnitMgr->GetID2SuspendUnit();
+//	std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr = kAllUnit1.begin();
 //	for (; itr != kAllUnit1.end();)
 //	{
-//		BeUnit* pkUnit = itr->second;
-//		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itr;
+//		std::shared_ptr<BeUnit> pkUnit = itr->second;
+//		std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr1 = itr;
 //		++itr;
 //
 //		if (pkUnit)
@@ -204,11 +204,11 @@ int		TwMain::GetUnitRaceOut(int iSeatIndex, int iOffset, char* pcData, int iSize
 //			pkUnit->ClrAllPureData();
 //		}
 //	}
-//	std::unordered_map<int, BeUnit*>::const_iterator itrDel = kAllUnit2.begin();
+//	std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itrDel = kAllUnit2.begin();
 //	for (; itrDel != kAllUnit2.end();)
 //	{
-//		BeUnit* pkUnit = itrDel->second;
-//		std::unordered_map<int, BeUnit*>::const_iterator itr1 = itrDel;
+//		std::shared_ptr<BeUnit> pkUnit = itrDel->second;
+//		std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr1 = itrDel;
 //		++itrDel;
 //
 //		if (pkUnit)

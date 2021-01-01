@@ -43,12 +43,12 @@ void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
 	m_pkActionAttack->AttachMain(pkAttachMain);
 	m_pkActionAttack->AttachUnit(pkAttachUnit);
 
-	m_pkMoveToPos->SetTargetPos(TwPos2(gUnit.GetPosX(), gUnit.GetPosY()), 50.0f);
+	m_pkMoveToPos->SetTargetPos(TwPos2(gUnit->GetPosX(), gUnit->GetPosY()), 50.0f);
 	if (pkTarget)
 	{
 		m_pkMoveToPos->SetTargetPos(TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY()), 0.0f);
 	}
-	gUnit.SetAttackingUnitID(0);
+	gUnit->SetAttackingUnitID(0);
 
 	// m_pkActionAttack->SetTargetItem(iID);
 	m_eState = BeAttackItemState::BAI_TRACE;
@@ -95,7 +95,7 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 				break;
 			}
 
-			float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+			float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
 			float fD = 200.0f;
 			if (fDistance2 > fD * fD)
 			{
@@ -110,7 +110,7 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 				return BeExeResult::BER_EXE_END;
 			}
 
-			float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+			float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
 			float fRange = 200.0f;
 			if (fDistance2 <= (fRange * fRange))
 			{

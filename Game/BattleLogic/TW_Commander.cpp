@@ -218,7 +218,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 
 			if (kCmd.eCmdType == TwCommandType::BCT_SPELL)
 			{
-				BeSkill* pkSkill = gUnit.GetSkill(kCmd.iData);
+				BeSkill* pkSkill = gUnit->GetSkill(kCmd.iData);
 				if (pkSkill)
 				{
 					auto& pkSkillRes = pkSkill->GetSkillRes();
@@ -226,7 +226,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 					{
 						if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_ATTACKTARGET)
 						{
-							BeUnit* pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+							std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 							if (pkTarget)
 							{
 								TwCommand	kComm(TwCommandType::BCT_ATTACK, pkTarget->GetID());
@@ -241,7 +241,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 							}
 							else if (m_kCurCmd.eCmdType == TwCommandType::BCT_ATTACK) 
                             {
-								BeUnit* pkTarget = gUnitMgr->GetUnitByID(m_kCurCmd.iUnitID);
+								std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(m_kCurCmd.iUnitID);
 
 								if (pkTarget && !pkTarget->IsDead()) {
 									m_kCommands.push_back(m_kCurCmd);
@@ -255,12 +255,12 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 			{
 				//do
 				//{
-				//	auto pkItem = gUnit.GetItemByID(kCmd.iData);
+				//	auto pkItem = gUnit->GetItemByID(kCmd.iData);
 				//	if (!pkItem)
 				//	{
 				//		break;
 				//	}
-				//	int iSkillTypeID = gUnit.GetItemSkillTypeID(kCmd.iData);
+				//	int iSkillTypeID = gUnit->GetItemSkillTypeID(kCmd.iData);
 				//	auto pkSkill = pkItem->GetSkillByTypeID(iSkillTypeID);
 				//	if (!pkSkill)
 				//	{
@@ -271,7 +271,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 				//	{
 				//		if (pkSkillRes->uiAfterActionType == SKILL_AFTERACTIONTYPE_ATTACKTARGET)
 				//		{
-				//			BeUnit* pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+				//			std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 				//			if (pkTarget)
 				//			{
 				//				BeCommand	kComm(BeCommandType::BCT_ATTACK, pkTarget->GetID());
@@ -367,7 +367,7 @@ void TwCommander::GiveCommand(TwCommand kCmd, TwGiveCmdType eType, int iUnitID, 
 			m_kCommands.insert(m_kCommands.begin(), m_kCurCmd);
 			m_kCommands.insert(m_kCommands.begin(), kCmd);
 
-			if (gUnit.HasProperty(1 << 15))
+			if (gUnit->HasProperty(1 << 15))
 			{
 				for (std::list<TwCommand>::iterator it = m_kCommands.begin(); it != m_kCommands.end();)
 				{
@@ -427,7 +427,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 		}
 		bool bSkip = (m_pkCurCmd ? m_pkCurCmd->CanSkip() : true) && m_kCommands.size();
 
-		if (gUnit.HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
+		if (gUnit->HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
 		{
 			eResult = BeExeResult::BER_EXE_END;
 		}
@@ -447,7 +447,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 		}
 		else if (eResult == BeExeResult::BER_ALL_OVER)
 		{
-			gUnit.SetFlag(BUF_REMOVE);
+			gUnit->SetFlag(BUF_REMOVE);
 			m_bForceNexeCmd = true;
 			SafeDeleteCommand(m_pkCurCmd);
 			m_kCommands.clear();
@@ -462,12 +462,12 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	{
 	case TwCommandType::BCT_STOP:
 	{
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		BeStopCommand* pkCmd = NULL;
 		if (m_pkCurCmd && m_pkCurCmd->GetType() == TwCommandType::BCT_STOP)
 		{
 			BeStopCommand* pkStop = (BeStopCommand*)m_pkCurCmd;
-			if (!pkStop->IsDead() || gUnit.IsDead())
+			if (!pkStop->IsDead() || gUnit->IsDead())
 			{
 				pkCmd = (BeStopCommand*)m_pkCurCmd;
 			}
@@ -497,7 +497,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	}
 	case TwCommandType::BCT_MOVE:
 	{
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		BeMoveCommand* pkCmd = NULL;
 		if (m_pkCurCmd && m_pkCurCmd->GetType() == TwCommandType::BCT_MOVE)
 		{
@@ -550,13 +550,13 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	{
 		SeCalSkillLvlData kData;
 		BeSkill* pkSkill = nullptr;
-		pkSkill = gUnit.GetSkill(kCmd.iData);
+		pkSkill = gUnit->GetSkill(kCmd.iData);
 		if (!pkSkill)
 		{
 			return false;
 		}
 
-		if (!gUnit.GetSkillLvlData(kData, kCmd.iData))
+		if (!gUnit->GetSkillLvlData(kData, kCmd.iData))
 		{
 			return false;
 		}
@@ -564,7 +564,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		if (pkSkill->IsSwitch() && pkSkill->IsActive())
 		{
 		}
-		else if (!pkSkill->CDComplete(&gUnit))
+		else if (!pkSkill->CDComplete(gUnit))
 		{
 			return false;
 		}
@@ -578,11 +578,11 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 				pkSkill->SetActive(!pkSkill->IsActive());
 				if (pkSkill->IsActive())
 				{
-					gUnit.SetMP(gUnit.GetMP() - rkLvlData.GetSkillManaSpend());
-					pkSkill->SetLastUseTime(&gUnit, gTime);
+					gUnit->SetMP(gUnit->GetMP() - rkLvlData.GetSkillManaSpend());
+					pkSkill->SetLastUseTime(gUnit, gTime);
 					pkSkill->SetUICounter(1);
 
-					gUnit.TrgOnSpell(pkSkill->GetTypeID(), pkSkill->GetLevel(), 0, 0, gUnit.GetPosX(), gUnit.GetPosY());
+					gUnit->TrgOnSpell(pkSkill->GetTypeID(), pkSkill->GetLevel(), 0, 0, gUnit->GetPosX(), gUnit->GetPosY());
 
 					TwPtParam kParam;
 					kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
@@ -604,7 +604,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			break;
 		}
 
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		SafeDeleteCommand(m_pkCurCmd);
 		BeSpellCommand* pkCmd = mpSpellCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
@@ -626,10 +626,10 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	}
 	case TwCommandType::BCT_USE_ITEM:
 	{
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		SafeDeleteCommand(m_pkCurCmd);
 
-		BeItem* pkItem = gUnit.GetItemByID(kCmd.iData);
+		BeItem* pkItem = gUnit->GetItemByID(kCmd.iData);
 		if (!pkItem)
 		{
 			return false;
@@ -640,7 +640,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			return false;
 		}
 
-		int iSkillTypeID = gUnit.GetItemSkillTypeID(kCmd.iData);
+		int iSkillTypeID = gUnit->GetItemSkillTypeID(kCmd.iData);
 
 		auto& pkRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
 		if (!pkRes)
@@ -648,7 +648,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			return false;
 		}
 		SeCalSkillLvlData kData;
-		if (!gUnit.GetSkillLvlData(kData, iSkillTypeID))
+		if (!gUnit->GetSkillLvlData(kData, iSkillTypeID))
 		{
 			return false;
 		}
@@ -663,7 +663,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		}
 		else
 		{
-			BeUnit* pkCmdUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
+			std::shared_ptr<BeUnit> pkCmdUnit = gUnitMgr->GetUnitByID(kCmd.iUnitID);
 			if (pkCmdUnit)
 			{
 				pkCmd->SpellTargetID(iSkillTypeID, kCmd.iUnitID, kCmd.kPos, 1, kCmd.iData);
@@ -687,7 +687,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	}
 	case TwCommandType::BCT_DROP_ITEM:
 	{
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		SafeDeleteCommand(m_pkCurCmd);
 		BeDropItemCommand* pkCmd = mpDropItemCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
@@ -706,7 +706,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 	}
 	case TwCommandType::BCT_PICK_ITEM:
 	{
-		gUnit.SetAttackingUnitID(0);
+		gUnit->SetAttackingUnitID(0);
 		BePickItemCommand* pkCmd = mpPickItemCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
 		pkCmd->AttachUnit(pkAttachUnit);
@@ -727,7 +727,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		return false;
 	}
 	}
-	///	gUnit.SetHighChangeFlag(SHFCF_CMD);
+	///	gUnit->SetHighChangeFlag(SHFCF_CMD);
 	m_kCurCmd = kCmd;
 	m_kCurCmd.bForceExecute = false;
 
@@ -736,7 +736,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 
 bool TwCommander::GoNextCmd(bool bSkipCurrent)
 {
-	if (!gUnit.IsDead() && (gUnit.HasUnitCarryFlag(BUCF_DIZZY)))
+	if (!gUnit->IsDead() && (gUnit->HasUnitCarryFlag(BUCF_DIZZY)))
 	{
 		bool bSkip = false;
 
@@ -776,11 +776,11 @@ bool TwCommander::GoNextCmd(bool bSkipCurrent)
 		bool bDelay = false;
 		if (kCmd.eGiveType == TwGiveCmdType::BCT_PLAYER_SHIFT)
 		{
-			if ((kCmd.eCmdType == TwCommandType::BCT_SPELL && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDSKILL))
-				|| (kCmd.eCmdType == TwCommandType::BCT_USE_ITEM && gUnit.HasUnitCarryFlag(BUCF_ISFORBIDITEM))
-				|| gUnit.HasUnitCarryFlag(BUCF_CANNOTCONTROL)
-				|| gUnit.HasUnitCarryFlag(BUCF_DIZZY)
-				|| gUnit.HasUnitCarryFlag(BUF_SPELL_SHARK)
+			if ((kCmd.eCmdType == TwCommandType::BCT_SPELL && gUnit->HasUnitCarryFlag(BUCF_ISFORBIDSKILL))
+				|| (kCmd.eCmdType == TwCommandType::BCT_USE_ITEM && gUnit->HasUnitCarryFlag(BUCF_ISFORBIDITEM))
+				|| gUnit->HasUnitCarryFlag(BUCF_CANNOTCONTROL)
+				|| gUnit->HasUnitCarryFlag(BUCF_DIZZY)
+				|| gUnit->HasUnitCarryFlag(BUF_SPELL_SHARK)
 				)
 			{
 				bDelay = true;

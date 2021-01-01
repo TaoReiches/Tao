@@ -61,7 +61,7 @@ public:
 
     bool IsClientNeed() const;
     void SetRemoveTime(unsigned int uiTime, bool bForceChange = false, bool bNeedRecordChange = true);
-    void Update(BeUnit* pkUnit, int iDeltaTime);
+    void Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime);
 
     bool Initialize(int iTypeID);
     void	SetUnitID(int iUnitID);

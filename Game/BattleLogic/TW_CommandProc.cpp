@@ -48,7 +48,7 @@ bool TwCommandProc::ProcFrameCMD(const SeRaceCmd* pkRaceCmd)
 bool TwCommandProc::Proc_HERO_ATTACK_CANCEL(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackCancel* pkCmd = (SeRaceCmd_HeroAttackCancel*)pkRaceCmd;
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//}
@@ -61,7 +61,7 @@ bool TwCommandProc::Proc_HERO_DIRECT_MOVE(const SeRaceCmd* pkRaceCmd)
 
 	float fMoveDirect = pkCmd->fMoveDirect;
 
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//	if (fMoveDirect == 10086.0f)
@@ -166,7 +166,7 @@ bool TwCommandProc::Proc_HERO_ATTACK_POS(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackPos* pkCmd = (SeRaceCmd_HeroAttackPos*)pkRaceCmd;
 
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//	BeCommand beCommand(BCT_ATTACK, 0, pkCmd->sTargetX, pkCmd->sTargetY);
@@ -180,7 +180,7 @@ bool TwCommandProc::Proc_HERO_ATTACK_UNIT(const SeRaceCmd* pkRaceCmd)
 {
 	SeRaceCmd_HeroAttackUnit* pkCmd = (SeRaceCmd_HeroAttackUnit*)pkRaceCmd;
 
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//	BeCommand beCommand(BCT_ATTACK, pkCmd->iTargetID);
@@ -194,7 +194,7 @@ bool TwCommandProc::Proc_UNIT_SPELL(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_UnitSpell* pkCmd = (SeRaceCmd_UnitSpell*)pkRaceCmd;
 
-	//BeUnit* pkUnit = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkUnit = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkUnit)
 	//{
 	//	int iSpellPos = pkCmd->bySpellPos;
@@ -239,16 +239,16 @@ bool TwCommandProc::Proc_Show_Action(const SeRaceCmd* pkRaceCmd)
 
 	//if (pkCmd->usOpt == SAT_SHOW_PROFICIENCY_ACTION)
 	//{
-	//	BeUnit* pkHero = GetHeroBySeat(pkRaceCmd->dwSeat);
+	//	std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkRaceCmd->dwSeat);
 	//	if (pkHero)
 	//	{
-	//		int iEffectid = gMain.GetHeroProficiencyEffectID(pkHero->GetPlayer());
+	//		int iEffectid = gMain->GetHeroProficiencyEffectID(pkHero->GetPlayer());
 	//		pkHero->PlayAction(iEffectid, 1000);
 	//	}
 	//}
 	//else if (pkCmd->usOpt == SAT_SHOW_EMOJI_ACTION)
 	//{
-	//	BeUnit* pkHero = GetHeroBySeat(pkRaceCmd->dwSeat);
+	//	std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkRaceCmd->dwSeat);
 	//	if (pkHero)
 	//	{
 	//		pkHero->PlayAction(m_akPlayer[pkRaceCmd->dwSeat].uiEmojiEffectID, 1000);
@@ -264,7 +264,7 @@ bool TwCommandProc::Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd)
 	//int iSeat = pkCmd->dwSeat;
 	//unsigned int uiItemUniqueID = pkCmd->uiItemUniqueID;
 	//unsigned int uiChangePos = pkCmd->uiChangePos;
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//	if (0 == uiItemUniqueID)
@@ -273,11 +273,11 @@ bool TwCommandProc::Proc_UNIT_CHANGE_ITEM(const SeRaceCmd* pkRaceCmd)
 	//	}
 	//	else
 	//	{
-	//		if (!gMain.PlayerHasZItem(pkCmd->dwSeat, uiItemUniqueID))
+	//		if (!gMain->PlayerHasZItem(pkCmd->dwSeat, uiItemUniqueID))
 	//		{
 	//			return true;
 	//		}
-	//		const BeZItemInfo* pkItemInfo = gMain.GetPlayerZItemInfoByID(pkCmd->dwSeat, uiItemUniqueID);
+	//		const BeZItemInfo* pkItemInfo = gMain->GetPlayerZItemInfoByID(pkCmd->dwSeat, uiItemUniqueID);
 	//		if (!pkItemInfo)
 	//		{
 	//			return true;
@@ -324,7 +324,7 @@ bool TwCommandProc::Proc_UNIT_LEARN_SKILL(const SeRaceCmd* pkRaceCmd)
 {
 	//SeRaceCmd_UnitLearnSkill* pkCmd = (SeRaceCmd_UnitLearnSkill*)pkRaceCmd;
 
-	//BeUnit* pkUnit = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkUnit = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkUnit)
 	//{
 	//	return pkUnit->LearnSkill(pkCmd->byLearnPos);
@@ -336,7 +336,7 @@ bool TwCommandProc::Proc_UNIT_ACTIVE_SKILL(const SeRaceCmd* pkRaceCmd)
 {
 	// SeRaceCmd_UnitActiveSkill* pkCmd = (SeRaceCmd_UnitActiveSkill*)pkRaceCmd;
 
-	//BeUnit* pkUnit = GetUnitControlBySeat(pkCmd->dwSeat, pkCmd->iUnitID);
+	//std::shared_ptr<BeUnit> pkUnit = GetUnitControlBySeat(pkCmd->dwSeat, pkCmd->iUnitID);
 	//if (pkUnit)
 	//{
 	//	BeSkill* pkSkill = pkUnit->GetSkillByPos(pkCmd->bySkillPos);
@@ -352,7 +352,7 @@ bool TwCommandProc::Proc_PLAYER_RELIVEHERO(const SeRaceCmd* pkRaceCmd)
 {
 	// SeRaceCmd_ReliveHero* pkCmd = (SeRaceCmd_ReliveHero*)pkRaceCmd;
 
-	//BeUnit* pkHero = GetHeroBySeat(pkCmd->dwSeat);
+	//std::shared_ptr<BeUnit> pkHero = GetHeroBySeat(pkCmd->dwSeat);
 	//if (pkHero)
 	//{
 	//}

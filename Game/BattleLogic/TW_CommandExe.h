@@ -26,7 +26,7 @@ public:
 	virtual bool CanSkip(void) const;
 	void SafeDeleteTask(std::unique_ptr<BeTask>& pkTask);
 
-	void AttachMain(void* pkMain)
+	void AttachMain(std::shared_ptr<TwMain> pkMain)
 	{
 		pkAttachMain = pkMain;
 		if (m_pkCurTask)
@@ -35,7 +35,7 @@ public:
 		}
 	}
 
-	void AttachUnit(void* pkUnit)
+	void AttachUnit(std::shared_ptr<BeUnit> pkUnit)
 	{
 		pkAttachUnit = pkUnit;
 		if (m_pkCurTask)

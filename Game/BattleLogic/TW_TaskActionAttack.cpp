@@ -28,18 +28,18 @@ BeTaskActionAttack::BeTaskActionAttack()
 
 void BeTaskActionAttack::SetTargetID(int iID, bool bIsOrb, int iSkillTypeID, int iSkillLevel, bool bAttackPos)
 {
-	if (iID != gUnit.GetAttackingUnitID()
+	if (iID != gUnit->GetAttackingUnitID()
 		|| m_iSkillTypeID != iSkillTypeID
 		|| m_iSkillLevel != iSkillLevel
 		)
 	{
-		gUnit.SetAttackingUnitID(iID, bIsOrb, bAttackPos);
+		gUnit->SetAttackingUnitID(iID, bIsOrb, bAttackPos);
 
-		BeUnit* pkTarget = gUnitMgr->GetUnitByID(iID);
-		if (pkTarget && (gUnit.GetClass() != UNIT_CLASSTYPE_BUILDING || gUnit.HasOtherFlag(BUOF_BUILDING_TURN)))
+		std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
+		if (pkTarget && (gUnit->GetClass() != UNIT_CLASSTYPE_BUILDING || gUnit->HasOtherFlag(BUOF_BUILDING_TURN)))
 		{
-			float fTarFace = atan2f(pkTarget->GetPosY() - gUnit.GetPosY(), pkTarget->GetPosX() - gUnit.GetPosX());
-			gUnit.SetTarFace(fTarFace);
+			float fTarFace = atan2f(pkTarget->GetPosY() - gUnit->GetPosY(), pkTarget->GetPosX() - gUnit->GetPosX());
+			gUnit->SetTarFace(fTarFace);
 		}
 
 		m_bAttacking = false;
@@ -49,7 +49,7 @@ void BeTaskActionAttack::SetTargetID(int iID, bool bIsOrb, int iSkillTypeID, int
 		m_iSkillTypeID = iSkillTypeID;
 		m_iSkillLevel = iSkillLevel;
 		m_iAttackCount = 0;
-		gUnit.SetActionCurTime(0);
+		gUnit->SetActionCurTime(0);
 	}
 
 	m_bBeginAttack = true;
@@ -58,7 +58,7 @@ void BeTaskActionAttack::SetTargetID(int iID, bool bIsOrb, int iSkillTypeID, int
 
 int BeTaskActionAttack::GetTargetID() const
 {
-	return gUnit.GetAttackingUnitID();
+	return gUnit->GetAttackingUnitID();
 }
 
 bool BeTaskActionAttack::IsAttacking(void) const
@@ -90,11 +90,11 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 
-	gUnit.ClrFlag(BUF_MOVING);
+	gUnit->ClrFlag(BUF_MOVING);
 
-	BeUnit* pkTarget = nullptr;
-	float fPosX = gUnit.GetPosX();
-	float fPosY = gUnit.GetPosY();
+	std::shared_ptr<BeUnit> pkTarget = nullptr;
+	float fPosX = gUnit->GetPosX();
+	float fPosY = gUnit->GetPosY();
 
 	pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 	if (pkTarget)
@@ -105,9 +105,9 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 	if (!m_bAttacking)
 	{
-		if ((gUnit.GetAttackElapseTime() + iDeltaTime) <= gUnit.GetAttackBackPt())
+		if ((gUnit->GetAttackElapseTime() + iDeltaTime) <= gUnit->GetAttackBackPt())
 		{
-			gUnit.IncActionCurTime(iDeltaTime);
+			gUnit->IncActionCurTime(iDeltaTime);
 
 			iDeltaTime = 0;
 			m_bCanCancel = false;
@@ -117,21 +117,21 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 		if (pkTarget)
 		{
-			if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
+			if (gUnit->GetClass() == UNIT_CLASSTYPE_BUILDING)
 			{
 			}
 			else
 			{
-				float fTarFace = atan2f(pkTarget->GetPosY() - gUnit.GetPosY(), pkTarget->GetPosX() - gUnit.GetPosX());
-				gUnit.SetTarFace(fTarFace);
+				float fTarFace = atan2f(pkTarget->GetPosY() - gUnit->GetPosY(), pkTarget->GetPosX() - gUnit->GetPosX());
+				gUnit->SetTarFace(fTarFace);
 			}
 		}
 
 		if (pkTarget)
 		{
 			BeAttackingAttr* kAttr = mpAttackingAttr.alloc();
-			gUnit.UpdateAttribute();
-			gUnit.GetAttackingAttr(pkTarget, kAttr);
+			gUnit->UpdateAttribute();
+			gUnit->GetAttackingAttr(pkTarget, kAttr);
 
 			m_kAttr = kAttr;
 			m_kAttr->SetFlag(BeAttackingFlag::BAF_FIRST);
@@ -141,12 +141,12 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			{
 				m_kAttr->SetFlag(BAF_AVOID);
 			}
-			gUnit.TrgOnPreAttack(pkTarget, m_kAttr);
+			gUnit->TrgOnPreAttack(pkTarget, m_kAttr);
 			m_kAttr->eAttackType = BAT_NORMAL;
 
-			if (!gUnit.HasUnitCarryFlag(BUCF_NO_DAMAGE_EFFECT))
+			if (!gUnit->HasUnitCarryFlag(BUCF_NO_DAMAGE_EFFECT))
 			{
-				m_kAttr->iBeDamagedEffect = gUnit.GetDamageModle();
+				m_kAttr->iBeDamagedEffect = gUnit->GetDamageModle();
 			}
 		}
 		m_bAttacking = true;
@@ -156,45 +156,45 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 	{
 		if (pkTarget)
 		{
-			if (!gUnit.UnitCanAttack(pkTarget, true, true))
+			if (!gUnit->UnitCanAttack(pkTarget, true, true))
 			{
-				gUnit.SetAttackingUnitID(0);
+				gUnit->SetAttackingUnitID(0);
 				m_bCanCancel = true;
 				return BeExeResult::BER_EXE_END;
 			}
 		}
 		float	fBaoJiRate = gRandNum.RandFloat(0.0f, 1.0f);
-		if (fBaoJiRate < gUnit.GetBaoJiRate())
+		if (fBaoJiRate < gUnit->GetBaoJiRate())
 		{
 			m_kAttr->SetFlag(BAF_BAOJI);
 			{
-				gUnit.SetUnitAction(BUA_ATTACK, BAN_attack);
+				gUnit->SetUnitAction(BUA_ATTACK, BAN_attack);
 			}
 		}
 		else
 		{
 			m_kAttr->SetFlag(BAF_NOT_BAOJI);
-			gUnit.SetUnitAction(BUA_ATTACK, BAN_attack);
+			gUnit->SetUnitAction(BUA_ATTACK, BAN_attack);
 		}
 
-		gUnit.SetLastAttackTime(gTime);
+		gUnit->SetLastAttackTime(gTime);
 
 		m_bBeginAttack = false;
 
 		if (pkTarget)
 		{
-			if (gUnit.GetClass() == UNIT_CLASSTYPE_HERO || gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+			if (gUnit->GetClass() == UNIT_CLASSTYPE_HERO || gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
 				if (pkTarget->GetClass() == UNIT_CLASSTYPE_SOLIDER || pkTarget->GetClass() == UNIT_CLASSTYPE_HERO)
 				{
-					//gUnit.SetCastVisionTime(gTime + 3000);
+					//gUnit->SetCastVisionTime(gTime + 3000);
 				}
 			}
 		}
 	}
-	if (!gUnit.IsDamageTime(iDeltaTime))
+	if (!gUnit->IsDamageTime(iDeltaTime))
 	{
-		gUnit.IncActionCurTime(iDeltaTime);
+		gUnit->IncActionCurTime(iDeltaTime);
 		iDeltaTime = 0;
 		m_bCanCancel = false;
 
@@ -203,19 +203,19 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 	if (!m_bDamaged)
 	{
-		gUnit.ResetAttackElapseTime();
+		gUnit->ResetAttackElapseTime();
 
 		if (pkTarget)
 		{
-			if (!gUnit.UnitCanAttack(pkTarget, true, true))
+			if (!gUnit->UnitCanAttack(pkTarget, true, true))
 			{
-				gUnit.SetAttackingUnitID(0);
+				gUnit->SetAttackingUnitID(0);
 				m_bCanCancel = true;
 				return BeExeResult::BER_EXE_END;
 			}
 
-			float fTargetDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
-			float fMaxAttackRange = gUnit.GetAttackRange(pkTarget) + 250.0f;
+			float fTargetDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+			float fMaxAttackRange = gUnit->GetAttackRange(pkTarget) + 250.0f;
 			if (fTargetDistance2 > fMaxAttackRange * fMaxAttackRange)
 			{
 				return BeExeResult::BER_EXE_END;
@@ -227,29 +227,29 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			}
 			else
 			{
-				gUnit.SetAttackingUnitID(0);
+				gUnit->SetAttackingUnitID(0);
 				return BeExeResult::BER_EXE_END;
 			}
 
-			if (gUnit.HasFlag(BUF_IGNOREPHYSICRESIST))
+			if (gUnit->HasFlag(BUF_IGNOREPHYSICRESIST))
 			{
 				m_kAttr->bIgnorePhysicResist = true;
 			}
 
-			if (gUnit.GetWeaponType() == 0)
+			if (gUnit->GetWeaponType() == 0)
 			{
-				gUnit.TrgOnAttack(GetTargetID(), m_kAttr);
+				gUnit->TrgOnAttack(GetTargetID(), m_kAttr);
 				pkTarget->OnBeDamaged(*m_kAttr);
 			}
-			else if (gUnit.GetWeaponType() == 1)
+			else if (gUnit->GetWeaponType() == 1)
 			{
 				auto pkEffect = gEffectMgr.AddEffect(BER_LINE_TRACE);
 				if (pkEffect)
 				{
 					pkEffect->SetChangeFlag(BECF_CASTMISSILE);
-					pkEffect->SetOwnerID(gUnit.GetID());
-					pkEffect->SetEffectPosition(GetTargetID(), gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY(), gUnit.GetMissileArc(), gUnit.GetPosZ());
-					pkEffect->SetMoveSpeed(gUnit.GetMissileSpeed());
+					pkEffect->SetOwnerID(gUnit->GetID());
+					pkEffect->SetEffectPosition(GetTargetID(), gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY(), gUnit->GetMissileArc(), gUnit->GetPosZ());
+					pkEffect->SetMoveSpeed(gUnit->GetMissileSpeed());
 					if (m_kAttr->iMissileModel != 0)
 					{
 						pkEffect->SetFlag(BEF_ATTRMISSLE);
@@ -257,18 +257,18 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 					}
 					else
 					{
-						pkEffect->SetModelFile(gUnit.GetMissleModel(), BAP_Weapon);
+						pkEffect->SetModelFile(gUnit->GetMissleModel(), BAP_Weapon);
 					}
 
 					pkEffect->SetFlag(BEF_IGNORE_MAGIC_IMMUNE);
 
-					gUnit.SetEffectID(pkEffect->GetID());
+					gUnit->SetEffectID(pkEffect->GetID());
 				}
 
-				gUnit.TrgOnAttack(GetTargetID(), m_kAttr);
+				gUnit->TrgOnAttack(GetTargetID(), m_kAttr);
 			}
 
-			//if (gUnit.IsHero())
+			//if (gUnit->IsHero())
 			//{
 				TwPtParam kParamHero;
 				kParamHero.SetParam(TwTrgParamID::BTP_pkTrgUnit, &gUnit);
@@ -276,7 +276,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_HERO_ATTACK, kParamHero);
 			//}
-			//else if (gUnit.GetClass() == UNIT_CLASSTYPE_BUILDING)
+			//else if (gUnit->GetClass() == UNIT_CLASSTYPE_BUILDING)
 			//{
 			//	TePtParam kParam;
 			//	kParam.SetParam(BTP_pkTrgUnit, &gUnit);
@@ -295,13 +295,13 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		}
 		else
 		{
-			gUnit.SetAttackingUnitID(0);
+			gUnit->SetAttackingUnitID(0);
 			return BeExeResult::BER_EXE_END;
 		}
 		m_bDamaged = true;
 	}
 
-	if (gUnit.IsActionCurTimeOut(iDeltaTime))
+	if (gUnit->IsActionCurTimeOut(iDeltaTime))
 	{
 		m_bDamaged = false;
 		m_bAttacking = false;
@@ -310,7 +310,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		return BeExeResult::BER_EXE_END;
 	}
 
-	if (gUnit.GetAttackElapseTime() <= gUnit.GetAttackBackPt() / 3.0f)
+	if (gUnit->GetAttackElapseTime() <= gUnit->GetAttackBackPt() / 3.0f)
 	{
 		m_bCanCancel = false;
 	}
@@ -319,7 +319,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		m_bCanCancel = true;
 	}
 
-	gUnit.IncActionCurTime(iDeltaTime);
+	gUnit->IncActionCurTime(iDeltaTime);
 
 	iDeltaTime = 0;
 

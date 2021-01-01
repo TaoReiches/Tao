@@ -34,23 +34,23 @@ BeTaskActionWalk::~BeTaskActionWalk()
 	m_iWalkTime = 0;
 	if (pkAttachUnit)
 	{
-		gUnit.SetActionState(0);
+		gUnit->SetActionState(0);
 	}
 }
 
 void BeTaskActionWalk::SetTargetPos(const TwPos2& kTargetPos, bool bTurn)
 {
-	float fUnitX = gUnit.GetPosX();
-	float fUnitY = gUnit.GetPosY();
+	float fUnitX = gUnit->GetPosX();
+	float fUnitY = gUnit->GetPosY();
 	float fTarFace = atan2f(kTargetPos.fY - fUnitY, kTargetPos.fX - fUnitX);
-	gUnit.SetTarFace(fTarFace);
+	gUnit->SetTarFace(fTarFace);
 
 	m_kTargetPos = kTargetPos;
 	m_kSrcPos = TwPos2(fUnitX, fUnitY);
 	m_iWalkTime = 0;
 
-	gUnit.SetTarPosX(m_kTargetPos.fX);
-	gUnit.SetTarPosY(m_kTargetPos.fY);
+	gUnit->SetTarPosX(m_kTargetPos.fX);
+	gUnit->SetTarPosY(m_kTargetPos.fY);
 }
 
 bool	BeTaskActionWalk::IsBlocked(void)
@@ -63,11 +63,11 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	BeTask::Execute(iDeltaTime);
 
 	m_bBlocked = false;
-	if (!gUnit.UnitCanMove(true))
+	if (!gUnit->UnitCanMove(true))
 	{
-		if (gUnit.GetActionState() == 1)
+		if (gUnit->GetActionState() == 1)
 		{
-			gUnit.SetActionState(0);
+			gUnit->SetActionState(0);
 		}
 	}
 	else
@@ -75,22 +75,22 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 		if (m_bStopAction)
 		{
 			m_bStopAction = false;
-			gUnit.SetActionState(1);
+			gUnit->SetActionState(1);
 		}
 	}
 
-	if (!gUnit.IsActionNow(BUA_WALK))
+	if (!gUnit->IsActionNow(BUA_WALK))
 	{
 		m_iWalkTime = 0;
-		gUnit.SetUnitAction(BUA_WALK, BAN_walk);
+		gUnit->SetUnitAction(BUA_WALK, BAN_walk);
 	}
 
-	float fUnitX = gUnit.GetPosX();
-	float fUnitY = gUnit.GetPosY();
+	float fUnitX = gUnit->GetPosX();
+	float fUnitY = gUnit->GetPosY();
 
-	gUnit.IncActionCurTime(iDeltaTime);
+	gUnit->IncActionCurTime(iDeltaTime);
 
-	float fMoveSpeed = gUnit.GetMoveSpeed();
+	float fMoveSpeed = gUnit->GetMoveSpeed();
 	if (fMoveSpeed <= 0)
 	{
 		return BeExeResult::BER_EXE_END;
@@ -103,7 +103,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	float fWalkY = 0.0f;
 
 	auto iObs = TwGridFlag::TGF_FIXED_OTS;
-	if (gUnit.GetClass() == UNIT_CLASSTYPE_SOLIDER)
+	if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 	{
 		iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER;
 	}
@@ -112,7 +112,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 		iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT;
 	}
 
-	int bRet = gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), m_kTargetPos.fX, m_kTargetPos.fY, fWalkX, fWalkY, fMaxMoveDistance, iObs);
+	int bRet = gMap.GetFirstCanStay(gUnit, m_kTargetPos.fX, m_kTargetPos.fY, fWalkX, fWalkY, fMaxMoveDistance, iObs);
 
 	float fNeedMoveDistance = GetDistance(fUnitX, fUnitY, fWalkX, fWalkY);
 
@@ -143,7 +143,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 		float fCanMoveX = fUnitX;
 		float fCanMoveY = fUnitY;
 
-		int bRet1 = gMap.GetFirstCanStay(std::shared_ptr<BeUnit>(&gUnit), fWalkX, fWalkY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
+		int bRet1 = gMap.GetFirstCanStay(gUnit, fWalkX, fWalkY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
 		if (fWalkX != fCanMoveX || fWalkY != fCanMoveY)
 		{
 			m_bBlocked = true;
@@ -184,7 +184,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 			{
 				float fX = fOX + afOffset[i][0] * (iRange + 1);
 				float fY = fOY + afOffset[i][1] * (iRange + 1);
-				int		iCheckRet = gMap.GetFirstCanStay(fX, fY, gUnit.GetOBSize(), m_kTargetPos.fX, m_kTargetPos.fY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
+				int		iCheckRet = gMap.GetFirstCanStay(fX, fY, gUnit->GetOBSize(), m_kTargetPos.fX, m_kTargetPos.fY, fCanMoveX, fCanMoveY, fMaxMoveDistance, iObs);
 				if (iCheckRet == 3 || iCheckRet == 5)
 				{
 					float fD2 = GetDistance2(fX, fY, m_kTargetPos.fX, m_kTargetPos.fY);
@@ -208,7 +208,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 
 	if (m_bBlocked)
 	{
-		gUnit.SetActionState(0);
+		gUnit->SetActionState(0);
 		m_iWalkTime = 0;
 		return BeExeResult::BER_EXE_END;
 	}
@@ -231,12 +231,12 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	m_iWalkTime += iActionTime;
 	if (m_iWalkTime > 200)
 	{
-		gUnit.SetFlag(BUF_MOVING);
+		gUnit->SetFlag(BUF_MOVING);
 	}
 
-	gUnit.SetActionState(1);
+	gUnit->SetActionState(1);
 
-	gUnit.SetPosition(fWalkX, fWalkY, 0.0f, true);
+	gUnit->SetPosition(fWalkX, fWalkY, 0.0f, true);
 
 	if (iDeltaTime > 0)
 	{

@@ -55,7 +55,7 @@ void BeMapItem::SetPosition(float fX, float fY, float fFace, float fZ)
 	kData.iItemTypeID = GetTypeID();
 	kData.bRemove = false;
 
-	// gMain.AddMapItemData(kData);
+	// gMain->AddMapItemData(kData);
 }
 
 void BeMapItem::Update(int iDeltaTime)

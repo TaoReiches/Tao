@@ -18,7 +18,7 @@ public:
 	float	GetAttackArmorScale(int eAttack, int eArmor);
 
 	int		GetHeroDeadPersistTime(int iHeroLevel);
-	int		GetReliveHeroMoney(BeUnit* pkUnitRelive);
+	int		GetReliveHeroMoney(std::shared_ptr<BeUnit> pkUnitRelive);
 
 	int		GetAssistMoney(int iHeroLevel, int iAssistNum);
 	int		GetAssistExp(int iHeroLevel, int iAssistNum);

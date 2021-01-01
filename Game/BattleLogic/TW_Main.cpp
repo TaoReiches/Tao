@@ -44,19 +44,19 @@ bool TwMain::Initialize(int iSeed)
 
     m_pkTriggerMgr = new TwPtTriggerMgr(this);
     m_pkEffectMgr = new BeEffectMgr;
-    m_pkEffectMgr->AttachMain(this);
+    m_pkEffectMgr->AttachMain(std::shared_ptr<TwMain>(this));
 
     m_pkMapItemMgr = new BeMapItemMgr;
-    m_pkMapItemMgr->AttachMain(this);
+    m_pkMapItemMgr->AttachMain(std::shared_ptr<TwMain>(this));
 
     m_pkUnitMgr = std::unique_ptr<BeUnitMgr>(new BeUnitMgr());
-    m_pkUnitMgr->AttachMain(this);
+    m_pkUnitMgr->AttachMain(std::shared_ptr<TwMain>(this));
 
     m_pkFormulaInfo = new BeFormulaInfo;
-    m_pkFormulaInfo->AttachMain(this);
+    m_pkFormulaInfo->AttachMain(std::shared_ptr<TwMain>(this));
 
     m_pkMap = new TeMap;
-    m_pkMap->AttachMain(this);
+    m_pkMap->AttachMain(std::shared_ptr<TwMain>(this));
     if (!m_pkMap->Initialize())
     {
         return false;

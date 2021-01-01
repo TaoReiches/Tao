@@ -54,7 +54,7 @@ void BeBuffer::SetRemoveTime(unsigned int uiTime, bool bForceChange, bool bNeedR
 	{
 		bCalToughness = true;
 	}
-	float	fToughness = gUnit.GetToughness();
+	float	fToughness = gUnit->GetToughness();
 	if (fToughness > 0)
 	{
 		if (bCalToughness)
@@ -82,9 +82,9 @@ void BeBuffer::SetRemoveTime(unsigned int uiTime, bool bForceChange, bool bNeedR
 	}
 }
 
-void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
+void BeBuffer::Update(std::shared_ptr<BeUnit> pkUnit, int iDeltaTime)
 {
-	if (!pkUnit)
+	if (pkUnit == nullptr)
 	{
 		return;
 	}
@@ -105,7 +105,7 @@ void BeBuffer::Update(BeUnit* pkUnit, int iDeltaTime)
 			if (HasProperty(BUFFER_PROPERTY_CDTRIGGER))
 			{
 				TwPtParam kParam;
-				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 				kParam.SetParam(TwTrgParamID::BTP_pkBuffer, this);
 
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_BUFFER_ONCDCOMPLETE, kParam);
@@ -122,9 +122,9 @@ bool BeBuffer::HasProperty(int iProperty) const
 void BeBuffer::SetUnitID(int iUnitID)
 {
 	m_kData.iUnitID = iUnitID;
-	BeUnit* pkUnit = gUnitMgr->GetUnitByID(iUnitID, true);
+	std::shared_ptr<BeUnit> pkUnit = gUnitMgr->GetUnitByID(iUnitID, true);
 	if (pkUnit)
 	{
-		m_kData.kUnit.reset(pkUnit);
+		m_kData.kUnit = pkUnit;
 	}
 }

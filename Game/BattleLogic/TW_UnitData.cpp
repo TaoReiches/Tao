@@ -251,7 +251,7 @@ void TwUnitData::SetHP(float fHP, bool bChange)
 	}
 }
 
-float TwUnitData::GetAttackRange(const BeUnit* pkTarget) const
+float TwUnitData::GetAttackRange(const std::shared_ptr<BeUnit> pkTarget) const
 {
 	return m_pkCurData->fAttackRange + pkTarget->GetCollision();
 }
@@ -399,7 +399,7 @@ bool TwUnitData::LearnSkill(int iSkillPos)
 //	kData.iTargetID = iUnitID;
 //	kData.iSkillTypeID = iSkillTypeID;
 //
-//	//gMain.AddUnitFlyData(kData);
+//	//gMain->AddUnitFlyData(kData);
 //}
 
 float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)

@@ -17,10 +17,10 @@ BeTaskActionDeath::BeTaskActionDeath()
 BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
-	gUnit.ClrFlag(BUF_MOVING);
+	gUnit->ClrFlag(BUF_MOVING);
 	if (!m_bInit)
 	{
-		gUnit.SetUnitAction(BUA_DEATH, BAN_death);
+		gUnit->SetUnitAction(BUA_DEATH, BAN_death);
 		m_bInit = true;
 	}
 
@@ -33,17 +33,17 @@ BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 			iDeltaTime = 0;
 			break;
 		}
-		if (gUnit.IsActionNow(BUA_DEATH))
+		if (gUnit->IsActionNow(BUA_DEATH))
 		{
-			if (gUnit.IsActionCurTimeOut(iDeltaTime))
+			if (gUnit->IsActionCurTimeOut(iDeltaTime))
 			{
-				iDeltaTime -= gUnit.GetActionCurTimeNeed();
+				iDeltaTime -= gUnit->GetActionCurTimeNeed();
 
 				return BeExeResult::BER_ALL_OVER;
 			}
 			else
 			{
-				gUnit.IncActionCurTime(iDeltaTime);
+				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
 				return BeExeResult::BER_TIME_OUT;
@@ -51,13 +51,13 @@ BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 		}
 		else
 		{
-			if (gUnit.IsActionCurTimeOut(iDeltaTime))
+			if (gUnit->IsActionCurTimeOut(iDeltaTime))
 			{
 				return BeExeResult::BER_ALL_OVER;
 			}
 			else
 			{
-				gUnit.IncActionCurTime(iDeltaTime);
+				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
 				return BeExeResult::BER_TIME_OUT;

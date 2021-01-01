@@ -48,7 +48,7 @@ void BeTaskAttackUnit::SetTargetID(int iID, float fDistance, bool bIsOrb, int iS
 	m_iMoveTime = 0;
 
 	m_pkMoveToUnit->SetTargetID(iID);
-	if (gUnit.GetAttackingUnitID() == iID)
+	if (gUnit->GetAttackingUnitID() == iID)
 	{
 		if (m_eState == BeAttackUnitState::BAU_END)
 		{
@@ -57,7 +57,7 @@ void BeTaskAttackUnit::SetTargetID(int iID, float fDistance, bool bIsOrb, int iS
 		return;
 	}
 
-	gUnit.SetAttackingUnitID(iID, bIsOrb);
+	gUnit->SetAttackingUnitID(iID, bIsOrb);
 
 	m_pkActionAttack->SetTargetID(iID, bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 	m_bIsOrb = bIsOrb;
@@ -66,7 +66,7 @@ void BeTaskAttackUnit::SetTargetID(int iID, float fDistance, bool bIsOrb, int iS
 
 int BeTaskAttackUnit::GetTargetID() const
 {
-	return gUnit.GetAttackingUnitID();
+	return gUnit->GetAttackingUnitID();
 }
 
 bool BeTaskAttackUnit::IsAttacking() const
@@ -100,7 +100,7 @@ bool BeTaskAttackUnit::CanSkip(void) const
 BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
-	const BeUnit* pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
+	const std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 
 	if (!m_pkActionAttack || !m_pkMoveToUnit)
 	{
@@ -126,8 +126,8 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 			{
 				if (pkTarget)
 				{
-					float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
-					float fD = gUnit.GetAttackRange(pkTarget);
+					float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+					float fD = gUnit->GetAttackRange(pkTarget);
 					if (fDistance2 > fD * fD)
 					{
 						m_pkMoveToUnit->SetTargetID(pkTarget->GetID(), fD);
@@ -141,13 +141,13 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 				return BeExeResult::BER_TIME_OUT;
 			}
 
-			if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
+			if (!pkTarget || !gUnit->UnitCanAttack(pkTarget, true, true))
 			{
 				m_eState = BeAttackUnitState::BAU_REFRESH;
 				break;
 			}
-			float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
-			float fD = gUnit.GetAttackRange(pkTarget);
+			float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+			float fD = gUnit->GetAttackRange(pkTarget);
 			if (fDistance2 > fD * fD)
 			{
 				m_pkMoveToUnit->SetTargetID(pkTarget->GetID(), fD);
@@ -157,7 +157,7 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		}
 		case BeAttackUnitState::BAU_REFRESH:
 		{
-			if (gUnit.HasUnitCarryFlag(BUCF_CANNOTATTACK))
+			if (gUnit->HasUnitCarryFlag(BUCF_CANNOTATTACK))
 			{
 				return BeExeResult::BER_TIME_OUT;
 			}
@@ -171,21 +171,21 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 			m_iMoveTime += iDeltaTime;
 			if (pkTarget)
 			{
-				float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
-				float fRange = gUnit.GetAttackRange(pkTarget);
+				float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+				float fRange = gUnit->GetAttackRange(pkTarget);
 				if (fDistance2 <= (fRange * fRange))
 				{
 					m_pkActionAttack->SetTargetID(0, m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 					m_pkActionAttack->SetTargetID(pkTarget->GetID(), m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 					m_eState = BeAttackUnitState::BAU_ATTACK;
 
-					gUnit.SetActionState(0);
+					gUnit->SetActionState(0);
 					break;
 				}
 			}
 
 			BeExeResult eRet = BeExeResult::BER_EXE_END;
-			if (gUnit.CanMove()) {
+			if (gUnit->CanMove()) {
 				eRet = m_pkMoveToUnit->Execute(iDeltaTime);
 			}
 

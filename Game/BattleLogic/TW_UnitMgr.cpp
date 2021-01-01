@@ -29,11 +29,11 @@ bool BeUnitMgr::Initialize(void)
 	return BeEntityMgr::Initialize();
 }
 
-BeUnit* BeUnitMgr::GetUnitByTypeID(int iTypeID)
+std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByTypeID(int iTypeID)
 {
-	for (std::unordered_map<int, BeUnit*>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			if (iTypeID == pkUnit->GetTypeID())
@@ -51,10 +51,10 @@ void BeUnitMgr::Update(int iDeltaTime)
 
 	if (!m_kID2SuspendUnit.empty())
 	{
-		for (std::unordered_map<int, BeUnit*>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
+		for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
 		{
-			std::unordered_map<int, BeUnit*>::iterator itr1 = itr;
-			BeUnit* pkUnit = itr->second;
+			std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr1 = itr;
+			std::shared_ptr<BeUnit> pkUnit = itr->second;
 			++itr;
 			if (pkUnit)
 			{
@@ -72,7 +72,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 
 					TwPos2 kPos;
 					float fFace = 0.0f;
-					//gMain.GetHeroOrgPos(iPlayer, kPos, fFace);
+					//gMain->GetHeroOrgPos(iPlayer, kPos, fFace);
 					pkUnit->SetAbsFace(fFace);
 					//float fPosX = pkUnit->GetUD_Float(UDK_UnitRelivePosX, pkUnit->GetPosX());
 					//float fPosY = pkUnit->GetUD_Float(UDK_UnitRelivePosY, pkUnit->GetPosY());
@@ -82,7 +82,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 					//gMap.SetUnitPosition(pkUnit, fPosX, fPosY, 0.0f, 600.0f, false, BGF_FIXED_OBS | BGF_UNIT, 0, true);
 
 					TwPtParam kParamRelive;
-					kParamRelive.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+					kParamRelive.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 
 					gTrgMgr.FireTrigger(TwTriggerEvent::BTE_HERO_RELIVE, kParamRelive);
 
@@ -109,7 +109,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 						if (pkSkill)
 						{
 							TwPtParam kParam;
-							kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+							kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 							kParam.SetParam(TwTrgParamID::BTP_pkSkill, pkSkill);
 
 							gTrgMgr.FireTrigger(TwTriggerEvent::BTE_LEARN_SPELL, kParam);
@@ -118,7 +118,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 
 					//if (pkUnit->IsHero() && pkUnit->GetPlayer() < MAX_ACTIVEPLAYERS && pkUnit->GetPlayer() >= 0)
 					//{
-					//	gMain.SetHeroFocusPlayerID(pkUnit->GetPlayer(), -1);
+					//	gMain->SetHeroFocusPlayerID(pkUnit->GetPlayer(), -1);
 					//}
 
 					pkUnit->SetShareUnitChangeFlag(BSUDCF_ACTIONNAME);
@@ -140,10 +140,10 @@ void BeUnitMgr::Update(int iDeltaTime)
 		}
 	}
 	m_aiVecRandomHeroID.clear();
-	for (std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
+	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
 	{
-		BeUnit* pkUnit = itr->second;
-		std::unordered_map<int, BeUnit*>::iterator itr1 = itr;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
+		std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr1 = itr;
 		++itr;
 		if (pkUnit->HasFlag(BUF_REMOVE))
 		{
@@ -158,7 +158,7 @@ void BeUnitMgr::Update(int iDeltaTime)
 			{
 					OnUnitDead(pkUnit);
 					SafeDeleteUnit(pkUnit);
-					mpUnit.free(pkUnit);
+					mpUnit.free(pkUnit.get());
 					pkUnit = nullptr;
 					m_kID2Unit.erase(itr1);
 			}
@@ -185,10 +185,10 @@ void BeUnitMgr::Clear()
 {
 	if (!m_kID2Unit.empty())
 	{
-		for (std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
+		for (auto itr = m_kID2Unit.begin(); itr != m_kID2Unit.end();)
 		{
 			SafeDeleteUnit(itr->second);
-			mpUnit.free(itr->second);
+			mpUnit.free(itr->second.get());
 			itr->second = nullptr;
 			itr = m_kID2Unit.erase(itr);
 		}
@@ -197,10 +197,10 @@ void BeUnitMgr::Clear()
 
 	if (!m_kID2SuspendUnit.empty())
 	{
-		for (std::unordered_map<int, BeUnit*>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
+		for (std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin(); itr != m_kID2SuspendUnit.end();)
 		{
 			SafeDeleteUnit(itr->second);
-			mpUnit.free(itr->second);
+			mpUnit.free(itr->second.get());
 			itr->second = nullptr;
 			itr = m_kID2SuspendUnit.erase(itr);
 		}
@@ -214,14 +214,14 @@ void BeUnitMgr::Clear()
 	m_kLoseVisionUnitGroup.clear();
 }
 
-BeUnit* BeUnitMgr::NewUnit(int iID)
+std::shared_ptr<BeUnit> BeUnitMgr::NewUnit(int iID)
 {
-	BeUnit* pkUnit = mpUnit.alloc(iID);
+	std::shared_ptr<BeUnit> pkUnit = std::shared_ptr<BeUnit>(mpUnit.alloc(iID));
 	pkUnit->AttachMain(pkAttachMain);
 	return pkUnit;
 }
 
-BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitID, int iESLabel, int iSkinIdx)
+std::shared_ptr<BeUnit> BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitID, int iESLabel, int iSkinIdx)
 {
 	if (!iTypeID)
 	{
@@ -231,16 +231,16 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 	int iID = iUnitID;
 	if (iID == -1)
 	{
-		iID = gMain.GenerateID(BeGenIDType::GIT_ENTITY);
+		iID = gMain->GenerateID(BeGenIDType::GIT_ENTITY);
 	}
 	else
 	{
-		gMain.SetGenerateID(BeGenIDType::GIT_ENTITY, iID);
+		gMain->SetGenerateID(BeGenIDType::GIT_ENTITY, iID);
 	}
 
-	BeUnit* pkUnit = NewUnit(iID);
+	std::shared_ptr<BeUnit> pkUnit = NewUnit(iID);
 
-	//gMain.AddEntityPointer(GIT_ENTITY, iID, pkUnit);
+	//gMain->AddEntityPointer(GIT_ENTITY, iID, pkUnit);
 
 	m_kID2Unit[iID] = pkUnit;
 	if (iPlayer != -1)
@@ -265,7 +265,7 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 			m_kVAllHeroID.push_back(pkUnit->GetID());
 
 		TwPtParam kParam;
-		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+		kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 
 		gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_ADDUNIT, kParam);
 
@@ -273,14 +273,14 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 	}
 	else
 	{
-		std::unordered_map<int, BeUnit*>::iterator it = m_kID2Unit.find(iID);
+		std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator it = m_kID2Unit.find(iID);
 		if (it != m_kID2Unit.end())
 		{
 			m_kID2Unit.erase(it);
 		}
 
 		SafeDeleteUnit(pkUnit);
-		mpUnit.free(pkUnit);
+		mpUnit.free(pkUnit.get());
 		pkUnit = nullptr;
 		return nullptr;
 	}
@@ -288,27 +288,27 @@ BeUnit* BeUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitI
 	return pkUnit;
 }
 
-void BeUnitMgr::OnDelUnit(BeUnit* pkUnit)
+void BeUnitMgr::OnDelUnit(std::shared_ptr<BeUnit> pkUnit)
 {
 }
 
-void BeUnitMgr::OnUnitDead(BeUnit* pkUnit)
+void BeUnitMgr::OnUnitDead(std::shared_ptr<BeUnit> pkUnit)
 {
 }
 
 void BeUnitMgr::DelUnit(int iID)
 {
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.find(iID);
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.find(iID);
 	if (itr != m_kID2Unit.end())
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		if (pkUnit)
 		{
 			TwPtParam kParamDel;
-			kParamDel.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+			kParamDel.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 
 			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_UNIT_DELUNIT, kParamDel);
-			//////////////////////////////////////////////////////////////////////////
+
 			OnDelUnit(pkUnit);
 			pkUnit->SetFlag(BUF_REMOVE);
 		}
@@ -322,7 +322,7 @@ void BeUnitMgr::DelUnit(int iID)
 		itr = m_kID2SuspendUnit.find(iID);
 		if (itr != m_kID2SuspendUnit.end())
 		{
-			BeUnit* pkUnit = itr->second;
+			std::shared_ptr<BeUnit> pkUnit = itr->second;
 			if (pkUnit)
 			{
 				OnDelUnit(pkUnit);
@@ -336,7 +336,7 @@ void BeUnitMgr::DelUnit(int iID)
 	}
 }
 
-void BeUnitMgr::SafeDeleteUnit(BeUnit*& pkUnit)
+void BeUnitMgr::SafeDeleteUnit(std::shared_ptr<BeUnit>& pkUnit)
 {
 	if (!pkUnit)
 	{
@@ -348,21 +348,21 @@ void BeUnitMgr::SafeDeleteUnit(BeUnit*& pkUnit)
 	pkUnit->OnDelete();
 }
 
-BeUnit* BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
+std::shared_ptr<BeUnit> BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
 {
 	if (iID == 0)
 	{
 		return nullptr;
 	}
 
-	//return (BeUnit*)(gMain.GetEntityPointer(GIT_ENTITY, iID));
+	//return (std::shared_ptr<BeUnit>)(gMain->GetEntityPointer(GIT_ENTITY, iID));
 
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.find(iID);
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.find(iID);
 	if (itr == m_kID2Unit.end())
 	{
 		if (bSuspend)
 		{
-			std::unordered_map<int, BeUnit*>::iterator itr2 = m_kID2SuspendUnit.find(iID);
+			std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr2 = m_kID2SuspendUnit.find(iID);
 			if (itr2 == m_kID2SuspendUnit.end())
 			{
 				return nullptr;
@@ -378,7 +378,7 @@ BeUnit* BeUnitMgr::GetUnitByID(int iID, bool bSuspend, bool bSoul)
 	}
 	else
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		return pkUnit;
 	}
 }
@@ -397,38 +397,38 @@ void BeUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-			auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-			BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				while (true)
-				{
-					if (fabs(pkUnit->GetPosX() - fX) > fDX || fabs(pkUnit->GetPosY() - fY) > fDY)
-					{
-						break;
-					}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+	//		auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+	//		std::shared_ptr<BeUnit> pkUnit = std::shared_ptr<BeUnit>((BeUnit*)temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			while (true)
+	//			{
+	//				if (fabs(pkUnit->GetPosX() - fX) > fDX || fabs(pkUnit->GetPosY() - fY) > fDY)
+	//				{
+	//					break;
+	//				}
 
-					if (!IsPassUnit(pkUnit, iPlayerGroup, iFlag))
-					{
-						break;
-					}
+	//				if (!IsPassUnit(pkUnit, iPlayerGroup, iFlag))
+	//				{
+	//					break;
+	//				}
 
-					kGroup.push_back(pkUnit);
-					break;
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//				kGroup.push_back(pkUnit);
+	//				break;
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
 void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fB, float fE, int iPlayerIdx, int iFlag)
@@ -447,49 +447,49 @@ void BeUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	fRadius *= fRadius;
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				while (true)
-				{
-					if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius)
-					{
-						if (!IsPassUnit(pkUnit, iPlayerGroup, iFlag))
-						{
-							break;
-						}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			while (true)
+	//			{
+	//				if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius)
+	//				{
+	//					if (!IsPassUnit(pkUnit, iPlayerGroup, iFlag))
+	//					{
+	//						break;
+	//					}
 
-						float fAngle = atan2f(pkUnit->GetPosY() - fY, pkUnit->GetPosX() - fX);
-						if (fAngle >= fB && fAngle <= fE)
-						{
-							kGroup.push_back(pkUnit);
-							break;
-						}
+	//					float fAngle = atan2f(pkUnit->GetPosY() - fY, pkUnit->GetPosX() - fX);
+	//					if (fAngle >= fB && fAngle <= fE)
+	//					{
+	//						kGroup.push_back(pkUnit);
+	//						break;
+	//					}
 
-						fAngle -= 2 * D3DX_PI;
-						if (fAngle >= fB && fAngle <= fE)
-						{
-							kGroup.push_back(pkUnit);
-							break;
-						}
-					}
-					break;
-				}
+	//					fAngle -= 2 * D3DX_PI;
+	//					if (fAngle >= fB && fAngle <= fE)
+	//					{
+	//						kGroup.push_back(pkUnit);
+	//						break;
+	//					}
+	//				}
+	//				break;
+	//			}
 
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
 int	BeUnitMgr::GetUnitNums()
@@ -503,10 +503,10 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 
 	int iPlayerGroup = -1;
 
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
 	for (; itr != m_kID2Unit.end(); ++itr)
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		if (!pkUnit || !IsPassUnit(pkUnit, iPlayerGroup, iFlag))
 		{
 			continue;
@@ -516,7 +516,7 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, int iPlayerIdx, int iFlag)
 	}
 }
 
-void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData)
+void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData)
 {
 	if (!pkSrcUnit)
 	{
@@ -535,38 +535,38 @@ void BeUnitMgr::GetAllMapGroup(UnitGroup& kGroup, const BeUnit* pkSrcUnit, TwCom
 	else if (eCommand == TwCommandType::BCT_USE_ITEM)
 	{
 	}
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
-	for (; itr != m_kID2Unit.end(); ++itr)
-	{
-		BeUnit* pkUnit = itr->second;
-		if (!pkUnit)
-		{
-			continue;
-		}
-		bool bPass = false;
-		switch (eCommand)
-		{
-		case TwCommandType::BCT_STOP:
-		case TwCommandType::BCT_HOLD:
-		case TwCommandType::BCT_PATROL:
-		case TwCommandType::BCT_ATTACK:
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
+	//for (; itr != m_kID2Unit.end(); ++itr)
+	//{
+	//	std::shared_ptr<BeUnit> pkUnit = itr->second;
+	//	if (!pkUnit)
+	//	{
+	//		continue;
+	//	}
+	//	bool bPass = false;
+	//	switch (eCommand)
+	//	{
+	//	case TwCommandType::BCT_STOP:
+	//	case TwCommandType::BCT_HOLD:
+	//	case TwCommandType::BCT_PATROL:
+	//	case TwCommandType::BCT_ATTACK:
 
-				bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
-			break;
-		case TwCommandType::BCT_SPELL:
-			bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-			break;
-		case TwCommandType::BCT_USE_ITEM:
-			bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-			break;
-		default:
-			break;
-		}
-		if (bPass)
-		{
-			kGroup.push_back(pkUnit);
-		}
-	}
+	//			bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
+	//		break;
+	//	case TwCommandType::BCT_SPELL:
+	//		bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//		break;
+	//	case TwCommandType::BCT_USE_ITEM:
+	//		bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	if (bPass)
+	//	{
+	//		kGroup.push_back(pkUnit);
+	//	}
+	//}
 }
 
 const UnitGroup& BeUnitMgr::GetAllHeroPtr()
@@ -583,8 +583,8 @@ void BeUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
 {
 	kGroup.clear();
 
-	BeUnit* pkUnit = nullptr;
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2Unit.begin();
+	std::shared_ptr<BeUnit> pkUnit = nullptr;
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2Unit.begin();
 	for (; itr != m_kID2Unit.end(); ++itr)
 	{
 		pkUnit = itr->second;
@@ -605,7 +605,7 @@ void BeUnitMgr::GetUnitGroupByID(UnitGroup& kGroup, int iID)
 	}
 }
 
-bool BeUnitMgr::IsPassUnit(BeUnit* pkUnit, int iPlayerGroup, int iFlag, bool bDead) const
+bool BeUnitMgr::IsPassUnit(std::shared_ptr<BeUnit> pkUnit, int iPlayerGroup, int iFlag, bool bDead) const
 {
 	if (!pkUnit || (pkUnit->IsDead() && !bDead))
 	{
@@ -633,34 +633,34 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				float fRadius2 = (fRadius) * (fRadius);
-				if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-				{
-					if (IsPassUnit(pkUnit, iPlayerGroup, iFlag, bDead))
-					{
-						kGroup.push_back(pkUnit);
-					}
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			float fRadius2 = (fRadius) * (fRadius);
+	//			if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+	//			{
+	//				if (IsPassUnit(pkUnit, iPlayerGroup, iFlag, bDead))
+	//				{
+	//					kGroup.push_back(pkUnit);
+	//				}
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
+void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
 {
 	kGroup.clear();
 
@@ -670,35 +670,35 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				float fRadius2 = (fRadius) * (fRadius);
-				if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-				{
-					bool bPass = pkSrcUnit->IsTargetUnit(pkUnit, iStaticProperty, iDynamicProperty);
-					if (bPass)
-					{
-						kGroup.push_back(pkUnit);
-					}
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			float fRadius2 = (fRadius) * (fRadius);
+	//			if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+	//			{
+	//				bool bPass = pkSrcUnit->IsTargetUnit(pkUnit, iStaticProperty, iDynamicProperty);
+	//				if (bPass)
+	//				{
+	//					kGroup.push_back(pkUnit);
+	//				}
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
-void BeUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, int iAttackedType) const
+void BeUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iAttackedType) const
 {
 	kGroup.clear();
 
@@ -710,7 +710,7 @@ void BeUnitMgr::GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY
 	GetAreaGroup(kGroup, fX, fY, fRadius, pkSrcUnit, iDynaPropFlag, iStaticProcFlag);
 }
 
-void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
+void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const
 {
 	rkGroupID.clear();
 
@@ -720,35 +720,35 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	int iBX, iBY, iEX, iEY;
 	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				float fRadius2 = (fRadius) * (fRadius);
-				if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-				{
-					bool bPass = pkSrcUnit->IsTargetUnit(pkUnit, iStaticProperty, iDynamicProperty);
-					if (bPass)
-					{
-						rkGroupID.push_back(pkUnit->GetID());
-					}
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			float fRadius2 = (fRadius) * (fRadius);
+	//			if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+	//			{
+	//				bool bPass = pkSrcUnit->IsTargetUnit(pkUnit, iStaticProperty, iDynamicProperty);
+	//				if (bPass)
+	//				{
+	//					rkGroupID.push_back(pkUnit->GetID());
+	//				}
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
-void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
+void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	if (!pkSrcUnit)
@@ -778,54 +778,54 @@ void BeUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 		int iSkillTypeID = 0;
 	}
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				float fRadius2 = (fRadius + pkUnit->GetCollision()) * (fRadius + pkUnit->GetCollision());
-				float fDis2 = GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY);
-				if (fDis2 <= fRadius2)
-				{
-					bool bPass = false;
-					switch (eCommand)
-					{
-					case TwCommandType::BCT_STOP:
-					case TwCommandType::BCT_HOLD:
-						// case BCT_MOVE:
-					case TwCommandType::BCT_PATROL:
-					case TwCommandType::BCT_ATTACK:
-							bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
-						break;
-					case TwCommandType::BCT_SPELL:
-						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-						break;
-					case TwCommandType::BCT_USE_ITEM:
-						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-						break;
-					default:
-						break;
-					}
-					if (bPass)
-					{
-						kGroup.push_back(pkUnit);
-					}
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			float fRadius2 = (fRadius + pkUnit->GetCollision()) * (fRadius + pkUnit->GetCollision());
+	//			float fDis2 = GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY);
+	//			if (fDis2 <= fRadius2)
+	//			{
+	//				bool bPass = false;
+	//				switch (eCommand)
+	//				{
+	//				case TwCommandType::BCT_STOP:
+	//				case TwCommandType::BCT_HOLD:
+	//					// case BCT_MOVE:
+	//				case TwCommandType::BCT_PATROL:
+	//				case TwCommandType::BCT_ATTACK:
+	//						bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
+	//					break;
+	//				case TwCommandType::BCT_SPELL:
+	//					bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//					break;
+	//				case TwCommandType::BCT_USE_ITEM:
+	//					bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//					break;
+	//				default:
+	//					break;
+	//				}
+	//				if (bPass)
+	//				{
+	//					kGroup.push_back(pkUnit);
+	//				}
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
-void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
+void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	kGroup.clear();
 	UnitGroup kFirstGroup;
@@ -845,7 +845,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 
 	for (int i = 0; i < kFirstGroup.size(); i++)
 	{
-		BeUnit* pkTarget = kFirstGroup[i];
+		std::shared_ptr<BeUnit> pkTarget = kFirstGroup[i];
 		if (pkTarget)
 		{
 			if (IsInQuadrangle(fX0, fY0, fX1, fY1, fX2, fY2, fX3, fY3, pkTarget->GetPosX(), pkTarget->GetPosY()))
@@ -856,7 +856,7 @@ void	BeUnitMgr::GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, flo
 	}
 }
 
-void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const BeUnit* pkSrcUnit, TwCommandType eCommand, int iData) const
+void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<BeUnit> pkSrcUnit, TwCommandType eCommand, int iData) const
 {
 	rkGroupID.clear();
 	if (!pkSrcUnit)
@@ -886,61 +886,61 @@ void BeUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 		int iSkillTypeID = 0;
 	}
 
-	for (int y = iBY; y <= iEY; y++)
-	{
-		for (int x = iBX; x <= iEX; x++)
-		{
-            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
-            auto temp = pkHead->get()->pkNext;
-            BeUnit* pkUnit = (BeUnit*)temp.get();
-			if (!pkUnit)
-			{
-				continue;
-			}
-			while (pkUnit != pkHead->get())
-			{
-				float fRadius2 = (fRadius) * (fRadius);
-				if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-				{
-					bool bPass = false;
-					switch (eCommand)
-					{
-					case TwCommandType::BCT_STOP:
-					case TwCommandType::BCT_HOLD:
-						// case BCT_MOVE:
-					case TwCommandType::BCT_PATROL:
-					case TwCommandType::BCT_ATTACK:
-						bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
-						break;
-					case TwCommandType::BCT_SPELL:
-						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-						break;
-					case TwCommandType::BCT_USE_ITEM:
-						bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
-						break;
-					default:
-						break;
-					}
-					if (bPass)
-					{
-						rkGroupID.push_back(pkUnit->GetID());
-					}
-				}
-				pkUnit = (BeUnit*)pkUnit->pkNext.get();
-			}
-		}
-	}
+	//for (int y = iBY; y <= iEY; y++)
+	//{
+	//	for (int x = iBX; x <= iEX; x++)
+	//	{
+ //           auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+ //           auto temp = pkHead->get()->pkNext;
+ //           std::shared_ptr<BeUnit> pkUnit = std::make_shared<BeUnit>(temp.get());
+	//		if (!pkUnit)
+	//		{
+	//			continue;
+	//		}
+	//		while (pkUnit.get() != pkHead->get())
+	//		{
+	//			float fRadius2 = (fRadius) * (fRadius);
+	//			if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+	//			{
+	//				bool bPass = false;
+	//				switch (eCommand)
+	//				{
+	//				case TwCommandType::BCT_STOP:
+	//				case TwCommandType::BCT_HOLD:
+	//					// case BCT_MOVE:
+	//				case TwCommandType::BCT_PATROL:
+	//				case TwCommandType::BCT_ATTACK:
+	//					bPass = pkSrcUnit->UnitCanAttack(pkUnit, true);
+	//					break;
+	//				case TwCommandType::BCT_SPELL:
+	//					bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//					break;
+	//				case TwCommandType::BCT_USE_ITEM:
+	//					bPass = pkSrcUnit->IsSkillTargetType(pkRes, pkUnit);
+	//					break;
+	//				default:
+	//					break;
+	//				}
+	//				if (bPass)
+	//				{
+	//					rkGroupID.push_back(pkUnit->GetID());
+	//				}
+	//			}
+	//			pkUnit = std::make_shared<BeUnit>(pkUnit->pkNext.get());
+	//		}
+	//	}
+	//}
 }
 
-BeUnit* BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, float fPosY) const
+std::shared_ptr<BeUnit> BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, float fPosY) const
 {
-	BeUnit* pkFarest = nullptr;
+	std::shared_ptr<BeUnit> pkFarest = nullptr;
 	float fFarestDis = 0.0f;
 	if (!kGroup.empty())
 	{
 		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
-			BeUnit* pkNearUnit = kGroup[i];
+			std::shared_ptr<BeUnit> pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				float fDis = GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fPosX, fPosY);
@@ -967,15 +967,15 @@ BeUnit* BeUnitMgr::GetGroupFarestUnit(const UnitGroup& kGroup, float fPosX, floa
 	}
 }
 
-BeUnit* BeUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, float fPosY, float fDistance, float fRefX, float fRefY) const
+std::shared_ptr<BeUnit> BeUnitMgr::GetGroupNearestUnit(const UnitGroup& kGroup, float fPosX, float fPosY, float fDistance, float fRefX, float fRefY) const
 {
-	BeUnit* pkNearestUnit = nullptr;
+	std::shared_ptr<BeUnit> pkNearestUnit = nullptr;
 	float fNearestDis = 0.0f;
 	if (!kGroup.empty())
 	{
 		for (int i = 0; i < (int)kGroup.size(); ++i)
 		{
-			BeUnit* pkNearUnit = kGroup[i];
+			std::shared_ptr<BeUnit> pkNearUnit = kGroup[i];
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				if (fDistance > 0 && GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fRefX, fRefY) > fDistance * fDistance)
@@ -1015,7 +1015,7 @@ int BeUnitMgr::GetGroupNearestUnit(const UnitGroupID& kGroupID, float fPosX, flo
 	{
 		for (int i = 0; i < (int)kGroupID.size(); ++i)
 		{
-			BeUnit* pkNearUnit = gUnitMgr->GetUnitByID(kGroupID[i]);
+			std::shared_ptr<BeUnit> pkNearUnit = gUnitMgr->GetUnitByID(kGroupID[i]);
 			if (pkNearUnit && !pkNearUnit->IsDead())
 			{
 				float fDis = GetDistance2(pkNearUnit->GetPosX(), pkNearUnit->GetPosY(), fPosX, fPosY);
@@ -1049,10 +1049,10 @@ int	BeUnitMgr::GetUnitIDFromSuspend(int ITypeID)
 		return 0;
 	}
 
-	std::unordered_map<int, BeUnit*>::iterator itr = m_kID2SuspendUnit.begin();
+	std::unordered_map<int, std::shared_ptr<BeUnit>>::iterator itr = m_kID2SuspendUnit.begin();
 	for (; itr != m_kID2SuspendUnit.end(); ++itr)
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		if (pkUnit && pkUnit->GetTypeID() == ITypeID)
 		{
 			return pkUnit->GetID();
@@ -1062,21 +1062,21 @@ int	BeUnitMgr::GetUnitIDFromSuspend(int ITypeID)
 	return 0;
 }
 
-const std::unordered_map<int, BeUnit*>& BeUnitMgr::GetID2Unit() const
+const std::unordered_map<int, std::shared_ptr<BeUnit>>& BeUnitMgr::GetID2Unit() const
 {
 	return m_kID2Unit;
 }
 
-const std::unordered_map<int, BeUnit*>& BeUnitMgr::GetID2SuspendUnit() const
+const std::unordered_map<int, std::shared_ptr<BeUnit>>& BeUnitMgr::GetID2SuspendUnit() const
 {
 	return m_kID2SuspendUnit;
 }
 
 bool BeUnitMgr::GetUnitByTypeID(UnitGroup& kGroup, int iTypeID) const
 {
-	for (std::unordered_map<int, BeUnit*>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
+	for (std::unordered_map<int, std::shared_ptr<BeUnit>>::const_iterator itr = m_kID2Unit.begin(); itr != m_kID2Unit.end(); ++itr)
 	{
-		BeUnit* pkUnit = itr->second;
+		std::shared_ptr<BeUnit> pkUnit = itr->second;
 		if (pkUnit && !pkUnit->IsDead())
 		{
 			if (iTypeID == pkUnit->GetTypeID())

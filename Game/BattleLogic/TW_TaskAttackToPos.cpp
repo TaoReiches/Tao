@@ -92,9 +92,9 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			m_dwMoveTime += iDeltaTime;
 			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 
-			if (gUnit.GetCommandCount() > 0)
+			if (gUnit->GetCommandCount() > 0)
 			{
-				float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), m_kTarPos.fX, m_kTarPos.fY);
+				float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), m_kTarPos.fX, m_kTarPos.fY);
 				if (fDistance2 < m_fRange * m_fRange)
 				{
 					m_dwMoveTime = 0;
@@ -126,17 +126,17 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_REFRESH:
 		{
 			m_dwMoveTime = 0;
-			if (gUnit.GetAttackingUnitID())
+			if (gUnit->GetAttackingUnitID())
 			{
-				BeUnit* pkOrgTarget = gUnitMgr->GetUnitByID(gUnit.GetAttackingUnitID());
+				std::shared_ptr<BeUnit> pkOrgTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE)))
 				{
 					TwPos2 kPos;
 					kPos.fX = pkOrgTarget->GetPosX();
 					kPos.fY = pkOrgTarget->GetPosY();
-					float fDistance = gUnit.GetAttackRange(pkOrgTarget);
+					float fDistance = gUnit->GetAttackRange(pkOrgTarget);
 					m_pkMoveToPos->SetTargetPos(kPos, fDistance);
-					m_pkAttack->SetTargetID(gUnit.GetAttackingUnitID());
+					m_pkAttack->SetTargetID(gUnit->GetAttackingUnitID());
 					m_eState = BeAttackToPosState::BAP_TRACE;
 					break;
 				}
@@ -156,7 +156,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_TRACE:
 		{
 			{
-				BeUnit* pkTarget = gUnitMgr->GetUnitByID(gUnit.GetAttackingUnitID());
+				std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 
 				if (pkTarget && !pkTarget->IsDead())
 				{
@@ -166,7 +166,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 						{
 							kPos.fX = pkTarget->GetPosX();
 							kPos.fY = pkTarget->GetPosY();
-							float fDistance = gUnit.GetAttackRange(pkTarget);
+							float fDistance = gUnit->GetAttackRange(pkTarget);
 							m_pkMoveToPos->SetTargetPos(kPos, fDistance);
 						}
 
@@ -211,24 +211,24 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			BeExeResult eRet = m_pkAttack->Execute(iDeltaTime);
 			if (eRet == BeExeResult::BER_EXE_END)
 			{
-				BeUnit* pkTarget = gUnitMgr->GetUnitByID(gUnit.GetAttackingUnitID());
+				std::shared_ptr<BeUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkTarget && pkTarget->GetClass() == UNIT_CLASSTYPE_BUILDING)
 				{
 					m_eState = BeAttackToPosState::BAP_REFRESH;
 					break;
 				}
 				{
-					if (!pkTarget || !gUnit.UnitCanAttack(pkTarget, true, true))
+					if (!pkTarget || !gUnit->UnitCanAttack(pkTarget, true, true))
 					{
 						m_eState = BeAttackToPosState::BAP_REFRESH;
 						break;
 					}
 
-					float fDistance2 = GetDistance2(gUnit.GetPosX(), gUnit.GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
-					float fRange = gUnit.GetAttackRange(pkTarget);
+					float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
+					float fRange = gUnit->GetAttackRange(pkTarget);
 					if (fDistance2 > fRange * fRange)
 					{
-						TwPos2 kPos(gUnit.GetPosX(), gUnit.GetPosY());
+						TwPos2 kPos(gUnit->GetPosX(), gUnit->GetPosY());
 						m_pkMoveToPos->SetTargetPos(kPos, fRange);
 						m_eState = BeAttackToPosState::BAP_TRACE;
 					}

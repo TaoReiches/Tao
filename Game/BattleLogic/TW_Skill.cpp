@@ -48,7 +48,7 @@ bool BeSkill::Initialize(int iTypeID)
 	return true;
 }
 
-int	BeSkill::GetCDTime(BeUnit* pkUnit)
+int	BeSkill::GetCDTime(std::shared_ptr<BeUnit> pkUnit)
 {
 	SeCalSkillLvlData kData;
 	if (!pkUnit->GetSkillLvlData(kData, GetTypeID()))
@@ -95,7 +95,7 @@ void BeSkill::ReInitAttr(void)
 	InitAttrFromSkill(m_iTypeID, m_kData.iCurLevel);
 }
 
-void BeSkill::SetLastUseTime(BeUnit* pkUnit, int iTime, bool bLearnSkill)
+void BeSkill::SetLastUseTime(std::shared_ptr<BeUnit> pkUnit, int iTime, bool bLearnSkill)
 {
 	int iID = m_iTypeID;
 
@@ -142,7 +142,7 @@ void BeSkill::SetLastUseTime(BeUnit* pkUnit, int iTime, bool bLearnSkill)
 	//}
 }
 
-bool BeSkill::CDComplete(BeUnit* pkUnit)
+bool BeSkill::CDComplete(std::shared_ptr<BeUnit> pkUnit)
 {
 	if (IsSwitch() && IsActive())
 	{
@@ -163,7 +163,7 @@ bool BeSkill::CDComplete(BeUnit* pkUnit)
 	// return pkUnit->CommonCDComplete(m_iTypeID, gData.GetCoolDown(kData));
 }
 
-void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
+void BeSkill::Update(std::shared_ptr<BeUnit> pkUnit, int iItemPos)
 {
 	SeCalSkillLvlData kData;
 	if (!pkUnit->GetSkillLvlData(kData, GetTypeID()))
@@ -180,7 +180,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 			SetCurPileNums(++m_iCurPileNums);
 
 			TwPtParam kParam;
-			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 			kParam.SetParam(TwTrgParamID::BTP_pkSkill, this);
 
 			gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_PILENUM, kParam);
@@ -192,7 +192,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 		//if (gData.GetCoolDown(rkData) > 0 && CDComplete(pkUnit))
 		{
 			TwPtParam kParam;
-			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit);
+			kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, pkUnit.get());
 			kParam.SetParam(TwTrgParamID::BTP_pkSkill, this);
 			kParam.SetParam(TwTrgParamID::BTP_iItemPos, iItemPos + 1);
 
@@ -201,7 +201,7 @@ void BeSkill::Update(BeUnit* pkUnit, int iItemPos)
 	}
 }
 
-int BeSkill::GetLastUseTime(const BeUnit* pkUnit) const
+int BeSkill::GetLastUseTime(const std::shared_ptr<BeUnit> pkUnit) const
 {
 	//return pkUnit->GetCommonCDLastUseTime(GetShareCDSkill());
     return 0;
@@ -225,7 +225,7 @@ void BeSkill::SetActive(bool bActive)
 	//{
 	//	m_kData.bIsActive = bActive;
 
-	//	BeUnit* pkUnit = (BeUnit*)pkAttachUnit;
+	//	std::shared_ptr<BeUnit> pkUnit = (std::shared_ptr<BeUnit>)pkAttachUnit;
 	//	if (pkUnit)
 	//	{
 	//		pkUnit->UpdateAttribute(true);
@@ -240,7 +240,7 @@ void BeSkill::SetActive(bool bActive)
 void BeSkill::DefaultAutoUse(void)
 {
 	float fRate = 0.2f;
-	if (gUnit.GetHP() < gUnit.GetMaxHP() * 0.2f)
+	if (gUnit->GetHP() < gUnit->GetMaxHP() * 0.2f)
 	{
 		fRate = 0.5f;
 	}
@@ -250,14 +250,14 @@ void BeSkill::DefaultAutoUse(void)
 	}
 
 	UnitGroup kGroup;
-	gUnitMgr->GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_NORMAL);
+	gUnitMgr->GetAreaGroup(kGroup, gUnit->GetPosX(), gUnit->GetPosY(), 600.0f, gUnit, BUDP_ENEMY, BUSP_NORMAL);
 	if (kGroup.empty())
 	{
 		return;
 	}
 
 	kGroup.clear();
-	gUnitMgr->GetAreaGroup(kGroup, gUnit.GetPosX(), gUnit.GetPosY(), 600.0f, &gUnit, BUDP_ENEMY, BUSP_HERO);
+	gUnitMgr->GetAreaGroup(kGroup, gUnit->GetPosX(), gUnit->GetPosY(), 600.0f, gUnit, BUDP_ENEMY, BUSP_HERO);
 	if (kGroup.empty())
 	{
 		if (gRandNum.RandFloat(0.0f, 1.0f) > 0.20f)

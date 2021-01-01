@@ -90,7 +90,7 @@ public:
 	}
 
 protected:
-	bool PlayerSendCommand(BeUnit* pkUnit, int iSendIdx);
+	bool PlayerSendCommand(std::shared_ptr<BeUnit> pkUnit, int iSendIdx);
 
 public:
 	void	UpdateRaceOut();
@@ -147,14 +147,14 @@ protected:
     int                     m_iGameBeginTime;
 };
 
-#define gMain           (*((TwMain *)pkAttachMain))
-#define gUnit           (*((BeUnit *)pkAttachUnit))
-#define gTime           (gMain.m_uiGameTime)
-#define gRandNum        (*(gMain.m_pkRandNum))
-#define gMap            (*(gMain.m_pkMap))
-#define gData           (*(gMain.m_pkDataMgr))
-#define gUnitMgr        (gMain.m_pkUnitMgr)
-#define gEffectMgr      (*(gMain.m_pkEffectMgr))
-#define gMapItemMgr     (*(gMain.m_pkMapItemMgr))
-#define gTrgMgr         (*(gMain.m_pkTriggerMgr))
-#define gFormulaInfo    (*(gMain.m_pkFormulaInfo))
+#define gMain           pkAttachMain
+#define gUnit           pkAttachUnit
+#define gTime           (gMain->m_uiGameTime)
+#define gRandNum        (*(gMain->m_pkRandNum))
+#define gMap            (*(gMain->m_pkMap))
+#define gData           (*(gMain->m_pkDataMgr))
+#define gUnitMgr        (gMain->m_pkUnitMgr)
+#define gEffectMgr      (*(gMain->m_pkEffectMgr))
+#define gMapItemMgr     (*(gMain->m_pkMapItemMgr))
+#define gTrgMgr         (*(gMain->m_pkTriggerMgr))
+#define gFormulaInfo    (*(gMain->m_pkFormulaInfo))
