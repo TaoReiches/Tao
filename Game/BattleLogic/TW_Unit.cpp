@@ -225,7 +225,7 @@ bool TwUnit::Initialize(int iTypeID)
 	DelAllBuffer();
 	DelAllSkill();
 
-	mpLearnSkillData.free(m_pkBackData->akLearnSkill.get());
+	//mpLearnSkillData.free(m_pkBackData->akLearnSkill.get());
 
 	TwCommand	kComm(TwCommandType::BCT_STOP);
 	m_kCommander.GiveCommand(kComm);

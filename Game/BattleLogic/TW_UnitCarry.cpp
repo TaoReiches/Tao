@@ -704,50 +704,45 @@ void TwUnit::DelSkill(int iTypeID)
 
 void TwUnit::DelAllSkill(bool bHeroSkillOnly)
 {
-	for (int i = 0; i < iMaxHeroSkillNum; i++)
-	{
-		auto pkSkill = (m_pkCurData->apkUISkill)[i];
-		if (pkSkill)
-		{
-			if (!m_apkNormalSkill.empty())
-			{
-				bool bHasPoint = false;
-				for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
-				{
-					auto pkNormalSkill = *itr;
-					if (pkNormalSkill && pkNormalSkill == pkSkill)
-					{
-						(m_pkCurData->apkUISkill)[i] = nullptr;
-						bHasPoint = true;
-						break;
-					}
-				}
+	//for (auto& pkSkill : m_pkCurData->apkUISkill)
+	//{
+	//	if (pkSkill)
+	//	{
+	//		if (!m_apkNormalSkill.empty())
+	//		{
+	//			bool bHasPoint = false;
+	//			for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+	//			{
+	//				auto pkNormalSkill = *itr;
+	//				if (pkNormalSkill && pkNormalSkill == pkSkill)
+	//				{
+	//					(m_pkCurData->apkUISkill)[i] = nullptr;
+	//					bHasPoint = true;
+	//					break;
+	//				}
+	//			}
 
-				if (bHasPoint)
-				{
-					continue;
-				}
-			}
+	//			if (bHasPoint)
+	//			{
+	//				continue;
+	//			}
+	//		}
 
-			int iSkillTypeID = pkSkill->GetTypeID();
-			if (iSkillTypeID == 'S306' || iSkillTypeID == 'M188')
-			{
-				SetAttackRange(GetOrgAttackRange());
-			}
+	//		int iSkillTypeID = pkSkill->GetTypeID();
 
-			bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
-			(m_pkCurData->apkUISkill)[i] = nullptr;
+	//		bool bNeedUpdate = pkSkill->HasFlag(BCF_HAS_NORMAL_ATTR);
+	//		(m_pkCurData->apkUISkill)[i] = nullptr;
 
-			for (int j = 0; j < (int)m_akUnitData.size(); ++j)
-			{
-				if (m_akUnitData[j]->apkUISkill[i] == pkSkill)
-				{
-					m_akUnitData[j]->apkUISkill[i] = nullptr;
-				}
-			}
-			UpdateAttribute(true);
-		}
-	}
+	//		for (int j = 0; j < (int)m_akUnitData.size(); ++j)
+	//		{
+	//			if (m_akUnitData[j]->apkUISkill[i] == pkSkill)
+	//			{
+	//				m_akUnitData[j]->apkUISkill[i] = nullptr;
+	//			}
+	//		}
+	//		UpdateAttribute(true);
+	//	}
+	//}
 
 	if (bHeroSkillOnly)
 	{
@@ -1264,69 +1259,69 @@ void TwUnit::UpdateValidBuffer(void)
 
 void TwUnit::UpdateValidSkill(bool bReset)
 {
-	for (int i = 0; i < iMaxHeroSkillNum; i++)
-	{
-		auto pkSkill = (m_pkCurData->apkUISkill)[i];
-		if (pkSkill)
-		{
-			if (bReset)
-			{
-				pkSkill->SetLevel(pkSkill->GetLevel());
-			}
+	//for (int i = 0; i < iMaxHeroSkillNum; i++)
+	//{
+	//	auto pkSkill = (m_pkCurData->apkUISkill)[i];
+	//	if (pkSkill)
+	//	{
+	//		if (bReset)
+	//		{
+	//			pkSkill->SetLevel(pkSkill->GetLevel());
+	//		}
 
-			bool bHasSame = false;
-			for (int j = 0; j < (int)m_apkCarry.size(); j++)
-			{
-				auto pkCarry = m_apkCarry[j];
-				if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
-				{
-					bHasSame = true;
-					break;
-				}
-			}
+	//		bool bHasSame = false;
+	//		for (int j = 0; j < (int)m_apkCarry.size(); j++)
+	//		{
+	//			auto pkCarry = m_apkCarry[j];
+	//			if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
+	//			{
+	//				bHasSame = true;
+	//				break;
+	//			}
+	//		}
 
-			if (bHasSame)
-			{
-				continue;
-			}
+	//		if (bHasSame)
+	//		{
+	//			continue;
+	//		}
 
-			m_apkCarry.push_back(pkSkill);
-			SetUnitCarryFlag(pkSkill->GetCarryFlag());
-			SetUnitImmunityFlag(pkSkill->GetImmunityFlag());
-		}
-	}
+	//		m_apkCarry.push_back(pkSkill);
+	//		SetUnitCarryFlag(pkSkill->GetCarryFlag());
+	//		SetUnitImmunityFlag(pkSkill->GetImmunityFlag());
+	//	}
+	//}
 
-	if (!m_apkNormalSkill.empty())
-	{
-		for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
-		{
-			auto pkSkill = *itr;
-			if (bReset)
-			{
-				pkSkill->SetLevel(pkSkill->GetLevel());
-			}
+	//if (!m_apkNormalSkill.empty())
+	//{
+	//	for (auto itr = m_apkNormalSkill.begin(); itr != m_apkNormalSkill.end(); ++itr)
+	//	{
+	//		auto pkSkill = *itr;
+	//		if (bReset)
+	//		{
+	//			pkSkill->SetLevel(pkSkill->GetLevel());
+	//		}
 
-			bool bHasSame = false;
-			for (int i = 0; i < (int)m_apkCarry.size(); i++)
-			{
-				auto pkCarry = m_apkCarry[i];
-				if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
-				{
-					bHasSame = true;
-					break;
-				}
-			}
+	//		bool bHasSame = false;
+	//		for (int i = 0; i < (int)m_apkCarry.size(); i++)
+	//		{
+	//			auto pkCarry = m_apkCarry[i];
+	//			if (!pkCarry || pkCarry->GetID() == pkSkill->GetID())
+	//			{
+	//				bHasSame = true;
+	//				break;
+	//			}
+	//		}
 
-			if (bHasSame)
-			{
-				continue;
-			}
+	//		if (bHasSame)
+	//		{
+	//			continue;
+	//		}
 
-			m_apkCarry.push_back(pkSkill);
-			SetUnitCarryFlag(pkSkill->GetCarryFlag());
-			SetUnitImmunityFlag(pkSkill->GetImmunityFlag());
-		}
-	}
+	//		m_apkCarry.push_back(pkSkill);
+	//		SetUnitCarryFlag(pkSkill->GetCarryFlag());
+	//		SetUnitImmunityFlag(pkSkill->GetImmunityFlag());
+	//	}
+	//}
 }
 
 void TwUnit::GetAttackingAttr(std::shared_ptr<TwUnit> pkTarget, BeAttackingAttr*& rkAttackingAttr)

@@ -221,13 +221,8 @@ std::shared_ptr<TwUnit> TwUnitMgr::NewUnit(int iID)
 	return pkUnit;
 }
 
-std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPlayer, int iUnitID, int iESLabel, int iSkinIdx)
+std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, std::uint64_t iPlayer, int iUnitID)
 {
-	if (!iTypeID)
-	{
-		return nullptr;
-	}
-
 	int iID = iUnitID;
 	if (iID == -1)
 	{
@@ -238,7 +233,7 @@ std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, int iPl
 		gMain->SetGenerateID(BeGenIDType::GIT_ENTITY, iID);
 	}
 
-	std::shared_ptr<TwUnit> pkUnit = NewUnit(iID);
+	auto pkUnit = NewUnit(iID);
 
 	//gMain->AddEntityPointer(GIT_ENTITY, iID, pkUnit);
 

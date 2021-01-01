@@ -21,30 +21,25 @@ typedef std::vector<int> UnitGroupID;
 class TwUnitMgr final : public TwEntityMgr
 {
 public:
-	TwUnitMgr(void);
-	~TwUnitMgr(void);
+    TwUnitMgr(void);
+    ~TwUnitMgr(void);
 
-	bool Initialize(void);
-	void Update(int iDeltaTime);
-	void Finialize(void);
+    bool Initialize(void);
+    void Update(int iDeltaTime);
+    void Finialize(void);
 
-	void Clear();
-	void OnUnitDead(std::shared_ptr<TwUnit> pkUnit);
+    void Clear();
+    void OnUnitDead(std::shared_ptr<TwUnit> pkUnit);
 
-	void			ClearSelectUnits(bool bClear = true) {};
-	void			AddSelectUnit(int iID) {};
-	void			UpdateSelectUnits(void) {};
+    std::shared_ptr<TwUnit> AddUnit(int iTypeID, int iSkillLevel = -1, std::uint64_t iPlayer = -1,int iUnitID = -1);
+    void DelUnit(int iID);
 
-	std::shared_ptr<TwUnit> AddUnit(int iTypeID, int iSkillLevel = -1, int iPlayer = -1,int iUnitID = -1, int iESLabel = 0, int iSkinIdx = -1);
-	void		DelUnit(int iID);
-	void		DelUnitIterator(int iID);
+    std::shared_ptr<TwUnit> GetUnitByID(int iID, bool bSuspend = false, bool bSoul = false);
+    int			GetUnitIDFromSuspend(int ITypeID);
 
-	std::shared_ptr<TwUnit> GetUnitByID(int iID, bool bSuspend = false, bool bSoul = false);
-	int			GetUnitIDFromSuspend(int ITypeID);
+    void		GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const;
 
-	void		GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const;
-
-	void		GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iAttackedType) const;
+    void		GetAreaGroupByAttackedType(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iAttackedType) const;
 
 	void		GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const;
 
