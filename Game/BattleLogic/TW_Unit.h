@@ -38,7 +38,6 @@ public:
 
 	int GetAttackCD(void) const;
 
-
 	void SetActionName(int iActionName, int iTime)
 	{
 		if (iActionName < BAN_ActionNum)
@@ -163,8 +162,6 @@ public:
 		UpdateAttribute(true);
 	}
 
-
-
 	bool IsDamageTime(int iDeltaTime);
 
 	inline void SetAbsFace(float fFace)
@@ -183,8 +180,6 @@ public:
 		}
 		m_pkCurData->fFace = fTarFace;
 	}
-
-
 
 	void SetScale(float fScale)
 	{
@@ -531,10 +526,7 @@ public:
 
 protected:
 	TwCommander									m_kCommander;
-
 	bool										m_bChangeSkill;
-
-
 	int							m_iMoveToUnitID;
 	float                       m_fMoveTarPosX;
 	float                       m_fMoveTarPosY;
@@ -579,7 +571,6 @@ public:
 	void SetCurAttackCD(int iCurAttackCD);
 	void	UpdateItemPassiveSkill();
 private:
-	bool					m_bNewUnit[2];
 	BeShareSelfData			m_kShareSelfDataCur;
 	BeShareSelfData			m_kShareSelfDataLast;
 	int						m_iEffectID;
@@ -589,9 +580,6 @@ private:
 	bool					m_bNeedUpdateObstacle;
 	bool					m_bSetObstacle;
 	std::shared_ptr<TwUnit>		m_spSharePtr;
-	
-	bool					m_bGrassVisionForCamp[iPureCampNum];
-	bool					m_bGrassVisionForCampLast[iPureCampNum];
 	std::vector<int>		m_kItemPassiveSkill;
 	int						m_iLastAttackTime;
 	int						m_iLastAttackHeroTime;
@@ -660,17 +648,6 @@ inline		void	TwUnit::ClearActionStayTime()
 inline const int	TwUnit::GetGrassIndex()  const
 {
 	return m_iGrassIndex;
-}
-inline bool			TwUnit::IsNewUnit(int iCamp)
-{
-	if (iCamp < 0 || iCamp > 1)
-	{
-		return false;
-	}
-	return m_bNewUnit[iCamp];
-}
-inline void			TwUnit::SetNewUnit(bool bNew)
-{
 }
 inline BeShareSelfData& TwUnit::GetCurShareSelfData()
 {

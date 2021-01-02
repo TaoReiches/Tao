@@ -24,6 +24,8 @@ message TwGameUnitData
     optional uint64 UserId = 4;
     optional uint32 HP = 5;
     optional uint32 MP = 6;
+    optional uint32 TargetPosX = 7;
+    optional uint32 TargetPosY = 8;
 }
 
 message TwGameConnectionCS

@@ -168,15 +168,11 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 	m_iAlphaTransTime = 0;
 	m_dwStartAlpha = 0xFF;
 	m_iGrassIndex = 0;
-	memset(m_bGrassVisionForCamp, 0, sizeof(m_bGrassVisionForCamp));
-	memset(m_bGrassVisionForCampLast, 0, sizeof(m_bGrassVisionForCampLast));
 	m_bNeedUpdateObstacle = true;
 	m_bSetObstacle = false;
 	m_spSharePtr.reset(this);
 	m_iLastAttackTime = 0;
 	m_iLastAttackHeroTime = 0;
-	m_bNewUnit[0] = true;
-	m_bNewUnit[1] = true;
 }
 
 void TwUnit::OnDelete(void)
@@ -407,36 +403,6 @@ void TwUnit::Update(int iDeltaTime)
 	//	}
 	//}
 	//m_iGrassIndex = iTempIndex;
-
-	if (m_iGrassIndex > 0)
-	{
-		//for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
-		//{
-		//	int	iDstCamp = iIndex + SRPC_CAMPA;
-		//	if (iDstCamp == GetCamp())
-		//	{
-		//		m_bGrassVisionForCamp[iIndex] = true;
-		//	}
-		//	else
-		//	{
-		//		if (gMain->HasGrassVisionForCamp(m_iGrassIndex, GetCamp(), iDstCamp))
-		//		{
-		//			m_bGrassVisionForCamp[iIndex] = true;
-		//		}
-		//		else
-		//		{
-		//			m_bGrassVisionForCamp[iIndex] = false;
-		//		}
-		//	}
-		//}
-	}
-	else
-	{
-		for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
-		{
-			m_bGrassVisionForCamp[iIndex] = true;
-		}
-	}
 
 	//for (int iIndex = 0; iIndex < iPureCampNum; iIndex++)
 	//{
@@ -2484,8 +2450,6 @@ void TwUnit::ClrAllPureData()
 	//}
 
 	m_kShareSelfDataLast = m_kShareSelfDataCur;
-	m_bNewUnit[0] = false;
-	m_bNewUnit[1] = false;
 	m_iShareUnitDataChangeFlag = 0;
 
 	m_iPathFindSucessTime = 0;
