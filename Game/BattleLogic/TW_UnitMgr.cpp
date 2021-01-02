@@ -216,7 +216,7 @@ void TwUnitMgr::Clear()
 
 std::shared_ptr<TwUnit> TwUnitMgr::NewUnit(int iID)
 {
-	std::shared_ptr<TwUnit> pkUnit = std::shared_ptr<TwUnit>(mpUnit.alloc(iID));
+	std::shared_ptr<TwUnit> pkUnit = std::shared_ptr<TwUnit>(mpUnit.alloc(iID),[](TwUnit* p) {mpUnit.free(p);});
 	pkUnit->AttachMain(pkAttachMain);
 	return pkUnit;
 }
@@ -268,19 +268,15 @@ std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, std::ui
 	}
 	else
 	{
-		std::unordered_map<int, std::shared_ptr<TwUnit>>::iterator it = m_kID2Unit.find(iID);
+		auto it = m_kID2Unit.find(iID);
 		if (it != m_kID2Unit.end())
 		{
 			m_kID2Unit.erase(it);
 		}
 
 		SafeDeleteUnit(pkUnit);
-		mpUnit.free(pkUnit.get());
-		pkUnit = nullptr;
 		return nullptr;
 	}
-
-	return pkUnit;
 }
 
 void TwUnitMgr::OnDelUnit(std::shared_ptr<TwUnit> pkUnit)

@@ -41,12 +41,16 @@ int main()
     TeMemoryPool<Unit> mpUnit(10);
 
     std::vector<std::unique_ptr<Unit, std::function<void(Unit*)>>> testUnits;
+    std::vector<std::shared_ptr<Unit>> sharePointerTest;
     // testUnits.resize(50);
 
     for (int i = 0; i < 20; ++i)
     {
         auto tempUnit = std::unique_ptr<Unit, std::function<void(Unit*)>>(mpUnit.alloc(100+i),[&mpUnit](Unit* p){mpUnit.free(p);});
         testUnits.push_back(std::move(tempUnit));
+
+        auto shareUnit = std::shared_ptr<Unit>(mpUnit.alloc(1000+i), [&mpUnit](Unit* p) {mpUnit.free(p); });
+        sharePointerTest.push_back(shareUnit);
         //testUnits[i].reset(tempUnit);
     }
     //std::remove(testUnits.begin(), testUnits.end());
@@ -58,6 +62,8 @@ int main()
         //mpUnit.free((*ss).get());
         //(*ss).release();
         testUnits.erase(ss);
+
+        sharePointerTest.pop_back();
     }
     for (int i = 0; i < 25; ++i)
     {

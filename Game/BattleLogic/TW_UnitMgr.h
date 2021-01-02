@@ -76,12 +76,12 @@ public:
 	std::shared_ptr<TwUnit> GetUnitByTypeID(int iTypeID);
 
 protected:
-	virtual void	SafeDeleteUnit(std::shared_ptr<TwUnit>& pkUnit);
-	virtual std::shared_ptr<TwUnit> NewUnit(int iID);
+    void SafeDeleteUnit(std::shared_ptr<TwUnit>& pkUnit);
+    std::shared_ptr<TwUnit> NewUnit(int iID);
+    
+    void OnDelUnit(std::shared_ptr<TwUnit> pkUnit);
 
-	virtual void	OnDelUnit(std::shared_ptr<TwUnit> pkUnit);
-
-	bool		IsPassUnit(std::shared_ptr<TwUnit> pkUnit, int iPlayerGroup, int iFlag, bool bDead = false) const;
+    bool IsPassUnit(std::shared_ptr<TwUnit> pkUnit, int iPlayerGroup, int iFlag, bool bDead = false) const;
 
 protected:
 	std::unordered_map<int, std::shared_ptr<TwUnit>>	m_kID2Unit;
