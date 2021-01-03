@@ -5,7 +5,8 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-#include <list>
+#include <set>
+#include <vector>
 #include <memory>
 #include "TW_LogicBase.h"
 
@@ -22,7 +23,11 @@ public:
     void Update();
 
 private:
-    std::list<std::shared_ptr<TwUnit>>      UnitsHasSent;
-    std::list<std::shared_ptr<TwUnit>>      UnitsNeedSend;
-    std::list<std::shared_ptr<TwUnit>>      UnitsNeedRemove;
+    bool UnitInVector(const std::vector<std::shared_ptr<TwUnit>>& group, const std::shared_ptr<TwUnit>& unit) const;
+
+private:
+    std::set<std::shared_ptr<TwUnit>>       UnitsHasSent;
+    std::vector<std::shared_ptr<TwUnit>>    UnitsNeedUpdate;
+    std::vector<std::shared_ptr<TwUnit>>    UnitsNeedRemove;
+    std::vector<std::shared_ptr<TwUnit>>    UnitsNeedAdd;
 };

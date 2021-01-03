@@ -35,7 +35,7 @@ public:
 	void        SetShareUnitChangeFlag(int iFlag);
 	bool        HasShareUnitChangeFlag(int iFlag);
 	void        ClrShareUnitChangeFlag(int iFlag);
-	int         GetShareUnitChangeFlag() const;
+	int         GetOutputFlag() const;
 	void        SetUD_Int(UserDataKey eKey, int i);
 	void        SetUD_Float(UserDataKey eKey, float f);
 	int         GetUD_Int(UserDataKey eKey, int i = 0)const;
@@ -134,7 +134,7 @@ inline void TwUnitBase::ClrShareUnitChangeFlag(int iFlag)
 	m_iShareUnitDataChangeFlag &= ~iFlag;
 }
 
-inline int TwUnitBase::GetShareUnitChangeFlag() const
+inline int TwUnitBase::GetOutputFlag() const
 {
 	return m_iShareUnitDataChangeFlag;
 }
