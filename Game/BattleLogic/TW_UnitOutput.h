@@ -21,6 +21,7 @@ public:
     ~TwUnitOutput();
 
     void Update();
+    void OutputFinished();
 
 private:
     bool UnitInVector(const std::vector<std::shared_ptr<TwUnit>>& group, const std::shared_ptr<TwUnit>& unit) const;

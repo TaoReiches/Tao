@@ -24,7 +24,7 @@ void TwUnitOutput::Update()
     UnitGroup Group;
     gUnitMgr->GetAreaGroup(Group, gUnit->GetPosX(), gUnit->GetPosY(), OutputRadius);
 
-    // new unit that first appear
+    // new units that first appear
     for (auto& unit : Group)
     {
         if (UnitsHasSent.find(unit) == UnitsHasSent.end())
@@ -33,7 +33,7 @@ void TwUnitOutput::Update()
         }
     }
 
-    // unit that need to remove
+    // units that need to remove
     for (auto iterHasSent = UnitsHasSent.begin(); iterHasSent != UnitsHasSent.end();)
     {
         if (!UnitInVector(Group, *iterHasSent))
@@ -55,6 +55,17 @@ void TwUnitOutput::Update()
             UnitsNeedUpdate.push_back(unit);
         }
     }
+}
+
+void TwUnitOutput::OutputFinished()
+{
+    for (auto unit : UnitsNeedAdd)
+    {
+        UnitsHasSent.insert(unit);
+    }
+    UnitsNeedAdd.clear();
+    UnitsNeedRemove.clear();
+    UnitsNeedUpdate.clear();
 }
 
 bool TwUnitOutput::UnitInVector(const std::vector<std::shared_ptr<TwUnit>>& group, const std::shared_ptr<TwUnit>& unit) const
