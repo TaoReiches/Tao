@@ -46,7 +46,7 @@ public:
 		{
 			if (m_eActionName != iActionName || iActionName == BAN_attack || iActionName == BAN_Crit_Attack)
 			{
-				SetShareUnitChangeFlag(BSUDCF_ACTIONNAME);
+				SetOutputChangeFlag(BSUDCF_ACTIONNAME);
 			}
 			m_eActionName = (BeActionName)iActionName;
 			m_iActionStartTime = iTime;
@@ -178,7 +178,7 @@ public:
 		AdjustRadian(fTarFace);
 		if (fabs(m_pkCurData->fFace - fTarFace) > 0.01f)
 		{
-			SetShareUnitChangeFlag(BSUDCF_FACE);
+			SetOutputChangeFlag(BSUDCF_FACE);
 		}
 		m_pkCurData->fFace = fTarFace;
 	}
@@ -187,7 +187,7 @@ public:
 	{
 		m_pkCurData->fScale = fScale;
 
-		SetShareUnitChangeFlag(BSUDCF_SCALE);
+		SetOutputChangeFlag(BSUDCF_SCALE);
 	}
 
 	bool HasSkill(int iID) const
@@ -264,25 +264,11 @@ public:
 		m_pkCurData->fDecMPCost = fDecMPCost;
 	}
 
-	inline bool IsPureNeedUpdate()
-	{
-		return m_bPureNeedUpdae;
-	}
-
-	inline void SetPathFindSucessTime(int iSucessTime)
-	{
-		if (m_iPathFindSucessTime != iSucessTime)
-		{
-			SetShareUnitChangeFlag(BSUDCF_PATHFINDERSUCESS);
-		}
-		m_iPathFindSucessTime = iSucessTime;
-	}
-
 	inline void SetActionState(int iActionState)
 	{
 		if (m_iActionState != iActionState)
 		{
-			SetShareUnitChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputChangeFlag(BSUDCF_PATHFINDER);
 		}
 		m_iActionState = iActionState;
 	}
@@ -306,7 +292,7 @@ public:
 	{
 		if (m_fWalkTargetX != fTarPosX)
 		{
-			SetShareUnitChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputChangeFlag(BSUDCF_PATHFINDER);
 		}
 		m_fWalkTargetX = fTarPosX;
 	}
@@ -315,7 +301,7 @@ public:
 	{
 		if (m_fWalkTargetY != fTarPosY)
 		{
-			SetShareUnitChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputChangeFlag(BSUDCF_PATHFINDER);
 		}
 		m_fWalkTargetY = fTarPosY;
 	}

@@ -210,7 +210,7 @@ inline void TwUnitData::SetMP(float fMP, bool bChange)
 
 	if (fPreMP != m_pkCurData->fMP && bChange)
 	{
-		SetShareUnitChangeFlag(BSUDCF_CURMP);
+		SetOutputChangeFlag(BSUDCF_CURMP);
 	}
 }
 
@@ -218,7 +218,7 @@ inline void TwUnitData::SetMaxHP(float fMaxHP)
 {
 	if (fMaxHP != m_pkCurData->fMaxHP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_MAXHP);
+		SetOutputChangeFlag(BSUDCF_MAXHP);
 	}
 	m_pkCurData->fMaxHP = fMaxHP;
 }
@@ -227,7 +227,7 @@ inline void TwUnitData::SetCurrentTypeID(int iTypeID)
 {
 	if (m_pkCurData->iTypeID != iTypeID)
 	{
-		SetShareUnitChangeFlag(BSUDCF_TYPEID);
+		SetOutputChangeFlag(BSUDCF_TYPEID);
 	}
 	m_pkCurData->iTypeID = iTypeID;
 }
@@ -316,7 +316,7 @@ inline void TwUnitData::SetRegenHP(float fRegenHP)
 {
 	if (m_pkCurData->fRegenHP != fRegenHP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_REGENHP);
+		SetOutputChangeFlag(BSUDCF_REGENHP);
 	}
 	m_pkCurData->fRegenHP = fRegenHP;
 }
@@ -339,7 +339,7 @@ inline void TwUnitData::SetRegenMP(float fRegenMP)
 {
 	if (m_pkCurData->fRegenMP != fRegenMP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_REGENMP);
+		SetOutputChangeFlag(BSUDCF_REGENMP);
 	}
 	m_pkCurData->fRegenMP = fRegenMP;
 }

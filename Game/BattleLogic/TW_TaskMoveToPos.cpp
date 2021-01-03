@@ -338,7 +338,6 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 					m_eState = BeMoveResult::BMR_SUCCESS;
 					m_eMoveState = BeMoveState::BMS_RETRY;
 					gUnit->SetActionState(0);
-					gUnit->SetPathFindSucessTime(GAME_FRAME_TIME - iDeltaTime);
 				}
 			}
 			else

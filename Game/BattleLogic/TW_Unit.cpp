@@ -230,7 +230,7 @@ bool TwUnit::Initialize(int iTypeID)
 	OnPlayerChanged();
 
 	//SetTabInfoFlag(BTCF_UNITID);
-	SetShareUnitChangeFlag(BSUDCF_NEW_UNIT);
+	SetOutputChangeFlag(BSUDCF_NEW_UNIT);
 
 	return true;
 }
@@ -339,7 +339,7 @@ void TwUnit::UpdateState(int iDeltaTime)
 			ClrOtherFlag(BUOF_WEIYI);
 
 			gMap.SetUnitPosition(std::shared_ptr<TwUnit>(this), GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
-			SetShareUnitChangeFlag(BSUDCF_RESET_POX);
+			SetOutputChangeFlag(BSUDCF_RESET_POX);
 		}
 	}
 }
@@ -487,7 +487,7 @@ void TwUnit::SetPlayer(std::uint64_t iPlayerIdx)
 	}
 
 	m_pkBackData->iPlayer = iPlayerIdx;
-	SetShareUnitChangeFlag(BSUDCF_CAMP);
+	SetOutputChangeFlag(BSUDCF_CAMP);
 	//m_eCamp = gMain->GetPlayerCamp(iPlayerIdx);
 	SetControl(iPlayerIdx, true, false);
 
@@ -729,11 +729,11 @@ void TwUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
 	{
 		if (fabs(m_pkCurData->fPosX - fX) > 1.f)
 		{
-			SetShareUnitChangeFlag(BSUDCF_POSX);
+			SetOutputChangeFlag(BSUDCF_POSX);
 		}
 		if (fabs(m_pkCurData->fPosY - fY) > 1.f)
 		{
-			SetShareUnitChangeFlag(BSUDCF_POSX);
+			SetOutputChangeFlag(BSUDCF_POSX);
 		}
 	}
 
@@ -2455,7 +2455,7 @@ void TwUnit::SetFlag(int iFlag, bool bNeedRecordChange)
 	iTempFlag &= ~CLIENTNONEEDFLAG;
 	if (iTempFlag && !HasFlag(iTempFlag))
 	{
-		SetShareUnitChangeFlag(BSUDCF_FLAG);
+		SetOutputChangeFlag(BSUDCF_FLAG);
 	}
 	//	}
 	m_iFlag |= iFlag;
@@ -2469,7 +2469,7 @@ void TwUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
 		iTempFlag &= ~CLIENTNONEEDFLAG;
 		if (iTempFlag && (m_iFlag & iTempFlag) != 0)
 		{
-			SetShareUnitChangeFlag(BSUDCF_FLAG);
+			SetOutputChangeFlag(BSUDCF_FLAG);
 		}
 	}
 	m_iFlag &= ~iFlag;
@@ -2645,7 +2645,7 @@ void TwUnit::UpdateAttribute(bool bUpdateNormal)
 	{
 		if (m_iCarryFlag != iOldCarryFlag)
 		{
-			SetShareUnitChangeFlag(BSUDCF_CARRYFLAG);
+			SetOutputChangeFlag(BSUDCF_CARRYFLAG);
 		}
 		return;
 	}
@@ -2865,40 +2865,40 @@ void TwUnit::UpdateAttribute(bool bUpdateNormal)
 
 	if (akCommonInfo[0] != pkCurData->fHP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_CURHP);
+		SetOutputChangeFlag(BSUDCF_CURHP);
 	}
 	if (akCommonInfo[1] != pkCurData->fMP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_CURMP);
+		SetOutputChangeFlag(BSUDCF_CURMP);
 	}
 	if (akCommonInfo[2] != pkCurData->fMaxHP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_MAXHP);
+		SetOutputChangeFlag(BSUDCF_MAXHP);
 	}
 	if (akCommonInfo[3] != pkCurData->fMaxMP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_MAXMP);
+		SetOutputChangeFlag(BSUDCF_MAXMP);
 	}
 	if (akCommonInfo[4] != pkCurData->fMoveSpeed)
 	{
-		SetShareUnitChangeFlag(BSUDCF_MOVESPEED);
+		SetOutputChangeFlag(BSUDCF_MOVESPEED);
 	}
 	if (akCommonInfo[5] != pkCurData->fRegenHP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_REGENHP);
+		SetOutputChangeFlag(BSUDCF_REGENHP);
 	}
 	if (akCommonInfo[6] != pkCurData->fRegenMP)
 	{
-		SetShareUnitChangeFlag(BSUDCF_REGENMP);
+		SetOutputChangeFlag(BSUDCF_REGENMP);
 	}
 	if ((int)akCommonInfo[7] != pkCurData->iAttackCD)
 	{
-		SetShareUnitChangeFlag(BSUDCF_ATTACKCD);
+		SetOutputChangeFlag(BSUDCF_ATTACKCD);
 	}
 
 	if (m_iCarryFlag != iOldCarryFlag)
 	{
-		SetShareUnitChangeFlag(BSUDCF_CARRYFLAG);
+		SetOutputChangeFlag(BSUDCF_CARRYFLAG);
 	}
 }
 
@@ -3305,7 +3305,7 @@ void TwUnit::SetFace(float fFace, bool bChange/* = true*/)
 
 	// 	if(fFace != m_pkCurData->fFace && bChange)
 	{
-		SetShareUnitChangeFlag(BSUDCF_FACE);
+		SetOutputChangeFlag(BSUDCF_FACE);
 	}
 	m_pkCurData->fFace = fFace;
 }
@@ -3320,7 +3320,7 @@ void TwUnit::SetCurAttackCD(int iCurAttackCD)
 {
 	if (iCurAttackCD != m_pkCurData->iAttackCD)
 	{
-		SetShareUnitChangeFlag(BSUDCF_ATTACKCD);
+		SetOutputChangeFlag(BSUDCF_ATTACKCD);
 	}
 	m_pkCurData->iAttackCD = iCurAttackCD;
 }

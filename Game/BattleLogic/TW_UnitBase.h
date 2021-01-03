@@ -32,7 +32,7 @@ public:
 	void        SetUnitCarryFlag(int iFlag);
 	bool        HasUnitCarryFlag(int iFlag) const;
 	void        ClrUnitCarryFlag(int iFlag);
-	void        SetShareUnitChangeFlag(int iFlag);
+	void        SetOutputChangeFlag(int iFlag);
 	bool        HasShareUnitChangeFlag(int iFlag);
 	void        ClrShareUnitChangeFlag(int iFlag);
 	int         GetOutputFlag() const;
@@ -76,7 +76,7 @@ inline void TwUnitBase::SetOtherFlag(int iFlag)
 {
 	if (!HasOtherFlag(iFlag))
 	{
-		SetShareUnitChangeFlag(BSUDCF_OTHERFLAG);
+		SetOutputChangeFlag(BSUDCF_OTHERFLAG);
 	}
 	m_iOtherFlag |= iFlag;
 }
@@ -85,7 +85,7 @@ inline void TwUnitBase::ClrOtherFlag(int iFlag)
 {
 	if (HasOtherFlag(iFlag))
 	{
-		SetShareUnitChangeFlag(BSUDCF_OTHERFLAG);
+		SetOutputChangeFlag(BSUDCF_OTHERFLAG);
 	}
 	m_iOtherFlag &= ~iFlag;
 }
@@ -119,7 +119,7 @@ inline void TwUnitBase::ClrUnitCarryFlag(int iFlag)
 	m_iCarryFlag &= ~iFlag;
 }
 
-inline void TwUnitBase::SetShareUnitChangeFlag(int iFlag)
+inline void TwUnitBase::SetOutputChangeFlag(int iFlag)
 {
 	m_iShareUnitDataChangeFlag |= iFlag;
 }
