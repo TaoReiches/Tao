@@ -21,6 +21,7 @@
 #include <algorithm>
 #include "TW_UnitLearnSkillData.h"
 #include "TW_TriggerMgr.h"
+#include "TW_UnitOutput.h"
 
 void TwUnit::Link(float fX, float fY, TwEntityMgr* pkMgr)
 {
@@ -173,6 +174,7 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 	m_spSharePtr.reset(this);
 	m_iLastAttackTime = 0;
 	m_iLastAttackHeroTime = 0;
+    UnitOutput = std::unique_ptr<TwUnitOutput>(new TwUnitOutput());
 }
 
 void TwUnit::OnDelete(void)
@@ -471,19 +473,14 @@ void TwUnit::Update(int iDeltaTime)
 	//}
 }
 
-void TwUnit::SetPlayer(int iPlayerIdx)
+void TwUnit::SetPlayer(std::uint64_t iPlayerIdx)
 {
-	if (iPlayerIdx < 0)
-	{
-		return;
-	}
-
 	int iOldPlayer = GetPlayer();
 	//SeRoomPlayerCamp eOldCamp = SeRoomPlayerCamp(m_eCamp);
 	//gMap.ReleaseUnitVision(this);
-	if (m_pkBackData->iOrgPlayer == -1)
+	if (m_pkBackData->iOrgPlayer == 0)
 	{
-		if (m_pkBackData->iPlayer == -1)
+		if (m_pkBackData->iPlayer == 0)
 		{
 			m_pkBackData->iOrgPlayer = iPlayerIdx;
 		}

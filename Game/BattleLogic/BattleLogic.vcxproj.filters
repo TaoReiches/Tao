@@ -270,6 +270,9 @@
     <ClInclude Include="TW_BattleInterface.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
+    <ClInclude Include="TW_UnitOutput.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="TW_BattleInterface.cpp">
       <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitOutput.cpp">
+      <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

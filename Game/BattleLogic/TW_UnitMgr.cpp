@@ -615,6 +615,35 @@ bool TwUnitMgr::IsPassUnit(std::shared_ptr<TwUnit> pkUnit, int iPlayerGroup, int
 	}
 }
 
+void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius) const
+{
+    int BX, BY, EX, EY;
+    GetBlockArea(fX, fY, fRadius, BX, BY, EX, EY);
+
+    for (int y = BY; y <= EY; y++)
+    {
+        for (int x = BX; x <= EX; x++)
+        {
+            auto pkHead = &m_akBlock[m_iBlocksW * y + x];
+            auto temp = pkHead->get()->pkNext;
+            std::shared_ptr<TwUnit> pkUnit = std::shared_ptr<TwUnit>(static_cast<TwUnit*>(temp.get()));
+            if (!pkUnit)
+            {
+                continue;
+            }
+            while (pkUnit.get() != pkHead->get())
+            {
+                float fRadius2 = (fRadius) * (fRadius);
+                if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+                {
+                    kGroup.push_back(pkUnit);
+                }
+                pkUnit = std::shared_ptr<TwUnit>(static_cast<TwUnit*>(pkUnit->pkNext.get()));
+            }
+        }
+    }
+}
+
 void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, int iPlayerIdx, int iFlag, bool bDead) const
 {
 	kGroup.clear();

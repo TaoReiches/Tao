@@ -5,21 +5,22 @@
 
 #include "TW_UnitOutput.h"
 #include "TW_UnitMgr.h"
+#include "TW_Unit.h"
 #include "TW_Main.h"
 
-UnitOutput::UnitOutput()
+TwUnitOutput::TwUnitOutput()
 {
 
 }
 
-UnitOutput::~UnitOutput()
+TwUnitOutput::~TwUnitOutput()
 {
 
 }
 
-void UnitOutput::Update()
+void TwUnitOutput::Update()
 {
     // get all units in the output radius
-    UnitGroup kGroup;
-    gUnitMgr->
+    UnitGroup Group;
+    gUnitMgr->GetAreaGroup(Group, gUnit->GetPosX(), gUnit->GetPosY(), OutputRadius);
 }

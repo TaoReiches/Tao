@@ -13,11 +13,11 @@ static const float OutputRadius = 500.f;
 
 class TwUnit;
 
-class UnitOutput final : public BeMainPtr
+class TwUnitOutput final : public BeMainPtr, public BeUnitPtr
 {
 public:
-    UnitOutput();
-    ~UnitOutput();
+    TwUnitOutput();
+    ~TwUnitOutput();
 
     void Update();
 

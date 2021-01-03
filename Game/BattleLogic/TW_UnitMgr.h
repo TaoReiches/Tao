@@ -44,6 +44,7 @@ public:
 	void		GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, int iDynamicProperty, int iStaticProperty) const;
 
 	void  GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, int iPlayerIdx, int iFlag, bool bDead) const;
+    void  GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius) const;
 
 	void		GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData = 0) const;
 	void		GetRectangleAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius, float fDis, float fFace, const std::shared_ptr<TwUnit> pkSrcUnit, TwCommandType eCommand, int iData) const;

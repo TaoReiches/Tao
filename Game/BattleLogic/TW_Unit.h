@@ -25,7 +25,7 @@
 
 #include "TW_UnitCarry.h"
 
-class UnitOutput;
+class TwUnitOutput;
 
 class TwUnit : public TwUnitCarry
 {
@@ -362,7 +362,7 @@ public:
 	void			OnDelete(void);
 
 	void			SetUnitReliveTime(unsigned int uiUnitReliveTime);
-	void			SetPlayer(int iPlayerIdx);
+	void			SetPlayer(std::uint64_t iPlayerIdx);
 	void			SetCastMove(int iMaxTime, int iUnitID, float fTarPosX, float fTarPosY, int iSkillTypeID, BeUnitFlyType kType = BUFT_MOVE, int iAttackUnitID = 0);
 	void			ClrCastMove(void);
 
@@ -605,7 +605,7 @@ public:
 	inline		int						GetLastAttackHeroTime();
 
 private:
-    std::unique_ptr<UnitOutput>         UnitOutput;
+    std::unique_ptr<TwUnitOutput>         UnitOutput;
 };
 
 inline unsigned int TwUnit::GetClass(void) const

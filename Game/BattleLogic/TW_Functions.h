@@ -10,17 +10,12 @@
 #define D3DX_PI 3.1415926f
 #define	D3DX_2PI					(D3DX_PI * 2.0f)		// 2PI
 
-void	WarnInfo(char* format, ...);
-
 float	GetBuyDistance(void);
-
-void	CopyStringIfNotEmpty(std::string& kDst, const std::string& kSrc);
-
 float	GetDistance(float fx1, float fy1, float fx2, float fy2);
 float	GetDistance2(float fx1, float fy1, float fx2, float fy2);
 float	GetDistance3D(float fx1, float fy1, float fz1, float fx2, float fy2, float fz2);
 bool	IsInTriangle(int x0, int y0, int x1, int y1, int x2, int y2, int x, int y);
-bool	IsInQuadrangle(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3, int x, int y);
+bool	IsInQuadrangle(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, float x, float y);
 
 float	AntiClockWiseDelta(float fRadian0, float fRadian1);
 void	AdjustRadian(float& fRadian);

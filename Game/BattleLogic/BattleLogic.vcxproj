@@ -213,6 +213,7 @@
     <ClInclude Include="TW_UnitDefine.h" />
     <ClInclude Include="TW_UnitMgr.h" />
     <ClInclude Include="TW_UnitLearnSkillData.h" />
+    <ClInclude Include="TW_UnitOutput.h" />
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +265,7 @@
     <ClCompile Include="TW_UnitDataDefine.cpp" />
     <ClCompile Include="TW_UnitMgr.cpp" />
     <ClCompile Include="TW_UnitMgrDefine.h" />
+    <ClCompile Include="TW_UnitOutput.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
