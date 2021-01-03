@@ -175,6 +175,8 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 	m_iLastAttackTime = 0;
 	m_iLastAttackHeroTime = 0;
     UnitOutput = std::unique_ptr<TwUnitOutput>(new TwUnitOutput());
+    UnitOutput->AttachMain(gMain);
+    UnitOutput->AttachUnit(std::shared_ptr<TwUnit>(this));
 }
 
 void TwUnit::OnDelete(void)
@@ -390,6 +392,8 @@ void TwUnit::Update(int iDeltaTime)
 	gUnitMgr->Link(GetPosX(), GetPosY(), this);
 
 	UpdateTransrate(iDeltaTime);
+
+    UnitOutput->Update();
 
 	//int iTempIndex = gMap.GetGrassIndex(GetPosX(), GetPosY());
 	//if (m_iGrassIndex != iTempIndex)

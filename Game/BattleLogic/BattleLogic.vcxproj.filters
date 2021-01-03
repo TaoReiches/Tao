@@ -273,6 +273,9 @@
     <ClInclude Include="TW_UnitOutput.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="TW_UnitOutputInterface.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -420,6 +423,9 @@
       <Filter>LogicMain</Filter>
     </ClCompile>
     <ClCompile Include="TW_UnitOutput.cpp">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_UnitOutputInterface.cpp">
       <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
   </ItemGroup>

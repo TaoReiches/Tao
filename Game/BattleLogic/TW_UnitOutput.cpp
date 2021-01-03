@@ -57,7 +57,7 @@ void TwUnitOutput::Update()
     }
 }
 
-void TwUnitOutput::OutputFinished()
+void TwUnitOutput::UpdateOutputFinished()
 {
     for (auto unit : UnitsNeedAdd)
     {

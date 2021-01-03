@@ -22,12 +22,12 @@
 #include <TW_PointerType.h>
 #include "TW_Command.h"
 #include "TW_CommandExe.h"
-
+#include "TW_UnitOutputInterface.h"
 #include "TW_UnitCarry.h"
 
 class TwUnitOutput;
 
-class TwUnit : public TwUnitCarry
+class TwUnit : public TwUnitCarry, public TwUnitOutputInterface
 {
 public:
 	TwUnit(int iID);
@@ -550,6 +550,7 @@ public:
 	void SetPreTurnFace(float fFace);
 	void SetCurAttackCD(int iCurAttackCD);
 	void	UpdateItemPassiveSkill();
+
 private:
 	BeShareSelfData			m_kShareSelfDataCur;
 	BeShareSelfData			m_kShareSelfDataLast;
@@ -589,9 +590,6 @@ public:
 	inline		int						GetLastGiveAttackCmdTime();
 	inline		void					SetLastAttackHeroTime(int iTime);
 	inline		int						GetLastAttackHeroTime();
-
-private:
-    std::unique_ptr<TwUnitOutput>         UnitOutput;
 };
 
 inline unsigned int TwUnit::GetClass(void) const

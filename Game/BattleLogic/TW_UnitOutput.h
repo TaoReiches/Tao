@@ -21,7 +21,20 @@ public:
     ~TwUnitOutput();
 
     void Update();
-    void OutputFinished();
+    void UpdateOutputFinished();
+
+    const std::vector<std::shared_ptr<TwUnit>>& GetOutputNewUnits() const
+    {
+        return UnitsNeedAdd;
+    }
+    const std::vector<std::shared_ptr<TwUnit>>& GetOutputRemoveUnits() const
+    {
+        return UnitsNeedRemove;
+    }
+    const std::vector<std::shared_ptr<TwUnit>>& GetOutputUpdateUnits() const
+    {
+        return UnitsNeedUpdate;
+    }
 
 private:
     bool UnitInVector(const std::vector<std::shared_ptr<TwUnit>>& group, const std::shared_ptr<TwUnit>& unit) const;
