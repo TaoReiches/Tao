@@ -2280,11 +2280,6 @@ bool TwUnit::PickMapItem(BeMapItem* pkMapItem)
 	return true;
 }
 
-void TwUnit::GuanQiaAddExp(int iExp)
-{
-	SetCurExp(GetCurExp() + iExp);
-}
-
 void TwUnit::AddIgnoreUnit(int iUnitID, int iTime)
 {
 

@@ -25,6 +25,8 @@
 
 #include "TW_UnitCarry.h"
 
+class UnitOutput;
+
 class TwUnit : public TwUnitCarry
 {
 public:
@@ -471,11 +473,6 @@ public:
 	float			GetAttackedBaoJiAttr(void) const;
 
 	void			ResetSkill(void);
-
-	//	void			PlayLevelupEffect();
-
-	void			GuanQiaAddExp(int iExp);
-
 	bool UnitCanBeControl(int iPlayer) const;
 	bool UnitCanMove(bool bTemp = false) const;
 	bool UnitCanAttack(const std::shared_ptr<TwUnit> pkTarget = 0, bool bTemp = false, bool bForceAttackSameGroup = false) const;
@@ -522,8 +519,6 @@ protected:
 
 public:
 	BeItem* AddItem(int iTypeID, int iPos = -1, int iForceID = 0, int iOrgData = 0);
-
-
 protected:
 	TwCommander									m_kCommander;
 	bool										m_bChangeSkill;
@@ -567,7 +562,6 @@ public:
 	void	ClrAllPureData();
 	void SetFace(float fFace, bool bChange = true);
 	void SetPreTurnFace(float fFace);
-	float	GetSkillAddValue(int iEnum, float fValue);
 	void SetCurAttackCD(int iCurAttackCD);
 	void	UpdateItemPassiveSkill();
 private:
@@ -590,9 +584,7 @@ public:
 	inline		void					SetEffectID(int iValue);
 	inline		void					SetActionStayTime(int iValue);
 	inline		void					ClearActionStayTime();
-	inline		const int				GetGrassIndex()  const;
-	inline		bool					IsNewUnit(int iCamp);
-	inline		void					SetNewUnit(bool bNew);
+	inline		const int				GetGrassIndex() const;
 	inline		BeShareSelfData& GetCurShareSelfData();
 	inline		const BeShareSelfData& GetLastShareSelfData();
 	inline		int						GetOrgAttackCD();
@@ -612,8 +604,8 @@ public:
 	inline		void					SetLastAttackHeroTime(int iTime);
 	inline		int						GetLastAttackHeroTime();
 
-	inline	void						AddSkillUnit(int iUnitID);
-	inline	std::vector<int>&			GetSkillUnit();
+private:
+    std::unique_ptr<UnitOutput>         UnitOutput;
 };
 
 inline unsigned int TwUnit::GetClass(void) const
