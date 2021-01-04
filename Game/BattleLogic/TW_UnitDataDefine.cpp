@@ -6,7 +6,7 @@
 #include "TW_UnitDataDefine.h"
 #include "TW_UnitLearnSkillData.h"
 
-BeUnitData::BeUnitData()
+TwUnitData::TwUnitData()
 {
 	Player = -1;
 	iControl = 0;
@@ -110,6 +110,6 @@ BeUnitData::BeUnitData()
 	fBaoJiDamagePer = 0.0f;
 	fBaoJiDecDamage = 0.0f;
 }
-BeUnitData::~BeUnitData()
+TwUnitData::~TwUnitData()
 {
 }

@@ -149,7 +149,7 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 
 	m_iGiveAttackCmdTime = 0;
 
-	auto pkData = std::shared_ptr<BeUnitData>(mpUnitData.alloc());
+	auto pkData = std::shared_ptr<TwUnitData>(mpUnitData.alloc());
 	m_akUnitData.push_back(pkData);
 	m_pkBackData = pkData;
 	m_pkCurData = pkData;

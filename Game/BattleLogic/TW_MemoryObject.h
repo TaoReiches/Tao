@@ -43,8 +43,8 @@ extern TwMemoryPool<BeAttackingAttr>            mpAttackingAttr;
 class BeCarry;
 extern TwMemoryPool<BeCarry>                    mpCarry;
 
-class BeUnitData;
-extern TwMemoryPool<BeUnitData>                 mpUnitData;
+class TwUnitData;
+extern TwMemoryPool<TwUnitData>                 mpUnitData;
 
 class TwUnit;
 extern TwMemoryPool<TwUnit>                     mpUnit;

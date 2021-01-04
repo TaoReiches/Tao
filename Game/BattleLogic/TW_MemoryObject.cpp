@@ -54,7 +54,7 @@ TwMemoryPool<BeEffectData>               mpEffectData(256);
 TwMemoryPool<BeEffect>                   mpEffect(256);
 TwMemoryPool<BeLearnSkillData>           mpLearnSkillData(256);
 TwMemoryPool<TwUnit>                     mpUnit(256);
-TwMemoryPool<BeUnitData>                 mpUnitData(256);
+TwMemoryPool<TwUnitData>                 mpUnitData(256);
 
 TwMemoryPool<BeStopCommand>              mpStopCommand(256);
 TwMemoryPool<BeMoveCommand>              mpMoveCommand(256);

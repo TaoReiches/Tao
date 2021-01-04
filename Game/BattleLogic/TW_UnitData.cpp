@@ -18,25 +18,25 @@
 #include "TW_TriggerEvent.h"
 #include "TW_TriggerMgr.h"
 
-TwUnitData::TwUnitData()
+TwUnitDataOperation::TwUnitDataOperation()
 {
 
 }
 
-TwUnitData::TwUnitData(int iID) : TwUnitBase(iID)
+TwUnitDataOperation::TwUnitDataOperation(int iID) : TwUnitBase(iID)
 {
 
 }
 
-TwUnitData::~TwUnitData()
+TwUnitDataOperation::~TwUnitDataOperation()
 {
 
 }
 
-void TwUnitData::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
+void TwUnitDataOperation::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
 {
 	auto pkOrgData = m_pkBackData;
-	std::shared_ptr<BeUnitData> pkData;
+	std::shared_ptr<TwUnitData> pkData;
 	if (bCurrent)
 	{
 		pkData = m_pkCurData;
@@ -99,7 +99,7 @@ void TwUnitData::OnInitAttribute(bool bCurrent, bool bNeedRecordChange)
 	SetBackTypeID(pkData->iTypeID);
 }
 
-void TwUnitData::OnPropertyUpdate(int iLevel)
+void TwUnitDataOperation::OnPropertyUpdate(int iLevel)
 {
 	auto pkOrgData = m_pkBackData;
 	auto pkCurData = m_pkCurData;
@@ -136,7 +136,7 @@ void TwUnitData::OnPropertyUpdate(int iLevel)
 	//UpdateAttribute(true);
 }
 
-void TwUnitData::SetCurExp(int iCurExp)
+void TwUnitDataOperation::SetCurExp(int iCurExp)
 {
 	SetOutputChangeFlag(BSUDCF_EXP);
 	int iUnitLevel = m_pkCurData->iLevel;
@@ -157,7 +157,7 @@ void TwUnitData::SetCurExp(int iCurExp)
 	m_pkCurData->iCurExp = iCurExp;
 }
 
-void TwUnitData::AddLevel(int iAddLevel)
+void TwUnitDataOperation::AddLevel(int iAddLevel)
 {
 	if (iAddLevel <= 0)
 	{
@@ -191,7 +191,7 @@ void TwUnitData::AddLevel(int iAddLevel)
 }
 
 
-void TwUnitData::SetLevel(int iLevel, bool bNeedRecordChange)
+void TwUnitDataOperation::SetLevel(int iLevel, bool bNeedRecordChange)
 {
 	if (iLevel <= 0)
 	{
@@ -212,7 +212,7 @@ void TwUnitData::SetLevel(int iLevel, bool bNeedRecordChange)
 	}
 }
 
-void TwUnitData::SetHP(float fHP, bool bChange)
+void TwUnitDataOperation::SetHP(float fHP, bool bChange)
 {
 	float fLastHP = m_pkCurData->fHP;
 
@@ -251,13 +251,13 @@ void TwUnitData::SetHP(float fHP, bool bChange)
 	}
 }
 
-float TwUnitData::GetAttackRange(const std::shared_ptr<TwUnit> pkTarget) const
+float TwUnitDataOperation::GetAttackRange(const std::shared_ptr<TwUnit> pkTarget) const
 {
 	return m_pkCurData->fAttackRange + pkTarget->GetCollision();
 }
 
 
-BeLearnSkillData* TwUnitData::GetLearnSkillData(int iPos)
+BeLearnSkillData* TwUnitDataOperation::GetLearnSkillData(int iPos)
 {
 	//if (!m_pkBackData || !m_pkBackData->akLearnSkill)
 	//{
@@ -273,7 +273,7 @@ BeLearnSkillData* TwUnitData::GetLearnSkillData(int iPos)
 	return nullptr;
 }
 
-bool TwUnitData::LearnSkill(int iSkillPos)
+bool TwUnitDataOperation::LearnSkill(int iSkillPos)
 {
 	//if (iSkillPos < 0 || iSkillPos >= MAX_LEARN_SKILLS || !m_pkCurData || !(m_pkCurData->akLearnSkill))
 	//{
@@ -402,7 +402,7 @@ bool TwUnitData::LearnSkill(int iSkillPos)
 //	//gMain->AddUnitFlyData(kData);
 //}
 
-float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)
+float	TwUnitDataOperation::GetSkillAddValue(int iEnum, float fValue)
 {
 	float	fResult = 0.0f;
 	//switch (iEnum)
@@ -479,7 +479,7 @@ float	TwUnitData::GetSkillAddValue(int iEnum, float fValue)
 	return fResult;
 }
 
-bool TwUnitData::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel)
+bool TwUnitDataOperation::GetSkillLvlData(SeCalSkillLvlData& rkData, int iSkillTypeID, int iSkillLevel)
 {
 	bool bRet = false;
 	std::shared_ptr<const SkillTable> pkSkillRes;

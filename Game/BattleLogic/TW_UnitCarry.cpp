@@ -17,7 +17,7 @@
 #include "TW_AttackAttr.h"
 #include "TW_MemoryObject.h"
 
-TwUnitCarry::TwUnitCarry(int iID) : TwUnitData(iID)
+TwUnitCarry::TwUnitCarry(int iID) : TwUnitDataOperation(iID)
 {
 
 }
@@ -584,7 +584,7 @@ int TwUnit::GetCanLearnSkillIDByPos(int iPos) const
 
 BeSkill* TwUnit::GetSkill(int iTypeID, bool bCurrent) const
 {
-    std::shared_ptr<BeUnitData> pkUnitData;
+    std::shared_ptr<TwUnitData> pkUnitData;
 	if (bCurrent)
 	{
 		pkUnitData = m_pkCurData;

@@ -13,7 +13,7 @@ class BeMapItem;
 class BeItem;
 class BeCarry;
 
-class TwUnitCarry : public TwUnitData
+class TwUnitCarry : public TwUnitDataOperation
 {
 protected:
     TwUnitCarry(int iID);

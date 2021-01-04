@@ -31,7 +31,7 @@ class BeSkill;
 class UnitTable;
 class BeLearnSkillData;
 
-class BeUnitData
+class TwUnitData
 {
 public:
     std::uint64_t       Player;
@@ -145,10 +145,10 @@ public:
 	int					iOrgPlayer;
 
 public:
-	BeUnitData();
-	~BeUnitData();
+	TwUnitData();
+	~TwUnitData();
 
 private:
-	BeUnitData(const BeUnitData& other);
-	BeUnitData& operator = (const BeUnitData& other);
+	TwUnitData(const TwUnitData& other);
+	TwUnitData& operator = (const TwUnitData& other);
 };
