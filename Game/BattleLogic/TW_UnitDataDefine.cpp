@@ -8,7 +8,7 @@
 
 BeUnitData::BeUnitData()
 {
-	iPlayer = -1;
+	Player = -1;
 	iControl = 0;
 	iCurExp = 0;
 	iLevel = 0;

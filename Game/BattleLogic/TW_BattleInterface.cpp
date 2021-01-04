@@ -8,11 +8,13 @@
 #include "TW_UnitMgr.h"
 #include "TW_PlayerInfo.h"
 #include "TW_Unit.h"
+#include "TW_Output.h"
 
 TwBattleInterface::TwBattleInterface()
 {
     Main = nullptr;
     Frame = 0;
+    Output = nullptr;
 }
 
 TwBattleInterface::~TwBattleInterface()
@@ -22,11 +24,14 @@ TwBattleInterface::~TwBattleInterface()
 
 bool TwBattleInterface::Initialize()
 {
-    Main = std::unique_ptr<TwMain>(new TwMain());
+    Main = std::shared_ptr<TwMain>(new TwMain());
     if (!Main->Initialize(888))
     {
         return false;
     }
+
+    Output = std::unique_ptr<TwOutput>(new TwOutput());
+    Output->AttachMain(Main);
 
     return true;
 }

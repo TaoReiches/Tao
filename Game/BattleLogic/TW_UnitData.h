@@ -44,7 +44,7 @@ public:
 	float GetTurnSpeed(void) const;
 	const	std::shared_ptr<const UnitTable> GetRes();
 	int GetOrgPlayer(void) const;
-	int GetPlayer(void) const;
+    std::uint64_t GetPlayer() const;
 	int		GetDamageModle();
 	float GetModelScale(void) const;
 	int GetDeathExp(void) const;
@@ -447,14 +447,9 @@ inline int		TwUnitData::GetDamageModle()
 	return 0;
 }
 
-inline int TwUnitData::GetPlayer(void) const
+inline std::uint64_t TwUnitData::GetPlayer() const
 {
-	return m_pkBackData->iPlayer;
-}
-
-inline int TwUnitData::GetOrgPlayer(void) const
-{
-	return m_pkBackData->iOrgPlayer == -1 ? GetPlayer() : m_pkBackData->iOrgPlayer;
+	return m_pkBackData->Player;
 }
 
 inline float TwUnitData::GetCollision(void) const

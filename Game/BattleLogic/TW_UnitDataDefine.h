@@ -34,7 +34,7 @@ class BeLearnSkillData;
 class BeUnitData
 {
 public:
-	int					iPlayer;
+    std::uint64_t       Player;
 	int					iControl;
 	int					iCurExp;
 	int					iLevel;

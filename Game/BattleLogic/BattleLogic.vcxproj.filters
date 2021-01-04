@@ -276,6 +276,12 @@
     <ClInclude Include="TW_UnitOutputInterface.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="TW_Output.h">
+      <Filter>LogicMain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">
@@ -427,6 +433,12 @@
     </ClCompile>
     <ClCompile Include="TW_UnitOutputInterface.cpp">
       <Filter>LogicEntity\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="TW_Output.cpp">
+      <Filter>LogicMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
+      <Filter>Protocol</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

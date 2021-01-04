@@ -11,6 +11,7 @@
 
 class TwMain;
 class TwPlayerInfo;
+class TwOutput;
 
 class TwBattleInterface final
 {
@@ -26,6 +27,7 @@ public:
     bool OnReceiveCommand(std::uint64_t playerId, std::string command);
 
 private:
-    std::unique_ptr<TwMain>         Main;
+    std::shared_ptr<TwMain>         Main;
     unsigned int                    Frame;
+    std::unique_ptr<TwOutput>       Output;
 };

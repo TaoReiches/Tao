@@ -484,13 +484,13 @@ void TwUnit::SetPlayer(std::uint64_t iPlayerIdx)
 	//gMap.ReleaseUnitVision(this);
 	if (m_pkBackData->iOrgPlayer == 0)
 	{
-		if (m_pkBackData->iPlayer == 0)
+		if (m_pkBackData->Player == 0)
 		{
 			m_pkBackData->iOrgPlayer = iPlayerIdx;
 		}
 	}
 
-	m_pkBackData->iPlayer = iPlayerIdx;
+	m_pkBackData->Player = iPlayerIdx;
 	SetOutputChangeFlag(BSUDCF_CAMP);
 	//m_eCamp = gMain->GetPlayerCamp(iPlayerIdx);
 	SetControl(iPlayerIdx, true, false);

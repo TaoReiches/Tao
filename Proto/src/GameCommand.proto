@@ -7,7 +7,8 @@ enum TwGameCommandType
 	SC_CONNECT = 1;
 	CS_CONNECT = 2;
     CS_LOADING_END = 3;
-    SC_FIRST_ENTER_MAP = 4;
+    SC_UNITS_UPDATE = 4;
+    SC_UNITS_REMOVE = 5;
 }
 
 message TwGameCommand
@@ -40,9 +41,14 @@ message TwGameConnectionSC
     required uint32 HeroTypeId = 3;
 }
 
-message TwGameFirstEnterMapSC
+message TwGameUnitsUpdateSC
 {
     repeated TwGameUnitData UnitDatas = 1;
+}
+
+message TwGameUnitsRemoveSC
+{
+    repeated uint64 UserIds = 1;
 }
 
 message TwGameUnitMoveCS

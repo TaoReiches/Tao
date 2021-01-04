@@ -89,7 +89,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../BattleHelper/include;../Table;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../BattleHelper/include;../Table;../../Proto/build/c++;../../ThirdParty/protobuf/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
     <ClInclude Include="TW_AttackAttr.h" />
     <ClInclude Include="TW_AttackedAttr.h" />
     <ClInclude Include="TW_BattleCmd.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="TW_MapItemDefine.h" />
     <ClInclude Include="TW_MapItemMgr.h" />
     <ClInclude Include="TW_MemoryObject.h" />
+    <ClInclude Include="TW_Output.h" />
     <ClInclude Include="TW_PlayerInfo.h" />
     <ClInclude Include="TW_Quest.h" />
     <ClInclude Include="TW_ShareUnitData.h" />
@@ -218,6 +220,7 @@
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc" />
     <ClCompile Include="TW_BattleInterface.cpp" />
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
@@ -246,6 +249,7 @@
     <ClCompile Include="TW_MapItem.cpp" />
     <ClCompile Include="TW_MapItemMgr.cpp" />
     <ClCompile Include="TW_MemoryObject.cpp" />
+    <ClCompile Include="TW_Output.cpp" />
     <ClCompile Include="TW_Skill.cpp" />
     <ClCompile Include="TW_Task.cpp" />
     <ClCompile Include="TW_TaskActionAttack.cpp" />
