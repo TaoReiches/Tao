@@ -31,5 +31,10 @@ std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool add
     Game::TwGameUnitData unitData;
     unitData.set_userid(player->GetPlayer());
 
+    if (addNew || player->HasOutputFlag(1))
+    {
+        unitData.set_unittypeid(player->GetTypeID());
+    }
+
     return unitData.SerializeAsString();
 }

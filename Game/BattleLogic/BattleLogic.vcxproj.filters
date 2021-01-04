@@ -246,9 +246,6 @@
     <ClInclude Include="TW_UnitDataDefine.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="TW_UnitData.h">
-      <Filter>LogicEntity\Unit</Filter>
-    </ClInclude>
     <ClInclude Include="TW_UnitLearnSkillData.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
@@ -281,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
       <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="TW_UnitDataOperation.h">
+      <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -318,9 +318,6 @@
       <Filter>LogicEntity\MapItem</Filter>
     </ClCompile>
     <ClCompile Include="TW_Unit.cpp">
-      <Filter>LogicEntity\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="TW_UnitData.cpp">
       <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
     <ClCompile Include="TW_UnitCarry.cpp">
@@ -437,8 +434,8 @@
     <ClCompile Include="TW_Output.cpp">
       <Filter>LogicMain</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc">
-      <Filter>Protocol</Filter>
+    <ClCompile Include="TW_UnitDataOperation.cpp">
+      <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

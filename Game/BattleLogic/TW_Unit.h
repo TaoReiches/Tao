@@ -12,7 +12,7 @@
 #include "TW_Entity.h"
 #include "TW_MemoryPool.h"
 #include <Unit_table.hpp>
-#include "TW_UnitData.h"
+#include "TW_UnitDataOperation.h"
 #include "TW_UnitDefine.h"
 #include "TW_Commander.h"
 #include "TW_CarryDefine.h"

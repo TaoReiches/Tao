@@ -210,7 +210,7 @@
     <ClInclude Include="TW_Unit.h" />
     <ClInclude Include="TW_UnitBase.h" />
     <ClInclude Include="TW_UnitCarry.h" />
-    <ClInclude Include="TW_UnitData.h" />
+    <ClInclude Include="TW_UnitDataOperation.h" />
     <ClInclude Include="TW_UnitDataDefine.h" />
     <ClInclude Include="TW_UnitDefine.h" />
     <ClInclude Include="TW_UnitMgr.h" />
@@ -220,7 +220,6 @@
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc" />
     <ClCompile Include="TW_BattleInterface.cpp" />
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
@@ -266,7 +265,7 @@
     <ClCompile Include="TW_Unit.cpp" />
     <ClCompile Include="TW_UnitBase.cpp" />
     <ClCompile Include="TW_UnitCarry.cpp" />
-    <ClCompile Include="TW_UnitData.cpp" />
+    <ClCompile Include="TW_UnitDataOperation.cpp" />
     <ClCompile Include="TW_UnitDataDefine.cpp" />
     <ClCompile Include="TW_UnitMgr.cpp" />
     <ClCompile Include="TW_UnitMgrDefine.h" />

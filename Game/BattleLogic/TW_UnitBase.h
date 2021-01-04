@@ -33,7 +33,7 @@ public:
 	bool        HasUnitCarryFlag(int iFlag) const;
 	void        ClrUnitCarryFlag(int iFlag);
 	void        SetOutputChangeFlag(int iFlag);
-	bool        HasShareUnitChangeFlag(int iFlag);
+	bool        HasOutputFlag(int iFlag);
 	void        ClrShareUnitChangeFlag(int iFlag);
 	int         GetOutputFlag() const;
 	void        SetUD_Int(UserDataKey eKey, int i);
@@ -124,7 +124,7 @@ inline void TwUnitBase::SetOutputChangeFlag(int iFlag)
 	m_iShareUnitDataChangeFlag |= iFlag;
 }
 
-inline bool TwUnitBase::HasShareUnitChangeFlag(int iFlag)
+inline bool TwUnitBase::HasOutputFlag(int iFlag)
 {
 	return (m_iShareUnitDataChangeFlag & iFlag) != 0;
 }
