@@ -20,6 +20,15 @@ public:
     {
         AllPlayers.emplace(playerId, player);
     }
+    const std::vector<std::string >& GetPlayerCommands(std::uint64_t playerId)
+    {
+        const auto& iter = OutputCommands.find(playerId);
+        if (iter != OutputCommands.end())
+        {
+            return iter->second;
+        }
+        return EmptyResult;
+    }
 
 private:
     std::string GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew);
@@ -27,4 +36,5 @@ private:
 private:
     std::unordered_map<std::uint64_t, std::vector<std::string>> OutputCommands;
     std::unordered_map<std::uint64_t, std::shared_ptr<TwUnit>> AllPlayers;
+    std::vector<std::string> EmptyResult;
 };

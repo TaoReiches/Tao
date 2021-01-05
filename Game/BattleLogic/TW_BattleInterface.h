@@ -25,6 +25,7 @@ public:
     bool OnPlayerJion(std::uint64_t playerId);
     bool OnPlayerLeave(std::uint64_t playerId);
     bool OnReceiveCommand(std::uint64_t playerId, std::string command);
+    std::string GetOutputCommand(std::uint64_t playerId);
 
 private:
     std::shared_ptr<TwMain>         Main;

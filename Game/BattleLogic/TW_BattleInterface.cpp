@@ -19,7 +19,7 @@ TwBattleInterface::TwBattleInterface()
 
 TwBattleInterface::~TwBattleInterface()
 {
-
+    Main->Finialize();
 }
 
 bool TwBattleInterface::Initialize()
@@ -74,4 +74,9 @@ bool TwBattleInterface::OnPlayerLeave(std::uint64_t playerId)
 bool TwBattleInterface::OnReceiveCommand(std::uint64_t playerId, std::string command)
 {
     return true;
+}
+
+std::string TwBattleInterface::GetOutputCommand(std::uint64_t playerId)
+{
+    return "";
 }
