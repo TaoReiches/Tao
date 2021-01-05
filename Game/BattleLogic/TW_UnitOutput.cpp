@@ -50,7 +50,7 @@ void TwUnitOutput::Update()
     // units that need update
     for (auto& unit : UnitsHasSent)
     {
-        if (unit->GetOutputFlag() != 0)
+        if (unit->GetOutputFlag() != TwUnitOutputFlag::BSUDCF_NULL)
         {
             UnitsNeedUpdate.push_back(unit);
         }

@@ -216,6 +216,7 @@
     <ClInclude Include="TW_UnitMgr.h" />
     <ClInclude Include="TW_UnitLearnSkillData.h" />
     <ClInclude Include="TW_UnitOutput.h" />
+    <ClInclude Include="TW_UnitOutputFlag.h" />
     <ClInclude Include="TW_UnitOutputInterface.h" />
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>

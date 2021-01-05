@@ -10,7 +10,7 @@
 #include "TW_Entity.h"
 #include "TW_UserDataDefine.h"
 #include <TW_PointerType.h>
-#include "TW_ShareUnitData.h"
+#include "TW_UnitOutputFlag.h"
 
 class TwUnitBase : public BeSingleLinkEntity, public BeEntity
 {
@@ -32,10 +32,10 @@ public:
 	void        SetUnitCarryFlag(int iFlag);
 	bool        HasUnitCarryFlag(int iFlag) const;
 	void        ClrUnitCarryFlag(int iFlag);
-	void        SetOutputChangeFlag(int iFlag);
-	bool        HasOutputFlag(int iFlag);
-	void        ClrShareUnitChangeFlag(int iFlag);
-	int         GetOutputFlag() const;
+    void        SetOutputFlag(TwUnitOutputFlag iFlag);
+    bool        HasOutputFlag(TwUnitOutputFlag iFlag);
+    void        ClearOutputFlag(TwUnitOutputFlag iFlag);
+    TwUnitOutputFlag    GetOutputFlag() const;
 	void        SetUD_Int(UserDataKey eKey, int i);
 	void        SetUD_Float(UserDataKey eKey, float f);
 	int         GetUD_Int(UserDataKey eKey, int i = 0)const;
@@ -49,7 +49,7 @@ protected:
     int                                         m_iOtherFlag;
     int                                         m_iImmunityFlag;
 	int                                         m_iCarryFlag;
-	int                                         m_iShareUnitDataChangeFlag;
+    TwUnitOutputFlag                            OutputFlag;
 	std::unordered_map<UserDataKey, TwPointerType>      m_akUserData;
 };
 
@@ -76,7 +76,7 @@ inline void TwUnitBase::SetOtherFlag(int iFlag)
 {
 	if (!HasOtherFlag(iFlag))
 	{
-		SetOutputChangeFlag(BSUDCF_OTHERFLAG);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_OTHERFLAG);
 	}
 	m_iOtherFlag |= iFlag;
 }
@@ -85,7 +85,7 @@ inline void TwUnitBase::ClrOtherFlag(int iFlag)
 {
 	if (HasOtherFlag(iFlag))
 	{
-		SetOutputChangeFlag(BSUDCF_OTHERFLAG);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_OTHERFLAG);
 	}
 	m_iOtherFlag &= ~iFlag;
 }
@@ -119,24 +119,24 @@ inline void TwUnitBase::ClrUnitCarryFlag(int iFlag)
 	m_iCarryFlag &= ~iFlag;
 }
 
-inline void TwUnitBase::SetOutputChangeFlag(int iFlag)
+inline void TwUnitBase::SetOutputFlag(TwUnitOutputFlag iFlag)
 {
-	m_iShareUnitDataChangeFlag |= iFlag;
+	OutputFlag |= iFlag;
 }
 
-inline bool TwUnitBase::HasOutputFlag(int iFlag)
+inline bool TwUnitBase::HasOutputFlag(TwUnitOutputFlag iFlag)
 {
-	return (m_iShareUnitDataChangeFlag & iFlag) != 0;
+	return (OutputFlag & iFlag) != TwUnitOutputFlag::BSUDCF_NULL;
 }
 
-inline void TwUnitBase::ClrShareUnitChangeFlag(int iFlag)
+inline void TwUnitBase::ClearOutputFlag(TwUnitOutputFlag iFlag)
 {
-	m_iShareUnitDataChangeFlag &= ~iFlag;
+	OutputFlag &= ~iFlag;
 }
 
-inline int TwUnitBase::GetOutputFlag() const
+inline TwUnitOutputFlag TwUnitBase::GetOutputFlag() const
 {
-	return m_iShareUnitDataChangeFlag;
+	return OutputFlag;
 }
 
 inline void TwUnitBase::SetUD_Int(UserDataKey eKey, int i)

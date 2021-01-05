@@ -31,7 +31,7 @@ std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool add
     Game::TwGameUnitData unitData;
     unitData.set_userid(player->GetPlayer());
 
-    if (addNew || player->HasOutputFlag(1))
+    if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_TYPEID))
     {
         unitData.set_unittypeid(player->GetTypeID());
     }

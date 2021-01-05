@@ -46,7 +46,7 @@ public:
 		{
 			if (m_eActionName != iActionName || iActionName == BAN_attack || iActionName == BAN_Crit_Attack)
 			{
-				SetOutputChangeFlag(BSUDCF_ACTIONNAME);
+				SetOutputFlag(TwUnitOutputFlag::BSUDCF_ACTIONNAME);
 			}
 			m_eActionName = (BeActionName)iActionName;
 			m_iActionStartTime = iTime;
@@ -178,7 +178,7 @@ public:
 		AdjustRadian(fTarFace);
 		if (fabs(m_pkCurData->fFace - fTarFace) > 0.01f)
 		{
-			SetOutputChangeFlag(BSUDCF_FACE);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_FACE);
 		}
 		m_pkCurData->fFace = fTarFace;
 	}
@@ -187,7 +187,7 @@ public:
 	{
 		m_pkCurData->fScale = fScale;
 
-		SetOutputChangeFlag(BSUDCF_SCALE);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_SCALE);
 	}
 
 	bool HasSkill(int iID) const
@@ -268,7 +268,7 @@ public:
 	{
 		if (m_iActionState != iActionState)
 		{
-			SetOutputChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
 		}
 		m_iActionState = iActionState;
 	}
@@ -292,7 +292,7 @@ public:
 	{
 		if (m_fWalkTargetX != fTarPosX)
 		{
-			SetOutputChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
 		}
 		m_fWalkTargetX = fTarPosX;
 	}
@@ -301,7 +301,7 @@ public:
 	{
 		if (m_fWalkTargetY != fTarPosY)
 		{
-			SetOutputChangeFlag(BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
 		}
 		m_fWalkTargetY = fTarPosY;
 	}

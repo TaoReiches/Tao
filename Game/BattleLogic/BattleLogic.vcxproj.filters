@@ -282,6 +282,9 @@
     <ClInclude Include="TW_UnitDataOperation.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
+    <ClInclude Include="TW_UnitOutputFlag.h">
+      <Filter>LogicEntity\Unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TW_Carry.cpp">

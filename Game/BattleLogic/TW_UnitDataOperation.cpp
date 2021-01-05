@@ -138,7 +138,7 @@ void TwUnitDataOperation::OnPropertyUpdate(int iLevel)
 
 void TwUnitDataOperation::SetCurExp(int iCurExp)
 {
-	SetOutputChangeFlag(BSUDCF_EXP);
+	SetOutputFlag(TwUnitOutputFlag::BSUDCF_EXP);
 	int iUnitLevel = m_pkCurData->iLevel;
 	for (int iIndex = iUnitLevel; iIndex < 30; iIndex++)
 	{
@@ -182,12 +182,12 @@ void TwUnitDataOperation::AddLevel(int iAddLevel)
 
 	if (iPreLevel != m_pkBackData->iLevel)
 	{
-		SetOutputChangeFlag(BSUDCF_UNITLEVEL);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_UNITLEVEL);
 
 		//SetTabInfoFlag(BTCF_LEVEL);
 	}
 
-	SetOutputChangeFlag(BSUDCF_HEROLVLUP);
+	SetOutputFlag(TwUnitOutputFlag::BSUDCF_HEROLVLUP);
 }
 
 
@@ -207,7 +207,7 @@ void TwUnitDataOperation::SetLevel(int iLevel, bool bNeedRecordChange)
 
 	if (iPreLevel != m_pkCurData->iLevel)
 	{
-		SetOutputChangeFlag(BSUDCF_UNITLEVEL);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_UNITLEVEL);
 		//SetTabInfoFlag(BTCF_LEVEL);
 	}
 }
@@ -247,7 +247,7 @@ void TwUnitDataOperation::SetHP(float fHP, bool bChange)
 
 	if (bChange && fLastHP != m_pkCurData->fHP)
 	{
-		SetOutputChangeFlag(BSUDCF_CURHP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURHP);
 	}
 }
 

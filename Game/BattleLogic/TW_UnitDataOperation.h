@@ -10,6 +10,7 @@
 #include "TW_UnitDataDefine.h"
 #include "TW_UnitBase.h"
 #include "Unit_table.hpp"
+#include "TW_ShareUnitData.h"
 
 class TwUnitDataOperation : public TwUnitBase
 {
@@ -210,7 +211,7 @@ inline void TwUnitDataOperation::SetMP(float fMP, bool bChange)
 
 	if (fPreMP != m_pkCurData->fMP && bChange)
 	{
-		SetOutputChangeFlag(BSUDCF_CURMP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURMP);
 	}
 }
 
@@ -218,7 +219,7 @@ inline void TwUnitDataOperation::SetMaxHP(float fMaxHP)
 {
 	if (fMaxHP != m_pkCurData->fMaxHP)
 	{
-		SetOutputChangeFlag(BSUDCF_MAXHP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_MAXHP);
 	}
 	m_pkCurData->fMaxHP = fMaxHP;
 }
@@ -227,7 +228,7 @@ inline void TwUnitDataOperation::SetCurrentTypeID(int iTypeID)
 {
 	if (m_pkCurData->iTypeID != iTypeID)
 	{
-		SetOutputChangeFlag(BSUDCF_TYPEID);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_TYPEID);
 	}
 	m_pkCurData->iTypeID = iTypeID;
 }
@@ -316,7 +317,7 @@ inline void TwUnitDataOperation::SetRegenHP(float fRegenHP)
 {
 	if (m_pkCurData->fRegenHP != fRegenHP)
 	{
-		SetOutputChangeFlag(BSUDCF_REGENHP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_REGENHP);
 	}
 	m_pkCurData->fRegenHP = fRegenHP;
 }
@@ -339,7 +340,7 @@ inline void TwUnitDataOperation::SetRegenMP(float fRegenMP)
 {
 	if (m_pkCurData->fRegenMP != fRegenMP)
 	{
-		SetOutputChangeFlag(BSUDCF_REGENMP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_REGENMP);
 	}
 	m_pkCurData->fRegenMP = fRegenMP;
 }

@@ -121,7 +121,7 @@ void TwUnitMgr::Update(int iDeltaTime)
 					//	gMain->SetHeroFocusPlayerID(pkUnit->GetPlayer(), -1);
 					//}
 
-					pkUnit->SetOutputChangeFlag(BSUDCF_ACTIONNAME);
+					pkUnit->SetOutputFlag(TwUnitOutputFlag::BSUDCF_ACTIONNAME);
 				}
 
 				//for (int iPos = 0; iPos < UNIT_MAX_ITEM; ++iPos)
