@@ -211,7 +211,7 @@ inline void TwUnitDataOperation::SetMP(float fMP, bool bChange)
 
 	if (fPreMP != m_pkCurData->fMP && bChange)
 	{
-		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURMP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_MP);
 	}
 }
 

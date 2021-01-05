@@ -268,7 +268,7 @@ public:
 	{
 		if (m_iActionState != iActionState)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
 		}
 		m_iActionState = iActionState;
 	}
@@ -292,7 +292,7 @@ public:
 	{
 		if (m_fWalkTargetX != fTarPosX)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
 		}
 		m_fWalkTargetX = fTarPosX;
 	}
@@ -301,7 +301,7 @@ public:
 	{
 		if (m_fWalkTargetY != fTarPosY)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_PATHFINDER);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
 		}
 		m_fWalkTargetY = fTarPosY;
 	}

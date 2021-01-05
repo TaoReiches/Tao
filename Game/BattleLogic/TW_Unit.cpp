@@ -733,11 +733,11 @@ void TwUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
 	{
 		if (fabs(m_pkCurData->fPosX - fX) > 1.f)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_POSX);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_POS);
 		}
 		if (fabs(m_pkCurData->fPosY - fY) > 1.f)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_POSX);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_POS);
 		}
 	}
 
@@ -2869,11 +2869,11 @@ void TwUnit::UpdateAttribute(bool bUpdateNormal)
 
 	if (akCommonInfo[0] != pkCurData->fHP)
 	{
-		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURHP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_HP);
 	}
 	if (akCommonInfo[1] != pkCurData->fMP)
 	{
-		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURMP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_MP);
 	}
 	if (akCommonInfo[2] != pkCurData->fMaxHP)
 	{

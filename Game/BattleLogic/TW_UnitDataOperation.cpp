@@ -247,7 +247,7 @@ void TwUnitDataOperation::SetHP(float fHP, bool bChange)
 
 	if (bChange && fLastHP != m_pkCurData->fHP)
 	{
-		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURHP);
+		SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_HP);
 	}
 }
 

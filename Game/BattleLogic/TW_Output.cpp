@@ -35,6 +35,24 @@ std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool add
     {
         unitData.set_unittypeid(player->GetTypeID());
     }
+    if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_POS))
+    {
+        unitData.set_posx(static_cast<int>(player->GetPosX() * 100));
+        unitData.set_posy(static_cast<int>(player->GetPosY() * 100));
+    }
+    if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS))
+    {
+        unitData.set_targetposx(static_cast<int>(player->GetTarPosX() * 100));
+        unitData.set_targetposy(static_cast<int>(player->GetTarPosY() * 100));
+    }
+    if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_HP))
+    {
+        unitData.set_hp(static_cast<int>(player->GetHP()));
+    }
+    if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_MP))
+    {
+        unitData.set_mp(static_cast<int>(player->GetMP()));
+    }
 
     return unitData.SerializeAsString();
 }
