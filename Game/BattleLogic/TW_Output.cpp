@@ -23,6 +23,36 @@ void TwOutput::Update()
         {
             unitUpdateCommand.MergeFromString(GetUnitUpdateData(newUnit, true));
         }
+        // unit update
+        const auto& updateUnits = player.second->GetOutputUpdateUnits();
+        for (auto& updateUnit : updateUnits)
+        {
+            unitUpdateCommand.MergeFromString(GetUnitUpdateData(updateUnit, false));
+        }
+        // store command
+        if (unitUpdateCommand.unitdatas_size() > 0)
+        {
+            Game::TwGameCommand gameCommand;
+            gameCommand.set_commandtype(Game::TwGameCommandType::SC_UNITS_UPDATE);
+            gameCommand.set_content(unitUpdateCommand.SerializeAsString());
+            OutputCommands[player.first].push_back(gameCommand.SerializeAsString());
+        }
+        // remove units
+        const auto& removeUnits = player.second->GetOutputRemoveUnits();
+        if (removeUnits.size() > 0)
+        {
+            Game::TwGameUnitsRemoveSC removeUnitsCommand;
+            for (auto& removeUnit : removeUnits)
+            {
+                removeUnitsCommand.add_userids(player.second->GetPlayer());
+            }
+            Game::TwGameCommand gameCommand;
+            gameCommand.set_commandtype(Game::TwGameCommandType::SC_UNITS_REMOVE);
+            gameCommand.set_content(removeUnitsCommand.SerializeAsString());
+            OutputCommands[player.first].push_back(gameCommand.SerializeAsString());
+        }
+        // clear unit output data
+        player.second->UpdateOutputDataFinished();
     }
 }
 

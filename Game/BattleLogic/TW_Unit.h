@@ -545,7 +545,7 @@ private:
 public:
 	void SetFlag(int iFlag, bool bNeedRecordChange = true);
 	void ClrFlag(int iFlag, bool bNeedRecordChange = true);
-	void	ClrAllPureData();
+	void	ClearOutputData();
 	void SetFace(float fFace, bool bChange = true);
 	void SetPreTurnFace(float fFace);
 	void SetCurAttackCD(int iCurAttackCD);

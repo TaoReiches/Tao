@@ -25,6 +25,6 @@ private:
     std::string GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew);
 
 private:
-    std::unordered_map<std::uint64_t, std::string> OutputCommands;
+    std::unordered_map<std::uint64_t, std::vector<std::string>> OutputCommands;
     std::unordered_map<std::uint64_t, std::shared_ptr<TwUnit>> AllPlayers;
 };

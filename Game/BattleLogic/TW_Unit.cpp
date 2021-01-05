@@ -2438,7 +2438,7 @@ void TwUnit::SafeDelBuf(BeBuffer* pkBuffer, bool bNeedRecordChange)
 	mpBuffer.free(pkBuffer);
 }
 
-void TwUnit::ClrAllPureData()
+void TwUnit::ClearOutputData()
 {
 	//for (int i = 0; i < MAX_ACTIVEPLAYERS; i++)
 	//{

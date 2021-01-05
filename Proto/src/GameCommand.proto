@@ -17,6 +17,11 @@ message TwGameCommand
 	optional bytes Content = 2;
 }
 
+message TwGameCommandsSC
+{
+    repeated TwGameCommand Commands = 1;
+}
+
 message TwGameUnitData
 {
     optional uint32 PosX = 1;
