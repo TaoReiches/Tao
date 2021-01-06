@@ -23,15 +23,15 @@
 #include "TW_TriggerMgr.h"
 #include "TW_UnitOutput.h"
 
-void TwUnit::Link(float fX, float fY, TwEntityMgr<TwUnit>* pkMgr)
-{
-
-}
-
-void TwUnit::Unlink()
-{
-
-}
+//void TwUnit::Link(float fX, float fY, TwEntityMgr<TwUnit>* pkMgr)
+//{
+//
+//}
+//
+//void TwUnit::Unlink()
+//{
+//
+//}
 
 template<class T>
 void TwUnit::TrgOnPreDamage_T(T& kSkill, int iCount, int eAttackType, float& fDamage, std::shared_ptr<TwUnit> pkTarget, int iPlayer, int iFlag, bool bCanDead, BeAttackingAttr& kAttr, int iItemPos)
@@ -131,7 +131,7 @@ void TwUnit::TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<TwUnit> pkTarg
 	}
 }
 
-TwUnit::TwUnit(int iID) : TwUnitCarry(iID), BeSingleLinkEntity<TwUnit>(iID)
+TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 {
 	m_iOtherFlag = 0;
 	m_iCarryFlag = 0;

@@ -26,7 +26,8 @@ bool TwUnitMgr::Initialize(void)
 {
 	Clear();
 
-	return TwEntityMgr::Initialize();
+	//return TwEntityMgr::Initialize();
+    return true;
 }
 
 std::shared_ptr<TwUnit> TwUnitMgr::GetUnitByTypeID(int iTypeID)
@@ -178,7 +179,7 @@ void TwUnitMgr::Finialize(void)
 {
 	Clear();
 
-	TwEntityMgr::Finialize();
+	//TwEntityMgr::Finialize();
 }
 
 void TwUnitMgr::Clear()
@@ -386,7 +387,7 @@ void TwUnitMgr::GetBlockAreaGroup(UnitGroup& kGroup, float fX1, float fY1, float
 	float fDY = fabs(fY - fY1);
 	float fRadius = std::max(fDX, fDY);
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	//for (int y = iBY; y <= iEY; y++)
 	//{
@@ -435,7 +436,7 @@ void TwUnitMgr::GetFanAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRa
 	int iPlayerGroup = -1;
 
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	fRadius *= fRadius;
 	//for (int y = iBY; y <= iEY; y++)
@@ -617,30 +618,30 @@ bool TwUnitMgr::IsPassUnit(std::shared_ptr<TwUnit> pkUnit, int iPlayerGroup, int
 
 void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadius) const
 {
-    int BX, BY, EX, EY;
-    GetBlockArea(fX, fY, fRadius, BX, BY, EX, EY);
+    int BX = 0, BY = 0, EX = 0, EY = 0;
+    //GetBlockArea(fX, fY, fRadius, BX, BY, EX, EY);
 
     for (int y = BY; y <= EY; y++)
     {
         for (int x = BX; x <= EX; x++)
         {
-            auto index = m_iBlocksW * y + x;
-            auto pkHead = &m_akBlock[index];
-            auto temp = pkHead->pkNext;
-            std::shared_ptr<TwUnit> pkUnit = temp->pkBlock;
-            if (!pkUnit)
-            {
-                continue;
-            }
-            while (pkUnit.get() != pkHead->pkBlock.get())
-            {
-                float fRadius2 = (fRadius) * (fRadius);
-                if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-                {
-                    kGroup.push_back(pkUnit);
-                }
-                pkUnit = std::shared_ptr<TwUnit>(static_cast<TwUnit*>(pkUnit->pkNext.get()));
-            }
+            //auto index = m_iBlocksW * y + x;
+            //auto pkHead = &m_akBlock[index];
+            //auto temp = pkHead->pkNext;
+            //std::shared_ptr<TwUnit> pkUnit = temp->pkBlock;
+            //if (!pkUnit)
+            //{
+            //    continue;
+            //}
+            //while (pkUnit.get() != pkHead->pkBlock.get())
+            //{
+            //    float fRadius2 = (fRadius) * (fRadius);
+            //    if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
+            //    {
+            //        kGroup.push_back(pkUnit);
+            //    }
+            //    pkUnit = std::shared_ptr<TwUnit>(static_cast<TwUnit*>(pkUnit->pkNext.get()));
+            //}
         }
     }
 }
@@ -652,7 +653,7 @@ void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iPlayerGroup = -1;
 
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	//for (int y = iBY; y <= iEY; y++)
 	//{
@@ -689,7 +690,7 @@ void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	//for (int y = iBY; y <= iEY; y++)
 	//{
@@ -739,7 +740,7 @@ void TwUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	//for (int y = iBY; y <= iEY; y++)
 	//{
@@ -780,7 +781,7 @@ void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
 	int iPlayerGroup = -1;
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	std::shared_ptr<const SkillTable> pkRes;
 
@@ -889,7 +890,7 @@ void TwUnitMgr::GetAreaGroupID(UnitGroupID& rkGroupID, float fX, float fY, float
 	int iPlayerIdx = pkSrcUnit->GetPlayer();
 
 	int iBX, iBY, iEX, iEY;
-	GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
+	//GetBlockArea(fX, fY, fRadius, iBX, iBY, iEX, iEY);
 
 	std::shared_ptr<const SkillTable> pkRes;
 	if (eCommand == TwCommandType::BCT_SPELL)

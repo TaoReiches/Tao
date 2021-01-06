@@ -18,7 +18,7 @@ class TwUnit;
 typedef std::vector<std::shared_ptr<TwUnit>> UnitGroup;
 typedef std::vector<int> UnitGroupID;
 
-class TwUnitMgr final : public TwEntityMgr<TwUnit>
+class TwUnitMgr final : public TwMainPtr
 {
 public:
     TwUnitMgr(void);

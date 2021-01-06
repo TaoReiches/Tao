@@ -13,17 +13,17 @@
 class BeMapItem;
 class BeShareMapItemData;
 
-class BeMapItemMgr : public TwEntityMgr<BeMapItem>
+class BeMapItemMgr : public TwMainPtr
 {
 public:
 	BeMapItemMgr(void);
 	~BeMapItemMgr(void);
 
-	virtual bool Initialize(void) override;
-	virtual void Update(int iDeltaTime) override;
-	virtual void Finialize(void) override;
+	bool Initialize(void);
+	void Update(int iDeltaTime);
+	void Finialize(void);
 
-	virtual void Clear();
+	void Clear();
 
 	std::shared_ptr<BeMapItem> AddMapItem(int iTypeID, bool bDrop = false, int iGroup = -1, int iPlayer = -1);
 	void		DelMapItem(int iID);

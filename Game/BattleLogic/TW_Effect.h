@@ -30,20 +30,20 @@ class BeAttackingAttr;
 template<class T>
 class TwEntityMgr;
 
-class BeEffect : public BeChangeFlagObj, public BeEntity<BeEffect>
+class BeEffect : public BeChangeFlagObj, public TwMainPtr, public BeFlagObj
 {
 public:
     BeEffect(int iID);
     ~BeEffect(void);
 
-    virtual bool Initialize(int iTypeID) override;
-    virtual void Update(int iDeltaTime) override;
+    bool Initialize(int iTypeID);
+    void Update(int iDeltaTime);
 
     void SetModelFile(int iModelID, BeAttachPos eAttachPos = BAP_ChestRef);
     int  GetModelFile();
 
-    virtual void Link(float fX, float fY, TwEntityMgr<BeEffect>* pkMgr) override {};
-    virtual void Unlink() override {};
+    //virtual void Link(float fX, float fY, TwEntityMgr<BeEffect>* pkMgr) override {};
+    //virtual void Unlink() override {};
 
     virtual void OnRemove(void);
 
@@ -175,6 +175,10 @@ public:
     int GetProperty() const;
     void    SetNewEffect(bool bNew);
     bool    IsNewEffect();
+    int GetID()
+    {
+        return m_iID;
+    }
 
 protected:
     void	UpdateAttach(int iDeltaTime);
@@ -228,6 +232,8 @@ protected:
     float				    m_fOrgScale;
     bool				    m_bChangeScale;
     int					    m_iRace;
+    int                     m_iTypeID;
+    int                     m_iID;
 };
 
 inline int BeEffect::GetRace(void)

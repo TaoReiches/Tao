@@ -26,7 +26,8 @@ bool BeEffectMgr::Initialize(void)
 {
 	Clear();
 
-	return TwEntityMgr::Initialize();
+	//return TwEntityMgr::Initialize();
+    return true;
 }
 
 void BeEffectMgr::Update(int iDeltaTime)
@@ -96,7 +97,7 @@ void BeEffectMgr::Finialize(void)
 {
 	Clear();
 
-	TwEntityMgr::Finialize();
+	//TwEntityMgr::Finialize();
 }
 
 void BeEffectMgr::Clear()
