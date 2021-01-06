@@ -9,7 +9,7 @@
 #include "TW_ShareUnitData.h"
 #include "TW_MapItemDefine.h"
 
-BeMapItem::BeMapItem(int iID) : BeSingleLinkEntity(iID)
+BeMapItem::BeMapItem(int iID)
 {
 	m_pkRes.reset();
 	m_iLife = 2;
@@ -65,7 +65,7 @@ void BeMapItem::Update(int iDeltaTime)
 		SetFlag(BIF_REMOVE);
 	}
 
-	BeEntity::Update(iDeltaTime);
+	//BeEntity::Update(iDeltaTime);
 }
 
 void BeMapItem::ClrAllPureData()

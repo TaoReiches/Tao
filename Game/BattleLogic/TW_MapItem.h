@@ -12,14 +12,14 @@
 #include "Item_table.hpp"
 #include "TW_Functions.h"
 
-class BeMapItem : public BeSingleLinkEntity<BeMapItem>, public BeChangeFlagObj, public BeEntity<BeMapItem>
+class BeMapItem : public TwMainPtr, public BeChangeFlagObj, public BeFlagObj
 {
 public:
     BeMapItem(int iID);
     ~BeMapItem(void);
 
-    void Link(float fX, float fY, TwEntityMgr<BeMapItem>* pkMgr) override {};
-    void Unlink(void) override {};
+    //void Link(float fX, float fY, TwEntityMgr<BeMapItem>* pkMgr) override {};
+    //void Unlink(void) override {};
     bool Initialize(int iTypeID);
     void Update(int iDeltaTime);
 
@@ -68,6 +68,14 @@ public:
     bool	GetCanPickUp();
     void SetPosition(float fX, float fY, float fFace = 1.5f * D3DX_PI, float fZ = 0.f);
     void									ClrAllPureData();
+    int GetID()
+    {
+        return m_iID;
+    }
+    int GetTypeID()
+    {
+        return m_iTypeID;
+    }
 
 protected:
     std::shared_ptr<const ItemTable> m_pkRes;
@@ -75,6 +83,8 @@ protected:
     int					m_iLife;
     int					m_iLiveTime;
     bool				m_bCanPickUp;
+    int m_iTypeID;
+    int m_iID;
 };
 
 inline int BeMapItem::GetOrgPileCount(void) const
