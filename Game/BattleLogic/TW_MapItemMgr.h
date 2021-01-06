@@ -13,7 +13,7 @@
 class BeMapItem;
 class BeShareMapItemData;
 
-class BeMapItemMgr : public TwEntityMgr
+class BeMapItemMgr : public TwEntityMgr<BeMapItem>
 {
 public:
 	BeMapItemMgr(void);

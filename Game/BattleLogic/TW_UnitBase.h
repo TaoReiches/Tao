@@ -12,7 +12,9 @@
 #include <TW_PointerType.h>
 #include "TW_UnitOutputFlag.h"
 
-class TwUnitBase : public BeSingleLinkEntity, public BeEntity
+class TwUnit;
+
+class TwUnitBase : public BeEntity<TwUnit>
 {
 public:
     TwUnitBase();

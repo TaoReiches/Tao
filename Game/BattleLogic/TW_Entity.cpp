@@ -7,36 +7,42 @@
 #include "TW_EntityMgr.h"
 #include "TW_Functions.h"
 
-
-BeEntity::BeEntity()
+template<class T>
+BeEntity<T>::BeEntity()
 {
 
 }
 
-BeEntity::BeEntity(int iID)
+template<class T>
+BeEntity<T>::BeEntity(int iID)
 {
 	m_iID = iID;
 	m_iTypeID = 0;
 	m_iFlag = 0;
 }
 
-BeEntity::~BeEntity(void)
+template<class T>
+BeEntity<T>::~BeEntity(void)
 {
 }
 
-void BeEntity::Update(int iDeltaTime)
+template<class T>
+void BeEntity<T>::Update(int iDeltaTime)
 {
 }
 
-BeSingleLinkEntity::BeSingleLinkEntity(int iID)
+template<class T>
+BeSingleLinkEntity<T>::BeSingleLinkEntity(int iID)
 {
 }
 
-BeSingleLinkEntity::~BeSingleLinkEntity(void)
+template<class T>
+BeSingleLinkEntity<T>::~BeSingleLinkEntity(void)
 {
 }
 
-void BeSingleLinkEntity::Link(float fX, float fY, TwEntityMgr* pkMgr)
+template<class T>
+void BeSingleLinkEntity<T>::Link(float fX, float fY, TwEntityMgr<T>* pkMgr)
 {
 	auto pkEle = std::shared_ptr<BeElement>(this);
 
@@ -89,7 +95,8 @@ void BeSingleLinkEntity::Link(float fX, float fY, TwEntityMgr* pkMgr)
 	}
 }
 
-void BeSingleLinkEntity::Unlink(void)
+template<class T>
+void BeSingleLinkEntity<T>::Unlink(void)
 {
 	BeElement* pkEle = this;
 	if (pkEle->pkPrev)

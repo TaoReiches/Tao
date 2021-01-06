@@ -9,13 +9,15 @@
 #include "TW_Main.h"
 #include "TW_Map.h"
 
-TwEntityMgr::TwEntityMgr(void)
+template<class T>
+TwEntityMgr<T>::TwEntityMgr(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
 }
 
-TwEntityMgr::~TwEntityMgr(void)
+template<class T>
+TwEntityMgr<T>::~TwEntityMgr(void)
 {
 	//if (m_akBlock.get() != nullptr)
 	//{
@@ -24,7 +26,8 @@ TwEntityMgr::~TwEntityMgr(void)
 	m_akBlock.clear();
 }
 
-bool TwEntityMgr::Initialize(void)
+template<class T>
+bool TwEntityMgr<T>::Initialize(void)
 {
 	Finialize();
 
@@ -52,7 +55,8 @@ bool TwEntityMgr::Initialize(void)
 	return true;
 }
 
-void TwEntityMgr::Finialize(void)
+template<class T>
+void TwEntityMgr<T>::Finialize(void)
 {
 	m_iBlocksW = 0;
 	m_iBlocksH = 0;
@@ -63,17 +67,20 @@ void TwEntityMgr::Finialize(void)
 	m_akBlock.clear();
 }
 
-void TwEntityMgr::Link(float fX, float fY, BeEntity* pkEnt)
+template<class T>
+void TwEntityMgr<T>::Link(float fX, float fY, BeEntity<T>* pkEnt)
 {
 	pkEnt->Link(fX, fY, this);
 }
 
-void TwEntityMgr::Unlink(BeEntity* pkEnt)
+template<class T>
+void TwEntityMgr<T>::Unlink(BeEntity<T>* pkEnt)
 {
 	pkEnt->Unlink();
 }
 
-void TwEntityMgr::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
+template<class T>
+void TwEntityMgr<T>::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
 {
 	int iPosX = (int)(fX);
 	int iPosY = (int)(fY);

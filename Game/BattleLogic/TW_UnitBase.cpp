@@ -11,7 +11,7 @@ TwUnitBase::TwUnitBase()
 
 }
 
-TwUnitBase::TwUnitBase(int iID) : BeSingleLinkEntity(iID)
+TwUnitBase::TwUnitBase(int iID)
 {
 
 }

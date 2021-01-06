@@ -28,13 +28,13 @@
 
 class TwUnitOutput;
 
-class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public BeUnitPtr
+class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public BeUnitPtr, public BeSingleLinkEntity<TwUnit>
 {
 public:
 	TwUnit(int iID);
 	~TwUnit(void);
 
-    void Link(float fX, float fY, TwEntityMgr* pkMgr) override;
+    void Link(float fX, float fY, TwEntityMgr<TwUnit>* pkMgr) override;
     void Unlink() override;
 
 public:

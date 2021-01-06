@@ -27,9 +27,10 @@
 class TwMain;
 class TwUnit;
 class BeAttackingAttr;
+template<class T>
 class TwEntityMgr;
 
-class BeEffect : public BeChangeFlagObj, public BeEntity
+class BeEffect : public BeChangeFlagObj, public BeEntity<BeEffect>
 {
 public:
     BeEffect(int iID);
@@ -41,7 +42,7 @@ public:
     void SetModelFile(int iModelID, BeAttachPos eAttachPos = BAP_ChestRef);
     int  GetModelFile();
 
-    virtual void Link(float fX, float fY, TwEntityMgr* pkMgr) override {};
+    virtual void Link(float fX, float fY, TwEntityMgr<BeEffect>* pkMgr) override {};
     virtual void Unlink() override {};
 
     virtual void OnRemove(void);

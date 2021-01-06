@@ -23,7 +23,7 @@
 #include "TW_TriggerMgr.h"
 #include "TW_UnitOutput.h"
 
-void TwUnit::Link(float fX, float fY, TwEntityMgr* pkMgr)
+void TwUnit::Link(float fX, float fY, TwEntityMgr<TwUnit>* pkMgr)
 {
 
 }
@@ -131,7 +131,7 @@ void TwUnit::TrgOnAttack_T(T& kSkill, int iCount, std::shared_ptr<TwUnit> pkTarg
 	}
 }
 
-TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
+TwUnit::TwUnit(int iID) : TwUnitCarry(iID), BeSingleLinkEntity<TwUnit>(iID)
 {
 	m_iOtherFlag = 0;
 	m_iCarryFlag = 0;

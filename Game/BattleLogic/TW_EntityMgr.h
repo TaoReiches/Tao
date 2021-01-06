@@ -8,9 +8,13 @@
 #include <memory>
 #include "TW_LogicBase.h"
 
+template<class T>
 class BeEntity;
+
+template<class T>
 class BeElement;
 
+template<class T>
 class TwEntityMgr : public BeMainPtr
 {
 public:
@@ -21,8 +25,8 @@ public:
 	virtual void Update(int iDeltaTime) = 0;
 	virtual void Finialize(void);
 
-	void Link(float fX, float fY, BeEntity* pkEnt);
-	void Unlink(BeEntity* pkEnt);
+	void Link(float fX, float fY, BeEntity<T>* pkEnt);
+	void Unlink(BeEntity<T>* pkEnt);
 	void GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const;
 
 	int GetBlocksW(void) const
@@ -33,7 +37,7 @@ public:
 	{
 		return m_iBlocksH;
 	}
-	const std::vector<std::shared_ptr<BeElement>>& GetBlock(void) const
+	const std::vector<BeElement<T>>& GetBlock(void) const
 	{
 		return m_akBlock;
 	}
@@ -44,5 +48,5 @@ public:
 protected:
 	int							m_iBlocksW;
 	int							m_iBlocksH;
-	std::vector<std::shared_ptr<BeElement>>	m_akBlock;
+	std::vector<BeElement<T>>	m_akBlock;
 };
