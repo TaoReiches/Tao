@@ -145,7 +145,6 @@
     <ClInclude Include="TW_AttackAttr.h" />
     <ClInclude Include="TW_AttackedAttr.h" />
     <ClInclude Include="TW_BattleCmd.h" />
-    <ClInclude Include="TW_BattleInterface.h" />
     <ClInclude Include="TW_Buff.h" />
     <ClInclude Include="TW_BuffDefine.h" />
     <ClInclude Include="TW_Carry.h" />
@@ -186,7 +185,6 @@
     <ClInclude Include="TW_MapItemDefine.h" />
     <ClInclude Include="TW_MapItemMgr.h" />
     <ClInclude Include="TW_MemoryObject.h" />
-    <ClInclude Include="TW_Output.h" />
     <ClInclude Include="TW_PlayerInfo.h" />
     <ClInclude Include="TW_Quest.h" />
     <ClInclude Include="TW_ShareUnitData.h" />
@@ -221,7 +219,6 @@
     <ClInclude Include="TW_UserDataDefine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TW_BattleInterface.cpp" />
     <ClCompile Include="TW_Buff.cpp" />
     <ClCompile Include="TW_Carry.cpp" />
     <ClCompile Include="TW_CarrySkill.cpp" />
@@ -249,7 +246,6 @@
     <ClCompile Include="TW_MapItem.cpp" />
     <ClCompile Include="TW_MapItemMgr.cpp" />
     <ClCompile Include="TW_MemoryObject.cpp" />
-    <ClCompile Include="TW_Output.cpp" />
     <ClCompile Include="TW_Skill.cpp" />
     <ClCompile Include="TW_Task.cpp" />
     <ClCompile Include="TW_TaskActionAttack.cpp" />

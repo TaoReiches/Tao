@@ -264,17 +264,11 @@
     <ClInclude Include="TW_Quest.h">
       <Filter>LogicMain</Filter>
     </ClInclude>
-    <ClInclude Include="TW_BattleInterface.h">
-      <Filter>LogicMain</Filter>
-    </ClInclude>
     <ClInclude Include="TW_UnitOutput.h">
       <Filter>LogicEntity\Unit</Filter>
     </ClInclude>
     <ClInclude Include="TW_UnitOutputInterface.h">
       <Filter>LogicEntity\Unit</Filter>
-    </ClInclude>
-    <ClInclude Include="TW_Output.h">
-      <Filter>LogicMain</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h">
       <Filter>Protocol</Filter>
@@ -425,17 +419,11 @@
     <ClCompile Include="TW_CommandProc.cpp">
       <Filter>LogicMain</Filter>
     </ClCompile>
-    <ClCompile Include="TW_BattleInterface.cpp">
-      <Filter>LogicMain</Filter>
-    </ClCompile>
     <ClCompile Include="TW_UnitOutput.cpp">
       <Filter>LogicEntity\Unit</Filter>
     </ClCompile>
     <ClCompile Include="TW_UnitOutputInterface.cpp">
       <Filter>LogicEntity\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="TW_Output.cpp">
-      <Filter>LogicMain</Filter>
     </ClCompile>
     <ClCompile Include="TW_UnitDataOperation.cpp">
       <Filter>LogicEntity\Unit</Filter>

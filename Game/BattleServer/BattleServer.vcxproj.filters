@@ -14,6 +14,12 @@
     <ClCompile Include="TW_Users.cpp">
       <Filter>Users</Filter>
     </ClCompile>
+    <ClCompile Include="..\BattleLogic\TW_Output.cpp">
+      <Filter>BattleLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BattleLogic\TW_BattleInterface.cpp">
+      <Filter>BattleLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Network">
@@ -47,6 +53,12 @@
     </ClInclude>
     <ClInclude Include="TW_Users.h">
       <Filter>Users</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BattleLogic\TW_Output.h">
+      <Filter>BattleLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BattleLogic\TW_BattleInterface.h">
+      <Filter>BattleLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

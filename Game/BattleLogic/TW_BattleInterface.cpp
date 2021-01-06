@@ -9,6 +9,7 @@
 #include "TW_PlayerInfo.h"
 #include "TW_Unit.h"
 #include "TW_Output.h"
+#include "GameCommand.pb.h"
 
 TwBattleInterface::TwBattleInterface()
 {
@@ -38,7 +39,9 @@ bool TwBattleInterface::Initialize()
 
 void TwBattleInterface::Update()
 {
+    ++Frame;
     Main->UpdateFrame(Frame);
+    Output->Update();
 }
 
 void TwBattleInterface::SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> playerInfo)
@@ -63,6 +66,8 @@ bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
     }
     unit->SetPosition(playerInfo->PosX, playerInfo->PosY);
 
+    Output->AddPlayer(playerId, unit);
+
     return true;
 }
 
@@ -78,5 +83,15 @@ bool TwBattleInterface::OnReceiveCommand(std::uint64_t playerId, std::string com
 
 std::string TwBattleInterface::GetOutputCommand(std::uint64_t playerId)
 {
-    return "";
+    const auto& commands = Output->GetPlayerCommands(playerId);
+    if (commands.size() == 0)
+    {
+        return "";
+    }
+    Game::TwGameCommandsSC outputCommand;
+    for (auto& cmd : commands)
+    {
+        outputCommand.MergeFromString(cmd);
+    }
+    return outputCommand.SerializeAsString();
 }

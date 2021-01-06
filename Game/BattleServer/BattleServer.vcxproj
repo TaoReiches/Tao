@@ -142,6 +142,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Proto\build\c++\GameCommand.pb.cc" />
+    <ClCompile Include="..\BattleLogic\TW_BattleInterface.cpp" />
+    <ClCompile Include="..\BattleLogic\TW_Output.cpp" />
     <ClCompile Include="BattleLogic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TW_Network.cpp" />
@@ -149,6 +151,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Proto\build\c++\GameCommand.pb.h" />
+    <ClInclude Include="..\BattleLogic\TW_BattleInterface.h" />
+    <ClInclude Include="..\BattleLogic\TW_Output.h" />
     <ClInclude Include="BattleLogic.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TW_Network.h" />

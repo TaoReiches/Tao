@@ -122,7 +122,7 @@ void TwUnit::OnItemUpDate(int iID)
 	BeItem* pkItem = GetItemByID(iID);
 	if (pkItem)
 	{
-		pkItem->AttachUnit(std::shared_ptr<TwUnit>(this));
+		pkItem->AttachUnit(gUnit);
 	}
 
 	TwPtParam kParamPre;
@@ -478,7 +478,7 @@ BeSkill* TwUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 	}
 	pkSkill.reset(mpSkill.alloc(iID));
 	pkSkill->AttachMain(pkAttachMain);
-	pkSkill->AttachUnit(std::shared_ptr<TwUnit>(this));
+	pkSkill->AttachUnit(gUnit);
 	pkSkill->Initialize(iTypeID);
 	pkRet = pkSkill;
 
@@ -944,7 +944,7 @@ BeBuffer* TwUnit::AddBufferBegin(int iTypeID, int iOrgUnitID, int iLevel, int iU
 			return pkRet;
 		}
 		pkRet->AttachMain(pkAttachMain);
-		pkRet->AttachUnit(std::shared_ptr<TwUnit>(this));
+		pkRet->AttachUnit(gUnit);
 
 		pkRet->SetUnitID(iUnitID);
 		pkRet->SetOrgUnitID(iOrgUnitID);

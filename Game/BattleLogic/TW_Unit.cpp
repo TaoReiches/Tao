@@ -154,7 +154,7 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 	m_pkBackData = pkData;
 	m_pkCurData = pkData;
 	m_iActionStayTime = 0;
-	m_kCommander.AttachUnit(std::shared_ptr<TwUnit>(this));
+	
 	m_eActorTransType = UATT_NONE_TRANS;
 	m_iTransTime = 0;
 	m_bNeedTrans = false;
@@ -175,8 +175,6 @@ TwUnit::TwUnit(int iID) : TwUnitCarry(iID)
 	m_iLastAttackTime = 0;
 	m_iLastAttackHeroTime = 0;
     UnitOutput = std::unique_ptr<TwUnitOutput>(new TwUnitOutput());
-    UnitOutput->AttachMain(gMain);
-    UnitOutput->AttachUnit(std::shared_ptr<TwUnit>(this));
 }
 
 void TwUnit::OnDelete(void)
@@ -184,7 +182,7 @@ void TwUnit::OnDelete(void)
 	m_kCommander.OnDelete();
 	DelAllBuffer();
 
-	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), true, true);
+	gMap.DelUnitObstacle(gUnit, true, true);
 	gUnitMgr->Unlink(this);
 
 	m_apkNormalSkill.clear();
@@ -205,6 +203,10 @@ TwUnit::~TwUnit(void)
 
 bool TwUnit::Initialize(int iTypeID)
 {
+    m_kCommander.AttachUnit(gUnit);
+    UnitOutput->AttachMain(gMain);
+    UnitOutput->AttachUnit(gUnit);
+
 	m_iTypeID = iTypeID;
 	auto& pkRes = UnitTableMgr::Get()->GetUnitTable(iTypeID);
 	if (!pkRes)
@@ -340,7 +342,7 @@ void TwUnit::UpdateState(int iDeltaTime)
 			ClrFlag(BUF_IGNOREUNITOBS);
 			ClrOtherFlag(BUOF_WEIYI);
 
-			gMap.SetUnitPosition(std::shared_ptr<TwUnit>(this), GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
+			gMap.SetUnitPosition(gUnit, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
 			SetOutputFlag(TwUnitOutputFlag::BSUDCF_RESET_POX);
 		}
 	}
@@ -352,7 +354,7 @@ void TwUnit::Update(int iDeltaTime)
 
 	TrgOnUpdate(iDeltaTime);
 
-	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), false, false);
+	gMap.DelUnitObstacle(gUnit, false, false);
 
 	m_kCommander.ExecuteCmd(iDeltaTime);
 
@@ -363,7 +365,7 @@ void TwUnit::Update(int iDeltaTime)
 	}
 	else
 	{
-		gMap.AddUnitObstacle(std::shared_ptr<TwUnit>(this), false, false);
+		gMap.AddUnitObstacle(gUnit, false, false);
 	}
 
 	float fPerCDTime = GetPerCDTime();
@@ -376,10 +378,10 @@ void TwUnit::Update(int iDeltaTime)
 			BeSkill* pkSkill = GetSkillByPos(i);
 			if (pkSkill)
 			{
-				if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+				if (!pkSkill->CDComplete(gUnit))
 				{
-					int iLastTime = pkSkill->GetLastUseTime(std::shared_ptr<TwUnit>(this));
-					pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), iLastTime - iDecTime);
+					int iLastTime = pkSkill->GetLastUseTime(gUnit);
+					pkSkill->SetLastUseTime(gUnit, iLastTime - iDecTime);
 				}
 			}
 		}
@@ -619,7 +621,7 @@ bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+		if (!pkSkill->CDComplete(gUnit))
 		{
 			return false;
 		}
@@ -676,7 +678,7 @@ bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 			return false;
 		}
 
-		if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+		if (!pkSkill->CDComplete(gUnit))
 		{
 			return false;
 		}
@@ -686,7 +688,7 @@ bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 		{
 			//if (pkSkillRes->uiOperateType == SKILL_OPERATETYPE_TAKEDRUGS)
 			{
-				if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+				if (!pkSkill->CDComplete(gUnit))
 				{
 					return false;
 				}
@@ -703,7 +705,7 @@ bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_ONSPELL, kParam);
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SPELL_EFFECT, kParam);
 
-				pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), gTime);
+				pkSkill->SetLastUseTime(gUnit, gTime);
 				return true;
 			}
 		}
@@ -1042,7 +1044,7 @@ void TwUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 		for (int i = 0; i < 4; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+			if (pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEATHRELIVE) && pkSkill->CDComplete(gUnit))
 			{
 				TwPtParam kParam;
 				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
@@ -1060,7 +1062,7 @@ void TwUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 
 				gTrgMgr.FireTrigger(TwTriggerEvent::BTE_SKILL_SKIP_DEATH, kParam);
 
-				pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), (int)gTime);
+				pkSkill->SetLastUseTime(gUnit, (int)gTime);
 				return;
 			}
 		}
@@ -1162,8 +1164,8 @@ void TwUnit::SetDead(void)
 	GiveCommand(kComm, TwGiveCmdType::BCT_DEATH);
 
 	SetFlag(BUF_DEAD);
-	gMap.DelUnitObstacle(std::shared_ptr<TwUnit>(this), true);
-	gUnitMgr->OnUnitDead(std::shared_ptr<TwUnit>(this));
+	gMap.DelUnitObstacle(gUnit, true);
+	gUnitMgr->OnUnitDead(gUnit);
 }
 
 void	TwUnit::OnBeDamaged(BeAttackingAttr& rkAttackingAttr, bool bCanDead, bool bIgnoreInvincible, float fMaxHeroAbsDamage)
@@ -1280,7 +1282,7 @@ void TwUnit::ResetSkill(void)
 		BeSkill* pkSkill = GetSkillByPos(iPos, true);
 		if (pkSkill)
 		{
-			pkSkill->SetLastUseTime(std::shared_ptr<TwUnit>(this), 0);
+			pkSkill->SetLastUseTime(gUnit, 0);
 		}
 	}
 	DelBufferByClean();
@@ -1386,7 +1388,7 @@ UnitUseSkillResultType TwUnit::UnitCanUseSkill(int iSkillTypeID, const std::shar
 		return UUSRT_EER_MANA_NOT_ENOUGH;
 	}
 
-	if (!pkSkill->CDComplete(std::shared_ptr<TwUnit>(this)))
+	if (!pkSkill->CDComplete(gUnit))
 	{
 		return UUSRT_EER_CD;
 	}
@@ -1517,7 +1519,7 @@ void TwUnit::TrgOnPreBeDamaged(int eAttackType, float& fDamage, float fRawDamage
 {
 	if (pkAttacker && pkAttacker->m_pkCurData)
 	{
-		pkAttacker->TrgOnPreDamage(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), iPlayer, iFlag, bCanDead, kAttr);
+		pkAttacker->TrgOnPreDamage(eAttackType, fDamage, gUnit, iPlayer, iFlag, bCanDead, kAttr);
 	}
 }
 
@@ -1607,7 +1609,7 @@ void TwUnit::TrgOnBeDamaged(int eAttackType, float& fDamage, float fRawDamage, s
 	}
 	if (pkAttacker)
 	{
-		pkAttacker->TrgOnDamage(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
+		pkAttacker->TrgOnDamage(eAttackType, fDamage, gUnit, iPlayer, iFlag, bCanDead, iAttackSkillTypeID);
 	}
 }
 
@@ -1740,7 +1742,7 @@ void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> p
 
 		if (pkAttacker)
 		{
-			pkAttacker->TrgOnKill(eAttackType, fDamage, std::shared_ptr<TwUnit>(this), GetPlayer(), iFlag, iSkillTypeID);
+			pkAttacker->TrgOnKill(eAttackType, fDamage, gUnit, GetPlayer(), iFlag, iSkillTypeID);
 		}
 		if (!m_apkBuffer.empty())
 		{
@@ -2059,7 +2061,7 @@ void TwUnit::TrgOnUpdate(int iDeltaTime)
 				auto pkSkill = (m_pkCurData->apkUISkill)[i];
 				if (pkSkill)
 				{
-					pkSkill->Update(std::shared_ptr<TwUnit>(this));
+					pkSkill->Update(gUnit);
 				}
 			}
 		}
@@ -2071,7 +2073,7 @@ void TwUnit::TrgOnUpdate(int iDeltaTime)
 				auto pkSkill = m_apkNormalSkill[i];
 				if (pkSkill)
 				{
-					pkSkill->Update(std::shared_ptr<TwUnit>(this));
+					pkSkill->Update(gUnit);
 				}
 			}
 		}
@@ -2097,7 +2099,7 @@ void TwUnit::TrgOnUpdate(int iDeltaTime)
 			int iBufferCount = (int)m_apkBuffer.size();
 			if (pkBuffer)
 			{
-				pkBuffer->Update(std::shared_ptr<TwUnit>(this), iDeltaTime);
+				pkBuffer->Update(gUnit, iDeltaTime);
 				if (iBufferCount != m_apkBuffer.size())
 				{
 					break;

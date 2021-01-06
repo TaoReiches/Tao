@@ -24,10 +24,11 @@
 #include "TW_CommandExe.h"
 #include "TW_UnitOutputInterface.h"
 #include "TW_UnitCarry.h"
+#include "TW_LogicBase.h"
 
 class TwUnitOutput;
 
-class TwUnit : public TwUnitCarry, public TwUnitOutputInterface
+class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public BeUnitPtr
 {
 public:
 	TwUnit(int iID);

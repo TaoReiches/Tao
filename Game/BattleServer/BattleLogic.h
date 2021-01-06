@@ -26,7 +26,8 @@ public:
 private:
     void OnPlayerConnect(std::string command, const HSock& sock);
     void OnPlayerLoadend(const HSock& sock);
+    void SendData(const std::string& command, const HSock& sock);
 
 private:
-    std::unique_ptr<TwBattleInterface>     mpMain;
+    std::unique_ptr<TwBattleInterface>     Battle;
 };

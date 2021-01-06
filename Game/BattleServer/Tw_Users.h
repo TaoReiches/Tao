@@ -37,6 +37,10 @@ public:
         }
         return InvalidUserId;
     }
+    const std::map<std::uint64_t, HSock>& GetAllUsers() const
+    {
+        return UserIdToSock;
+    }
 
 private:
     std::map<std::uint64_t, HSock>      UserIdToSock;

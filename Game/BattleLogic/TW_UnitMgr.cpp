@@ -234,7 +234,7 @@ std::shared_ptr<TwUnit> TwUnitMgr::AddUnit(int iTypeID, int iSkillLevel, std::ui
 	}
 
 	auto pkUnit = NewUnit(iID);
-
+    pkUnit->AttachUnit(pkUnit);
 	//gMain->AddEntityPointer(GIT_ENTITY, iID, pkUnit);
 
 	m_kID2Unit[iID] = pkUnit;

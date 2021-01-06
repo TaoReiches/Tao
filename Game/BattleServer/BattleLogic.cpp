@@ -15,7 +15,7 @@
 
 TwBattleLogic::TwBattleLogic()
 {
-    mpMain = nullptr;
+    Battle = nullptr;
 }
 
 TwBattleLogic::~TwBattleLogic()
@@ -25,15 +25,27 @@ TwBattleLogic::~TwBattleLogic()
 
 bool TwBattleLogic::Initialize()
 {
-    mpMain = std::unique_ptr<TwBattleInterface>(new TwBattleInterface());
-    mpMain->Initialize();
+    Battle = std::unique_ptr<TwBattleInterface>(new TwBattleInterface());
+    Battle->Initialize();
 
     return true;
 }
 
 void TwBattleLogic::UpdateLogic()
 {
-    mpMain->Update();
+    Battle->Update();
+
+    // send output commands
+    const auto& allUsers = TwUsers::Get()->GetAllUsers();
+    for (auto& user : allUsers)
+    {
+        const auto command = Battle->GetOutputCommand(user.first);
+        if (command != "")
+        {
+            SendData(command, user.second);
+            spdlog::info("Send Data {0} to User {1}", command.size(), user.first);
+        }
+    }
 }
 
 // Player connect process:
@@ -75,7 +87,7 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     playerInfo.PosY = 888;
 
     TwUsers::Get()->OnUserConnect(playerInfo.UserID, sock);
-    mpMain->SetPlayerInfo(std::make_shared<TwPlayerInfo>(playerInfo));
+    Battle->SetPlayerInfo(std::make_shared<TwPlayerInfo>(playerInfo));
 
     // send back connect success and let client to start loading
     Game::TwGameConnectionSC gameConnectionSC;
@@ -88,10 +100,15 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     sendCmd.set_content(gameConnectionSC.SerializeAsString());
 
     const auto sendString = sendCmd.SerializeAsString();
+    SendData(sendString, TwUsers::Get()->GetSock(playerInfo.UserID));
+}
+
+void TwBattleLogic::SendData(const std::string& command, const HSock& sock)
+{
     static void* sendBuffer = new char[1024];
     std::memset(sendBuffer, 0, 1024);
-    std::memcpy(sendBuffer, sendString.c_str(), sendString.size());
-    TwNetwork::Get()->SendData(sendBuffer, sendString.size(), TwUsers::Get()->GetSock(playerInfo.UserID));
+    std::memcpy(sendBuffer, command.c_str(), command.size());
+    TwNetwork::Get()->SendData(sendBuffer, command.size(), sock);
 }
 
 void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
@@ -106,10 +123,10 @@ void TwBattleLogic::OnPlayerLoadend(const HSock& sock)
 
     spdlog::info("Player loading end, player id: {}", playerId);
 
-    mpMain->OnPlayerJion(playerId);
+    Battle->OnPlayerJion(playerId);
 }
 
 void TwBattleLogic::OnPlayerDisconnect(std::uint64_t userId)
 {
-    mpMain->OnPlayerLeave(userId);
+    Battle->OnPlayerLeave(userId);
 }
