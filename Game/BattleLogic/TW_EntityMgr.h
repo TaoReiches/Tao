@@ -15,7 +15,7 @@ template<class T>
 class BeElement;
 
 template<class T>
-class TwEntityMgr : public BeMainPtr
+class TwEntityMgr : public TwMainPtr
 {
 public:
 	TwEntityMgr(void);

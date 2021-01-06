@@ -28,7 +28,7 @@
 
 class TwUnitOutput;
 
-class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public BeUnitPtr, public BeSingleLinkEntity<TwUnit>
+class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public TwUnitPtr, public BeSingleLinkEntity<TwUnit>
 {
 public:
 	TwUnit(int iID);

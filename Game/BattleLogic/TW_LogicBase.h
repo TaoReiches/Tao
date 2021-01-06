@@ -10,10 +10,10 @@
 class TwMain;
 class TwUnit;
 
-class BeMainPtr
+class TwMainPtr
 {
 public:
-    BeMainPtr(void) :pkAttachMain(nullptr)
+    TwMainPtr(void) :pkAttachMain(nullptr)
     {
     }
     
@@ -25,10 +25,10 @@ public:
     std::shared_ptr<TwMain> pkAttachMain;
 };
 
-class BeUnitPtr
+class TwUnitPtr
 {
 public:
-	BeUnitPtr(void) :pkAttachUnit(nullptr)
+	TwUnitPtr(void) :pkAttachUnit(nullptr)
 	{
 	}
 

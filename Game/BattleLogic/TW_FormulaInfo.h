@@ -9,7 +9,7 @@
 
 class TwUnit;
 
-class BeFormulaInfo : public BeMainPtr
+class BeFormulaInfo : public TwMainPtr
 {
 public:
 	BeFormulaInfo();

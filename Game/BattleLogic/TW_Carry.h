@@ -17,7 +17,7 @@
 class TwUnit;
 class SkillTable;
 
-class BeCarry : public BeFlagObj, public BeMainPtr, public BeUnitPtr, public BeChangeFlagObj
+class BeCarry : public BeFlagObj, public TwMainPtr, public TwUnitPtr, public BeChangeFlagObj
 {
 public:
     BeCarry(int iID);

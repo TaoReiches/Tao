@@ -10,7 +10,7 @@
 #include "TW_Command.h"
 #include "TW_Task.h"
 
-class BeExeCommand : public BeMainPtr, public BeUnitPtr
+class BeExeCommand : public TwMainPtr, public TwUnitPtr
 {
 public:
 	BeExeCommand();

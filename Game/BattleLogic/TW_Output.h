@@ -12,7 +12,7 @@
 
 class TwUnit;
 
-class TwOutput final : public BeMainPtr
+class TwOutput final : public TwMainPtr
 {
 public:
     void Update();

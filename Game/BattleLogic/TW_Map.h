@@ -16,7 +16,7 @@ class TwUnit;
 class TeDoodad;
 class TeEffect;
 
-class TeMap : public BeMainPtr
+class TeMap : public TwMainPtr
 {
 public:
 	TeMap(void);

@@ -30,7 +30,7 @@ template<class T>
 class TwEntityMgr;
 
 template<class T>
-class BeEntity : public BeFlagObj, public BeMainPtr
+class BeEntity : public BeFlagObj, public TwMainPtr
 {
 public:
     BeEntity();

@@ -14,7 +14,7 @@ static const float OutputRadius = 500.f;
 
 class TwUnit;
 
-class TwUnitOutput final : public BeMainPtr, public BeUnitPtr
+class TwUnitOutput final : public TwMainPtr, public TwUnitPtr
 {
 public:
     TwUnitOutput();

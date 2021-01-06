@@ -36,7 +36,7 @@ enum class BeTaskType
 
 class TwUnit;
 
-class BeTask : public BeMainPtr, public BeUnitPtr
+class BeTask : public TwMainPtr, public TwUnitPtr
 {
 public:
 	BeTask(void);

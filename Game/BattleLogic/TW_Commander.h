@@ -11,7 +11,7 @@
 
 class BeExeCommand;
 
-class TwCommander : public BeMainPtr, public BeUnitPtr
+class TwCommander : public TwMainPtr, public TwUnitPtr
 {
 public:
 	TwCommander();
