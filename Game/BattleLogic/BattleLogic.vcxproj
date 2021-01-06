@@ -211,6 +211,7 @@
     <ClInclude Include="TW_UnitDataOperation.h" />
     <ClInclude Include="TW_UnitDataDefine.h" />
     <ClInclude Include="TW_UnitDefine.h" />
+    <ClInclude Include="TW_UnitFlag.h" />
     <ClInclude Include="TW_UnitMgr.h" />
     <ClInclude Include="TW_UnitLearnSkillData.h" />
     <ClInclude Include="TW_UnitOutput.h" />

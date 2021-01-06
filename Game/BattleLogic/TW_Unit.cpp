@@ -183,7 +183,7 @@ void TwUnit::OnDelete(void)
 	DelAllBuffer();
 
 	gMap.DelUnitObstacle(gUnit, true, true);
-	gUnitMgr->Unlink(this);
+	//gUnitMgr->Unlink(this);
 
 	m_apkNormalSkill.clear();
 
@@ -215,7 +215,7 @@ bool TwUnit::Initialize(int iTypeID)
 	}
 
 	m_pkBackData->pkRes = std::shared_ptr<const UnitTable>(pkRes);
-	m_iFlag = 0;
+    UnitFlag = BUF_NULL;
 	SetCurrentTypeID(iTypeID);
 	m_pkBackData->iTypeID = iTypeID;
 	m_pkBackData->iUnitProperty = m_pkBackData->pkRes->uiProperty;
@@ -350,7 +350,7 @@ void TwUnit::UpdateState(int iDeltaTime)
 
 void TwUnit::Update(int iDeltaTime)
 {
-	BeEntity::Update(iDeltaTime);
+	//BeEntity::Update(iDeltaTime);
 
 	TrgOnUpdate(iDeltaTime);
 
@@ -391,7 +391,7 @@ void TwUnit::Update(int iDeltaTime)
 
 	UpdateLiveTime(iDeltaTime);
 
-	gUnitMgr->Link(GetPosX(), GetPosY(), this);
+	//gUnitMgr->Link(GetPosX(), GetPosY(), this);
 
 	UpdateTransrate(iDeltaTime);
 
@@ -2457,28 +2457,28 @@ void TwUnit::ClearOutputData()
 
 void TwUnit::SetFlag(int iFlag, bool bNeedRecordChange)
 {
-	int iTempFlag = iFlag;
-	iTempFlag &= ~CLIENTNONEEDFLAG;
-	if (iTempFlag && !HasFlag(iTempFlag))
-	{
-		SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
-	}
-	//	}
-	m_iFlag |= iFlag;
+	//int iTempFlag = iFlag;
+	//iTempFlag &= ~CLIENTNONEEDFLAG;
+	//if (iTempFlag && !HasFlag(iTempFlag))
+	//{
+	//	SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
+	//}
+	////	}
+	//UnitFlag |= iFlag;
 }
 
 void TwUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
 {
-	if (/*gMain->IsServerMode() && */bNeedRecordChange)
-	{
-		int iTempFlag = iFlag;
-		iTempFlag &= ~CLIENTNONEEDFLAG;
-		if (iTempFlag && (m_iFlag & iTempFlag) != 0)
-		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
-		}
-	}
-	m_iFlag &= ~iFlag;
+	//if (/*gMain->IsServerMode() && */bNeedRecordChange)
+	//{
+	//	int iTempFlag = iFlag;
+	//	iTempFlag &= ~CLIENTNONEEDFLAG;
+	//	if (iTempFlag && (m_iFlag & iTempFlag) != 0)
+	//	{
+	//		SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
+	//	}
+	//}
+	//m_iFlag &= ~iFlag;
 }
 
 void TwUnit::UpdateLiveTime(int iDeltaTime)

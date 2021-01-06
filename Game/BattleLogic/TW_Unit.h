@@ -28,7 +28,7 @@
 
 class TwUnitOutput;
 
-class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public TwUnitPtr, public BeSingleLinkEntity<TwUnit>
+class TwUnit : public TwUnitCarry, public TwUnitOutputInterface, public BeSingleLinkEntity<TwUnit>
 {
 public:
 	TwUnit(int iID);
@@ -198,7 +198,7 @@ public:
 
 	inline bool IsDead(void) const
 	{
-		return HasFlag(BUF_DEAD);
+		return HasFlag(BeUnitFlag::BUF_DEAD);
 	}
 
 	inline std::list<TwCommand>& GetUnitCommands(void)
