@@ -101,7 +101,7 @@ BeItem* TwUnit::AddItem(int iTypeID, int iPos, int iForceID, int iOrgData)
 
 			if (pkSkillRes->uiSkillProperty & SKILL_SKILLPROPERTY_CDTRIGGER)
 			{
-				SetFlag(BUF_NEEDUPDATEITEMSKILL);
+				SetFlag(TwUnitFlag::BUF_NEEDUPDATEITEMSKILL);
 			}
 
 			//gMain->InitItemEventTriggerT(gMain->GetSkillOrgTypeID(iSkillID));
@@ -561,12 +561,12 @@ BeSkill* TwUnit::AddSkill(int iTypeID, int iLevel, bool bCurrent, bool bGenus, b
 
 	if (pkSkill->IsHaloSkill())
 	{
-		SetFlag(BUF_HASHALOSKILL);
+		SetFlag(TwUnitFlag::BUF_HASHALOSKILL);
 	}
 
 	if (pkRes->iCoolDown[iLevel - 1] > 0)
 	{
-		SetFlag(BUF_NEEDUPDATESKILL);
+		SetFlag(TwUnitFlag::BUF_NEEDUPDATESKILL);
 	}
 
 	return pkSkill.get();

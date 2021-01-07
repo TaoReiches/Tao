@@ -215,7 +215,7 @@ bool TwUnit::Initialize(int iTypeID)
 	}
 
 	m_pkBackData->pkRes = std::shared_ptr<const UnitTable>(pkRes);
-    UnitFlag = BUF_NULL;
+    UnitFlag = TwUnitFlag::BUF_NULL;
 	SetCurrentTypeID(iTypeID);
 	m_pkBackData->iTypeID = iTypeID;
 	m_pkBackData->iUnitProperty = m_pkBackData->pkRes->uiProperty;
@@ -339,7 +339,7 @@ void TwUnit::UpdateState(int iDeltaTime)
 		{
 			m_iMoveAllTime = 0;
 
-			ClrFlag(BUF_IGNOREUNITOBS);
+			ClrFlag(TwUnitFlag::BUF_IGNOREUNITOBS);
 			ClrOtherFlag(BUOF_WEIYI);
 
 			gMap.SetUnitPosition(gUnit, GetPosX(), GetPosY(), 0.0f, 1000.0f, false, TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT, TwGridFlag::TGF_NONE, true);
@@ -506,15 +506,15 @@ void TwUnit::OnPlayerChanged(void)
 
 void TwUnit::OnSuspend(void)
 {
-	ClrFlag(BUF_REMOVE);
+	ClrFlag(TwUnitFlag::BUF_REMOVE);
 	SetDead();
-	DelAllBuffer(HasFlag(BUF_RELIVE));
+	DelAllBuffer(HasFlag(TwUnitFlag::BUF_RELIVE));
 	SetUnitvisible(false);
 }
 
 void TwUnit::OnResume(void)
 {
-	ClrFlag(BUF_RELIVE | BUF_BUYLIVE | BUF_REMOVE | BUF_DEAD);
+	ClrFlag(TwUnitFlag::BUF_RELIVE | TwUnitFlag::BUF_BUYLIVE | TwUnitFlag::BUF_REMOVE | TwUnitFlag::BUF_DEAD);
 	ClrOtherFlag(BUOF_SPECIAL_RELIVE);
 	TwCommand beCommand(TwCommandType::BCT_STOP);
 	GiveCommand(beCommand, TwGiveCmdType::BCT_DEATH);
@@ -584,7 +584,7 @@ bool TwUnit::GiveCommand(TwCommand& kCmd, TwGiveCmdType eType, bool bPlayerContr
 	}
 	case TwCommandType::BCT_STOP:
 	{
-		if (HasFlag(BUF_ISPERSISTSKILL) && eType != TwGiveCmdType::BCT_DEATH)
+		if (HasFlag(TwUnitFlag::BUF_ISPERSISTSKILL) && eType != TwGiveCmdType::BCT_DEATH)
 		{
 			return false;
 		}
@@ -749,7 +749,7 @@ void TwUnit::SetPosition(float fX, float fY, float fZ, bool bNoRecordChange)
 
 void TwUnit::SetUnitAction(BeUnitAction eAction, int eActionName, int iAllTime, bool bSetShow, bool bForceRefresh)
 {
-	if (HasFlag(BUF_ISPERSIST))
+	if (HasFlag(TwUnitFlag::BUF_ISPERSIST))
 	{
 		return;
 	}
@@ -1075,11 +1075,11 @@ void TwUnit::OperateUnitDead(BeAttackType eAttackType, float fDamage, std::share
 		TrgOnDead(eAttackType, fDamage, pkAttacker, iPlayer, iFlag, iSkillTypeID);
 	}
 
-	DelAllBuffer(HasFlag(BUF_RELIVE));
+	DelAllBuffer(HasFlag(TwUnitFlag::BUF_RELIVE));
 
 	m_kCommander.ClearAllCommands();
 
-	SetFlag(BUF_REMOVE);
+	SetFlag(TwUnitFlag::BUF_REMOVE);
 }
 
 void TwUnit::OperateUnitRemove()
@@ -1091,8 +1091,8 @@ void TwUnit::OperateUnitRemove()
 
 	SetHP(0.0f);
 	SetDead();
-	DelAllBuffer(HasFlag(BUF_RELIVE));
-	SetFlag(BUF_REMOVE);
+	DelAllBuffer(HasFlag(TwUnitFlag::BUF_RELIVE));
+	SetFlag(TwUnitFlag::BUF_REMOVE);
 }
 
 float TwUnit::GetDamagedByFormula(const std::shared_ptr<TwUnit> pkAttacker, const BeAttackingAttr& rkAttackingAttr, float fDamage) const
@@ -1163,7 +1163,7 @@ void TwUnit::SetDead(void)
 	TwCommand	kComm(TwCommandType::BCT_STOP);
 	GiveCommand(kComm, TwGiveCmdType::BCT_DEATH);
 
-	SetFlag(BUF_DEAD);
+	SetFlag(TwUnitFlag::BUF_DEAD);
 	gMap.DelUnitObstacle(gUnit, true);
 	gUnitMgr->OnUnitDead(gUnit);
 }
@@ -1325,7 +1325,7 @@ bool TwUnit::UnitCanAttack(const std::shared_ptr<TwUnit> pkTarget, bool bTemp, b
 		{
 			return false;
 		}
-		if (pkTarget->IsInvincible() || pkTarget->HasFlag(BUF_ISINVINCIBLE))
+		if (pkTarget->IsInvincible() || pkTarget->HasFlag(TwUnitFlag::BUF_ISINVINCIBLE))
 		{
 			return false;
 		}
@@ -1493,7 +1493,7 @@ bool TwUnit::IsTargetUnit(const std::shared_ptr<TwUnit> pkUnit, int iStaticProcF
 		iDynaFlag |= BUDP_NOTSUMMON;
 	}
 
-	if (pkUnit->IsInvincible() || pkUnit->HasFlag(BUF_ISINVINCIBLE))
+	if (pkUnit->IsInvincible() || pkUnit->HasFlag(TwUnitFlag::BUF_ISINVINCIBLE))
 	{
 		iDynaFlag |= BUDP_INVINCIBLE;
 	}
@@ -1651,7 +1651,7 @@ void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> p
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
 			BeSkill* pkSkill = GetSkillByPos(i);
-			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
+			if (!HasFlag(TwUnitFlag::BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TwPtParam kParam;
 				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
@@ -1676,7 +1676,7 @@ void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> p
 		for (int i = 0; i < (int)m_apkNormalSkill.size(); ++i)
 		{
 			auto pkSkill = m_apkNormalSkill[i];
-			if (!HasFlag(BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
+			if (!HasFlag(TwUnitFlag::BUF_RELIVE) && pkSkill && pkSkill->HasProperty(SKILL_SKILLPROPERTY_DEADTRIGGER))
 			{
 				TwPtParam kParam;
 				kParam.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
@@ -1696,7 +1696,7 @@ void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> p
 		}
 	}
 
-	if (!HasFlag(BUF_RELIVE))
+	if (!HasFlag(TwUnitFlag::BUF_RELIVE))
 	{
 		if (!m_apkBuffer.empty())
 		{
@@ -1724,7 +1724,7 @@ void TwUnit::TrgOnDead(int eAttackType, float fDamage, std::shared_ptr<TwUnit> p
 		}
 	}
 
-	if (!HasFlag(BUF_RELIVE))
+	if (!HasFlag(TwUnitFlag::BUF_RELIVE))
 	{
 		TwPtParam kParamDeath;
 		kParamDeath.SetParam(TwTrgParamID::BTP_pkTrgUnit, this);
@@ -1903,9 +1903,9 @@ void TwUnit::TrgOnAttack(int iTargetID, BeAttackingAttr* pkAttackAttr)
 		}
 	}
 
-	if (HasFlag(BUF_HASINVISIBLE))
+	if (HasFlag(TwUnitFlag::BUF_HASINVISIBLE))
 	{
-		ClrFlag(BUF_HASINVISIBLE);
+		ClrFlag(TwUnitFlag::BUF_HASINVISIBLE);
 	}
 }
 
@@ -2044,15 +2044,15 @@ void TwUnit::TrgOnSpell(int iSkillTypeID, int iSkillLevel, int iItemID, int iTar
 		}
 	}
 
-	if (HasFlag(BUF_HASINVISIBLE))
+	if (HasFlag(TwUnitFlag::BUF_HASINVISIBLE))
 	{
-		ClrFlag(BUF_HASINVISIBLE);
+		ClrFlag(TwUnitFlag::BUF_HASINVISIBLE);
 	}
 }
 
 void TwUnit::TrgOnUpdate(int iDeltaTime)
 {
-	if (HasFlag(BUF_NEEDUPDATESKILL) && (gTime % 100 == 0))
+	if (HasFlag(TwUnitFlag::BUF_NEEDUPDATESKILL) && (gTime % 100 == 0))
 	{
 		for (int i = 0; i < iMaxHeroSkillNum; ++i)
 		{
@@ -2347,7 +2347,7 @@ void TwUnit::UpdateTransrate(int iDeltaTime)
 		{
 			if (m_iAddTransTime >= m_iTransTime)
 			{
-				ClrFlag(BUF_HASINVISIBLE);
+				ClrFlag(TwUnitFlag::BUF_HASINVISIBLE);
 				m_iAddTransTime = 0;
 				m_iTransTime = 0;
 			}
@@ -2360,13 +2360,13 @@ void TwUnit::UpdateTransrate(int iDeltaTime)
 		}
 		case UATT_WHOLE_TRANS:
 		{
-			if (HasFlag(BUF_HASINVISIBLE))
+			if (HasFlag(TwUnitFlag::BUF_HASINVISIBLE))
 			{
 				break;
 			}
 			if (m_iAddTransTime >= m_iTransTime)
 			{
-				SetFlag(BUF_HASINVISIBLE);
+				SetFlag(TwUnitFlag::BUF_HASINVISIBLE);
 				//m_iTransTime = 0;
 				m_iAddTransTime = 0;
 			}
@@ -2378,7 +2378,7 @@ void TwUnit::UpdateTransrate(int iDeltaTime)
 		}
 		default:
 		{
-			ClrFlag(BUF_HASINVISIBLE);
+			ClrFlag(TwUnitFlag::BUF_HASINVISIBLE);
 			m_iTransTime = 0;
 			m_iAddTransTime = 0;
 			break;
@@ -2455,7 +2455,7 @@ void TwUnit::ClearOutputData()
 
 #define CLIENTNONEEDFLAG (BUF_IGNOREDOODADOBS|BUF_NOOBSTACLE|BUF_IGNOREUNITOBS|BUF_IGNOREFIXEDOBS|BUF_HASHALOSKILL|BUF_OBSTACLESET|BUF_MOVING|BUF_ISBLOCKED |BUF_ISPERSISTSKILL)
 
-void TwUnit::SetFlag(int iFlag, bool bNeedRecordChange)
+void TwUnit::SetFlag(TwUnitFlag iFlag, bool bNeedRecordChange)
 {
 	//int iTempFlag = iFlag;
 	//iTempFlag &= ~CLIENTNONEEDFLAG;
@@ -2467,7 +2467,7 @@ void TwUnit::SetFlag(int iFlag, bool bNeedRecordChange)
 	//UnitFlag |= iFlag;
 }
 
-void TwUnit::ClrFlag(int iFlag, bool bNeedRecordChange)
+void TwUnit::ClrFlag(TwUnitFlag iFlag, bool bNeedRecordChange)
 {
 	//if (/*gMain->IsServerMode() && */bNeedRecordChange)
 	//{
@@ -2485,7 +2485,7 @@ void TwUnit::UpdateLiveTime(int iDeltaTime)
 {
 	if (GetUnitAllLiveTime() != 0 && GetUnitCurLiveTime() > 0)
 	{
-		if (!HasFlag(BUF_ISPERSIST))
+		if (!HasFlag(TwUnitFlag::BUF_ISPERSIST))
 		{
 			DecUnitCurTime(iDeltaTime);
 		}

@@ -96,7 +96,7 @@ BeTaskActionSpell::~BeTaskActionSpell()
 		//gMain->AddWindowData(kWindowData);
 	}
 
-	gUnit->ClrFlag(BUF_ISPERSISTSKILL);
+	gUnit->ClrFlag(TwUnitFlag::BUF_ISPERSISTSKILL);
 }
 
 bool BeTaskActionSpell::SpellTargetID(int iSkillTypeID, int iSkillLevel, bool bExpendMP, int iTargetID, const TwPos2& kPos, int iItemID, int iUsePlayer, int iTargetType)
@@ -616,7 +616,7 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 	{
-		gUnit->ClrFlag(BUF_MOVING);
+		gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 	}
 	if (!m_pkSkillRes)
 	{
@@ -787,7 +787,7 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 			}
 			else
 			{
-				gUnit->SetFlag(BUF_ISPERSISTSKILL);
+				gUnit->SetFlag(TwUnitFlag::BUF_ISPERSISTSKILL);
 			}
 
 			m_iActionTime += iDeltaTime;
@@ -816,7 +816,7 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 				break;
 			}
 
-			gUnit->SetFlag(BUF_SPELL_SHARK);
+			gUnit->SetFlag(TwUnitFlag::BUF_SPELL_SHARK);
 			m_iActionTime += iDeltaTime;
 			gUnit->IncActionCurTime(iDeltaTime);
 			iDeltaTime = 0;
@@ -824,8 +824,8 @@ BeExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 		}
 		case BeSpellPhase::BSP_FINISH:
 		{
-			gUnit->ClrFlag(BUF_ISPERSISTSKILL);
-			gUnit->ClrFlag(BUF_SPELL_SHARK);
+			gUnit->ClrFlag(TwUnitFlag::BUF_ISPERSISTSKILL);
+			gUnit->ClrFlag(TwUnitFlag::BUF_SPELL_SHARK);
 			OnSpellFinish();
 			m_ePhase = BeSpellPhase::BSP_END;
 			return BeExeResult::BER_EXE_END;

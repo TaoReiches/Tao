@@ -18,7 +18,7 @@ BeExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 
 	if (m_iTaskTime > 200)
 	{
-		gUnit->ClrFlag(BUF_MOVING);
+		gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 	}
 
 	if (!gUnit->IsActionNow(BUA_STAND))

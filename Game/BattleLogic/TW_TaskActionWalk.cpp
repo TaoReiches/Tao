@@ -231,7 +231,7 @@ BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
 	m_iWalkTime += iActionTime;
 	if (m_iWalkTime > 200)
 	{
-		gUnit->SetFlag(BUF_MOVING);
+		gUnit->SetFlag(TwUnitFlag::BUF_MOVING);
 	}
 
 	gUnit->SetActionState(1);

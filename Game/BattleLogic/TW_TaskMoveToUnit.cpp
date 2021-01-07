@@ -72,7 +72,7 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
 	if (pkTarget
 		&& !pkTarget->IsDead()
-		&& (!(pkTarget->HasFlag(BUF_HASINVISIBLE))))
+		&& (!(pkTarget->HasFlag(TwUnitFlag::BUF_HASINVISIBLE))))
 	{
 		TwPos2 kTarPos = m_pkMoveToPos->GetTargetPos();
 		float fDistance2 = GetDistance2(kTarPos.fX, kTarPos.fY, pkTarget->GetPosX(), pkTarget->GetPosY());

@@ -13,7 +13,7 @@ TwUnitBase::TwUnitBase(int iID)
     m_iCarryFlag = 0;
     m_iTypeID = 0;
     BlockIndex = 0;
-    UnitFlag = BeUnitFlag::BUF_NULL;
+    UnitFlag = TwUnitFlag::BUF_NULL;
     OutputFlag = TwUnitOutputFlag::BSUDCF_NULL;
     UserDataInt.clear();
     UserDataFloat.clear();

@@ -51,9 +51,9 @@ public:
     {
         return m_iTypeID;
     }
-    const bool HasFlag(BeUnitFlag flag) const
+    const bool HasFlag(TwUnitFlag flag) const
     {
-        return (flag & UnitFlag) != 0;
+        return (flag & UnitFlag) != TwUnitFlag::BUF_NULL;
     }
     const int GetBlockIndex() const
     {
@@ -71,7 +71,7 @@ protected:
     int                                         Id;
     int                                         m_iTypeID;
     int                                         BlockIndex;
-    BeUnitFlag                                  UnitFlag;
+    TwUnitFlag                                  UnitFlag;
     TwUnitOutputFlag                            OutputFlag;
 	std::unordered_map<UserDataKey, int>        UserDataInt;
     std::unordered_map<UserDataKey, float>      UserDataFloat;

@@ -129,7 +129,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			if (gUnit->GetAttackingUnitID())
 			{
 				std::shared_ptr<TwUnit> pkOrgTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
-				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(BUF_HASINVISIBLE)))
+				if (pkOrgTarget && !pkOrgTarget->IsDead() && (!pkOrgTarget->HasFlag(TwUnitFlag::BUF_HASINVISIBLE)))
 				{
 					TwPos2 kPos;
 					kPos.fX = pkOrgTarget->GetPosX();

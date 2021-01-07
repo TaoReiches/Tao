@@ -121,7 +121,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			std::list<TwPos2> akPath;
 
 			{
-				auto iObs = gUnit->HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
+				auto iObs = gUnit->HasFlag(TwUnitFlag::BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
 				if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
 					iObs = TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_SOLIDER_COLLION;
@@ -249,7 +249,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			default:
 			{
 				std::list<TwPos2> akPath;
-				auto iObs = gUnit->HasFlag(BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
+				auto iObs = gUnit->HasFlag(TwUnitFlag::BUF_ISBLOCKED) ? TwGridFlag::TGF_FIXED_OTS | TwGridFlag::TGF_UNIT : TwGridFlag::TGF_FIXED_OTS;
 
 				if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 				{
@@ -323,7 +323,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 			{
 				if (m_pkWalk->IsBlocked())
 				{
-					gUnit->SetFlag(BUF_ISBLOCKED);
+					gUnit->SetFlag(TwUnitFlag::BUF_ISBLOCKED);
 					m_eMoveState = BeMoveState::BMS_STAND;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 					if (m_iRetryTime == 0)
@@ -334,7 +334,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 				}
 				else
 				{
-					gUnit->ClrFlag(BUF_ISBLOCKED);
+					gUnit->ClrFlag(TwUnitFlag::BUF_ISBLOCKED);
 					m_eState = BeMoveResult::BMR_SUCCESS;
 					m_eMoveState = BeMoveState::BMS_RETRY;
 					gUnit->SetActionState(0);

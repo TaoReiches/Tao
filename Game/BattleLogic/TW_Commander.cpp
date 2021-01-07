@@ -447,7 +447,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 		}
 		else if (eResult == BeExeResult::BER_ALL_OVER)
 		{
-			gUnit->SetFlag(BUF_REMOVE);
+			gUnit->SetFlag(TwUnitFlag::BUF_REMOVE);
 			m_bForceNexeCmd = true;
 			SafeDeleteCommand(m_pkCurCmd);
 			m_kCommands.clear();
@@ -780,7 +780,6 @@ bool TwCommander::GoNextCmd(bool bSkipCurrent)
 				|| (kCmd.eCmdType == TwCommandType::BCT_USE_ITEM && gUnit->HasUnitCarryFlag(BUCF_ISFORBIDITEM))
 				|| gUnit->HasUnitCarryFlag(BUCF_CANNOTCONTROL)
 				|| gUnit->HasUnitCarryFlag(BUCF_DIZZY)
-				|| gUnit->HasUnitCarryFlag(BUF_SPELL_SHARK)
 				)
 			{
 				bDelay = true;

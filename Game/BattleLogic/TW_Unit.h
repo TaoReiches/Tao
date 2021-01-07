@@ -198,7 +198,7 @@ public:
 
 	inline bool IsDead(void) const
 	{
-		return HasFlag(BeUnitFlag::BUF_DEAD);
+		return HasFlag(TwUnitFlag::BUF_DEAD);
 	}
 
 	inline std::list<TwCommand>& GetUnitCommands(void)
@@ -544,8 +544,8 @@ private:
 	void	UpdateTransrate(int iDeltaTime);
 
 public:
-	void SetFlag(int iFlag, bool bNeedRecordChange = true);
-	void ClrFlag(int iFlag, bool bNeedRecordChange = true);
+	void SetFlag(TwUnitFlag iFlag, bool bNeedRecordChange = true);
+	void ClrFlag(TwUnitFlag iFlag, bool bNeedRecordChange = true);
 	void	ClearOutputData();
 	void SetFace(float fFace, bool bChange = true);
 	void SetPreTurnFace(float fFace);
@@ -719,5 +719,5 @@ inline		int						TwUnit::GetLastAttackHeroTime()
 
 inline bool TwUnit::IsInvincible(void) const
 {
-	return (HasUnitCarryFlag(BUCF_ISINVINCIBLE) || HasFlag(BUF_ISINVINCIBLE));
+	return (HasUnitCarryFlag(BUCF_ISINVINCIBLE) || HasFlag(TwUnitFlag::BUF_ISINVINCIBLE));
 }

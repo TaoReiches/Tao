@@ -90,7 +90,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 {
 	BeTask::Execute(iDeltaTime);
 
-	gUnit->ClrFlag(BUF_MOVING);
+	gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 
 	std::shared_ptr<TwUnit> pkTarget = nullptr;
 	float fPosX = gUnit->GetPosX();
@@ -231,7 +231,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 				return BeExeResult::BER_EXE_END;
 			}
 
-			if (gUnit->HasFlag(BUF_IGNOREPHYSICRESIST))
+			if (gUnit->HasFlag(TwUnitFlag::BUF_IGNOREPHYSICRESIST))
 			{
 				m_kAttr->bIgnorePhysicResist = true;
 			}

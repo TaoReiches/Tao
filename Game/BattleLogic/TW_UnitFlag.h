@@ -5,7 +5,9 @@
 * Contact: tao.reiches@gmail.com
 **********************************************/
 
-enum BeUnitFlag
+#include "TW_BitmaskEnum.h"
+
+enum class TwUnitFlag
 {
     BUF_NULL = 0,
     BUF_DEAD = (1 << 0),
@@ -46,3 +48,4 @@ enum BeUnitFlag
     BUF_TEMPSUMMONNOTCONTROL = BUF_ISINVINCIBLE | BUF_ISSUMMONTEMP | BUF_IGNOREALLOBS,
     BUF_TEMPGHOSTNOTCONTROL = BUF_ISINVINCIBLE | BUF_ISGHOST | BUF_IGNOREALLOBS,
 };
+ENABLE_BITMASK_OPERATORS(TwUnitFlag)
