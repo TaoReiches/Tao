@@ -7,7 +7,6 @@
 #include "TW_Main.h"
 #include "TW_UnitMgr.h"
 #include "TW_Unit.h"
-#include "GameCommand.pb.h"
 
 void TwOutput::Update()
 {
@@ -21,13 +20,16 @@ void TwOutput::Update()
         const auto& newUnits = player.second->GetOutputNewUnits();
         for (auto& newUnit : newUnits)
         {
-            unitUpdateCommand.MergeFromString(GetUnitUpdateData(newUnit, true));
+            auto unitCommand = GetUnitUpdateData(newUnit, true);
+            auto addCommand = unitUpdateCommand.add_unitdatas();
+            addCommand = &unitCommand;
+            //unitUpdateCommand.MergeFromString(GetUnitUpdateData(newUnit, true));
         }
         // unit update
         const auto& updateUnits = player.second->GetOutputUpdateUnits();
         for (auto& updateUnit : updateUnits)
         {
-            unitUpdateCommand.MergeFromString(GetUnitUpdateData(updateUnit, false));
+            //unitUpdateCommand.MergeFromString(GetUnitUpdateData(updateUnit, false));
         }
         // store command
         if (unitUpdateCommand.unitdatas_size() > 0)
@@ -56,7 +58,7 @@ void TwOutput::Update()
     }
 }
 
-std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew)
+Game::TwGameUnitData TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew)
 {
     Game::TwGameUnitData unitData;
     unitData.set_userid(player->GetPlayer());
@@ -84,5 +86,5 @@ std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool add
         unitData.set_mp(static_cast<int>(player->GetMP()));
     }
 
-    return unitData.SerializeAsString();
+    return unitData;
 }
