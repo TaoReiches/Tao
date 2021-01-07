@@ -49,6 +49,7 @@ std::shared_ptr<TwUnit> TwUnitMgr::GetUnitByTypeID(int iTypeID)
 
 void TwUnitMgr::Update(int iDeltaTime)
 {
+    UpdateUnitBlocks();
 	//BeEntityMgr::Update(iDeltaTime);
 
 	if (!m_kID2SuspendUnit.empty())
@@ -174,8 +175,6 @@ void TwUnitMgr::Update(int iDeltaTime)
 			pkUnit->Update(iDeltaTime);
 		}
 	}
-
-    UpdateUnitBlocks();
 }
 
 void TwUnitMgr::Finialize(void)
@@ -628,23 +627,12 @@ void TwUnitMgr::GetAreaGroup(UnitGroup& kGroup, float fX, float fY, float fRadiu
     {
         for (int x = BX; x <= EX; x++)
         {
-            //auto index = m_iBlocksW * y + x;
-            //auto pkHead = &m_akBlock[index];
-            //auto temp = pkHead->pkNext;
-            //std::shared_ptr<TwUnit> pkUnit = temp->pkBlock;
-            //if (!pkUnit)
-            //{
-            //    continue;
-            //}
-            //while (pkUnit.get() != pkHead->pkBlock.get())
-            //{
-            //    float fRadius2 = (fRadius) * (fRadius);
-            //    if (GetDistance2(pkUnit->GetPosX(), pkUnit->GetPosY(), fX, fY) <= fRadius2)
-            //    {
-            //        kGroup.push_back(pkUnit);
-            //    }
-            //    pkUnit = std::shared_ptr<TwUnit>(static_cast<TwUnit*>(pkUnit->pkNext.get()));
-            //}
+            auto index = m_iBlocksW * y + x;
+            const auto& blockUnits = Blocks.at(index);
+            for (auto& unit : blockUnits)
+            {
+                kGroup.push_back(unit);
+            }
         }
     }
 }

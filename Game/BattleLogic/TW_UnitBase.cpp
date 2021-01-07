@@ -12,7 +12,7 @@ TwUnitBase::TwUnitBase(int iID)
     m_iImmunityFlag = 0;
     m_iCarryFlag = 0;
     m_iTypeID = 0;
-    BlockIndex = 0;
+    BlockIndex = -1;
     UnitFlag = TwUnitFlag::BUF_NULL;
     OutputFlag = TwUnitOutputFlag::BSUDCF_NULL;
     UserDataInt.clear();

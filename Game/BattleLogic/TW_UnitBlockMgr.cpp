@@ -11,9 +11,9 @@
 
 void TwUnitBlockMgr::InitializeBlocks()
 {
-    BLOCK_ELE_SIZE = 1024;
-    m_iBlocksW = (int)gMap.GetWidth() / BLOCK_ELE_SIZE;
-    m_iBlocksH = (int)gMap.GetHeight() / BLOCK_ELE_SIZE;
+    BlockSize = 1024;
+    m_iBlocksW = (int)gMap.GetWidth() / BlockSize;
+    m_iBlocksH = (int)gMap.GetHeight() / BlockSize;
 
     int iBlocks = m_iBlocksW * m_iBlocksH;
     Blocks.resize(iBlocks);
@@ -24,13 +24,16 @@ void TwUnitBlockMgr::UpdateUnitBlocks()
     const auto& allUnits = gUnitMgr->GetID2Unit();
     for (auto& unit : allUnits)
     {
-        auto blockX = static_cast<int>(unit.second->GetPosX()) / BLOCK_ELE_SIZE;
-        auto blockY = static_cast<int>(unit.second->GetPosY()) / BLOCK_ELE_SIZE;
+        auto blockX = static_cast<int>(unit.second->GetPosX()) / BlockSize;
+        auto blockY = static_cast<int>(unit.second->GetPosY()) / BlockSize;
         auto blockIndex = blockY * m_iBlocksW + blockX;
         auto oldIndex = unit.second->GetBlockIndex();
         if (oldIndex != blockIndex)
         {
-            Blocks.at(oldIndex).remove(unit.second);
+            if (oldIndex != -1)
+            {
+                Blocks.at(oldIndex).remove(unit.second);
+            }
             Blocks.at(blockIndex).push_back(unit.second);
             unit.second->SetBlockIndex(blockIndex);
         }
@@ -39,10 +42,10 @@ void TwUnitBlockMgr::UpdateUnitBlocks()
 
 void TwUnitBlockMgr::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
 {
-    iBX = static_cast<int>(fX - fRadius) / BLOCK_ELE_SIZE;
-    iBY = static_cast<int>(fY - fRadius) / BLOCK_ELE_SIZE;
-    iEX = static_cast<int>(fX + fRadius) / BLOCK_ELE_SIZE;
-    iEY = static_cast<int>(fY + fRadius) / BLOCK_ELE_SIZE;
+    iBX = static_cast<int>(fX - fRadius) / BlockSize;
+    iBY = static_cast<int>(fY - fRadius) / BlockSize;
+    iEX = static_cast<int>(fX + fRadius) / BlockSize;
+    iEY = static_cast<int>(fY + fRadius) / BlockSize;
 
     iBX = iBX < 0 ? 0 : iBX;
     iBY = iBY < 0 ? 0 : iBY;
