@@ -26,6 +26,7 @@ bool TwUnitMgr::Initialize(void)
 {
 	Clear();
 
+    InitializeBlocks();
 	//return TwEntityMgr::Initialize();
     return true;
 }
@@ -173,6 +174,8 @@ void TwUnitMgr::Update(int iDeltaTime)
 			pkUnit->Update(iDeltaTime);
 		}
 	}
+
+    UpdateUnitBlocks();
 }
 
 void TwUnitMgr::Finialize(void)

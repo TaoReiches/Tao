@@ -6,9 +6,12 @@
 #include "TW_UnitBlockMgr.h"
 #include "TW_Main.h"
 #include "TW_Map.h"
+#include "TW_UnitMgr.h"
+#include "TW_Unit.h"
 
-void TwUnitBlockMgr::Initialize()
+void TwUnitBlockMgr::InitializeBlocks()
 {
+    BLOCK_ELE_SIZE = 1024;
     m_iBlocksW = (int)gMap.GetWidth() / BLOCK_ELE_SIZE;
     m_iBlocksH = (int)gMap.GetHeight() / BLOCK_ELE_SIZE;
 
@@ -18,7 +21,20 @@ void TwUnitBlockMgr::Initialize()
 
 void TwUnitBlockMgr::UpdateUnitBlocks()
 {
-
+    const auto& allUnits = gUnitMgr->GetID2Unit();
+    for (auto& unit : allUnits)
+    {
+        auto blockX = static_cast<int>(unit.second->GetPosX()) / BLOCK_ELE_SIZE;
+        auto blockY = static_cast<int>(unit.second->GetPosY()) / BLOCK_ELE_SIZE;
+        auto blockIndex = blockY * m_iBlocksW + blockX;
+        auto oldIndex = unit.second->GetBlockIndex();
+        if (oldIndex != blockIndex)
+        {
+            Blocks.at(oldIndex).remove(unit.second);
+            Blocks.at(blockIndex).push_back(unit.second);
+            unit.second->SetBlockIndex(blockIndex);
+        }
+    }
 }
 
 void TwUnitBlockMgr::GetBlockArea(float fX, float fY, float fRadius, int& iBX, int& iBY, int& iEX, int& iEY) const
