@@ -9,7 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "TW_EntityMgr.h"
+#include "TW_UnitBlockMgr.h"
 #include "TW_Command.h"
 #include "TW_UnitMgrDefine.h"
 
@@ -18,7 +18,7 @@ class TwUnit;
 typedef std::vector<std::shared_ptr<TwUnit>> UnitGroup;
 typedef std::vector<int> UnitGroupID;
 
-class TwUnitMgr final : public TwMainPtr
+class TwUnitMgr final : public TwUnitBlockMgr
 {
 public:
     TwUnitMgr(void);

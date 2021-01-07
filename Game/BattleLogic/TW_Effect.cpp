@@ -381,7 +381,7 @@ void* BeEffect::UpdateTargetPos(void)
 				m_kEffectData.iSkillLevel = -1;
 			}
 		}
-		else if (pkTarget->HasFlag(BUF_HASINVISIBLE) && !HasFlag(BEF_IGNORE_INVISIBLE))
+		else if (pkTarget->HasFlag(TwUnitFlag::BUF_HASINVISIBLE) && !HasFlag(BEF_IGNORE_INVISIBLE))
 		{
 			std::shared_ptr<TwUnit> pkAttacker = gUnitMgr->GetUnitByID(GetOwnerID(), true);
 			if (pkAttacker)
