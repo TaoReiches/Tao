@@ -182,7 +182,6 @@ public:
 	const float GetEvadeRate(void) const;
 
 protected:
-    TwUnitDataOperation();
     TwUnitDataOperation(int iID);
     ~TwUnitDataOperation();
 

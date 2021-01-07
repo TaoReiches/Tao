@@ -15,9 +15,8 @@
 class TwUnitBase : public TwMainPtr, public TwUnitPtr
 {
 public:
-    TwUnitBase();
-	TwUnitBase(int iID);
-	~TwUnitBase();
+    TwUnitBase(int iID);
+    ~TwUnitBase();
 
 public:
 	bool        HasUnitImmunityFlag(int iFlag) const;
@@ -56,6 +55,14 @@ public:
     {
         return (flag & UnitFlag) != 0;
     }
+    const int GetBlockIndex() const
+    {
+        return BlockIndex;
+    }
+    void SetBlockIndex(int index)
+    {
+        BlockIndex = index;
+    }
 
 protected:
     int                                         m_iOtherFlag;
@@ -63,6 +70,7 @@ protected:
     int                                         m_iCarryFlag;
     int                                         Id;
     int                                         m_iTypeID;
+    int                                         BlockIndex;
     BeUnitFlag                                  UnitFlag;
     TwUnitOutputFlag                            OutputFlag;
 	std::unordered_map<UserDataKey, int>        UserDataInt;

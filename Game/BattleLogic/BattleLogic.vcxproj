@@ -207,6 +207,7 @@
     <ClInclude Include="TW_TriggerFunc.h" />
     <ClInclude Include="TW_Unit.h" />
     <ClInclude Include="TW_UnitBase.h" />
+    <ClInclude Include="TW_UnitBlockMgr.h" />
     <ClInclude Include="TW_UnitCarry.h" />
     <ClInclude Include="TW_UnitDataOperation.h" />
     <ClInclude Include="TW_UnitDataDefine.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="TW_TriggerFunc.cpp" />
     <ClCompile Include="TW_Unit.cpp" />
     <ClCompile Include="TW_UnitBase.cpp" />
+    <ClCompile Include="TW_UnitBlockMgr.cpp" />
     <ClCompile Include="TW_UnitCarry.cpp" />
     <ClCompile Include="TW_UnitDataOperation.cpp" />
     <ClCompile Include="TW_UnitDataDefine.cpp" />

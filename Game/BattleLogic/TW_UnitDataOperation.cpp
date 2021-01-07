@@ -18,11 +18,6 @@
 #include "TW_TriggerEvent.h"
 #include "TW_TriggerMgr.h"
 
-TwUnitDataOperation::TwUnitDataOperation()
-{
-
-}
-
 TwUnitDataOperation::TwUnitDataOperation(int iID) : TwUnitBase(iID)
 {
 
