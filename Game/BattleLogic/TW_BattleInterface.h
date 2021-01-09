@@ -24,7 +24,7 @@ public:
     void SetPlayerInfo(const std::shared_ptr<TwPlayerInfo> playerInfo);
     bool OnPlayerJion(std::uint64_t playerId);
     bool OnPlayerLeave(std::uint64_t playerId);
-    bool OnReceiveCommand(std::uint64_t playerId, std::string command);
+    bool OnPlayerMove(std::uint64_t playerId, std::string command);
     std::string GetOutputCommand(std::uint64_t playerId);
 
 private:

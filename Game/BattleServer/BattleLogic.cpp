@@ -64,6 +64,7 @@ void TwBattleLogic::OnRecivedCommand(std::string command, const HSock& sock)
     {
     case Game::TwGameCommandType::CS_CONNECT: OnPlayerConnect(cmd.content(), sock); break;
     case Game::TwGameCommandType::CS_LOADING_END: OnPlayerLoadend(sock); break;
+    case Game::TwGameCommandType::CS_UNIT_MOVE: Battle->OnPlayerMove(TwUsers::Get()->GetUserId(sock), cmd.content());
     default:
         break;
     }
