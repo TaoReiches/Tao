@@ -2,6 +2,9 @@
 #include "GameCommand.h"
 #include "GameCommandExecute.h"
 
+int GameCommand::PosX = 0;
+int GameCommand::PosY = 0;
+
 SeNetMgr::SeNetMgr()
 {
 
@@ -30,6 +33,13 @@ void	SeNetMgr::DisConnect(const	HSock& rkSock)
 void	SeNetMgr::UpdateNet()
 {
     m_kNetMgr.Update();
+
+    static int count = 0;
+    ++count;
+    if (count == 10)
+    {
+        SendData(GameCommand::Move());
+    }
 }
 
 void SeNetMgr::OnNetConnected(const HSock& rkSock, const char* pcIP, int iPort)

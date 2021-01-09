@@ -98,11 +98,12 @@ enum TwGameCommandType : int {
   CS_CONNECT = 2,
   CS_LOADING_END = 3,
   SC_UNITS_UPDATE = 4,
-  SC_UNITS_REMOVE = 5
+  SC_UNITS_REMOVE = 5,
+  CS_UNIT_MOVE = 6
 };
 bool TwGameCommandType_IsValid(int value);
 constexpr TwGameCommandType TwGameCommandType_MIN = SC_CONNECT;
-constexpr TwGameCommandType TwGameCommandType_MAX = SC_UNITS_REMOVE;
+constexpr TwGameCommandType TwGameCommandType_MAX = CS_UNIT_MOVE;
 constexpr int TwGameCommandType_ARRAYSIZE = TwGameCommandType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TwGameCommandType_descriptor();
@@ -561,7 +562,7 @@ class TwGameUnitData :
   ::PROTOBUF_NAMESPACE_ID::uint32 posy() const;
   void set_posy(::PROTOBUF_NAMESPACE_ID::uint32 value);
 
-  // optional uint64 UserId = 4;
+  // required uint64 UserId = 4;
   bool has_userid() const;
   void clear_userid();
   ::PROTOBUF_NAMESPACE_ID::uint64 userid() const;
@@ -1545,7 +1546,7 @@ inline void TwGameUnitData::set_unittypeid(::PROTOBUF_NAMESPACE_ID::uint32 value
   // @@protoc_insertion_point(field_set:Game.TwGameUnitData.UnitTypeId)
 }
 
-// optional uint64 UserId = 4;
+// required uint64 UserId = 4;
 inline bool TwGameUnitData::has_userid() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }

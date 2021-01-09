@@ -1,8 +1,6 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include "GameCommand.pb.h"
+#include "GameCommand.h"
 
 class GameCommandExecute
 {
@@ -66,10 +64,12 @@ private:
             }
             if (unitData.has_posx())
             {
+                GameCommand::PosX = unitData.posx();
                 std::cout << "posX : " << unitData.posx() << std::endl;
             }
             if (unitData.has_posy())
             {
+                GameCommand::PosY = unitData.posy();
                 std::cout << "posY : " << unitData.posy() << std::endl;
             }
             if (unitData.has_targetposx())

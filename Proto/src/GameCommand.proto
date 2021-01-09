@@ -9,6 +9,7 @@ enum TwGameCommandType
     CS_LOADING_END = 3;
     SC_UNITS_UPDATE = 4;
     SC_UNITS_REMOVE = 5;
+    CS_UNIT_MOVE = 6;
 }
 
 message TwGameCommand
@@ -27,7 +28,7 @@ message TwGameUnitData
     optional uint32 PosX = 1;
     optional uint32 PosY = 2;
     optional uint32 UnitTypeId = 3;
-    optional uint64 UserId = 4;
+    required uint64 UserId = 4;
     optional uint32 HP = 5;
     optional uint32 MP = 6;
     optional uint32 TargetPosX = 7;
