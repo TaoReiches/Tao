@@ -9,6 +9,7 @@
 #include "TW_PlayerInfo.h"
 #include "TW_Unit.h"
 #include "TW_Output.h"
+#include "TW_Command.h"
 #include "GameCommand.pb.h"
 
 TwBattleInterface::TwBattleInterface()
@@ -78,6 +79,27 @@ bool TwBattleInterface::OnPlayerLeave(std::uint64_t playerId)
 
 bool TwBattleInterface::OnPlayerMove(std::uint64_t playerId, std::string command)
 {
+    auto player = Output->GetPlayer(playerId);
+    if (player == nullptr)
+    {
+        return false;
+    }
+
+    Game::TwGameUnitMoveCS moveCommand;
+    moveCommand.ParseFromString(command);
+    if (moveCommand.has_direction())
+    {
+
+    }
+    else
+    {
+        auto posX = moveCommand.posx() / 100.f;
+        auto posY = moveCommand.posy() / 100.f;
+
+        TwCommand unitCommand(TwCommandType::BCT_MOVE, 0, posX, posY);
+        player->GiveCommand(unitCommand, TwGiveCmdType::BCT_IMMEDIATE, true);
+    }
+
     return true;
 }
 

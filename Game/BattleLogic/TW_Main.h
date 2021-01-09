@@ -101,7 +101,7 @@ public:
 	void	FinializeServerMode();
 
     bool SetPlayerInfo(const std::shared_ptr<TwPlayerInfo>& playerInfo);
-    const std::shared_ptr<TwPlayerInfo>& GetPlayerInfo(std::uint64_t playerId) const
+    const std::shared_ptr<TwPlayerInfo> GetPlayerInfo(std::uint64_t playerId) const
     {
         const auto& result = m_akPlayer.find(playerId);
         if (result != m_akPlayer.end())

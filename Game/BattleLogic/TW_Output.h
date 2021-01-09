@@ -7,6 +7,7 @@
 
 #include "TW_LogicBase.h"
 #include <unordered_map>
+#include <map>
 #include <string>
 #include <memory>
 
@@ -19,6 +20,15 @@ public:
     void AddPlayer(std::uint64_t playerId, std::shared_ptr<TwUnit> player)
     {
         AllPlayers.emplace(playerId, player);
+    }
+    std::shared_ptr<TwUnit> GetPlayer(std::uint64_t playerId)
+    {
+        auto iter = AllPlayers.find(playerId);
+        if (iter != AllPlayers.end())
+        {
+            return iter->second;
+        }
+        return nullptr;
     }
     const std::vector<std::string >& GetPlayerCommands(std::uint64_t playerId)
     {
@@ -35,6 +45,6 @@ private:
 
 private:
     std::unordered_map<std::uint64_t, std::vector<std::string>> OutputCommands;
-    std::unordered_map<std::uint64_t, std::shared_ptr<TwUnit>> AllPlayers;
+    std::map<std::uint64_t, std::shared_ptr<TwUnit>> AllPlayers;
     std::vector<std::string> EmptyResult;
 };
