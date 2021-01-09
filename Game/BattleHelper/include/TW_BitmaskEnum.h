@@ -39,14 +39,14 @@ template<typename Enum>
 typename std::enable_if<EnableBitMaskOperators<Enum>::enable, Enum>::type
 operator &=(Enum& lhs, Enum rhs)
 {
-    return lhs & rhs;
+    return lhs = lhs & rhs;
 }
 
 template<typename Enum>
 typename std::enable_if<EnableBitMaskOperators<Enum>::enable, Enum>::type
 operator |=(Enum& lhs, Enum rhs)
 {
-    return lhs | rhs;
+    return lhs = lhs | rhs;
 }
 
 template<typename Enum>
