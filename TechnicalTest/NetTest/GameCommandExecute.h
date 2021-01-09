@@ -9,16 +9,22 @@ class GameCommandExecute
 public:
     static void OnRecvConnect(std::string command)
     {
-        Game::TwGameCommand cmd;
-        cmd.ParseFromString(command);
+        Game::TwGameCommandsSC baseCmd;
+        baseCmd.ParseFromString(command);
 
-        std::cout << "Receive command: " << cmd.commandtype() << std::endl;
-
-        switch (cmd.commandtype())
+        for (auto i = 0; i < baseCmd.commands_size(); ++i)
         {
-        case Game::TwGameCommandType::SC_CONNECT: BeginLoading(cmd.content()); break;
-        default:
-            break;
+            auto& cmd = baseCmd.commands(i);
+
+            std::cout << "Receive command: " << cmd.commandtype() << std::endl;
+
+            switch (cmd.commandtype())
+            {
+            case Game::TwGameCommandType::SC_CONNECT: BeginLoading(cmd.content()); break;
+            case Game::TwGameCommandType::SC_UNITS_UPDATE: UnitUpdate(cmd.content()); break;
+            default:
+                break;
+            }
         }
     }
 
@@ -38,5 +44,46 @@ private:
         Game::TwGameCommand loadendCmd;
         loadendCmd.set_commandtype(Game::TwGameCommandType::CS_LOADING_END);
         kNet.SendData(loadendCmd.SerializeAsString());
+    }
+
+    static void UnitUpdate(std::string command)
+    {
+        Game::TwGameUnitsUpdateSC gameUnitUpdateSC;
+        gameUnitUpdateSC.ParseFromString(command);
+
+        std::cout << "Recived unit update, all units :" << gameUnitUpdateSC.unitdatas_size() << std::endl;
+        for (auto i = 0; i < gameUnitUpdateSC.unitdatas_size(); ++i)
+        {
+            auto& unitData = gameUnitUpdateSC.unitdatas(i);
+            std::cout << "Player id : " << unitData.userid() << std::endl;
+            if (unitData.has_hp())
+            {
+                std::cout << "HP : " << unitData.hp() << std::endl;
+            }
+            if (unitData.has_mp())
+            {
+                std::cout << "MP : " << unitData.mp() << std::endl;
+            }
+            if (unitData.has_posx())
+            {
+                std::cout << "posX : " << unitData.posx() << std::endl;
+            }
+            if (unitData.has_posy())
+            {
+                std::cout << "posY : " << unitData.posy() << std::endl;
+            }
+            if (unitData.has_targetposx())
+            {
+                std::cout << "target posX : " << unitData.targetposx() << std::endl;
+            }
+            if (unitData.has_targetposy())
+            {
+                std::cout << "target posY : " << unitData.targetposy() << std::endl;
+            }
+            if (unitData.has_unittypeid())
+            {
+                std::cout << "type id : " << unitData.unittypeid() << std::endl;
+            }
+        }
     }
 };

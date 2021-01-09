@@ -95,9 +95,12 @@ void TwBattleLogic::OnPlayerConnect(std::string command, const HSock& sock)
     gameConnectionSC.set_mapid('M001');
     gameConnectionSC.set_userid(playerInfo.UserID);
 
-    Game::TwGameCommand sendCmd;
-    sendCmd.set_commandtype(Game::TwGameCommandType::SC_CONNECT);
-    sendCmd.set_content(gameConnectionSC.SerializeAsString());
+    Game::TwGameCommand GameCmd;
+    GameCmd.set_commandtype(Game::TwGameCommandType::SC_CONNECT);
+    GameCmd.set_content(gameConnectionSC.SerializeAsString());
+
+    Game::TwGameCommandsSC sendCmd;
+    sendCmd.add_commands()->MergeFrom(GameCmd);
 
     const auto sendString = sendCmd.SerializeAsString();
     SendData(sendString, TwUsers::Get()->GetSock(playerInfo.UserID));

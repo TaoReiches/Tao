@@ -91,7 +91,7 @@ std::string TwBattleInterface::GetOutputCommand(std::uint64_t playerId)
     Game::TwGameCommandsSC outputCommand;
     for (auto& cmd : commands)
     {
-        //outputCommand.MergeFromString(cmd);
+        outputCommand.add_commands()->MergeFromString(cmd);
     }
     return outputCommand.SerializeAsString();
 }

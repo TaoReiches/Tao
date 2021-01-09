@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include "GameCommand.pb.h"
 
 class TwUnit;
 
@@ -32,7 +31,7 @@ public:
     }
 
 private:
-    Game::TwGameUnitData GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew);
+    std::string GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool addNew);
 
 private:
     std::unordered_map<std::uint64_t, std::vector<std::string>> OutputCommands;
