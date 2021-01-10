@@ -34,7 +34,7 @@ public:
 public:
     void SetTargetPos(const TwPos2& kTargetPos, bool bTurn = false);
     bool IsBlocked(void);
-    virtual BeExeResult Execute(int& iDeltaTime);
+    virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
     bool            m_bStopAction;

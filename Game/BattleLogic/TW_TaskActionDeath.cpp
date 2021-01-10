@@ -14,7 +14,7 @@ BeTaskActionDeath::BeTaskActionDeath()
 	m_bInit = false;
 }
 
-BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
+TwExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 	gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
@@ -39,31 +39,31 @@ BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 			{
 				iDeltaTime -= gUnit->GetActionCurTimeNeed();
 
-				return BeExeResult::BER_ALL_OVER;
+				return TwExeResult::BER_ALL_OVER;
 			}
 			else
 			{
 				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
-				return BeExeResult::BER_TIME_OUT;
+				return TwExeResult::BER_TIME_OUT;
 			}
 		}
 		else
 		{
 			if (gUnit->IsActionCurTimeOut(iDeltaTime))
 			{
-				return BeExeResult::BER_ALL_OVER;
+				return TwExeResult::BER_ALL_OVER;
 			}
 			else
 			{
 				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
-				return BeExeResult::BER_TIME_OUT;
+				return TwExeResult::BER_TIME_OUT;
 			}
 		}
 	}
 
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

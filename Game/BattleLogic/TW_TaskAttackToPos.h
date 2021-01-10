@@ -20,7 +20,7 @@ enum class BeAttackToPosState
 };
 
 class BeTaskActionAttack;
-class BeTaskMoveToPos;
+class TwTaskMoveToPos;
 
 class BeTaskAttackToPos : public TwTask
 {
@@ -29,7 +29,7 @@ public:
 	~BeTaskAttackToPos();
 
 	void SetTargetPos(const TwPos2& kPos, float fRange = 0.0f);
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 	TwMoveResult GetMoveResult(void);
 	bool IsCanCancel() const;
 
@@ -43,5 +43,5 @@ protected:
 	int							m_iStartTime;
 	int							m_iStartAttackTime;
 	std::unique_ptr<BeTaskActionAttack> m_pkAttack;
-	std::unique_ptr<BeTaskMoveToPos> m_pkMoveToPos;
+	std::unique_ptr<TwTaskMoveToPos> m_pkMoveToPos;
 };

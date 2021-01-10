@@ -12,7 +12,7 @@ BeTaskActionStand::BeTaskActionStand()
 	m_eType = BeTaskType::STT_ACTION_STAND;
 }
 
-BeExeResult BeTaskActionStand::Execute(int& iDeltaTime)
+TwExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
@@ -29,5 +29,5 @@ BeExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 	gUnit->IncActionCurTime(iDeltaTime);
 	iDeltaTime = 0;
 
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

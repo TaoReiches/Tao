@@ -35,7 +35,7 @@ public:
 
 	bool CanSkip(void) const;
 	BeSpellPhase GetPhase(void);
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	bool CanUseSpell(void);

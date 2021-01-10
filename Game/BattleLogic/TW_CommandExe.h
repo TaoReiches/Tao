@@ -19,7 +19,7 @@ public:
 	TwCommandType		GetType() const;
 	BeTaskType			GetTaskType() const;
 
-	virtual BeExeResult Execute(int& iDeltaTime) = 0;
+	virtual TwExeResult Execute(int& iDeltaTime) = 0;
 	virtual bool CanInterrupt() const = 0;
 	virtual bool CanCancel() const = 0;
 	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const = 0;
@@ -37,7 +37,7 @@ public:
 
 	void AttachUnit(std::shared_ptr<TwUnit> pkUnit)
 	{
-		pkAttachUnit = pkUnit;
+		pAttachUnit = pkUnit;
 		if (m_pkCurTask)
 		{
 			m_pkCurTask->AttachUnit(pkUnit);

@@ -51,7 +51,7 @@ void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TwPos2& kPos
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToUnit.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	((BeTaskMoveToUnit*)m_pkCurTask.get())->SetTargetID(iID, (float)rkData.GetSpellDistance());
@@ -72,7 +72,7 @@ void BeSpellCommand::SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkill
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	auto pkMapItem = gMapItemMgr.GetMapItemByID(iTargetID);
@@ -101,7 +101,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const 
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	auto& pkSkillRes = SkillTableMgr::Get()->GetSkillTable(iSkillTypeID);
@@ -117,7 +117,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const 
 		{
 			return;
 		}
-		((BeTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, (float)kData.GetSpellDistance());
+		((TwTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, (float)kData.GetSpellDistance());
 	}
 
 	m_iSkillTypeID = iSkillTypeID;
@@ -129,27 +129,27 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const 
 	m_kDirectPos = kDirPos;
 }
 
-BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
+TwExeResult BeSpellCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
 	if (!m_pkCurTask)
 	{
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 	if (m_pkCurTask->GetType() != BeTaskType::STT_ACTION_SPELL)
 	{
 		auto& pkResData = SkillTableMgr::Get()->GetSkillTable(m_iSkillTypeID);
 		if (!pkResData)
 		{
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 		if (!gUnit->CanMove())
         {
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 
-		BeExeResult eResult = m_pkCurTask->Execute(iDeltaTime);
-		if (eResult == BeExeResult::BER_TIME_OUT)
+		TwExeResult eResult = m_pkCurTask->Execute(iDeltaTime);
+		if (eResult == TwExeResult::BER_TIME_OUT)
 		{
 			if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_UNIT)
 			{
@@ -159,7 +159,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 					m_kTargetPos = TwPos2(pkTarget->GetPosX(), pkTarget->GetPosY());
 				}
 			}
-			return BeExeResult::BER_TIME_OUT;
+			return TwExeResult::BER_TIME_OUT;
 		}
 
 		if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_UNIT)
@@ -169,23 +169,23 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 				if (((BeTaskMoveToUnit*)m_pkCurTask.get())->GetMoveResult() != TwMoveResult::MR_SUCCESS)
 				{
 					{
-						return BeExeResult::BER_EXE_END;
+						return TwExeResult::BER_EXE_END;
 					}
 				}
 			}
 		}
 		else if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS && pkResData->uiOperateType == SKILL_OPERATETYPE_SINGLETARGET)
 		{
-			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() != TwMoveResult::MR_SUCCESS)
+			if (((TwTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() != TwMoveResult::MR_SUCCESS)
 			{
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 		}
 
 		SafeDeleteTask(m_pkCurTask);
 		auto pkTask = std::unique_ptr<BeTaskActionSpell>(mpTaskActionSpell.alloc());
 		pkTask->AttachMain(pkAttachMain);
-		pkTask->AttachUnit(pkAttachUnit);
+		pkTask->AttachUnit(pAttachUnit);
 
 		bool	bSucSet = false;
 		if (m_iTargetID)
@@ -225,7 +225,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		if (!bSucSet)
 		{
 			SafeDeleteTask(m_pkCurTask);
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 	}
 

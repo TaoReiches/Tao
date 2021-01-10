@@ -86,7 +86,7 @@ int BeTaskActionAttack::GetAttackCount(void) const
 	return m_iAttackCount;
 }
 
-BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
+TwExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
@@ -112,7 +112,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			iDeltaTime = 0;
 			m_bCanCancel = false;
 
-			return BeExeResult::BER_TIME_OUT;
+			return TwExeResult::BER_TIME_OUT;
 		}
 
 		if (pkTarget)
@@ -160,7 +160,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			{
 				gUnit->SetAttackingUnitID(0);
 				m_bCanCancel = true;
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 		}
 		float	fBaoJiRate = gRandNum.RandFloat(0.0f, 1.0f);
@@ -198,7 +198,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		iDeltaTime = 0;
 		m_bCanCancel = false;
 
-		return BeExeResult::BER_TIME_OUT;
+		return TwExeResult::BER_TIME_OUT;
 	}
 
 	if (!m_bDamaged)
@@ -211,14 +211,14 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			{
 				gUnit->SetAttackingUnitID(0);
 				m_bCanCancel = true;
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 
 			float fTargetDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
 			float fMaxAttackRange = gUnit->GetAttackRange(pkTarget) + 250.0f;
 			if (fTargetDistance2 > fMaxAttackRange * fMaxAttackRange)
 			{
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 
 			if (!pkTarget->IsDead())
@@ -228,7 +228,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 			else
 			{
 				gUnit->SetAttackingUnitID(0);
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 
 			if (gUnit->HasFlag(TwUnitFlag::BUF_IGNOREPHYSICRESIST))
@@ -296,7 +296,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		else
 		{
 			gUnit->SetAttackingUnitID(0);
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 		m_bDamaged = true;
 	}
@@ -307,7 +307,7 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 		m_bAttacking = false;
 		m_bCanCancel = true;
 		m_bBeginAttack = true;
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	if (gUnit->GetAttackElapseTime() <= gUnit->GetAttackBackPt() / 3.0f)
@@ -323,5 +323,5 @@ BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 
 	iDeltaTime = 0;
 
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

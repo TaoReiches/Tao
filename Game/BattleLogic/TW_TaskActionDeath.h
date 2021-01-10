@@ -13,7 +13,7 @@ public:
 	BeTaskActionDeath();
 	~BeTaskActionDeath() {};
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	bool m_bInit;

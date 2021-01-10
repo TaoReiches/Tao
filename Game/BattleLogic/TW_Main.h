@@ -148,7 +148,7 @@ protected:
 };
 
 #define gMain           pkAttachMain
-#define gUnit           pkAttachUnit
+#define gUnit           pAttachUnit
 #define gTime           (gMain->m_uiGameTime)
 #define gRandNum        (*(gMain->m_pkRandNum))
 #define gMap            (*(gMain->m_pkMap))

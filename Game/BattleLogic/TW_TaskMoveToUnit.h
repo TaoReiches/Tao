@@ -9,7 +9,7 @@
 #include "TW_Task.h"
 #include "TW_TaskActionWalk.h"
 
-class BeTaskMoveToPos;
+class TwTaskMoveToPos;
 
 class BeTaskMoveToUnit : public TwTask
 {
@@ -21,10 +21,10 @@ public:
 	void SetTargetID(int iID, float fDistance = 0.0f);
 	int GetTargetID() const;
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	int									m_iTargetID;
-	std::unique_ptr<BeTaskMoveToPos>	m_pkMoveToPos;
+	std::unique_ptr<TwTaskMoveToPos>	m_pkMoveToPos;
 	float								m_fDistance;
 };

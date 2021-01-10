@@ -23,7 +23,7 @@ public:
 	bool	IsPerDamageEnd(void)	const;
 	int		GetAttackCount(void)	const;
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	bool				m_bAttacking;

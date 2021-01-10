@@ -21,7 +21,7 @@ void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSk
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackUnit.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	((BeTaskAttackUnit*)m_pkCurTask.get())->SetTargetID(iID, fDistance, bIsOrb, iSkillTypeID, iSkillLevel, iAttackCountLimit);
@@ -34,7 +34,7 @@ void BeAttackCommand::SetTargetPos(const TwPos2& kPos, float fRange)
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	((BeTaskAttackToPos*)m_pkCurTask.get())->SetTargetPos(kPos, fRange);
@@ -47,13 +47,13 @@ void BeAttackCommand::SetTargetItem(int iItemID)
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackItem.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
 	((BeTaskAttackItem*)m_pkCurTask.get())->SetTargetID(iItemID, 0.0f);
 }
 
-BeExeResult BeAttackCommand::Execute(int& iDeltaTime)
+TwExeResult BeAttackCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
 
@@ -62,7 +62,7 @@ BeExeResult BeAttackCommand::Execute(int& iDeltaTime)
 		return m_pkCurTask->Execute(iDeltaTime);
 	}
 
-	return BeExeResult::BER_EXE_END;
+	return TwExeResult::BER_EXE_END;
 }
 
 bool BeAttackCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const

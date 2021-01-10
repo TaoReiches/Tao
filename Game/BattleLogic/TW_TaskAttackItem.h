@@ -15,7 +15,7 @@ enum class BeAttackItemState
 	BAI_END,
 };
 
-class BeTaskMoveToPos;
+class TwTaskMoveToPos;
 class BeTaskActionAttack;
 
 class BeTaskAttackItem : public TwTask
@@ -28,10 +28,10 @@ public:
 	int GetTargetID() const;
 	bool IsAttacking() const;
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
-	std::unique_ptr<BeTaskMoveToPos>		m_pkMoveToPos;
+	std::unique_ptr<TwTaskMoveToPos>		m_pkMoveToPos;
 	std::unique_ptr<BeTaskActionAttack>		m_pkActionAttack;
 
 	BeAttackItemState	m_eState;

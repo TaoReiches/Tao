@@ -32,7 +32,7 @@ TwTaskActionWalk::~TwTaskActionWalk()
 	m_eType = BeTaskType::STT_ACTION_WALK;
 	m_bBlocked = false;
 	m_iWalkTime = 0;
-	if (pkAttachUnit)
+	if (pAttachUnit)
 	{
 		gUnit->SetActionState(0);
 	}
@@ -58,7 +58,7 @@ bool	TwTaskActionWalk::IsBlocked(void)
 	return	m_bBlocked;
 }
 
-BeExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
+TwExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
@@ -93,7 +93,7 @@ BeExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	float fMoveSpeed = gUnit->GetMoveSpeed();
 	if (fMoveSpeed <= 0)
 	{
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	float fCanMoveDistance = fMoveSpeed * iDeltaTime / 1000.0f;
@@ -210,7 +210,7 @@ BeExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	{
 		gUnit->SetActionState(0);
 		m_iWalkTime = 0;
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	int iActionTime = iDeltaTime;
@@ -242,8 +242,8 @@ BeExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	{
 		m_iWalkTime = 0;
 		m_bBlocked = false;
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

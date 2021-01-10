@@ -37,7 +37,7 @@ TwMemoryPool<BeTaskActionAttack>         mpTaskActionAttack(256);
 TwMemoryPool<BeTaskActionSpell>          mpTaskActionSpell(256);
 TwMemoryPool<BeTaskActionDeath>          mpTaskActionDeath(256);
 
-TwMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos(256);
+TwMemoryPool<TwTaskMoveToPos>            mpTaskMoveToPos(256);
 TwMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit(256);
 TwMemoryPool<BeTaskAttackUnit>           mpTaskAttackUnit(256);
 TwMemoryPool<BeTaskAttackToPos>          mpTaskAttackToPos(256);

@@ -32,7 +32,7 @@ public:
 	bool IsCanCancel() const;
 	bool CanSkip(void) const;
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	bool                m_bIsOrb;

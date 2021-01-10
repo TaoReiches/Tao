@@ -22,8 +22,8 @@ extern TwMemoryPool<BeTaskActionSpell>          mpTaskActionSpell;
 class BeTaskActionDeath;
 extern TwMemoryPool<BeTaskActionDeath>          mpTaskActionDeath;
 
-class BeTaskMoveToPos;
-extern TwMemoryPool<BeTaskMoveToPos>            mpTaskMoveToPos;
+class TwTaskMoveToPos;
+extern TwMemoryPool<TwTaskMoveToPos>            mpTaskMoveToPos;
 
 class BeTaskMoveToUnit;
 extern TwMemoryPool<BeTaskMoveToUnit>           mpTaskMoveToUnit;

@@ -7,7 +7,7 @@
 
 #include "TW_LogicBase.h"
 
-enum class BeExeResult
+enum class TwExeResult
 {
 	BER_TIME_OUT,
 	BER_EXE_END,
@@ -42,7 +42,7 @@ public:
 	TwTask(void);
 	virtual ~TwTask(void);
 	BeTaskType				GetType();
-	virtual BeExeResult		Execute(int& iDeltaTime) = 0;
+	virtual TwExeResult		Execute(int& iDeltaTime) = 0;
 
 protected:
 	BeTaskType		m_eType;

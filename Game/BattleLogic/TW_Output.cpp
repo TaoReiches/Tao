@@ -54,6 +54,7 @@ void TwOutput::Update()
         }
         // clear unit output data
         player.second->UpdateOutputDataFinished();
+        player.second->ClearOutputData();
     }
 }
 

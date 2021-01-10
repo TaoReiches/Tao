@@ -20,8 +20,8 @@ BeTaskType TwTask::GetType()
 	return m_eType;
 }
 
-BeExeResult TwTask::Execute(int& iDeltaTime)
+TwExeResult TwTask::Execute(int& iDeltaTime)
 {
 	m_iTaskTime += iDeltaTime;
-	return BeExeResult::BER_EXE_END;
+	return TwExeResult::BER_EXE_END;
 }

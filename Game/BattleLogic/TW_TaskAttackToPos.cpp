@@ -52,10 +52,10 @@ void BeTaskAttackToPos::SetTargetPos(const TwPos2& kPos, float fRange)
 		return;
 	}
 	m_pkAttack->AttachMain(pkAttachMain);
-	m_pkAttack->AttachUnit(pkAttachUnit);
+	m_pkAttack->AttachUnit(pAttachUnit);
 
 	m_pkMoveToPos->AttachMain(pkAttachMain);
-	m_pkMoveToPos->AttachUnit(pkAttachUnit);
+	m_pkMoveToPos->AttachUnit(pAttachUnit);
 
 	m_fRange = fRange;
 	m_iRetryTime = 0;
@@ -64,7 +64,7 @@ void BeTaskAttackToPos::SetTargetPos(const TwPos2& kPos, float fRange)
 	m_dwOutSightTime = 0;
 }
 
-BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
+TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
@@ -72,7 +72,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 
 	if (!m_pkMoveToPos || !m_pkAttack)
 	{
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	int iLoopCount = 20;
@@ -90,7 +90,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		{
 			m_iStartAttackTime = 0;
 			m_dwMoveTime += iDeltaTime;
-			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+			TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 
 			if (gUnit->GetCommandCount() > 0)
 			{
@@ -103,9 +103,9 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 				}
 			}
 
-			if (eRet == BeExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::BER_TIME_OUT)
 			{
-				return BeExeResult::BER_TIME_OUT;
+				return TwExeResult::BER_TIME_OUT;
 			}
 			else
 			{
@@ -172,9 +172,9 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 
 					m_dwOutSightTime += iDeltaTime;
 					m_dwMoveTime += iDeltaTime;
-					BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+					TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 
-					if (eRet == BeExeResult::BER_TIME_OUT)
+					if (eRet == TwExeResult::BER_TIME_OUT)
 					{
 					}
 					else
@@ -208,8 +208,8 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_ATTACK:
 		{
 			m_iStartAttackTime += iDeltaTime;
-			BeExeResult eRet = m_pkAttack->Execute(iDeltaTime);
-			if (eRet == BeExeResult::BER_EXE_END)
+			TwExeResult eRet = m_pkAttack->Execute(iDeltaTime);
+			if (eRet == TwExeResult::BER_EXE_END)
 			{
 				std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkTarget && pkTarget->GetClass() == UNIT_CLASSTYPE_BUILDING)
@@ -239,10 +239,10 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_END:
 		{
 			m_eState = BeAttackToPosState::BAP_REFRESH;
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

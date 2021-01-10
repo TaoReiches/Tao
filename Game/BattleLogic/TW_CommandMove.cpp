@@ -14,7 +14,7 @@ BeMoveCommand::BeMoveCommand()
 
 TwPos2 BeMoveCommand::GetTargetPos() const
 {
-	return ((BeTaskMoveToPos*)m_pkCurTask.get())->GetTargetPos();
+	return ((TwTaskMoveToPos*)m_pkCurTask.get())->GetTargetPos();
 }
 
 void BeMoveCommand::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
@@ -24,13 +24,13 @@ void BeMoveCommand::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
-		m_pkCurTask->AttachUnit(pkAttachUnit);
+		m_pkCurTask->AttachUnit(pAttachUnit);
 	}
 
-	((BeTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, fDistance, bTurn);
+	((TwTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, fDistance, bTurn);
 }
 
-BeExeResult BeMoveCommand::Execute(int& iDeltaTime)
+TwExeResult BeMoveCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
 	return m_pkCurTask->Execute(iDeltaTime);

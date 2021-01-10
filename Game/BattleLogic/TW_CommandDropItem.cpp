@@ -24,7 +24,7 @@ void BeDropItemCommand::SetTargetIDDropItem(int iID, int iItemID)
 	SafeDeleteTask(m_pkCurTask);
 	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToUnit.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
-	m_pkCurTask->AttachUnit(pkAttachUnit);
+	m_pkCurTask->AttachUnit(pAttachUnit);
 
 	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(iID);
 
@@ -38,16 +38,16 @@ void BeDropItemCommand::SetTargetPosDropItem(const TwPos2& kPos, int iItemID)
 	SafeDeleteTask(m_pkCurTask);
 	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
-	m_pkCurTask->AttachUnit(pkAttachUnit);
+	m_pkCurTask->AttachUnit(pAttachUnit);
 
-	((BeTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, 1000.0f);
+	((TwTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(kPos, 1000.0f);
 }
 
-BeExeResult BeDropItemCommand::Execute(int& iDeltaTime)
+TwExeResult BeDropItemCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
 
-	return BeExeResult::BER_EXE_END;
+	return TwExeResult::BER_EXE_END;
 }
 
 bool BeDropItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const

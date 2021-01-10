@@ -14,7 +14,7 @@ static const int WALK_BLOCK_TIME = 100;
 static const int WALK_BLOCK_COUNT = 3;
 static const int HERO_WALK_BLOCK_TIME = 40;
 
-BeTaskMoveToPos::BeTaskMoveToPos()
+TwTaskMoveToPos::TwTaskMoveToPos()
 {
 	m_eType = BeTaskType::STT_MOVE_TO_POS;
 	m_eMoveState = TwMoveState::BMS_INIT;
@@ -29,13 +29,13 @@ BeTaskMoveToPos::BeTaskMoveToPos()
 	m_pkWalk.reset(mpTaskActionWalk.alloc());
 }
 
-BeTaskMoveToPos::~BeTaskMoveToPos()
+TwTaskMoveToPos::~TwTaskMoveToPos()
 {
 	mpTaskActionWalk.free(m_pkWalk.get());
 	m_pkWalk.release();
 };
 
-void BeTaskMoveToPos::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
+void TwTaskMoveToPos::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
 {
 	m_fDistance = fDistance;
 	m_kTarPos = kPos;
@@ -46,51 +46,51 @@ void BeTaskMoveToPos::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTu
 
 	m_iStandTime = 0;
 	m_pkWalk->AttachMain(pkAttachMain);
-	m_pkWalk->AttachUnit(pkAttachUnit);
+	m_pkWalk->AttachUnit(pAttachUnit);
 }
 
-TwPos2 BeTaskMoveToPos::GetTargetPos() const
+TwPos2 TwTaskMoveToPos::GetTargetPos() const
 {
 	return m_kTarPos;
 }
 
-TwMoveResult BeTaskMoveToPos::GetMoveResult(void) const
+TwMoveResult TwTaskMoveToPos::GetMoveResult(void) const
 {
 	return m_eState;
 }
 
-void BeTaskMoveToPos::SetMoveResult(TwMoveResult eResult)
+void TwTaskMoveToPos::SetMoveResult(TwMoveResult eResult)
 {
 	m_eState = eResult;
 }
 
-BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
+TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
-	if (!pkAttachUnit)
+	if (!pAttachUnit)
 	{
-		return BeExeResult::BER_TIME_OUT;
+		return TwExeResult::BER_TIME_OUT;
 	}
 	if (GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), m_kTarPos.fX, m_kTarPos.fY) <= (m_fDistance * m_fDistance))
 	{
 		m_eState = TwMoveResult::MR_SUCCESS;
 		m_eMoveState = TwMoveState::BMS_INIT;
 		gUnit->SetActionState(0);
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	if (gUnit->GetClass() == UNIT_CLASSTYPE_BUILDING)
 	{
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 	if (gUnit->HasUnitCarryFlag(BUCF_CANNOTMOVE)) {
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 	if (m_eState == TwMoveResult::MR_NONE)
 	{
 		m_eMoveState = TwMoveState::BMS_INIT;
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	int iLoopCount = 10;
@@ -158,7 +158,7 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 
 					m_kMiddlePos = akPath.size() ? akPath.front() : m_kTarPos;
 					m_pkWalk->AttachMain(pkAttachMain);
-					m_pkWalk->AttachUnit(pkAttachUnit);
+					m_pkWalk->AttachUnit(pAttachUnit);
 					m_pkWalk->SetTargetPos(m_kDirectPos);
 					m_eMoveState = TwMoveState::BMS_WALK;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
@@ -318,8 +318,8 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		}
 		case TwMoveState::BMS_WALK:
 		{
-			BeExeResult eRet = m_pkWalk->Execute(iDeltaTime);
-			if (eRet == BeExeResult::BER_EXE_END)
+			TwExeResult eRet = m_pkWalk->Execute(iDeltaTime);
+			if (eRet == TwExeResult::BER_EXE_END)
 			{
 				if (m_pkWalk->IsBlocked())
 				{
@@ -348,10 +348,10 @@ BeExeResult BeTaskMoveToPos::Execute(int& iDeltaTime)
 		}
 		default:
 		{
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 		}
 	}
 
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }

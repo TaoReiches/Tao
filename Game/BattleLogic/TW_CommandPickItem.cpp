@@ -34,33 +34,33 @@ bool BePickItemCommand::SetItemID(int iItemID)
 	SafeDeleteTask(m_pkCurTask);
 	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
-	m_pkCurTask->AttachUnit(pkAttachUnit);
+	m_pkCurTask->AttachUnit(pAttachUnit);
 
-	((BeTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(m_kTargetPos, 150.0f);
+	((TwTaskMoveToPos*)m_pkCurTask.get())->SetTargetPos(m_kTargetPos, 150.0f);
 	return true;
 }
 
-BeExeResult BePickItemCommand::Execute(int& iDeltaTime)
+TwExeResult BePickItemCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
-	if (m_pkCurTask->Execute(iDeltaTime) == BeExeResult::BER_EXE_END)
+	if (m_pkCurTask->Execute(iDeltaTime) == TwExeResult::BER_EXE_END)
 	{
 		if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS)
 		{
-			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == TwMoveResult::MR_SUCCESS)
+			if (((TwTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 			{
 				auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
 				if (!pkMapItem)
 				{
-					return BeExeResult::BER_EXE_END;
+					return TwExeResult::BER_EXE_END;
 				}
 
 				gUnit->PickMapItem(pkMapItem.get());
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 		}
 	}
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }
 
 bool BePickItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const

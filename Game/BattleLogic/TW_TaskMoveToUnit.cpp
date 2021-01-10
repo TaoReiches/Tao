@@ -35,7 +35,7 @@ void BeTaskMoveToUnit::SetTargetID(int iID, float fDistance)
 	m_fDistance = fDistance;
 
 	m_pkMoveToPos->AttachMain(pkAttachMain);
-	m_pkMoveToPos->AttachUnit(pkAttachUnit);
+	m_pkMoveToPos->AttachUnit(pAttachUnit);
 
 	if (!iID)
 	{
@@ -60,13 +60,13 @@ int BeTaskMoveToUnit::GetTargetID() const
 	return m_iTargetID;
 }
 
-BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
+TwExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
 	if (!gUnit->CanSpell())
 	{
-		return BeExeResult::BER_EXE_END;
+		return TwExeResult::BER_EXE_END;
 	}
 
 	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
@@ -105,10 +105,10 @@ BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		std::shared_ptr<TwUnit> pkT = gUnitMgr->GetUnitByID(m_iTargetID, true);
 		if (pkT && pkT->GetPlayer() == gUnit->GetPlayer())
 		{
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 	}
 
-	BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+	TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 	return eRet;
 }

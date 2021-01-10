@@ -31,10 +31,10 @@ void BeStopCommand::SetDead()
 	SafeDeleteTask(m_pkCurTask);
 	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskActionDeath.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
-	m_pkCurTask->AttachUnit(pkAttachUnit);
+	m_pkCurTask->AttachUnit(pAttachUnit);
 }
 
-BeExeResult BeStopCommand::Execute(int& iDeltaTime)
+TwExeResult BeStopCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
 	gUnit->SetAttackingUnitID(0);
@@ -43,7 +43,7 @@ BeExeResult BeStopCommand::Execute(int& iDeltaTime)
 	{
 		if (gUnit->GetCommandCount() > 0)
 		{
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 	}
 

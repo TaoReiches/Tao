@@ -19,18 +19,18 @@ enum class BeMoveRetryState
 	BMRS_CHECK,
 };
 
-class BeTaskMoveToPos : public TwTask
+class TwTaskMoveToPos : public TwTask
 {
 public:
-	BeTaskMoveToPos();
-	~BeTaskMoveToPos();
+	TwTaskMoveToPos();
+	~TwTaskMoveToPos();
 
 	TwMoveResult GetMoveResult(void) const;
 	void SetMoveResult(TwMoveResult eResult);
 	void SetTargetPos(const TwPos2& kPos, float fDistance = 0.0f, bool bTurn = false);
 	TwPos2 GetTargetPos() const;
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
 	TwMoveState			m_eMoveState;

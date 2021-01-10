@@ -47,7 +47,7 @@ void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
 		case BeTaskType::STT_ACTION_SPELL:mpTaskActionSpell.free((BeTaskActionSpell*)pkTask.get()); break;
 		case BeTaskType::STT_ACTION_DEATH:mpTaskActionDeath.free((BeTaskActionDeath*)pkTask.get()); break;
 
-		case BeTaskType::STT_MOVE_TO_POS:mpTaskMoveToPos.free((BeTaskMoveToPos*)pkTask.get()); break;
+		case BeTaskType::STT_MOVE_TO_POS:mpTaskMoveToPos.free((TwTaskMoveToPos*)pkTask.get()); break;
 		case BeTaskType::STT_MOVE_TO_UNIT:mpTaskMoveToUnit.free((BeTaskMoveToUnit*)pkTask.get()); break;
 		case BeTaskType::STT_ATTACK_UNIT:mpTaskAttackUnit.free((BeTaskAttackUnit*)pkTask.get()); break;
 		case BeTaskType::STT_ATTACK_TO_POS:mpTaskAttackToPos.free((BeTaskAttackToPos*)pkTask.get()); break;
@@ -57,9 +57,9 @@ void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
 	}
 }
 
-BeExeResult BeExeCommand::Execute(int& iDeltaTime)
+TwExeResult BeExeCommand::Execute(int& iDeltaTime)
 {
-	return BeExeResult::BER_EXE_END;
+	return TwExeResult::BER_EXE_END;
 }
 
 bool BeExeCommand::CanSkip(void) const

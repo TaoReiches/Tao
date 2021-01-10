@@ -29,7 +29,7 @@ TwCommander::TwCommander()
     m_pkCurCmd = nullptr;
     m_bForceNexeCmd = false;
     m_kCommands.clear();
-    pkAttachUnit = nullptr;
+    pAttachUnit = nullptr;
 }
 
 TwCommander::~TwCommander()
@@ -420,7 +420,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 			iDeltaTime = 0;
 			break;
 		}
-		BeExeResult eResult = BeExeResult::BER_EXE_END;
+		TwExeResult eResult = TwExeResult::BER_EXE_END;
 		if (m_pkCurCmd)
 		{
 			eResult = m_pkCurCmd->Execute(iDeltaTime);
@@ -429,9 +429,9 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 
 		if (gUnit->HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
 		{
-			eResult = BeExeResult::BER_EXE_END;
+			eResult = TwExeResult::BER_EXE_END;
 		}
-		if (eResult == BeExeResult::BER_EXE_END)
+		if (eResult == TwExeResult::BER_EXE_END)
 		{
 			if (GoNextCmd())
 			{
@@ -445,7 +445,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 				m_bForceNexeCmd = false;
 			}
 		}
-		else if (eResult == BeExeResult::BER_ALL_OVER)
+		else if (eResult == TwExeResult::BER_ALL_OVER)
 		{
 			gUnit->SetFlag(TwUnitFlag::BUF_REMOVE);
 			m_bForceNexeCmd = true;
@@ -478,7 +478,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			SafeDeleteCommand(m_pkCurCmd);
 			pkCmd = mpStopCommand.alloc();
 			pkCmd->AttachMain(pkAttachMain);
-			pkCmd->AttachUnit(pkAttachUnit);
+			pkCmd->AttachUnit(pAttachUnit);
 		}
 
 		m_pkCurCmd = pkCmd;
@@ -509,7 +509,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			SafeDeleteCommand(m_pkCurCmd);
 			pkCmd = mpMoveCommand.alloc();
 			pkCmd->AttachMain(pkAttachMain);
-			pkCmd->AttachUnit(pkAttachUnit);
+			pkCmd->AttachUnit(pAttachUnit);
 		}
 		{
 			pkCmd->SetTargetPos(kCmd.kPos, (float)kCmd.iData, kCmd.iData2 != 0);
@@ -531,7 +531,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 			SafeDeleteCommand(m_pkCurCmd);
 			pkCmd = mpAttackCommand.alloc();
 			pkCmd->AttachMain(pkAttachMain);
-			pkCmd->AttachUnit(pkAttachUnit);
+			pkCmd->AttachUnit(pAttachUnit);
 		}
 
 		if (kCmd.iUnitID)
@@ -608,7 +608,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		SafeDeleteCommand(m_pkCurCmd);
 		BeSpellCommand* pkCmd = mpSpellCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
-		pkCmd->AttachUnit(pkAttachUnit);
+		pkCmd->AttachUnit(pAttachUnit);
 		{
 			if (kCmd.iUnitID)
 			{
@@ -655,7 +655,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 
 		BeSpellCommand* pkCmd = mpSpellCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
-		pkCmd->AttachUnit(pkAttachUnit);
+		pkCmd->AttachUnit(pAttachUnit);
 
 		if (pkRes->uiOperateType == SKILL_OPERATETYPE_IMMEDIATELY)
 		{
@@ -691,7 +691,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		SafeDeleteCommand(m_pkCurCmd);
 		BeDropItemCommand* pkCmd = mpDropItemCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
-		pkCmd->AttachUnit(pkAttachUnit);
+		pkCmd->AttachUnit(pAttachUnit);
 		if (kCmd.iUnitID)
 		{
 			pkCmd->SetTargetIDDropItem(kCmd.iUnitID, kCmd.iData);
@@ -709,7 +709,7 @@ bool TwCommander::SwitchCmd(const TwCommand& kCmd, bool bConnect)
 		gUnit->SetAttackingUnitID(0);
 		BePickItemCommand* pkCmd = mpPickItemCommand.alloc();
 		pkCmd->AttachMain(pkAttachMain);
-		pkCmd->AttachUnit(pkAttachUnit);
+		pkCmd->AttachUnit(pAttachUnit);
 
 		if (pkCmd->SetItemID(kCmd.iData))
 		{

@@ -13,5 +13,5 @@ public:
 	BeTaskActionStand();
 	~BeTaskActionStand() {};
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 };

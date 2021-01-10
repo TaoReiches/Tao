@@ -20,7 +20,7 @@ public:
 		m_iStopTime = iTime;
 	}
 
-	virtual BeExeResult Execute(int& iDeltaTime);
+	virtual TwExeResult Execute(int& iDeltaTime);
 	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const;
 	virtual bool CanCancel() const;
 	virtual bool CanInterrupt() const;

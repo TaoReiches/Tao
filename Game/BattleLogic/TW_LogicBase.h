@@ -28,14 +28,14 @@ public:
 class TwUnitPtr
 {
 public:
-	TwUnitPtr(void) :pkAttachUnit(nullptr)
+	TwUnitPtr(void) :pAttachUnit(nullptr)
 	{
 	}
 
 	void AttachUnit(std::shared_ptr<TwUnit> pkUnit)
 	{
-		pkAttachUnit = pkUnit;
+		pAttachUnit = pkUnit;
 	}
 
-	std::shared_ptr<TwUnit> pkAttachUnit;
+	std::shared_ptr<TwUnit> pAttachUnit;
 };

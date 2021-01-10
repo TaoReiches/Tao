@@ -38,10 +38,10 @@ void BeTaskAttackItem::SetTargetID(int iID, float fDistance)
 	m_iItemID = iID;
 	const auto pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
 	m_pkMoveToPos->AttachMain(pkAttachMain);
-	m_pkMoveToPos->AttachUnit(pkAttachUnit);
+	m_pkMoveToPos->AttachUnit(pAttachUnit);
 
 	m_pkActionAttack->AttachMain(pkAttachMain);
-	m_pkActionAttack->AttachUnit(pkAttachUnit);
+	m_pkActionAttack->AttachUnit(pAttachUnit);
 
 	m_pkMoveToPos->SetTargetPos(TwPos2(gUnit->GetPosX(), gUnit->GetPosY()), 50.0f);
 	if (pkTarget)
@@ -64,7 +64,7 @@ bool BeTaskAttackItem::IsAttacking() const
 	return (bool)(m_eState == BeAttackItemState::BAI_ATTACK);
 }
 
-BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
+TwExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
@@ -83,10 +83,10 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		{
 		case BeAttackItemState::BAI_ATTACK:
 		{
-			BeExeResult eRet = m_pkActionAttack->Execute(iDeltaTime);
-			if (eRet == BeExeResult::BER_TIME_OUT)
+			TwExeResult eRet = m_pkActionAttack->Execute(iDeltaTime);
+			if (eRet == TwExeResult::BER_TIME_OUT)
 			{
-				return BeExeResult::BER_TIME_OUT;
+				return TwExeResult::BER_TIME_OUT;
 			}
 
 			if (!pkTarget)
@@ -107,7 +107,7 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		{
 			if (!pkTarget)
 			{
-				return BeExeResult::BER_EXE_END;
+				return TwExeResult::BER_EXE_END;
 			}
 
 			float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -118,10 +118,10 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 				break;
 			}
 
-			BeExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
-			if (eRet == BeExeResult::BER_TIME_OUT)
+			TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
+			if (eRet == TwExeResult::BER_TIME_OUT)
 			{
-				return BeExeResult::BER_TIME_OUT;
+				return TwExeResult::BER_TIME_OUT;
 			}
 			else
 			{
@@ -135,10 +135,10 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		}
 		case BeAttackItemState::BAI_END:
 		{
-			return BeExeResult::BER_EXE_END;
+			return TwExeResult::BER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return BeExeResult::BER_TIME_OUT;
+	return TwExeResult::BER_TIME_OUT;
 }
