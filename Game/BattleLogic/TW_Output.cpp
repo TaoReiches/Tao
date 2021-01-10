@@ -69,13 +69,13 @@ std::string TwOutput::GetUnitUpdateData(std::shared_ptr<TwUnit> player, bool add
     }
     if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_POS))
     {
-        unitData.set_posx(static_cast<int>(player->GetPosX() * 100));
-        unitData.set_posy(static_cast<int>(player->GetPosY() * 100));
+        unitData.set_posx(static_cast<int>(player->GetPosX()));
+        unitData.set_posy(static_cast<int>(player->GetPosY()));
     }
     if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS))
     {
-        unitData.set_targetposx(static_cast<int>(player->GetTarPosX() * 100));
-        unitData.set_targetposy(static_cast<int>(player->GetTarPosY() * 100));
+        unitData.set_targetposx(static_cast<int>(player->GetTarPosX()));
+        unitData.set_targetposy(static_cast<int>(player->GetTarPosY()));
     }
     if (addNew || player->HasOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_HP))
     {

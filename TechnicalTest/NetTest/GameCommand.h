@@ -28,8 +28,8 @@ public:
     {
         static std::string out;
         Game::TwGameUnitMoveCS moveCmd;
-        moveCmd.set_posx(PosX + 10000);
-        moveCmd.set_posy(PosY + 12000);
+        moveCmd.set_posx(PosX + 300);
+        moveCmd.set_posy(PosY + 500);
 
         Game::TwGameCommand send;
         send.set_commandtype(Game::TwGameCommandType::CS_UNIT_MOVE);

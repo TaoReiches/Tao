@@ -93,8 +93,8 @@ bool TwBattleInterface::OnPlayerMove(std::uint64_t playerId, std::string command
     }
     else
     {
-        auto posX = moveCommand.posx() / 100.f;
-        auto posY = moveCommand.posy() / 100.f;
+        auto posX = static_cast<float>(moveCommand.posx());
+        auto posY = static_cast<float>(moveCommand.posy());
 
         TwCommand unitCommand(TwCommandType::BCT_MOVE, 0, posX, posY);
         player->GiveCommand(unitCommand, TwGiveCmdType::BCT_IMMEDIATE, true);

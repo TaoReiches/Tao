@@ -65,20 +65,20 @@ private:
             if (unitData.has_posx())
             {
                 GameCommand::PosX = unitData.posx();
-                std::cout << "posX : " << unitData.posx() << std::endl;
+                std::cout << "posX : " << unitData.posx() / 100.f << std::endl;
             }
             if (unitData.has_posy())
             {
                 GameCommand::PosY = unitData.posy();
-                std::cout << "posY : " << unitData.posy() << std::endl;
+                std::cout << "posY : " << unitData.posy() / 100.f << std::endl;
             }
             if (unitData.has_targetposx())
             {
-                std::cout << "target posX : " << unitData.targetposx() << std::endl;
+                std::cout << "target posX : " << unitData.targetposx() / 100.f << std::endl;
             }
             if (unitData.has_targetposy())
             {
-                std::cout << "target posY : " << unitData.targetposy() << std::endl;
+                std::cout << "target posY : " << unitData.targetposy() / 100.f << std::endl;
             }
             if (unitData.has_unittypeid())
             {

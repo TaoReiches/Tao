@@ -242,7 +242,7 @@ TwFindResult TeMap::FindPath(std::list<TwPos2>& akPath, std::shared_ptr<TwUnit> 
 		iObs &= ~TwGridFlag::TGF_FIXED_OTS;
 	}
 
-	if (!(bool)iObs)
+	if (iObs == TwGridFlag::TGF_NONE)
 	{
 		float fSrcX = pkUnit->GetPosX();
 		float fSrcY = pkUnit->GetPosY();

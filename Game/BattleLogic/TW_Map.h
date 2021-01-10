@@ -24,14 +24,14 @@ public:
 
 	inline	int	GetWidth()	const
 	{
-		return  100000;
+		return 100000;
 	}
 	inline	int	GetHeight()	const
 	{
 		return 100000;
 	}
 
-	static const int GridSize = 10;
+	static const int GridSize = 32;
 
 	bool	Initialize();
 	void	Update(int iDeltaTime);
