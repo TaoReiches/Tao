@@ -269,7 +269,7 @@ public:
 	{
 		if (m_iActionState != iActionState)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_CURRENT_POS);
 		}
 		m_iActionState = iActionState;
 	}

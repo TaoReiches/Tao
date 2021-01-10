@@ -36,7 +36,7 @@ void	SeNetMgr::UpdateNet()
 
     static int count = 0;
     ++count;
-    if (count == 10)
+    if (count % 10 == 0)
     {
         SendData(GameCommand::Move());
     }
