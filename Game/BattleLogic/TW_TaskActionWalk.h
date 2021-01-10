@@ -18,7 +18,7 @@ enum class TwMoveResult
 
 enum class TwMoveState
 {
-    BMS_INIT = 0,
+    MS_INIT = 0,
     BMS_RETRY,
     BMS_STAND,
     BMS_WALK,

@@ -16,12 +16,12 @@ static const int HERO_WALK_BLOCK_TIME = 40;
 
 TwTaskMoveToPos::TwTaskMoveToPos()
 {
-	m_eType = BeTaskType::STT_MOVE_TO_POS;
-	m_eMoveState = TwMoveState::BMS_INIT;
+	TaskType = TwTaskType::STT_MOVE_TO_POS;
+	MoveState = TwMoveState::MS_INIT;
 	m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 	m_eFindPathRet = TwFindResult::TFR_NONE;
 	m_bSoliderCheck = false;
-	m_eState = TwMoveResult::MR_NONE;
+	ResultState = TwMoveResult::MR_NONE;
 	m_fDistance = 0.0f;
 	m_iStandTime = 0;
 	m_iWalkBlockTime = WALK_BLOCK_TIME;
@@ -40,8 +40,8 @@ void TwTaskMoveToPos::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTu
 	m_fDistance = fDistance;
 	m_kTarPos = kPos;
 	m_kMiddlePos = m_kTarPos;
-	m_eState = TwMoveResult::MR_INITED;
-	m_eMoveState = TwMoveState::BMS_INIT;
+	ResultState = TwMoveResult::MR_INITED;
+	MoveState = TwMoveState::MS_INIT;
 	m_bSoliderCheck = false;
 
 	m_iStandTime = 0;
@@ -56,12 +56,12 @@ TwPos2 TwTaskMoveToPos::GetTargetPos() const
 
 TwMoveResult TwTaskMoveToPos::GetMoveResult(void) const
 {
-	return m_eState;
+	return ResultState;
 }
 
 void TwTaskMoveToPos::SetMoveResult(TwMoveResult eResult)
 {
-	m_eState = eResult;
+	ResultState = eResult;
 }
 
 TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
@@ -70,27 +70,27 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 
 	if (!pAttachUnit)
 	{
-		return TwExeResult::BER_TIME_OUT;
+		return TwExeResult::ER_TIME_OUT;
 	}
 	if (GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), m_kTarPos.fX, m_kTarPos.fY) <= (m_fDistance * m_fDistance))
 	{
-		m_eState = TwMoveResult::MR_SUCCESS;
-		m_eMoveState = TwMoveState::BMS_INIT;
+		ResultState = TwMoveResult::MR_SUCCESS;
+		MoveState = TwMoveState::MS_INIT;
 		gUnit->SetActionState(0);
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	if (gUnit->GetClass() == UNIT_CLASSTYPE_BUILDING)
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 	if (gUnit->HasUnitCarryFlag(BUCF_CANNOTMOVE)) {
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
-	if (m_eState == TwMoveResult::MR_NONE)
+	if (ResultState == TwMoveResult::MR_NONE)
 	{
-		m_eMoveState = TwMoveState::BMS_INIT;
-		return TwExeResult::BER_EXE_END;
+		MoveState = TwMoveState::MS_INIT;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	int iLoopCount = 10;
@@ -102,9 +102,9 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 			iDeltaTime = 0;
 			break;
 		}
-		switch (m_eMoveState)
+		switch (MoveState)
 		{
-		case TwMoveState::BMS_INIT:
+		case TwMoveState::MS_INIT:
 		{
 			if (gUnit->GetClass() == UNIT_CLASSTYPE_SOLIDER)
 			{
@@ -137,19 +137,19 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 			if (m_eFindPathRet == TwFindResult::TFR_NONE || !gUnit->CanMove())
 			{
 				m_pkWalk->SetTargetPos(m_kTarPos, true);
-				m_eMoveState = TwMoveState::BMS_WALK;
+				MoveState = TwMoveState::BMS_WALK;
 				m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 			}
 			else if (m_eFindPathRet == TwFindResult::TFR_ARRIVED)
 			{
-				m_eState = TwMoveResult::MR_SUCCESS;
-				m_eMoveState = TwMoveState::BMS_END;
+				ResultState = TwMoveResult::MR_SUCCESS;
+				MoveState = TwMoveState::BMS_END;
 			}
 			else
 			{
 				if (akPath.empty())
 				{
-					m_eMoveState = TwMoveState::BMS_STAND;
+					MoveState = TwMoveState::BMS_STAND;
 				}
 				else
 				{
@@ -160,7 +160,7 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 					m_pkWalk->AttachMain(pkAttachMain);
 					m_pkWalk->AttachUnit(pAttachUnit);
 					m_pkWalk->SetTargetPos(m_kDirectPos);
-					m_eMoveState = TwMoveState::BMS_WALK;
+					MoveState = TwMoveState::BMS_WALK;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 				}
 			}
@@ -171,7 +171,7 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 			if (!gUnit->CanMove())
 			{
 				m_iWalkBlockTime = 200;
-				m_eMoveState = TwMoveState::BMS_STAND;
+				MoveState = TwMoveState::BMS_STAND;
 				m_iStandTime = 0;
 				m_iRetryTime = 0;
 				break;
@@ -194,17 +194,17 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 				{
 					m_iRetryTime = 0;
 					m_eRetryState = BeMoveRetryState::BMRS_MIDDLE;
-					m_eMoveState = TwMoveState::BMS_STAND;
+					MoveState = TwMoveState::BMS_STAND;
 				}
 				else if (m_eRetryState == BeMoveRetryState::BMRS_MIDDLE)
 				{
 					m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
-					m_eMoveState = TwMoveState::BMS_STAND;
+					MoveState = TwMoveState::BMS_STAND;
 				}
 				else
 				{
-					m_eState = TwMoveResult::MR_BLOCK;
-					m_eMoveState = TwMoveState::BMS_END;
+					ResultState = TwMoveResult::MR_BLOCK;
+					MoveState = TwMoveState::BMS_END;
 				}
 				break;
 			}
@@ -235,7 +235,7 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 				if (fNeedMoveDistance > fCanMoveDistance)
 				{
 					m_pkWalk->SetTargetPos(m_kDirectPos);
-					m_eMoveState = TwMoveState::BMS_WALK;
+					MoveState = TwMoveState::BMS_WALK;
 					break;
 				}
 
@@ -265,19 +265,19 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 				if (m_eFindPathRet == TwFindResult::TFR_NONE)
 				{
 					m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
-					m_eMoveState = TwMoveState::BMS_STAND;
+					MoveState = TwMoveState::BMS_STAND;
 				}
 				else if (m_eFindPathRet == TwFindResult::TFR_ARRIVED)
 				{
 					m_iRetryTime = 0;
 					if (m_eRetryState == BeMoveRetryState::BMRS_FINNAL || m_kTarPos == m_kMiddlePos)
 					{
-						m_eState = TwMoveResult::MR_SUCCESS;
-						m_eMoveState = TwMoveState::BMS_END;
+						ResultState = TwMoveResult::MR_SUCCESS;
+						MoveState = TwMoveState::BMS_END;
 					}
 					else
 					{
-						m_eMoveState = TwMoveState::BMS_STAND;
+						MoveState = TwMoveState::BMS_STAND;
 						m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
 					}
 				}
@@ -291,7 +291,7 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 						m_kMiddlePos = akPath.size() ? akPath.front() : m_kTarPos;
 					}
 					m_pkWalk->SetTargetPos(m_kDirectPos);
-					m_eMoveState = TwMoveState::BMS_WALK;
+					MoveState = TwMoveState::BMS_WALK;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 				}
 
@@ -312,31 +312,31 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 				int iStandTime = (m_iWalkBlockTime - m_iStandTime);
 				gUnit->IncActionCurTime(iStandTime);
 				iDeltaTime -= iStandTime;
-				m_eMoveState = TwMoveState::BMS_RETRY;
+				MoveState = TwMoveState::BMS_RETRY;
 			}
 			break;
 		}
 		case TwMoveState::BMS_WALK:
 		{
 			TwExeResult eRet = m_pkWalk->Execute(iDeltaTime);
-			if (eRet == TwExeResult::BER_EXE_END)
+			if (eRet == TwExeResult::ER_EXE_END)
 			{
 				if (m_pkWalk->IsBlocked())
 				{
 					gUnit->SetFlag(TwUnitFlag::BUF_ISBLOCKED);
-					m_eMoveState = TwMoveState::BMS_STAND;
+					MoveState = TwMoveState::BMS_STAND;
 					m_eRetryState = BeMoveRetryState::BMRS_DITECT;
 					if (m_iRetryTime == 0)
 					{
 						m_eRetryState = BeMoveRetryState::BMRS_FINNAL;
-						m_eMoveState = TwMoveState::BMS_RETRY;
+						MoveState = TwMoveState::BMS_RETRY;
 					}
 				}
 				else
 				{
 					gUnit->ClrFlag(TwUnitFlag::BUF_ISBLOCKED);
-					m_eState = TwMoveResult::MR_SUCCESS;
-					m_eMoveState = TwMoveState::BMS_RETRY;
+					ResultState = TwMoveResult::MR_SUCCESS;
+					MoveState = TwMoveState::BMS_RETRY;
 					gUnit->SetActionState(0);
 				}
 			}
@@ -348,10 +348,10 @@ TwExeResult TwTaskMoveToPos::Execute(int& iDeltaTime)
 		}
 		default:
 		{
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		}
 	}
 
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

@@ -18,7 +18,7 @@
 
 BeTaskActionSpell::BeTaskActionSpell()
 {
-	m_eType = BeTaskType::STT_ACTION_SPELL;
+	TaskType = TwTaskType::STT_ACTION_SPELL;
 
 	m_iSkillTypeID = 0;
 	m_iSkillLevel = 1;
@@ -620,7 +620,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 	}
 	if (!m_pkSkillRes)
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	int iLoopCount = 10;
@@ -638,7 +638,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 		{
 			if (!CanUseSpell())
 			{
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			m_iPrepareTime = 0;
@@ -653,13 +653,13 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 		{
 			if (!CanUseSpell())
 			{
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			SeCalSkillLvlData	rkData;
 			if (!gUnit->GetSkillLvlData(rkData, m_iSkillTypeID, m_iSkillLevel))
 			{
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 			m_iCastTime = rkData.GetCastTime();
 			m_iEffectTime = rkData.GetEffectTime();
@@ -715,7 +715,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 		{
 			if (!CanUseSpell())
 			{
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			if ((m_iActionTime + iDeltaTime) >= m_iCastTime)
@@ -740,7 +740,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 
 				if (!bEnterCD)
 				{
-					return TwExeResult::BER_EXE_END;
+					return TwExeResult::ER_EXE_END;
 				}
 
 				OnSpellEffect();
@@ -771,7 +771,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 			if (WillEffectBreak() || (gUnit->GetSkill(m_iSkillTypeID) == NULL && m_iItemID == 0))
 			{
 				m_iActionTime = 0;
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			if ((m_iActionTime + iDeltaTime) >= m_iEffectTime)
@@ -801,7 +801,7 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 			if (gUnit->GetSkill(m_iSkillTypeID) == NULL && m_iItemID == 0)
 			{
 				m_iActionTime = 0;
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			if ((m_iActionTime + iDeltaTime) >= m_iShakesTime)
@@ -828,14 +828,14 @@ TwExeResult BeTaskActionSpell::Execute(int& iDeltaTime)
 			gUnit->ClrFlag(TwUnitFlag::BUF_SPELL_SHARK);
 			OnSpellFinish();
 			m_ePhase = BeSpellPhase::BSP_END;
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		case BeSpellPhase::BSP_END:
 		{
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

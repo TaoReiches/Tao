@@ -19,7 +19,7 @@ TwPos2 BeMoveCommand::GetTargetPos() const
 
 void BeMoveCommand::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn)
 {
-	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
+	if (!m_pkCurTask || m_pkCurTask->GetType() != TwTaskType::STT_MOVE_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));

@@ -16,7 +16,7 @@ BeAttackCommand::BeAttackCommand()
 
 void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSkillTypeID, int iSkillLevel, int iAttackCountLimit)
 {
-	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_UNIT)
+	if (!m_pkCurTask || m_pkCurTask->GetType() != TwTaskType::STT_ATTACK_UNIT)
 	{
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackUnit.alloc()));
@@ -29,7 +29,7 @@ void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSk
 
 void BeAttackCommand::SetTargetPos(const TwPos2& kPos, float fRange)
 {
-	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_TO_POS)
+	if (!m_pkCurTask || m_pkCurTask->GetType() != TwTaskType::STT_ATTACK_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackToPos.alloc()));
@@ -42,7 +42,7 @@ void BeAttackCommand::SetTargetPos(const TwPos2& kPos, float fRange)
 
 void BeAttackCommand::SetTargetItem(int iItemID)
 {
-	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_ITEM)
+	if (!m_pkCurTask || m_pkCurTask->GetType() != TwTaskType::STT_ATTACK_ITEM)
 	{
 		SafeDeleteTask(m_pkCurTask);
 		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackItem.alloc()));
@@ -62,7 +62,7 @@ TwExeResult BeAttackCommand::Execute(int& iDeltaTime)
 		return m_pkCurTask->Execute(iDeltaTime);
 	}
 
-	return TwExeResult::BER_EXE_END;
+	return TwExeResult::ER_EXE_END;
 }
 
 bool BeAttackCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
@@ -71,11 +71,11 @@ bool BeAttackCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) c
 }
 bool BeAttackCommand::CanCancel() const
 {
-	if (m_pkCurTask && m_pkCurTask->GetType() == BeTaskType::STT_ATTACK_UNIT)
+	if (m_pkCurTask && m_pkCurTask->GetType() == TwTaskType::STT_ATTACK_UNIT)
 	{
 		return ((BeTaskAttackUnit*)m_pkCurTask.get())->IsCanCancel();
 	}
-	else if (m_pkCurTask && m_pkCurTask->GetType() == BeTaskType::STT_ATTACK_TO_POS)
+	else if (m_pkCurTask && m_pkCurTask->GetType() == TwTaskType::STT_ATTACK_TO_POS)
 	{
 		return ((BeTaskAttackToPos*)m_pkCurTask.get())->IsCanCancel();
 	}

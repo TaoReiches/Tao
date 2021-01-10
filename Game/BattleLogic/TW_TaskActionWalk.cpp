@@ -21,7 +21,7 @@ inline float f_line_x(float y, float x1, float y1, float x2, float y2)
 
 TwTaskActionWalk::TwTaskActionWalk()
 {
-	m_eType = BeTaskType::STT_ACTION_WALK;
+	TaskType = TwTaskType::STT_ACTION_WALK;
 	m_bBlocked = false;
 	m_bStopAction = false;
 	m_iWalkTime = 0;
@@ -29,7 +29,7 @@ TwTaskActionWalk::TwTaskActionWalk()
 
 TwTaskActionWalk::~TwTaskActionWalk()
 {
-	m_eType = BeTaskType::STT_ACTION_WALK;
+	TaskType = TwTaskType::STT_ACTION_WALK;
 	m_bBlocked = false;
 	m_iWalkTime = 0;
 	if (pAttachUnit)
@@ -93,7 +93,7 @@ TwExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	float fMoveSpeed = gUnit->GetMoveSpeed();
 	if (fMoveSpeed <= 0)
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	float fCanMoveDistance = fMoveSpeed * iDeltaTime / 1000.0f;
@@ -210,7 +210,7 @@ TwExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	{
 		gUnit->SetActionState(0);
 		m_iWalkTime = 0;
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	int iActionTime = iDeltaTime;
@@ -242,8 +242,8 @@ TwExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 	{
 		m_iWalkTime = 0;
 		m_bBlocked = false;
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

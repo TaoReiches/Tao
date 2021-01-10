@@ -17,7 +17,7 @@ public:
 	virtual ~BeExeCommand();
 
 	TwCommandType		GetType() const;
-	BeTaskType			GetTaskType() const;
+	TwTaskType			GetTaskType() const;
 
 	virtual TwExeResult Execute(int& iDeltaTime) = 0;
 	virtual bool CanInterrupt() const = 0;

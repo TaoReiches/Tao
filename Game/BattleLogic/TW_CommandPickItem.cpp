@@ -43,24 +43,24 @@ bool BePickItemCommand::SetItemID(int iItemID)
 TwExeResult BePickItemCommand::Execute(int& iDeltaTime)
 {
 	BeExeCommand::Execute(iDeltaTime);
-	if (m_pkCurTask->Execute(iDeltaTime) == TwExeResult::BER_EXE_END)
+	if (m_pkCurTask->Execute(iDeltaTime) == TwExeResult::ER_EXE_END)
 	{
-		if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS)
+		if (m_pkCurTask->GetType() == TwTaskType::STT_MOVE_TO_POS)
 		{
 			if (((TwTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 			{
 				auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
 				if (!pkMapItem)
 				{
-					return TwExeResult::BER_EXE_END;
+					return TwExeResult::ER_EXE_END;
 				}
 
 				gUnit->PickMapItem(pkMapItem.get());
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 		}
 	}
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }
 
 bool BePickItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent) const
@@ -70,7 +70,7 @@ bool BePickItemCommand::CanHungUp(TwGiveCmdType eCmdType, bool bNeedHangCurrent)
 		return false;
 	}
 
-	if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS || m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_UNIT)
+	if (m_pkCurTask->GetType() == TwTaskType::STT_MOVE_TO_POS || m_pkCurTask->GetType() == TwTaskType::STT_MOVE_TO_UNIT)
 	{
 		return true;
 	}

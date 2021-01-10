@@ -33,12 +33,12 @@ public:
 	virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
-	TwMoveState			m_eMoveState;
+	TwMoveState			MoveState;
 	int					m_iStandTime;
 	int					m_iWalkBlockTime;
 	int 				m_iRetryTime;
 
-	TwMoveResult		m_eState;
+	TwMoveResult		ResultState;
 	BeMoveRetryState	m_eRetryState;
 	TwFindResult		m_eFindPathRet;
 

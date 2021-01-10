@@ -14,7 +14,7 @@
 
 BeTaskAttackItem::BeTaskAttackItem()
 {
-	m_eType = BeTaskType::STT_ATTACK_ITEM;
+	TaskType = TwTaskType::STT_ATTACK_ITEM;
 	m_eState = BeAttackItemState::BAI_END;
 	m_pkMoveToPos.reset(mpTaskMoveToPos.alloc());
 	m_pkActionAttack.reset(mpTaskActionAttack.alloc());
@@ -84,9 +84,9 @@ TwExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		case BeAttackItemState::BAI_ATTACK:
 		{
 			TwExeResult eRet = m_pkActionAttack->Execute(iDeltaTime);
-			if (eRet == TwExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::ER_TIME_OUT)
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 
 			if (!pkTarget)
@@ -107,7 +107,7 @@ TwExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		{
 			if (!pkTarget)
 			{
-				return TwExeResult::BER_EXE_END;
+				return TwExeResult::ER_EXE_END;
 			}
 
 			float fDistance2 = GetDistance2(gUnit->GetPosX(), gUnit->GetPosY(), pkTarget->GetPosX(), pkTarget->GetPosY());
@@ -119,9 +119,9 @@ TwExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 			}
 
 			TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
-			if (eRet == TwExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::ER_TIME_OUT)
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 			else
 			{
@@ -135,10 +135,10 @@ TwExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 		}
 		case BeAttackItemState::BAI_END:
 		{
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

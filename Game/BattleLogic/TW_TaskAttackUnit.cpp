@@ -13,7 +13,7 @@
 
 BeTaskAttackUnit::BeTaskAttackUnit()
 {
-	m_eType = BeTaskType::STT_ATTACK_UNIT;
+	TaskType = TwTaskType::STT_ATTACK_UNIT;
 	m_eState = BeAttackUnitState::BAU_END;
 
 	m_iSkillTypeID = 0;
@@ -104,7 +104,7 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 
 	if (!m_pkActionAttack || !m_pkMoveToUnit)
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	int iLoopCount = 10;
@@ -136,9 +136,9 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 					}
 				}
 			}
-			if (eRet == TwExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::ER_TIME_OUT)
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 
 			if (!pkTarget || !gUnit->UnitCanAttack(pkTarget, true, true))
@@ -159,7 +159,7 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		{
 			if (gUnit->HasUnitCarryFlag(BUCF_CANNOTATTACK))
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 
 			m_eState = BeAttackUnitState::BAU_TRACE;
@@ -184,14 +184,14 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 				}
 			}
 
-			TwExeResult eRet = TwExeResult::BER_EXE_END;
+			TwExeResult eRet = TwExeResult::ER_EXE_END;
 			if (gUnit->CanMove()) {
 				eRet = m_pkMoveToUnit->Execute(iDeltaTime);
 			}
 
-			if (eRet == TwExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::ER_TIME_OUT)
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 			else
 			{
@@ -209,7 +209,7 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		{
 			m_iMoveTime = 0;
 			m_eState = BeAttackUnitState::BAU_TRACE;
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		default:
 		{
@@ -217,5 +217,5 @@ TwExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 		}
 		}
 	}
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

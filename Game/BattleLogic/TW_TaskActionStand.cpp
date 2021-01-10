@@ -9,14 +9,14 @@
 
 BeTaskActionStand::BeTaskActionStand()
 {
-	m_eType = BeTaskType::STT_ACTION_STAND;
+	TaskType = TwTaskType::STT_ACTION_STAND;
 }
 
 TwExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 {
 	TwTask::Execute(iDeltaTime);
 
-	if (m_iTaskTime > 200)
+	if (TaskTime > 200)
 	{
 		gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 	}
@@ -29,5 +29,5 @@ TwExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 	gUnit->IncActionCurTime(iDeltaTime);
 	iDeltaTime = 0;
 
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

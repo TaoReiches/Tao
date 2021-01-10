@@ -30,9 +30,9 @@ TwCommandType BeExeCommand::GetType() const
 {
 	return m_eCmdType;
 }
-BeTaskType BeExeCommand::GetTaskType() const
+TwTaskType BeExeCommand::GetTaskType() const
 {
-	return m_pkCurTask ? m_pkCurTask->GetType() : BeTaskType::STT_NONE;
+	return m_pkCurTask ? m_pkCurTask->GetType() : TwTaskType::STT_NONE;
 }
 
 void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
@@ -41,17 +41,17 @@ void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
 	{
 		switch (pkTask.get()->GetType())
 		{
-		case BeTaskType::STT_ACTION_STAND: mpTaskActionStand.free((BeTaskActionStand*)pkTask.get()); break;
-		case BeTaskType::STT_ACTION_WALK:mpTaskActionWalk.free((TwTaskActionWalk*)pkTask.get()); break;
-		case BeTaskType::STT_ACTION_ATTACK:mpTaskActionAttack.free((BeTaskActionAttack*)pkTask.get()); break;
-		case BeTaskType::STT_ACTION_SPELL:mpTaskActionSpell.free((BeTaskActionSpell*)pkTask.get()); break;
-		case BeTaskType::STT_ACTION_DEATH:mpTaskActionDeath.free((BeTaskActionDeath*)pkTask.get()); break;
+		case TwTaskType::STT_ACTION_STAND: mpTaskActionStand.free((BeTaskActionStand*)pkTask.get()); break;
+		case TwTaskType::STT_ACTION_WALK:mpTaskActionWalk.free((TwTaskActionWalk*)pkTask.get()); break;
+		case TwTaskType::STT_ACTION_ATTACK:mpTaskActionAttack.free((BeTaskActionAttack*)pkTask.get()); break;
+		case TwTaskType::STT_ACTION_SPELL:mpTaskActionSpell.free((BeTaskActionSpell*)pkTask.get()); break;
+		case TwTaskType::STT_ACTION_DEATH:mpTaskActionDeath.free((BeTaskActionDeath*)pkTask.get()); break;
 
-		case BeTaskType::STT_MOVE_TO_POS:mpTaskMoveToPos.free((TwTaskMoveToPos*)pkTask.get()); break;
-		case BeTaskType::STT_MOVE_TO_UNIT:mpTaskMoveToUnit.free((BeTaskMoveToUnit*)pkTask.get()); break;
-		case BeTaskType::STT_ATTACK_UNIT:mpTaskAttackUnit.free((BeTaskAttackUnit*)pkTask.get()); break;
-		case BeTaskType::STT_ATTACK_TO_POS:mpTaskAttackToPos.free((BeTaskAttackToPos*)pkTask.get()); break;
-		case BeTaskType::STT_ATTACK_ITEM:mpTaskAttackItem.free((BeTaskAttackItem*)pkTask.get()); break;
+		case TwTaskType::STT_MOVE_TO_POS:mpTaskMoveToPos.free((TwTaskMoveToPos*)pkTask.get()); break;
+		case TwTaskType::STT_MOVE_TO_UNIT:mpTaskMoveToUnit.free((BeTaskMoveToUnit*)pkTask.get()); break;
+		case TwTaskType::STT_ATTACK_UNIT:mpTaskAttackUnit.free((BeTaskAttackUnit*)pkTask.get()); break;
+		case TwTaskType::STT_ATTACK_TO_POS:mpTaskAttackToPos.free((BeTaskAttackToPos*)pkTask.get()); break;
+		case TwTaskType::STT_ATTACK_ITEM:mpTaskAttackItem.free((BeTaskAttackItem*)pkTask.get()); break;
 		}
 		pkTask.release();
 	}
@@ -59,7 +59,7 @@ void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
 
 TwExeResult BeExeCommand::Execute(int& iDeltaTime)
 {
-	return TwExeResult::BER_EXE_END;
+	return TwExeResult::ER_EXE_END;
 }
 
 bool BeExeCommand::CanSkip(void) const

@@ -14,7 +14,7 @@
 
 BeTaskAttackToPos::BeTaskAttackToPos()
 {
-	m_eType = BeTaskType::STT_ATTACK_TO_POS;
+	TaskType = TwTaskType::STT_ATTACK_TO_POS;
 
 	m_fRange = 0.0f;
 	m_iRetryTime = 0;
@@ -72,7 +72,7 @@ TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 
 	if (!m_pkMoveToPos || !m_pkAttack)
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	int iLoopCount = 20;
@@ -103,9 +103,9 @@ TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 				}
 			}
 
-			if (eRet == TwExeResult::BER_TIME_OUT)
+			if (eRet == TwExeResult::ER_TIME_OUT)
 			{
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 			else
 			{
@@ -174,7 +174,7 @@ TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 					m_dwMoveTime += iDeltaTime;
 					TwExeResult eRet = m_pkMoveToPos->Execute(iDeltaTime);
 
-					if (eRet == TwExeResult::BER_TIME_OUT)
+					if (eRet == TwExeResult::ER_TIME_OUT)
 					{
 					}
 					else
@@ -209,7 +209,7 @@ TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		{
 			m_iStartAttackTime += iDeltaTime;
 			TwExeResult eRet = m_pkAttack->Execute(iDeltaTime);
-			if (eRet == TwExeResult::BER_EXE_END)
+			if (eRet == TwExeResult::ER_EXE_END)
 			{
 				std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(gUnit->GetAttackingUnitID());
 				if (pkTarget && pkTarget->GetClass() == UNIT_CLASSTYPE_BUILDING)
@@ -239,10 +239,10 @@ TwExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 		case BeAttackToPosState::BAP_END:
 		{
 			m_eState = BeAttackToPosState::BAP_REFRESH;
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 		default:break;
 		}
 	}
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }

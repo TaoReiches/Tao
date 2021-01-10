@@ -12,7 +12,7 @@
 
 BeTaskMoveToUnit::BeTaskMoveToUnit()
 {
-	m_eType = BeTaskType::STT_MOVE_TO_UNIT;
+	TaskType = TwTaskType::STT_MOVE_TO_UNIT;
 	m_iTargetID = 0;
 	m_fDistance = 0.0f;
 	m_pkMoveToPos.reset(mpTaskMoveToPos.alloc());
@@ -66,7 +66,7 @@ TwExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 
 	if (!gUnit->CanSpell())
 	{
-		return TwExeResult::BER_EXE_END;
+		return TwExeResult::ER_EXE_END;
 	}
 
 	std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(m_iTargetID);
@@ -105,7 +105,7 @@ TwExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 		std::shared_ptr<TwUnit> pkT = gUnitMgr->GetUnitByID(m_iTargetID, true);
 		if (pkT && pkT->GetPlayer() == gUnit->GetPlayer())
 		{
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 	}
 

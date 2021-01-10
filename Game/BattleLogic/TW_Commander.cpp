@@ -420,7 +420,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 			iDeltaTime = 0;
 			break;
 		}
-		TwExeResult eResult = TwExeResult::BER_EXE_END;
+		TwExeResult eResult = TwExeResult::ER_EXE_END;
 		if (m_pkCurCmd)
 		{
 			eResult = m_pkCurCmd->Execute(iDeltaTime);
@@ -429,9 +429,9 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 
 		if (gUnit->HasUnitCarryFlag(BUCF_DIZZY) && m_pkCurCmd->GetType() != TwCommandType::BCT_STOP)
 		{
-			eResult = TwExeResult::BER_EXE_END;
+			eResult = TwExeResult::ER_EXE_END;
 		}
-		if (eResult == TwExeResult::BER_EXE_END)
+		if (eResult == TwExeResult::ER_EXE_END)
 		{
 			if (GoNextCmd())
 			{
@@ -445,7 +445,7 @@ void TwCommander::ExecuteCmd(int iDeltaTime)
 				m_bForceNexeCmd = false;
 			}
 		}
-		else if (eResult == TwExeResult::BER_ALL_OVER)
+		else if (eResult == TwExeResult::ER_ALL_OVER)
 		{
 			gUnit->SetFlag(TwUnitFlag::BUF_REMOVE);
 			m_bForceNexeCmd = true;

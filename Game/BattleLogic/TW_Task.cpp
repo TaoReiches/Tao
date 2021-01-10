@@ -7,21 +7,21 @@
 
 TwTask::TwTask(void)
 {
-	m_eType = BeTaskType::STT_NONE;
-	m_iTaskTime = 0;
+	TaskType = TwTaskType::STT_NONE;
+	TaskTime = 0;
 }
 
 TwTask::~TwTask(void)
 {
 }
 
-BeTaskType TwTask::GetType()
+TwTaskType TwTask::GetType()
 {
-	return m_eType;
+	return TaskType;
 }
 
 TwExeResult TwTask::Execute(int& iDeltaTime)
 {
-	m_iTaskTime += iDeltaTime;
-	return TwExeResult::BER_EXE_END;
+	TaskTime += iDeltaTime;
+	return TwExeResult::ER_EXE_END;
 }

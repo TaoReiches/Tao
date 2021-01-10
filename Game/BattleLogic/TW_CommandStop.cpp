@@ -43,7 +43,7 @@ TwExeResult BeStopCommand::Execute(int& iDeltaTime)
 	{
 		if (gUnit->GetCommandCount() > 0)
 		{
-			return TwExeResult::BER_EXE_END;
+			return TwExeResult::ER_EXE_END;
 		}
 	}
 

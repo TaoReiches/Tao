@@ -9,7 +9,7 @@
 
 BeTaskActionDeath::BeTaskActionDeath()
 {
-	m_eType = BeTaskType::STT_ACTION_DEATH;
+	TaskType = TwTaskType::STT_ACTION_DEATH;
 
 	m_bInit = false;
 }
@@ -39,31 +39,31 @@ TwExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 			{
 				iDeltaTime -= gUnit->GetActionCurTimeNeed();
 
-				return TwExeResult::BER_ALL_OVER;
+				return TwExeResult::ER_ALL_OVER;
 			}
 			else
 			{
 				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 		}
 		else
 		{
 			if (gUnit->IsActionCurTimeOut(iDeltaTime))
 			{
-				return TwExeResult::BER_ALL_OVER;
+				return TwExeResult::ER_ALL_OVER;
 			}
 			else
 			{
 				gUnit->IncActionCurTime(iDeltaTime);
 				iDeltaTime = 0;
 
-				return TwExeResult::BER_TIME_OUT;
+				return TwExeResult::ER_TIME_OUT;
 			}
 		}
 	}
 
-	return TwExeResult::BER_TIME_OUT;
+	return TwExeResult::ER_TIME_OUT;
 }
