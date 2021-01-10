@@ -11,42 +11,36 @@
 #include "TW_TaskActionWalk.h"
 #include <TW_MapDefine.h>
 
-enum class BeMoveRetryState
+enum class TwMoveRetryState
 {
-	BMRS_DITECT = 0,
-	BMRS_MIDDLE,
-	BMRS_FINNAL,
-	BMRS_CHECK,
+    MS_DITECT = 0,
+    MS_MIDDLE,
+    MS_FINNAL,
+    MS_CHECK,
 };
 
 class TwTaskMoveToPos : public TwTask
 {
 public:
-	TwTaskMoveToPos();
-	~TwTaskMoveToPos();
-
-	TwMoveResult GetMoveResult(void) const;
-	void SetMoveResult(TwMoveResult eResult);
-	void SetTargetPos(const TwPos2& kPos, float fDistance = 0.0f, bool bTurn = false);
-	TwPos2 GetTargetPos() const;
-
-	virtual TwExeResult Execute(int& iDeltaTime);
+    TwTaskMoveToPos();
+    ~TwTaskMoveToPos();
+    TwMoveResult GetMoveResult(void) const;
+    void SetMoveResult(TwMoveResult eResult);
+    void SetTargetPos(const TwPos2& kPos, float fDistance = 0.0f, bool bTurn = false);
+    TwPos2 GetTargetPos() const;
+    virtual TwExeResult Execute(int& iDeltaTime);
 
 protected:
-	TwMoveState			MoveState;
-	int					m_iStandTime;
-	int					m_iWalkBlockTime;
-	int 				m_iRetryTime;
-
-	TwMoveResult		ResultState;
-	BeMoveRetryState	m_eRetryState;
-	TwFindResult		m_eFindPathRet;
-
-	TwPos2				m_kTarPos;
-	TwPos2				m_kMiddlePos;
-	TwPos2				m_kDirectPos;
-	bool				m_bSoliderCheck;
-	float				m_fDistance;
-
-	std::unique_ptr<TwTaskActionWalk>	m_pkWalk;
+    TwMoveState MoveState;
+    int StandTime;
+    int WalkBlockTime;
+    int RetryTime;
+    TwMoveResult ResultState;
+    TwMoveRetryState RetryState;
+    TwFindResult PathFindResult;
+    TwPos2 TargetPos;
+    TwPos2 MiddlePos;
+    TwPos2 DirectPos;
+    float Distance;
+    std::unique_ptr<TwTaskActionWalk> WalkAction;
 };
