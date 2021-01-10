@@ -19,7 +19,7 @@ enum class BeAttackUnitState
 class BeTaskMoveToUnit;
 class BeTaskActionAttack;
 
-class BeTaskAttackUnit : public BeTask
+class BeTaskAttackUnit : public TwTask
 {
 public:
 	BeTaskAttackUnit();

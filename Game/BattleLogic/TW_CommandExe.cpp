@@ -35,14 +35,14 @@ BeTaskType BeExeCommand::GetTaskType() const
 	return m_pkCurTask ? m_pkCurTask->GetType() : BeTaskType::STT_NONE;
 }
 
-void BeExeCommand::SafeDeleteTask(std::unique_ptr<BeTask>& pkTask)
+void BeExeCommand::SafeDeleteTask(std::unique_ptr<TwTask>& pkTask)
 {
 	if (pkTask)
 	{
 		switch (pkTask.get()->GetType())
 		{
 		case BeTaskType::STT_ACTION_STAND: mpTaskActionStand.free((BeTaskActionStand*)pkTask.get()); break;
-		case BeTaskType::STT_ACTION_WALK:mpTaskActionWalk.free((BeTaskActionWalk*)pkTask.get()); break;
+		case BeTaskType::STT_ACTION_WALK:mpTaskActionWalk.free((TwTaskActionWalk*)pkTask.get()); break;
 		case BeTaskType::STT_ACTION_ATTACK:mpTaskActionAttack.free((BeTaskActionAttack*)pkTask.get()); break;
 		case BeTaskType::STT_ACTION_SPELL:mpTaskActionSpell.free((BeTaskActionSpell*)pkTask.get()); break;
 		case BeTaskType::STT_ACTION_DEATH:mpTaskActionDeath.free((BeTaskActionDeath*)pkTask.get()); break;

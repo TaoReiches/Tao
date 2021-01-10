@@ -66,7 +66,7 @@ bool BeTaskAttackItem::IsAttacking() const
 
 BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	const auto pkTarget = gMapItemMgr.GetMapItemByID(m_iItemID);
 
@@ -125,7 +125,7 @@ BeExeResult BeTaskAttackItem::Execute(int& iDeltaTime)
 			}
 			else
 			{
-				if (m_pkMoveToPos->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
+				if (m_pkMoveToPos->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 				{
 					m_eState = BeAttackItemState::BAI_ATTACK;
 					break;

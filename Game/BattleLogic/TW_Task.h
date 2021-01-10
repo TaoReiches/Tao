@@ -36,11 +36,11 @@ enum class BeTaskType
 
 class TwUnit;
 
-class BeTask : public TwMainPtr, public TwUnitPtr
+class TwTask : public TwMainPtr, public TwUnitPtr
 {
 public:
-	BeTask(void);
-	virtual ~BeTask(void);
+	TwTask(void);
+	virtual ~TwTask(void);
 	BeTaskType				GetType();
 	virtual BeExeResult		Execute(int& iDeltaTime) = 0;
 

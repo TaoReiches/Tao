@@ -22,7 +22,7 @@ void BeDropItemCommand::SetTargetIDDropItem(int iID, int iItemID)
 	m_iItemID = iItemID;
 	m_iTargetID = iID;
 	SafeDeleteTask(m_pkCurTask);
-	m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToUnit.alloc()));
+	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToUnit.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
 	m_pkCurTask->AttachUnit(pkAttachUnit);
 
@@ -36,7 +36,7 @@ void BeDropItemCommand::SetTargetPosDropItem(const TwPos2& kPos, int iItemID)
 	m_iItemID = iItemID;
 	m_kTargetPos = kPos;
 	SafeDeleteTask(m_pkCurTask);
-	m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToPos.alloc()));
+	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
 	m_pkCurTask->AttachUnit(pkAttachUnit);
 

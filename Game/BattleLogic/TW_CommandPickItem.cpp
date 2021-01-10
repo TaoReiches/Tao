@@ -32,7 +32,7 @@ bool BePickItemCommand::SetItemID(int iItemID)
 	}
 
 	SafeDeleteTask(m_pkCurTask);
-	m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToPos.alloc()));
+	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
 	m_pkCurTask->AttachUnit(pkAttachUnit);
 
@@ -47,7 +47,7 @@ BeExeResult BePickItemCommand::Execute(int& iDeltaTime)
 	{
 		if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS)
 		{
-			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
+			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 			{
 				auto pkMapItem = gMapItemMgr.GetMapItemByID(m_iItemID);
 				if (!pkMapItem)

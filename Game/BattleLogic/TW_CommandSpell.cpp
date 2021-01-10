@@ -49,7 +49,7 @@ void BeSpellCommand::SpellTargetID(int iSkillTypeID, int iID, const TwPos2& kPos
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_UNIT)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToUnit.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToUnit.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
@@ -70,7 +70,7 @@ void BeSpellCommand::SpellTargetItem(int iSkillTypeID, int iTargetID, int iSkill
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToPos.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
@@ -99,7 +99,7 @@ void BeSpellCommand::SpellTargetPos(int iSkillTypeID, const TwPos2& kPos, const 
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToPos.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
@@ -166,7 +166,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		{
 			if (m_iTargetID != 0)
 			{
-				if (((BeTaskMoveToUnit*)m_pkCurTask.get())->GetMoveResult() != BeMoveResult::BMR_SUCCESS)
+				if (((BeTaskMoveToUnit*)m_pkCurTask.get())->GetMoveResult() != TwMoveResult::MR_SUCCESS)
 				{
 					{
 						return BeExeResult::BER_EXE_END;
@@ -176,7 +176,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 		}
 		else if (m_pkCurTask->GetType() == BeTaskType::STT_MOVE_TO_POS && pkResData->uiOperateType == SKILL_OPERATETYPE_SINGLETARGET)
 		{
-			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() != BeMoveResult::BMR_SUCCESS)
+			if (((BeTaskMoveToPos*)m_pkCurTask.get())->GetMoveResult() != TwMoveResult::MR_SUCCESS)
 			{
 				return BeExeResult::BER_EXE_END;
 			}
@@ -221,7 +221,7 @@ BeExeResult BeSpellCommand::Execute(int& iDeltaTime)
 			bSucSet = pkTask->SpellTargetPos(m_iSkillTypeID, m_iSkillLevel, m_bExpendMP, m_kTargetPos, m_kDirectPos, m_iItemID, m_iUsePlayer);
 		}
 
-		m_pkCurTask.reset(std::move(dynamic_cast<BeTask*>(pkTask.get())));
+		m_pkCurTask.reset(std::move(dynamic_cast<TwTask*>(pkTask.get())));
 		if (!bSucSet)
 		{
 			SafeDeleteTask(m_pkCurTask);

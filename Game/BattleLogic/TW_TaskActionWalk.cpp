@@ -19,7 +19,7 @@ inline float f_line_x(float y, float x1, float y1, float x2, float y2)
 	return ((x1 - x2) * y + (x2 * y1 - x1 * y2)) / (y1 - y2);
 }
 
-BeTaskActionWalk::BeTaskActionWalk()
+TwTaskActionWalk::TwTaskActionWalk()
 {
 	m_eType = BeTaskType::STT_ACTION_WALK;
 	m_bBlocked = false;
@@ -27,7 +27,7 @@ BeTaskActionWalk::BeTaskActionWalk()
 	m_iWalkTime = 0;
 }
 
-BeTaskActionWalk::~BeTaskActionWalk()
+TwTaskActionWalk::~TwTaskActionWalk()
 {
 	m_eType = BeTaskType::STT_ACTION_WALK;
 	m_bBlocked = false;
@@ -38,7 +38,7 @@ BeTaskActionWalk::~BeTaskActionWalk()
 	}
 }
 
-void BeTaskActionWalk::SetTargetPos(const TwPos2& kTargetPos, bool bTurn)
+void TwTaskActionWalk::SetTargetPos(const TwPos2& kTargetPos, bool bTurn)
 {
 	float fUnitX = gUnit->GetPosX();
 	float fUnitY = gUnit->GetPosY();
@@ -53,14 +53,14 @@ void BeTaskActionWalk::SetTargetPos(const TwPos2& kTargetPos, bool bTurn)
 	gUnit->SetTarPosY(m_kTargetPos.fY);
 }
 
-bool	BeTaskActionWalk::IsBlocked(void)
+bool	TwTaskActionWalk::IsBlocked(void)
 {
 	return	m_bBlocked;
 }
 
-BeExeResult BeTaskActionWalk::Execute(int& iDeltaTime)
+BeExeResult TwTaskActionWalk::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	m_bBlocked = false;
 	if (!gUnit->UnitCanMove(true))

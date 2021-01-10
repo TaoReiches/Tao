@@ -10,8 +10,8 @@
 class BeTaskActionStand;
 extern TwMemoryPool<BeTaskActionStand>          mpTaskActionStand;
 
-class BeTaskActionWalk;
-extern TwMemoryPool<BeTaskActionWalk>           mpTaskActionWalk;
+class TwTaskActionWalk;
+extern TwMemoryPool<TwTaskActionWalk>           mpTaskActionWalk;
 
 class BeTaskActionAttack;
 extern TwMemoryPool<BeTaskActionAttack>         mpTaskActionAttack;

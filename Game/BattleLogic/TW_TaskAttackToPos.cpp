@@ -36,7 +36,7 @@ BeTaskAttackToPos::~BeTaskAttackToPos()
 	m_dwOutSightTime = 0;
 }
 
-BeMoveResult BeTaskAttackToPos::GetMoveResult(void)
+TwMoveResult BeTaskAttackToPos::GetMoveResult(void)
 {
 	return m_pkMoveToPos->GetMoveResult();
 }
@@ -66,7 +66,7 @@ void BeTaskAttackToPos::SetTargetPos(const TwPos2& kPos, float fRange)
 
 BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	m_iStartTime += iDeltaTime;
 
@@ -110,7 +110,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 			else
 			{
 				m_dwMoveTime -= iDeltaTime;
-				if (m_pkMoveToPos->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
+				if (m_pkMoveToPos->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 				{
 					m_dwMoveTime = 0;
 					m_iRetryTime = 0;
@@ -180,7 +180,7 @@ BeExeResult BeTaskAttackToPos::Execute(int& iDeltaTime)
 					else
 					{
 						m_dwMoveTime -= iDeltaTime;
-						if (m_pkMoveToPos->GetMoveResult() == BeMoveResult::BMR_SUCCESS)
+						if (m_pkMoveToPos->GetMoveResult() == TwMoveResult::MR_SUCCESS)
 						{
 							m_dwMoveTime = 0;
 							m_iRetryTime = 0;

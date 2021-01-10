@@ -23,7 +23,7 @@ enum class BeSpellPhase
 class BeItem;
 class SkillTable;
 
-class BeTaskActionSpell : public BeTask
+class BeTaskActionSpell : public TwTask
 {
 public:
 	BeTaskActionSpell();

@@ -99,7 +99,7 @@ bool BeTaskAttackUnit::CanSkip(void) const
 
 BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 	const std::shared_ptr<TwUnit> pkTarget = gUnitMgr->GetUnitByID(GetTargetID());
 
 	if (!m_pkActionAttack || !m_pkMoveToUnit)
@@ -195,7 +195,7 @@ BeExeResult BeTaskAttackUnit::Execute(int& iDeltaTime)
 			}
 			else
 			{
-				if (m_pkMoveToUnit->GetMoveResult() == BeMoveResult::BMR_SUCCESS && pkTarget)
+				if (m_pkMoveToUnit->GetMoveResult() == TwMoveResult::MR_SUCCESS && pkTarget)
 				{
 					m_pkActionAttack->SetTargetID(0, m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);
 					m_pkActionAttack->SetTargetID(pkTarget->GetID(), m_bIsOrb, m_iSkillTypeID, m_iSkillLevel);

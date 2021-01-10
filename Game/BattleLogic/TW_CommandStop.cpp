@@ -17,7 +17,7 @@ BeStopCommand::BeStopCommand()
 
 	m_iStopTime = 0;
 	m_bDead = false;
-	m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskActionStand.alloc()));
+	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskActionStand.alloc()));
 }
 
 bool BeStopCommand::IsDead()
@@ -29,7 +29,7 @@ void BeStopCommand::SetDead()
 {
 	m_bDead = true;
 	SafeDeleteTask(m_pkCurTask);
-	m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskActionDeath.alloc()));
+	m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskActionDeath.alloc()));
 	m_pkCurTask->AttachMain(pkAttachMain);
 	m_pkCurTask->AttachUnit(pkAttachUnit);
 }

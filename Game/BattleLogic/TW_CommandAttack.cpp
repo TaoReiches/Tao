@@ -19,7 +19,7 @@ void BeAttackCommand::SetTargetID(int iID, float fDistance, bool bIsOrb, int iSk
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_UNIT)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskAttackUnit.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackUnit.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
@@ -32,7 +32,7 @@ void BeAttackCommand::SetTargetPos(const TwPos2& kPos, float fRange)
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskAttackToPos.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}
@@ -45,7 +45,7 @@ void BeAttackCommand::SetTargetItem(int iItemID)
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_ATTACK_ITEM)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskAttackItem.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskAttackItem.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}

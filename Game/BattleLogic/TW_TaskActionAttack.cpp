@@ -88,7 +88,7 @@ int BeTaskActionAttack::GetAttackCount(void) const
 
 BeExeResult BeTaskActionAttack::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 

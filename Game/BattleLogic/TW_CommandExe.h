@@ -24,7 +24,7 @@ public:
 	virtual bool CanCancel() const = 0;
 	virtual bool CanHungUp(TwGiveCmdType eCmdType = TwGiveCmdType::BCT_IMMEDIATE, bool bNeedHangCurrent = true) const = 0;
 	virtual bool CanSkip(void) const;
-	void SafeDeleteTask(std::unique_ptr<BeTask>& pkTask);
+	void SafeDeleteTask(std::unique_ptr<TwTask>& pkTask);
 
 	void AttachMain(std::shared_ptr<TwMain> pkMain)
 	{
@@ -46,5 +46,5 @@ public:
 
 protected:
 	TwCommandType				m_eCmdType;
-	std::unique_ptr<BeTask>		m_pkCurTask;
+	std::unique_ptr<TwTask>		m_pkCurTask;
 };

@@ -5,22 +5,22 @@
 
 #include "TW_Task.h"
 
-BeTask::BeTask(void)
+TwTask::TwTask(void)
 {
 	m_eType = BeTaskType::STT_NONE;
 	m_iTaskTime = 0;
 }
 
-BeTask::~BeTask(void)
+TwTask::~TwTask(void)
 {
 }
 
-BeTaskType BeTask::GetType()
+BeTaskType TwTask::GetType()
 {
 	return m_eType;
 }
 
-BeExeResult BeTask::Execute(int& iDeltaTime)
+BeExeResult TwTask::Execute(int& iDeltaTime)
 {
 	m_iTaskTime += iDeltaTime;
 	return BeExeResult::BER_EXE_END;

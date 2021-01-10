@@ -8,15 +8,15 @@
 #include "TW_Task.h"
 #include "TW_Pos2.h"
 
-enum class BeMoveResult
+enum class TwMoveResult
 {
-    BMR_NONE = 0,
-    BMR_INITED,
-    BMR_BLOCK,
-    BMR_SUCCESS,
+    MR_NONE = 0,
+    MR_INITED,
+    MR_BLOCK,
+    MR_SUCCESS,
 };
 
-enum class BeMoveState
+enum class TwMoveState
 {
     BMS_INIT = 0,
     BMS_RETRY,
@@ -25,11 +25,11 @@ enum class BeMoveState
     BMS_END,
 };
 
-class BeTaskActionWalk : public BeTask
+class TwTaskActionWalk : public TwTask
 {
 public:
-    BeTaskActionWalk();
-    ~BeTaskActionWalk();
+    TwTaskActionWalk();
+    ~TwTaskActionWalk();
 
 public:
     void SetTargetPos(const TwPos2& kTargetPos, bool bTurn = false);

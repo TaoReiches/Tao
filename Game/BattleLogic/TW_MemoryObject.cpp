@@ -32,7 +32,7 @@
 #include "TW_CommandPickItem.h"
 
 TwMemoryPool<BeTaskActionStand>          mpTaskActionStand(256);
-TwMemoryPool<BeTaskActionWalk>           mpTaskActionWalk(256);
+TwMemoryPool<TwTaskActionWalk>           mpTaskActionWalk(256);
 TwMemoryPool<BeTaskActionAttack>         mpTaskActionAttack(256);
 TwMemoryPool<BeTaskActionSpell>          mpTaskActionSpell(256);
 TwMemoryPool<BeTaskActionDeath>          mpTaskActionDeath(256);

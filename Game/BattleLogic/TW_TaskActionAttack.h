@@ -9,7 +9,7 @@
 
 class BeAttackingAttr;
 
-class BeTaskActionAttack : public BeTask
+class BeTaskActionAttack : public TwTask
 {
 public:
 	BeTaskActionAttack();

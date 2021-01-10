@@ -19,26 +19,26 @@ enum class BeMoveRetryState
 	BMRS_CHECK,
 };
 
-class BeTaskMoveToPos : public BeTask
+class BeTaskMoveToPos : public TwTask
 {
 public:
 	BeTaskMoveToPos();
 	~BeTaskMoveToPos();
 
-	BeMoveResult GetMoveResult(void) const;
-	void SetMoveResult(BeMoveResult eResult);
+	TwMoveResult GetMoveResult(void) const;
+	void SetMoveResult(TwMoveResult eResult);
 	void SetTargetPos(const TwPos2& kPos, float fDistance = 0.0f, bool bTurn = false);
 	TwPos2 GetTargetPos() const;
 
 	virtual BeExeResult Execute(int& iDeltaTime);
 
 protected:
-	BeMoveState			m_eMoveState;
+	TwMoveState			m_eMoveState;
 	int					m_iStandTime;
 	int					m_iWalkBlockTime;
 	int 				m_iRetryTime;
 
-	BeMoveResult		m_eState;
+	TwMoveResult		m_eState;
 	BeMoveRetryState	m_eRetryState;
 	TwFindResult		m_eFindPathRet;
 
@@ -48,5 +48,5 @@ protected:
 	bool				m_bSoliderCheck;
 	float				m_fDistance;
 
-	std::unique_ptr<BeTaskActionWalk>	m_pkWalk;
+	std::unique_ptr<TwTaskActionWalk>	m_pkWalk;
 };

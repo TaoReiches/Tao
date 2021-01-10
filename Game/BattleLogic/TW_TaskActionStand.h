@@ -7,7 +7,7 @@
 
 #include "TW_Task.h"
 
-class BeTaskActionStand : public BeTask
+class BeTaskActionStand : public TwTask
 {
 public:
 	BeTaskActionStand();

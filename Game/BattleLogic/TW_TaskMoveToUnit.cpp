@@ -24,7 +24,7 @@ BeTaskMoveToUnit::~BeTaskMoveToUnit()
 	m_pkMoveToPos.release();
 }
 
-BeMoveResult BeTaskMoveToUnit::GetMoveResult(void)
+TwMoveResult BeTaskMoveToUnit::GetMoveResult(void)
 {
 	return m_pkMoveToPos->GetMoveResult();
 }
@@ -62,7 +62,7 @@ int BeTaskMoveToUnit::GetTargetID() const
 
 BeExeResult BeTaskMoveToUnit::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	if (!gUnit->CanSpell())
 	{

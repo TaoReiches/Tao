@@ -22,7 +22,7 @@ void BeMoveCommand::SetTargetPos(const TwPos2& kPos, float fDistance, bool bTurn
 	if (!m_pkCurTask || m_pkCurTask->GetType() != BeTaskType::STT_MOVE_TO_POS)
 	{
 		SafeDeleteTask(m_pkCurTask);
-		m_pkCurTask.reset(dynamic_cast<BeTask*>(mpTaskMoveToPos.alloc()));
+		m_pkCurTask.reset(dynamic_cast<TwTask*>(mpTaskMoveToPos.alloc()));
 		m_pkCurTask->AttachMain(pkAttachMain);
 		m_pkCurTask->AttachUnit(pkAttachUnit);
 	}

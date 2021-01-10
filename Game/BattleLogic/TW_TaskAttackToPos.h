@@ -22,7 +22,7 @@ enum class BeAttackToPosState
 class BeTaskActionAttack;
 class BeTaskMoveToPos;
 
-class BeTaskAttackToPos : public BeTask
+class BeTaskAttackToPos : public TwTask
 {
 public:
 	BeTaskAttackToPos();
@@ -30,7 +30,7 @@ public:
 
 	void SetTargetPos(const TwPos2& kPos, float fRange = 0.0f);
 	virtual BeExeResult Execute(int& iDeltaTime);
-	BeMoveResult GetMoveResult(void);
+	TwMoveResult GetMoveResult(void);
 	bool IsCanCancel() const;
 
 protected:

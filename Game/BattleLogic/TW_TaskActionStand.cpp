@@ -14,7 +14,7 @@ BeTaskActionStand::BeTaskActionStand()
 
 BeExeResult BeTaskActionStand::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 
 	if (m_iTaskTime > 200)
 	{

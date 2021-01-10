@@ -11,13 +11,13 @@
 
 class BeTaskMoveToPos;
 
-class BeTaskMoveToUnit : public BeTask
+class BeTaskMoveToUnit : public TwTask
 {
 public:
 	BeTaskMoveToUnit();
 	~BeTaskMoveToUnit();
 
-	BeMoveResult GetMoveResult(void);
+	TwMoveResult GetMoveResult(void);
 	void SetTargetID(int iID, float fDistance = 0.0f);
 	int GetTargetID() const;
 

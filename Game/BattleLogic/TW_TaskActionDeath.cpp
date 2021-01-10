@@ -16,7 +16,7 @@ BeTaskActionDeath::BeTaskActionDeath()
 
 BeExeResult BeTaskActionDeath::Execute(int& iDeltaTime)
 {
-	BeTask::Execute(iDeltaTime);
+	TwTask::Execute(iDeltaTime);
 	gUnit->ClrFlag(TwUnitFlag::BUF_MOVING);
 	if (!m_bInit)
 	{

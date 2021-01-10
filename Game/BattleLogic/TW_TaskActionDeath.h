@@ -7,7 +7,7 @@
 
 #include "TW_Task.h"
 
-class BeTaskActionDeath : public BeTask
+class BeTaskActionDeath : public TwTask
 {
 public:
 	BeTaskActionDeath();

@@ -18,7 +18,7 @@ enum class BeAttackItemState
 class BeTaskMoveToPos;
 class BeTaskActionAttack;
 
-class BeTaskAttackItem : public BeTask
+class BeTaskAttackItem : public TwTask
 {
 public:
 	BeTaskAttackItem();
