@@ -2464,7 +2464,7 @@ void TwUnit::SetFlag(TwUnitFlag iFlag, bool bNeedRecordChange)
 	//	SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
 	//}
 	////	}
-	//UnitFlag |= iFlag;
+    UnitFlag |= iFlag;
 }
 
 void TwUnit::ClrFlag(TwUnitFlag iFlag, bool bNeedRecordChange)
@@ -2478,7 +2478,7 @@ void TwUnit::ClrFlag(TwUnitFlag iFlag, bool bNeedRecordChange)
 	//		SetOutputFlag(TwUnitOutputFlag::BSUDCF_FLAG);
 	//	}
 	//}
-	//m_iFlag &= ~iFlag;
+    UnitFlag &= ~iFlag;
 }
 
 void TwUnit::UpdateLiveTime(int iDeltaTime)
