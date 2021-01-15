@@ -6,4 +6,4 @@
 	url = https://github.com/protocolbuffers/protobuf.git
 [submodule "ThirdParty/hpsocket"]
 	path = ThirdParty/hpsocket
-	url = https://github.com/ldcsaa/HP-Socket.git
+url=https://github.com/TaoReiches/HP-Socket.git
