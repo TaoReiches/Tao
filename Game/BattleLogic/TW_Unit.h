@@ -293,7 +293,7 @@ public:
 	{
 		if (m_fWalkTargetX != fTarPosX)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS | TwUnitOutputFlag::BSUDCF_CURRENT_POS);
 		}
 		m_fWalkTargetX = fTarPosX;
 	}
@@ -302,7 +302,7 @@ public:
 	{
 		if (m_fWalkTargetY != fTarPosY)
 		{
-			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS);
+			SetOutputFlag(TwUnitOutputFlag::BSUDCF_TARGET_POS | TwUnitOutputFlag::BSUDCF_CURRENT_POS);
 		}
 		m_fWalkTargetY = fTarPosY;
 	}

@@ -69,6 +69,23 @@ bool TwBattleInterface::OnPlayerJion(std::uint64_t playerId)
 
     Output->AddPlayer(playerId, unit);
 
+    // add testing units
+    auto testUserId = 10000;
+    for (auto i = 0; i < 32; ++i)
+    {
+        for (auto j = 0; j < 32; ++j)
+        {
+            ++testUserId;
+            auto unitTest = Main->m_pkUnitMgr->AddUnit(playerInfo->TypeID, playerInfo->Level, testUserId);
+            if (unitTest == nullptr)
+            {
+                return false;
+            }
+            unitTest->SetPosition(i * 1000, j * 1000);
+            Output->AddPlayer(testUserId, unitTest);
+        }
+    }
+
     return true;
 }
 

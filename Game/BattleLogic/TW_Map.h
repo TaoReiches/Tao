@@ -24,11 +24,11 @@ public:
 
 	inline	int	GetWidth()	const
 	{
-		return 100000;
+		return 320000;
 	}
 	inline	int	GetHeight()	const
 	{
-		return 100000;
+		return 320000;
 	}
 
 	static const int GridSize = 32;

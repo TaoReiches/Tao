@@ -28,15 +28,17 @@ public:
     {
         static std::string out;
         Game::TwGameUnitMoveCS moveCmd;
-        moveCmd.set_posx(PosX + 300);
-        moveCmd.set_posy(PosY + 500);
+        auto tarX = PosX + 30000;
+        auto tarY = PosY + 50000;
+        moveCmd.set_posx(tarX);
+        moveCmd.set_posy(tarY);
 
         Game::TwGameCommand send;
         send.set_commandtype(Game::TwGameCommandType::CS_UNIT_MOVE);
         send.set_content(moveCmd.SerializeAsString());
 
         out = send.SerializeAsString();
-        std::cout << "Send Move Command: " << out << std::endl;
+        std::cout << "Send Move Command: " << out << " Original X: " << tarX / 100 << " Y: " << tarY / 100 << std::endl;
         return out;
     }
 };

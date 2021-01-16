@@ -49,8 +49,8 @@ void TwNetwork::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
     char	acTemp[1024];
     memcpy(acTemp, pkData, iSize);
     acTemp[iSize] = '\0';
-
-    TwBattleLogic::Get()->OnRecivedCommand(acTemp, rkSock);
+    std::string command(acTemp, iSize);
+    TwBattleLogic::Get()->OnRecivedCommand(command, rkSock);
 }
 
 void TwNetwork::OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam)

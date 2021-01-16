@@ -31,7 +31,7 @@ public:
     void Clear();
     void OnUnitDead(std::shared_ptr<TwUnit> pkUnit);
 
-    std::shared_ptr<TwUnit> AddUnit(int iTypeID, int iSkillLevel = -1, std::uint64_t iPlayer = -1,int iUnitID = -1);
+    std::shared_ptr<TwUnit> AddUnit(int iTypeID, int iSkillLevel = -1, std::uint64_t iPlayer = 0,int iUnitID = -1);
     void DelUnit(int iID);
 
     std::shared_ptr<TwUnit> GetUnitByID(int iID, bool bSuspend = false, bool bSoul = false);

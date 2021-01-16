@@ -70,8 +70,9 @@ void SeNetMgr::OnNetRecv(const HSock& rkSock, void* pkData, int iSize)
     char	acTemp[1024];
     memcpy(acTemp, pkData, iSize);
     acTemp[iSize] = '\0';
+    std::string command(acTemp, iSize);
 
-    GameCommandExecute::OnRecvConnect(acTemp);
+    GameCommandExecute::OnRecvConnect(command);
 }
 
 void SeNetMgr::OnNetDisconnect(const HSock& rkSock, TeDisconnectCode eCode, int iParam)
